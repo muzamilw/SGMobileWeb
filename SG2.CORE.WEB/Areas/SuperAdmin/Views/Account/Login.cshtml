@@ -1,0 +1,71 @@
+﻿@model SG2.CORE.MODAL.ViewModals.Backend.TeamMember.SuperAdminViewModal
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<br />
+<br />
+<div class="information-form">
+    <div class="container">
+        <div class="information-form-inner">
+            <div class="row">
+                <div class="col-xs-12">
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <h4>Use your account to log in.</h4>
+
+                        <hr />
+
+                        <div class="form-group col-sm-12">
+                            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12">
+                            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-4">
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        
+                            @*<div class="form-group">
+                                <label class="col-md-2 control-label">&nbsp;</label>
+                                <div class="col-md-5">
+                                    @Html.ValidationSummary()
+                                </div>
+                            </div>*@
+                        
+                        
+
+                        <div class="form-group col-sm-12">
+                            <label class="col-md-2 control-label">&nbsp;</label>
+                            <div class="col-md-4">
+                                <input type="submit" value="Log in" class="btn btn-block btn-default" />
+                            </div>
+
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .information-form-inner input[type=text], .information-form-inner input[type=password] {
+        margin-bottom: 5px;
+    }
+    .information-form-inner input[type=submit]{
+        margin:0;
+    }
+    .validation-summary-errors ul li, .information-form span.text-danger span {
+        color: #a94442
+    }
+</style>

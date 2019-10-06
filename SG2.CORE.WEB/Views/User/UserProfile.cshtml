@@ -1,0 +1,253 @@
+﻿@model SG2.CORE.MODAL.ViewModals.Customers.CustomerProfileViewModel
+@using SG2.CORE.MODAL.DTO.Customers;
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var custDto = (CustomerDTO)ViewBag.CustomerDTO;
+}
+
+
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-4">
+                <h2>Profile</h2>
+            </div>
+            <div class="col-xs-8 text-right">                
+                <a style="font-size:13pt; position: relative;top: 14px; right: 5px; color:#337ab7" href="/targetpreferences/modifytargetpreferences?socialprofileid=@custDto.DefaultSocialProfileId">
+                    <i class="fa fa-backward"></i> Target form
+                </a>                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="information-form">
+    <div class="container">
+        <div class="information-form-inner">
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    @Html.Partial("~/Views/User/partials/_PartialUpdateUserProfile.cshtml", Model.CustomerProfileUpdateVM)
+                </div>
+
+                <div class="col-md-6  col-sm-12">
+                    @Html.Partial("~/Views/User/partials/_PartialUpdateUserPassword.cshtml", Model.CustomerUpdatePasswordVM)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+
+<div class="information-form">
+    <div class="container">
+        <div class="information-form-inner">
+            <div class="row">
+                <div class="col-md-12">
+                    <p>I'd like to receive to the following emails:</p>
+                    <br />
+                    @using (Html.BeginForm("UpdateUserEmailSubscription", "User", FormMethod.Post, new { @id = "form_UpdateUserSubscription" }))
+                    {
+                        <label class="form-Checkbox">
+                            Social marketing tips &amp; educational emails
+                            @Html.CheckBoxFor(model => model.IsOptedEducationalEmailSeries)
+                            <span class="chkmark"></span>
+                        </label>
+
+                        <label class="form-Checkbox">
+                            Product updates on social marketing growth tools
+                            @Html.CheckBoxFor(model => model.IsOptedMarketingEmail)
+                            <span class="chkmark"></span>
+                        </label>
+                        <br />
+                        <input type="button" class="btn btn-primary" id="btn_SaveEmailSubscription" value="Update" />
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    .information-form-inner {
+        padding: 30px;
+    }
+
+        .information-form-inner input[type=submit] {
+            text-align: left;
+            margin: 0;
+        }
+
+    .form-Checkbox {
+        display: block;
+        position: relative;
+        padding-left: 30px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 1.6rem;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        /* Hide the browser's default checkbox */
+        .form-Checkbox input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+    /* Create a custom checkbox */
+    .chkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 20px;
+        width: 20px;
+        background-color: #fff;
+        border: 1px solid #6ab8ee
+    }
+
+    /* On mouse-over, add a grey background color */
+    .form-Checkbox:hover input ~ .chkmark {
+        background-color: #6ab8ee;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .form-Checkbox input:checked ~ .chkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .chkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .form-Checkbox input:checked ~ .chkmark:after {
+        display: block;
+    }
+
+    /* Style the checkmark/indicator */
+    .form-Checkbox .chkmark:after {
+        left: 6px;
+        top: 3px;
+        width: 6px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+</style>
+
+@section scripts{
+    <script type="text/javascript">
+        $("document").ready(function () {
+
+            $("#btn_UpdateUserProfile").on("click", function () {
+                if ($("#form_UpdateUserProfile").valid()) {
+                    $("#spn_updateUserProfile").show();
+                    var data = $("#form_UpdateUserProfile").serialize();                    
+                    $.ajax({
+                        type: "POST",
+                        url: "/user/updateuserprofile",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            $("#spn_updateUserProfile").hide();
+                            if (!$.isEmptyObject(data)) {
+                                
+                                if (data.ResultType == "Success") {
+                                    $("#Modal_MessageBoxTitle").text("Message");
+                                    $("#Modal_MessageBoxBody").text(data.message);
+                                    $("#Modal_Messagebox").modal("show");
+                                } else {
+                                    $("#Modal_MessageBoxTitle").text("Message");
+                                    $("#Modal_MessageBoxBody").text(data.message);
+                                    $("#Modal_Messagebox").modal("show");
+                                }
+                            }
+                        },
+                        failure: function (errMsg) {
+                            $("#spn_updateUserProfile").hide();
+                        }
+                    });
+                }
+            });
+
+            $("#btn_SaveEmailSubscription").on("click", function () {
+
+                var data = $("#form_UpdateUserSubscription").serialize();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/user/UpdateUserEmailSubscription",
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        if (!$.isEmptyObject(data)) {
+                            if (data.ResultType == "Success") {
+                                $("#Modal_MessageBoxTitle").text("Message");
+                                $("#Modal_MessageBoxBody").text(data.message);
+                                $("#Modal_Messagebox").modal("show");
+                            } else {
+                                $("#Modal_MessageBoxTitle").text("Message");
+                                $("#Modal_MessageBoxBody").text(data.message);
+                                $("#Modal_Messagebox").modal("show");
+                            }
+                        }
+                    },
+                    failure: function (errMsg) {
+
+                    }
+                });
+
+
+            });
+
+
+            $(".btn_UpdatePassword").on("click", function () {
+
+                if ($("#Form_UpdatePassword").valid()) {
+                    $("#spn_UpdatePassword").show();
+                    var data = $("#Form_UpdatePassword").serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "/user/UpdateUserPassword",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            $("#spn_UpdatePassword").hide();
+                            if (!$.isEmptyObject(data)) {
+                                if (data.ResultType == "Success") {
+                                    $("#Modal_MessageBoxTitle").text("Message");
+                                    $("#Modal_MessageBoxBody").text(data.message);
+                                    $("#Modal_Messagebox").modal("show");
+                                } else {
+                                    $("#Modal_MessageBoxTitle").text("Message");
+                                    $("#Modal_MessageBoxBody").text(data.message);
+                                    $("#Modal_Messagebox").modal("show");
+                                }
+                            }
+                        },
+                        failure: function (errMsg) {
+                            $("#spn_UpdatePassword").hide();
+                        }
+                    });
+                }
+
+            });
+
+
+
+        });
+    </script>
+}

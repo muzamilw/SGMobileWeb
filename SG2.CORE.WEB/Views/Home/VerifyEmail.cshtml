@@ -1,0 +1,79 @@
+﻿@model SG2.CORE.MODAL.ViewModals.Customers.ResendEmailViewModel
+@using SG2.CORE.COMMON
+@{
+    ViewBag.Title = "VerifyEmail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    @if (!string.IsNullOrEmpty(ViewBag.Success) && ViewBag.Success == "Yes")
+    {
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="alert alert-block alert-success">
+                    <p>
+                        <strong>
+                            <i class="ace-icon fa fa-check"></i>
+                            Success!
+                        </strong>
+                        @ViewBag.SuccessMessage
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+<div class="mainIntro">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="intro2 " data-aos="fade-left">
+                    <br />
+                    <br />
+                    <br />
+                    <h1>Thank you. Your email and account is now verified and active.</h1>
+                    <p></p>
+                    <br />
+                    <br />
+
+
+                    <br />
+
+                    @Html.HiddenFor(model => model.CustomerId)
+
+                    <input type="submit" class="btn btn-block btn-default" style="width:250px;" id="btn_SignIn" value="Sign In" />
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    .intro2 {
+        text-align: center;
+        min-height: 300px;
+        padding: 20px 0;
+    }
+
+        .intro2 h1 {
+        }
+</style>
+
+@section scripts{
+    <script type="text/javascript">
+        $("document").ready(function () {
+            $("#btn_SignIn").on("click", function (e) {
+                $("#Modal_LoginPopup").modal("show");
+                e.preventDefault();
+                e.stopPropagation();
+                e.preventDefault();
+                e.stopPropagation();
+            });
+        });
+    </script>
+}

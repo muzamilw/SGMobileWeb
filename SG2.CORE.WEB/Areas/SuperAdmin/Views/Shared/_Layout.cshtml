@@ -1,0 +1,296 @@
+﻿@using SG2.CORE.MODAL.DTO.TeamMember;
+@using SG2.CORE.COMMON;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewBag.Title - Admin Panel | Social Growth</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/ThemeAssets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/ThemeAssets/css/owl.carousel.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/ThemeAssets/css/owl.theme.default.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/ThemeAssets/css/fontawesome-all.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/ThemeAssets/css/style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="~/Content/ThemeAssets/css/responsive.css">
+    <link rel="stylesheet" href="~/Content/ThemeAssets/css/hover.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/Content/ThemeAssets/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <link href="~/Content/ThemeAssets/css/backendcss.css" rel="stylesheet" />
+    @RenderSection("StyleSheet", false)
+    <style>
+        .nav > li > a.btn_logout {
+            font-size: 2rem;
+            top: 6px;
+            position: relative;
+            padding-left: 5px;
+            display: inline;
+            border-left: 1px solid lightgray;
+            margin-left: 5px;
+        }
+
+        .navbar-inverse {
+            background-color: #FFf;
+            border-bottom: 1px solid #eeeeee;
+            box-shadow: 3px 0px 5px #555;
+        }
+
+            .navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+                color: #5cb85c;
+                background-color: transparent;
+            }
+
+            .navbar-inverse .navbar-brand {
+                color: #5cb85c;
+            }
+
+                .navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {
+                    color: #666;
+                    background-color: transparent;
+                }
+
+            .navbar-inverse .navbar-toggle {
+                border-color: #5cb85c;
+                background-color: #5cb85c;
+            }
+
+                .navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus {
+                    background-color: #5cb85c;
+                }
+
+        .nav > li > a:focus, .nav > li > a:hover {
+            background-color: transparent;
+            border-bottom: 2px solid #5cb85c;
+            color: #5cb85c
+        }
+
+        ul.nav {
+            margin-right: 10px;
+            margin-right: 18px;
+        }
+
+        .nav > li {
+            padding: 0 10px;
+        }
+
+            .nav > li > a:focus, .nav > li > a {
+                font-size: 1.6rem;
+                font-weight: 500;
+                color: #333;
+                text-align: center;
+                cursor: pointer;
+                min-width: 50px;
+                padding: 10px 5px;
+            }
+
+        .header .right-sec a.transiton {
+            height: 50px;
+            width: 54px;
+            /* display: inline; */
+            line-height: 30px;
+        }
+
+        @@media screen and (min-width: 769px) {
+            .mobile-menu {
+                display: none;
+            }
+        }
+
+        @@media screen and (max-width: 768px) {
+            .mobile-menu {
+                display: inline;
+                float: right;
+            }
+
+            .menu {
+                display: none;
+                margin-bottom: 0px;
+                margin-top: 0px;
+            }
+
+            .header .right-sec {
+                text-align: left;
+                float: inherit;
+                width: 98%;
+                top: 7px;
+                position: absolute;
+                background-color: #6e6e6e;
+                margin: 0;
+                padding: 15px 0px;
+                z-index: 1;
+            }
+
+            .navbar-nav {
+                width: 100%;
+            }
+
+                .navbar-nav > li {
+                    float: none;
+                }
+
+            .nav > li > a:focus, .nav > li > a {
+                color: #fff;
+                text-align: left
+            }
+        }
+        
+        .btn-height47 {
+            height: 47px;
+            font-weight: 400;
+            padding-top:13px;
+            /*width:80px;*/
+        }
+
+        .btn {
+            font-size: 14pt;
+        }
+
+        .form-group {
+            float: none;
+            margin-bottom: 0%;            
+        }
+
+    </style>
+
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-xs-12">
+                    <div class="logo">
+                        <a href="@ViewBag.BaseUrl">
+                            <img src="~/Content/ThemeAssets/images/social-growth.png" alt="">
+                        </a>
+                        <span>Get more likes and followers</span>
+                        <div class="mobile-menu">
+                            <img src="/Content/ThemeAssets/Images/mobile-icon.png" alt="">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-9 col-xs-12 menu">
+                    <div class="right-sec">
+                        <ul class="nav navbar-nav">
+                            @if (ViewBag.IsAuthentication != null)
+                            {
+                                var userDto = (SystemUserDTO)ViewBag.SystemUserDTO;
+
+                                if (userDto.UserRoleName == "Super Admin")
+                                {
+                                    <li>@Html.ActionLink("Dashboard", "Index", "Dashboard", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "Dashboard" ? "active" : "" })</li>
+                                    <li>@Html.ActionLink("Trello", "Index", "ActionBoard", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "ActionBoard" ? "active" : "" })</li>
+                                    <li>@Html.ActionLink("CRM", "Index", "CRM", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "CRM" ? "active" : "" })</li>
+
+                                     <li>@Html.ActionLink("Bot Manager", "Index", "BotMngr", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "ActionBoard" ? "active" : "" })</li>
+                                    <li>@Html.ActionLink("Proxy IPs", "Index", "ProxyIPs", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "ProxyIPs" ? "active" : "" })</li>
+                                    <li>@Html.ActionLink("MP Boxes", "Index", "JVBoxes", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "JVBoxes" ? "active" : "" })</li>
+                                    @*<li>@Html.ActionLink("Likies", "Index", "LikeAccts", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "LikeAccts" ? "active" : "" })</li>*@
+                                    @*<li>@Html.ActionLink("Team", "Index", "TeamMember", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "TeamMember" ? "active" : "" })</li>
+                                    <li>@Html.ActionLink("Social Plans", "Index", "PlanInformation", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "TeamMember" ? "active" : "" })</li>*@
+                                    <li>@Html.ActionLink("Settings", "Index", "SystemSettings", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "SystemSettings" ? "active" : "" })</li>
+                                }
+                                else if (userDto.UserRoleName == "Manager")
+                                {
+                                    <li>@Html.ActionLink("Dashboard", "Index", "Dashboard", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "Dashboard" ? "active" : "" })</li>
+                                    <li>@Html.ActionLink("Trello", "Index", "ActionBoard", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "ActionBoard" ? "active" : "" })</li>
+                                    <li>@Html.ActionLink("CRM", "Index", "CRM", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "CRM" ? "active" : "" })</li>
+
+                                    <li>@Html.ActionLink("Proxy IPs", "Index", "ProxyIPs", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "ProxyIPs" ? "active" : "" })</li>
+                                    <li>@Html.ActionLink("MP Boxes", "Index", "JVBoxes", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "JVBoxes" ? "active" : "" })</li>
+                                    @*<li>@Html.ActionLink("Likies", "Index", "LikeAccts", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "LikeAccts" ? "active" : "" })</li>*@
+                                }
+                                else if (userDto.UserRoleName == "Sales")
+                                {
+                                    <li>@Html.ActionLink("CRM", "Index", "CRM", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "CRM" ? "active" : "" })</li>
+                                    <li>@Html.ActionLink("Trello", "Index", "ActionBoard", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "ActionBoard" ? "active" : "" })</li>
+                                }
+                                else if (userDto.UserRoleName == "Operations")
+                                {
+                                    <li>@Html.ActionLink("Proxy IPs", "Index", "ProxyIPs", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "ProxyIPs" ? "active" : "" })</li>
+                                    <li>@Html.ActionLink("MP Boxes", "Index", "JVBoxes", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "JVBoxes" ? "active" : "" })</li>
+                                    @*<li>@Html.ActionLink("Likies", "Index", "LikeAccts", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "LikeAccts" ? "active" : "" })</li>*@
+                                }
+                                <li>
+                                    <a href="@ViewBag.BaseUrl/UserProfile/updateuserprofile?id=@Url.Encode(CryptoEngine.Encrypt(userDto.SystemUserId.ToString()))" class="transiton">@userDto.UserName</a>
+
+                                    <a href="@ViewBag.BaseUrl/account/logout" class="btn_logout">
+                                        <i class="fa fa-power-off"></i>
+                                    </a>
+                                </li>
+                            }
+
+                        </ul>
+                        @*<a href="/" class="transiton">OC</a>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    @*@Html.Partial("~/Areas/SuperAdmin/Views/Partials/_PartialNavigation.cshtml")*@
+
+    @RenderBody()
+
+    <div class="modal" id="Modal_Messagebox" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="Modal_MessageBoxTitle"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="Modal_MessageBoxBody"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style type="text/css">
+        p#Modal_MessageBoxBody {
+            padding: 10px;
+            font-size: 1.6rem;
+            font-weight: 400
+        }
+    </style>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="footer-logo text-center">
+                        <img src="~/Content/ThemeAssets/Images/social-growth-footer-logo.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script type="text/javascript">
+        var GLB_BASEURL = "/sadmin"
+        var GLB_ADMINPASSWORD = "P@ssword1"
+    </script>
+    <script src="~/Content/ThemeAssets/js/jquery.min.js"></script>
+
+    <script src="~/Content/ThemeAssets/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <!-- Basic stylesheet -->
+    <!-- Include js plugin -->
+    <script src="~/Content/ThemeAssets/js/owl.carousel.min.js"></script>
+    <script src="~/Content/ThemeAssets/js/jquery-ui.min.js"></script>
+    <script src="~/Content/ThemeAssets/js/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    
+    <script src="~/Content/ThemeAssets/js/functions.js"></script>
+    @RenderSection("JavaScript", false)
+
+</body>
+</html>

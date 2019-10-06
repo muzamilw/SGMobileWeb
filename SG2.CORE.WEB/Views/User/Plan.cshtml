@@ -1,0 +1,755 @@
+﻿@model SG2.CORE.MODAL.ViewModals.Customers.CustomerPlanDetailViewModel
+
+@{
+    ViewBag.Title = "Plan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2>Monthly plan</h2>
+                <h4>Change you premium plan at any time. All you premium plan always include your dedicated <b>Social Growth support</b> representative.</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="information-form">
+    <div class="container">
+        <div class="information-form-inner">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="col-md-9"><h2>Select a plan</h2></div>
+                    <div class="col-md-3"><h4 class="pull-right"><a href="#" class="btn_ShowHistoryModal">Your billing history</a></h4></div>
+
+                    <div class="clearfix"></div>
+                    <div class="col-md-12"><hr /></div>
+                    <div class="clearfix"></div>
+
+                    @using (Html.BeginForm("ConfirmAndPay", "User", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        if (Model.PaymentPlans != null)
+                        {
+                            foreach (var item in Model.PaymentPlans.OrderBy(x => x.Amount))
+                            {
+                                <div class="col-md-9">
+                                    <h4>
+                                        <label class="form-radio">
+                                            <input type="radio" name="PlanId" class="radio_PlanId" data-price="@(item.Amount / 100)" value="@item.PlanId" @(item.currentPlan ? "checked='checked'" : "") />
+                                            <span class="checkmark"></span>
+                                        </label>
+
+                                        <span class="planName">
+                                            @item.PlanName
+                                        </span>
+                                    </h4>
+                                    <span class="planDetail">Receive monthly newsletters, videos and tips on how to grow your social growth followers base and become an influencer</span>
+                                </div>
+                                <div class="col-md-3"><h4 class="planPrice">$@(item.Amount / 100) per @item.Interval</h4></div>
+
+                                <div class="clearfix"></div>
+                                <div class="col-md-12"><hr /></div>
+                                <div class="clearfix"></div>
+                            }
+                        }
+                        <div class="col-md-9 text-danger">
+                            <b><a href="#" class="text-danger" id="btn_ShowModalDeleteUserAccount">Permanently delete my Social Growth account.</a></b>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="button" class="btn btn-primary pull-right btn_ShowModalConfirmAndPay" value="Confirm & Pay" />
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="Modal_ConfirmChangePlan" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Confirmation!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to change the plan.</p>
+                <input type="hidden" id="hdn_changePlanId" value="" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn_changePlan">Change</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="Modal_DeleteUserAccount" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Confirmation!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want delete account.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn_DeleteUserAccount">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="Modal_DeleteUserAccount1" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Confirmation!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you really really sure you want to delete account.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn_DeleteUserAccount1">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="Modal_DeleteUserAccountFinal" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Confirmation!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Please type the DELETE.</p>
+                <input type="text" name="Delete" class="form-control" id="Delete" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn_DeleteUserAccountFinal">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="Modal_BillingHistory" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Billing History</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table class="table table-bordered table-striped table-hover table-condensed">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Package</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.OrderHistoryViewModels)
+                                {
+                                    <tr>
+                                        <td data-label="ID">
+                                            @item.StartDate.Value.ToShortDateString()
+                                        </td>
+                                        <td data-label="Products" class="product">@item.Name</td>
+                                        <td data-label="Proxy">$@(item.Price / 100)</td>
+                                        <td data-label="Box">@item.Status</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="Modal_ConfirmPaymentPlan" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Confirm &amp; Pay</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-md-5">
+                        <div class="mainMonthly" style="text-align:center">
+                            <br />
+                            <br />
+                            <h4>Monthly Charge</h4>
+                            <h1>$<span class="ModalplanPrice"></span></h1>
+                            <br /><br />
+                            <img src="/Content/ThemeAssets/Images/social-growth-footer-logo.jpg" alt="">
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="paymentCard">
+                            @using (Html.BeginForm("NewCardPayment", "User", FormMethod.Post, new { @class = "form-horizontal", @id = "From_UpdatePlan", role = "form" }))
+                            {
+                                <p style="font-size: 2.5rem; color: #aaa;">
+                                    Monthly Charges
+                                    <span class="pull-right" style="color:black">$<span class="ModalplanPrice"></span></span>
+                                </p>
+
+                                <p>Autopay on @DateTime.Now.AddMonths(1).ToString("yyyy-MM-dd")</p>
+                                <hr />
+
+                                if (Model.PaymentCards != null)
+                                {
+                                    <div id="div_previousCard">
+                                        @foreach (var item in Model.PaymentCards)
+                                        {
+                                            <p>
+                                                Visa ending in <b>@item.Last4</b>
+                                                <img class="pull-right" src="~/Content/Images/visa-icon.png" />
+                                            </p>
+
+                                            <p>Expiry <b>@item.ExpMonth/@item.ExpYear</b></p>
+                                        }
+                                        <br />
+                                        <a href="#" class="btn_displayNewCard">[Edit]</a>
+                                        <br />
+                                    </div>
+                                }
+                            }
+
+                            @using (Html.BeginForm("NewCardPayment", "User", FormMethod.Post, new { @class = "form-horizontal", @id = "From_NewCard", role = "form" }))
+                            {
+
+                                <div id="div_newCard" @(Model.PaymentCards != null ? "style=display:none" : "")>
+                                    <div class="row">
+
+                                        @*<div class="col-md-12">
+                                                <label for="">Card Number</label>
+                                                <input type="text" name="CardMumber" class="form-control" id="" placeholder="XXXX-XXXX-XXXX-XXXX" required>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="">CVC</label>
+                                                <input type="text" name="CVC" class="form-control" id="" placeholder="000" required>
+                                            </div>
+                                            <div class="col-md-2"> </div>
+                                            <div class="col-md-3">
+                                                <label for="">Month</label>
+                                                <input type="text" name="Month" class="form-control" id="" aria-describedby="" placeholder="MM" required>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="">Year</label>
+                                                <input type="text" name="Year" class="form-control" id="" aria-describedby="" placeholder="YYYYY" required>
+                                            </div>
+                                        *@
+                                        <input type="hidden" name="PlanId" id="field_newCardPlanId" value="" />
+
+                                        <div class="form-row">
+                                            <label for="card-element">
+                                                Credit or debit card
+                                            </label>
+                                            <div id="card-element">
+
+                                            </div>
+
+                                            <div id="card-errors" role="alert"></div>
+                                        </div>
+
+                                    </div>
+
+                                    <br />
+
+                                    @if (Model.PaymentCards != null)
+                                    {
+                                        <a href="#" class="btn_displayPrevCard">[Cancel]</a>
+                                    }
+                                </div>
+
+                                <hr />
+                                <input type="button" class="btn btn-block btn-primary btn_ConfirmAndPay" value="Confirm" />
+                                <br />
+                                <br />
+                                <em>You are currently billed in $ US Dollar.</em>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style type="text/css">
+    .main h2 {
+        font-weight: 500;
+        margin-bottom: 30px;
+    }
+
+    .main h4 {
+        font-size: 2rem;
+        margin: 14px 10px;
+        line-height: 27px;
+        color: #a3a3a3;
+    }
+
+    .information-form h2 {
+        font-size: 2.2rem;
+        font-weight: 500;
+        text-transform: capitalize;
+        margin-bottom: 10px;
+    }
+
+    input[type=checkbox], input[type=radio] {
+        width: 20px;
+        height: 20px;
+        cursor: pointer
+    }
+
+    h4 span.planName {
+        font-size: 1.8rem;
+        color: #333;
+        font-weight: 500;
+        position: relative;
+        top: -4px;
+        left: 35px;
+        display: inline;
+        line-height: 26px;
+    }
+
+    span.planDetail {
+        font-size: 1.5rem;
+        color: #a3a3a3;
+        margin-left: 35px;
+        font-weight: 500
+    }
+
+    .information-form-inner h4.planPrice {
+        font-weight: 500;
+        margin: 10px;
+        text-align: right
+    }
+
+    .information-form h2 {
+        margin-top: 0;
+    }
+
+    .information-form-inner h4 {
+        margin: 0
+    }
+
+    .modal-body {
+        padding: 15px;
+    }
+
+
+    #Modal_ConfirmPaymentPlan h4 {
+        line-height: 34px;
+        color: cornflowerblue;
+    }
+
+    #Modal_ConfirmPaymentPlan p {
+        margin: 0;
+    }
+
+    #Modal_ConfirmPaymentPlan .paymentCard {
+        padding: 10px;
+        margin: 0 10px;
+        border: 1px solid #aaa;
+        border-radius: 5px;
+        box-shadow: 0px 0px 6px;
+    }
+
+        #Modal_ConfirmPaymentPlan .paymentCard img {
+            width: 8%;
+            position: relative;
+            top: -6px;
+        }
+
+    #Modal_ConfirmPaymentPlan .mainMonthly {
+        background-color: #f7f7f7;
+        padding: 10px;
+        margin: 0 15px;
+        border-radius: 5px;
+        min-height: 270px;
+    }
+
+        #Modal_ConfirmPaymentPlan .mainMonthly h2 {
+            font-size: 3rem;
+        }
+
+    #Modal_ConfirmPaymentPlan .from-control {
+        margin-bottom: 10px !important
+    }
+
+    /**
+    * The CSS shown here will not be introduced in the Quickstart guide, but shows
+    * how you can use CSS to style your Element's container.
+    */
+    .StripeElement {
+        box-sizing: border-box;
+        height: 40px;
+        padding: 10px 12px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        background-color: white;
+        box-shadow: 0 1px 3px 0 #e6ebf1;
+        -webkit-transition: box-shadow 150ms ease;
+        transition: box-shadow 150ms ease;
+    }
+
+    .StripeElement--focus {
+        box-shadow: 0 1px 3px 0 #cfd7df;
+    }
+
+    .StripeElement--invalid {
+        border-color: #fa755a;
+    }
+
+    .StripeElement--webkit-autofill {
+        background-color: #fefde5 !important;
+    }
+</style>
+
+@section Scripts{
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script type="text/javascript">
+
+        var glb_paymentCardType = "";
+        @if (Model.PaymentCards != null) {
+            @Html.Raw("glb_paymentCardType = \"UpdatePlan\"");
+        }
+
+        function ChangePlan(e) {
+            if (confirm("Are you sure you want to change the plan?") == false) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            } else {
+                $('input[name=PlanId][value="' + e.target.defaultValue + '"]')
+                    .prop('checked', true);
+                return true;
+            }
+
+        }
+
+        $("document").ready(function () {
+
+            $("#btn_ShowModalDeleteUserAccount").on("click", function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                $("#Modal_DeleteUserAccount").modal("show");
+            });
+
+
+            $(".btn_DeleteUserAccount").on("click", function (e) {
+                e.preventDefault();
+                $("#Modal_DeleteUserAccount").modal("hide");
+                $("#Modal_DeleteUserAccount1").modal("show");
+            });
+
+
+
+            $(".btn_DeleteUserAccount1").on("click", function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                $("#Modal_DeleteUserAccount1").modal("hide");
+                $("#Modal_DeleteUserAccountFinal").modal("show");
+            });
+
+
+            $(".btn_DeleteUserAccountFinal").on("click", function (e) {
+               
+                var DeleteVal = $("#Delete").val();
+           
+                if (DeleteVal.toLowerCase() == "delete")
+                {
+                    $.ajax({
+                        type: "GET",
+                        url: "/user/confirmdelete",
+                        dataType: "json",
+                        success: function (Data) {
+                            alert("hello");
+                            if (!$.isEmptyObject(Data)) {
+                                if (Data.ResultType == "Success") {
+                                   
+                                    $("#Modal_DeleteUserAccountFinal").modal("hide");
+
+                                    $("#Modal_MessageBoxTitle").text("Success!");
+                                    $("#Modal_MessageBoxBody").text("Your account has been successfully deleted.");
+                                    $("#Modal_Messagebox").modal("show");
+                                } else {
+                                  
+                                    $("#Modal_DeleteUserAccountFinal").modal("hide");
+
+                                    $("#Modal_MessageBoxTitle").text("Error!");
+                                    $("#Modal_MessageBoxBody").text(data.message);
+                                    $("#Modal_Messagebox").modal("show");
+                                }
+                            }
+                        },
+                        failure: function (errMsg) {
+                            alert("hello2");
+                            $("#Modal_DeleteUserAccountFinal").modal("hide");
+
+                            $("#Modal_MessageBoxTitle").text("Error!");
+                            $("#Modal_MessageBoxBody").text(errMsg);
+                            $("#Modal_Messagebox").modal("show");
+                        }
+                    });
+                }
+                else {
+                    alert("Please type delete");
+                }
+            });
+
+            $(".radio_PlanId").on("click", function (e) {
+                //ChangePlan(e);
+                $("#hdn_changePlanId").val(e.target.defaultValue);
+                $(".ModalplanPrice").text($(this).attr("data-price"))
+                $("#Modal_ConfirmChangePlan").modal("show");
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            $(".btn_ShowHistoryModal").on("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                $("#Modal_BillingHistory").modal("show");
+                return false;
+            });
+
+            $(".btn_changePlan").on("click", function () {
+                var planId = $("#hdn_changePlanId").val();
+                $('input[name=PlanId][value="' + planId + '"]')
+                    .prop('checked', true)
+                    .trigger('change');
+                $("#field_newCardPlanId").val(planId);
+                $("#Modal_ConfirmChangePlan").modal("hide");
+            });
+
+            $(".btn_ShowModalConfirmAndPay").on("click", function () {
+
+                var selectedPlanId = $('input[name=PlanId]:checked').val();
+                if (selectedPlanId == undefined || selectedPlanId == "") {
+                    $("#Modal_MessageBoxTitle").text("Warning!");
+                    $("#Modal_MessageBoxBody").text("Please select plan first.");
+                    $("#Modal_Messagebox").modal("show");
+
+                } else {
+                    $("#field_newCardPlanId").val($('input[name=PlanId]:checked').val());
+                    $("#Modal_ConfirmPaymentPlan").modal("show");
+                }
+            });
+
+            $(".btn_displayNewCard").on("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                glb_paymentCardType = "NewCardPlan"
+                $("#div_newCard").show();
+                $("#div_previousCard").hide();
+
+            });
+
+            $(".btn_displayPrevCard").on("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                glb_paymentCardType = "UpdatePlan"
+                $("#div_newCard").hide();
+                $("#div_previousCard").show();
+            });
+
+            $(".btn_ConfirmAndPay").on("click", function () {
+                if (glb_paymentCardType == "UpdatePlan") {
+                    $.ajax({
+                        type: "POST",
+                        url: "/user/newcardpayment",
+                        data: { PlanId: $('input[name=PlanId]:checked').val()},
+                        dataType: "json",
+                        success: function (data) {
+                            if (!$.isEmptyObject(data)) {
+                                if (data.ResultType == "Success") {
+                                    $("#Modal_ConfirmPaymentPlan").modal("hide");
+
+                                    $("#Modal_MessageBoxTitle").text("Plan updated succesfully.!");
+                                    $("#Modal_MessageBoxBody").text("Congratulation! Plan has successfully updated.");
+                                    $("#Modal_Messagebox").modal("show");
+                                } else {
+                                    $("#Modal_ConfirmPaymentPlan").modal("hide");
+
+                                    $("#Modal_MessageBoxTitle").text("Error!");
+                                    $("#Modal_MessageBoxBody").text(data.message);
+                                    $("#Modal_Messagebox").modal("show");
+                                }
+                            }
+                        },
+                        failure: function (errMsg) {
+                            $("#Modal_ConfirmPaymentPlan").modal("hide");
+
+                            $("#Modal_MessageBoxTitle").text("Error!");
+                            $("#Modal_MessageBoxBody").text(errMsg);
+                            $("#Modal_Messagebox").modal("show");
+                        }
+                    });
+                } else {
+                    stripe.createToken(card).then(function (result) {
+                        if (result.error) {
+                            // Inform the user if there was an error.
+                            var errorElement = document.getElementById('card-errors');
+                            errorElement.textContent = result.error.message;
+                        } else {
+                            // Send the token to your server.
+                            stripeTokenHandler(result.token);
+                        }
+                    });
+                }
+
+            });
+
+        });
+
+        // Create a Stripe client.
+        var stripe = Stripe('pk_test_dHbTJpfAQCRdAI41MOJoPMXD00pj3BNGKV');
+
+        // Create an instance of Elements.
+        var elements = stripe.elements();
+
+        // Custom styling can be passed to options when creating an Element.
+        // (Note that this demo uses a wider set of styles than the guide below.)
+        var style = {
+            base: {
+                color: '#32325d',
+                fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                fontSmoothing: 'antialiased',
+                fontSize: '16px',
+                '::placeholder': {
+                    color: '#aab7c4'
+                }
+            },
+            invalid: {
+                color: '#fa755a',
+                iconColor: '#fa755a'
+            }
+        };
+
+        // Create an instance of the card Element.
+        var card = elements.create('card', { style: style });
+
+        // Add an instance of the card Element into the `card-element` <div>.
+        card.mount('#card-element');
+
+        // Handle real-time validation errors from the card Element.
+        card.addEventListener('change', function (event) {
+            var displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+
+        // Handle form submission.
+        var form = document.getElementById('From_NewCard');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            stripe.createToken(card).then(function (result) {
+                if (result.error) {
+                    // Inform the user if there was an error.
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                } else {
+                    // Send the token to your server.
+                    stripeTokenHandler(result.token);
+                }
+            });
+        });
+
+        // Submit the form with the token ID.
+        function stripeTokenHandler(token) {
+            // Insert the token ID into the form so it gets submitted to the server
+            var form = document.getElementById('From_NewCard');
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripeToken');
+            hiddenInput.setAttribute('value', token.id);
+            form.appendChild(hiddenInput);
+
+            if ($("#From_NewCard").valid()) {
+                var data = $("#From_NewCard").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/user/newcardpayment",
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        if (!$.isEmptyObject(data)) {
+                            if (data.ResultType == "Success") {
+                                $("#Modal_ConfirmPaymentPlan").modal("hide");
+
+                                $("#Modal_MessageBoxTitle").text("Plan updated succesfully.!");
+                                $("#Modal_MessageBoxBody").text("Congratulation! Plan has successfully updated.");
+                                $("#Modal_Messagebox").modal("show");
+                            } else {
+                                $("#Modal_ConfirmPaymentPlan").modal("hide");
+
+                                $("#Modal_MessageBoxTitle").text("Error!");
+                                $("#Modal_MessageBoxBody").text(data.message);
+                                $("#Modal_Messagebox").modal("show");
+                            }
+                        }
+                    },
+                    failure: function (errMsg) {
+                        $("#Modal_ConfirmPaymentPlan").modal("hide");
+
+                        $("#Modal_MessageBoxTitle").text("Error!");
+                        $("#Modal_MessageBoxBody").text(errMsg);
+                        $("#Modal_Messagebox").modal("show");
+                    }
+                });
+            }
+
+            //form.submit();
+        }
+
+
+
+    </script>
+
+}

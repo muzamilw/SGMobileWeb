@@ -1,0 +1,357 @@
+﻿@model SG2.CORE.MODAL.ViewModals.Proxy.ProxyViewModal
+@{
+    ViewBag.Title = "New Proxy";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+    var BaseURl = ViewBag.BaseUrl;
+    //List<SelectListItem> CustomersList = new List<SelectListItem>();
+
+   // foreach (var item in Model.Customers)
+   // {
+   //     CustomersList.Add(new SelectListItem { Text = item.FirstName, Value = Convert.ToString(item.CustomerId) });
+   // }
+
+    List<SelectListItem> ProxyStatuses = new List<SelectListItem>();
+
+    foreach (var dr in Model.StatusIds.Where(x => x.StatusName == "General"))
+    {
+        ProxyStatuses.Add(new SelectListItem { Text = dr.StatusValue, Value = dr.StatusId.ToString() });
+    }
+    List<SelectListItem> countries = new List<SelectListItem>();
+    foreach (var item in Model.Countries)
+    {
+        countries.Add(new SelectListItem { Text = item.Name, Value = item.CountryId.ToString() });
+    }
+
+    List<SelectListItem> cities = new List<SelectListItem>();
+    foreach (var item in Model.Cities)
+    {
+        cities.Add(new SelectListItem { Text = item.Name, Value = item.CityId.ToString() });
+    }
+
+    List<SelectListItem> VPSSs = new List<SelectListItem>();
+    foreach (var item in Model.vPSSDTOs)
+    {
+        VPSSs.Add(new SelectListItem { Text = item.IssuingISPName, Value = item.VPSSId.ToString() });
+    }
+
+}
+
+
+<div class="container">
+    @if (!string.IsNullOrEmpty(ViewBag.Success) && ViewBag.Success == "Yes")
+    {
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="alert alert-block alert-success">
+                    <p>
+                        <strong>
+                            <i class="ace-icon fa fa-check"></i>
+                            Success!
+                        </strong>
+                        @ViewBag.SuccessMessage
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+@using (Html.BeginForm("Detail", "ProxyIPs", FormMethod.Post, new { @class = "" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ProxyId)
+
+    <div class="information-wrap main accounts">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2>Proxy mapping</h2>
+                </div>
+                <div class="col-xs-12">
+                    <div class="left-col">
+
+                        @*<h3>@Model.ProxyIPNumber
+                        <span style="color: #587ae8; padding: 5px 0px 10px 10px; font-weight: 400;">Australia users1
+                        </span>
+                    </h3>*@
+                    </div>
+                    <div class="right-col">
+                        <span><button type="submit" value="Save & Close" class="btn transition">Save & Close</button></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="jv-box proxy-mapping-detail">
+            <div class="accounts-form first">
+
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="product first-ip">
+                            <label>Proxy IP Number</label>
+                            <ul>
+                                <li>
+                                    @Html.TextBoxFor(m => m.P1, new { @id = "slct" })
+                                    @Html.ValidationMessageFor(model => model.P1, "", new { @class = "text-danger" })
+                                </li>
+                                <li>
+                                    @Html.TextBoxFor(m => m.P2, new { @id = "slct" })
+                                    @Html.ValidationMessageFor(model => model.P2, "", new { @class = "text-danger" })
+                                </li>
+                                <li>
+                                    @Html.TextBoxFor(m => m.P3, new { @id = "slct" })
+                                    @Html.ValidationMessageFor(model => model.P3, "", new { @class = "text-danger" })
+                                </li>
+                                <li>
+                                    @Html.TextBoxFor(m => m.P4, new { @id = "slct" })
+                                    @Html.ValidationMessageFor(model => model.P1, "", new { @class = "text-danger" })
+                                </li>
+
+                            </ul>
+                        </div>
+                        <hr />
+
+                        <div class="product">
+                            @Html.LabelFor(m => m.ProxyPort, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.ProxyPort, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.ProxyPort, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="product">
+                            @Html.LabelFor(m => m.ProxyIPName, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.ProxyIPName, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.ProxyIPName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-md-6 col-sm-6 col-xs-12 right">*@
+
+                        <div class="row">
+                            <div class="col-md-7 col-sm-12 col-xs-12"  style="display:none">
+                                <div class="product">
+
+                                    <label>Assigned to # 1</label>
+                                    <div class="select">
+                                        @Html.DisplayFor(m => m.AssignedCustomerID1, new { @class = "slct" })
+                                    </div>
+                                    @if (Model.AssignedCustomerID1City != null)
+                                    {
+                                        <span>@Html.DisplayText(Model.AssignedCustomerID1City)</span>
+                                    }
+                                    else
+                                    {
+                                        <span>--</span>
+                                    }
+
+                                </div>
+                                <div class="product">
+                                    <label>Assigned to # 2</label>
+                                    <div class="select">
+                                        @Html.DisplayFor(m => m.AssignedCustomerID2, new { @class = "slct" })
+                                    </div>
+                                    @if (Model.AssignedCustomerID2City != null)
+                                    {
+                                        <span>@Html.DisplayText(Model.AssignedCustomerID2City)</span>
+                                    }
+                                    else
+                                    {
+                                        <span>--</span>
+                                    }
+                                </div>
+                                <div class="product">
+                                    <label>Assigned to # 3</label>
+                                    <div class="select">
+                                        @Html.DisplayFor(m => m.AssignedCustomerID3, new { @class = "slct" })
+                                    </div>
+                                    @if (Model.AssignedCustomerID3City != null)
+                                    {
+                                        <span>@Html.DisplayText(Model.AssignedCustomerID3City)</span>
+                                    }
+                                    else
+                                    {
+                                        <span>--</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                      
+                </div>
+
+            </div>
+
+            <div class="accounts-form second">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="product">
+                            @Html.LabelFor(m => m.BaseCountry, new { @class = "" })
+                            <div class="">
+                                @Html.DropDownListFor(m => m.BaseCountry, countries, "-- Select Country --", htmlAttributes: new { @class = "", @id = "BaseCountry" })
+                                @Html.ValidationMessageFor(model => model.BaseCountry, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            @Html.LabelFor(m => m.BaseCity, new { @class = "" })
+                            <div class="">
+                                @Html.DropDownListFor(m => m.BaseCity, cities, "-- Select City --", new { @class = "", @id = "cmb_cities" })
+                                @Html.ValidationMessageFor(model => model.BaseCity, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            <label>&nbsp;</label>
+                            <div class="">
+                                <button type="button" value="" class="btn transition" id="btn_GetGeoPoints">Get Geo Points</button>
+                            </div>
+                        </div>
+                        <div class="product">
+                            @Html.LabelFor(m => m.GeoPoints, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.GeoPoints, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.GeoPoints, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="product">
+                            <label>Status</label>
+                            <div class="select">
+                                @Html.DropDownListFor(model => model.StatusId, ProxyStatuses)
+                            </div>
+                        </div>
+
+                        <div class="product">
+                            @Html.LabelFor(m => m.IssuingISPNameId, new { @class = "" })
+                            <div class="select">
+                                @Html.DropDownListFor(m => m.IssuingISPNameId, VPSSs, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.IssuingISPNameId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                       
+                        <div class="product">
+                            <div id="googleMap"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section StyleSheet {
+    <style type="text/css">
+
+        .form-wrap .search-wrap input[type=search] {
+            font-size: 1.8rem;
+            line-height: 22px;
+            height: 47px;
+        }
+
+        input[type=search] {
+            border-bottom: 2px solid #eceffb;
+            font-style: normal;
+            padding: 0px 24px 10px;
+        }
+
+        button.searchBtn {
+            height: 47px;
+        }
+        #googleMap {
+            width: 100%;
+            height: 400px;
+        }
+
+    </style>
+}
+@section JavaScript{
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvCyx_F1dMhWkBF0FtJBfF1gMRNzR3Jzg"></script>
+    <script type="text/javascript">
+
+        function initialize() {
+            var geoPoints = $("#GeoPoints").val();
+            var country = $("#BaseCountry option:selected").text();//$("#BaseCountry").text();
+            var city = $("#BaseCity option:selected").text();
+            var lat = geoPoints.split(',')[0];
+            var lon = geoPoints.split(',')[1];
+            var myLatlng = new google.maps.LatLng(lat, lon) // This is used to center the map to show our markers
+            var mapOptions = {
+                center: myLatlng,
+                zoom: 6,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                marker: true
+            };
+            var map = new google.maps.Map(document.getElementById("googleMap"), mapOptions);
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                title: city + " " + country
+
+
+            });
+            marker.setMap(map);
+        }
+      
+        $("document").ready(function () {
+            initialize();
+            $("#btn_GetGeoPoints").on("click", function () {
+                var country = $("#BaseCountry option:selected").text();
+                var city = $("#BaseCity option:selected").text();
+                    $.ajax({
+                        url: GLB_BASEURL +"/proxyips/GetLatitudeAndLongitude?address=" + city + " " + country,
+                        type: "get",
+                        traditional: true,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            $("#GeoPoints").val(data);
+                            initialize();
+                        },
+                        error: function () {
+                            alert("An error has occured!!!");
+                        }
+                    });
+
+            });
+
+          
+
+        });
+
+        $("document").ready(function () {
+
+            $("#cmb_country").on("change", function () {
+                GetCity($(this).val())
+            })
+        })
+
+        $(document).on('click', '#backLink', function () {
+            history.go(-1);
+        });
+        function GetCity(_countryId) {
+            var url = GLB_BASEURL +"/LikeAccts/GetCityByCountryId";
+            $("#cmb_cities").html("");
+            $.ajax({
+                url: url,
+                data: { countryId: _countryId },
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $.each(data, function (i, e) {
+                        $('#cmb_cities').append($("<option></option>").val(e.CityId).html(e.Name));
+                    });
+                },
+                error: function (reponse) {
+                    alert("error : " + reponse);
+                }
+            });
+
+        }
+
+    </script>
+}

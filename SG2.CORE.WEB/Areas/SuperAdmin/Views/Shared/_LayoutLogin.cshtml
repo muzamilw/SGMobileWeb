@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewBag.Title - Admin Panel | Social Growth</title>
+
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="~/Content/ThemeAssets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/ThemeAssets/css/owl.carousel.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/ThemeAssets/css/owl.theme.default.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/ThemeAssets/css/fontawesome-all.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/ThemeAssets/css/style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="~/Content/ThemeAssets/css/responsive.css">
+    <link rel="stylesheet" href="~/Content/ThemeAssets/css/hover.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    @RenderSection("StyleSheet", false)
+
+    <style type="text/css">
+        .information-form-inner{
+            padding:30px;
+        }
+        .form-group {
+            margin-bottom:0;
+            float:none;
+        }
+    </style>
+
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-9">
+                    <div class="logo">
+                        <a href="/">
+                            <img src="~/Content/ThemeAssets/images/social-growth.png" alt="">
+                        </a>
+                        <span>Get more likes and followers</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+
+    @RenderBody()
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="footer-logo text-center">
+                        <img src="~/Content/ThemeAssets/Images/social-growth-footer-logo.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/Content/ThemeAssets/js/jquery.min.js"></script>
+    <script src="~/Content/ThemeAssets/js/bootstrap.min.js"></script>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <!-- Include js plugin -->
+    <script src="~/Content/ThemeAssets/js/owl.carousel.min.js"></script>
+    <script src="~/Content/ThemeAssets/js/functions.js"></script>
+
+    @RenderSection("JavaScript", false)
+
+</body>
+</html>
+

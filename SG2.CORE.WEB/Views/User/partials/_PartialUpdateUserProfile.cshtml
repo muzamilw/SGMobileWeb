@@ -1,0 +1,74 @@
+﻿@model SG2.CORE.MODAL.ViewModals.Customers.CustomerProfileUpdateViewModel
+@{ 
+    List<SelectListItem> countries = new List<SelectListItem>();
+    foreach (var item in Model.Countries)
+    {
+        countries.Add(new SelectListItem { Text = item.PhoneCode, Value = item.PhoneCode.ToString() });
+    }
+}
+
+
+    <h2>Basic Information</h2>
+    <hr />
+
+    @using (Html.BeginForm("UpdateUserProfile", "User", FormMethod.Post, new { @id = "form_UpdateUserProfile" }))
+    {
+        @Html.AntiForgeryToken()
+
+        @*<div class="form-group">
+            @Html.LabelFor(m => m.UserName, new { @class = "" })
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+        </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.FirstName, new { @class = "" })
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.SurName, new { @class = "" })
+            @Html.TextBoxFor(m => m.SurName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SurName, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.EmailAddress, new { @class = "" })
+            @Html.TextBoxFor(m => m.EmailAddress, new { @class = "form-control", @readonly="readonly" })
+            @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.PhoneNumber, new { @class = "" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(m=>m.PhoneCode, countries, new {@class="slct" } )                
+                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "phoneNumber" })
+                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+            
+        </div>
+
+        <div class="form-group">
+            <button type="button" id="btn_UpdateUserProfile" class="btn btn-lg btn-primary">Update &nbsp; 
+                <i id="spn_updateUserProfile" style="display:none" class="fa fa-spinner fa-spin"></i> 
+            </button>            
+        </div>
+        <div style="clear:both"></div>
+    }
+
+<style type="text/css">
+    .slct {
+        width: 20%;
+        display: inline;
+        border:1px solid #cccccc !important;
+    }
+
+    input.phoneNumber {
+        width: 75%;
+        display: inline;
+        margin: 0;
+        border: 1px solid #cccccc !important;
+    }
+
+</style>

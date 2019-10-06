@@ -1,0 +1,140 @@
+﻿@using PagedList.Mvc
+@using PagedList;
+@using SG2.CORE.MODAL.ViewModals.Backend.TeamMember;
+@using SG2.CORE.COMMON;
+@model SG2.CORE.MODAL.ViewModals.Backend.TeamMember.TeamMemberIndexViewModal
+@{
+    ViewBag.Title = "Team Members Listing";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+    var BaseURl = ViewBag.BaseUrl;
+    List<SelectListItem> appStatus = new List<SelectListItem>();
+
+    foreach (var dr in Model.ApplicationStatuses.Where(x => x.StatusName == "SystemUser"))
+    {
+        appStatus.Add(new SelectListItem { Text = dr.StatusValue, Value = dr.StatusId.ToString() });
+
+    }
+}
+
+<div class="information-wrap main accounts">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="left-col">
+                    <h2>Team Members</h2>
+                </div>
+                <div class="right-col">
+                    <a class="btn" href="javascript:void(0);" style="background-color:#52d234; position:relative; top:9px;" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-wrap">
+    <div class="container">
+        <div class="inner-colmn">
+            <div class="row">
+                @using (Html.BeginForm("Index", "TeamMember", FormMethod.Get, new { @id = "Form_SearchCriteria" }))
+                {
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="search-wrap">
+                            @*<input type="search" placeholder="Search here">*@
+                            @Html.TextBoxFor(model => model.SearchCriteria, htmlAttributes: new { @placeholder = "Search here", @type = "search" })
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xs-6">
+                        <div class="product">
+                            <label>Status</label>
+                            <div class="select">
+                                @Html.DropDownListFor(model => model.StatusId, appStatus, "Select All(Status)", new { @class = "slct" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xs-6">
+                        <div class="product">
+                            <label>&nbsp;</label>
+                            <div class="select">
+                                <button type="submit" class="btn searchBtn" value="SearchCriteria">
+                                    <i class="fa fa-search"></i> Search
+                                </button>
+                                <a href="@BaseURl/teammember" id="" class="btn searchBtn btn-height47">
+                                    <i class="fa icon-cross-filter"></i> Reset
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-4 col-xs-12">
+                        <div class="product right">
+                            <label>&nbsp;</label>
+                            <div class="select">
+                                <a href="@BaseURl/teammember/add" class="btn" style="padding-top:12px; height:47px;"><i class="fa fa-plus"></i> New Member</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="product-listing-sec">
+    <div class="container">
+        <div class="product-list-inner">
+            <div class="row">
+                <div class="col-xs-12">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Role Name</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.TeamMemberListing)
+                            {
+                            <tr>
+                                <td data-label="ID">@item.FullName <br><a href="@BaseURl/teammember/update?id=@Url.Encode(CryptoEngine.Encrypt(item.SystemUserId.ToString()))">@item.Email</a></td>
+                                <td data-label="RoleName" class="status">@item.RoleName</td>
+                                <td data-label="Status" class="status">@item.Status</td>
+                                <td>
+                                    <a href="@BaseURl/teammember/update?id=@Url.Encode(CryptoEngine.Encrypt(item.SystemUserId.ToString()))"><i class="fa fa-edit"></i></a>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="pagination-wrap">
+            Page @(Model.TotalRecord < Model.PageNumber ? 0 : Model.PageNumber)
+            of @Model.TotalRecord   @Html.PagedListPager((IPagedList<TeamMemberListingViewModal>)Model.TeamMemberListing, page => Url.Action("Index", new { page, Model.SearchCriteria, Model.StatusId }))
+        </div>
+    </div>
+</div>
+
+@section StyleSheet {
+    <style type="text/css">
+
+        .form-wrap .search-wrap input[type=search] {
+            font-size: 1.8rem;
+            line-height: 22px;
+            height: 47px;
+        }
+
+        input[type=search] {
+            border-bottom: 2px solid #eceffb;
+            font-style: normal;
+            padding: 0px 24px 10px;
+        }
+
+        button.searchBtn {
+            height: 47px;
+        }
+    </style>
+}
+
+

@@ -1,0 +1,97 @@
+﻿@model SG2.CORE.MODAL.ViewModals.Customers.ResendEmailViewModel
+@using SG2.CORE.COMMON
+@{
+    ViewBag.Title = "VerifyEmail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    @if (!string.IsNullOrEmpty(ViewBag.Success) && ViewBag.Success == "Yes")
+    {
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="alert alert-block alert-success">
+                    <p>
+                        <strong>
+                            <i class="ace-icon fa fa-check"></i>
+                            Success!
+                        </strong>
+                        @ViewBag.SuccessMessage
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+<div class="mainIntro">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="intro2 " data-aos="fade-left">
+                    <br />
+                    <br />
+                    <br />
+                    <h1>Oops!  Your email link to verify your account has expired.</h1>
+                    <h2>Click here to receive a new verification link</h2>
+                    <p></p>
+
+
+
+
+                    <br />
+                    @using (Html.BeginForm("ResendEmail", "Home", FormMethod.Post, new { @id = "" }))
+                    {
+                        @Html.HiddenFor(model => model.CustomerId)
+
+                        <input type="submit" class="btn btn-primary" id="btn_SaveEmailSubscription" value="Resend Email" />
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    .intro2 {
+        text-align: center;
+        min-height: 300px;
+        padding: 20px 0;
+    }
+
+        .intro2 h1 {
+        }
+</style>
+
+@section scripts{
+    <script type="text/javascript">
+        $("document").ready(function () {
+
+            
+            
+            $.ajax({
+                type: "Get",
+                url: "/Home/VerifyEmail",
+                data: data,
+                dataType: "json",
+                success: function (data) {
+                    if (!$.isEmptyObject(data)) {
+                        if (data.ResultType == "Success") {
+                            $("#Modal_MessageBoxTitle").text("Message");
+                            $("#Modal_MessageBoxBody").text(data.message);
+                            $("#Modal_Messagebox").modal("show");
+                        } else {
+                            $("#Modal_MessageBoxTitle").text("Message");
+                            $("#Modal_MessageBoxBody").text(data.message);
+                            $("#Modal_Messagebox").modal("show");
+                        }
+                    }
+                },
+                failure: function (errMsg) {
+
+                }
+            });
+            });
+    </script>
+}

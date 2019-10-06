@@ -1,0 +1,646 @@
+﻿@model SG2.CORE.MODAL.ViewModals.Home.SignupWizardViewModel
+@{
+    List<SelectListItem> cities = new List<SelectListItem>();
+    foreach (var item in Model.Cities)
+    {
+        cities.Add(new SelectListItem { Text = item.CountyCityName, Value = item.CityId.ToString() });
+    }
+}
+
+<div class="modal fade" id="Modal_SignupWizardPopup2" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+
+                <div class="wizard_step">
+                    @using (Html.BeginForm("", "", FormMethod.Post, new { @id = "Form_SignupWizardForm" }))
+                    {
+                        <div class="wizard_step1 hide">
+                            <a href="#" onclick="return false;" data-dismiss="modal" class="active" style="float:right">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </a>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="wizardImg">
+                                        <img src="~/Content/ThemeAssets/Images/Real_People2.png" class="width25Per" />
+                                    </div>
+                                    <div class="wizardTitle">
+                                        <h1>Target &amp; engage with real people</h1>
+                                    </div>
+                                    <div class="wizardContents">
+                                        <p>
+                                            These hastags &amp; keywords will be applied to all your future posts.
+                                        </p>
+                                        @*<input type="text" data-role="tagsinput" value="sample-bullet" />*@
+                                        @Html.TextBoxFor(model => model.Preference1, new { @data_role = "tagsinput", @id = "field_WizardHashtag" })
+                                        @Html.ValidationMessageFor(model => model.Preference1)
+                                        <p>
+                                            You can modify alll you preferences at any time from your account dashboard.
+                                        </p>
+                                        <p>
+                                            <a href="">Click here</a> to EXCLUDE segments you DO NOT wish to target.
+                                        </p>
+                                    </div>
+                                    <div class="wizardActions">
+                                        <button type="button" class="btn btn-default btn_PrefStep1">
+                                            Next
+                                        </button>
+                                    </div>
+                                    <div class="wizardFooter">
+                                        <p>
+                                            Step 1/5
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="wizard_step2 hide">
+
+                            <a href="#" onclick="return false;" data-dismiss="modal" class="active" style="float:right">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </a>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="wizardImg">
+                                        <h1>#!</h1>
+                                    </div>
+                                    <div class="wizardTitle">
+                                        <h1>Choose hashtag you DO NOT want to engage with</h1>
+                                    </div>
+                                    <div class="wizardContents">
+                                        <p>
+                                            Hastags &amp; keywords entered here will be used to EXCLUDE targeting people that match the following Tags:
+                                        </p>
+                                        @*<input type="text" data-role="tagsinput" value="sample-bullet" />*@
+                                        @Html.TextBoxFor(model => model.Preference2, new { @data_role = "tagsinput", @id = "field_WizardNotHashtag" })
+                                        <p>
+                                            You can modify alll you preferences at any time from your account dashboard.
+                                        </p>
+                                        <p>
+                                            <a href="">Click here</a> to taget people, keywords &amp; hastags you DO want to target.
+                                        </p>
+                                    </div>
+                                    <div class="wizardActions">
+                                        <a href="#" class="btn_PrevStep" cur-step="wizard_step2" prev-step="wizard_step1">Back</a>
+                                        <button type="button" class="btn btn-default btn_PrefStep2">
+                                            Next
+                                        </button>
+                                    </div>
+                                    <div class="wizardFooter">
+                                        <p>
+                                            Step 2/5
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="wizard_step3 hide">
+
+                            <a href="#" onclick="return false;" data-dismiss="modal" class="active" style="float:right">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </a>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="wizardImg">
+                                        <img src="~/Content/ThemeAssets/Images/pinpoint.png" class="width35Per" />
+                                    </div>
+                                    <div class="wizardTitle">
+                                        <br />
+                                        <h1>Excite &amp; attract people &amp; customers near you</h1>
+                                    </div>
+                                    <div class="wizardContents">
+                                        <p>
+                                            Choose up to 8 locations to focus on.City, State &amp; Country names work best.
+                                        </p>
+                                        @Html.TextBoxFor(model => model.Preference3, new { @data_role = "tagsinput", @id = "field_Wizard8Location" })
+
+                                        <p>
+                                            Which city do you mostly login from?
+                                        </p>
+                                        @*@Html.TextBoxFor(model => model.PreferLocation, new { @data_role = "tagsinput", @id = "field_WizardPreferLocation" })*@
+                                        @Html.DropDownListFor(m => m.CityId, cities, "-- Select Perfer Location --", new { @id = "field_WizardPreferLocation", @class = "slct" })
+                                        @Html.ValidationMessageFor(model => model.CityId)
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <div class="wizardActions">
+                                        <a href="#" class="btn_PrevStep" cur-step="wizard_step3" prev-step="wizard_step2">Back</a>
+                                        <button type="button" class="btn btn-default btn_PrefStep3">
+                                            Next
+                                        </button>
+                                    </div>
+                                    <div class="wizardFooter">
+                                        <p>
+                                            Step 3/5
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="wizard_step4 hide">
+
+                            <a href="#" onclick="return false;" data-dismiss="modal" class="active" style="float:right">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </a>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="wizardImg">
+                                        <img src="/Content/ThemeAssets/Images/crospinpoint.jpeg" class="width35Per" />
+                                    </div>
+                                    <div class="wizardTitle">
+                                        <h1>Follow, Un-Follow &amp; Gender</h1>
+                                    </div>
+                                    <div class="wizardContents">
+                                        <p>
+                                            A very effective growth strategy is to incorporate an an amount of Follow &amp; Un-Follow
+                                            activities on target accounts.
+                                        </p>
+                                        <p>
+                                            Do you permit this activity?
+                                        </p>
+                                        <label class="form-radio">
+                                            YES
+                                            @Html.RadioButtonFor(model => model.Preference5, "1", new { @class = "field_WizarEffectiveGrowth" })
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        <label class="form-radio">
+                                            NO
+                                            @Html.RadioButtonFor(model => model.Preference5, "2", new { @class = "field_WizarEffectiveGrowth" })
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        @Html.ValidationMessageFor(model => model.Preference5)
+                                        <p>
+                                            Target Gender
+                                        </p>
+                                        <label class="form-radio">
+                                            ALL GENDERS
+                                            @Html.RadioButtonFor(model => model.Preference6, "3", new { @class = "field_WizarTargetGender" })
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        <label class="form-radio">
+                                            FEMALES
+                                            @Html.RadioButtonFor(model => model.Preference6, "2", new { @class = "field_WizarTargetGender" })
+
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        <label class="form-radio">
+                                            MALES
+                                            @Html.RadioButtonFor(model => model.Preference6, "1", new { @class = "field_WizarTargetGender" })
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        @Html.ValidationMessageFor(model => model.Preference6)
+                                    </div>
+                                    <br />
+                                    <div class="wizardActions">
+                                        <a href="#" class="btn_PrevStep" cur-step="wizard_step4" prev-step="wizard_step3">Back</a>
+                                        <button type="button" class="btn btn-default btn_PrefStep4">
+                                            Next
+                                        </button>
+                                    </div>
+                                    <div class="wizardFooter">
+                                        <p>
+                                            Step 4/5
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="wizard_step5 hide">
+
+                            <a href="#" onclick="return false;" data-dismiss="modal" class="active" style="float:right">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </a>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="wizardImg">
+                                        <img src="~/Content/ThemeAssets/Images/Thumbs_Up_W.png" class="width25Per" />
+                                    </div>
+                                    <div class="wizardTitle">
+                                        <h1>We're all set to grow your followers base</h1>
+                                    </div>
+                                    <div class="wizardContents">
+                                        <p class="offer">
+                                            Limited time offer !
+                                        </p>
+                                        <p>
+                                            Instagram GROWTH ENGINE 20% more followers month-on-month
+                                        </p>
+                                        <p class="offer">Regular Price <span>$89</span></p>
+                                        <p class="price"><sup>Only $</sup>39/pm</p>
+                                    </div>
+                                    <br />
+                                    <div class="wizardActions">
+                                        <button type="button" class="btn btn-default btn_PrefStep5">
+                                            Sign Up Today !
+                                        </button>
+                                    </div>
+                                    <div class="wizardFooter">
+                                        <p>
+                                            Step 5/5
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="wizard_step6 hide">
+
+                            <a href="#" onclick="return false;" data-dismiss="modal" class="active" style="float:right">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </a>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="wizardImg">
+                                        <img src="~/Content/ThemeAssets/Images/SGLOGO.png" class="width35Per" />
+                                    </div>
+                                    <div class="wizardTitle">
+                                        <h1>
+                                            Create &amp; save your profile <br />
+                                            FREE Sign-UP
+                                        </h1>
+                                    </div>
+                                    <div class="wizardContents">
+                                        @Html.TextBoxFor(model => model.FirstName, new { @placeholder = "First Name", @id = "field_WizardFirstname" })
+                                        @Html.ValidationMessageFor(model => model.FirstName)
+                                        @Html.TextBoxFor(model => model.Lastname, new { @placeholder = "Last Name", @id = "field_WizardLastname" })
+                                        @Html.ValidationMessageFor(model => model.Lastname)
+                                        @Html.TextBoxFor(model => model.EmailAddress, new { @placeholder = "Email", @id = "field_WizardEmail" })
+                                        @Html.ValidationMessageFor(model => model.EmailAddress)
+                                        @Html.PasswordFor(model => model.Password, new { @placeholder = "Password", @id = "field_WizardPassword" })
+                                        @Html.ValidationMessageFor(model => model.Password)
+                                        @Html.PasswordFor(model => model.Re_Password, new { @placeholder = "Confirm Password", @id = "field_WizardRePassword" })
+                                        @Html.ValidationMessageFor(model => model.Re_Password)
+                                    </div>
+                                    <br />
+                                    <div class="wizardActions">
+                                        <button type="button" class="btn btn-default btn_PrefStep6">
+                                            Create My Account
+                                        </button>
+                                    </div>
+                                    <div class="wizardContents">
+                                        <p>Already have an account? <a href="#">Sign In</a></p>
+                                    </div>
+                                    <div class="wizardImg">
+                                        <img src="~/Content/ThemeAssets/Images/trustpilotlogo2.png" class="width25Per" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+
+                    <div class="wizard_step7 hide">
+
+                        <a href="#" onclick="return false;" data-dismiss="modal" class="active" style="float:right">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </a>
+
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <div class="wizardTitle">
+                                    <h1>
+                                        Instagram <br />
+                                        Growth Engine
+                                    </h1>
+                                </div>
+                                <div class="wizardContents">
+                                    <p class="price">Sepcial Offer $39/pm</p>
+                                    <br />
+                                    <div class="paymentCard">
+                                        <h3>
+                                            Monthly Charges
+                                            <span class="pull-right">$39</span>
+                                        </h3>
+                                        <i>Autopay on @DateTime.Now.AddMonths(1).ToString("yyyy-MM-dd")</i>
+                                        <hr />
+                                        @using (Html.BeginForm("", "", FormMethod.Post, new { @id = "Form_SubscriptionWizardForm" }))
+                                        {
+                                            <div id="div_newCard">
+                                                @*<div class="row">
+                                        <div class="col-md-12">
+                                            <label for="">Card Number</label>
+                                             <input type="text" name="" class="form-control" id="" placeholder="XXXX-XXXX-XXXX-XXXX">
+                                            @Html.TextBoxFor(m => m.CardMumber, new { @id = "field_WizardCardMumber", placeholder = "XXXX-XXXX-XXXX-XXXX" })
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="">CVC</label>
+                                         <input type="text" name="" class="form-control" id="" placeholder="000">
+                                            @Html.TextBoxFor(m => m.CVC, new { @id = "field_WizardCardCVC", placeholder = "000" })
+                                        </div>
+                                        <div class="col-md-2"> </div>
+                                        <div class="col-md-3">
+                                            <label for="">Month</label>
+                                           <input type="text" name="" class="form-control" id="" aria-describedby="" placeholder="MM">
+                                            @Html.TextBoxFor(m => m.Month, new { @id = "field_WizardCardMonth", placeholder = "MM" })
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="">Year</label>
+                                           <input type="text" name="" class="form-control" id="" aria-describedby="" placeholder="YYYYY">
+                                            @Html.TextBoxFor(m => m.Year, new { @id = "field_WizardCardYear", placeholder = "YYYYY" })
+                                        </div>
+                                    </div>*@
+
+                                                <div class="form-row">
+                                                    <label for="card-element">
+                                                        Credit or debit card
+                                                    </label>
+                                                    <div id="card-element">
+                                                        <!-- A Stripe Element will be inserted here. -->
+                                                    </div>
+
+                                                    <!-- Used to display form errors. -->
+                                                    <div id="card-errors" role="alert"></div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    <br />
+                                </div>
+                                <br />
+                                <div class="wizardActions">
+                                    <button type="button" class="btn btn-default btn_PrefStep7">
+                                        Pay &amp; Start Service
+                                    </button>
+                                </div>
+                                <div class="wizardFooter">
+                                    <p><a href="#">Cancel any time</a></p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="wizard_step8 hide">
+
+                        <a href="#" onclick="return false;" data-dismiss="modal" class="active" style="float:right">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </a>
+
+                        <div class="row">
+                            @using (Html.BeginForm("", "", FormMethod.Post, new { @id = "Form_InstagramPermissionWizardForm" }))
+                            {
+                                <div class="col-md-12">
+
+                                    <div class="wizardImg">
+                                        <img src="~/Content/ThemeAssets/Images/Real_People2.png" class="width25Per" />
+                                    </div>
+                                    <div class="wizardTitle">
+                                        <h1>Your Instagram Permission</h1>
+                                    </div>
+                                    <div class="wizardContents">
+                                        <p>
+                                            We need your permission to start your growth &amp; targeting on your instagram account.
+                                        </p>
+                                    </div>
+                                    <div class="wizardImg">
+                                        <img src="~/Content/ThemeAssets/Images/InstagramLogo.png" class="width15Per" />
+                                    </div>
+                                    <div class="wizardContents">
+                                        @Html.TextBoxFor(m => m.InstaUser, new { @id = "field_WizardInstaUser", placeholder = "Instagram Username" })
+                                        @*<input type="text" name="" value="" placeholder="Instagram Username" required />*@
+                                        @Html.PasswordFor(m => m.InstaPassword, new { @id = "field_WizardPassword", placeholder = "Password" })
+                                        @*<input type="password" name="" id="" value="" placeholder="Password" required />*@
+                                    </div>
+                                    <br />
+                                    <div class="wizardActions">
+                                        <button type="button" class="btn btn-default btn_PrefStep8">
+                                            Link to my instagram account
+                                        </button>
+                                    </div>
+                                    <div class="wizardFooter">
+                                        <p>Our Terms, Privacy &amp; Cookies Policies</p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+
+                    <div class="wizard_step9  hide">
+
+                        <a href="#" onclick="return false;" data-dismiss="modal" class="active" style="float:right">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </a>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="wizardImg">
+                                    <img src="/Content/ThemeAssets/Images/SGLOGO.png" class="width35Per" />
+                                </div>
+                                <div class="wizardTitle">
+                                    <h1>Please wait.</h1>
+                                </div>
+                                <div class="wizardContents">
+                                    <p>
+                                        We are checking your instagram credentials.
+                                    </p>
+                                </div>
+                                <div class="wizardContents">
+
+                                </div>
+                                <br />
+                                <div class="wizardActions">
+                                    @*<button type="button" class="btn btn-default btn_PrefStep9">
+                            Next
+                        </button>*@
+                                </div>
+                                <div class="wizardFooter">
+                                    <p>Our Terms, Privacy &amp; Cookies Policies</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="wizard_step10  hide">
+
+                        <a href="#" onclick="return false;" data-dismiss="modal" class="active" style="float:right">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </a>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="wizardImg">
+                                    <img src="/Content/ThemeAssets/Images/SGLOGO.png" class="width35Per" />
+                                </div>
+                                <div class="wizardTitle">
+                                    <h1>2 factor authentication.</h1>
+                                </div>
+                                <div class="wizardContents">
+                                    <p>
+                                        Enter the 6 digit code sent by instagram to your mobile
+                                    </p>
+                                </div>
+                                <div class="wizardImg">
+                                    <img src="~/Content/ThemeAssets/Images/InstagramLogo.png" class="width15Per" />
+                                </div>
+                                <div class="wizardContents">
+                                    <input type="text" value="" placeholder="Enter 6 digit" id="txt_2FACode" />
+                                    <input type="hidden" value="" class="txt_JVSessionId" />
+                                </div>
+                                <br />
+                                <div class="wizardActions">
+                                    <a href="#" class="btn_PrevStep" cur-step="wizard_step10" prev-step="wizard_step9">Back</a>
+                                    <button type="button" class="btn btn-default btn_PrefStep10">
+                                        Confrim
+                                    </button>
+                                </div>
+                                <div class="wizardFooter">
+                                    <p>Our Terms, Privacy &amp; Cookies Policies</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="wizard_step11  hide">
+
+                        <a href="#" onclick="return false;" data-dismiss="modal" class="active" style="float:right">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </a>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="wizardImg">
+                                    <img src="/Content/ThemeAssets/Images/SGLOGO.png" class="width35Per" />
+                                </div>
+                                <div class="wizardTitle">
+                                    <h1>Email confirmation.</h1>
+                                </div>
+                                <div class="wizardContents">
+                                    <p>
+                                        You received an email from instagram
+                                    </p>
+                                </div>
+                                <div class="wizardImg">
+                                    <img src="~/Content/ThemeAssets/Images/InstagramLogo.png" class="width15Per" />
+                                </div>
+                                <div class="wizardContents">
+                                    <input type="text" value="" placeholder="Enter 6 digit" id="txt_EmailConfirmationCode" />
+                                    <input type="hidden" value="" class="txt_JVSessionId" />
+                                    <p class="hide invalid_emailCode" style="color:indianred">Invalid code please try again.</p>
+                                </div>
+                                
+                                <br />
+                                <div class="wizardActions">
+                                    <a href="#" class="btn_PrevStep" cur-step="wizard_step11" prev-step="wizard_step10">Back</a>
+                                    <button type="button" class="btn btn-default btn_PrefStep11">
+                                        Confrim
+                                    </button>
+                                </div>
+                                <div class="wizardFooter">
+                                    <p>Our Terms, Privacy &amp; Cookies Policies</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="wizard_step12  hide">
+
+                        <a href="#" onclick="return false;" data-dismiss="modal" class="active" style="float:right">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </a>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="wizardImg">
+                                    <img src="/Content/ThemeAssets/Images/SGLOGO.png" class="width35Per" />
+                                </div>
+                                <div class="wizardTitle">
+                                    <h1 id="">Instagram</h1>
+                                </div>
+                                <div class="wizardContents">
+                                    <p id="jvMessage">
+
+                                    </p>
+                                </div>
+                                <div class="wizardContents">
+
+                                </div>
+                                <br />
+                                <div class="wizardActions">
+                                    <button type="button" class="btn btn-default btn_PrefStep12">
+                                        Finish
+                                    </button>
+                                </div>
+                                <div class="wizardFooter">
+                                    <p>Our Terms, Privacy &amp; Cookies Policies</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="wizard_step13 hide">
+
+                        <a href="#" onclick="return false;" data-dismiss="modal" class="active" style="float:right">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </a>
+
+                        <div class="row">
+                            @using (Html.BeginForm("", "", FormMethod.Post, new { @id = "Form_InstagramInvalidForm" }))
+                            {
+                                <div class="col-md-12">
+
+                                    <div class="wizardImg">
+                                        <img src="~/Content/ThemeAssets/Images/Real_People2.png" class="width25Per" />
+                                    </div>
+                                    <div class="wizardTitle">
+                                        <h1>Your Instagram Permission</h1>
+                                    </div>
+                                    <div class="wizardContents">
+                                        <p>
+                                            We need your permission to start your growth &amp; targeting on your instagram account.
+                                        </p>
+                                    </div>
+                                    <div class="wizardImg">
+                                        <img src="~/Content/ThemeAssets/Images/InstagramLogo.png" class="width15Per" />
+                                    </div>
+                                    <div class="wizardContents">
+                                        <input type="hidden" value="" class="txt_JVSessionId" />
+                                        @Html.TextBoxFor(m => m.InstaUser, new { @id = "field_VerWizardInstaUser", placeholder = "Instagram Username" })
+                                        @*<input type="text" name="" value="" placeholder="Instagram Username" required />*@
+                                        @Html.PasswordFor(m => m.InstaPassword, new { @id = "field_VerWizardPassword", placeholder = "Password" })
+                                        @*<input type="password" name="" id="" value="" placeholder="Password" required />*@
+                                        <p style="color:indianred">Invalid credentials please try again.</p>
+                                    </div>
+                                    <br />
+                                    <div class="wizardActions">
+                                        <button type="button" class="btn btn-default btn_PrefStep13">
+                                            Link to my instagram account
+                                        </button>
+                                    </div>
+                                    <div class="wizardFooter">
+                                        <p>Our Terms, Privacy &amp; Cookies Policies</p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

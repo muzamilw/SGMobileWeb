@@ -1,0 +1,249 @@
+﻿@model SG2.CORE.MODAL.ViewModals.Backend.JVBox.UpdateJVBoxViewModal
+@{
+    ViewBag.Title = "UpdateJVBox";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+
+    List<SelectListItem> appStatus = new List<SelectListItem>();
+
+    foreach (var dr in Model.Statuses.Where(x => x.StatusName == "General"))
+    {
+        appStatus.Add(new SelectListItem { Text = dr.StatusValue, Value = dr.StatusId.ToString() });
+
+    }
+
+    List<SelectListItem> JVSType = new List<SelectListItem>();
+
+    foreach (var dr in Model.Statuses.Where(x => x.StatusName == "JVServerType"))
+    {
+        JVSType.Add(new SelectListItem { Text = dr.StatusValue, Value = dr.StatusId.ToString() });
+
+    }
+
+
+}
+
+<div class="container">
+    @if (!string.IsNullOrEmpty(ViewBag.Success) && ViewBag.Success == "Yes")
+    {
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="alert alert-block alert-success">
+                    <p>
+                        <strong>
+                            <i class="ace-icon fa fa-check"></i>
+                            Success!
+                        </strong>
+                        @ViewBag.SuccessMessage
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+@using (Html.BeginForm("UpdateJVBox", "JVBoxes", FormMethod.Post, new { @class = "" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.JVBoxId)
+
+    <div class="information-wrap main accounts">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="left-col">
+                        <h2>Update MP Box</h2>
+                    </div>
+                    <div class="right-col">
+                        <a class="btn" href="javascript:void(0);" style="background-color:#52d234; position:relative; top:9px;" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="jv-box">
+            <div class="accounts-form">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="product">
+                            @Html.LabelFor(m => m.BoxName, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.BoxName, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.BoxName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            @Html.LabelFor(m => m.AdminName, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.AdminName, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.AdminName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            @Html.LabelFor(m => m.AdminPassword, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.AdminPassword, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.AdminPassword, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12 right">
+                        <div class="product">
+                            @Html.LabelFor(m => m.BoxManagedBy, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.BoxManagedBy, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.BoxManagedBy, "", new { @class = "text-danger" })
+                            </div>
+                        </div><div class="product">
+                            @Html.LabelFor(m => m.SupportPhone, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.SupportPhone, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.SupportPhone, "", new { @class = "text-danger" })
+                            </div>
+                        </div><div class="product">
+                            @Html.LabelFor(m => m.SupportEmail, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.SupportEmail, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.SupportEmail, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accounts-form second">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="product">
+                            @Html.LabelFor(m => m.HostedBy, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.HostedBy, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.HostedBy, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            @Html.LabelFor(m => m.HostingPhone, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.HostingPhone, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.HostingPhone, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            @Html.LabelFor(m => m.HostingWebsite, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.HostingWebsite, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.HostingWebsite, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            @Html.LabelFor(m => m.HostingAccount, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.HostingAccount, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.HostingAccount, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            @Html.LabelFor(m => m.HostingPassword, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.HostingPassword, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.HostingPassword, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="product">
+                            <label>MP Box Limit</label>
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.JVBoxMaxLimit, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.JVBoxMaxLimit, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="product">
+                            <label>MP Server Type</label>
+                            <div class="select">
+                                @Html.DropDownListFor(model => model.JVBSRTypeId, JVSType, "Select Type", new { @class = "slct" })
+                            </div>
+                        </div>
+
+                        <div class="product">
+                            <label>Status</label>
+                            <div class="select">
+                                @Html.DropDownListFor(model => model.StatusId, appStatus, "", new { @class = "slct" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+
+                        <div class="product right-text">
+                            @Html.LabelFor(m => m.HostingPriceInfo, new { @class = "" })
+                            <div class="">
+                                @Html.TextAreaFor(m => m.HostingPriceInfo, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.HostingPriceInfo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="product">
+                            @Html.LabelFor(m => m.JVBoxExchangeName, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.JVBoxExchangeName, new { @id = "slct" })
+                                <i style="color:crimson">Reqular Queue,RPC Queue <br/> Note: For technical support person only. Do not change.</i>
+                                @Html.ValidationMessageFor(model => model.JVBoxExchangeName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="product">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ServerRunningStatus, new { @class = "" })
+                                <label class="form-radio">
+                                    Running
+                                    @Html.RadioButtonFor(model => model.ServerRunningStatus, "1")
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="form-radio">
+                                    Stopped
+                                    @Html.RadioButtonFor(model => model.ServerRunningStatus, "2")
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="product">
+                            <label>&nbsp;</label>
+                            <div class="select">
+                                <button type="submit" value="Save & Close" class="btn btn-block transition">Save & Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+}
+
+
+<style type="text/css">
+    input[type=text], input[type=password], input[type=email], textarea {
+        margin-bottom: 0;
+    }
+
+    .information-wrap span {
+        margin-top: 20px;
+    }
+</style>
+
+@section JavaScript{
+
+    <script type="text/javascript">
+        $("document").ready(function () {
+            $(document).on('click', '#backLink', function () {
+                history.go(-1);
+            });
+        });
+    </script>
+
+}

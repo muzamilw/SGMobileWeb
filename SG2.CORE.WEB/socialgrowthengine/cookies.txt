@@ -1,0 +1,7 @@
+# HTTrack Website Copier Cookie File
+# This file format is compatible with Netscape cookies
+socialgrowthengine.com	TRUE	/	FALSE	1999999999	_shopify_y	8414a1c0-48fa-4ce0-a3ed-866ddef59404
+socialgrowthengine.com	TRUE	/	FALSE	1999999999	_landing_page	%2Fpages%2Ffree-offer-us
+.boldapps.net	TRUE	/	FALSE	1999999999	__cfduid	d93d55a01c1191cd1e42248510aeee4201563993548
+.socialgrowthengine.com	TRUE	/	FALSE	1999999999	__cfduid	db09c872a4224df86992b0a91a6efefde1563993556
+

@@ -1,0 +1,145 @@
+﻿@model SG2.CORE.MODAL.ViewModals.Backend.TeamMember.TeamMemberProfileUpdateViewModal
+@{
+    ViewBag.Title = "UpdateUserProfile";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+
+
+}
+
+
+<div class="container">
+    @if (!string.IsNullOrEmpty(ViewBag.Success) && ViewBag.Success == "Yes")
+    {
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="alert alert-block alert-success">
+                    <p>
+                        <strong>
+                            <i class="ace-icon fa fa-check"></i>
+                            Success!
+                        </strong>
+                        @ViewBag.SuccessMessage
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2>Profile</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="information-form">
+    <div class="container">
+        <div class="information-form-inner">
+            <div class="row">
+                <div class="col-lg-6">
+                    @Html.Partial("~/Areas/SuperAdmin/Views/UserProfile/partials/_PartialUpdateUserProfile.cshtml", Model.TMProfileUpdateVM)
+                </div>
+                <div class="col-lg-6">
+                    @Html.Partial("~/Areas/SuperAdmin/Views/UserProfile/partials/_PartialUpdateUserPassword.cshtml", Model.TMPasswordVM)
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    div#paslist ul li {
+        margin: 10px 0;
+        font-size: 1.4rem
+    }
+
+    div#paslist ul {
+        margin: 50px 15px;
+    }
+
+    i.passlisti {
+        margin-right: 10px;
+        font-size: 10px;
+        color: #5cb85c;
+    }
+
+    .slct {
+        margin-bottom: 14px
+    }
+</style>
+
+@section JavaScript{
+    <script type="text/javascript">
+        $("document").ready(function () {
+            
+            $("#btn_UpdateUserProfile").on("click", function () {
+                if ($("#form_UpdateUserProfile").valid()) {
+                    var data = $("#form_UpdateUserProfile").serialize();
+                    $("#Spiner").show();
+                    $.ajax({
+                        type: "POST",
+                        url: GLB_BASEURL +"/UserProfile/UpdateUserProfile",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (!$.isEmptyObject(data)) {
+                                $("#Spiner").hide();
+                                if (data.ResultType == "Success") {
+                                    $("#Modal_MessageBoxTitle").text("Message");
+                                    $("#Modal_MessageBoxBody").text(data.message);
+                                    $("#Modal_Messagebox").modal("show");
+                                } else {
+                                    $("#Modal_MessageBoxTitle").text("Message");
+                                    $("#Modal_MessageBoxBody").text(data.message);
+                                    $("#Modal_Messagebox").modal("show");
+                                }
+                            }
+                        },
+                        failure: function (errMsg) {
+                            $("#Spiner").hide();
+                        }
+                    });
+
+                }
+            });
+
+
+            $(".btn_UpdatePassword").on("click", function () {
+                
+                if ($("#Form_UpdatePassword").valid()) {
+                    var data = $("#Form_UpdatePassword").serialize();
+                    $("#Spiner").show();
+                    $.ajax({
+                        type: "POST",
+                        url: GLB_BASEURL +"/UserProfile/UpdateUserPassword",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (!$.isEmptyObject(data)) {
+                                $("#Spiner").hide();
+                                if (data.ResultType == "Success") {
+                                    $("#Modal_MessageBoxTitle").text("Message");
+                                    $("#Modal_MessageBoxBody").text(data.message);
+                                    $("#Modal_Messagebox").modal("show");
+                                } else {
+                                    $("#Modal_MessageBoxTitle").text("Message");
+                                    $("#Modal_MessageBoxBody").text(data.message);
+                                    $("#Modal_Messagebox").modal("show");
+                                }
+                            }
+                        },
+                        failure: function (errMsg) {
+                            $("#Spiner").hide();
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

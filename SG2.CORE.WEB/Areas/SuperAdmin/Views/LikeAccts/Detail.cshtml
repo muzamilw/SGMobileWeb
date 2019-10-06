@@ -1,0 +1,191 @@
+﻿@model SG2.CORE.MODAL.ViewModals.Backend.LikeyAccount.LikeyAccountViewModal
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+    var BaseURl = ViewBag.BaseUrl;
+    List<SelectListItem> countries = new List<SelectListItem>();
+    foreach (var item in Model.Countries)
+    {
+        countries.Add(new SelectListItem { Text = item.Name, Value = item.CountryId.ToString() });
+    }
+
+    List<SelectListItem> cities = new List<SelectListItem>();
+    foreach (var item in Model.Cities)
+    {
+        cities.Add(new SelectListItem { Text = item.Name, Value = item.CityId.ToString() });
+    }
+
+    List<SelectListItem> appStatus = new List<SelectListItem>();
+
+    foreach (var dr in Model.Statuses.Where(x => x.StatusName == "General"))
+    {
+        appStatus.Add(new SelectListItem { Text = dr.StatusValue, Value = dr.StatusId.ToString() });
+
+    }
+
+    List<SelectListItem> Genders = new List<SelectListItem>();
+    SelectListItem Gen = new SelectListItem();
+    Gen.Text = "Male";
+    Gen.Value = "1";
+    Genders.Add(Gen);
+
+    SelectListItem Gen1 = new SelectListItem();
+    Gen1.Text = "Female";
+    Gen1.Value = "2";
+    Genders.Add(Gen1);
+
+}
+
+<div class="container">
+    @if (!string.IsNullOrEmpty(ViewBag.Success) && ViewBag.Success == "Yes")
+    {
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="alert alert-block alert-success">
+                    <p>
+                        <strong>
+                            <i class="ace-icon fa fa-check"></i>
+                            Success!
+                        </strong>
+                        @ViewBag.SuccessMessage
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@using (Html.BeginForm("Detail", "LikeAccts", FormMethod.Post, new { @class = "" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.LikeyAccountId)
+    <div class="information-wrap main accounts">
+        <div class="container">
+            <div class="row">
+                <a class="btn" href="javascript:void(0);" onclick="history.go(-1);">Back</a>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="left-col">
+                        <h2>Likey Account</h2>
+                    </div>
+                    <div class="right-col">
+                        <span><button type="submit" value="Save & Close" class="btn transition">Save & Close</button></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="jv-box">
+            <div class="accounts-form">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="product">
+                            <label>Insta Username</label>
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.InstaUserName, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.InstaUserName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            @Html.LabelFor(m => m.InstaPassword, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.InstaPassword, new { @class = "" })
+                                @Html.ValidationMessageFor(model => model.InstaPassword, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="product">
+                            @Html.LabelFor(m => m.Country, new { @class = "" })
+                            <div class="select">
+                                @Html.DropDownListFor(m => m.Country, countries, htmlAttributes: new { @class = "slct", @id = "cmb_country" })
+                                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            @Html.LabelFor(m => m.City, new { @class = "" })
+                            <div class="select">
+                                @Html.DropDownListFor(m => m.City, cities, new { @class = "slct", @id = "cmb_cities" })
+                                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            <label>Gender</label>
+                            <div class="select">
+                                @Html.DropDownListFor(model => model.Gender, Genders, "", new { @class = "slct" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            <label>Status</label>
+                                <div class="select">
+                                    @Html.DropDownListFor(model => model.StatusId, appStatus, "", new { @class = "slct" })
+                                </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12 right">
+                        <div class="product">
+                            @Html.LabelFor(m => m.HashTag, new { @class = "" })
+                            <div class="">
+                                @Html.TextAreaFor(m => m.HashTag, new { @class = "" })
+                                @Html.ValidationMessageFor(model => model.HashTag, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<style type="text/css">
+    input[type=text], input[type=password], input[type=email], textarea {
+        margin-bottom: 0;
+    }
+
+    .information-wrap span {
+        margin-top: 20px;
+    }
+</style>
+
+@section JavaScript{
+    <script language="javascript" type="text/javascript">
+
+        $("document").ready(function () {
+
+            $("#cmb_country").on("change", function () {
+                GetCity($(this).val())
+            })
+
+            $(document).on('click', '#backLink', function () {
+                history.go(-1);
+            });
+        })
+
+
+        function GetCity(_countryId) {
+            var url = GLB_BASEURL +"/LikeAccts/GetCityByCountryId";
+            $("#cmb_cities").html("");
+            $.ajax({
+                url: url,
+                data: { countryId: _countryId },
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $.each(data, function (i, e) {
+                        $('#cmb_cities').append($("<option></option>").val(e.CityId).html(e.Name));
+                    });
+                },
+                error: function (reponse) {
+                    alert("error : " + reponse);
+                }
+            });
+
+        }
+
+
+    </script>
+}
+

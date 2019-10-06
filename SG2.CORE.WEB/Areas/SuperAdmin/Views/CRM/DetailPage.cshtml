@@ -1,0 +1,1149 @@
+﻿@using SG2.CORE.COMMON;
+@model SG2.CORE.MODAL.ViewModals.Backend.CustomerDetailViewModel
+@{
+    ViewBag.Title = "Customer Detail";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+    var BaseURl = ViewBag.BaseUrl;
+
+    List<SelectListItem> Sources = new List<SelectListItem>();
+    SelectListItem Sou = new SelectListItem();
+    Sou.Text = "Mobile";
+    Sou.Value = "1";
+    Sources.Add(Sou);
+
+    SelectListItem Sou1 = new SelectListItem();
+    Sou1.Text = "Web";
+    Sou1.Value = "2";
+    Sources.Add(Sou1);
+
+    SelectListItem Sou2 = new SelectListItem();
+    Sou2.Text = "Personal";
+    Sou2.Value = "3";
+    Sources.Add(Sou2);
+
+    List<SelectListItem> countries = new List<SelectListItem>();
+
+    foreach (var item in Model.Countries)
+    {
+        countries.Add(new SelectListItem { Text = item.Name, Value = item.CountryId.ToString() });
+    }
+
+    List<SelectListItem> cities = new List<SelectListItem>();
+    foreach (var item in Model.cities)
+    {
+        cities.Add(new SelectListItem { Text = item.Name, Value = item.CityId.ToString() });
+    }
+
+    List<SelectListItem> UsrListItems = new List<SelectListItem>();
+    foreach (var item in Model.usersList)
+    {
+        // cities.Add(new SelectListItem { Text = item.Name, Value = item.CityId.ToString() });
+        UsrListItems.Add(new SelectListItem { Text = item.UserName, Value = item.UserId.ToString() });
+    }
+    List<SelectListItem> Titles = new List<SelectListItem>();
+
+    foreach (var item in Model.CustomerTitles)
+    {
+        Titles.Add(new SelectListItem { Text = item.TitleName, Value = item.TitleId.ToString() });
+    }
+
+    List<SelectListItem> CustomerStatuses = new List<SelectListItem>();
+    foreach (var item in Model.statusDTOs.Where(x => x.StatusName == "Customer"))
+    {
+        CustomerStatuses.Add(new SelectListItem { Text = item.StatusValue, Value = item.StatusId.ToString() });
+    }
+    var cStatus = Model.statusDTOs.Where(m => m.StatusId.ToString() == Model.CustomerStatus).FirstOrDefault();
+    var source = "";
+    var country = Model.Countries.Where(m => m.CountryId.ToString() == Model.Country).FirstOrDefault();
+    var city = Model.cities.Where(m => m.CityId.ToString() == Model.City).FirstOrDefault();
+    var title = Model.CustomerTitles.Where(m => m.TitleId.ToString() == Model.Title).FirstOrDefault();
+    var SelectRspUsr = Model.usersList.Where(m => m.UserId == Model.ResTeamMember).FirstOrDefault();
+    var src = Sources.SingleOrDefault(m => m.Value == Model.Source);
+    if (src != null)
+    {
+        source = @Html.Encode(src.Text);
+
+    }
+    else
+    {
+
+        source = "--";
+    }
+    // var Source = @Html.Encode(Sources.SingleOrDefault(m => m.Value == Model.Source)??.Text);
+    var RoleName = Model.usersList.Where(m => m.UserId == Model.ResTeamMember).FirstOrDefault();
+    //var Role=Model.usersList.Where(m=>m.RoleName.ToString()==)
+
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.Success))
+{
+    <br />
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="alert alert-block alert-success">
+                <p>
+                    <strong>
+                        <i class="ace-icon fa fa-check"></i>
+                        Success!
+                    </strong>
+                    @ViewBag.Message
+                </p>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="information-wrap main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <h3>
+                    <img src="/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="36">
+                    @Model.SocialProfileName / @(Model.InstaUsrName ?? "--")
+                </h3>
+
+            </div>
+            <div class="col-md-6 col-xs-12 text-right">
+                <span class="right">Profile Status: <i>@Model.Status</i></span><br />
+                @if (string.IsNullOrEmpty(Model.JVStatus))
+                {
+                    <span class="right">MP Status: <i>--</i></span>
+                }
+                else
+                {
+                    <span class="right">MP Status: <i>@Model.JVStatus</i></span>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="detail-page-contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <ul>
+                    <li><a class="active" href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Contact Details</a></li>
+                    <li><a href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Order History</a></li>
+                    <li><a href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Target Form</a></li>
+                    <li class="right"><a class="" href="javascript:void(0);" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="information-form-detail">
+        <div class="information-form-inner detail">
+            <div class="row">
+                <div class="col-md-4 col-xs-6">
+                    <ul>
+                        <li>MP Box# <span class="JVboxName">@Model.JVBoxNo</span></li>
+                        <li>IP# <span class="IPNO">@Model.IPNo:@Model.ProxyPort</span></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 col-xs-6">
+                    <ul>
+                        <li>E-mail: <span class="email">@Html.DisplayFor(m => m.Email)</span></li>
+                    </ul>
+                    <!--<h4>E-mail<br><span>kardio.tvister@yanex.com</span></h4>-->
+                </div>
+                <div class="col-md-4 col-xs-6">
+                </div>
+            </div>
+            <hr />
+            <div class="form-inner">
+                <div class="form-first">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="user-inner">
+                                <label>Title</label>
+                                <div class="displayBlock" id="Title-textBlock">
+                                    <h2 class="displayText">
+                                        @if (title != null)
+                                        {
+                                            @title.TitleName;
+                                        }
+                                        else
+                                        {
+                                            @("--")
+                                        }
+                                    </h2>
+                                    <a href="#" text-block="Title-textBlock" edit-Block="Title-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div class="editBlock" id="Title-editBlock" style="display:none">
+                                    @Html.DropDownListFor(m => m.Title, Titles, "-- Select Title --", new { @id = "input_Title", @class = "slct" })
+                                    <a href="#" text-block="Title-textBlock" edit-Block="Title-editBlock" control-id="input_Title" class="btn_savedata"><i class="fa fa-save"></i> |</a>
+                                    <a href="#" text-block="Title-textBlock" edit-Block="Title-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
+
+                            <div class="user-inner">
+                                <label>Country</label>
+                                <div class="displayBlock" id="Country-textBlock">
+                                    <h2 class="displayText">
+                                        @if (country != null)
+                                        {
+                                            @country.Name
+                                        }
+                                        else
+                                        {
+                                            @("--")
+                                        }
+                                    </h2>
+                                    <a href="#" text-block="Country-textBlock" edit-Block="Country-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div class="editBlock" id="Country-editBlock" style="display:none">
+                                    @Html.DropDownListFor(m => m.Country, countries, "-- Select Country --", new { @id = "input_Country", @class = "slct" })
+                                    <a href="#" text-block="Country-textBlock" edit-Block="Country-editBlock" control-id="input_Country" class="btn_savedata"><i class="fa fa-save"></i> |</a>
+                                    <a href="#" text-block="Country-textBlock" edit-Block="Country-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="user-inner">
+                                <label>First name</label>
+                                <div class="displayBlock" id="firstName-textBlock">
+                                    <h2 class="displayText">@Html.DisplayFor(m => m.FirstName)</h2>
+                                    <a href="#" text-block="firstName-textBlock" edit-Block="firstName-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div class="editBlock" id="firstName-editBlock" style="display:none">
+                                    <input type="text" value="@Model.FirstName" id="input_firstName" class="" name="firstName" />
+                                    <a href="#" text-block="firstName-textBlock" edit-Block="firstName-editBlock" control-id="input_firstName" class="btn_savedata"><i class="fa fa-save"></i> | </a>
+                                    <a href="#" text-block="firstName-textBlock" edit-Block="firstName-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
+
+                            <div class="user-inner">
+                                <label>Town / City</label>
+                                <div class="displayBlock" id="City-textBlock">
+                                    <h2 class="displayText">
+                                        @if (city != null)
+                                        {
+                                            @city.Name
+                                        }
+                                        else
+                                        {
+                                            @("--")
+                                        }
+                                    </h2>
+                                    <a href="#" text-block="City-textBlock" edit-Block="City-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div class="editBlock" id="City-editBlock" style="display:none">
+                                    @Html.DropDownListFor(m => m.Town, cities, "-- Select City --", new { @id = "input_City", @class = "slct" })
+                                    <a href="#" text-block="City-textBlock" edit-Block="City-editBlock" control-id="input_City" class="btn_savedata"><i class="fa fa-save"></i> |</a>
+                                    <a href="#" text-block="City-textBlock" edit-Block="City-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
+
+                            @*<a href=""><img src="~/Content/ThemeAssets/Images/lock-img.png" /></a>
+                                <span>
+                                    <a href="" id="AssignIpToPro">
+                                        Assign IP<br>
+                                        to City proxy
+                                    </a>
+                                </span>*@
+
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="user-inner">
+                                <label>Last Name</label>
+                                <div class="displayBlock" id="LastName-textBlock">
+                                    <h2 class="displayText">@(string.IsNullOrEmpty(Model.LastName) ? "--" : Model.LastName)</h2>
+                                    <a href="#" text-block="LastName-textBlock" edit-Block="LastName-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div class="editBlock" id="LastName-editBlock" style="display:none">
+                                    <input type="text" value="@Model.LastName" id="input_LastName" class="" name="LastName" />
+                                    <a href="#" text-block="LastName-textBlock" edit-Block="LastName-editBlock" control-id="input_LastName" class="btn_savedata"><i class="fa fa-save"></i> | </a>
+                                    <a href="#" text-block="LastName-textBlock" edit-Block="LastName-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
+
+                            <div class="user-inner">
+                                <label>Mobile</label>
+                                <div class="displayBlock" id="Mobile-textBlock">
+                                    <h2 class="displayText">@(string.IsNullOrEmpty(Model.Mobile) ? "--" : Model.Mobile)</h2>
+                                    <a href="#" text-block="Mobile-textBlock" edit-Block="Mobile-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div class="editBlock" id="Mobile-editBlock" style="display:none">
+                                    <input type="text" value="@Model.Mobile" id="input_Mobile" class="" name="Mobile" />
+                                    <a href="#" text-block="Mobile-textBlock" edit-Block="Mobile-editBlock" control-id="input_Mobile" class="btn_savedata"><i class="fa fa-save"></i> | </a>
+                                    <a href="#" text-block="Mobile-textBlock" edit-Block="Mobile-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
+
+
+
+                            @*<a href=""><img src="~/Content/ThemeAssets/Images/lock-img.png" /></a>
+                                <span>
+                                    <a href="#" id="AssignJVTOProfile">
+                                        Assign<br>
+                                        JV Box
+                                    </a>
+                                </span>*@
+
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="users">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <div class="user-inner">
+
+                                    <span>Instagram Username</span>
+                                    <div class="displayBlock" id="intauser-textBlock">
+                                        <h2 class="displayText">@(string.IsNullOrEmpty(Model.InstaUsrName)?"--":Model.InstaUsrName)</h2>
+                                        <a href="#" text-block="intauser-textBlock" edit-Block="intauser-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+
+
+                                    </div>
+                                    <div class="editBlock" id="intauser-editBlock" style="display:none">
+                                        <input type="text" value="@Model.InstaUsrName" id="input_instaUsername" class="" name="InstaUsrName" />
+                                        <a href="#" text-block="intauser-textBlock" edit-Block="intauser-editBlock" control-id="input_instaUsername" class="btn_savedata"><i class="fa fa-save"></i> | </a>
+                                        <a href="#" text-block="intauser-textBlock" edit-Block="intauser-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                    </div>
+
+                                </div>
+
+                                <div class="user-inner">
+                                    <span>Instagram Password</span>
+
+                                    <div class="displayBlock" id="intapass-textBlock">
+                                        <h2 class="displayText">@(string.IsNullOrEmpty(Model.InstaPassword) ? "--" : Model.InstaPassword)</h2>
+                                        <a href="#" text-block="intapass-textBlock" edit-Block="intapass-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                    </div>
+                                    <div class="editBlock" id="intapass-editBlock" style="display:none">
+                                        <input type="text" value="@Model.InstaPassword" id="input_instaPassword" class="" name="InstaPassword" />
+                                        <a href="#" text-block="intapass-textBlock" edit-Block="intapass-editBlock" control-id="input_instaPassword" class="btn_savedata"><i class="fa fa-save"></i> |</a>
+                                        <a href="#" text-block="intapass-textBlock" edit-Block="intapass-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8 col-sm-6 col-xs-12">
+                                <div class="user-btn">
+                                    <a href="">Update NOW on JV</a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 col-sm-6 col-xs-12">
+                                <div class="user-inner date">
+                                    <span>Last Updated : @Html.DisplayFor(m => m.UpdatedOn) &nbsp;&nbsp; 23 : 34 : 56 &nbsp;&nbsp;@Html.DisplayFor(m => m.JVStatus)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+
+
+            </div>
+        </div>
+
+        <br />
+
+        <div class="information-form-inner detail">
+            <div class="form-inner">
+                <div class="form-first">
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="user-inner">
+                                <label>Comment</label>
+                                <div class="displayBlock" id="Comment-textBlock">
+                                    @*<h2 class="displayText">@Html.DisplayFor(m => m.Comment)</h2>*@
+                                    <a href="#" text-block="Comment-textBlock" edit-Block="Comment-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div class="editBlock" id="Comment-editBlock" style="display:none">
+                                    @Html.TextBoxFor(m => m.Comment, new { @id = "input_Comment", @class = "", @name = "Comment" })
+                                    <a href="#" text-block="Comment-textBlock" edit-Block="Comment-editBlock" control-id="input_Comment" class="btn_savedata"><i class="fa fa-save"></i> |</a>
+                                    <a href="#" text-block="Comment-textBlock" edit-Block="Comment-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="user-inner">
+                                <label>Customer Status</label>
+                                <div class="displayBlock" id="CStatus-textBlock">
+                                    <h2 class="displayText">
+                                        @if (cStatus != null)
+                                        {
+                                            @cStatus.StatusValue
+                                        }
+                                        else
+                                        {
+                                            @("--")
+                                        }
+                                    </h2>
+                                    <a href="#" text-block="CStatus-textBlock" edit-Block="CStatus-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div class="editBlock" id="CStatus-editBlock" style="display:none">
+                                    @Html.DropDownListFor(m => m.CustomerStatus, CustomerStatuses, "-- Select Status --", new { @id = "input_CStatus", @class = "slct" })
+                                    <a href="#" text-block="CStatus-textBlock" edit-Block="CStatus-editBlock" control-id="input_CStatus" class="btn_savedata"><i class="fa fa-save"></i> |</a>
+                                    <a href="#" text-block="CStatus-textBlock" edit-Block="CStatus-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="compaign-sec">
+            <div class="btn-search">
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="send-search-text">
+                            <input id="TypeNotes" type="text" placeholder="Type Notes / Reasons for call back here">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input type='text' value="@Model.AvaToEveryOne" class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" id="btnSchedCall" class="btn btn-block btn-height47 transition">Schedule Call</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="compaign-sec">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2>Subscribed for the following Campaigns:</h2>
+                    <ul>
+                        <li>
+                            User has opted in to receive Educational Email Services
+
+                            @if (Model.OptedEdEmailSeries)
+                            {
+                                <span>
+                                    Yes
+                                </span>
+                            }
+                            else
+                            {
+                                <span>No</span>
+                            }
+
+                        </li>
+                        <li>
+                            User has opted in to receive Marketing Emails
+                            @if (Model.OptedMarkEmail)
+                            {
+                                <span>
+                                    Yes
+                                </span>
+                            }
+                            else
+                            {
+                                <span>
+                                    No
+                                </span>
+                            }
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="source">
+            <div class="row">
+                <div class="col-md-4 col-sm-4 col-xs-6 inner-colm">
+                    <div class="user-inner">
+                        <span>Source</span>
+                        <div class="displayBlock" id="Source-textBlock">
+                            <h2 class="displayText">@(source)</h2>
+                            <a href="#" text-block="Source-textBlock" edit-Block="Source-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                        </div>
+                        <div class="editBlock" id="Source-editBlock" style="display:none">
+                            @Html.DropDownListFor(m => m.Source, Sources, "Select Source", new { @id = "input_Source", @class = "slct", @name = "Source" })
+                            <a href="#" text-block="Source-textBlock" edit-Block="Source-editBlock" control-id="input_Source" class="btn_savedata"><i class="fa fa-save"></i> |</a>
+                            <a href="#" text-block="Source-textBlock" edit-Block="Source-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-6 inner-colm">
+                    <div class="user-inner">
+                        <span>Register</span>
+                        <h2>@Html.DisplayFor(m => m.UpdatedOn)</h2>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-6 inner-colm">
+                    <div class="user-inner">
+                        <span>Responsible Team member</span>
+                        <div class="displayBlock" id="RTMember-textBlock">
+                            <h2 class="displayText">@((SelectRspUsr == null) ? "--" : SelectRspUsr.UserName)</h2>
+                            <a href="#" text-block="RTMember-textBlock" edit-Block="RTMember-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                        </div>
+                        <div class="editBlock" id="RTMember-editBlock" style="display:none">
+                            @Html.DropDownListFor(m => m.ResTeamMember, UsrListItems, "Responsible Team member", new { @id = "input_ResTeamMember", @class = "slct", @name = "ResTeamMember" })
+                            <a href="#" text-block="RTMember-textBlock" edit-Block="RTMember-editBlock" control-id="input_ResTeamMember" class="btn_savedata"><i class="fa fa-save"></i> |</a>
+                            <a href="#" text-block="RTMember-textBlock" edit-Block="RTMember-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                        </div>
+                        <div class="displayBlock" id="RoleName-textBlock">
+                            <h2 class="displayText">@((RoleName == null) ? "--" : RoleName.RoleName)</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-6 inner-colm">
+                    <div class="user-inner">
+                        <span>Available to everyone</span>
+
+                        <div class="displayBlock" id="AvaToEveryOne-textBlock">
+                            <h2 class="displayText">
+                                @if (Model.AvaToEveryOne)
+                                {
+                                    @("YES")
+                                }
+                                else
+                                {
+                                    @("NO")
+                                }
+                            </h2>
+                            <a href="#" text-block="AvaToEveryOne-textBlock" edit-Block="AvaToEveryOne-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                        </div>
+
+                        <div class="editBlock" id="AvaToEveryOne-editBlock" style="display:none">
+                            <label class="form-radio">
+                                Yes @Html.RadioButtonFor(model => model.AvaToEveryOne, "1")
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="form-radio">
+                                No
+                                @Html.RadioButtonFor(model => model.AvaToEveryOne, "0")
+                                <span class="checkmark"></span>
+                            </label>
+                            <a href="#" text-block="AvaToEveryOne-textBlock" edit-Block="AvaToEveryOne-editBlock" control-id="AvaToEveryOne" class="btn_savedata"><i class="fa fa-save"></i> |</a>
+                            <a href="#" text-block="AvaToEveryOne-textBlock" edit-Block="AvaToEveryOne-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-6 inner-colm">
+                    <div class="user-inner" style="display:none">
+                        <span>Cancelled Date</span>
+                        <h2>@Html.DisplayFor(m => m.UpdatedOn)</h2>
+                    </div>
+                </div>
+               
+
+            </div>
+        </div>
+
+        <div class="delete-user">
+            <div class="row">
+                <div class="col-xs-2">
+                    <a href="#" class="delete btn_ShowDeleteConfrimModal">Delete User Permanently</a>
+                </div>
+                <div class="col-xs-2">
+                    <a href="#" class="delete btn_ShowRefundConfirmModal" style="background-color:blueviolet">Refund First Month Charge</a>
+                </div>
+
+                <div class="col-xs-4">
+                    <a href="#" class="delete btn_ShowTwoWeekConfirmModal" style="background-color:blueviolet">Give 2 Week Free Service (Delay Next Billing by 14 days)</a>
+                </div>
+
+                <div class="col-xs-2">
+                    <a href="#" class="delete btn_ShowOneWeekConfirmModal" style="background-color:blueviolet">Give 7 Day Free Service</a>
+                </div>
+
+                <div class="col-xs-2">
+                    <a href="#" class="delete btn_ShowThreeDaysConfirmModal" style="background-color:blueviolet">Give 3 Day Free Service</a>
+                </div>
+                <div class="col-xs-12"><p>Warning ! : This will delete all CRM records, Release proxies IP & JV entry</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="Modal_ConfirmDeletion" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Confirmation!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the item.</p>
+                <h3 style="color:red">This will delete all CRM records, Profiles and user data Permanently</h3>
+                <input type="hidden" id="hdn_DeleteItemId" value="" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn_ConfirmDelete">Delete Permanently</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="Modal_ConfirmRefund" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Confirmation!</h4>
+            </div>
+            <div class="modal-body" style="padding:15px 30px">
+                @*<h3 style="color:red">Refund will be initiated </h3>*@
+                <br />
+                <br />
+                <label>Please Enter Password </label>
+                <input type="password" id="RefundPassword" value="" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn_ConfirmRefund">Confirm</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="Modal_ConfirmAddFreeDaysService" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Confirmation!</h4>
+            </div>
+            <div class="modal-body"  style="padding:15px 30px">
+              @*  <h3 style="color:red">Give 2 Week Free Service (Delay Next Billing by 14 days)</h3>*@
+                <br /><br />
+                <label>Please Enter Password </label>
+                <input type="password" id="AddFreeDays_Password" value="" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn_AddFreeDaysService">Confirm</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style type="text/css">
+    .editBlock input {
+        width: 90%;
+        display: inline;
+        margin: 10px 0;
+    }
+
+    .editBlock a {
+        color: white;
+        margin-top: 12px;
+        float: none
+    }
+
+    .user-inner a {
+        color: white;
+        margin-top: 12px;
+    }
+
+    .form-first .user-inner a {
+        color: #555;
+        margin-top: 12px;
+    }
+
+    .form-first .user-inner label {
+        color: #555;
+        font-size: 1.8rem;
+    }
+
+    .form-first .user-inner h2 {
+        color: #ff4a65;
+        font-size: 1.6rem
+    }
+
+    .form-first .user-inner {
+        padding: 5px;
+        margin: 10px 5px;
+    }
+
+        .form-first .user-inner label {
+            display: block;
+            border-bottom: 1px solid lightgray;
+        }
+
+    .source .user-inner span {
+        border-bottom: 1px solid lightgray;
+        padding-bottom: 5px;
+        margin-bottom: 5px;
+    }
+
+    .source .user-inner {
+        padding: 0 10px;
+    }
+
+    .user-inner input, .user-inner select {
+        width: 88%
+    }
+
+    .source a {
+        color: #5c5c5c
+    }
+
+    .information-wrap span.right {
+        float: none
+    }
+
+    .information-wrap h3 {
+        font-size: 22pt;
+        color: crimson;
+    }
+
+    .delete-user a {
+        padding: 10px;
+        font-size: 11pt;
+        font-weight: 500;
+        width: auto;
+    }
+
+</style>
+
+
+@section JavaScript{
+    <script type="text/javascript">
+
+        var glb_CustomerId = "@Url.Encode(CryptoEngine.Encrypt(Model.Id))";
+        var glb_SocialProfileId = "@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))";
+        var glb_user = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.usersList));
+        var gbl_AdminPassword = "123";
+        var gbl_addFreeDays = 0;
+
+
+        //var glb_user = (Newtonsoft.Json.JsonConvert.SerializeObject(Model.usersList));
+
+        $(document).ready(function () {
+
+
+            $(".editIcon").on("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                var textBlockId = $(this).attr("text-block");
+                var editBlockId = $(this).attr("edit-block");
+                $("#" + textBlockId).hide();
+                $("#" + editBlockId).show();
+
+                return false;
+            });
+
+            $(".canceleditIcon").on("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                var textBlockId = $(this).attr("text-block");
+                var editBlockId = $(this).attr("edit-block");
+                $("#" + textBlockId).show();
+                $("#" + editBlockId).hide();
+
+                return false;
+            });
+
+            $(".btn_savedata").on("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                var ControlId = $(this).attr("control-id");
+                var textBlockId = $(this).attr("text-block");
+                var editBlockId = $(this).attr("edit-block");
+
+                $("#" + textBlockId).show();
+                $("#" + editBlockId).hide();
+
+                $("#" + ControlId)[0].tagName
+                var fieldName = $("#" + ControlId).attr("name");
+
+                if (fieldName == "ResTeamMember") {
+
+                    var textT = $("#input_ResTeamMember option:selected").text();
+                }
+                else if (fieldName == "Source") {
+                    var textT = $("#input_Source option:selected").text();
+
+                }
+                else if (fieldName == "Country") {
+
+                    var textT = $("#input_Country option:selected").text();
+                }
+                else if (fieldName == "Town") {
+                    var textT = $("#input_City option:selected").text();
+                }
+                else if (fieldName == "Title") {
+                    var textT = $("#input_Title option:selected").text();
+                }
+                else if (fieldName == "AvaToEveryOne") {
+                    var AvaToEveryOne = $("#AvaToEveryOne:checked").val();
+                    if (AvaToEveryOne == "0") {
+                        var textT = "No"
+                    }
+                    else {
+                        var textT = "Yes"
+                    }
+
+                }
+                else if (fieldName == "CustomerStatus") {
+                    var textT = $("#input_CStatus option:selected").text();
+                }
+                else {
+                    var textT = $("#" + ControlId).val();
+                }
+
+                if (fieldName == "AvaToEveryOne") {
+
+                    var textVal = $("#AvaToEveryOne:checked").val();
+                }
+
+
+
+                else {
+                    var textVal = $("#" + ControlId).val();
+                }
+
+                $("#" + textBlockId + " > h2").text(textT)
+                SaveUserDataIndividually(textVal, fieldName)
+                $("#input_Comment").val("");
+                return false;
+            });
+
+            function SaveUserDataIndividually(_Value, _FieldName) {
+                var url = GLB_BASEURL+"/CRM/SaveUpdateUserDataIndividually";
+                $.ajax({
+                    url: url,
+                    data: { value: _Value, fieldName: _FieldName, customerId: glb_CustomerId, SocialProfileId: glb_SocialProfileId},
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+
+                    },
+                    error: function (reponse) {
+
+                    }
+                });
+
+            }
+
+            $('#AssignIpToPro').click(function (e) {
+                e.preventDefault(); // <------------------ stop default behaviour of button
+                var element = this;
+                $.ajax({
+                    url: GLB_BASEURL +"/CRM/AssignNearestIPToProfile",
+                    type: "POST",
+                    data: { customerId: glb_CustomerId, profileId: glb_SocialProfileId},
+                    dataType: "json",
+                    success: function (Data) {
+                        if (Data.ResultType == "Success") {
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+
+                            //$(".JVboxName").text(Data.Data.User);
+                        } else {
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                        }
+                    },
+                    error: function () {
+                        alert("An error has occured!!!");
+                    }
+                });
+            });
+
+            $('#AssignJVTOProfile').click(function (e) {
+                e.preventDefault(); // <------------------ stop default behaviour of button
+                var element = this;
+                $.ajax({
+                    url: GLB_BASEURL + "/CRM/AssignJVBoxToCustomer",
+                    type: "POST",
+                    data: { customerId: glb_CustomerId, profileId: glb_SocialProfileId },
+                    dataType: "json",
+                    success: function (Data) {
+                        if (Data.ResultType == "Success") {
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+
+                            $(".JVboxName").text(Data.Data.User);
+                        } else {
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                        }
+                    },
+                    error: function () {
+                        alert("An error has occured!!!");
+                    }
+                });
+            });
+
+            $('#btnSchedCall').click(function (e){
+                e.preventDefault();
+                var Schedule = $("#datetimepicker1").find("input").val();
+                var Notes = $("#TypeNotes").val();
+                if ((Schedule == null) || (Schedule == ''))
+                 {
+                    alert("Please provide the date of Schedule call");
+                    return
+
+                 }
+                //alert($("#datetimepicker1").find("input").val());
+                //alert($("#TypeNotes").val());
+
+                $.ajax({
+                    url: GLB_BASEURL +"/CRM/ScheduleCall",
+                    type: "POST",
+                    data: { customerId: glb_CustomerId, schedule: Schedule, notes:Notes },
+                    dataType: "json",
+                    success: function (Data) {
+                        if (Data.ResultType == "Success") {
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                            $(element).closest("form").submit(); //<------------ submit form
+                        } else {
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                        }
+                    },
+                    error: function () {
+                        alert("An error has occured!!!");
+                    }
+                });
+
+            });
+
+            $("#input_Country").on("change", function () {
+                GetCity($(this).val())
+            });
+
+            $("#input_ResTeamMember").on("change", function () {
+                var selVal = $(this).val();
+                var username = "";
+                var userRole = "";
+                $.each(glb_user, function (index, res) {
+                    if (res.UserId == selVal) {
+                        username = res.UserName;
+                        userRole = res.RoleName;
+                    }
+                });
+
+                $("#RoleName-textBlock h2").text(userRole)
+            })
+
+            function GetCity(_countryId) {
+                var url = GLB_BASEURL +"/LikeAccts/GetCityByCountryId";
+                $("#input_City").html("");
+                $.ajax({
+                    url: url,
+                    data: { countryId: _countryId },
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        $('#input_City').append($("<option>-- Select City --</option>"));
+                        $.each(data, function (i, e) {
+
+                            $('#input_City').append($("<option></option>").val(e.CityId).html(e.Name));
+                        });
+                    },
+                    error: function (reponse) {
+                        alert("error : " + reponse);
+                    }
+                });
+            }
+
+            $(document).on('click', '#backLink', function () {
+                history.go(-1);
+            });
+
+            $(function () {
+               // $('#datetimepicker1').data("DateTimePicker").datetimepicker();
+                $('#datetimepicker1').datetimepicker({ minDate: new Date() });
+
+            });
+
+            $(".btn_ShowDeleteConfrimModal").on("click", function (e) {
+
+                e.stopPropagation();
+                e.preventDefault();
+                $("#Modal_ConfirmDeletion").modal("show");
+            })
+
+
+            $(".btn_ShowRefundConfirmModal").on("click", function (e) {
+
+                e.stopPropagation();
+                e.preventDefault();
+                $("#Modal_ConfirmRefund").modal("show");
+            })
+
+
+            $(".btn_ShowTwoWeekConfirmModal").on("click", function (e) {
+
+                e.stopPropagation();
+                e.preventDefault();
+                gbl_addFreeDays = 15;
+                $("#Modal_ConfirmAddFreeDaysService").modal("show");
+            })
+
+            $(".btn_ShowOneWeekConfirmModal").on("click", function (e) {
+
+                e.stopPropagation();
+                e.preventDefault();
+                gbl_addFreeDays = 7;
+                $("#Modal_ConfirmAddFreeDaysService").modal("show");
+            })
+
+            $(".btn_ShowThreeDaysConfirmModal").on("click", function (e) {
+
+                e.stopPropagation();
+                e.preventDefault();
+                gbl_addFreeDays = 3;
+                $("#Modal_ConfirmAddFreeDaysService").modal("show");
+            })
+            
+
+            $(".btn_ConfirmDelete").on("click", function () {
+
+                $.ajax({
+
+                    url: GLB_BASEURL + "/CRM/DeleteCustomerProfile",
+                    type: "Get",
+                    data: { customerId: glb_CustomerId, profileId: glb_SocialProfileId },
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (Data) {
+
+                        if (Data.Data.ResultType == "Success") {
+                            $("#Modal_ConfirmDeletion").modal("hide");
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                            //TODO:Handle the status here
+
+                            setTimeout(function () {
+                                window.location.href = GLB_BASEURL+"/CRM/Index"
+                            }, 2000);
+                        } else {
+                            $("#Modal_ConfirmDeletion").modal("hide");
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                        }
+                    },
+                    error: function () {
+                        alert("An error has occured!!!");
+                    }
+                });
+            });
+
+            $(".btn_ConfirmRefund").on("click", function () {
+                
+                var pass = $("#RefundPassword").val();
+                if (pass != GLB_ADMINPASSWORD) {
+                    $("#Modal_MessageBoxTitle").text("Verification Failed");
+                    $("#Modal_MessageBoxBody").text("Incorrect Password");
+                    $("#Modal_Messagebox").modal("show");
+                    return
+                }
+                $.ajax({
+
+                    url: GLB_BASEURL + "/CRM/RefundToCustomer",
+                    type: "Get",
+                    data: { customerId: glb_CustomerId,profileId: glb_SocialProfileId },
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (Data) {
+
+                        if (Data.Data.ResultType == "Success") {
+                            $("#Modal_ConfirmRefund").modal("hide");
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                            //TODO:Handle the status here
+
+                            //setTimeout(function () {
+                            //    window.location.href = GLB_BASEURL + "/CRM/Index"
+                            //}, 2000);
+                        } else {
+                            $("#Modal_ConfirmRefund").modal("hide");
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                        }
+                    },
+                    error: function () {
+                        alert("An error has occured!!!");
+                    }
+                });
+            });
+
+
+            $(".btn_AddFreeDaysService").on("click", function () {
+                
+                var pass = $("#AddFreeDays_Password").val();
+
+                if (pass != GLB_ADMINPASSWORD) {
+                    $("#Modal_MessageBoxTitle").text("Verification Failed");
+                    $("#Modal_MessageBoxBody").text("Incorrect Password");
+                    $("#Modal_Messagebox").modal("show");
+                    return
+                }
+                $.ajax({
+
+                    url: GLB_BASEURL + "/CRM/AddFreeDaysToCustomer",
+                    type: "Get",
+                    data: { profileId: glb_SocialProfileId, addFreeDays: gbl_addFreeDays },
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (Data) {
+
+                        if (Data.Data.ResultType == "Success") {
+                            $("#Modal_ConfirmAddFreeDaysService").modal("hide");
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                            //TODO:Handle the status here
+
+                            //setTimeout(function () {
+                            //    window.location.href = GLB_BASEURL + "/CRM/Index"
+                            //}, 2000);
+                        } else {
+                            $("#Modal_ConfirmAddFreeDaysService").modal("hide");
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                        }
+                    },
+                    error: function () {
+                        alert("An error has occured!!!");
+                    }
+                });
+            });
+        });
+
+    </script>
+}
+
+
+
+
+

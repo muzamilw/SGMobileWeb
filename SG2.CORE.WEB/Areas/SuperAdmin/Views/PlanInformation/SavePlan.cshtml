@@ -1,0 +1,260 @@
+﻿@model SG2.CORE.MODAL.ViewModals.Backend.PlanInformation.PlanInformationSaveViewModel
+@{
+    ViewBag.Title = "New Stripe Plan";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+    var BaseURl = ViewBag.BaseUrl;
+    List<SelectListItem> PlanTypes = new List<SelectListItem>();
+    List<SelectListItem> PlanStatuses = new List<SelectListItem>();
+    List<SelectListItem> SocialPlanType = new List<SelectListItem>();
+
+    foreach (var dr in Model.PlanTypes.Where(x => x.StatusName == "JVServerType"))
+    {
+        PlanTypes.Add(new SelectListItem { Text = dr.StatusValue, Value = dr.StatusId.ToString() });
+    }
+
+    foreach (var dr in Model.PlanTypes.Where(x => x.StatusName == "General"))
+    {
+        PlanStatuses.Add(new SelectListItem { Text = dr.StatusValue, Value = dr.StatusId.ToString() });
+    }
+    foreach (var dr in Model.PlanTypes.Where(x => x.StatusName == "SocialMedia"))
+    {
+        SocialPlanType.Add(new SelectListItem { Text = dr.StatusValue, Value = dr.StatusId.ToString() });
+    }
+}
+
+<div class="container">
+    @if (!string.IsNullOrEmpty(ViewBag.Success) && ViewBag.Success == "Yes")
+    {
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="alert alert-block alert-success">
+                    <p>
+                        <strong>
+                            <i class="ace-icon fa fa-check"></i>
+                            Success!
+                        </strong>
+                        @ViewBag.SuccessMessage
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@using (Html.BeginForm("SavePlan", "PlanInformation", FormMethod.Post, new { @Id = "SavePlanForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.PlanId)
+    <div class="information-wrap main accounts">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="left-col">
+                        <h2>Plan Information</h2>
+                    </div>
+                    <div class="right-col">
+                        <a class="btn" href="javascript:void(0);" style="background-color:#52d234; position:relative; top:9px;" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="jv-box">
+            <div class="accounts-form">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="product">
+                            <label>Plan Name</label>
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.PlanName, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.PlanName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            <label>Profile Type</label>
+                            <div class="select">
+                                @Html.DropDownListFor(m => m.SocialPlanTypeId, SocialPlanType, "Select Profile Type", new { @id = "input_Status", @class = "slct", @name = "input_Status" })
+                                @Html.ValidationMessageFor(model => model.SocialPlanTypeId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="product">
+                            <label>Stripe Price</label>
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.PlanPrice, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.PlanPrice, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="product" id="Likes">
+                            <label>Likes per session</label>
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.Likes, new { @id = "Likes" })
+                                @Html.ValidationMessageFor(model => model.Likes, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="product">
+                            <label>Sort Order</label>
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.SortOrder, new { @id = "SortOrder" })
+                                @Html.ValidationMessageFor(model => model.SortOrder, "", new { @class = "SortOrder" })
+                            </div>
+                        </div>
+
+                        <div class="product">
+                            <label>Plan Description</label>
+                            <div class="select">
+                                @Html.TextAreaFor(m => m.PlanDescription, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.PlanDescription, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="product">
+                            <label>Stripe Plan Id</label>
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.StripePlanId, new { @id = "slct", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(model => model.StripePlanId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            <label>Plan Type</label>
+                            <div class="select">
+                                @Html.DropDownListFor(m => m.PlanType, PlanTypes, "Select Plan", new { @id = "input_PlanType", @class = "slct", @name = "input_PlanType" })
+                                @Html.ValidationMessageFor(model => model.PlanType, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            <label>Slider bar uplift price</label>
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.DisplayPrice, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.DisplayPrice, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product" id="LikesDuration">
+                            <label>Likes Duration</label>
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.NoOfLikesDuration, new { @id = "LikesDuration" })
+                                @Html.ValidationMessageFor(model => model.NoOfLikesDuration, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        <div class="product">
+                            <label>Status</label>
+                            <div class="select">
+                                @Html.DropDownListFor(m => m.StatusId, PlanStatuses, "Select Plan", new { @id = "input_Status", @class = "slct", @name = "input_Status" })
+                                @Html.ValidationMessageFor(model => model.StatusId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="product" id="Default">
+                            <label>Default</label>
+                            <div class="select">
+                                <label class="form-radio">
+                                    Yes @Html.RadioButtonFor(model => model.IsDefault, "true")
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="form-radio">
+                                    No
+                                    @Html.RadioButtonFor(model => model.IsDefault, "false")
+                                    <span class="checkmark"></span>
+                                </label>
+                                @Html.ValidationMessageFor(model => model.IsDefault, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="product">
+                            <label>&nbsp;</label>
+                            <div class="select">
+                                <button type="submit" value="Save & Close" class="btn btn-block transition">Save & Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<style type="text/css">
+    input[type=text], input[type=password], input[type=email], textarea {
+        margin-bottom: 0;
+    }
+
+    .information-wrap span {
+        margin-top: 20px;
+    }
+    .accounts-form .product textarea {
+        width: 100%;
+    }
+</style>
+
+@section JavaScript{
+    <script src="https://js.stripe.com/v3/"></script>
+    <script type="text/javascript">
+
+       
+        $(document).ready(function () {
+
+            var textT = $("#input_PlanType option:selected").val();
+
+            $("#input_PlanType").on("change", function () {
+                
+                if (this.value == 29) {
+                    $("#LikesDuration").hide();
+                    $("#Likes").hide();
+                }
+                else if (this.value == 28) {
+                    $("#LikesDuration").show();
+                    $("#Likes").show();
+                }
+            });
+
+            $(document).on('click', '#backLink', function () {
+                history.go(-1);
+            });
+
+            $('#PlanSave').click(function (e) {
+                //e.preventDefault();
+                if ($("#input_PlanType option:selected").val() == 28) {
+
+                    $("#SavePlanForm").validate({
+                        rules: {
+                            Likes: {
+                                required: true,
+                                digits: true
+                            },
+                            NoOfLikesDuration: {
+                                required: true,
+                                digits: true
+                            }
+                        },
+                        messages: {
+                            Likes: {
+                                required: "Likes required",
+                                min: jQuery.validator.format("Please select positive number")
+                            },
+                            NoOfLikesDuration: {
+                                required: "No of likes Required",
+                                min: jQuery.validator.format("Please select positive number")
+                            }
+                        }
+                    });
+                }
+            });
+            if (textT == 28) {
+                
+                $("#LikesDuration").hide();
+                $("#Likes").hide();
+            }
+        });
+    </script>
+}
+

@@ -1,0 +1,1596 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+using SG2.CORE.COMMON;
+using SG2.CORE.DAL.DB;
+using SG2.CORE.MODAL.DTO.Common;
+using SG2.CORE.MODAL.DTO.Customers;
+using SG2.CORE.MODAL.DTO.JVBox;
+using SG2.CORE.MODAL.ViewModals.Backend;
+using SG2.CORE.MODAL.ViewModals.Backend.ActionBoard;
+
+namespace SG2.CORE.DAL.Repositories
+{
+    public class CustomerRepository
+    {
+
+        public bool IsEmailnameExist(string email, int id = 0)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+
+                    if (id == 0) return !_db.SG2_Customer.Any(u => u.EmailAddress.Equals(email));
+                    var user = _db.SG2_Customer.Find(id);
+                    if (user.EmailAddress.Equals(email, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        return true;
+                    }
+                    return !_db.SG2_Customer.Any(r => r.EmailAddress.Equals(email) && r.CustomerId != id);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CustomerDTO GetCustomerByEmail(string email)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var user = _db.SG2_Customer.FirstOrDefault(x => x.EmailAddress == email);
+
+                    if (user != null)
+                    {
+                        if (user.EmailAddress.Equals(email, StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            CustomerDTO customerDTO = new CustomerDTO();
+                            customerDTO.CustomerId = user.CustomerId;
+                            customerDTO.FirstName = user.FirstName;
+                            customerDTO.SurName = user.SurName;
+                            customerDTO.EmailAddress = user.EmailAddress;
+                            return customerDTO;
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
+        public CustomerDTO SignUp(CustomerDTO entity, out string dbError)
+        {
+            try
+            {
+                dbError = "";
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    if (_db.SG2_Customer.Any(x => x.EmailAddress == entity.EmailAddress))
+                    {
+                        dbError = "Email already exists. Please try another email.";
+                        return null;
+                    }
+                    CustomerDTO cusDTO = null;
+                    var usr = _db.SG2_usp_Customer_SignUp(entity.FirstName,
+                                                            entity.SurName,
+                                                            entity.EmailAddress,
+                                                            entity.Password,
+                                                            entity.CreatedBy,
+                                                            entity.GUID,
+                                                            entity.LastLoginIP,
+                                                            entity.StatusId).FirstOrDefault();
+                    if (usr != null)
+                    {
+                        cusDTO = new CustomerDTO();
+                        cusDTO.CustomerId = usr.CustomerId;
+                    }
+                    return cusDTO;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CustomerDTO UpdateCustomerProfile(CustomerDTO entity)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var item = _db.SG2_usp_Customer_ProfileUpdate(entity.CustomerId, entity.UserName, entity.FirstName, entity.SurName, entity.PhoneNumber, entity.PhoneCode);
+                    return entity;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CustomerDTO UpdateCustomerEmailSubscription(CustomerDTO entity)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var usr = _db.SG2_Customer.FirstOrDefault(x => x.CustomerId == entity.CustomerId);
+                    if (usr != null)
+                    {
+                        usr.IsOptedEducationalEmailSeries = entity.IsOptedEducationalEmailSeries;
+                        usr.IsOptedMarketingEmail = entity.IsOptedMarketingEmail;
+                        usr.UpdatedOn = System.DateTime.Now;
+                        usr.UpdatedBy = entity.UpdatedBy;
+                        _db.SaveChanges();
+                        return entity;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
+        public string GetProxyIp(int ProfileId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    string ProIp = null;
+                    var result = _db.SG2_usp_Proxy_GetbyProfileId(ProfileId);
+                    if (result != null)
+                    {
+                        foreach (var item in result)
+                        {
+                            ProIp = item.ProxyIPNumber;
+                        }
+
+                    }
+                    return ProIp;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+        }
+
+        public string GetUserComment(int CustomerId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var result = _db.SG2_Customer.SqlQuery("SELECT * from SG2_Customer where CustomerId=@CustomerId "
+                                                   , new SqlParameter("@CustomerId", CustomerId)
+                                               ).FirstOrDefault();
+                    if (result != null)
+                    {
+                        return result.Comment;
+                    }
+                    else
+                        return null;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+        }
+
+        public bool SaveUpdateUserDataIndividually(string value, string fieldName, int customerId, int socialProfileId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    if ((fieldName == "InstaUsrName") || (fieldName == "InstaPassword"))
+                    {
+                        var user = _db.SG2_SocialProfile.FirstOrDefault(x => x.SocialProfileId == socialProfileId);
+
+                        if (user != null)
+                        {
+                            if (fieldName == "InstaUsrName")
+                            {
+                                user.SocialUsername = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "InstaPassword")
+                            {
+                                user.SocialPassword = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                        }
+                    }
+                    else if ((fieldName == "firstName") || (fieldName == "lastName") || (fieldName == "Source") || (fieldName == "Comment") || (fieldName == "Title") || (fieldName == "ResTeamMember") || (fieldName == "AvaToEveryOne") || (fieldName == "CustomerStatus"))
+                    {
+                        var user = _db.SG2_Customer.FirstOrDefault(x => x.CustomerId == customerId);
+
+                        if (user != null)
+                        {
+                            if (fieldName == "firstName")
+                            {
+                                user.FirstName = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "lastName")
+                            {
+                                user.SurName = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "Source")
+                            {
+                                user.Source = value;
+                                _db.SaveChanges();
+                                return true;
+
+                            }
+                            else if (fieldName == "Comment")
+                            {
+                                user.Comment = user.Comment + "\r\n" + value;
+                                _db.SaveChanges();
+                                return true;
+
+                            }
+                            else if (fieldName == "Title")
+                            {
+                                user.Title = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "ResTeamMember")
+                            {
+                                user.ResponsibleTeamMemberId = Convert.ToInt32(value);
+                                _db.SaveChanges();
+                                return true;
+
+                            }
+                            else if (fieldName == "AvaToEveryOne")
+                            {
+
+                                user.AvailableToEveryOne = Convert.ToBoolean(Convert.ToInt32(value));
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "CustomerStatus")
+                            {
+                                user.StatusId = Convert.ToInt16(value);
+                                _db.SaveChanges();
+                                return true;
+                            }
+                        }
+
+                    }
+                    else if ((fieldName == "Tel") || (fieldName == "Town") || (fieldName == "Country") || (fieldName == "Mobile") || (fieldName == "PostalCode") || (fieldName == "AddressLine"))
+                    {
+                        var user = _db.SG2_Customer_ContactDetail.FirstOrDefault(x => x.CustomerId == customerId);
+                        if (user != null)
+                        {
+                            if (fieldName == "Tel")
+                            {
+                                user.PhoneNumber = value;
+                                _db.SaveChanges();
+                                return true;
+
+                            }
+                            else if (fieldName == "Town")
+                            {
+                                user.City = value;
+                                _db.SaveChanges();
+                                return true;
+
+                            }
+                            else if (fieldName == "Country")
+                            {
+                                user.Country = value;
+                                _db.SaveChanges();
+                                return true;
+
+                            }
+                            else if (fieldName == "Mobile")
+                            {
+                                user.MobileNumber = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "PostalCode")
+                            {
+                                user.PostalCode = value;
+                                _db.SaveChanges();
+                                return true;
+
+                            }
+                            else if (fieldName == "AddressLine")
+                            {
+                                user.AddressLine1 = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                        }
+
+                    }
+                    return false;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        public JVBoxDTO AssignJVBox(int customerId, int profileId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    JVBoxDTO jVBox = new JVBoxDTO();
+                   var actiondata = _db.SG2_usp_AssignJVBoxToCustomer(customerId, profileId).FirstOrDefault();
+                    //var result = actiondata.Where(x => x.JVBoxId != null);
+                    if (actiondata != null)
+                    {
+                        jVBox.BoxName = actiondata.JVBoxName;
+                        jVBox.JVBoxId = (int)actiondata.JVBoxId;
+
+                    }
+                    return jVBox;
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+       
+
+        public bool DeleteCustomer(int customerId, int SocialProfileId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var actiondata = _db.SG2_Delete_Customer(customerId, SocialProfileId);
+                    if (actiondata == 1)
+                    {
+                        return true;
+
+                    }
+                    return false;
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        public bool DeleteCustomerAll(int customerId, int SocialProfileId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var actiondata = _db.SG2_Delete_Customer_All(customerId, SocialProfileId);
+
+                    return true;
+
+
+
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        
+        public bool UpdateCustomerPassword(string password, int customerId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var usr = _db.SG2_Customer.FirstOrDefault(x => x.CustomerId == customerId);
+                    if (usr != null)
+                    {
+                        usr.Password = password;
+                        _db.SaveChanges();
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public bool ActivateCustomerAccount(short statusId, int customerId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var usr = _db.SG2_Customer.FirstOrDefault(x => x.CustomerId == customerId);
+                    if (usr != null)
+                    {
+                        usr.StatusId = statusId;
+                        _db.SaveChanges();
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        //-- TODO: Change Method and move to exact repository
+        public List<ActionBoardJVSData> GetJVStatuses()
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var actionJVStatus = _db.SG2_usp_JVBox_GetStatuses().ToList();
+                    if (actionJVStatus != null)
+                    {
+                        List<ActionBoardJVSData> actionBoardJVSDatas = new List<ActionBoardJVSData>();
+                        foreach (var item in actionJVStatus)
+                        {
+                            ActionBoardJVSData actionBoardJVSData = new ActionBoardJVSData();
+                            actionBoardJVSData.JVBStatusId = item.JVStatusId;
+                            actionBoardJVSData.JVBStatusName = item.JVStatusName;
+                            actionBoardJVSData.JVBStatusDesc = item.JVStatusDesc;
+                            actionBoardJVSData.SequenceNo = item.SequenceNo;
+                            actionBoardJVSDatas.Add(actionBoardJVSData);
+                        }
+                        return actionBoardJVSDatas;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public bool SetSocialProfileArchive(int id, int archive)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var usr = _db.SG2_SocialProfile.FirstOrDefault(x => x.SocialProfileId == id);
+                    if (usr != null)
+                    {
+                        if (archive == 1)
+                            usr.IsArchived = true;
+                        else
+                            usr.IsArchived = false;
+                        _db.SaveChanges();
+                        return true;
+                    }
+                    return false;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+
+        }
+        
+        //-- TODO: Change Method and move to exact repository
+        public List<ActionBoardListingViewModel> GetActionBoardData(int? JVBoxStatusId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var actiondata = _db.SG2_usp_GetProfilebyJVStatusId(JVBoxStatusId).ToList();
+                    if (actiondata != null)
+                    {
+                        List<ActionBoardListingViewModel> actionBoardViewModelList = new List<ActionBoardListingViewModel>();
+
+                        foreach (var item in actiondata)
+                        {
+                            ActionBoardListingViewModel actionBoardViewModel = new ActionBoardListingViewModel();
+                            actionBoardViewModel.InstaUsrName = item.InstaUsrName ?? "--";
+                            actionBoardViewModel.Status = item.JVStatusName;
+                            actionBoardViewModel.UserName = item.FullName ?? "--";
+                            actionBoardViewModel.CustomerId = HttpUtility.UrlEncode(CryptoEngine.Encrypt(item.CustomerId.ToString()));
+                            actionBoardViewModel.Email = item.Email;
+                            actionBoardViewModel.ProfileId = HttpUtility.UrlEncode(CryptoEngine.Encrypt(item.SPId.ToString()));
+                            actionBoardViewModel.EnumerationValueId = (short)item.JVStatusId;
+                            actionBoardViewModel.Comment = item.Comment ?? "--";
+                            actionBoardViewModel.IsArchived = item.IsArchived;
+                            actionBoardViewModelList.Add(actionBoardViewModel);
+                        }
+                        return actionBoardViewModelList;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        //-- TODO: Change Method and move to exact repository
+        public CustomerTargetPreferencesViewModel GetSpecificUserTargettingInformation(int CustomerId, int SocialPId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var actiondata = _db.SG2_usp_Get_CustomerTargetingInformation(SocialPId).FirstOrDefault();
+                    if (actiondata != null)
+                    {
+                        CustomerTargetPreferencesViewModel customerTargetPreferencesViewModel = new CustomerTargetPreferencesViewModel();
+                        customerTargetPreferencesViewModel.Preference1 = actiondata.Preference1;
+                        customerTargetPreferencesViewModel.Preference2 = actiondata.Preference2;
+                        customerTargetPreferencesViewModel.Preference3 = actiondata.Preference3;
+                        customerTargetPreferencesViewModel.Preference4 = actiondata.Preference4;
+                        customerTargetPreferencesViewModel.Preference5 = actiondata.Preference5;
+                        customerTargetPreferencesViewModel.Preference6 = actiondata.Preference6;
+                        customerTargetPreferencesViewModel.Preference7 = actiondata.Preference7;
+                        customerTargetPreferencesViewModel.Preference8 = actiondata.Preference8;
+                        customerTargetPreferencesViewModel.Preference9 = actiondata.Preference9;
+                        customerTargetPreferencesViewModel.Preference10 = actiondata.Preference10;
+                        customerTargetPreferencesViewModel.Country = actiondata.SocialPrefferedCountry;
+                        customerTargetPreferencesViewModel.InstaUser = actiondata.SocialUsername;
+                        customerTargetPreferencesViewModel.Id = Convert.ToString(actiondata.CustomerId);
+                        customerTargetPreferencesViewModel.Status = actiondata.JVBoxStatus;
+                        customerTargetPreferencesViewModel.UserName = actiondata.SocialUsername;
+                        customerTargetPreferencesViewModel.InstaPassword = actiondata.SocialPassword;
+                        customerTargetPreferencesViewModel.City = actiondata.City;
+                        customerTargetPreferencesViewModel.SPId = actiondata.SocialProfileId.ToString();
+                        customerTargetPreferencesViewModel.CustomerUserName = actiondata.UserName;
+                        customerTargetPreferencesViewModel.Email = actiondata.Email;
+                        customerTargetPreferencesViewModel.SocialProfileName = actiondata.SocialProfileName;
+                        customerTargetPreferencesViewModel.SPStatus = actiondata.SPStatus;
+                        customerTargetPreferencesViewModel.JVStatus = actiondata.JVBoxStatusName;
+                        customerTargetPreferencesViewModel.NoOfProfile = actiondata.NoOfProfile;
+                        customerTargetPreferencesViewModel.JVName = actiondata.BoxName;
+                        customerTargetPreferencesViewModel.IP = actiondata.ProxyIPNumber;
+                        customerTargetPreferencesViewModel.SocialAccAS = actiondata.SocialAccAs;
+                        customerTargetPreferencesViewModel.VerificationCode = actiondata.VerificationCode;
+                        customerTargetPreferencesViewModel.MPBox = actiondata.JVBoxId;
+                        customerTargetPreferencesViewModel.Notes = actiondata.Comment;
+                        customerTargetPreferencesViewModel.ProxyId = actiondata.ProxyId;
+                        customerTargetPreferencesViewModel.ProxyPort = actiondata.ProxyPort;
+                        customerTargetPreferencesViewModel.IsArchived = actiondata.IsArchived;
+                        return customerTargetPreferencesViewModel;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public CustomerDetailViewModel GetCustomerDetail(int CustomerId, int profileId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    //-- TODO: Change proper sp
+                    var actiondata = _db.SG2_usp_Get_SpecificCustomerDetail(CustomerId, profileId).FirstOrDefault();
+                    if (actiondata != null)
+                    {
+                        CustomerDetailViewModel customerDetailViewModel = new CustomerDetailViewModel();
+                        customerDetailViewModel.Id = Convert.ToString(actiondata.Id);
+                        customerDetailViewModel.FirstName = actiondata.FirstName;
+                        customerDetailViewModel.InstaUsrName = actiondata.InstaUsrName;
+                        customerDetailViewModel.IPNo = Convert.ToString(actiondata.IPNO);
+                        customerDetailViewModel.JVBoxNo = actiondata.JVBoxNo;
+                        customerDetailViewModel.JVStatus = actiondata.JVStatus;
+                        customerDetailViewModel.LastName = actiondata.LastName;
+                        customerDetailViewModel.Mobile = actiondata.Mobile;
+                        customerDetailViewModel.Name = actiondata.Name;
+                        customerDetailViewModel.OptedEdEmailSeries = Convert.ToBoolean(actiondata.OptedEdEmailSeries);
+                        customerDetailViewModel.OptedMarkEmail = Convert.ToBoolean(actiondata.OptedMarkEmail);
+                        customerDetailViewModel.PostalCode = actiondata.PostalCode;
+                        customerDetailViewModel.Register = actiondata.Register;
+                        customerDetailViewModel.ResTeamMember = actiondata.ResTeamMember;
+                        customerDetailViewModel.Source = actiondata.Source;
+                        customerDetailViewModel.Status = actiondata.Status;
+                        customerDetailViewModel.Tel = actiondata.Tel;
+                        customerDetailViewModel.Title = actiondata.Title;
+                        customerDetailViewModel.City = actiondata.City;
+                        customerDetailViewModel.Email = actiondata.Email;
+                        customerDetailViewModel.Comment = actiondata.Comment;
+                        customerDetailViewModel.UpdatedOn = actiondata.UpdatedOn.ToString("MMMM dd yyyy HH:mm:ss");
+                        customerDetailViewModel.InstaPassword = actiondata.InstaPassword;
+                        customerDetailViewModel.AvaToEveryOne = actiondata.AvaToEveryOne;
+                        customerDetailViewModel.Country = actiondata.Country;
+                        customerDetailViewModel.AddressLine = actiondata.AddressLine;
+                        customerDetailViewModel.Tel = actiondata.Tel;
+                        customerDetailViewModel.SocialProfileId = Convert.ToString(profileId);
+                        customerDetailViewModel.SocialProfileName = actiondata.SocialProfileName;
+                        customerDetailViewModel.CustomerStatus = actiondata.CustomerStatus.ToString();
+                        customerDetailViewModel.IsArchived = actiondata.IsArchived;
+                        customerDetailViewModel.ProxyPort = actiondata.ProxyPort;
+                        return customerDetailViewModel;
+                    }
+                    return null;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        //-- TODO: Change Method and move to exact repository
+        public IList<ProductDTO> GetProductIds()
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var PrdDdata = _db.SG2_usp_Get_Product();
+                    if (PrdDdata != null)
+                    {
+                        List<ProductDTO> productDTOsList = new List<ProductDTO>();
+
+                        foreach (var item in PrdDdata)
+                        {
+                            ProductDTO productDTO = new ProductDTO();
+                            productDTO.Name = item.Name;
+                            productDTO.StripePlanId = item.StripeSubscriptionId;
+                            productDTOsList.Add(productDTO);
+                        }
+                        return productDTOsList;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        public IList<CustomerDTO> GetCustomers()
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    //-- TODO: Change Proper SP
+                    var Customers = _db.SG2_Get_AllCustomers().ToList();
+                    if (Customers != null)
+                    {
+                        List<CustomerDTO> customerDTOs = new List<CustomerDTO>();
+                        foreach (var item in Customers)
+                        {
+                            CustomerDTO customerDTO = new CustomerDTO();
+
+                            customerDTO.CustomerId = item.CustomerId;
+                            customerDTO.FirstName = item.CustomerName;
+                            customerDTOs.Add(customerDTO);
+
+
+                        }
+                        return customerDTOs;
+
+                    }
+                    return null;
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        public IList<CustomerOrderHistoryViewModel> GetCustomerOrderHistory(string PageSize, int PageNumber, int id, int SPId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    //-- TODO: Change SP to proper name and
+                    var usrHData = _db.SG2_usp_Get_CustomerOrderHistory(id, SPId, PageNumber, PageSize).ToList();
+                    if (usrHData != null)
+                    {
+                        List<CustomerOrderHistoryViewModel> orderHistoryViewModels = new List<CustomerOrderHistoryViewModel>();
+                        foreach (var item in usrHData)
+                        {
+                            CustomerOrderHistoryViewModel orderHistoryViewModel = new CustomerOrderHistoryViewModel();
+                            orderHistoryViewModel.Id = Convert.ToString(id);
+                            orderHistoryViewModel.SPId = Convert.ToString(SPId);
+                            orderHistoryViewModel.Name = item.SubscrpName;
+                            orderHistoryViewModel.StartDate = item.StartDate;
+                            orderHistoryViewModel.EndDate = item.EndDate;
+                            orderHistoryViewModel.Status = item.Status;
+                            orderHistoryViewModel.TotalRecords = item.TotalRecord;
+                            orderHistoryViewModel.Price = item.Price;
+                            orderHistoryViewModel.SPName = item.SProfileName;
+                            orderHistoryViewModel.SPStatus = item.SocialProfileStatus;
+                            orderHistoryViewModel.SusrName = item.SProfileUsrName;
+                            orderHistoryViewModel.UserName = item.UserName;
+                            orderHistoryViewModel.Email = item.Email;
+                            orderHistoryViewModel.JVStatus = item.JVBoxStatus;
+                            orderHistoryViewModels.Add(orderHistoryViewModel);
+                        }
+                        return orderHistoryViewModels;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        public IList<CustomerListingViewModel> GetUserData(string SearchCriteria, int PageNumber, string PageSize, int? Status, string ProductId, string JVStatus, int? Subscription)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    //-- TODO: Change proper sp
+                    var usrdata = _db.SG2_usp_GetUserDetailsForbackOffice(SearchCriteria, PageNumber, PageSize, Status, (ProductId), JVStatus, Subscription).ToList();
+                    if (usrdata != null)
+                    {
+                        List<CustomerListingViewModel> customerListingViewModelsList = new List<CustomerListingViewModel>();
+                        foreach (var item in usrdata)
+                        {
+                            CustomerListingViewModel customerListingViewModel = new CustomerListingViewModel();
+                            customerListingViewModel.Proxy = item.ProxyIPNumber;
+                            customerListingViewModel.Products = item.Products;
+                            customerListingViewModel.Status = item.Status;
+                            customerListingViewModel.JVBoxStatus = item.JVBoxStatus;
+                            customerListingViewModel.Name = item.UserName;
+                            customerListingViewModel.InstaUsrName = item.InstaName;
+                            customerListingViewModel.ID = Convert.ToString(item.CustomerId);
+                            customerListingViewModel.Box = item.BoxName;
+                            customerListingViewModel.TotalRecord = item.TotalRecord;
+                            customerListingViewModel.SocialProfileId = Convert.ToString(item.SocialProfileId);
+                            customerListingViewModel.SocialProfileName = item.SocialProfileName;
+                            customerListingViewModel.CustomerEmail = item.CustomerEmail;
+                            customerListingViewModelsList.Add(customerListingViewModel);
+                        }
+                        return customerListingViewModelsList;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CustomerDTO GetLogin(string username, string password, short statusId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    //-- TODO: Change sp to propername
+                    var usr = _db.SG2_usp_Login_Customers(username, password, username, username, statusId).FirstOrDefault();
+                    if (usr != null)
+                    {
+                        CustomerDTO cst = new CustomerDTO()
+                        {
+                            GUID = usr.GUID,
+                            CustomerId = usr.CustomerId,
+                            FirstName = usr.FirstName,
+                            EmailAddress = usr.EmailAddress,
+                            SurName = usr.SurName,
+                            PhoneCode = usr.PhoneCode,
+                            PhoneNumber = usr.PhoneNumber,
+                            Password = usr.Password,
+                            StripeCustomerId = usr.StripeCustomerId,
+                            IsOptedEducationalEmailSeries = Convert.ToBoolean(usr.IsOptedEducationalEmailSeries),
+                            IsOptedMarketingEmail = Convert.ToBoolean(usr.IsOptedMarketingEmail),
+                            StatusId = usr.StatusId,
+                            StripeSubscriptionId = usr.StripeSubscriptionId,
+                            DefaultSocialProfileId = usr.DefaultSocialProfileId
+                        };
+                        return cst;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public bool ScheduleCall(int customerId, DateTime schedule, string notes)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var usr = _db.SG2_usp_Customer_ScheduleCall(customerId, schedule, notes);
+                    if (usr != null)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        public async Task<bool> UpdateStripeCustomerId(int CustomerId, string StripCustomerId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var cus = _db.SG2_Customer.FirstOrDefault(x => x.CustomerId == CustomerId);
+                    if (cus != null)
+                    {
+                        cus.StripeCustomerId = StripCustomerId;
+                        await _db.SaveChangesAsync();
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CustomerDTO GetCustomerByCustomerId(int CustomerId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var usr = _db.SG2_usp_Customers_Get(CustomerId).FirstOrDefault();
+                    if (usr != null)
+                    {
+                        CustomerDTO cst = new CustomerDTO()
+                        {
+                            GUID = usr.GUID,
+                            CustomerId = usr.CustomerId,
+                            FirstName = usr.FirstName,
+                            EmailAddress = usr.EmailAddress,
+                            SurName = usr.SurName,
+                            PhoneCode = usr.PhoneCode,
+                            PhoneNumber = usr.PhoneNumber,
+                            Password = usr.Password,
+                            StripeCustomerId = usr.StripeCustomerId,
+                            IsOptedEducationalEmailSeries = Convert.ToBoolean(usr.IsOptedEducationalEmailSeries),
+                            IsOptedMarketingEmail = Convert.ToBoolean(usr.IsOptedMarketingEmail),
+                            StatusId = usr.StatusId,
+                            StripeSubscriptionId = usr.StripeSubscriptionId
+                        };
+                        return cst;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<SubscriptionDTO> InsertSubscription(SubscriptionDTO subscriptionDTO)
+        {
+            using (var _db = new SocialGrowth2Entities())
+            {
+                try
+                {
+                    var result = await Task.Run(() => _db.SG2_usp_SocialProfile_Subscription_Save(subscriptionDTO.SocialProfileId, subscriptionDTO.StripeSubscriptionId, subscriptionDTO.Description, subscriptionDTO.Description,
+                    subscriptionDTO.Price, subscriptionDTO.StripePlanId, subscriptionDTO.SubscriptionType, subscriptionDTO.StartDate, subscriptionDTO.EndDate, subscriptionDTO.StatusId
+                    , subscriptionDTO.PaymentPlanId, subscriptionDTO.StripeInvoiceId).ToList());
+                    if (result != null)
+                    {
+                        subscriptionDTO.SubscriptionId = result.FirstOrDefault().SubscriptionId;
+                        return subscriptionDTO;
+                    }
+                    return null;
+                }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
+
+            }
+        }
+
+        //TODO: Not usable
+        public void UpdateSubscription(SubscriptionDTO subscriptionDTO)
+        {
+            using (var _db = new SocialGrowth2Entities())
+            {
+
+                SG2_SocialProfile_Subscription subscription = new SG2_SocialProfile_Subscription();
+
+                var query =
+               from sub in _db.SG2_SocialProfile_Subscription
+               where sub.SubscriptionId == subscriptionDTO.SubscriptionId
+               select sub;
+
+                subscription = query.FirstOrDefault();
+                // Execute the query, and change the column values
+                // you want to change.
+                subscription.SubscriptionId = subscriptionDTO.SubscriptionId;
+                subscription.Description = subscriptionDTO.Description;
+                subscription.Name = subscriptionDTO.Description;
+                subscription.Price = subscriptionDTO.Price;
+                subscription.StripePlanId = subscriptionDTO.StripePlanId;
+                subscription.SubscriptionType = subscriptionDTO.SubscriptionType;
+                subscription.StartDate = subscriptionDTO.StartDate;
+                subscription.EndDate = subscriptionDTO.EndDate;
+                subscription.StatusId = subscriptionDTO.StatusId;
+
+                // Submit the changes to the database.
+                try
+                {
+                    _db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    // Provide for exceptions.
+                }
+
+            }
+        }
+
+        
+        public void UpdateSubscriptionStatus(int subscriptionId, int statusId)
+        {
+            using (var _db = new SocialGrowth2Entities())
+            {
+
+                SG2_SocialProfile_Subscription subscription = new SG2_SocialProfile_Subscription();
+
+                var query =
+               from sub in _db.SG2_SocialProfile_Subscription
+               where sub.SubscriptionId == subscriptionId
+                     && sub.StatusId == (int)GlobalEnums.PlanSubscription.Active
+               select sub;
+
+                subscription = query.FirstOrDefault();
+                subscription.SubscriptionId = subscriptionId;
+                subscription.StatusId = statusId;
+
+                // Submit the changes to the database.
+                try
+                {
+                    _db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    // Provide for exceptions.
+                }
+
+            }
+        }
+
+        public SubscriptionDTO GetSubscription(int SocialProfileId)
+        {
+            try
+            {
+                SG2_SocialProfile_Subscription sub = new SG2_SocialProfile_Subscription();
+                using (var _db = new SocialGrowth2Entities())
+                {
+
+                    var query =
+                   from subscription in _db.SG2_SocialProfile_Subscription
+                   where subscription.SocialProfileId == SocialProfileId
+                   && subscription.StatusId == 25 // Active Subscription 
+                   select subscription;
+                    sub = query.FirstOrDefault();
+                }
+                SubscriptionDTO subscriptionDTO = new SubscriptionDTO();
+                if (sub != null)
+                {
+                    subscriptionDTO.CustomerId  //TODO Ass Social Profileid
+                        = sub.SocialProfileId;
+                    subscriptionDTO.SubscriptionId = sub.SubscriptionId;
+                    subscriptionDTO.StripeSubscriptionId = sub.StripeSubscriptionId;
+                    subscriptionDTO.Description = sub.Description;
+                    subscriptionDTO.Name = sub.Description;
+                    subscriptionDTO.Price = (long)(sub.Price.Value);
+                    subscriptionDTO.StripePlanId = sub.StripePlanId;
+                    subscriptionDTO.SubscriptionType = sub.SubscriptionType;
+                    subscriptionDTO.StartDate = sub.StartDate;
+                    subscriptionDTO.EndDate = sub.EndDate;
+                }
+                return subscriptionDTO;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CustomerDTO SignupCustomerProfileAndPreference(CustomerAndPreferenceDTO entity)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var usr = _db.SG2_usp_Customer_SignUpCustomerWithPreference(entity.FirstName, entity.Lastname, entity.EmailAddress, entity.Password, entity.GUID, entity.LastLoginIP, entity.Preference1, entity.Preference2, entity.Preference3, entity.Preference4, entity.Preference5, entity.Preference6, int.Parse(entity.PreferLocation), entity.StatusId).FirstOrDefault();
+                    if (usr != null)
+                    {
+                        CustomerDTO cst = new CustomerDTO()
+                        {
+                            GUID = usr.GUID,
+                            CustomerId = usr.CustomerId,
+                            FirstName = usr.FirstName,
+                            EmailAddress = usr.EmailAddress,
+                            SurName = usr.SurName,
+                            Password = usr.Password,
+                            SocialProfileId = usr.SocialProfileId,
+                            StripeCustomerId = Convert.ToString(usr.StripeCustomerId)
+                        };
+                        return cst;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public int? GetTargetedCityIdByCustomerId(int customerId, int socialProfileId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var cust = _db.SG2_SocialProfile.FirstOrDefault(x => x.SocialProfileId == socialProfileId);//TODO add SocialProfileId
+                    if (cust != null)
+                    {
+                        return (cust.SocialPrefferedCity);
+                    }
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public List<CustomerSocialProfileDTO> GetSocialProfilesByCustomerid(int customerId)
+        {
+            try
+            {
+                List<CustomerSocialProfileDTO> profiles = null;
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var profs = _db.SG2_usp_Customer_GetSocialProfilesByCustomerId(customerId).ToList();
+                    if (profs != null)
+                    {
+                        profiles = profs.Select(p => new CustomerSocialProfileDTO()
+                        {
+                            CustomerId = p.CustomerId,
+                            JVBoxId = p.JVBoxId,
+                            JVBoxName = p.JVBoxName,
+                            JVBoxStatusId = p.JVBoxStatusId,
+                            JVBoxStatusName = p.JVBoxStatusName,
+                            PrefferedCityId = p.PrefferedCityId,
+                            PrefferedCountryId = p.PrefferedCountryId,
+                            ProfileName = p.ProfileName,
+                            SocialPassword = p.SocialPassword,
+                            SocialProfileId = p.SocialProfileId,
+                            SocialProfileTypeId = p.SocialProfileTypeId,
+                            SocialProfileTypeName = p.SocialProfileTypeName,
+                            SocialUsername = p.SocialUsername,
+                            StatusId = p.StatusId,
+                            StatusName = p.StatusName,
+                            StripeCustomerId = p.StripeCustomerId,
+                            SubScriptionStatus = p.SubscriptionStatus,
+                            SubscriptionName = p.SubscriptionName
+                        }).ToList();
+                    }
+                }
+                return profiles;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public SubscriptionDTO GetLastCancelledSubscription(int profileId,  DateTime dateTime)
+        {
+            SG2_SocialProfile_Subscription sub = new SG2_SocialProfile_Subscription();
+          
+            using (var _db = new SocialGrowth2Entities())
+            {
+                
+                var query =
+               from subscription in _db.SG2_SocialProfile_Subscription
+               where subscription.SocialProfileId == profileId
+                     && subscription.StatusId == (int)GlobalEnums.PlanSubscription.canceled
+               select subscription;
+
+                sub = query.FirstOrDefault();
+
+                SubscriptionDTO subscriptionDTO = new SubscriptionDTO();
+                if (sub != null)
+                {
+                    subscriptionDTO.CustomerId  //TODO Ass Social Profileid
+                        = sub.SocialProfileId;
+                    subscriptionDTO.SubscriptionId = sub.SubscriptionId;
+                    subscriptionDTO.StripeSubscriptionId = sub.StripeSubscriptionId;
+                    subscriptionDTO.Description = sub.Description;
+                    subscriptionDTO.Name = sub.Description;
+                    subscriptionDTO.Price = (long)(sub.Price.Value);
+                    subscriptionDTO.StripePlanId = sub.StripePlanId;
+                    subscriptionDTO.SubscriptionType = sub.SubscriptionType;
+                    subscriptionDTO.StartDate = sub.StartDate;
+                    subscriptionDTO.EndDate = sub.EndDate;
+                    subscriptionDTO.StripeInvoiceId = sub.StripeInvoiceId;
+                }
+                return subscriptionDTO;
+            }
+           
+        }
+
+        public CustomerTargetProfileDTO GetSocialProfilesById(int profileId)
+        {
+            try
+            {
+                CustomerTargetProfileDTO targetProfile = null;
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var prof = _db.SG2_usp_Customer_GetSocialProfileById(profileId).FirstOrDefault();
+                    if (prof != null)
+                    {
+                        targetProfile = new CustomerTargetProfileDTO()
+                        {
+                            TargetingInformationId = prof.TargetingInformationId,
+                            JVboxId = prof.JVboxId,
+                            JVBoxStatusName = prof.JVBoxStatusName,
+                            PlanId = prof.PlanId,
+                            PlanName = prof.PlanName,
+                            Preference1 = prof.Preference1,
+                            Preference10 = prof.Preference10,
+                            Preference2 = prof.Preference2,
+                            Preference3 = prof.Preference3,
+                            Preference4 = prof.Preference4,
+                            Preference5 = prof.Preference5,
+                            Preference6 = prof.Preference6,
+                            Preference7 = prof.Preference7,
+                            Preference8 = prof.Preference8,
+                            Preference9 = prof.Preference9,
+                            PrefferedCityId = prof.PrefferedCityId,
+                            PrefferedCountryId = prof.PrefferedCountryId,
+                            ProfileStatus = prof.ProfileStatus,
+                            ProfileStatusId = prof.ProfileStatusId,
+                            ProxyIPNumber = prof.ProxyIPNumber,
+                            ProxyPort = prof.ProxyPort,
+                            ProxyIPName = prof.ProxyIPName,
+                            SocialUsername = prof.SocialUsername,
+                            SocialPassword = prof.SocialPassword,
+                            SocialProfileId = prof.SocialProfileId,
+                            SocialProfileName = prof.SocialProfileName,
+                            SocialProfileType = prof.SocialProfileType,
+                            SocialProfileTypeId = prof.SocialProfileTypeId,
+                            StripePlanId = prof.StripePlanId,
+                            SubscriptionEndDate = prof.SubscriptionEndDate,
+                            SubscriptionId = prof.SubscriptionId,
+                            SubscriptionStartDate = prof.SubscriptionStartDate,
+                            SubscriptionStatus = prof.SubscriptionStatus,
+                            SubscriptionStatusId = prof.SubscriptionStatusId,
+                            StripeSubscriptionId = prof.StripeSubscriptionId,
+                            JVStatusId = prof.JVStatusId,
+                            JVAttempts = prof.JVAttempts,
+                            JVAttemptsBlockedTill = prof.JVAttemptsBlockedTill,
+                            JVAttemptStatus = prof.JVAttemptStatus,
+                            JVBoxExchangeName = prof.JVBoxExchangeName,
+                            SocialAccAS = prof.SocialAccAS,
+                            StripeInvoiceId = prof.StripeInvoiceId,
+                            ProxyId = prof.ProxyId,
+                            IsJVServerRunning = prof.IsJVServerRunning == 1
+                        };
+                    }
+                }
+                return targetProfile;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<bool> SetSocialProfileJVStatus(int profileId, int jvStatusId, string updatedBy)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var socialProfile = _db.SG2_SocialProfile.FirstOrDefault(m => m.SocialProfileId == profileId);
+
+                    int? JVBoxStatus = socialProfile.JVBoxStatusId;
+                    int? JVBoxId = socialProfile.JVBoxId;
+
+                    if (socialProfile != null)
+                    {
+                        if (jvStatusId == 0)
+                            socialProfile.JVBoxStatusId = null;
+                        else
+                            socialProfile.JVBoxStatusId = jvStatusId;
+                        socialProfile.UpdatedBy = updatedBy;
+                        socialProfile.UpdatedOn = DateTime.Now;
+                        await _db.SaveChangesAsync();
+
+                    }
+
+                    if (JVBoxStatus != null)
+                    {
+                        var SPH = _db.Set<SG2_SocialProfile_StatusHistory>();
+                        SPH.Add(new SG2_SocialProfile_StatusHistory { JVBoxStatusId = JVBoxStatus, JVBoxId = JVBoxId, CreatedDate = DateTime.Now, SocialProfileId = profileId });
+
+                        await _db.SaveChangesAsync();
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> UpdateSPNoOfAttempt(int profileId, short NoOfAttempt, DateTime JVAttemptsBlockedTill)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var SP = _db.SG2_SocialProfile.FirstOrDefault(x => x.SocialProfileId == profileId);
+                    if (SP != null)
+                    {
+                        SP.JVAttempts = NoOfAttempt;
+                        SP.JVAttemptsBlockedTill = JVAttemptsBlockedTill;
+                        SP.UpdatedOn = DateTime.Now;
+                        await _db.SaveChangesAsync();
+                        return true;
+                    }
+                    return false;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public async Task<bool> SetTargetPreferenceQueueStatus(int profileId, short queueStatus, string updatedBy)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var SP = _db.SG2_SocialProfile_TargetingInformation.FirstOrDefault(x => x.SocialProfileId == profileId);
+                    if (SP != null)
+                    {
+                        SP.UpdatedBy = updatedBy;
+                        SP.UpdatedOn = DateTime.Now;
+                        SP.QueueStatus = queueStatus;
+
+                        await _db.SaveChangesAsync();
+                        return true;
+                    }
+                    return false;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public async Task<bool> SetTargetPreferenceLikeyStatus(int profileId, short jvLikeyStatus, int JVNoOfLikes, string updatedBy)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var SP = _db.SG2_SocialProfile_TargetingInformation.FirstOrDefault(x => x.SocialProfileId == profileId);
+                    if (SP != null)
+                    {
+                        SP.JVLikeyStatus = jvLikeyStatus;
+                        SP.JVNoOfLikes = JVNoOfLikes;
+
+                        await _db.SaveChangesAsync();
+                        return true;
+                    }
+                    return false;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public bool UpdateJVStatus(int profileId, int? jvStatus = null)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var SP = _db.SG2_SocialProfile.FirstOrDefault(x => x.SocialProfileId == profileId);
+                    if (SP != null)
+                    {
+                        SP.UpdatedOn = DateTime.Now;
+                        SP.JVBoxStatusId = jvStatus;
+
+                        _db.SaveChanges();
+                        return true;
+                    }
+                    return false;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public bool UpdateMPBox(int profileId, int? MPBox)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var SP = _db.SG2_SocialProfile.FirstOrDefault(x => x.SocialProfileId == profileId);
+                    if (SP != null && SP.JVBoxId != MPBox)
+                    {
+                        SP.UpdatedOn = DateTime.Now;
+                        SP.JVBoxId = MPBox;
+
+                        _db.SaveChanges();
+                        return true;
+                    }
+                    return false;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public bool UpdateProxyIp(int profileId, int? proxyIp = null)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var SP = _db.SG2_usp_ProxyMapping_Insert(profileId, proxyIp);
+
+                    return true;
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        //--TODO: Move to specific repository
+        public List<JVBoxDTO> GetMPBoxes()
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    List<JVBoxDTO> mPBoxDTOs = new List<JVBoxDTO>();
+                    var MPBoxes = _db.SG2_usp_Get_AvailableMPBoxes();
+                    if (MPBoxes != null)
+                    {
+                        foreach (var item in MPBoxes)
+                        {
+                            JVBoxDTO mPBoxDTO = new JVBoxDTO();
+                            mPBoxDTO.BoxName = item.BoxName;
+                            mPBoxDTO.JVBoxId = item.JVBoxId;
+                            mPBoxDTOs.Add(mPBoxDTO);
+                        }
+                        return mPBoxDTOs;
+
+                    }
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        //--TODO: Move to specific repository
+        public List<ProxyIPDTO> GetProxyIPs(int CountryId, int CityId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    List<ProxyIPDTO> ProxyIPDTOs = new List<ProxyIPDTO>();
+                    var proxy = _db.SG2_usp_Get_AvailableProxies(CountryId, CityId);
+                    if (proxy != null)
+                    {
+                        foreach (var item in proxy)
+                        {
+                            ProxyIPDTO PIPD = new ProxyIPDTO();
+                            PIPD.ProxyId = item.ProxyId;
+                            PIPD.ProxyNumber = item.ProxyIPNumber;
+                            ProxyIPDTOs.Add(PIPD);
+                        }
+                        return ProxyIPDTOs;
+
+                    }
+                    return null;
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        public bool UpdateNoOfAttempts(int profileId, int noOfAttempts)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var cust = _db.SG2_SocialProfile.FirstOrDefault(x => x.SocialProfileId == profileId);
+                    if (cust != null)
+                    {
+                        cust.JVAttempts = (Int16) noOfAttempts;
+                        cust.UpdatedBy = "MP Bot";
+                        cust.UpdatedOn = DateTime.Now;
+                        _db.SaveChanges();
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public bool BlockProfile24Hrs(int profileId, int noOfAttempts)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Entities())
+                {
+                    var cust = _db.SG2_SocialProfile.FirstOrDefault(x => x.SocialProfileId == profileId);
+                    if (cust != null)
+                    {
+                        cust.JVAttempts = (Int16)noOfAttempts;
+                        cust.UpdatedBy = "MP Bot";
+                        cust.UpdatedOn = DateTime.Now;
+                        cust.JVAttemptsBlockedTill = DateTime.Now.AddDays(1);
+                        _db.SaveChanges();
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+    }
+}

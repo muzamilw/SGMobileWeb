@@ -1,0 +1,397 @@
+﻿@model SG2.CORE.MODAL.ViewModals.Backend.BotManager.BotMngrViewModel
+@{
+    ViewBag.Title = "Bot Manager";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+    var BaseURl = ViewBag.BaseUrl;
+}
+
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2>Bot Manager</h2>
+                <br />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    @foreach (var item in Model.JVBoxes.OrderBy(s => s.JVBoxId))
+    {
+        <div class="grey-sec" id="botmngr-@(item.JVBoxId)">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@item.BoxName</h3>
+
+                            <span class="pull-right clickable panel-collapsed">
+                                <i class="glyphicon glyphicon-chevron-down"></i>
+                            </span>
+                            <span class="pull-right btn_refreshJVSection" data-id="botmngr-@(item.JVBoxId)">
+                                <i class="glyphicon glyphicon-refresh"></i>
+                            </span>
+
+                            <span class="pull-right">Errors | <b id="totalE-@(item.JVBoxId)"></b></span>
+                            <span class="pull-right">Pending | <b id="totalP-@(item.JVBoxId)"></b></span>
+                            <span class="pull-right">In Progress | <b id="totalIP-@(item.JVBoxId)"></b></span>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-bordered table-striped table-hover table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Social Username</th>
+                                        <th scope="col">Created Date</th>
+                                        <th scope="col">Queue Action</th>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="TR_JVCustomersHTM-@(item.JVBoxId)" class="TR_JVCustomersHTM">
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Html just for entering data -->
+    <table class="hide mgr_innerHTML">
+        <tr>
+            <td>{{SocialUsername}}</td>
+            <td>{{CreatedDate}}</td>
+            <td>{{QueueAction}}</td>
+            <td>{{Type}}</td>
+            <td>{{Status}}</td>
+            <td>
+                <a href="#" class="Modal_ShowDetailModal" data-id="{{TransactionId}}" data-section="{{sectionId}}"><i class="fa fa-list"></i></a>
+                <a href="#" class="Modal_DeleteDetailModal" data-id="{{TransactionId}}" data-section="{{sectionId}}"><i class="fa fa-trash"></i></a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="Modal_BotDetail" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Queue Audit Detail</h4>
+            </div>
+            <div class="modal-body">
+                <div class="anchDiv_hide hide">
+
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table class="table table-bordered table-striped table-hover table-condensed">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Step</th>
+                                    <th scope="col">Detail</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Error</th>
+                                    <th scope="col">Datetime</th>
+                                    <th scope="col">Snap</th>
+                                </tr>
+                            </thead>
+                            <tbody id="TR_JVCustomersHTML">
+                                <tr id="SavedHistoryRow_{{CustomerId}}">
+                                    <td>{{StepName}}</td>
+                                    <td>{{StepDetail}}</td>
+                                    <td>{{StepStatus}}</td>
+                                    <td>{{StepError}}</td>
+                                    <td>{{CreatedDate}}</td>
+                                    <td>
+                                        <a href="#" class="Modal_ShowImage {{hide}}"   data-id="{{TransactionId}}" data-section="{{sectionId}}"><i class="fa fa-picture-o"></i></a>
+                                        <a href="#" class="Modal_DeleteRecord" data-id="{{TransactionId}}" data-section="{{sectionId}}"><i class="fa fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style type="text/css">
+
+    .clickable {
+        cursor: pointer;
+    }
+
+    .panel-heading span {
+        margin-top: -20px;
+        font-size: 15px;
+        margin-left: 15px;
+    }
+    .btn_refreshJVSection{
+        cursor:pointer
+    }
+    .loadingSpinner {
+        text-align: center;
+        padding: 25px 0;
+        font-size: 25pt;
+        color: yellowgreen;
+    }
+
+    #Modal_BotDetail .modal-body {
+        position: relative;
+        padding: 15px;
+        height: 360px;
+        overflow-y: scroll;
+    }
+
+</style>
+
+@section JavaScript{
+
+    <script type="text/javascript">
+        var glb_TR_JVCustomers = $("#TR_JVCustomersHTML").html();
+        $(document).ready(function () {
+            LoadAllBotMngrData();
+
+            setInterval(function () {
+                LoadAllBotMngrData();
+            }, 60 * 1000);
+
+            $(document).on('click', '.panel-heading span.clickable', function (e) {
+                var $this = $(this);
+                if (!$this.hasClass('panel-collapsed')) {
+                    $this.parents('.panel').find('.panel-body').slideUp();
+                    $this.addClass('panel-collapsed');
+                    $this.find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+                } else {
+                    $this.parents('.panel').find('.panel-body').slideDown();
+                    $this.removeClass('panel-collapsed');
+                    $this.find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+                }
+            })
+
+            $(".btn_refreshJVSection").on("click", function (e) {
+                var sectionId = $(this).attr("data-id");
+                LoadBotMngrData(sectionId);
+            })
+        });
+
+
+        function LoadAllBotMngrData() {
+
+            $(".grey-sec").each(function (i, obj) {
+                var sectionId = $(obj).attr("id");
+                LoadBotMngrData(sectionId);
+            });
+        }
+
+         function BindShowModalClickEvent() {
+            $(".Modal_ShowDetailModal").unbind();
+             $(".Modal_ShowDetailModal").bind("click", ShowDetailModal);
+
+             $(".Modal_DeleteDetailModal").unbind();
+             $(".Modal_DeleteDetailModal").bind("click", DeleteModal);
+            
+        }
+
+        function DeleteModal(e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+            
+            var id = $(this).attr("data-id");
+            var url = GLB_BASEURL + "/BotMngr/DeleteBotData/" + id;
+
+            $.ajax({
+                url: url,
+                global: false,
+                type: 'get',
+                contentType: "application/json",
+                async: true,
+                success: function (result) {
+                    LoadAllBotMngrData()
+                },
+                error: function () {
+                   
+                }
+            });
+
+        }
+
+        function BindModal_ShowImageClickEvent() {
+            $(".Modal_ShowImage").unbind();
+            $(".Modal_ShowImage").bind("click", ShowImage);
+
+            $(".Modal_DeleteRecord").unbind();
+            $(".Modal_DeleteRecord").bind("click", DeleteRecord);
+            
+            
+        }
+
+        function DeleteRecord(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            var id = $(this).attr("data-id");
+            var url = GLB_BASEURL + "/BotMngr/DeleteBotDetailData/" + id;
+
+            $.ajax({
+                url: url,
+                global: false,
+                type: 'get',
+                contentType: "application/json",
+                async: true,
+                success: function (result) {
+                    LoadAllBotMngrData()
+                },
+                error: function () {
+
+                }
+            });
+
+        }
+
+        function ShowImage(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            var id = $(this).attr("data-id");
+            var url = GLB_BASEURL + "/BotMngr/getimageData/" + id;
+            $.ajax({
+                url: url,
+                global: false,
+                type: 'get',
+                contentType: "application/json",
+                async: true,
+                success: function (result) {
+                    if (!$.isEmptyObject(result)) {
+                        if (result.Data.ResultType == "Success") {
+                            var imageData = result.Data.ResultData;
+                            var newTab = window.open();
+                            newTab.document.body.innerHTML = '<img src="data:image/png;base64, ' + imageData + '"></img>'                      
+                        }
+                    }
+                },
+                error: function () {
+                    $(JVHtml).html("");
+                }
+            });
+        }
+
+        function ShowDetailModal(e) {
+            e.preventDefault();
+            e.stopPropagation();
+             var id = $(this).attr("data-id");
+             var url = GLB_BASEURL + "/BotMngr/getBotdetailData/" + id;
+             var sectionId = $(this).attr("data-section");
+
+            $(".anchDiv_hide").html("");
+             $("#Modal_BotDetail").modal("show");
+
+             $.ajax({
+                 url: url,
+                 global: false,
+                 type: 'get',
+                 contentType: "application/json",
+                 async: true,
+                 success: function (result) {
+                     if (!$.isEmptyObject(result)) {
+                         if (result.Data.ResultType == "Success") {
+                             $("#TR_JVCustomersHTML").html("");
+                             $.each(result.Data.ResultData, function (i, obj) {
+                                 var tr = glb_TR_JVCustomers
+                                     .replace("{{StepName}}", obj.StepName)
+                                     .replace("{{StepDetail}}", obj.StepDetail)
+                                     .replace("{{StepStatus}}", obj.StepStatus)
+                                     .replace("{{StepError}}", obj.StepError)
+                                     .replace("{{CreatedDate}}", getFormatedDateTime(obj.CreatedDate))
+                                     .replace("{{TransactionId}}", obj.QueueAuditDetailId);
+                                 if (obj.IsImageExists != "1") { tr = tr.replace("{{hide}}", "hide") }
+                                 else tr = tr.replace("{{hide}}", "")
+                                 $("#TR_JVCustomersHTML").append(tr);
+
+                             });
+
+                             BindModal_ShowImageClickEvent();
+                         }
+                         else {
+                             $("#TR_JVCustomersHTML").html("");
+                         }
+                     }
+                 },
+                 error: function () {
+                     $(JVHtml).html("");
+                 }
+             });
+        }
+
+        function LoadBotMngrData(sectionId) {
+            
+            var jvServer = sectionId.replace("botmngr-", "");
+            var JVHtml = "#TR_JVCustomersHTM-" + jvServer;
+            var glb_TR_JVCustomersHTML = $(".mgr_innerHTML tbody").html();
+            $(JVHtml).html("");
+            var url = GLB_BASEURL + "/BotMngr/getBotdatabyServer/" + jvServer;
+            $(JVHtml).html('<tr><td colspan="5" class="loadingSpinner"><i class="fa fa-refresh fa-spin spiner"></i></td></tr>');
+            $.ajax({
+                    url: url,
+                    global: false,
+                    type: 'get',
+                    contentType: "application/json",
+                    async: true,
+                    success: function (result) {
+                        if (!$.isEmptyObject(result)) {
+                            if (result.Data.ResultType == "Success") {
+                                $(JVHtml).html("");
+                                $.each(result.Data.ResultData, function (i, obj) {
+                                    var tr = glb_TR_JVCustomersHTML
+                                        .replace("{{CreatedDate}}", getFormatedDateTime(obj.CreatedDate))
+                                        .replace("{{SocialUsername}}", obj.SocialUsername)
+                                        .replace("{{QueueAction}}", obj.QueueAction)
+                                        .replace("{{Type}}", obj.QueueTypeName)
+                                        .replace("{{Status}}", obj.QueueStatusName)
+                                        .replace("{{TransactionId}}", obj.TransactionId)
+                                        .replace("{{TransactionId}}", obj.TransactionId)
+                                    $(JVHtml).append(tr);
+                                    $('#totalE-' + jvServer).text(obj.TotalError)
+                                    $('#totalIP-' + jvServer).text(obj.TotalInProgress)
+                                    $('#totalP-' + jvServer).text(obj.TotalPending)
+
+                                });
+
+                                 BindShowModalClickEvent();
+                            }
+                            else {
+                                $(JVHtml).html("");
+                            }
+                        }
+                    },
+                    error: function () {
+                        $(JVHtml).html("");
+                    }
+                });
+        }
+
+        function getFormatedDateTime(getDate) {            
+            var current_datetime = new Date(parseInt(getDate.substr(6)));
+            var dt = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate() + " " + current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds();
+            return dt;
+        }
+
+    </script>
+
+}

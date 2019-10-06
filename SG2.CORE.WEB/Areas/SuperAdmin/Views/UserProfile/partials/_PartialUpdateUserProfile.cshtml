@@ -1,0 +1,75 @@
+﻿@model SG2.CORE.MODAL.ViewModals.Backend.TeamMember.TeamMemberProfileDataViewModel
+@{
+    List<SelectListItem> rolesSelectList = new List<SelectListItem>();
+    foreach (var item in Model.RoleListing)
+    {
+        rolesSelectList.Add(new SelectListItem { Text = item.RoleName, Value = item.SystemRoleId.ToString() });
+    }
+    rolesSelectList.Add(new SelectListItem { Text = "Super Admin", Value = "1" });
+}
+
+
+<h2>Profile</h2>
+<hr />
+
+@using (Html.BeginForm("UpdateUserProfile", "UserProfile", FormMethod.Post, new { @id = "form_UpdateUserProfile" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.SystemUserId)
+    
+            <div class="form-group">
+                @Html.LabelFor(m => m.Title, new { @class = "" })
+                <select name="Title" id="Title" class="slct">
+                    <option>Select Title</option>
+                    <option value="MR" @(Model.Title == "MR" ? "selected='selected'" : "")>MR</option>
+                    <option value="MS" @(Model.Title == "MS" ? "selected='selected'" : "")>MS</option>
+                </select>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.FirstName, new { @class = "" })
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.LastName, new { @class = "" })
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.SystemRoleId, new { @class = "" })
+                @Html.DropDownListFor(m => m.SystemRoleId, rolesSelectList, new { @class = "slct", @readonly = "readonly", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.SystemRoleId, "", new { @class = "text-danger" })
+            </div>
+       
+
+    <div class="form-group">
+        <button type="button" id="btn_UpdateUserProfile" class="btn btn-lg btn-primary">Update &nbsp;  <span id="Spiner" style="display:none"><i class="fa fa-spinner fa-spin"></i></span> </button>
+    </div>
+
+}
+
+<style type="text/css">
+    div#paslist ul li {
+        margin: 10px 0;
+        font-size: 1.4rem
+    }
+
+    div#paslist ul {
+        margin: 50px 15px;
+    }
+
+    i.passlisti {
+        margin-right: 10px;
+        font-size: 10px;
+        color: #5cb85c;
+    }
+
+    .slct {
+        margin-bottom: 14px
+    }
+</style>

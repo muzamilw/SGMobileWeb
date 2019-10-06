@@ -1,0 +1,1061 @@
+﻿@model SG2.CORE.MODAL.ViewModals.Backend.ActionBoard.ActionBoardViewModel
+@using SG2.CORE.COMMON;
+@{
+    ViewBag.Title = "Action Board";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+    var BaseURl = ViewBag.BaseUrl;
+}
+
+
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">                
+                <div class="search-wrap clearfix">
+                    <h2 style="display:inline-block">Action Board</h2>
+                    <input id="SearchCriteria" name="SearchCriteria" placeholder="Search social username here..." type="search" value="">
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="action-board-grey">
+
+        <div class="action-board-white">
+            @foreach (var item1 in Model.JVStatuses)
+            {
+                <div class="colm">
+                    <h2>@item1.JVBStatusName</h2>
+                    <div class="grey-sec" id="boardSection-@(item1.JVBStatusId)">
+
+                    </div>
+                </div>
+            }
+
+            <div class="colm">
+                <h2>Archived cards</h2>
+                <div class="grey-sec" id="boardSection-Archived">
+
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="hide listHTML">
+                <div class="white-sec" style="text-align:left">
+                    <p style="color:red;font:bolder;font-size:large">{{InstaUsername}}</p>
+                    <p style="font:bolder">{{Email}}</p>
+                    <p style="font:bolder;font-size:medium">Notes:</p>
+                    <p style="font-size:12px">{{Comment}}</p>
+                    @*<a href="@BaseURl/crm/targettinginformation?id={{CustomerId}}&SPId={{ProfileId}}" target="_blank">Open</a>*@
+                    <a href="#" class="Modal_ShowDetailModal" data-id="{{ProfileId}}" data-section="{{sectionId}}">Open</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="Modal_ActionBoardDetail" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    Target Info:
+                    <span id="ti_heading"></span>
+                    <span class="TPrefDiv" style="float:right">
+                    </span>
+                    <span style="clear:both"></span>
+
+                </h3>
+
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <input type="hidden" id="ProfileId" value="" />
+                    <input type="hidden" id="SProfileId" value="" />
+                    <input type="hidden" id="sectionId" value="" />
+                    <input type="hidden" id="CusId" value="" />
+                    <input type="hidden" id="ProxyId" value="" />
+                    <div class="col-md-4">
+                        <textarea readonly id="TInfo"></textarea>
+                    </div>
+                    <div class="col-md-4">
+                        <textarea readonly id="TINotes"></textarea>
+                       <br />
+                        <input type="text" name="" id="txt_comments" placeholder="Enter Comments Here..." /> &nbsp; &nbsp;<i id="btn_saveComments" class="fa fa-save"></i>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Status: </label>
+                        <select name="" id="cmb_StatusId">
+                            <option>-- Select Status --</option>
+                            @foreach (var item in Model.JVStatuses)
+                            {
+                                <option value="@item.JVBStatusId">@item.JVBStatusName</option>
+                            }
+                        </select> &nbsp; &nbsp;<i id="btn_StatusId" class="fa fa-save"></i>
+
+                        <label>MP Box: </label>
+                        <select name="" id="input_MPBox">
+                            <option>-- Select MP Box --</option>
+                            @foreach (var item in Model.MPBoxList)
+                            {
+                                <option value="@item.JVBoxId">@item.BoxName</option>
+                            }
+                        </select>
+                        &nbsp; &nbsp;<i id="btn_MPBox" class="fa fa-save"></i>
+
+                        <label>IP:</label>
+                        <label id="IPText"></label>
+
+                        &nbsp; &nbsp; &nbsp; &nbsp;
+                        <button id="BlockIP" class="btn" style="padding:2px; visibility:hidden; background-color:crimson">
+                            <i id="btn_IPBlockList" style="padding:3px" title="Send ip to block list" class="fa fa-ban"></i>
+                        </button>
+
+                        <div class="row div_ipBlock">
+                            <div class="col-md-6">
+                                <label>Country</label>
+                                <select name="" id="cmb_Country">
+                                    @foreach (var item in Model.Countries)
+                                    {
+                                        <option value="@item.CountryId">@item.Name</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>City</label>
+                                <select name="" id="cmb_City">
+                                    @foreach (var item in Model.Cities.Distinct())
+                                    {
+                                        <option value="@item.CityId">@item.Name</option>
+                                    }
+
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <label style="display:block">IP: </label>
+                                <select name="" id="cmb_IPSelect">
+                                    @*@foreach (var item in Model.MPBoxList)
+                    {
+                        <option value="@item.JVBoxId">@item.BoxName</option>
+                    }*@
+                                    <option>-- Select Proxy IP --</option>
+                                </select>
+                                &nbsp;<i id="btn_IPSelect" class="fa fa-save"></i>
+                                &nbsp;
+
+                            </div>
+                        </div>
+
+                    </div>
+                    @*<div class="col-md-6">
+            <div class="form-group">
+
+                <div>
+                    <select name="" id="cmb_StatusId">
+                        @foreach (var item in Model.JVStatuses)
+                        {
+                            <option value="@item.JVBStatusId">@item.JVBStatusName</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>*@
+
+                    @*<div class="col-md-6">
+            <div class="form-group">
+                <label class="form-label col-sm-5">Name: </label>
+                <div class="col-md-7">
+                    <input type="text" id="Fullname" readonly value="" class="form-control col-sm-12" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="form-label col-sm-5">Email: </label>
+                <div class="col-md-7">
+                    <input type="text" id="Email" readonly value="" class="form-control col-sm-12" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="form-label col-sm-5">Insta Username: </label>
+                <div class="col-md-7">
+                    <input type="text" id="InstaUsername" readonly value="" class="form-control col-sm-12" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="form-label col-sm-5">Insta password: </label>
+                <div class="col-md-7">
+                    <input type="text" id="InstaPassword" readonly value="" class="form-control col-sm-12" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <h2>Target Information</h2>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="form-label col-sm-5">Hashtags want to engage: </label>
+                <div class="col-md-7">
+                    <input type="text" id="HashtagsEngaged" readonly class="form-control col-sm-12" value="" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="form-label col-sm-5">Hashtags don't want to engage: </label>
+                <div class="col-md-7">
+                    <input type="text" id="HashtagsNotEngaged" readonly class="form-control col-sm-12" value="" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="form-label col-sm-5">locations to focus: </label>
+                <div class="col-md-7">
+                    <input type="text" id="FocusedLocation" readonly class="form-control col-sm-12" value="" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="form-label col-sm-5">locations to skip: </label>
+                <div class="col-md-7">
+                    <input type="text" id="SkipLocation" readonly class="form-control col-sm-12" value="" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="form-label col-sm-5">Effective growth strategy: </label>
+                <div class="col-md-7">
+                    <input type="text" id="EffectiveGStrategy" readonly class="form-control col-sm-12" value="" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="form-label col-sm-5">People want to engage: </label>
+                <div class="col-md-7">
+                    <input type="text" id="PeopleEngaged" readonly class="form-control col-sm-12" value="" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="form-label col-sm-5">Include business accounts: </label>
+                <div class="col-md-7">
+                    <input type="text" id="IncludeBA" readonly class="form-control col-sm-12" value="" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="form-label col-sm-5">Targeted user demographics: </label>
+                <div class="col-md-7">
+                    <input type="text" id="TargetUsrDemo" readonly class="form-control col-sm-12" value="" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="form-label col-sm-5">Direct competitors : </label>
+                <div class="col-md-7">
+                    <input type="text" readonly id="DirectCompetitors" class="form-control col-sm-12" value="" />
+                </div>
+            </div>
+        </div>*@
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                @*<button type="button" class="btn btn-default btn_saveStatus">
+            Change Status and Refresh Board
+            <span id="CSSpinner" hidden><i class="fa fa-spinner fa-spin"></i></span>
+
+        </button>*@
+                <button type="button" id="btn_Archive" class="btn fa fa-archive" style="background-color:green"> Archive Ticket</button>
+                <button type="button" id="btn_UnArchive" class="btn fa fa-archive" style="background-color:green"> Un Archive Ticket</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<span class="TPrefDiv1" style="visibility:hidden">
+    <a id="TPref" class="btn" href="@BaseURl/crm/targettinginformation?id={{CusId}}&SPId={{PrfId}}" target="_blank">Open Target Form</a>
+</span>
+
+<style type="text/css">
+    select, input[type=text], input[type=password], input[type=email], textarea {
+        font-size: 10pt
+    }
+
+    #TInfo {
+        min-height: 400px;
+        background-color: #cecece;
+        color: black;
+        font-weight: 400;
+    }
+
+    #TINotes {
+        min-height: 360px;
+        background-color: #cfcfcf;
+        color: black;
+        font-weight: 400;
+    }
+
+    #txt_comments {
+        width: 88%;
+        display: inline-block;
+        margin: 0px 0 5px 0;
+    }
+
+    #btn_saveComments, #btn_StatusId, #btn_MPBox, #btn_IPSelect, #btn_IPBlockList {
+        cursor: pointer;
+        padding: 8px;
+    }
+
+    #cmb_StatusId, #input_MPBox, #cmb_IPSelect {
+        height: 34px;
+        width: 70%;
+        margin: 0 0 5px 0;
+    }
+
+    #cmb_Country, #cmb_City {
+        height: 34px;
+        margin: 0 0 5px 0;
+        width: 100%
+    }
+
+    .div_ipBlock {
+        padding: 5px;
+        background-color: white;
+        margin: 5px 0;
+        border-radius: 5px;
+    }
+
+    .main {
+        padding-top: 10px;
+        padding-left: 10px;
+    }
+
+        .main h2 {
+            font-size: 3rem;
+        }
+
+    .container {
+        padding-left: 2%;
+        padding-right: 2%;
+    }
+
+    .team-member-grey, .action-board-grey {
+        padding: 10px 5px;
+    }
+
+    .action-board-grey {
+        overflow-x: scroll;
+        overflow-y: scroll;
+        height: 500px;
+    }
+
+    .action-board-white {
+        min-height: 528px;
+        width: 4080px;
+        height: auto;
+    }
+
+        .action-board-white .colm {
+            width: 225px;
+        }
+
+    input[type=text], input[type=password], input[type=email], textarea {
+        height: 34px;
+        margin-bottom: 0px;
+    }
+
+    label.form-label {
+        margin-top: 8px;
+
+    }
+
+    h3 {
+        padding-left: 15px;
+        color: crimson;
+        margin: 15px 0;
+    }
+
+    i.spiner {
+        font-size: 48px;
+        color: #28a745;
+        margin-left: 85px;
+        margin-top: 190px;
+        position: relative;
+    }
+
+    #SearchCriteria {
+        float: right;
+        position: relative;
+        top: 18px;
+        right: 20px;
+        border-bottom: 1px solid #cfcfcf;
+        width: 20%;
+        min-width: 300px;
+        padding: 0px 25px 5px;
+    }
+
+    #Modal_ActionBoardDetail .modal-dialog {
+        width: 90%
+    }
+
+    #Modal_ActionBoardDetail .modal-body {
+        background-color: #f2f2f2;
+    }
+
+        #Modal_ActionBoardDetail .modal-body label {
+            font-size: 11pt;
+            min-width: 17%;
+        }
+
+    #Modal_ActionBoardDetail .btn {
+        font-size: 11pt;
+        padding: 10px;
+        font-weight: 400;
+    }
+
+</style>
+
+@section JavaScript{
+
+    <script type="text/javascript">
+      
+        var glb_SocialProfileId = $("#SProfileId").val();
+       // var glb_ArchiveCards = [];
+        var glb_ArchiveCards = new Array();
+        $(document).ready(function () {
+            LoadAllActionBoardData();
+
+            $("#btn_Archive").on("click", function () {
+                $("#btn_Archive").removeClass("fa-archive");
+                $("#btn_Archive").addClass("fa-spinner");
+                var statusId = $("#cmb_StatusId :selected").val();
+                var profileId = $("#ProfileId").val();
+                //$("#CSSpinner").show();
+
+                $.ajax({
+                    url: GLB_BASEURL + "/actionboard/SetSocialProfileArchive",
+                    type: "Get",
+                    data: { id: profileId, status:1},
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (Data) {
+                        $("#btn_Archive").addClass("fa-archive");
+                        $("#btn_Archive").removeClass("fa-spin fa-spinner");
+                        if (Data.Data.ResultType == "Success") {
+                            //  $("#Modal_ActionBoardDetail").modal("hide");
+                            //$("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            //$("#Modal_MessageBoxBody").text("Status updated successfully.");
+                            //$("#Modal_Messagebox").modal("show");
+                            LoadActionData($("#sectionId").val());
+                            LoadActionData("boardSection-" + statusId);
+                            $("#Modal_ActionBoardDetail").modal("hide");
+                        } else {
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                            //$("#CSSpinner").hide();
+                        }
+                    },
+                    error: function () {
+                        $("#btn_Archive").addClass("fa-save");
+                        $("#btn_Archive").removeClass("fa-spin fa-spinner");
+
+                        $("#Modal_MessageBoxTitle").text("Error");
+                        $("#Modal_MessageBoxBody").text("Oops! some error occured please contact admin.");
+                        $("#Modal_Messagebox").modal("show");
+
+                    }
+                });
+            });
+
+            $("#btn_UnArchive").on("click", function () {
+                $("#btn_UnArchive").removeClass("fa-archive");
+                $("#btn_UnArchive").addClass("fa-spinner");
+                var statusId = $("#cmb_StatusId :selected").val();
+                var profileId = $("#SProfileId").val();
+                //$("#CSSpinner").show();
+
+                $.ajax({
+                    url: GLB_BASEURL + "/actionboard/SetSocialProfileUnArchive",
+                    type: "Get",
+                    data: { id: profileId},
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (Data) {
+                        
+                        $("#btn_UnArchive").addClass("fa-archive");
+                        $("#btn_UnArchive").removeClass("fa-spin fa-spinner");
+                        if (Data.Data.ResultType == "Success") {
+                            //  $("#Modal_ActionBoardDetail").modal("hide");
+                            //$("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            //$("#Modal_MessageBoxBody").text("Status updated successfully.");
+                            ////$("#Modal_Messagebox").modal("show");
+                            //LoadActionData($("#sectionId").val());
+                            LoadActionData("boardSection-" + statusId);
+                            PopUnArchivedArray(profileId);
+                            $("#Modal_ActionBoardDetail").modal("hide");
+                        } else {
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                            //$("#CSSpinner").hide();
+                        }
+                    },
+                    error: function () {
+                        $("#btn_UnArchive").addClass("fa-save");
+                        $("#btn_UnArchive").removeClass("fa-spin fa-spinner");
+
+                        $("#Modal_MessageBoxTitle").text("Error");
+                        $("#Modal_MessageBoxBody").text("Oops! some error occured please contact admin.");
+                        $("#Modal_Messagebox").modal("show");
+
+                    }
+                });
+            });
+
+            $("#btn_StatusId").on("click", function () {
+                $("#btn_StatusId").removeClass("fa-save");
+                $("#btn_StatusId").addClass("fa-spin fa-spinner");
+                var statusId = $("#cmb_StatusId :selected").val();
+                var profileId = $("#ProfileId").val();
+                //$("#CSSpinner").show();
+
+                $.ajax({
+                    url: GLB_BASEURL + "/actionboard/SetSocialProfileJVStatus",
+                    type: "Get",
+                    data: { id:profileId,statusId: statusId },
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (Data) {
+                        $("#btn_StatusId").addClass("fa-save");
+                        $("#btn_StatusId").removeClass("fa-spin fa-spinner");
+                        if (Data.Data.ResultType == "Success") {
+                          //  $("#Modal_ActionBoardDetail").modal("hide");
+                            //$("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            //$("#Modal_MessageBoxBody").text("Status updated successfully.");
+                            //$("#Modal_Messagebox").modal("show");
+                            LoadActionData($("#sectionId").val());
+                            LoadActionData("boardSection-" + statusId);
+                        } else {
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                            //$("#CSSpinner").hide();
+                        }
+                    },
+                    error: function () {
+                        $("#btn_StatusId").addClass("fa-save");
+                        $("#btn_StatusId").removeClass("fa-spin fa-spinner");
+
+                        $("#Modal_MessageBoxTitle").text("Error");
+                        $("#Modal_MessageBoxBody").text("Oops! some error occured please contact admin.");
+                        $("#Modal_Messagebox").modal("show");
+
+                    }
+                });
+            });
+
+        });
+
+
+        
+        $("#btn_IPBlockList").on("click", function () {
+            $("#btn_IPBlockList").removeClass("fa-save");
+            $("#btn_IPBlockList").addClass("fa-spin fa-spinner");
+            var textT = $("#ProxyId").val();
+            $.ajax({
+
+                url: GLB_BASEURL + "/ActionBoard/AddBadIP",
+                type: "Get",
+                data: { profileId: $("#ProfileId").val(), IP: textT },
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (Data) {
+                    $("#btn_IPBlockList").addClass("fa-save");
+                    $("#btn_IPBlockList").removeClass("fa-spin fa-spinner");
+                    if (Data.Data.ResultType == "Success") {
+                        $("#IPText").text("");
+                    } else {
+                        //  $("#Modal_ConfirmUpdateMPBox").modal("hide");
+                        $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                        $("#Modal_MessageBoxBody").text(Data.Data.message);
+                        $("#Modal_Messagebox").modal("show");
+                    }
+                },
+                error: function () {
+                    $("#btn_IPBlockList").addClass("fa-save");
+                    $("#btn_IPBlockList").removeClass("fa-spin fa-spinner");
+
+                    $("#Modal_MessageBoxTitle").text("Error");
+                    $("#Modal_MessageBoxBody").text("Oops! some error occured please contact admin.");
+                    $("#Modal_Messagebox").modal("show");
+                }
+            });
+        });
+
+        $("#btn_MPBox").on("click", function () {
+            $("#btn_MPBox").removeClass("fa-save");
+            $("#btn_MPBox").addClass("fa-spin fa-spinner");
+            var textT = $("#input_MPBox option:selected").val();
+            $.ajax({
+
+                url: GLB_BASEURL + "/CRM/UpdateMPBox",
+                type: "Get",
+                data: { profileId: $("#SProfileId").val(), MPBox: textT },
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (Data) {
+                    $("#btn_MPBox").addClass("fa-save");
+                    $("#btn_MPBox").removeClass("fa-spin fa-spinner");
+                    if (Data.Data.ResultType == "Success") {
+                       // $("#Modal_ConfirmUpdateMPBox").modal("hide");
+                        //$("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                        //$("#Modal_MessageBoxBody").text(Data.Data.message);
+                        //$("#Modal_Messagebox").modal("show");
+                    } else {
+                      //  $("#Modal_ConfirmUpdateMPBox").modal("hide");
+                        $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                        $("#Modal_MessageBoxBody").text(Data.Data.message);
+                        $("#Modal_Messagebox").modal("show");
+                    }
+                },
+                error: function () {
+                    $("#btn_MPBox").addClass("fa-save");
+                    $("#btn_MPBox").removeClass("fa-spin fa-spinner");
+
+                    $("#Modal_MessageBoxTitle").text("Error");
+                    $("#Modal_MessageBoxBody").text("Oops! some error occured please contact admin.");
+                    $("#Modal_Messagebox").modal("show");
+                }
+            });
+        });
+
+        $("#cmb_Country").on("change", function () {
+            GetCity($(this).val())
+            GetProxyIps($(this).val(), 0)
+        });
+
+        $("#cmb_City").on("change", function () {
+            var valT = $("#cmb_Country option:selected").val();
+            GetProxyIps(valT, $(this).val())
+        });
+
+        function GetCity(_countryId) {
+            var url = GLB_BASEURL + "/actionboard/GetCityByCountryId";
+            $("#cmb_City").html("");
+            $.ajax({
+                url: url,
+                data: { countryId: _countryId },
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $('#cmb_City').append($("<option>-- Select City --</option>"));
+                    $.each(data, function (i, e) {
+                        $('#cmb_City').append($("<option></option>").val(e.CityId).html(e.Name));
+                    });
+                },
+                error: function (reponse) {
+                    alert("error : " + reponse);
+                }
+            });
+        }
+
+        $("#btn_IPSelect").on("click", function () {
+            $("#btn_IPSelect").removeClass("fa-save");
+            $("#btn_IPSelect").addClass("fa-spin fa-spinner");
+            var textT = $("#cmb_IPSelect option:selected").val();
+            $.ajax({
+
+                url: GLB_BASEURL + "/CRM/UpdateProxyIp",
+                type: "Get",
+                data: { profileId: $("#SProfileId").val(), proxyIp: textT },
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (Data) {
+                    $("#btn_IPSelect").addClass("fa-save");
+                    $("#btn_IPSelect").removeClass("fa-spin fa-spinner");
+                    if (Data.Data.ResultType == "Success") {
+                        if (!jQuery.isEmptyObject(Data)) {
+                            var rs = Data.Data.ResultData;
+                            $("#IPText").text(rs);
+                        }
+                        //$("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                        //$("#Modal_MessageBoxBody").text(Data.Data.message);
+                        //$("#Modal_Messagebox").modal("show");                        
+                    } else {
+                        //$("#Modal_ConfirmUpdateProxyIP").modal("hide");
+                        $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                        $("#Modal_MessageBoxBody").text(Data.Data.message);
+                        $("#Modal_Messagebox").modal("show");
+                    }
+                },
+                error: function () {
+                    $("#btn_IPSelect").addClass("fa-save");
+                    $("#btn_IPSelect").removeClass("fa-spin fa-spinner");
+                    $("#Modal_MessageBoxTitle").text("Error");
+                    $("#Modal_MessageBoxBody").text("Oops! some error occured please contact admin.");
+                    $("#Modal_Messagebox").modal("show");
+                }
+            });
+        });
+
+        function LoadAllActionBoardData() {
+            $(".grey-sec").each(function (i, obj) {
+                var sectionId = $(obj).attr("id");
+                if (sectionId != "boardSection-Archived") {
+                    LoadActionData(sectionId);
+                }
+                
+            });
+            LoadArchivedData();
+        }
+
+        function LoadArchivedData() {
+
+            var divHtml = $(".listHTML").html();
+            $("#boardSection-Archived").html("");
+
+            glb_ArchiveCards.forEach(function (obj, i) {
+
+                console.log(obj);
+                console.log(i);
+                  var div = divHtml.replace("{{Fullname}}", obj.UserName)
+                                        .replace("{{Email}}", obj.Email)
+                                        .replace("{{InstaUsername}}", obj.InstaUsrName)
+                                        .replace("{{Status}}", obj.Status)
+                                        .replace("{{ProfileId}}", obj.ProfileId)
+                                        .replace("{{sectionId}}", sectionId)
+                                        .replace("{{CustomerId}}", obj.CustomerId)
+                                        .replace("{{Comment}}", obj.Comment)
+                                    $("#boardSection-Archived").append(div);
+            })
+        }
+
+        function PushArchivedArray(profileObject) {
+            var IsExists = false;
+            glb_ArchiveCards.forEach(function (obj, i) {
+                
+                if (obj.ProfileId == profileObject.ProfileId) {
+                    IsExists = true;
+                    
+
+                }
+
+            })
+            if (IsExists == false)
+                glb_ArchiveCards.push(profileObject);
+
+        }
+
+        function PopUnArchivedArray(profileId) {
+         
+            glb_ArchiveCards.forEach(function (obj, i) {
+             
+                if (obj.ProfileId == profileId) {
+                    glb_ArchiveCards.splice(i, 1);
+
+
+                }
+
+            })
+
+          
+         
+            
+        }
+
+        function LoadActionData(sectionId) {
+            var jvStatusId = sectionId.replace("boardSection-", "");
+            var divHtml = $(".listHTML").html();
+            var url = GLB_BASEURL + "/actionboard/getprofilebyjvstatusid/" + jvStatusId;
+            //$("#" + sectionId).html("");
+            $("#" + sectionId).html('<i class="fa fa-refresh fa-spin spiner"></i>');
+            $.ajax({
+                url: url,
+                global: false,
+                type: 'get',
+                contentType: "application/json",
+                async: true,
+                success: function (result) {
+                    $("#" + sectionId).html("");
+                    if (!$.isEmptyObject(result)) {
+                        if (result.Data.ResultType == "Success") {
+                            $.each(result.Data.ResultData, function (i, obj) {
+                                
+                                if (obj.IsArchived == 0) {
+                                    var div = divHtml.replace("{{Fullname}}", obj.UserName)
+                                        .replace("{{Email}}", obj.Email)
+                                        .replace("{{InstaUsername}}", obj.InstaUsrName)
+                                        .replace("{{Status}}", obj.Status)
+                                        .replace("{{ProfileId}}", obj.ProfileId)
+                                        .replace("{{sectionId}}", sectionId)
+                                        .replace("{{CustomerId}}", obj.CustomerId)
+                                        .replace("{{Comment}}", obj.Comment)
+                                    $("#" + sectionId).append(div);
+                                }
+                                else {
+                                    //glb_ArchiveCards.push(obj);
+                                    PushArchivedArray(obj);
+                                    
+                                    //var div = divHtml.replace("{{Fullname}}", obj.UserName)
+                                    //    .replace("{{Email}}", obj.Email)
+                                    //    .replace("{{InstaUsername}}", obj.InstaUsrName)
+                                    //    .replace("{{Status}}", obj.Status)
+                                    //    .replace("{{ProfileId}}", obj.ProfileId)
+                                    //    .replace("{{sectionId}}", sectionId)
+                                    //    .replace("{{CustomerId}}", obj.CustomerId)
+                                    //    .replace("{{Comment}}", obj.Comment)
+                                    //$("#boardSection-Archived").append(div);
+                                }
+                            });
+
+                            LoadArchivedData();
+                           BindShowModalClickEvent();
+                        }
+                    }
+                },
+                error: function () {
+                    $("#" + sectionId).html("");
+                }
+            });
+        }
+
+        function BindShowModalClickEvent() {
+            $(".Modal_ShowDetailModal").unbind();
+            $(".Modal_ShowDetailModal").bind("click", ShowDetailModal);
+        }
+
+        //function ShowDetailModal(e) {
+        //    
+        //    $.ajax({
+        //        // edit to add steve's suggestion.
+        //        //url: "/ControllerName/ActionName",
+        //        var id = $(this).attr("data-id");
+        //   var sectionId = $(this).attr("data-section");
+        //        url: '<%= Url.Action("targettinginformation", "GLB_BASEURL+crm") %>',
+        //        success: function (data) {
+        //            // your data could be a View or Json or what ever you returned in your action method
+        //            // parse your data here
+        //            alert(data);
+        //        }
+        //    });
+        //}
+
+
+        function GetProxyIps(_countryId, _cityId, ip) {
+            var url = GLB_BASEURL + "/CRM/GetProxyIps";
+            //$("#input_Proxy").html("");
+            $.ajax({
+                url: url,
+                data: { countryId: _countryId, cityId: _cityId },
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#cmb_IPSelect").html("");
+                    $('#cmb_IPSelect').append($("<option>-- Select Proxy IP --</option>"));
+                    $.each(data, function (i, e) {
+                        if (e.ProxyNumber.includes(ip)) {
+                            $('#cmb_IPSelect').append($("<option selected='selected'></option>").val(e.ProxyId).html(e.ProxyNumber));
+                        }else
+                        $('#cmb_IPSelect').append($("<option></option>").val(e.ProxyId).html(e.ProxyNumber));
+                    });
+                },
+                error: function (reponse) {                  
+                    alert("error : " + reponse);
+                }
+            });
+        }
+
+        $('#txt_comments').keypress(function (event) {
+
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                $("#btn_saveComments").trigger("click");
+            }
+            event.stopPropagation();
+        }); 
+
+        $('#SearchCriteria').on("keyup", function (event) {                        
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            //if (keycode == '13')
+            {
+                var squery = $("#SearchCriteria").val();
+                console.log(squery)
+                if (squery == "") {
+                    $('.white-sec').removeClass("hide");
+                } else {
+                    $('.white-sec').each(function (i, val) {
+                        var username = $(val).children(":eq(0)").html();
+                        var email = $(val).children(":eq(1)").html();
+                        if (
+                            (username).toLowerCase().indexOf(squery) >= 0
+                            || (email).toLowerCase().indexOf(squery) >= 0
+                        ) {
+                            $(val).removeClass("hide");
+                        } else {
+                            $(val).addClass("hide");
+                        }
+                    });
+                }                
+            }
+        }); 
+
+        $("#btn_saveComments").on("click", function () {
+            $("#btn_saveComments").removeClass("fa-save");
+            $("#btn_saveComments").addClass("fa-spin fa-spinner");
+            var _Value = $("#txt_comments").val() 
+            var url = GLB_BASEURL + "/ActionBoard/SaveUpdateUserDataIndividually";
+            $.ajax({
+                url: url,
+                data: {
+                    value: _Value,
+                    fieldName: "Comment",
+                    customerId: $("#CusId").val(),
+                    SocialProfileId: $("#SProfileId").val()
+                },
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                    $("#btn_saveComments").addClass("fa-save");
+                    $("#btn_saveComments").removeClass("fa-spin fa-spinner");
+                    if (!jQuery.isEmptyObject(data)) {
+                        var rs = data.Data.ResultData;
+                        $("#TINotes").val(rs);
+                        //$("#Fullname").val(rs.UserName);
+                        $("#txt_comments").val("");
+                    }
+                },
+                error: function (reponse) {
+                    $("#btn_saveComments").addClass("fa-save");
+                    $("#btn_saveComments").removeClass("fa-spin fa-spinner");
+                }
+            });
+        });
+             
+        function ShowDetailModal(e) {
+            
+            e.preventDefault();
+            e.stopPropagation();
+            var divHtml = $(".TPrefDiv1").html();
+            $(".TPrefDiv").empty()
+            var id = $(this).attr("data-id");
+            var sectionId = $(this).attr("data-section");
+            $("#TInfo").val("");
+            $("#TINotes").val("");
+            $('#cmb_StatusId option:selected').removeAttr('selected');
+            $('#cmb_City option:selected').removeAttr('selected');
+            $('#cmb_Country option:selected').removeAttr('selected');
+            $('#input_MPBox option:selected').removeAttr('selected');
+            $('#cmb_IPSelect option:selected').removeAttr('selected');
+            $("#cmb_IPSelect").empty();
+            $("#IPText").text("");
+            $("#ProxyId").val("");
+            $("#Modal_ActionBoardDetail").modal("show");
+            $.getJSON(GLB_BASEURL + "/actionboard/getprofiledetailbyid?id=" + id, function (data) {
+                if (!jQuery.isEmptyObject(data)) {
+                    var rs = data.Data.ResultData;
+                    
+                    $("#TInfo").val(rs.TargetPreferences);
+                    $("#TINotes").val(rs.Notes);
+                    //$("#Fullname").val(rs.UserName);
+                    //$("#Email").val("");
+                    //$("#InstaUsername").val(rs.InstaUser);
+                    //$("#InstaPassword").val(rs.InstaPassword);
+                    $("#ProfileId").val(rs.SPId);
+                  //  GetCity(rs.Country);
+                    var div=divHtml.replace("{{PrfId}}", rs.SocialProfileId)
+                        .replace("{{CusId}}", rs.CustomerId);
+                    $(".TPrefDiv").append(div);
+                    $("#SProfileId").val(rs.SocialProfileId);
+                    $("#ProxyId").val(rs.ProxyId);
+                    if (rs.ProxyId != null) {
+                        $("#BlockIP").css('visibility', 'visible');
+
+                    }
+                    else {
+                        $("#BlockIP").css('visibility', 'hidden');
+                    }
+                    if (rs.IsArchived == 0) {
+                        $("#btn_Archive").toggle(true);
+                        $("#btn_UnArchive").toggle(false);
+                    }
+                    else {
+
+                        $("#btn_Archive").toggle(false);
+                        $("#btn_UnArchive").toggle(true);
+                    }
+                    $("#CusId").val(rs.CustomerId);
+                    $("#IPText").text(rs.IP);
+                    //$("#HashtagsEngaged").val(rs.Preference1);
+                    //$("#HashtagsNotEngaged").val(rs.Preference2);
+                    //$("#FocusedLocation").val(rs.Preference3);
+                    //$("#SkipLocation").val(rs.Preference4);
+                    //$("#EffectiveGStrategy").val(rs.Preference5);
+                    //$("#PeopleEngaged").val(rs.Preference6);
+                    //$("#IncludeBA").val(rs.Preference7);
+                    //$("#TargetUsrDemo").val(rs.Preference8);
+                    //$("#DirectCompetitors").val(rs.Preference9);
+                    $("#sectionId").val(sectionId);
+                    ////$("#cmb_statusId").val(rs.jvStatusId);
+                    $("#ti_heading").text("@@" + rs.InstaUser + " - "+ rs.Email);
+                    $('#cmb_StatusId [value=' + rs.JVBoxStatusId + ']').attr('selected', 'true');
+                    $('#cmb_City [value=' + rs.City + ']').attr('selected', 'true');
+                    $('#cmb_Country [value=' + rs.Country + ']').attr('selected', 'true');
+                  //  $('#cmb_IPSelect [value=' + rs.IP + ']').attr('selected', 'true');
+                    $('#cmb_IPSelect').append($("<option>-- Select Proxy IP --</option>"));
+                    $('#input_MPBox [value=' + rs.MPBox + ']').attr('selected', 'true');
+                    if (rs.countryId != null && rs.cityId != null)
+                    GetProxyIps(rs.Country, rs.City, rs.IP);
+                } else {
+                    //$("#Fullname").val("");
+                    //$("#Email").val("");
+                    //$("#InstaUsername").val("");
+                    //$("#InstaPassword").val("");
+                    //$("#ProfileId").val("");
+                    //$("#HashtagsEngaged").val("");
+                    //$("#HashtagsNotEngaged").val("");
+                    //$("#FocusedLocation").val("");
+                    //$("#SkipLocation").val("");
+                    //$("#EffectiveGStrategy").val("");
+                    //$("#PeopleEngaged").val("");
+                    //$("#IncludeBA").val("");
+                    //$("#TargetUsrDemo").val("");
+                    //$("#DirectCompetitors").val("");
+                    $("#TInfo").val();
+                }
+            });
+
+
+        }
+
+    </script>
+
+}

@@ -1,0 +1,90 @@
+﻿@model SG2.CORE.MODAL.ViewModals.Backend.SystemSettings.SystemSettingsViewModal
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    @if (!string.IsNullOrEmpty(ViewBag.Success) && ViewBag.Success == "Yes")
+    {
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="alert alert-block alert-success">
+                    <p>
+                        <strong>
+                            <i class="ace-icon fa fa-check"></i>
+                            Success!
+                        </strong>
+                        @ViewBag.SuccessMessage
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+@using (Html.BeginForm("Detail", "SystemSettings", FormMethod.Post, new { @class = "" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ConfigId)
+    <div class="information-wrap main accounts">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="left-col">
+                        <h2>System Settings</h2>
+                    </div>
+                    <div class="right-col">
+                        <span><button type="submit" value="Save & Close" class="btn transition">Save & Close</button></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="jv-box">
+            <div class="accounts-form">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="product">
+                            <label>Name</label>
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.ConfigKey, new { @id = "slct", disabled = "true", @readonly="readonly" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            @Html.LabelFor(m => m.ConfigValue, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.ConfigValue, new { @class = "" })
+                                @Html.ValidationMessageFor(model => model.ConfigValue, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            @Html.LabelFor(m => m.ConfigValue2, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.ConfigValue2, new { @class = "" })
+                                @Html.ValidationMessageFor(model => model.ConfigValue2, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+    <style type="text/css">
+        input[type=text], input[type=password], input[type=email], textarea {
+            margin-bottom: 0;
+        }
+
+        .information-wrap span {
+            margin-top: 20px;
+        }
+        html input[readonly] {
+            background-color: #eee;
+        }
+    </style>

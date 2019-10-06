@@ -1,0 +1,120 @@
+﻿@using PagedList.Mvc
+@using PagedList;
+@using SG2.CORE.MODAL.ViewModals.Backend.SystemSettings;
+@using SG2.CORE.COMMON;
+@model SG2.CORE.MODAL.ViewModals.Backend.SystemSettings.SystemSettingsIndexViewModal
+@{
+                /**/
+
+                ViewBag.Title = "System Settings";
+                Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+                var BaseURl = ViewBag.BaseUrl;
+}
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2>System Settings</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-wrap">
+    <div class="container">
+        <div class="inner-colmn">
+            @using (Html.BeginForm("Index", "SystemSettings", FormMethod.Get, new { @id = "Form_SearchCriteria" }))
+            {
+                <div class="row">
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="search-wrap">
+                            @*<input type="search" placeholder="Search here">*@
+                            @Html.TextBoxFor(model => model.SearchCriteria, htmlAttributes: new { @placeholder = "Search here", @type = "search" })
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xs-6">
+                        <div class="product">
+                            <label>&nbsp;</label>
+                            <div class="select">
+                                <button type="submit" class="btn btn-primary searchBtn" value="SearchCriteria">
+                                    Search <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6">
+                        <div class="product text-right">
+                            <label>&nbsp;</label>
+                            <div class="select">
+                                <a href="@BaseURl/TeamMember/Index" class="btn  btn-primary" style="padding-top:12px; height:47px;"><i class="fa fa-plus"></i> Team</a>
+                                <a href="@BaseURl/PlanInformation/Index" class="btn  btn-primary" style="padding-top:12px; height:47px;"><i class="fa fa-plus"></i> Social Plans</a>
+                                <a href="@BaseURl/VPSSupplier/Index" class="btn  btn-primary" style="padding-top:12px; height:47px;"><i class="fa fa-plus"></i> Suppliers</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="product-listing-sec">
+    <div class="container">
+        <div class="product-list-inner">
+            <div class="row">
+                <div class="col-xs-12">
+                    <table>
+                        <thead>
+                            <tr>
+
+                                <th scope="col">Name</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.SystemSettingsListing)
+                            {
+                                <tr>
+
+                                    <td data-label="Status" class="status">@item.ConfigKey</td>
+                                    <td>
+                                        <a href="@BaseURl/systemsettings/Detail?id=@Url.Encode(CryptoEngine.Encrypt(item.ConfigId.ToString()))"><i class="fa fa-edit"></i></a>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="pagination-wrap">
+            Page @(Model.TotalRecord < Model.PageNumber ? 0 : Model.PageNumber)
+            of @Model.TotalRecord   @Html.PagedListPager((IPagedList<SystemSettingsListingViewModal>)Model.SystemSettingsListing, page => Url.Action("Index", new { page, Model.SearchCriteria, Model.StatusId }))
+        </div>
+    </div>
+</div>
+@section StyleSheet {
+    <style type="text/css">
+
+        .form-wrap .search-wrap input[type=search] {
+            font-size: 1.8rem;
+            line-height: 22px;
+            height: 47px;
+        }
+
+        input[type=search] {
+            border-bottom: 2px solid #eceffb;
+            font-style: normal;
+            padding: 0px 24px 10px;
+        }
+
+        button.searchBtn {
+            height: 47px;
+        }
+    </style>
+}
+
+
+
+
+

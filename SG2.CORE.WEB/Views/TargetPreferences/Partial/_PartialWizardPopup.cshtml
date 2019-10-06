@@ -1,0 +1,431 @@
+﻿@model SG2.CORE.MODAL.ViewModals.TargetPreferences.TargetPreferencesViewModel
+
+<div class="modal fade" id="Modal_WizardPopupPref" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                @using (Html.BeginForm("ModifyTargetPreferences", "TargetPreferences", FormMethod.Post, new { @id = "" }))
+                {
+                    <div class="wizard_step">
+
+                        <div class="wizard_step1">
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="popupLeftSide signupLeft">
+                                        <img src="~/Content/ThemeAssets/Images/17_W.png" />
+                                        <h4>Get real instagram followers & engagements</h4>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="popupRigtSide">
+                                        <span class="wizard_circle">
+                                            <i class="fa fa-circle active" aria-hidden="true"></i>
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+                                            <a href="#" onclick="return false;" data-dismiss="modal" class="active" style="float:right">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </a>
+                                        </span>
+
+                                        <h1>Let setup your targeting Preferences</h1>
+                                        <p>You can change this any time and as often as you like.</p>
+
+                                        <label>Choose the hashtags you want to engage with:</label>
+                                        @Html.TextBoxFor(m => m.Preference1, new { @class = "rows=2", @data_role = "tagsinput" })
+
+                                        <label>Choose the hashtags you DO NOT want to engage with (optional):</label>
+                                        @Html.TextBoxFor(m => m.Preference2, new { @class = "rows=2", @data_role = "tagsinput" })
+                                        <br />
+                                        <input type="button" value="Get Started - Free" class="btn btn-default btn_PrefStep1" /> <br />
+
+                                        <br />
+                                        <small>By clicking this button, you agree to Social Growth <a href="#">Anti-spam Policy &Aacute; Trems of Use</a></small>
+
+                                        <small>@@@DateTime.Now.Year All Rights Reserved Social Growth <a href="#">Privacy & Trems</a></small>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="wizard_step2 hide">
+
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <div class="popupLeftSide signupLeft">
+                                        <img src="~/Content/ThemeAssets/Images/7_W.png" />
+                                        <h4>We can target geographically, by city, state or country.</h4>
+                                        <h4>Or even your competitors | </h4>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <div class="popupRigtSide">
+                                        <span class="wizard_circle">
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+                                            <i class="fa fa-circle active" aria-hidden="true"></i>
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+                                            <a href="#" onclick="return false;" data-dismiss="modal" class="active" style="float:right">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </a>
+                                        </span>
+
+                                        <h1>Where are your followers?</h1>
+
+                                        <label>Choose up to 8 locations to focus on. Cities work best(optional):</label>
+                                        @Html.TextBoxFor(m => m.Preference3, new { @placeholder = "Cities, states, regions, countries", @data_role = "tagsinput" })
+
+                                        <label>Choose up to 8 locations to skip (optional):</label>
+                                        @Html.TextBoxFor(m => m.Preference4, new { @placeholder = "Cities, states, regions, countries", @data_role = "tagsinput" })
+
+                                        <label>What city do you mostly log in from?</label>
+                                        @Html.TextBoxFor(m => m.Country, new { @placeholder = "City, States, Country", @data_role = "tagsinput" })
+                                        <br />
+                                        <input type="button" value="Get Started - Free" class="btn btn-default btn_PrefStep2" /> <br />
+
+                                        <br />
+
+                                        <small>@@@DateTime.Now.Year All Rights Reserved Social Growth <a href="#">Privacy & Trems</a></small>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="wizard_step3 hide">
+
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <div class="popupLeftSide signupLeft">
+                                        <img src="~/Content/ThemeAssets/Images/3_W.png" />
+                                        <h4>No complicated dashboards !</h4>
+                                        <h4>Just fill in your target preferences, and our personal growth expert will contact you.</h4>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <div class="popupRigtSide">
+                                        <span class="wizard_circle">
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+                                            <i class="fa fa-circle active" aria-hidden="true"></i>
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+                                            <a href="#" onclick="return false;" data-dismiss="modal" class="active" style="float:right">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </a>
+                                        </span>
+
+                                        <h1>Follow, Unfollow &amp; Gender</h1>
+
+                                        <p>A very effective growth strategy is to incorporate an amount of Follow &amp; Unfollow activites on target accounts.</p>
+
+                                        <label>Do you permit this activity?</label>
+                                        <label class="form-radio">
+                                            Yes
+                                            @Html.RadioButtonFor(model => model.Preference5, "1")
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        <label class="form-radio">
+                                            No
+                                            @Html.RadioButtonFor(model => model.Preference5, "2")
+                                            <span class="checkmark"></span>
+                                        </label>
+
+                                        <label>Do you want to engage with:</label>
+                                        <label class="form-radio">
+                                            Males
+                                            @Html.RadioButtonFor(model => model.Preference6, "1")
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        <label class="form-radio">
+                                            Females
+                                            @Html.RadioButtonFor(model => model.Preference6, "2")
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        <label class="form-radio">
+                                            Both
+                                            @Html.RadioButtonFor(model => model.Preference6, "3")
+                                            <span class="checkmark"></span>
+                                        </label>
+
+                                        <input type="button" value="Continue" class="btn btn-default btn_PrefStep3" /> <br />
+
+                                        <br />
+
+                                        <small>@@@DateTime.Now.Year All Rights Reserved Social Growth <a href="#">Privacy & Trems</a></small>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="wizard_step4 hide">
+
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <div class="popupLeftSide signupLeft">
+                                        <img src="~/Content/ThemeAssets/Images/11_W.png" />
+                                        <h4>Our services helps you grow your Instagram account, with powerful targeting intellect.</h4>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <div class="popupRigtSide">
+                                        <span class="wizard_circle">
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+                                            <i class="fa fa-circle active" aria-hidden="true"></i>
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+                                            <a href="#" onclick="return false;" data-dismiss="modal" class="active" style="float:right">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </a>
+                                        </span>
+
+                                        <h1>Dive a little deeper</h1>
+
+                                        <label>Targeted User Demographics (optional):</label>
+                                        @Html.TextBoxFor(m => m.Preference8, new { @placeholder = "Age, education, industry, lifestyle, etc.", @data_role = "tagsinput" })
+
+                                        <label>Direct competitors or similar accounts. Provide at least 10 accounts with a following of at least 2000 followers:</label>
+                                        @Html.TextBoxFor(m => m.Preference9, new { @placeholder = "Please Provide actual Instagram username for each target account", @data_role = "tagsinput" })
+
+                                        <br />
+                                        <br />
+                                        <input type="button" value="Almost done! One more step" class="btn btn-default btn_PrefStep4" /> <br />
+
+                                        <br />
+
+                                        <small>@@@DateTime.Now.Year All Rights Reserved Social Growth <a href="#">Privacy & Trems</a></small>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="wizard_step5 hide">
+
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <div class="popupLeftSide signupLeft">
+                                        <img src="~/Content/ThemeAssets/Images/20_W.png" />
+                                        <h4>Increase your Instagram audience with the most powerful Instagram growth service on the market.</h4>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <div class="popupRigtSide">
+                                        <span class="wizard_circle">
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+                                            <i class="fa fa-circle active" aria-hidden="true"></i>
+                                            <a href="#" onclick="return false;" data-dismiss="modal" class="active" style="float:right">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </a>
+                                        </span>
+
+                                        <h1>We need your permission to start your growth and targeting</h1>
+
+                                        <label>Your Instagram Username:</label>
+                                        @Html.TextBoxFor(m => m.InstaUser, new { @placeholder = "Your Instagram username" })
+
+                                        <label>Your Instagram Password:</label>
+                                        <p>Please make sure you provide the correct password to avoid delays in getting started</p>
+                                        <p>(Your password is submitted over SSL 256Bit Encryption).</p>
+                                        <p>To double check the correct password, log out and back into instagram via the app.</p>
+                                        @Html.TextBoxFor(m => m.InstaPassword, new { @placeholder = "Your Instagram password" })
+
+                                        <br />
+                                        <input type="submit" value="Update" class="btn btn-default btn_PrefStep4" /> <br />
+
+                                        <br />
+
+                                        <small>@@@DateTime.Now.Year All Rights Reserved Social Growth <a href="#">Privacy & Trems</a></small>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+             </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    .modal-body {
+        padding: 0;
+        background-color: #f7f7f7;
+    }
+
+    .modal-content {
+        overflow: hidden;
+    }
+
+    .popupLeftSide {
+        padding: 100px 20px;
+        color: #fff;
+        background-color: #2263e2
+    }
+
+    span.dialog-close {
+        display: block;
+        text-align: right
+    }
+
+        span.dialog-close a {
+            font-size: 26px;
+        }
+
+    .popupLeftSide h4 {
+        padding: 10px;
+        font-weight: 400;
+        line-height: 26px;
+        text-align: center;
+    }
+
+    .popupRigtSide {
+        background-color: #f7f7f7;
+        padding: 5% 12%;
+        text-align: center;
+    }
+
+    div.popupLeftSide.signupLeft {
+        padding: 120px 30px;
+    }
+
+    .popupRigtSide h1 {
+        margin: 20px 0px;
+        color: #555;
+    }
+
+    .popupRigtSide p {
+        text-align: left;
+        margin: 15px 0;
+        font-weight: 500;
+        font-size: 1.6rem;
+    }
+
+    .popupRigtSide a {
+        color: #2263e2
+    }
+
+    .padding-zero {
+        padding: 0 !important;
+    }
+
+    .popupRigtSide input[type=text], input[type=password], input[type=email] {
+        font-size: 1.6rem;
+        margin-bottom: 15px;
+    }
+
+    label.error, .information-form span.text-danger, .information-form span.text-danger span {
+        display: block;
+        text-align: left;
+        color: indianred;
+        margin-bottom: 15px;
+        font-weight: 500;
+        font-size: 1.4rem;
+    }
+
+    .popupRigtSide input.error, .input-validation-error {
+        border: 1px solid indianred;
+        margin-bottom: 5px;
+    }
+
+    .modal-dialog-center {
+        margin-top: 25%;
+    }
+    #Modal_WizardPopupPref .bootstrap-tagsinput {
+        text-align:left;
+        height:auto
+
+    }
+        #Modal_WizardPopupPref .bootstrap-tagsinput input {
+            display:inline
+        }
+        #Modal_WizardPopupPref .bootstrap-tagsinput .tag {
+            position: relative;
+            font-weight:400;
+        }
+    .wizard_step div.popupLeftSide.signupLeft {
+        padding: 90px 0;
+    }
+
+    .wizard_step .popupRigtSide input[type=text], input[type=password], input[type=email] {
+        font-size: 1.4rem;
+        margin-bottom: 0;
+        color: #999;
+    }
+
+    .wizard_step .popupRigtSide textarea {
+        height: auto;
+        margin-bottom: 10px;
+        font-size: 1.5rem;
+        margin-bottom: 20px
+    }
+
+    .wizard_step .popupRigtSide {
+    }
+
+        .wizard_step .popupRigtSide .wizard_circle {
+            text-align: left
+        }
+
+            .wizard_step .popupRigtSide .wizard_circle i.active {
+                color: #2263e2;
+                font-size: 24px;
+                position: relative;
+                top: 4px;
+            }
+
+        .wizard_step .popupRigtSide label {
+            display: block;
+            margin: 8px 0;
+            font-size: 1.4rem;
+            text-align: left;
+        }
+
+        .wizard_step .popupRigtSide small {
+            text-align: left
+        }
+
+    .wizard_step .wizard_step5 .popupRigtSide label {
+        font-size: 1.8rem;
+        font-weight: 500;
+    }
+
+    .wizard_step .wizard_step5 .popupRigtSide p {
+        text-align: left;
+        margin: 7px 0;
+        font-weight: 500;
+        font-size: 1.2rem;
+        color: #999;
+    }
+
+    .wizard_step3 .popupRigtSide label {
+        display: block;
+        text-align: left;
+        margin: 15px 0;
+    }
+</style>

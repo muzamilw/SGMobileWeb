@@ -1,0 +1,248 @@
+﻿@using PagedList.Mvc
+@using PagedList;
+@using SG2.CORE.MODAL.ViewModals.Backend.Proxy;
+@using SG2.CORE.COMMON;
+@model SG2.CORE.MODAL.ViewModals.Backend.Proxy.ProxyIndexViewModal
+@{
+    ViewBag.Title = "JVBox Listing";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+    var BaseURl = ViewBag.BaseUrl;
+    List<SelectListItem> appStatus = new List<SelectListItem>();
+
+    foreach (var dr in Model.ApplicationStatuses.Where(x => x.StatusName == "General"))
+    {
+        appStatus.Add(new SelectListItem { Text = dr.StatusValue, Value = dr.StatusId.ToString() });
+
+    }
+
+    List<SelectListItem> vpsDTO = new List<SelectListItem>();
+
+    foreach (var dr in Model.vPSSDTOs)
+    {
+        vpsDTO.Add(new SelectListItem { Text = dr.IssuingISPName, Value = dr.VPSSId.ToString() });
+
+    }
+}
+
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2>Proxy mapping</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-wrap">
+    <div class="container">
+        <div class="inner-colmn">
+            <div class="row">
+                @using (Html.BeginForm("Index", "ProxyIPs", FormMethod.Get, new { @id = "" }))
+                {
+
+                    <div class="col-md-3 col-sm-12">
+                        <div class="search-wrap">
+                            @Html.TextBoxFor(model => model.SearchCriteria, htmlAttributes: new { @placeholder = "Search here", @type = "search" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-12">
+                        <div class="product">
+                            <label>Suppliers</label>
+                            <div class="select">
+                                @Html.DropDownListFor(model => model.VPSSId, vpsDTO, "Select All(Supplier)", new { @class = "slct" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-12">
+                        <div class="product">
+                            <label>Status</label>
+                            <div class="select">
+                                @Html.DropDownListFor(model => model.StatusId, appStatus, "Select All(Status)", new { @class = "slct" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-12">
+                        <div class="product text-right">
+                            <label>&nbsp;</label>
+                            <div class="select">
+                                <button type="submit" class="btn searchBtn">
+                                    <i class="fa fa-search"></i> Search
+                                </button>
+                                <a href="@BaseURl/proxyips" id="" class="btn searchBtn btn-height47">
+                                    <i class="fa fa-times-circle"></i> Reset
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                }
+                <div class="col-md-6 col-sm-12">
+                    <div class="product">
+                        <label>&nbsp;</label>
+                        <div class="select text-right">
+                                <a href="@BaseURl/proxyips/GetBadProxyIPs" class="btn" style="padding-top:12px; height:47px;">Bad Proxy IPs</a>
+                        </div>
+                    </div>
+                </div><div class="col-md-2 col-sm-12">
+                    <div class="product">
+                        <label>&nbsp;</label>
+                        <div class="select text-right">
+                            <a href="@BaseURl/proxyips/UpdateProxyIPs" class="btn" style="padding-top:12px; height:47px;"><i class="fa fa-plus"></i> New Proxy</a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="product-listing-sec">
+    <div class="container">
+        <div class="product-list-inner">
+            <div class="row">
+                <div class="col-xs-12">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th scope="col">Proxy IP</th>
+                                <th scope="col">Free Slots</th>
+                                @*<th scope="col">JV Box</th>*@
+                                <th scope="col">Regions</th>
+                                <th scope="col">IPs Status</th>
+                                <th scope="col">Supplier</th>
+                                <th scope="col">Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ProxyListing)
+                            {
+                                var ProxyIpId = Url.Encode(CryptoEngine.Encrypt(item.ProxyId.ToString()));
+                                <tr>
+                                    <td data-label="ID">
+                                        <a href="@BaseURl/proxyips/UpdateProxyIPs?id=@ProxyIpId">@item.ProxyIPNumber</a>
+                                    </td>
+                                    <td data-label="Free Slots">@item.NoOfFreeSlots</td>
+                                    @*<td data-label="JV Box">@(string.IsNullOrEmpty(item.JVBox) ? "--" : item.JVBox)</td>*@
+                                    <td data-label="Regions">@(string.IsNullOrEmpty(item.Region) ? "--" : item.Region)</td>
+                                    <td data-label="Status">@(string.IsNullOrEmpty(item.ProxyStatus) ? "--" : item.ProxyStatus)</td>
+                                    <td data-label="Supplier">@(string.IsNullOrEmpty(item.VPSSName) ? "--" : item.VPSSName)</td>
+                                    <td>
+                                        <a href="@BaseURl/proxyips/UpdateProxyIPs?id=@ProxyIpId"><i class="fa fa-edit"></i></a>
+                                        <a href="#" class="btn_ShowDeleteConfrimModal" data-value="@ProxyIpId"><i class="fa fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="pagination-wrap">
+            Page @(Model.TotalRecord < Model.PageNumber ? 0 : Model.PageNumber)
+            of @Model.TotalRecord   @Html.PagedListPager((IPagedList<ProxyListingViewModal>)Model.ProxyListing, page => Url.Action("Index", new { page, Model.SearchCriteria, Model.StatusId }))
+        </div>
+    </div>
+</div>
+
+<div id="Modal_ConfirmDeletion" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Confirmation!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the item.</p>
+                <input type="hidden" id="hdn_DeleteItemId" value="" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn_ConfirmDelete">Delete</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section StyleSheet {
+    <style type="text/css">
+
+        .form-wrap .search-wrap input[type=search] {
+            font-size: 1.8rem;
+            line-height: 22px;
+            height: 47px;
+        }
+
+        input[type=search] {
+            border-bottom: 2px solid #eceffb;
+            font-style: normal;
+            padding: 0px 24px 10px;
+        }
+
+        button.searchBtn {
+            height: 47px;
+        }
+        .product-list-inner {
+            background-color: #fff;
+        }
+    </style>
+}
+@section Javascript{
+    <script language="javascript" type="text/javascript">
+
+        $("document").ready(function () {
+
+            $(".btn_ShowDeleteConfrimModal").on("click", function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                var itemId = $(this).attr("data-value");
+                $("#hdn_DeleteItemId").val(itemId);
+                $("#Modal_ConfirmDeletion").modal("show");
+            })
+            
+            $(".btn_ConfirmDelete").on("click", function () {
+
+                var itemId = $("#hdn_DeleteItemId").val();
+
+                $.ajax({
+                    url: GLB_BASEURL +"/ProxyIPs/Delete?id=" + itemId,
+                    type: "GET",
+                    traditional: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (Data) {
+                        
+                        if (Data.Data.ResultType == "Success") {
+                            $("#Modal_ConfirmDeletion").modal("hide");
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                            //TODO:Handle the status here
+                            location.reload(true);
+                        } else {
+                            $("#Modal_ConfirmDeletion").modal("hide");
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                        }
+                    },
+                    error: function () {
+                        alert("An error has occured!!!");
+                    }
+                });
+            });
+
+
+
+        });
+    </script>
+    }

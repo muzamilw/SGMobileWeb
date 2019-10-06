@@ -1,0 +1,119 @@
+﻿@using PagedList.Mvc
+@using PagedList;
+@using SG2.CORE.MODAL.ViewModals.Backend;
+@using SG2.CORE.COMMON;
+@model SG2.CORE.MODAL.ViewModals.Backend.CustomerOrderHistoryIndexViewModel
+@{
+    ViewBag.Title = "Payment Histroy";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+    var BaseURl = ViewBag.BaseUrl;
+}
+
+<div class="information-wrap main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <h3>
+                    <img src="/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="36">
+                    @Model.SPName / @(Model.SusrName ?? "--")
+                </h3>
+
+            </div>
+            <div class="col-md-6 col-xs-12 text-right">
+                <span class="right">Profile Status: <i>@Model.SPStatus</i></span><br />
+                @if (string.IsNullOrEmpty(Model.JVStatus))
+                {
+                    <span class="right">MP Status: <i>--</i></span>
+                }
+                else
+                {
+                    <span class="right">MP Status: <i>@Model.JVStatus</i></span>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="detail-page-contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <ul>
+                    <li><a href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Contact Details</a></li>
+                    <li><a class="active" href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Order History</a></li>
+                    <li><a href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Target Form</a></li>
+                    <li class="right"><a class="" href="javascript:void(0);" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="product-listing-sec">
+    <div class="container">
+        <div class="product-list-inner">
+            <div class="row">
+                <div class="col-xs-12">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th scope="col">Purchase Date</th>
+                                <th scope="col">Expire Date</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model.CustomerOrderHListing)
+                            {
+                                <tr>
+                                    @if (item.StartDate.HasValue)
+                                    {
+                                        <td data-label="StartDate"> @(item.StartDate.Value.ToShortDateString())</td>
+                                    }
+                                    else
+                                    {
+                                        <td data-label="StartDate">--</td>
+                                    }
+                                    @if (item.EndDate.HasValue)
+                                    {
+                                        <td data-label="EndDate"> @(item.EndDate.Value.ToShortDateString())</td>
+                                    }
+                                    else
+                                    {
+                                        <td data-label="EndDate">--</td>
+                                    }
+
+
+                                    <td data-label="Name" class="product">@(string.IsNullOrEmpty(item.Name) ? "--" : item.Name)</td>
+                                    <td data-label="Name" class="product">@(item.Price / 100)</td>
+                                    <td data-label="Proxy">@(string.IsNullOrEmpty(item.Status) ? "--" : item.Status) </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="pagination-wrap">
+            Page @(Model.TotalRecord < Model.PageNumber ? 0 : Model.PageNumber)
+            of @Model.TotalRecord   @Html.PagedListPager((IPagedList<CustomerOrderHistoryViewModel>)Model.CustomerOrderHListing, page => Url.Action("CustomerOrderHistory", new { page }))
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    br{
+        clear:both;
+    }
+    .information-wrap span.right {
+        float: none
+    }
+
+    .information-wrap h3 {
+        font-size: 22pt;
+        color: crimson;
+    }
+</style>

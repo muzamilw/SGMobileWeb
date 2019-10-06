@@ -1,0 +1,482 @@
+﻿.hide {
+    display: none !important;
+}
+
+body {
+    font-size: 14px;
+    background-color: #f7f7f7;
+}
+
+/*
+@font-face {
+    font-family: "Roboto";
+    src: url("webfonts/Roboto-Thin.ttf");
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("webfonts/Roboto-Light.ttf");
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("webfonts/Roboto-Regular.ttf");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("webfonts/Roboto-Medium.ttf");
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("webfonts/Roboto-Bold.ttf");
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("webfonts/Roboto-Black.ttf");
+    font-weight: 900;
+    font-style: normal;
+}
+*/
+
+
+h1 {
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+
+/*Partial Login*/
+a .close_popup {
+    float: right;
+    font-size: 20pt;
+    position: relative;
+    top: 8px;
+}
+
+.section_targetgrow h1, .signupH1 {
+    font-size: 22pt;
+}
+
+.modal-content {
+    padding: 5%;
+    padding-bottom: 0px;
+}
+
+#Modal_LoginPopup label.error {
+    color: indianred;
+    font-size: 11pt;
+}
+
+#Modal_LoginPopup .modal-dialog {
+}
+
+#Modal_LoginPopup .modal-body {
+    padding: 0px;
+    padding-bottom: 3%;
+}
+
+#Modal_LoginPopup .wizardImg {
+    text-align: center
+}
+
+    #Modal_LoginPopup .wizardImg img.width85px {
+        width: 85px
+    }
+
+    #Modal_LoginPopup .wizardImg img.width15Per {
+        width: 15%
+    }
+
+    #Modal_LoginPopup .wizardImg img.width35Per {
+        width: 35%
+    }
+
+    #Modal_LoginPopup .wizardImg h1 {
+        font-size: 85pt;
+        color: indianred;
+        font-weight: 600;
+    }
+
+#Modal_LoginPopup .wizardTitle {
+    text-align: center;
+}
+
+    #Modal_LoginPopup .wizardTitle h1 {
+        color: #4c4ccc;
+        font-size: 22pt;
+        font-weight: 300;
+        margin: 10px 0;
+        margin-bottom: 15px;
+        display: inline-block;
+    }
+
+.wizardTitle h1 {
+    color: #4c4ccc;
+    font-weight: 400;
+}
+
+
+
+#Modal_LoginPopup .wizardContents p {
+    color: #6b6b6b;
+    font-size: 11pt;
+    margin: 10px 0;
+    line-height: 18pt;
+    text-align: center;
+}
+
+    #Modal_LoginPopup .wizardContents p a {
+        text-decoration: underline
+    }
+
+#Modal_LoginPopup .wizardActions {
+    text-align: center;
+}
+
+    #Modal_LoginPopup .wizardActions button {
+        padding: 5px 20px;
+        background-color: #4e50ce;
+        font-size: 18pt;
+        font-weight: 400;
+        margin: 10px 0;
+    }
+
+    #Modal_LoginPopup .wizardActions a {
+        position: relative;
+        left: -32%;
+        text-decoration: underline;
+        color: #6b6b6b;
+    }
+
+    #Modal_LoginPopup .wizardActions button:hover {
+        background-color: #587ae8;
+    }
+
+    #Modal_LoginPopup .wizardActions button:active {
+        color: #fff;
+    }
+
+#Modal_LoginPopup .wizardFooter {
+    text-align: center;
+}
+
+    #Modal_LoginPopup .wizardFooter p {
+        color: #c4c4c4;
+        font-size: 14pt;
+        margin: 18px 0;
+    }
+
+#Modal_LoginPopup input[type=text],
+#Modal_LoginPopup input[type=password],
+#Modal_LoginPopup input[type=email],
+#Modal_LoginPopup textarea {
+    margin: 15px 0;
+}
+
+.pd_btm {
+    padding-bottom: 3%;
+}
+
+/*
+#Modal_SignupPopup .wizardTitle h1, #Modal_LoginPopup .wizardTitle h1{
+    font-family:Roboto;
+}
+    */
+
+/*SignUpPopUp*/
+a.close_popup {
+    float: right;
+    font-size: 15pt;
+    position: relative;
+    right: 0px;
+    top: 0px;
+    color: lightgray;
+}
+
+#Modal_SignupPopup .modal-dialog {
+}
+
+#Modal_SignupPopup label.error {
+    color: indianred;
+    font-size: 11pt;
+}
+
+#Modal_SignupPopup .modal-body {
+    padding: 0px;
+    padding-bottom: 3%;
+}
+
+#Modal_SignupPopup .wizardImg {
+    text-align: center
+}
+
+    #Modal_SignupPopup .wizardImg img.width25Per {
+        width: 25%
+    }
+
+    #Modal_SignupPopup .wizardImg img.width15Per {
+        width: 15%
+    }
+
+    #Modal_SignupPopup .wizardImg img.width85Px {
+        width: 85px
+    }
+
+    #Modal_SignupPopup .wizardImg h1 {
+        font-size: 85pt;
+        color: indianred;
+        font-weight: 600;
+    }
+
+#Modal_SignupPopup .wizardTitle {
+    text-align: center;
+}
+
+    #Modal_SignupPopup .wizardTitle h1 {
+        color: #4e50ce;
+        font-size: 16pt;
+        font-weight: 300;
+        margin: 2% 0;
+        display: inline-block;
+    }
+
+#Modal_SignupPopup .wizardContents p {
+    color: #6b6b6b;
+    font-size: 10pt;
+    margin: 0;
+    text-align: center;
+}
+
+    #Modal_SignupPopup .wizardContents p a {
+        text-decoration: underline
+    }
+
+#Modal_SignupPopup .wizardActions {
+    text-align: center;
+}
+
+    #Modal_SignupPopup .wizardActions button {
+        /*  padding: 5px 20px; */
+        background-color: #4e50ce;
+        font-size: 16pt;
+        font-weight: 400;
+        margin: 10px 0;
+    }
+
+    #Modal_SignupPopup .wizardActions a {
+        position: relative;
+        left: -32%;
+        text-decoration: underline;
+        color: #6b6b6b;
+    }
+
+    #Modal_SignupPopup .wizardActions button:hover {
+        background-color: #587ae8;
+    }
+
+#Modal_SignupPopup .wizardFooter {
+    text-align: center;
+}
+
+    #Modal_SignupPopup .wizardFooter p {
+        color: #c4c4c4;
+        font-size: 14pt;
+        margin: 10px 0;
+    }
+
+
+input[type=text], input[type=password], input[type=email], textarea {
+    font-size: 11pt;
+    height: 40px;
+}
+
+/*Partial Message PopUP*/
+
+
+#Modal_SignupPopup input[type=text], #Modal_SignupPopup input[type=password], #Modal_SignupPopup input[type=email], #Modal_SignupPopup textarea {
+    margin: 15px 0;
+}
+
+input[type=text], input[type=password], input[type=email], textarea {
+    height: 47px;
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid #c8c5c5;
+    border-radius: 5px;
+    background-color: #fff;
+    display: block;
+    margin-bottom: 30px;
+    padding: 10px;
+    cursor: text;
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: #666;
+}
+
+input, textarea, select {
+    border: none;
+    border-radius: 0px;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+}
+
+    input[type=text], input[type=password], input[type=email], textarea {
+        font-size: 11pt;
+        min-height: 40px;
+    }
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #c8c5c5;
+    opacity: 1; /* Firefox */
+    font-family:Gotham-Book;
+    font-size:13px;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #c8c5c5;
+    font-family: Gotham-Book;
+    font-size: 13px;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: #c8c5c5;
+    font-family: Gotham-Book;
+    font-size: 13px;
+}
+
+.btn {
+    background-color: #587ae8;
+    color: #fff;
+    font-size: 16pt;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 5px;
+    border: 0px;
+    font-weight: 500;
+}
+
+#Modal_SignupPopup .wizardContents p a {
+    text-decoration: underline;
+}
+
+#Modal_MessageBoxBody {
+    font-size: 12pt;
+    line-height: 16pt;
+}
+
+
+.navbar-nav .nav-link {
+    padding-right: 30px;
+    padding-left: 30px;
+}
+
+.navbar-brand {
+    font-size: 18pt;
+    font-weight: 700;
+    color: white;
+}
+
+.fa-user {
+    border: 1px solid;
+    padding: 2px 4px;
+    border-radius: 15px;
+    padding-bottom: 4px;
+}
+
+#navbarNav {
+    background-color: white;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #333;
+}
+
+nav.scrolled {
+    background-color: white;
+}
+
+.nav > li > a:focus, .nav > li > a {
+    font-size: 14pt;
+    font-weight: 400;
+    color: #333;
+    text-align: center;
+    cursor: pointer;
+    margin-right: 5%;
+    min-width: 50px;
+    padding: 0 10px;
+}
+
+.navbar-nav {
+    display: block;
+}
+
+.navbar-light .navbar-nav .nav-link:hover, .desktopMenu a:hover {
+    background-color: transparent;
+    border-bottom: 2px solid #5cb85c;
+    color: #5cb85c;
+}
+
+.desktopMenu {
+    display: block;
+}
+
+    .desktopMenu .row {
+        float: right;
+        font-size: 12pt;
+        font-weight: 600;
+        cursor: pointer;
+        min-width: 50px;
+        color: #333333;
+    }
+
+.mobileMenu {
+    display: none;
+}
+
+@media screen and (max-width:900px) {
+    .desktopMenu {
+        display: none;
+    }
+
+    .mobileMenu {
+        display: block;
+    }
+}
+
+@media screen and (max-width:400px) {
+
+    .navbar-brand {
+        font-size: 13pt;
+    }
+
+    #Modal_LoginPopup .wizardActions button {
+        font-size: 12pt;
+    }
+
+    #Modal_SignupPopup .wizardActions button {
+        font-size: 13pt;
+    }
+
+    #Modal_SignupPopup .wizardContents p {
+        font-size: 10pt;
+    }
+}

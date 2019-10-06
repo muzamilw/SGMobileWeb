@@ -1,0 +1,1268 @@
+﻿@using SG2.CORE.COMMON;
+@model SG2.CORE.MODAL.ViewModals.Backend.CustomerTargetPreferencesViewModel
+@{
+    ViewBag.Title = "Targetting Information";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+    var BaseURl = ViewBag.BaseUrl;
+
+    List<SelectListItem> countries = new List<SelectListItem>();
+    List<SelectListItem> JVStatus = new List<SelectListItem>();
+    List<SelectListItem> MPBoxes = new List<SelectListItem>();
+
+
+    foreach (var item in Model.Countries)
+    {
+        countries.Add(new SelectListItem { Text = item.Name, Value = item.CountryId.ToString() });
+    }
+
+    List<SelectListItem> cities = new List<SelectListItem>();
+    foreach (var item in Model.Cities)
+    {
+        cities.Add(new SelectListItem { Text = item.Name, Value = item.CityId.ToString() });
+    }
+
+    List<SelectListItem> proxyIps = new List<SelectListItem>();
+    foreach (var item in Model.ProxyIPs)
+    {
+        proxyIps.Add(new SelectListItem { Text = item.ProxyNumber, Value = item.ProxyId.ToString() });
+    }
+
+    foreach (var item in Model.JarveeStatuses.Where(x => x.StatusName == "JV"))
+    {
+        JVStatus.Add(new SelectListItem { Text = item.StatusValue, Value = item.StatusId.ToString() });
+    }
+
+    foreach (var item in Model.MPBoxList)
+    {
+        MPBoxes.Add(new SelectListItem { Text = item.BoxName, Value = item.JVBoxId.ToString() });
+    }
+
+}
+
+@*<div class="container">
+        @if (!string.IsNullOrEmpty(ViewBag.Success) && ViewBag.Success == "Yes")
+        {
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="alert alert-block alert-success">
+                        <p>
+                            <strong>
+                                <i class="ace-icon fa fa-check"></i>
+                                Success!
+                            </strong>
+                            @ViewBag.SuccessMessage
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>*@
+
+<div class="information-wrap main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <h3>
+                    <img src="/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="36">
+                    @Model.SocialProfileName / @(Model.InstaUser ?? "--")
+                </h3>
+
+            </div>
+            <div class="col-md-6 col-xs-12 text-right">
+                <span class="right">Profile Status: <i>@Model.SPStatus</i></span><br />
+                @if (string.IsNullOrEmpty(Model.JVStatus))
+                {
+                    <span class="right">MP Status: <i>--</i></span>
+                }
+                else
+                {
+                    <span class="right">MP Status: <i>@Model.JVStatus</i></span>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="detail-page-contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <ul>
+                    <li><a href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SPId))">Contact Details</a></li>
+                    <li><a href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SPId))">Order History</a></li>
+                    <li><a class="active" href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SPId))">Target Form</a></li>
+                    <li class="right"><a class="" href="javascript:void(0);" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="information-form">
+    <div class="container">
+        <div class="information-form-inner">
+            <div class="row">
+                <div class="col-xs-12">
+
+                    <h2>Targeting information</h2>
+
+                    @using (Html.BeginForm("UpdateTargettingInformation", "CRM", FormMethod.Post, new { @class = "" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                        <input type="hidden" name="SPId" value="@Model.SPId" />
+
+                        <input type="hidden" name="" id="clipBoardValue" value="" />
+
+                        <div class="col-md-8 zero-padding">
+                            @Html.LabelFor(m => m.SocialAccAS, new { @class = "" })
+                            <label class="form-radio" col-md-3>
+                                A Business
+                                @Html.RadioButtonFor(model => model.SocialAccAS, "1")
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="form-radio" col-md-3>
+                                An Influencer
+                                @Html.RadioButtonFor(model => model.SocialAccAS, "2")
+                                <span class="checkmark"></span>
+                            </label>
+                            <br>
+                        </div>
+
+                        <div class="col-md-4 zero-padding">
+                            <span style="display:block">MP Status</span>
+                            @Html.DropDownListFor(model => model.Status, JVStatus, "-- Select MP Status --", new { @id = "input_Status", @class = "slct" })
+                            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                            <input type="button" class="btn btn-primary btn_UpdateJVStatus" value="Update Status" style="text-align:left" />
+                        </div>
+
+                        @*<div class="form-group">
+                <label class="block">I want to grow my instagram account as </label>
+                <label class="form-radio col-md-3">
+                    A Business
+                    <input type="radio" name="BusinessType" />
+                    <span class="checkmark"></span>
+                </label>
+                <label class="form-radio col-md-3">
+                    An Influencer
+                    <input type="radio" name="BusinessType" checked="checked" />
+                    <span class="checkmark"></span>
+                </label>
+                <br>
+            </div>*@
+
+                        <div class="col-md-8 zero-padding" id="divPre1">
+                            @Html.LabelFor(m => m.Preference1, new { @class = "form-group" })
+                            @Html.TextBoxFor(m => m.Preference1, new { @class = "form-control", @data_role = "tagsinput" })
+                            <span class="editableIcon">
+                                <button type="button" class="btn btn-primary enableEdit" data-id="Preference1">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button type="button" class="btn btn-primary cancleEdit" data-id="Preference1">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </span>
+                            @Html.ValidationMessageFor(model => model.Preference1, "", new { @class = "text-danger", })
+                        </div>
+
+                        <div class="col-md-4 zero-padding">
+                            <span style="display:block">Copy paste only</span>
+                            <textarea class="form-control bootstrap-tagsinput" id="Pref1CP">
+
+
+                            </textarea>
+
+                            <button type="button" class="btn btn-primary" id="Preference1CP">
+                                <i class="fa fa-copy"></i>
+                            </button>
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <br />
+
+                        <div class="col-md-8 zero-padding">
+                            @Html.LabelFor(m => m.Preference2, new { @class = "form-group" })
+                            @*<span style="display:block">Please use this format for hashtags: #hashtag,#hashtag,#hashtag</span>*@
+                            @Html.TextBoxFor(m => m.Preference2, new { @class = "form-control", @data_role = "tagsinput" })
+                            <span class="editableIcon">
+                                <button type="button" class="btn btn-primary enableEdit" data-id="Preference2">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button type="button" class="btn btn-primary cancleEdit" data-id="Preference2">
+                                    <i class="fa fa-times"></i>
+                                </button>
+
+                            </span>
+                            @Html.ValidationMessageFor(model => model.Preference2, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-md-4 zero-padding">
+                            <span style="display:block">Copy paste only</span>
+                            <textarea class="form-control  bootstrap-tagsinput" id="Pref2CP">
+
+
+                            </textarea>
+                            <button type="button" class="btn btn-primary" id="Preference2CP">
+                                <i class="fa fa-copy"></i>
+                            </button>
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <br />
+
+                        <div class="col-md-8 zero-padding">
+                            @Html.LabelFor(m => m.Preference3, new { @class = "form-group" })
+                            @Html.TextBoxFor(m => m.Preference3, new { @class = "form-control", @data_role = "tagsinput" })
+                            <span class="editableIcon">
+                                <button type="button" class="btn btn-primary enableEdit" data-id="Preference3">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button type="button" class="btn btn-primary cancleEdit" data-id="Preference3">
+                                    <i class="fa fa-times"></i>
+                                </button>
+
+                            </span>
+                            @Html.ValidationMessageFor(model => model.Preference3, "", new { @class = "text-danger" })
+                        </div>
+
+                        <span style="display:block">Copy paste only</span>
+                        <div class="col-md-4 zero-padding">
+
+                            <textarea class="form-control  bootstrap-tagsinput" id="Pref3CP">
+
+
+                            </textarea>
+                            <button type="button" class="btn btn-primary" id="Preference3CP">
+                                <i class="fa fa-copy"></i>
+                            </button>
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <br />
+
+                        @*<div class="form-group">
+                @Html.LabelFor(m => m.Preference4, new { @class = "" })
+                @Html.TextBoxFor(m => m.Preference4, new { @class = "form-control", @data_role = "tagsinput" })
+                <span class="editableIcon">
+                    <button type="button" class="btn btn-primary enableEdit" data-id="Preference4">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary cancleEdit" data-id="Preference4">
+                        <i class="fa fa-times"></i>
+                    </button>
+
+                </span>
+                @Html.ValidationMessageFor(model => model.Preference4, "", new { @class = "text-danger" })
+            </div>*@
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Preference5, new { @class = "" })
+                            <label class="form-radio">
+                                Yes
+                                @Html.RadioButtonFor(model => model.Preference5, "1")
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="form-radio">
+                                No
+                                @Html.RadioButtonFor(model => model.Preference5, "2")
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Preference6)
+                            <label class="form-radio">
+                                Males
+                                @Html.RadioButtonFor(model => model.Preference6, "1")
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="form-radio">
+                                Females
+                                @Html.RadioButtonFor(model => model.Preference6, "2")
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="form-radio">
+                                Both
+                                @Html.RadioButtonFor(model => model.Preference6, "3")
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Preference7, new { @class = "" })
+                            <label class="form-radio">
+                                Yes
+                                @Html.RadioButtonFor(model => model.Preference7, "1")
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="form-radio">
+                                No
+                                @Html.RadioButtonFor(model => model.Preference7, "2")
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="display:block">Turn on AI targeting. We will seek out our competitors and match their hashtags<sup class="color-crimson">&nbsp;New</sup></label>
+                            <label class="form-radio">
+                                Yes
+                                @Html.RadioButtonFor(model => model.Preference10, "1")
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="form-radio">
+                                No
+                                @Html.RadioButtonFor(model => model.Preference10, "2")
+                                <span class="checkmark"></span>
+                            </label>
+                            @Html.ValidationMessageFor(model => model.Preference10, "", new { @class = "text-danger" })
+                        </div>
+
+                        @*<div class="form-group">
+                @Html.LabelFor(m => m.Preference8, new { @class = "" })
+            </div>
+
+            <div class="col-md-6 zero-padding">
+                <span style="display:block">Age, education, industry, lifestyle, etc.</span>
+                @Html.TextBoxFor(m => m.Preference8, new { @class = "form-control", @data_role = "tagsinput" })
+                @Html.ValidationMessageFor(model => model.Preference8, "", new { @class = "text-danger" })
+            </div>*@
+
+                        @*<div class="col-md-6 zero-padding">
+                <span style="display:block">Copy paste only</span>
+                <textarea class="form-control" id="Pref8CP">
+                </textarea>
+                @Html.TextAreaFor(m => m.Preference8, new { @class = "form-control", @id = "" })
+            </div>*@
+
+                        @*<div class="clearfix"></div>*@
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Preference9, new { @class = "" })
+                        </div>
+
+                        <div class="col-md-8 zero-padding">
+                            <span style="display:block">@@username</span>
+                            @Html.TextBoxFor(m => m.Preference9, new { @class = "form-control", @data_role = "tagsinput" })
+
+                            <span class="editableIcon">
+                                <button type="button" class="btn btn-primary enableEdit" data-id="Preference9">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button type="button" class="btn btn-primary cancleEdit" data-id="Preference9">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </span>
+                            @Html.ValidationMessageFor(model => model.Preference9, "", new { @class = "text-danger", })
+                        </div>
+
+                        <div class="col-md-4 zero-padding">
+                            <span style="display:block">Copy paste only</span>
+                            <textarea class="form-control bootstrap-tagsinput" id="Pref9CP">
+
+
+                            </textarea>
+                            <span class="editableIcon">
+                                <button type="button" class="btn btn-primary" id="Preference9CP">
+                                    <i class="fa fa-copy"></i>
+                                </button>
+                            </span>
+                            @*@Html.TextAreaFor(m => m.Preference9, new { @class = "form-control", @id = "Pref9CP" })*@
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <div class="form-group" style="text-align:center">
+                            <input type="submit" class="btn btn-primary" value="Update NOW" />
+                        </div>
+                    }
+
+                    <br />
+
+                    @using (Html.BeginForm("UpdateTarget", "CRM", FormMethod.Post, new { @class = "" }))
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                        <input type="hidden" name="SPId" value="@Model.SPId" />
+                        <div class="row" style="background-color:#f5f5f5; border-radius:5px; ">
+                            <div class="col-md-12">
+                                <h2>Your ACCOUNT INFORMATION:</h2>
+                            </div>
+                            <div class="col-md-6 ">
+                                @Html.LabelFor(model => model.InstaUser, new { @class = "" })
+                                <span style="display:block">Your Instagram @@username <br /><br /></span>
+                                @Html.TextBoxFor(model => model.InstaUser, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.InstaUser, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-6">
+                                @Html.LabelFor(model => model.InstaPassword, new { @class = "" })
+                                <span style="display:block">Please make sure you provide the correct password to avoid delay in getting started. (Your password is submitted over SSL 256Bit Encryption).</span>
+                                @Html.TextBoxFor(model => model.InstaPassword, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.InstaPassword, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-6">
+                                @Html.LabelFor(model => model.Country, new { @class = "" })
+                                <span style="display:block">Country</span>
+                                @Html.DropDownListFor(model => model.Country, countries, "-- Select Country --", new { @id = "input_Country", @class = "slct" })
+                                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div class="col-md-6">
+                                @Html.LabelFor(model => model.City, new { @class = "" })
+                                <span style="display:block">City</span>
+                                @Html.DropDownListFor(model => model.City, cities, "-- Select City --", new { @id = "input_City", @class = "slct" })
+                                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+
+                            </div>
+                            <div style="clear:both"></div>
+                            @if (!string.IsNullOrEmpty(Model.VerificationCode))
+                            {
+                                <br />
+                                <div class="col-md-6">
+                                    <span style="display:block">Verification Code</span>
+                                    <div class="col-md-6">
+                                        @if (string.IsNullOrEmpty(Model.VerificationCode))
+                                        {
+                                            <h3>--</h3>
+                                        }
+                                        else
+                                        {
+                                            <h3 style="display:block">@Model.VerificationCode</h3>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            <br />
+                            <div class="form-group" style="text-align:center">
+                                <a href="" class="btn_ShowDeleteConfrimModal">Delete Social Profile From MP</a>
+                            </div>
+                            <div class="form-group" style="text-align:center">
+                                <input type="submit" class="btn btn-primary" value="Update NOW" />
+                            </div>
+                            @if (Model.NoOfProfile > 1)
+                            {
+                                <div class="form-group" style="text-align:center"><a href="" class="btn_ShowDeleteSPModal">Delete Social Profile Permanently</a></div>
+                            }
+                        </div>
+
+                    }
+
+                    <br /><br />
+
+                    @using (Html.BeginForm("UpdateJV", "CRM", FormMethod.Post, new { @class = "" }))
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                        <input type="hidden" name="SPId" value="@Model.SPId" />
+                        <div class="row" style="background-color:#f5f5f5; border-radius:5px; ">
+                            <div class="col-md-12">
+                                <h2>Your JV INFORMATION:</h2>
+                            </div>
+                            <div class="col-md-6">
+                                @if (string.IsNullOrEmpty(Model.IP))
+                                {
+                                    <h4>IP:--</h4>
+                                }
+                                else
+                                {
+                                    <h4>IP:@Model.IP</h4>
+                                }
+                            </div>
+
+                            <div class="col-md-6">
+                                @if (string.IsNullOrEmpty(Model.JVName))
+                                {
+                                    <h4>MP Name:--</h4>
+                                }
+                                else
+                                {
+                                    <h4>MP Name:@Model.JVName</h4>
+                                }
+
+                            </div>
+
+                            <div class="col-md-6">
+                                <span style="display:block">Proxy IPs</span>
+                                @Html.DropDownListFor(model => model.ProxyIP, proxyIps, "-- Select Proxy IP --", new { @id = "input_Proxy", @class = "slct" })
+                                @Html.ValidationMessageFor(model => model.ProxyIP, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-6">
+                                <span style="display:block">&nbsp;</span>
+                                <input type="button" class="btn btn-primary btn_UpdateProxyIP" value="Update IP" />
+                                <div style="clear:both"></div>
+                            </div>
+                            <div style="clear:both"></div>
+                            <div class="col-md-6">
+                                <span style="display:block">MP Box</span>
+                                @Html.DropDownListFor(model => model.MPBox, MPBoxes, "-- Select MP Box --", new { @id = "input_MPBox", @class = "slct" })
+                                @Html.ValidationMessageFor(model => model.MPBox, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-6">
+                                <lable>&nbsp;</lable>
+                                <span style="display:block"></span>
+                                <input type="button" class="btn btn-primary btn_UpdateMPBox" value="Update MP Box" style="text-align:left; margin-left:0" />
+                            </div>
+
+                            <br />
+                            <br />
+
+                        </div>
+                    }
+                    <br />
+                    <br />
+                    <div class="form-group col-md-12" style="align-self:center">
+                        @if (Model.IsArchived)
+                        {
+                            <a href="#" class="btn" id="btn_Unarchive" data-value="">UnArchive</a>
+                        }
+
+
+                    </div>
+
+                    @*<br />
+        <br />
+
+        <div class="form-group">
+            <button type="button" class="btn btn-danger">
+                Bot 1 :-
+                <small>Press button and bot will start its job.</small>
+            </button>
+        </div>
+        <br />
+        <div class="form-group">
+            <button type="button" class="btn btn-danger">
+                Bot 2 :-
+                <small>Press button and bot will start its job.</small>
+            </button>
+        </div>
+        <br />
+        <div class="form-group">
+            <button type="button" class="btn btn-danger">
+                Bot 3 :-
+                <small>Press button and bot will start its job.</small>
+            </button>
+        </div>
+        <br />
+        <div class="form-group">
+            <button type="button" class="btn btn-danger">
+                Bot 4 :-
+                <small>Press button and bot will start its job.</small>
+            </button>
+        </div>
+        <br />
+        <div class="form-group">
+            <button type="button" class="btn btn-danger">
+                Bot 5 :-
+                <small>Press button and bot will start its job.</small>
+            </button>
+        </div>*@
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="Modal_ConfirmDeletion" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Confirmation!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the item.</p>
+                <input type="hidden" id="hdn_DeleteItemId" value="" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn_ConfirmDelete">Delete Permanently</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="Modal_ConfirmDeletionFromJV" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Confirmation!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the item.</p>
+                <input type="hidden" id="hdn_DeleteItemId" value="" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn_ConfirmDeleteJV">Delete Permanently</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="Modal_ConfirmUpdate" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Confirmation!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to update the item.</p>
+                <input type="hidden" id="hdn_DeleteItemId" value="" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn_ConfirmUpdate">Update</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="Modal_ConfirmUpdateProxyIP" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Confirmation!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to update the item.</p>
+                <input type="hidden" id="hdn_DeleteItemId" value="" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn_ConfirmUpdateProxyIP">Update</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="Modal_ConfirmUpdateMPBox" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Confirmation!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to update the item.</p>
+                <input type="hidden" id="hdn_DeleteItemId" value="" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn_ConfirmUpdateMPBox">Update</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<link href="~/Content/ThemeAssets/css/bootstrap-tagsinput.css" rel="stylesheet" />
+
+<style type="text/css">
+
+    br {
+        clear: both;
+    }
+
+    .btn-danger {
+        background-color: #d9534f !important;
+    }
+
+    .main h2 {
+        font-weight: 500;
+        margin-bottom: 30px;
+    }
+
+    .main h4 {
+        font-size: 2rem;
+        margin: 14px 10px;
+        line-height: 27px;
+        color: #a3a3a3;
+    }
+
+    /*.main h3 {
+        text-align: center;
+        color: red;
+        font-size: 3rem;
+        margin: 26px auto;
+    }*/
+
+    .main p {
+        color: blue;
+        font-size: 26px;
+        font-weight: 400;
+        margin: 0;
+    }
+
+    .information-form-inner label {
+        display: block;
+    }
+
+    .bootstrap-tagsinput {
+        width: 88%;
+        padding: 0 5px;
+        min-height: 47px;
+        height: auto;
+        display: inline-block
+    }
+
+        .bootstrap-tagsinput.disabled {
+            background-color: #e5e5e5;
+        }
+
+    span.editableIcon {
+        display: inline-block;
+    }
+
+    .bootstrap-tagsinput span {
+        display: inline-block;
+        padding: 5px;
+        font-size: 1.6rem;
+        background-color: #6ab8ee;
+    }
+
+    .bootstrap-tagsinput input[type=text] {
+        display: inline;
+        margin-top: 2px;
+        height: 40px;
+    }
+
+    input[type=text], input[type=password], input[type=email], textarea {
+        margin-bottom: 0;
+    }
+
+    .zero-padding {
+        padding: 0;
+    }
+
+    .information-wrap span.right {
+        float: none
+    }
+
+    .information-wrap h3 {
+        font-size: 22pt;
+        color: crimson;
+    }
+
+    a.btn_ShowDeleteConfrimModal {
+        color: crimson;
+    }
+</style>
+
+@section JavaScript{
+    <script src="~/Scripts/bootstrap-tagsinput.min.js"></script>
+    <script type="text/javascript">
+        var usernames = "@(Model.Preference9)";
+        var pref1 = "@(Model.Preference1)";
+        var pref2 = "@(Model.Preference2)";
+        var pref3 = "@(Model.Preference3)";
+        var Pref8 = "@(Model.Preference8)"
+         var glb_CustomerId = "@Url.Encode(CryptoEngine.Encrypt(Model.Id))";
+        var glb_SocialProfileId = "@Url.Encode(CryptoEngine.Encrypt(Model.SPId))";
+
+        $(document).ready(function () {
+            $(".bootstrap-tagsinput input").attr("disabled", "disabled");
+            $(".bootstrap-tagsinput").off();
+            $(".bootstrap-tagsinput").addClass("disabled");
+            $("button.cancleEdit").hide()
+
+            $("button.enableEdit").on("click", function () {
+                var elemId = $(this).attr("data-id");
+                var sb = $("#" + elemId).siblings(".bootstrap-tagsinput:first");
+                $(sb).removeClass("disabled");
+                $(sb).on()
+                $(sb).children("input").removeAttr("disabled");
+
+                $("button.cancleEdit").show()
+                $("button.enableEdit").hide()
+            });
+
+            $("button.cancleEdit").on("click", function () {
+
+                $(".bootstrap-tagsinput input").attr("disabled", "disabled");
+                $(".bootstrap-tagsinput").off();
+                $(".bootstrap-tagsinput").addClass("disabled");
+                //var elemId = $(this).attr("data-id");
+                //var sb = $("#" + elemId).siblings(".bootstrap-tagsinput:first");
+                //$(sb).attr("disabled", "disabled");
+                //$(sb).off()
+                //$(sb).children("input").addClass("disabled");
+                $("button.cancleEdit").hide()
+                $("button.enableEdit").show()
+            });
+
+            $('.readonly').find('input, textarea, select').attr('readonly', 'readonly');
+            //  $('.readonly').find('input, textarea, select').attr('disabled', 'disabled');
+
+            $('.tagsinput').on('beforeItemAdd', function (event) {
+                var tag = event.item;
+                // Do some processing here
+
+                if (!event.options || !event.options.preventPost) {
+
+                }
+            });
+
+            //  $("#Pref9CP").val(prefCP9);
+            if (usernames != null) {
+                $("#Pref9CP").val(usernames.replace(/,/gm, ',\n'));
+            }
+            if (pref1 != null) {
+                $("#Pref1CP").val(pref1.replace(/,/gm, ',\n'));
+            }
+            if (pref2 != null) {
+                $("#Pref2CP").val(pref2.replace(/,/gm, ',\n'));
+            }
+            if (pref3 != null) {
+                $("#Pref3CP").val(pref3.replace(/,/gm, ',\n'));
+            }
+            if (Pref8 != null) {
+            $("#Pref8CP").val(Pref8.replace(/,/gm, ',\n'));
+            }
+
+            $("#Preference1").on('itemAdded', function (event) {
+
+                    $("#Pref1CP").val($("#Preference1").val().replace(/,/gm, ',\n'));
+
+            });
+            $("#Preference2").on('itemAdded', function (event) {
+
+                $("#Pref2CP").val($("#Preference2").val().replace(/,/gm, ',\n'));
+
+            });
+            $("#Preference3").on('itemAdded', function (event) {
+
+                    $("#Pref3CP").val($("#Preference3").val().replace(/,/gm, ',\n'));
+
+            });
+            $("#Preference9").on('itemAdded', function (event) {
+
+                    $("#Pref9CP").val($("#Preference9").val().replace(/,/gm, ',\n'));
+
+            });
+
+
+            $("#btn_Unarchive").on("click", function () {
+
+
+                $.ajax({
+                    url: GLB_BASEURL + "/actionboard/SetSocialProfileUnArchive",
+                    type: "Get",
+                    data: { id: glb_SocialProfileId },
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (Data) {
+
+                        if (Data.Data.ResultType == "Success") {
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+
+                        } else {
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+
+                        }
+                    },
+                    error: function () {
+                        $("#btn_Archive").addClass("fa-save");
+                        $("#btn_Archive").removeClass("fa-spin fa-spinner");
+
+                        $("#Modal_MessageBoxTitle").text("Error");
+                        $("#Modal_MessageBoxBody").text("Oops! some error occured please contact admin.");
+                        $("#Modal_Messagebox").modal("show");
+
+                    }
+                });
+            });
+
+            $(document).on('click', '#backLink', function () {
+                                history.go(-1);
+                            });
+
+            $("#input_Country").on("change", function () {
+                GetCity($(this).val())
+                GetProxyIps($(this).val(), 0)
+            });
+
+
+            $("#input_City").on("change", function () {
+                var valT = $("#input_Country option:selected").val();
+                GetProxyIps(valT,$(this).val())
+            });
+
+                        function GetCity(_countryId) {
+                            var url = GLB_BASEURL + "/crm/getcitybycountryid";
+                $("#input_City").html("");
+                $.ajax({
+                                url: url,
+                    data: { countryId: _countryId },
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        $('#input_City').append($("<option>-- Select City --</option>"));
+                        $.each(data, function (i, e) {
+
+                            $('#input_City').append($("<option></option>").val(e.CityId).html(e.Name));
+                                    });
+                    },
+                    error: function (reponse) {
+                        alert("error : " + reponse);
+                    }
+                });
+            }
+
+            function GetProxyIps(_countryId,_cityId) {
+                var url = GLB_BASEURL + "/CRM/GetProxyIps";
+                $("#input_Proxy").html("");
+                $.ajax({
+                    url: url,
+                    data: { countryId: _countryId, cityId: _cityId },
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        $('#input_Proxy').append($("<option>-- Select Proxy IP --</option>"));
+                        $.each(data, function (i, e) {
+
+                            $('#input_Proxy').append($("<option></option>").val(e.ProxyId).html(e.ProxyNumber));
+                        });
+                    },
+                    error: function (reponse) {
+                        alert("error : " + reponse);
+                    }
+                });
+            }
+
+            $('#AssignIpToPro').click(function (e) {
+                e.preventDefault(); // <------------------ stop default behaviour of button
+                var element = this;
+                $.ajax({
+                    url: GLB_BASEURL + "/CRM/AssignNearestIPToProfile",
+                    type: "POST",
+                    data: { customerId: glb_CustomerId, profileId: glb_SocialProfileId },
+                    dataType: "json",
+                    success: function (Data) {
+                        if (Data.ResultType == "Success") {
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+
+                            //$(".JVboxName").text(Data.Data.User);
+                        } else {
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                        }
+                    },
+                    error: function () {
+                        alert("An error has occured!!!");
+                    }
+                });
+            });
+
+            function copyToClipboard(elem) {
+                ;
+                // create hidden text element, if it doesn't already exist
+                var targetId = "_hiddenCopyText_";
+                var isInput = elem[0].tagName === "INPUT" || elem[0].tagName === "TEXTAREA";
+                var origSelectionStart, origSelectionEnd;
+                if (isInput) {
+                    // can just use the original source element for the selection and copy
+                    target = elem[0];
+                    origSelectionStart = elem[0].selectionStart;
+                    origSelectionEnd = elem[0].selectionEnd;
+                } else {
+                    // must use a temporary form element for the selection and copy
+                    target = document.getElementById(targetId);
+                    if (!target) {
+                        var target = document.createElement("textarea");
+                        target.style.position = "absolute";
+                        target.style.left = "-9999px";
+                        target.style.top = "0";
+                        target.id = targetId;
+                        document.body.appendChild(target);
+                    }
+                    target.textContent = elem[0].textContent;
+                }
+                // select the content
+                var currentFocus = document.activeElement;
+                target.focus();
+                target.setSelectionRange(0, target.value.length);
+
+                // copy the selection
+                var succeed;
+                try {
+                    succeed = document.execCommand("copy");
+                } catch (e) {
+                    succeed = false;
+                }
+                // restore original focus
+                if (currentFocus && typeof currentFocus.focus === "function") {
+                    currentFocus.focus();
+                }
+
+                if (isInput) {
+                    // restore prior selection
+                    elem[0].setSelectionRange(origSelectionStart, origSelectionEnd);
+                } else {
+                    // clear temporary content
+                    target.textContent = "";
+                }
+                return succeed;
+            }
+
+            $("#Preference1CP").on("click", function () {
+                //$("#clipBoardValue").val($("#Preference1Txt").val());
+                copyToClipboard($("#Pref1CP"));
+            });
+
+            $("#Preference2CP").on("click", function () {
+                //$("#clipBoardValue").val($("#Preference1Txt").val());
+                copyToClipboard($("#Pref2CP"));
+            });
+            $("#Preference3CP").on("click", function () {
+                //$("#clipBoardValue").val($("#Preference1Txt").val());
+                copyToClipboard($("#Pref3CP"));
+            });
+            $("#Preference9CP").on("click", function () {
+                //$("#clipBoardValue").val($("#Preference1Txt").val());
+                copyToClipboard($("#Pref9CP"));
+            });
+
+            $(".btn_ShowDeleteConfrimModal").on("click", function (e) {
+
+                e.stopPropagation();
+                e.preventDefault();
+                $("#Modal_ConfirmDeletionFromJV").modal("show");
+            })
+
+            $(".btn_UpdateJVStatus").on("click", function (e) {
+
+                e.stopPropagation();
+                e.preventDefault();
+                $("#Modal_ConfirmUpdate").modal("show");
+            })
+
+
+            $(".btn_ConfirmUpdate").on("click", function () {
+                var textT = $("#input_Status option:selected").val();
+                $.ajax({
+
+                    url: GLB_BASEURL + "/CRM/UpdateJVStatus",
+                    type: "Get",
+                    data: { profileId: glb_SocialProfileId, jvStatus: textT },
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (Data) {
+
+                        if (Data.Data.ResultType == "Success") {
+                            $("#Modal_ConfirmUpdate").modal("hide");
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        } else {
+                            $("#Modal_ConfirmUpdate").modal("hide");
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                        }
+                    },
+                    error: function () {
+                        alert("An error has occured!!!");
+                    }
+                });
+            });
+
+            $(".btn_UpdateMPBox").on("click", function (e) {
+
+                e.stopPropagation();
+                e.preventDefault();
+                $("#Modal_ConfirmUpdateMPBox").modal("show");
+            })
+
+            $(".btn_ConfirmUpdateMPBox").on("click", function () {
+
+                var textT = $("#input_MPBox option:selected").val();
+                $.ajax({
+
+                    url: GLB_BASEURL + "/CRM/UpdateMPBox",
+                    type: "Get",
+                    data: { profileId: glb_SocialProfileId, MPBox: textT },
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (Data) {
+
+                        if (Data.Data.ResultType == "Success") {
+                            $("#Modal_ConfirmUpdateMPBox").modal("hide");
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        } else {
+                            $("#Modal_ConfirmUpdateMPBox").modal("hide");
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                        }
+                    },
+                    error: function () {
+                        alert("An error has occured!!!");
+                    }
+                });
+            });
+
+            $(".btn_UpdateProxyIP").on("click", function (e) {
+
+                e.stopPropagation();
+                e.preventDefault();
+                $("#Modal_ConfirmUpdateProxyIP").modal("show");
+            })
+
+            $(".btn_ConfirmUpdateProxyIP").on("click", function () {
+
+                var textT = $("#input_Proxy option:selected").val();
+                $.ajax({
+
+                    url: GLB_BASEURL + "/CRM/UpdateProxyIp",
+                    type: "Get",
+                    data: { profileId: glb_SocialProfileId, proxyIp: textT },
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (Data) {
+
+                        if (Data.Data.ResultType == "Success") {
+                            $("#Modal_ConfirmUpdateProxyIP").modal("hide");
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        } else {
+                            $("#Modal_ConfirmUpdateProxyIP").modal("hide");
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                        }
+                    },
+                    error: function () {
+                        alert("An error has occured!!!");
+                    }
+                });
+            });
+
+
+            $(".btn_ShowDeleteSPModal").on("click", function (e) {
+
+                e.stopPropagation();
+                e.preventDefault();
+                $("#Modal_ConfirmDeletion").modal("show");
+            })
+
+            $(".btn_ConfirmDeleteJV").on("click", function () {
+
+                $.ajax({
+
+                    url: GLB_BASEURL + "/CRM/DeleteCustomerProfileJV",
+                    type: "Get",
+                    data: { customerId: glb_CustomerId, profileId: glb_SocialProfileId },
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (Data) {
+
+                        if (Data.Data.ResultType == "Success") {
+                            $("#Modal_ConfirmDeletion").modal("hide");
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                            //TODO:Handle the status here
+
+                            setTimeout(function () {
+                                window.location.href = GLB_BASEURL + "/CRM/Index"
+                            }, 2000);
+                        } else {
+                            $("#Modal_ConfirmDeletion").modal("hide");
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                        }
+                    },
+                    error: function () {
+                        alert("An error has occured!!!");
+                    }
+                });
+            });
+
+
+            $(".btn_ConfirmDelete").on("click", function () {
+
+                $.ajax({
+
+                    url: GLB_BASEURL + "/CRM/DeleteCustomerProfileSingle",
+                    type: "Get",
+                    data: { customerId: glb_CustomerId, profileId: glb_SocialProfileId },
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (Data) {
+
+                        if (Data.Data.ResultType == "Success") {
+                            $("#Modal_ConfirmDeletion").modal("hide");
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                            //TODO:Handle the status here
+
+                            setTimeout(function () {
+                                window.location.href = GLB_BASEURL + "/CRM/Index"
+                            }, 2000);
+                        } else {
+                            $("#Modal_ConfirmDeletion").modal("hide");
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                        }
+                    },
+                    error: function () {
+                        alert("An error has occured!!!");
+                    }
+                });
+            });
+
+        });
+
+    </script>
+}

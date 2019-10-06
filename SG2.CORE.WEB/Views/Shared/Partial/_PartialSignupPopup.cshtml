@@ -1,0 +1,58 @@
+﻿<div class="modal fade" id="Modal_SignupPopup" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-body signupH1">
+                <div class="row">
+                    <div class="col-md-12">
+                        @*<div class="wizardImg">
+                                <img src="~/Content/ThemeAssets/Images/SGLOGO.png" class="width85Px" />
+                                <a href="#" onclick="return false;" data-dismiss="modal" class="active" style="float:right; font-size:20pt">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                </a>
+                            </div>*@
+                        <div class="wizardTitle">
+                            <a href="#" onclick="return false;" data-dismiss="modal" class="active close_popup">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </a>
+                            <h1 class="signupH1">
+                                Experience Real Growth Everyday
+                            </h1>
+
+                        </div>
+                        <div class="wizardContents">
+                            <p class="signupPara">
+                                Sign Up
+                            </p>
+                            <h1 class="signup-success-message hide">
+                                Thankyou for signup. Please check you inbox to verify email.
+                            </h1>
+
+                            @using (Html.BeginForm("", "", FormMethod.Get, new { id = "Form_Signup" }))
+                            {
+                                <input type="text" name="FirstName" value="" placeholder="First Name" required />
+                                @*<input type="text" name="SurName" value="" placeholder="Last Name" required />*@
+                                <input type="text" name="EmailAddress" value="" id="SignEmailAddress" placeholder="Email" required />
+                                <input type="password" name="Password" id="SignupPassword" value="" placeholder="Password" required />
+                                <input type="password" name="Re_Password" value="" placeholder="Confirm Password" required />
+                                <label class="error" id="signup-error"></label>
+                            }
+                        </div>
+                        <div class="wizardActions">
+                            <button type="button" class="btn btn-block btn-default btn_formSignup">
+                                Create a FREE Account &nbsp; <span id="SignUpSpinner" style="display:none"><i class="fa fa-spinner fa-spin"></i></span>
+                            </button>
+                        </div>
+                        <div class="wizardContents">
+                            <p>Already have an account? <a href="#" class="lnk_ShowLoginModal">Sign In</a></p>
+                        </div>
+                        <div class="wizardImg">
+                            <img src="~/Content/ThemeAssets/Images/trustpilotlogo2.png" class="width85Px" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+

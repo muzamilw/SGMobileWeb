@@ -1,0 +1,141 @@
+﻿@model SG2.CORE.MODAL.ViewModals.Backend.TeamMember.UpdateTeamMemberViewModal
+@{
+    ViewBag.Title = "Update Team member";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+
+    List<SelectListItem> rolesSelectList = new List<SelectListItem>();
+    foreach (var item in Model.RoleListing)
+    {
+        rolesSelectList.Add(new SelectListItem { Text = item.RoleName, Value = item.SystemRoleId.ToString() });
+    }
+}
+
+@using (Html.BeginForm("Update", "TeamMember", FormMethod.Post, new { @class = "" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.SystemUserId)
+    <!-- main sec start -->
+
+    <div class="information-wrap main accounts">
+        <div class="container">            
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="left-col">
+                        <h2>Team members</h2>
+                    </div>
+                    <div class="right-col">
+                        <a class="btn" href="javascript:void(0);" style="background-color:#52d234; position:relative; top:9px;" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="jv-box">
+            <div class="accounts-form">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="product">
+                            <label>Title</label>
+                            <div class="select">
+                                <select name="Title" id="Title">
+                                    <option>Select Title</option>
+                                    <option value="MR" @(Model.Title == "MR" ? "selected='selected'" : "")>MR</option>
+                                    <option value="MS" @(Model.Title == "MS" ? "selected='selected'" : "")>MS</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="product">
+                            @Html.LabelFor(m => m.FirstName, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.FirstName, new { @class = "" })
+                                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            @Html.LabelFor(m => m.Password, new { @class = "" })
+                            <div class="select">
+                                @Html.PasswordFor(m => m.Password, new { @class = "" })
+                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            <label>Role</label>
+                            <div class="select">
+                                @Html.DropDownListFor(m => m.SystemRoleId, rolesSelectList, "-- Select Role -- ")
+                                @Html.ValidationMessageFor(model => model.SystemRoleId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12 right">
+                        <div class="product">
+                            @Html.LabelFor(m => m.Email, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "" })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            @Html.LabelFor(m => m.LastName, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.LastName, new { @class = "" })
+                                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            @Html.LabelFor(m => m.Confirm_Password, new { @class = "" })
+                            <div class="select">
+                                @Html.PasswordFor(m => m.Confirm_Password, new { @class = "" })
+                                @Html.ValidationMessageFor(model => model.Confirm_Password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="product">
+                            <label>Status</label>
+                            <div class="select">
+                                <select name="StatusId" id="Status">
+                                    <option>Select Status</option>
+                                    <option value="21" @(Model.StatusId == 21 ? "selected='selected'" : "")>Invited</option>
+                                    <option value="22" @(Model.StatusId == 22 ? "selected='selected'" : "")>Active</option>
+                                    <option value="23" @(Model.StatusId == 23 ? "selected='selected'" : "")>Suspend</option>
+                                    <option value="24" @(Model.StatusId == 24 ? "selected='selected'" : "")>Delete</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="product">
+                            <label>&nbsp;</label>
+                            <div class="select">
+                                <button type="submit" value="Save & Close" class="btn btn-block transition">Save & Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+<style type="text/css">
+    input[type=text], input[type=password], input[type=email], textarea {
+        margin-bottom: 0;
+    }
+
+    .information-wrap span {
+        margin-top: 20px;
+    }
+</style>
+
+@section JavaScript{
+
+    <script type="text/javascript">
+        $("document").ready(function () {
+            $(document).on('click', '#backLink', function () {
+                history.go(-1);
+            });
+        });
+    </script>
+
+}

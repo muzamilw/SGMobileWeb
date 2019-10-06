@@ -1,0 +1,208 @@
+﻿@model SG2.CORE.MODAL.ViewModals.Backend.VPSSupplier.AddVPSSupplierViewModel
+@{
+    ViewBag.Title = "Add Supplier";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+
+    List<SelectListItem> ProxyStatuses = new List<SelectListItem>();
+
+    foreach (var dr in Model.Statuses.Where(x => x.StatusName == "General").OrderBy(x => x.StatusName))
+    {
+        ProxyStatuses.Add(new SelectListItem { Text = dr.StatusValue, Value = dr.StatusId.ToString() });
+    }
+
+}
+
+<div class="container">
+    @if (!string.IsNullOrEmpty(ViewBag.Success) && ViewBag.Success == "Yes")
+    {
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="alert alert-block alert-success">
+                    <p>
+                        <strong>
+                            <i class="ace-icon fa fa-check"></i>
+                            Success!
+                        </strong>
+                        @ViewBag.SuccessMessage
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+@using (Html.BeginForm("AddVPSSupplier", "VPSSupplier", FormMethod.Post, new { @class = "" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.VPSSId)
+
+    <div class="information-wrap main accounts">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-6">
+                    <h2>VPS Supplier</h2>
+                </div>
+                <div class="col-xs-6">
+                    <div class="right-col">
+                        <a class="btn" href="javascript:void(0);" style="background-color:#52d234; position:relative; top:9px;" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="jv-box proxy-mapping-detail">
+            <div class="accounts-form second forth">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                        <div class="product">
+                            @Html.LabelFor(m => m.IssuingISPName, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.IssuingISPName, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.IssuingISPName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            @Html.LabelFor(m => m.IssuingISPPhone, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.IssuingISPPhone, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.IssuingISPPhone, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            @Html.LabelFor(m => m.IssuingISPWebsite, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.IssuingISPWebsite, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.IssuingISPWebsite, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            @Html.LabelFor(m => m.IssuingISPAccount, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.IssuingISPAccount, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.IssuingISPAccount, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            @Html.LabelFor(m => m.IssuingISPPassword, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.IssuingISPPassword, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.IssuingISPPassword, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            <label>Status</label>
+                            <div class="select">
+                                @Html.DropDownListFor(model => model.StatusId, ProxyStatuses)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <div class="product">
+                            @Html.LabelFor(m => m.IssuingISPMemo, new { @class = "" })
+                            <div class="">
+                                @Html.TextAreaFor(m => m.IssuingISPMemo, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.IssuingISPMemo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="product">
+                            @Html.LabelFor(m => m.IPManageBy, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.IPManageBy, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.IPManageBy, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            @Html.LabelFor(m => m.SupportPhone, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.SupportPhone, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.SupportPhone, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="product">
+                            @Html.LabelFor(m => m.SupportEmail, new { @class = "" })
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.SupportEmail, new { @id = "slct" })
+                                @Html.ValidationMessageFor(model => model.SupportEmail, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="product">
+                            <label>&nbsp;</label>
+                            <div class="select">
+                                <button type="submit" value="Save & Close" class="btn btn-block transition">Save & Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+}
+
+@section StyleSheet {
+    <style type="text/css">
+        .accounts-form .product .select, .accounts-form .product textarea,
+        .proxy-mapping-detail .accounts-form.forth .product .select {
+            width: 60%
+        }
+
+        .proxy-mapping-detail .accounts-form.third label, 
+        .proxy-mapping-detail .accounts-form.forth label{
+            width:40%
+        }
+
+        .form-wrap .search-wrap input[type=search] {
+            font-size: 1.8rem;
+            line-height: 22px;
+            height: 47px;
+        }
+
+        input[type=search] {
+            border-bottom: 2px solid #eceffb;
+            font-style: normal;
+            padding: 0px 24px 10px;
+        }
+
+        button.searchBtn {
+            height: 47px;
+        }
+
+        input[type=text], input[type=password], input[type=email], textarea {
+            margin-bottom: 0;
+        }
+
+        .field-validation-valid {
+            display: none;
+        }
+
+        .proxy-mapping-detail .accounts-form.second .product input[type=text] {
+            width: 62%;
+        }
+
+        .proxy-mapping-detail .accounts-form.forth .product input[type=text] {
+            width: 100%;
+        }
+    </style>
+}
+
+@section JavaScript{
+
+    <script type="text/javascript">
+        $("document").ready(function () {
+            $(document).on('click', '#backLink', function () {
+                history.go(-1);
+            });
+        });
+    </script>
+
+}
+
+

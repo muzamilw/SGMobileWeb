@@ -1,0 +1,265 @@
+﻿@*<div class="modal" id="Modal_Messagebox" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="Modal_MessageBoxTitle"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="Modal_MessageBoxBody"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+<div class="modal fade" id="Modal_Messagebox" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="wizardTitle">
+                            <h1 id="Modal_MessageBoxTitle"></h1>
+                            <!--   <a href="#" onclick="return false;" data-dismiss="modal" class="active close_popup">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                    </a>
+                            -->
+                        </div>
+
+                        <div class="wizardContents">
+                            <h4 class="text-center" id="Modal_MessageBoxBody"></h4>
+                        </div>
+
+                        <div class="wizardContentsBlue h1">
+                            <h4 class="text-center" id="Modal_MessageBoxBodyBlue"></h4>
+                        </div>
+
+                        <br />
+                        <div class="wizardActions">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="Modal_LoginMessagebox" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+
+                <div class="row text-center">
+                    <div class="col-md-12">
+                        <div class="wizardTitle">
+                            <h1 id="Modal_MessageBoxTitle">"Account Created Succesfully.!</h1>                           
+                        </div>
+
+                        <div class="wizardContents">
+                            <h4 class="text-center" id="Modal_MessageBoxBody">Congratulation! Your account has successfully created. Please check your inbox for verification.!</h4>
+                        </div>
+                        <br />
+                        <div class="wizardContents">
+                            <button class="btn btn-block btn_LoginMessageModal" style="background-color:#5cb85c" type="button" >Login</button>
+                        </div>
+
+                        <br />
+                        <br />
+                        <div class="wizardActions center">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+                        </div>
+                        <br />
+                        <br />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="Modal_ErrorMessagebox" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="wizardTitle">
+                            <h1 id="Modal_MessageBoxErrorTitle"></h1>
+
+                        </div>
+
+                        <div class="wizardContents">
+                            <p id="Modal_MessageBoxErrorBody"></p>
+                        </div>
+
+                        <div class="wizardErrorFotter">
+                            <h1 id="Modal_MessageBoxFotter"></h1>
+                        </div>
+
+                        <div class="wizardActions">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style type="text/css">
+
+    #Modal_Messagebox .modal-content {
+        padding: 3%;
+    }
+
+    #Modal_Messagebox .modal-body {
+        padding: 5px;
+    }
+
+    #Modal_Messagebox .wizardTitle {
+        text-align: center;
+    }
+
+    #Modal_Messagebox .wizardFotter {
+        text-align: center;
+    }
+
+    #Modal_Messagebox .wizardTitle h1 {
+        color: #4c4ccc;
+        font-size: 22pt;
+        font-weight: 400;
+        margin: 20px 0;
+        display: inline-block;
+    }
+
+    #Modal_Messagebox .wizardFotter h1 {
+        color: #4c4ccc;
+        font-size: 22pt;
+        font-weight: 400;
+        margin: 20px 0;
+        display: inline-block;
+    }
+
+    #Modal_Messagebox .wizardContents p {
+        color: #6b6b6b;
+        font-size: 12pt;
+        margin: 10px 0;
+        line-height: 20pt;
+        text-align: center;
+    }
+
+    #Modal_Messagebox .wizardContentsBlue H1 {
+        color: #4c4ccc;
+        font-size: 22pt;
+        font-weight: 400;
+        margin: 10px 0;
+        display: inline-block;
+        text-align: center;
+    }
+
+    #Modal_Messagebox .wizardActions {
+        text-align: center;
+    }
+
+        #Modal_Messagebox .wizardActions button {
+            background-color: #4e50ce;
+            font-size: 14pt;
+            font-weight: 400;
+            margin: 10px 0;
+            padding: 2% 5%;
+        }
+
+            #Modal_Messagebox .wizardActions button:hover {
+                background-color: #4e50ce;
+            }
+
+    #Modal_Messagebox .wizardFooter {
+        text-align: center;
+    }
+
+        #Modal_Messagebox .wizardFooter p {
+            color: #c4c4c4;
+            font-size: 14pt;
+            margin: 10px 0;
+        }
+
+
+    #Modal_ErrorMessagebox .modal-content {
+        padding: 3%;
+    }
+
+    #Modal_ErrorMessagebox .modal-body {
+        padding: 5px;
+    }
+
+    #Modal_ErrorMessagebox .wizardTitle {
+        text-align: center;
+    }
+
+    #Modal_ErrorMessagebox .wizardErrorFotter {
+        text-align: center;
+    }
+
+    #Modal_ErrorMessagebox .wizardTitle h1 {
+        color: #4c4ccc;
+        font-size: 22pt;
+        font-weight: 400;
+        margin: 20px 0;
+        display: inline-block;
+    }
+
+    #Modal_ErrorMessagebox .wizardErrorFotter h1 {
+        color: #4c4ccc;
+        font-size: 22pt;
+        font-weight: 400;
+        margin: 20px 0;
+        display: inline-block;
+    }
+
+    #Modal_ErrorMessagebox .wizardContents p {
+        color: #6b6b6b;
+        font-size: 12pt;
+        margin: 10px 0;
+        line-height: 20pt;
+        text-align: center;
+    }
+
+
+    #Modal_ErrorMessagebox .wizardActions {
+        text-align: center;
+    }
+
+        #Modal_ErrorMessagebox .wizardActions button {
+            background-color: #4e50ce;
+            font-size: 14pt;
+            font-weight: 400;
+            margin: 10px 0;
+            padding: 2% 5%;
+        }
+
+            #Modal_ErrorMessagebox .wizardActions button:hover {
+                background-color: #4e50ce;
+            }
+
+
+
+    @@media screen and (max-width: 500px) {
+        #Modal_Messagebox .wizardTitle h1 {
+            font-size: 18pt;
+        }
+    }
+</style>

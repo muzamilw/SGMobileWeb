@@ -1,0 +1,94 @@
+﻿@model SG2.CORE.MODAL.ViewModals.Customers.CustomerPayAndConfirmViewModel
+@{
+    ViewBag.Title = "Pay And Confirm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2>Pay and Confirmation</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="information-form">
+    <div class="container">
+        <div class="information-form-inner">
+            <div class="row">
+                @using (Html.BeginForm("ConfirmPayment", "User", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    <input Type="hidden" name="PlanId" value="@Model.PaymentPlan.PlanId" />
+                    <div class="col-md-6">
+                        <div class="mainMonthly">
+                            <h2 style="color:#5cb85c">Monthly Changes</h2>
+                            <h2>$@(Model.PaymentPlan.Amount / 100)</h2>
+                            <h4>@Model.PaymentPlan.PlanName</h4>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="paymentCard">
+                            <p style="font-size: 2.5rem; color: #aaa;">
+                                Monthly Charges
+                                <span class="pull-right" style="color:black">$@(Model.PaymentPlan.Amount / 100)</span>
+                            </p>
+                            <p>Autopay on @DateTime.Now.AddMonths(1).ToString("MMM dd, yyyy")</p>
+                            <hr />
+
+                            @foreach (var item in Model.CardDetails)
+                            {
+                                <p>
+                                    Visa ending in <b>@item.Last4</b>
+                                    <img class="pull-right" src="~/Content/Images/visa-icon.png" />
+                                </p>
+
+                                <p>Expiry <b>@item.ExpMonth/@item.ExpYear</b></p>
+                            }
+                            <hr />
+                            <input type="submit" class="btn btn-block btn-primary" value="Confirm" />
+                            <br />
+                            <em>You are currently billed in $ US Dollar.</em>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    h4 {
+        line-height: 34px;
+        color: cornflowerblue;
+    }
+
+    .paymentCard {
+        padding: 30px;
+        margin: 0 25px;
+        border: 1px solid #aaa;
+        border-radius: 5px;
+        box-shadow: 0px 0px 6px;
+    }
+
+        .paymentCard img {
+            width: 8%;
+            position: relative;
+            top: -6px;
+        }
+
+    .mainMonthly {
+        background-color: #f7f7f7;
+        padding: 30px;
+        margin: 0 25px;
+        border-radius: 5px;
+        min-height: 370px;
+    }
+
+    .mainMonthly h2{
+        font-size: 3rem;
+    }
+
+</style>

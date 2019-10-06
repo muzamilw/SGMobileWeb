@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BFE775A9-7103-4E59-A023-31D0B1E7B84F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SG2.CORE.MODAL</RootNamespace>
+    <AssemblyName>SG2.CORE.MODAL</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="klaviyo.net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\klaviyo.net.1.0.2\lib\net40\klaviyo.net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DTO\Common\CitiesAndCountriesDTO.cs" />
+    <Compile Include="DTO\Common\CityDTO.cs" />
+    <Compile Include="DTO\Common\CountryDTO.cs" />
+    <Compile Include="DTO\Common\ProxyIPDTO.cs" />
+    <Compile Include="DTO\Common\TitleDTO.cs" />
+    <Compile Include="DTO\Common\UserDTO.cs" />
+    <Compile Include="DTO\Common\VPSSDTO.cs" />
+    <Compile Include="DTO\Customers\CustomerAndPreferenceDTO.cs" />
+    <Compile Include="DTO\Customers\CustomerDTO.cs" />
+    <Compile Include="DTO\Customers\CustomerSocialProfileDTO.cs" />
+    <Compile Include="DTO\Customers\CustomerTargetProfileDTO.cs" />
+    <Compile Include="DTO\Customers\ProductDTO.cs" />
+    <Compile Include="DTO\Customers\ProfileJVDTO.cs" />
+    <Compile Include="DTO\Customers\StatusDTO.cs" />
+    <Compile Include="DTO\Customers\SubscriptionDTO.cs" />
+    <Compile Include="DTO\JVBox\JVBoxCustomerHistoryDTO.cs" />
+    <Compile Include="DTO\JVBox\JVBoxDTO.cs" />
+    <Compile Include="DTO\LikeyAccount\LikeyAccountDTO.cs" />
+    <Compile Include="DTO\Notification\NotificationDTO.cs" />
+    <Compile Include="DTO\PlanInformation\PlanInformationDTO.cs" />
+    <Compile Include="DTO\Proxy\ProxyDTO.cs" />
+    <Compile Include="DTO\Proxy\ProxyMappingDTO.cs" />
+    <Compile Include="DTO\QueueLogger\QueueAuditDetailDTO.cs" />
+    <Compile Include="DTO\QueueLogger\QueueAuditDetialListViewDTO.cs" />
+    <Compile Include="DTO\QueueLogger\QueueAuditDTO.cs" />
+    <Compile Include="DTO\Statistics\StatisticsDTO.cs" />
+    <Compile Include="DTO\SystemSettings\SystemSettingsDTO.cs" />
+    <Compile Include="DTO\TargetPreferences\TargetPreferencesDTO.cs" />
+    <Compile Include="DTO\TeamMember\SystemRoleDTO.cs" />
+    <Compile Include="DTO\TeamMember\SystemUserDTO.cs" />
+    <Compile Include="DTO\TeamMember\ErrorMessagesDTO.cs" />
+    <Compile Include="DTO\VPSSupplier\GeoPointsDTO.cs" />
+    <Compile Include="klaviyo\KlaviyoAPI.cs" />
+    <Compile Include="klaviyo\KlaviyoDeleteProfileList.cs" />
+    <Compile Include="klaviyo\KlaviyoList.cs" />
+    <Compile Include="klaviyo\KlaviyoListSubscription.cs" />
+    <Compile Include="klaviyo\KlaviyoProfile.cs" />
+    <Compile Include="klaviyo\KlaviyoProfileRes.cs" />
+    <Compile Include="DTO\VPSSupplier\VPSSupplierDTO.cs" />
+    <Compile Include="DTO\VPSSupplier\VPSSupplierListingDTO.cs" />
+    <Compile Include="MobileViewModels\MobileData.cs" />
+    <Compile Include="MobileViewModels\MobileLoginResponseViewModel.cs" />
+    <Compile Include="MobileViewModels\MobileLoginViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModals\Backend\ActionBoard\ActionBoardJVSData.cs" />
+    <Compile Include="ViewModals\Backend\ActionBoard\ActionBoardListingViewModel.cs" />
+    <Compile Include="ViewModals\Backend\ActionBoard\ActionBoardViewModel.cs" />
+    <Compile Include="ViewModals\Backend\BotManager\BotMngrViewModel.cs" />
+    <Compile Include="ViewModals\Backend\CustomerDetailViewModel.cs" />
+    <Compile Include="ViewModals\Backend\CustomerIndexViewModel.cs" />
+    <Compile Include="ViewModals\Backend\CustomerListingViewModel.cs" />
+    <Compile Include="ViewModals\Backend\CustomerOrderHistoryIndexViewModel.cs" />
+    <Compile Include="ViewModals\Backend\CustomerOrderHistoryViewModel.cs" />
+    <Compile Include="ViewModals\Backend\CustomerTargetPreferencesViewModel.cs" />
+    <Compile Include="ViewModals\Backend\JVBox\JVBoxIndexViewModal.cs" />
+    <Compile Include="ViewModals\Backend\JVBox\JVBoxListingViewModal.cs" />
+    <Compile Include="ViewModals\Backend\JVBox\JVBoxViewModal.cs" />
+    <Compile Include="ViewModals\Backend\JVBox\UpdateJVBoxViewModal.cs" />
+    <Compile Include="ViewModals\Backend\LikeyAccount\LikeyAccountIndexViewModal.cs" />
+    <Compile Include="ViewModals\Backend\LikeyAccount\LikeyAccountListingViewModal.cs" />
+    <Compile Include="ViewModals\Backend\LikeyAccount\LikeyAccountViewModal.cs" />
+    <Compile Include="ViewModals\Backend\LikeyAccount\UpdateLikeyAccountViewModel.cs" />
+    <Compile Include="ViewModals\Backend\PlanInformation\PlanInformationIndexViewModel.cs" />
+    <Compile Include="ViewModals\Backend\PlanInformation\PlanInformationListingViewModel.cs" />
+    <Compile Include="ViewModals\Backend\PlanInformation\PlanInformationSaveViewModel.cs" />
+    <Compile Include="ViewModals\Backend\PlanInformation\PlanInformationUpdateViewModel.cs" />
+    <Compile Include="ViewModals\Backend\Proxy\BadProxyIndexViewModel.cs" />
+    <Compile Include="ViewModals\Backend\Proxy\BadProxyViewModel.cs" />
+    <Compile Include="ViewModals\Backend\TeamMember\TeamMemberPasswordDataViewModel.cs" />
+    <Compile Include="ViewModals\Backend\TeamMember\TeamMemberProfileDataViewModel.cs" />
+    <Compile Include="ViewModals\Backend\VPSSupplier\AddVPSSupplierViewModel.cs" />
+    <Compile Include="ViewModals\Backend\Proxy\ProxyIndexViewModal.cs" />
+    <Compile Include="ViewModals\Backend\Proxy\ProxyListingViewModal.cs" />
+    <Compile Include="ViewModals\Backend\VPSSupplier\UpdateVPSSupplierViewModel.cs" />
+    <Compile Include="ViewModals\Backend\VPSSupplier\VPSSCSVRecordViewModel.cs" />
+    <Compile Include="ViewModals\Backend\VPSSupplier\VPSSupplierListingViewModel.cs" />
+    <Compile Include="ViewModals\Backend\VPSSupplier\VPSSupplierIndexViewModel.cs" />
+    <Compile Include="ViewModals\Backend\SystemSettings\SystemSettingsIndexViewModal.cs" />
+    <Compile Include="ViewModals\Backend\SystemSettings\SystemSettingsListingViewModal.cs" />
+    <Compile Include="ViewModals\Backend\SystemSettings\SystemSettingsViewModal.cs" />
+    <Compile Include="ViewModals\Backend\TeamMember\SuperAdminViewModal.cs" />
+    <Compile Include="ViewModals\Backend\TeamMember\SystemRoleListingViewModal.cs" />
+    <Compile Include="ViewModals\Backend\TeamMember\TeamMemberIndexViewModal.cs" />
+    <Compile Include="ViewModals\Backend\TeamMember\TeamMemberListingViewModal.cs" />
+    <Compile Include="ViewModals\Backend\TeamMember\AddTeamMemberViewModal.cs" />
+    <Compile Include="ViewModals\Backend\TeamMember\TeamMemberProfileUpdateViewModal.cs" />
+    <Compile Include="ViewModals\Backend\TeamMember\UpdateTeamMemberViewModal.cs" />
+    <Compile Include="ViewModals\Backend\Proxy\UpdateProxyIPsViewModel.cs" />
+    <Compile Include="ViewModals\Customers\CustomerCardDetailViewModel.cs" />
+    <Compile Include="ViewModals\Customers\CustomerLoginViewModel.cs" />
+    <Compile Include="ViewModals\Customers\CustomerPaymentCardsViewModel.cs" />
+    <Compile Include="ViewModals\Customers\CustomerPaymentPlansViewModel.cs" />
+    <Compile Include="ViewModals\Customers\CustomerPlanDetailViewModel.cs" />
+    <Compile Include="ViewModals\Customers\CustomerProfileUpdateViewModel.cs" />
+    <Compile Include="ViewModals\Customers\CustomerProfileViewModel.cs" />
+    <Compile Include="ViewModals\Customers\CustomerSignUpViewModel.cs" />
+    <Compile Include="ViewModals\Customers\CustomerPayAndConfirmViewModel.cs" />
+    <Compile Include="ViewModals\Customers\ResetUserPasswordViewModel.cs" />
+    <Compile Include="ViewModals\Customers\UpdateUserPassword.cs" />
+    <Compile Include="ViewModals\Backend\Proxy\ProxyViewModal.cs" />
+    <Compile Include="ViewModals\Backend\DashBoard\DashboardViewModel.cs" />
+    <Compile Include="ViewModals\Home\IndexViewModel.cs" />
+    <Compile Include="ViewModals\Customers\ResendEmailViewModel.cs" />
+    <Compile Include="ViewModals\Home\SignupWizardViewModel.cs" />
+    <Compile Include="DTO\Statistics\PlanListReportDTO.cs" />
+    <Compile Include="ViewModals\Statistics\FollowersStatisticsListViewModel.cs" />
+    <Compile Include="ViewModals\Statistics\AdminReportViewModel.cs" />
+    <Compile Include="ViewModals\Statistics\StatisticsViewModel.cs" />
+    <Compile Include="ViewModals\TargetPreferences\TargetPreferencesViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

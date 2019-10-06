@@ -1,0 +1,87 @@
+﻿<div class="modal fade" id="Modal_LoginPopup" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+
+                <div class="Modal-LoginStep">
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            @*<div class="wizardImg">
+                                <img src="~/Content/ThemeAssets/Images/SGLOGO.png" class="width85px" />
+                            </div>*@
+                            <div class="wizardTitle">
+                                <a href="#" onclick="return false;" data-dismiss="modal" class="active close_popup">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                </a>
+                                <h1 class="signinH1">
+                                    Sign In
+                                </h1>
+
+                            </div>
+                            <div class="wizardContents">
+                                @using (Html.BeginForm("", "", FormMethod.Post, new { id = "Form_Login" }))
+                                {
+                                    <input type="text" name="EmailAddress" value="" placeholder="Email" required />
+                                    <input type="password" name="Password" value="" placeholder="Password" required />
+                                    <label class="error" id="login-error"></label>                                    
+                                }
+                            </div>
+                            <div class="wizardActions">
+                                <button type="button" class="btn btn-block btn-default btn_formLogin">
+                                    Login &nbsp;  <span id="LoginSpiner" style="display:none"><i class="fa fa-spinner fa-spin"></i></span>
+                                </button>
+                            </div>
+                            <div class="wizardContents">
+                                <p>Or create a <a href="#" class="lnk_ShowSignupModal">new account</a></p>
+                                <p><a href="#" class="lnk_ShowFrogetPasswordModal">Forgot password</a></p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                                    
+                </div>
+
+                <div class="Modal-ForgetPasswordStep hide">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            @*<div class="wizardImg">
+                                <img src="~/Content/ThemeAssets/Images/SGLOGO.png" class="width85px" />
+                                
+                            </div>*@
+                            <div class="wizardTitle">
+                                <h1>
+                                    Forget Password
+                                </h1>
+                                <a href="#" onclick="return false;" data-dismiss="modal" class="active close_popup">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                            <div class="wizardContents forgetPasswordFields">
+                                @using (Html.BeginForm("", "", FormMethod.Post, new { id = "Form_ForgetPassword" }))
+                                {
+                                    <input type="Email" name="Email" value="" placeholder="Please enter your email address here." required />
+                                    <label class="error" id="forgetpassword-error"></label>
+                                }
+                            </div>
+                            <div class="wizardActions forgetPasswordFields">
+                                <button type="button" class="btn btn-block btn-default btn_forgetPassword">
+                                    Email me password reset link. &nbsp; <span id="ForgotPassSpiner" style="display:none"><i class="fa fa-spinner fa-spin"></i></span>
+                                </button>
+                            </div>
+                            <br />
+                            <div class="wizardContents" id="forgetPassowrdMessage" style="display:none">
+                                <p style="font-size:16pt">Please check your inbox for further instruction.</p>
+                                <br />
+                                <p style="font-size:16pt; color:crimson">Remember to check in your Junk/Spam folder if you don't receive the email within 5 minutes.</p>
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

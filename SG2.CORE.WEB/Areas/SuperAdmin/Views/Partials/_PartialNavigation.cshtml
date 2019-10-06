@@ -1,0 +1,56 @@
+﻿@using SG2.CORE.MODAL.DTO.TeamMember;
+<div class="main-menu">
+    <div class="container">
+        <div class="row">
+            @*<div class="col-xs-12">
+                <div class="menu-heading">
+                    <h1>Backoffice</h1>
+                    <div class="mobile-menu">
+                        <img src="~/Content/ThemeAssets/Images/mobile-icon.png" alt="">
+                    </div>
+                </div>
+                <div class="menu">
+                    <ul class="list">
+                        @if (ViewBag.IsAuthentication != null)
+                        {
+                            var userDto = (SystemUserDTO)ViewBag.SystemUserDTO;
+
+                            if (userDto.UserRoleName == "Super Admin")
+                            {
+                                <li>@Html.ActionLink("Registeres Users", "Index", "Dashboard", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "Dashboard" ? "active" : "" })</li>
+                                <li>@Html.ActionLink("Action Board", "Index", "ActionBoard", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "ActionBoard" ? "active" : "" })</li>
+                                <li>@Html.ActionLink("Proxy IPs", "Index", "ProxyIPs", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "ProxyIPs" ? "active" : "" })</li>
+                                <li>@Html.ActionLink("JV Boxes", "Index", "JVBoxes", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "JVBoxes" ? "active" : "" })</li>
+                                <li>@Html.ActionLink("Like Accts", "Index", "LikeAccts", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "LikeAccts" ? "active" : "" })</li>
+                                <li>@Html.ActionLink("Team members", "Index", "TeamMember", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "TeamMember" ? "active" : "" })</li>
+                                <li>@Html.ActionLink("System Settings", "Index", "SystemSettings", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "SystemSettings" ? "active" : "" })</li>
+                            }
+                            else if (userDto.UserRoleName == "Manager")
+                            {
+                                <li>@Html.ActionLink("Registeres Users", "Index", "Dashboard", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "Dashboard" ? "active" : "" })</li>
+                                <li>@Html.ActionLink("Action Board", "Index", "ActionBoard", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "ActionBoard" ? "active" : "" })</li>
+                                <li>@Html.ActionLink("Proxy IPs", "Index", "ProxyIPs", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "ProxyIPs" ? "active" : "" })</li>
+                                <li>@Html.ActionLink("JV Boxes", "Index", "JVBoxes", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "JVBoxes" ? "active" : "" })</li>
+                                <li>@Html.ActionLink("Like Accts", "Index", "LikeAccts", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "LikeAccts" ? "active" : "" })</li>
+                            }
+                            else if (userDto.UserRoleName == "Sales")
+                            {
+                                <li>@Html.ActionLink("Registeres Users", "Index", "Dashboard", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "Dashboard" ? "active" : "" })</li>
+                                <li>@Html.ActionLink("Action Board", "Index", "ActionBoard", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "ActionBoard" ? "active" : "" })</li>
+                            }
+                            else if (userDto.UserRoleName == "Operations")
+                            {
+                                <li>@Html.ActionLink("Proxy IPs", "Index", "ProxyIPs", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "ProxyIPs" ? "active" : "" })</li>
+                                <li>@Html.ActionLink("JV Boxes", "Index", "JVBoxes", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "JVBoxes" ? "active" : "" })</li>
+                                <li>@Html.ActionLink("Like Accts", "Index", "LikeAccts", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "LikeAccts" ? "active" : "" })</li>
+                            }
+                        }
+
+                    </ul>
+                </div>
+            </div>*@
+        </div>
+    </div>
+    <div style="clear:both"></div>
+</div>
+<!-- main sec start -->
