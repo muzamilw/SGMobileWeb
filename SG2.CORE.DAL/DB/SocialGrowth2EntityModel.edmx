@@ -528,6 +528,12 @@
           <Parameter Name="riJVStatus" Type="varchar" Mode="In" />
           <Parameter Name="riSubscription" Type="int" Mode="In" />
         </Function>
+        <Function Name="SG2_usp_LikeyAccount_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rsSearchCrite" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="riPageNumber" Type="int" Mode="In" />
+          <Parameter Name="riPageSize" Type="varchar" Mode="In" />
+          <Parameter Name="riStatusId" Type="int" Mode="In" />
+        </Function>
         <Function Name="SG2_usp_Login_Customers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="rvcEmailAddress" Type="nvarchar" Mode="In" />
           <Parameter Name="rvcPassword" Type="nvarchar" Mode="In" />
@@ -767,7 +773,13 @@
           <Parameter Name="CustomerId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SG2_usp_Customer_GetSocialProfileById" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Customer_GetSocialProfileById_Result)">
-            <Parameter Name="riSocialProfileId" Mode="In" Type="Int32" />
+          <Parameter Name="riSocialProfileId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SG2_usp_LikeyAccount_GetAll" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_LikeyAccount_GetAll_Result)">
+            <Parameter Name="rsSearchCrite" Mode="In" Type="String" />
+            <Parameter Name="riPageNumber" Mode="In" Type="Int32" />
+            <Parameter Name="riPageSize" Mode="In" Type="String" />
+            <Parameter Name="riStatusId" Mode="In" Type="Int32" />
           </FunctionImport>
           
         </EntityContainer>
@@ -1731,6 +1743,12 @@
           <Property Type="String" Name="StripeInvoiceId" Nullable="true" MaxLength="255" />
           <Property Type="Boolean" Name="IsArchived" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="SG2_usp_LikeyAccount_GetAll_Result">
+          <Property Type="Int32" Name="LikeyAccountId" Nullable="false" />
+          <Property Type="String" Name="InstaUserName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="StatusName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="TotalRecord" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2652,6 +2670,16 @@
                 <ScalarProperty Name="SocialAccAS1" ColumnName="SocialAccAS1" />
                 <ScalarProperty Name="StripeInvoiceId" ColumnName="StripeInvoiceId" />
                 <ScalarProperty Name="IsArchived" ColumnName="IsArchived" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SG2_usp_LikeyAccount_GetAll" FunctionName="SocialGrowth2Entities.Store.SG2_usp_LikeyAccount_GetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_LikeyAccount_GetAll_Result">
+                <ScalarProperty Name="LikeyAccountId" ColumnName="LikeyAccountId" />
+                <ScalarProperty Name="InstaUserName" ColumnName="InstaUserName" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="TotalRecord" ColumnName="TotalRecord" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
