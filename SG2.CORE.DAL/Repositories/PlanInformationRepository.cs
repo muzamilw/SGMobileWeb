@@ -58,7 +58,46 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    _db.SG2_usp_PlanInformation_Save(entity.PlanId, entity.PlanName, entity.PlanDescription, entity.PlanType, entity.Likes, entity.DisplayPrice,entity.NoOfLikesDuration,entity.StatusId,entity.SortOrder,entity.IsDefault,entity.StripePlanId,entity.PlanPrice,entity.SocialPlanTypeId);
+
+                    var plan = _db.PaymentPlans.Where(g => g.PaymentPlanId == entity.PlanId).SingleOrDefault();
+                    if ( plan != null)
+                    {
+                        plan.PlanName = entity.PlanName;
+                        plan.PlanShortDescription = entity.PlanDescription;
+                        plan.IsParentPlan = entity.IsParentPlan;
+                        plan.NoOfLikes = entity.Likes;
+                        plan.DisplayPrice = entity.DisplayPrice;
+                        plan.NoOfLikesDuration = entity.NoOfLikesDuration;
+                        plan.StatusId = entity.StatusId;
+                        plan.SortOrder = entity.SortOrder;
+                        plan.IsDefault = entity.IsDefault;
+                        plan.StripePlanId = entity.StripePlanId;
+                        plan.StripePlanPrice = entity.PlanPrice;
+                        plan.SocialPlatform = entity.SocialPlanTypeId;
+
+                        _db.SaveChanges();
+                    }
+                    else
+                    {
+                        plan = new PaymentPlan();
+                        plan.PlanName = entity.PlanName;
+                        plan.PlanShortDescription = entity.PlanDescription;
+                        plan.IsParentPlan = entity.IsParentPlan;
+                        plan.NoOfLikes = entity.Likes;
+                        plan.DisplayPrice = entity.DisplayPrice;
+                        plan.NoOfLikesDuration = entity.NoOfLikesDuration;
+                        plan.StatusId = entity.StatusId;
+                        plan.SortOrder = entity.SortOrder;
+                        plan.IsDefault = entity.IsDefault;
+                        plan.StripePlanId = entity.StripePlanId;
+                        plan.StripePlanPrice = entity.PlanPrice;
+                        plan.SocialPlatform = entity.SocialPlanTypeId;
+                        _db.PaymentPlans.Add(plan);
+
+                        _db.SaveChanges();
+                        entity.PlanId = plan.PaymentPlanId;
+                    }
+                    
                     return entity;
                 }
 
@@ -83,10 +122,10 @@ namespace SG2.CORE.DAL.Repositories
                         foreach (var pro in pros)
                         {
                             PlanInformationDTO plnInfo = new PlanInformationDTO();
-                            plnInfo.PlanId = pro.PlanId;
+                            plnInfo.PlanId = pro.paymentPlanId;
                             plnInfo.PlanDescription = pro.PlanDescription;
                             plnInfo.PlanName = pro.PlanName;
-                            plnInfo.PlanType = Convert.ToString(pro.PlanTypeId);
+                            plnInfo.IsParentPlan = pro.isparentplan.Value;
                             plnInfo.Likes = pro.Likes;
                             plnInfo.PlanPrice = (pro.PlanPrice);
                             plnInfo.DisplayPrice = pro.DisplayPrice;
@@ -95,7 +134,7 @@ namespace SG2.CORE.DAL.Repositories
                             plnInfo.StatusId = pro.StatusId??0;
                             plnInfo.SortOrder = pro.SortOrder;
                             plnInfo.IsDefault = pro.IsDefault??false;
-                            plnInfo.PlantypeName = pro.PlanType;
+                            //plnInfo.PlantypeName = pro.PlanType;
                             plnInfo.StatusName = pro.StatusName;
                             planInformationDTOs.Add(plnInfo);
                             }
@@ -117,24 +156,24 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    var pro = _db.SG2_usp_PlanInformation_GetById(PlanInformationId).FirstOrDefault();
+                    var pro = _db.PaymentPlans.Where (g=> g.PaymentPlanId ==  PlanInformationId).FirstOrDefault();
                     if (pro != null)
                     {
                         PlanInformationDTO plnInfo = new PlanInformationDTO()
                         {
-                            PlanId = pro.PlanId,
-                            PlanDescription = pro.PlanDescription,
+                            PlanId = pro.PaymentPlanId,
+                            PlanDescription = pro.PlanShortDescription,
                             PlanName = pro.PlanName,
-                            PlanType = Convert.ToString(pro.PlanType),
-                            Likes = pro.Likes,
-                            PlanPrice = pro.PlanPrice,
+                            IsParentPlan = pro.IsParentPlan.Value,
+                            Likes = pro.NoOfLikes,
+                            PlanPrice = pro.StripePlanPrice,
                             DisplayPrice=pro.DisplayPrice,
                             StripePlanId=pro.StripePlanId,
-                            NoOfLikesDuration=pro.NoOfLikesDuration,
+                            NoOfLikesDuration=pro.NoOfLikesDuration.Value,
                             StatusId=pro.StatusId,
                             SortOrder=pro.SortOrder,
                             IsDefault=pro.IsDefault,
-                            SocialPlanTypeId=pro.SocialPlanTypeId
+                            SocialPlanTypeId=pro.SocialPlatform
 
                         };
                         return plnInfo;
@@ -154,11 +193,13 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    var PLinfo = _db.SG2_usp_PlanInformation_Delete(PlanInformationId);
-                    if (PLinfo == 1)
-                        return true;
-                    else
-                        return false;
+                    //var PLinfo = _db.SG2_usp_PlanInformation_Delete(PlanInformationId);
+                    //if (PLinfo == 1)
+                    //    return true;
+                    //else
+                    //    return false;
+
+                    return false;
                 }
             }
             catch (Exception ex)
@@ -175,13 +216,13 @@ namespace SG2.CORE.DAL.Repositories
                 using (var _db = new SocialGrowth2Connection())
                 {
 
-                    if (PlanId == 0) return !_db.SG2_SocialProfile_PaymentPlan.Any(u => u.PlanName.Equals(PlanName));
-                    var user = _db.SG2_SocialProfile_PaymentPlan.Find(PlanId);
+                    if (PlanId == 0) return !_db.PaymentPlans.Any(u => u.PlanName.Equals(PlanName));
+                    var user = _db.PaymentPlans.Find(PlanId);
                     if (user.PlanName.Equals(PlanName, StringComparison.CurrentCultureIgnoreCase))
                     {
                         return true;
                     }
-                    return !_db.SG2_SocialProfile_PaymentPlan.Any(r => r.PlanName.Equals(PlanName) && r.PlanId != PlanId);
+                    return !_db.PaymentPlans.Any(r => r.PlanName.Equals(PlanName) && r.PaymentPlanId != PlanId);
                 }
             }
             catch (Exception ex)

@@ -515,6 +515,7 @@
           <Parameter Name="riPageNumber" Type="int" Mode="In" />
           <Parameter Name="riPageSize" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SG2_usp_Get_SocialProfile_PaymentPlan" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SG2_usp_Get_SpecificCustomerDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="riCustomerId" Type="int" Mode="In" />
           <Parameter Name="riProfileId" Type="int" Mode="In" />
@@ -540,6 +541,12 @@
           <Parameter Name="rvcCreatedBy" Type="nvarchar" Mode="In" />
           <Parameter Name="rvcLastLoginIP" Type="nvarchar" Mode="In" />
           <Parameter Name="rvcStatusId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SG2_usp_PlanInformation_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rsSearchCrite" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="riPageNumber" Type="int" Mode="In" />
+          <Parameter Name="riPageSize" Type="varchar" Mode="In" />
+          <Parameter Name="riStatusId" Type="int" Mode="In" />
         </Function>
         <Function Name="SG2_usp_SocialProfile_Subscription_Save" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="riSocialProfileId" Type="int" Mode="In" />
@@ -781,6 +788,13 @@
             <Parameter Name="riPageSize" Mode="In" Type="String" />
             <Parameter Name="riStatusId" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="SG2_usp_PlanInformation_GetAll" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_PlanInformation_GetAll_Result)">
+            <Parameter Name="rsSearchCrite" Mode="In" Type="String" />
+            <Parameter Name="riPageNumber" Mode="In" Type="Int32" />
+            <Parameter Name="riPageSize" Mode="In" Type="String" />
+            <Parameter Name="riStatusId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SG2_usp_Get_SocialProfile_PaymentPlan" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Get_SocialProfile_PaymentPlan_Result)" />
           
         </EntityContainer>
         <EntityType Name="Customer">
@@ -1749,6 +1763,38 @@
           <Property Type="String" Name="StatusName" Nullable="false" MaxLength="50" />
           <Property Type="Int32" Name="TotalRecord" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="SG2_usp_PlanInformation_GetAll_Result">
+          <Property Type="Int32" Name="PlanId" Nullable="false" />
+          <Property Type="Int32" Name="Likes" Nullable="true" />
+          <Property Type="Double" Name="DisplayPrice" Nullable="true" />
+          <Property Type="String" Name="PlanName" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="PlanDescription" Nullable="false" MaxLength="250" />
+          <Property Type="Boolean" Name="PlanType" Nullable="true" />
+          <Property Type="Boolean" Name="PlanTypeId" Nullable="true" />
+          <Property Type="String" Name="StripePlanId" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="TotalRecord" Nullable="true" />
+          <Property Type="Double" Name="PlanPrice" Nullable="true" />
+          <Property Type="Int32" Name="NoOfLikesDuration" Nullable="true" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+          <Property Type="Int16" Name="SortOrder" Nullable="true" />
+          <Property Type="String" Name="SocialPlanType" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SG2_usp_Get_SocialProfile_PaymentPlan_Result">
+          <Property Type="Int32" Name="paymentPlanId" Nullable="false" />
+          <Property Type="Int32" Name="Likes" Nullable="true" />
+          <Property Type="Double" Name="PlanPrice" Nullable="true" />
+          <Property Type="String" Name="PlanName" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="PlanDescription" Nullable="false" MaxLength="250" />
+          <Property Type="Boolean" Name="isparentplan" Nullable="true" />
+          <Property Type="String" Name="StripePlanId" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="NoOfLikesDuration" Nullable="false" />
+          <Property Type="Int32" Name="StatusId" Nullable="true" />
+          <Property Type="String" Name="StatusName" Nullable="true" MaxLength="50" />
+          <Property Type="Int16" Name="SortOrder" Nullable="true" />
+          <Property Type="Int32" Name="socialplatform" Nullable="true" />
+          <Property Type="Boolean" Name="IsDefault" Nullable="true" />
+          <Property Type="Double" Name="DisplayPrice" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2680,6 +2726,46 @@
                 <ScalarProperty Name="InstaUserName" ColumnName="InstaUserName" />
                 <ScalarProperty Name="StatusName" ColumnName="StatusName" />
                 <ScalarProperty Name="TotalRecord" ColumnName="TotalRecord" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SG2_usp_PlanInformation_GetAll" FunctionName="SocialGrowth2Entities.Store.SG2_usp_PlanInformation_GetAll" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_PlanInformation_GetAll_Result">
+                <ScalarProperty Name="PlanId" ColumnName="PlanId" />
+                <ScalarProperty Name="Likes" ColumnName="Likes" />
+                <ScalarProperty Name="DisplayPrice" ColumnName="DisplayPrice" />
+                <ScalarProperty Name="PlanName" ColumnName="PlanName" />
+                <ScalarProperty Name="PlanDescription" ColumnName="PlanDescription" />
+                <ScalarProperty Name="PlanType" ColumnName="PlanType" />
+                <ScalarProperty Name="PlanTypeId" ColumnName="PlanTypeId" />
+                <ScalarProperty Name="StripePlanId" ColumnName="StripePlanId" />
+                <ScalarProperty Name="TotalRecord" ColumnName="TotalRecord" />
+                <ScalarProperty Name="PlanPrice" ColumnName="PlanPrice" />
+                <ScalarProperty Name="NoOfLikesDuration" ColumnName="NoOfLikesDuration" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="SocialPlanType" ColumnName="SocialPlanType" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SG2_usp_Get_SocialProfile_PaymentPlan" FunctionName="SocialGrowth2Entities.Store.SG2_usp_Get_SocialProfile_PaymentPlan">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_Get_SocialProfile_PaymentPlan_Result">
+                <ScalarProperty Name="paymentPlanId" ColumnName="paymentPlanId" />
+                <ScalarProperty Name="Likes" ColumnName="Likes" />
+                <ScalarProperty Name="PlanPrice" ColumnName="PlanPrice" />
+                <ScalarProperty Name="PlanName" ColumnName="PlanName" />
+                <ScalarProperty Name="PlanDescription" ColumnName="PlanDescription" />
+                <ScalarProperty Name="isparentplan" ColumnName="isparentplan" />
+                <ScalarProperty Name="StripePlanId" ColumnName="StripePlanId" />
+                <ScalarProperty Name="NoOfLikesDuration" ColumnName="NoOfLikesDuration" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="socialplatform" ColumnName="socialplatform" />
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+                <ScalarProperty Name="DisplayPrice" ColumnName="DisplayPrice" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

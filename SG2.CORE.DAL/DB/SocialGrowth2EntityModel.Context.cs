@@ -433,5 +433,31 @@ namespace SG2.CORE.DAL.DB
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_LikeyAccount_GetAll_Result>("SG2_usp_LikeyAccount_GetAll", rsSearchCriteParameter, riPageNumberParameter, riPageSizeParameter, riStatusIdParameter);
         }
+    
+        public virtual ObjectResult<SG2_usp_PlanInformation_GetAll_Result> SG2_usp_PlanInformation_GetAll(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId)
+        {
+            var rsSearchCriteParameter = rsSearchCrite != null ?
+                new ObjectParameter("rsSearchCrite", rsSearchCrite) :
+                new ObjectParameter("rsSearchCrite", typeof(string));
+    
+            var riPageNumberParameter = riPageNumber.HasValue ?
+                new ObjectParameter("riPageNumber", riPageNumber) :
+                new ObjectParameter("riPageNumber", typeof(int));
+    
+            var riPageSizeParameter = riPageSize != null ?
+                new ObjectParameter("riPageSize", riPageSize) :
+                new ObjectParameter("riPageSize", typeof(string));
+    
+            var riStatusIdParameter = riStatusId.HasValue ?
+                new ObjectParameter("riStatusId", riStatusId) :
+                new ObjectParameter("riStatusId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_PlanInformation_GetAll_Result>("SG2_usp_PlanInformation_GetAll", rsSearchCriteParameter, riPageNumberParameter, riPageSizeParameter, riStatusIdParameter);
+        }
+    
+        public virtual ObjectResult<SG2_usp_Get_SocialProfile_PaymentPlan_Result> SG2_usp_Get_SocialProfile_PaymentPlan()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Get_SocialProfile_PaymentPlan_Result>("SG2_usp_Get_SocialProfile_PaymentPlan");
+        }
     }
 }
