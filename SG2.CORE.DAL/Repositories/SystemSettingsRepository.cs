@@ -16,7 +16,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
 
                     _db.SG2_usp_SystemConfig_Save(entity.ConfigId, entity.ConfigValue, entity.ConfigValue2, entity.ModifiedOn, entity.ModifiedBy);
@@ -33,7 +33,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     _db.SG2_usp_SystemConfig_Save(entity.ConfigId, entity.ConfigValue, entity.ConfigValue2, entity.ModifiedOn, entity.ModifiedBy);
                     return entity;
@@ -50,7 +50,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db=new SocialGrowth2Entities())
+                using (var _db=new SocialGrowth2Connection())
                 {
                     var systemConfigdata = _db.SG2_usp_SystemConfig_GetAll(null, 1, "100", null).ToList();
                     if (systemConfigdata != null)
@@ -81,7 +81,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var sys = _db.SG2_usp_SystemConfig_GetById(ConfigId).FirstOrDefault();
                     if (sys != null)
@@ -113,7 +113,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var systemConfigdata = _db.SG2_usp_SystemConfig_GetAll(SearchCriteria, PageNumber, PageSize, StatusId).ToList();
                     if (systemConfigdata != null)

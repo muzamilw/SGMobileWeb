@@ -17,7 +17,7 @@ namespace SG2.CORE.DAL.Repositories
             try
 
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     
                     var planInformationdata = _db.SG2_usp_PlanInformation_GetAll(SearchCriteria, PageNumber, PageSize, StatusId).ToList();
@@ -56,7 +56,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     _db.SG2_usp_PlanInformation_Save(entity.PlanId, entity.PlanName, entity.PlanDescription, entity.PlanType, entity.Likes, entity.DisplayPrice,entity.NoOfLikesDuration,entity.StatusId,entity.SortOrder,entity.IsDefault,entity.StripePlanId,entity.PlanPrice,entity.SocialPlanTypeId);
                     return entity;
@@ -74,7 +74,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db=new SocialGrowth2Entities())
+                using (var _db=new SocialGrowth2Connection())
                 {
                     var pros = _db.SG2_usp_Get_SocialProfile_PaymentPlan().ToList();
                     if (pros != null)
@@ -115,7 +115,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var pro = _db.SG2_usp_PlanInformation_GetById(PlanInformationId).FirstOrDefault();
                     if (pro != null)
@@ -152,7 +152,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var PLinfo = _db.SG2_usp_PlanInformation_Delete(PlanInformationId);
                     if (PLinfo == 1)
@@ -172,7 +172,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
 
                     if (PlanId == 0) return !_db.SG2_SocialProfile_PaymentPlan.Any(u => u.PlanName.Equals(PlanName));

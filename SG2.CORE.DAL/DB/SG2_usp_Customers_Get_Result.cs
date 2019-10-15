@@ -28,10 +28,8 @@ namespace SG2.CORE.DAL.DB
         public byte LoginAttempts { get; set; }
         public string LastLoginIP { get; set; }
         public string Tocken { get; set; }
-        public Nullable<int> JVBoxId { get; set; }
         public string StripeCustomerId { get; set; }
         public string UserName { get; set; }
-        public Nullable<int> JVBoxStatusId { get; set; }
         public string Source { get; set; }
         public string Register { get; set; }
         public Nullable<int> ResponsibleTeamMemberId { get; set; }
@@ -52,5 +50,6 @@ namespace SG2.CORE.DAL.DB
         public string PostalCode { get; set; }
         public string PhoneCode { get; set; }
         public string StripeSubscriptionId { get; set; }
+        public Nullable<int> DefaultSocialProfileId { get; set; }
     }
 }

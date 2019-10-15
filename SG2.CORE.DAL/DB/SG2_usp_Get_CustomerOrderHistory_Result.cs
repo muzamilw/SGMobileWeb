@@ -19,7 +19,6 @@ namespace SG2.CORE.DAL.DB
         public string Status { get; set; }
         public Nullable<int> TotalRecord { get; set; }
         public Nullable<decimal> Price { get; set; }
-        public string JVBoxStatus { get; set; }
         public string SocialProfileStatus { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }

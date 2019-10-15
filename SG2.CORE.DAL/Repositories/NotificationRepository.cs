@@ -16,7 +16,7 @@ namespace SG2.CORE.DAL.Repositories
             try
             {
                 List<NotificationDTO> results = null;
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var notes = _db.SG2_usp_SocialProfile_GetNotificationsByStatus(StatusId);
                     if (notes != null)
@@ -52,7 +52,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var dt = _db.SG2_SocialProfile_Notification.Add(new SG2_SocialProfile_Notification()
                     {
@@ -83,7 +83,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                    
                     _db.SG2_SocialProfile_Notification.RemoveRange(_db.SG2_SocialProfile_Notification.Where(x => x.Id == notificationId));
@@ -103,7 +103,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var result = _db.SG2_SocialProfile_Notification.SqlQuery("Update SG2_SocialProfile_Notification set StatusId=@statudId where id=@notificationId;select top 1 * from SG2_SocialProfile_Notification where id=@notificationId "
                                                    , new SqlParameter("@statudId", statusId)

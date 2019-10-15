@@ -15,11 +15,7 @@ namespace SG2.CORE.DAL.DB
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Status { get; set; }
-        public string JVBoxNo { get; set; }
-        public string IPNO { get; set; }
         public string Email { get; set; }
-        public string Title { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Tel { get; set; }
@@ -32,7 +28,6 @@ namespace SG2.CORE.DAL.DB
         public string InstaUsrName { get; set; }
         public string InstaPassword { get; set; }
         public System.DateTime UpdatedOn { get; set; }
-        public string JVStatus { get; set; }
         public Nullable<bool> OptedEdEmailSeries { get; set; }
         public Nullable<bool> OptedMarkEmail { get; set; }
         public string Source { get; set; }
@@ -40,9 +35,9 @@ namespace SG2.CORE.DAL.DB
         public int ResTeamMember { get; set; }
         public bool AvaToEveryOne { get; set; }
         public string Comment { get; set; }
+        public string Title { get; set; }
         public string SocialProfileName { get; set; }
         public short CustomerStatus { get; set; }
         public bool IsArchived { get; set; }
-        public string ProxyPort { get; set; }
     }
 }

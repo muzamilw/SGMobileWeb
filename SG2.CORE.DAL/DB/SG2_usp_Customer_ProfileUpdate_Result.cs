@@ -11,7 +11,7 @@ namespace SG2.CORE.DAL.DB
 {
     using System;
     
-    public partial class SG2_usp_Customer_SignUp_Result
+    public partial class SG2_usp_Customer_ProfileUpdate_Result
     {
         public int CustomerId { get; set; }
         public string GUID { get; set; }

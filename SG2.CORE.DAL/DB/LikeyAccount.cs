@@ -10,13 +10,17 @@
 namespace SG2.CORE.DAL.DB
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class SG2_usp_SystemConfig_GetAll_Result
+    public partial class LikeyAccount
     {
-        public short ConfigId { get; set; }
-        public string ConfigKey { get; set; }
-        public string ConfigValue1 { get; set; }
-        public string ConfigValue2 { get; set; }
-        public Nullable<int> TotalRecord { get; set; }
+        public int LikeyAccountId { get; set; }
+        public string InstaUserName { get; set; }
+        public string InstaPassword { get; set; }
+        public string Country { get; set; }
+        public string City { get; set; }
+        public int Gender { get; set; }
+        public string HashTag { get; set; }
+        public int StatusId { get; set; }
     }
 }

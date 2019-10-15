@@ -11,12 +11,10 @@ namespace SG2.CORE.DAL.DB
 {
     using System;
     
-    public partial class SG2_usp_SystemConfig_GetAll_Result
+    public partial class SG2_usp_Get_AllUser1_Result
     {
-        public short ConfigId { get; set; }
-        public string ConfigKey { get; set; }
-        public string ConfigValue1 { get; set; }
-        public string ConfigValue2 { get; set; }
-        public Nullable<int> TotalRecord { get; set; }
+        public int UserId { get; set; }
+        public string UserName { get; set; }
+        public string RoleName { get; set; }
     }
 }

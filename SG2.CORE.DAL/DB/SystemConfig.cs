@@ -10,13 +10,17 @@
 namespace SG2.CORE.DAL.DB
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class SG2_usp_SystemConfig_GetAll_Result
+    public partial class SystemConfig
     {
         public short ConfigId { get; set; }
         public string ConfigKey { get; set; }
-        public string ConfigValue1 { get; set; }
+        public string ConfigValue { get; set; }
         public string ConfigValue2 { get; set; }
-        public Nullable<int> TotalRecord { get; set; }
+        public System.DateTime CreatedOn { get; set; }
+        public string CreatedBy { get; set; }
+        public System.DateTime ModifiedOn { get; set; }
+        public string ModifiedBy { get; set; }
     }
 }

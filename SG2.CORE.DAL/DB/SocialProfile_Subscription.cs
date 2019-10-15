@@ -10,8 +10,9 @@
 namespace SG2.CORE.DAL.DB
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class SG2_usp_SocialProfile_Subscription_Save_Result
+    public partial class SocialProfile_Subscription
     {
         public int SubscriptionId { get; set; }
         public string Name { get; set; }
@@ -26,5 +27,8 @@ namespace SG2.CORE.DAL.DB
         public string StripePlanId { get; set; }
         public Nullable<int> PaymentPlanId { get; set; }
         public string StripeInvoiceId { get; set; }
+    
+        public virtual PaymentPlan PaymentPlan { get; set; }
+        public virtual SocialProfile SocialProfile { get; set; }
     }
 }

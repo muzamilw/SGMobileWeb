@@ -15,9 +15,9 @@ namespace SG2.CORE.DAL.DB
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class SocialGrowth2Entities : DbContext
+    public partial class SocialGrowth2Connection : DbContext
     {
-        public SocialGrowth2Entities()
+        public SocialGrowth2Connection()
             : base("name=SocialGrowth2Connection")
         {
         }
@@ -27,88 +27,104 @@ namespace SG2.CORE.DAL.DB
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<SG2_Customer> SG2_Customer { get; set; }
-        public virtual DbSet<SG2_Customer_ContactDetail> SG2_Customer_ContactDetail { get; set; }
-        public virtual DbSet<SG2_Customer_Title> SG2_Customer_Title { get; set; }
-        public virtual DbSet<SG2_Enumeration> SG2_Enumeration { get; set; }
-        public virtual DbSet<SG2_EnumerationValue> SG2_EnumerationValue { get; set; }
-        public virtual DbSet<SG2_JVBox> SG2_JVBox { get; set; }
-        public virtual DbSet<SG2_LikeyAccount> SG2_LikeyAccount { get; set; }
-        public virtual DbSet<SG2_Proxy> SG2_Proxy { get; set; }
-        public virtual DbSet<SG2_SocialProfile> SG2_SocialProfile { get; set; }
-        public virtual DbSet<SG2_SocialProfile_PaymentPlan> SG2_SocialProfile_PaymentPlan { get; set; }
-        public virtual DbSet<SG2_SocialProfile_ProxyMapping> SG2_SocialProfile_ProxyMapping { get; set; }
-        public virtual DbSet<SG2_SocialProfile_Subscription> SG2_SocialProfile_Subscription { get; set; }
-        public virtual DbSet<SG2_SocialProfile_TargetingInformation> SG2_SocialProfile_TargetingInformation { get; set; }
-        public virtual DbSet<SG2_SystemCity> SG2_SystemCity { get; set; }
-        public virtual DbSet<SG2_SystemConfig> SG2_SystemConfig { get; set; }
-        public virtual DbSet<SG2_SystemCountry> SG2_SystemCountry { get; set; }
-        public virtual DbSet<SG2_SystemRole> SG2_SystemRole { get; set; }
-        public virtual DbSet<SG2_SystemState> SG2_SystemState { get; set; }
-        public virtual DbSet<SG2_SystemUser> SG2_SystemUser { get; set; }
-        public virtual DbSet<SG2_VPSSupplier> SG2_VPSSupplier { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
-        public virtual DbSet<SG2_SocialProfile_Statistics> SG2_SocialProfile_Statistics { get; set; }
-        public virtual DbSet<SG2_SocialProfile_StatusHistory> SG2_SocialProfile_StatusHistory { get; set; }
-        public virtual DbSet<SG2_QueueAudit> SG2_QueueAudit { get; set; }
-        public virtual DbSet<SG2_QueueAuditEnumeration> SG2_QueueAuditEnumeration { get; set; }
-        public virtual DbSet<SG2_QueueAuditEnumerationValue> SG2_QueueAuditEnumerationValue { get; set; }
-        public virtual DbSet<SG2_QueueAuditDetail> SG2_QueueAuditDetail { get; set; }
-        public virtual DbSet<SG2_SocialProfile_Notification> SG2_SocialProfile_Notification { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<Customer_ContactDetail> Customer_ContactDetail { get; set; }
+        public virtual DbSet<Customer_Title> Customer_Title { get; set; }
+        public virtual DbSet<LikeyAccount> LikeyAccounts { get; set; }
+        public virtual DbSet<PaymentPlan> PaymentPlans { get; set; }
+        public virtual DbSet<SocialProfile> SocialProfiles { get; set; }
+        public virtual DbSet<SocialProfile_Actions> SocialProfile_Actions { get; set; }
+        public virtual DbSet<SocialProfile_Instagram_TargetingInformation> SocialProfile_Instagram_TargetingInformation { get; set; }
+        public virtual DbSet<SocialProfile_Notification> SocialProfile_Notification { get; set; }
+        public virtual DbSet<SocialProfile_Statistics> SocialProfile_Statistics { get; set; }
+        public virtual DbSet<SocialProfile_Subscription> SocialProfile_Subscription { get; set; }
+        public virtual DbSet<SystemCity> SystemCities { get; set; }
+        public virtual DbSet<SystemConfig> SystemConfigs { get; set; }
+        public virtual DbSet<SystemCountry> SystemCountries { get; set; }
+        public virtual DbSet<SystemRole> SystemRoles { get; set; }
+        public virtual DbSet<SystemState> SystemStates { get; set; }
+        public virtual DbSet<SystemUser> SystemUsers { get; set; }
     
-        public virtual int SG2_Delete_Customer(Nullable<int> riCustomerId, Nullable<int> riSocialProfileId)
+        public virtual ObjectResult<SG2_usp_SystemConfig_GetAll_Result> SG2_usp_SystemConfig_GetAll(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId)
         {
-            var riCustomerIdParameter = riCustomerId.HasValue ?
-                new ObjectParameter("riCustomerId", riCustomerId) :
-                new ObjectParameter("riCustomerId", typeof(int));
+            var rsSearchCriteParameter = rsSearchCrite != null ?
+                new ObjectParameter("rsSearchCrite", rsSearchCrite) :
+                new ObjectParameter("rsSearchCrite", typeof(string));
     
-            var riSocialProfileIdParameter = riSocialProfileId.HasValue ?
-                new ObjectParameter("riSocialProfileId", riSocialProfileId) :
-                new ObjectParameter("riSocialProfileId", typeof(int));
+            var riPageNumberParameter = riPageNumber.HasValue ?
+                new ObjectParameter("riPageNumber", riPageNumber) :
+                new ObjectParameter("riPageNumber", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SG2_Delete_Customer", riCustomerIdParameter, riSocialProfileIdParameter);
+            var riPageSizeParameter = riPageSize != null ?
+                new ObjectParameter("riPageSize", riPageSize) :
+                new ObjectParameter("riPageSize", typeof(string));
+    
+            var riStatusIdParameter = riStatusId.HasValue ?
+                new ObjectParameter("riStatusId", riStatusId) :
+                new ObjectParameter("riStatusId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_SystemConfig_GetAll_Result>("SG2_usp_SystemConfig_GetAll", rsSearchCriteParameter, riPageNumberParameter, riPageSizeParameter, riStatusIdParameter);
         }
     
-        public virtual ObjectResult<SG2_Get_AllCustomers_Result> SG2_Get_AllCustomers()
+        public virtual int SG2_usp_SystemUser_GetAll(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_Get_AllCustomers_Result>("SG2_Get_AllCustomers");
+            var rsSearchCriteParameter = rsSearchCrite != null ?
+                new ObjectParameter("rsSearchCrite", rsSearchCrite) :
+                new ObjectParameter("rsSearchCrite", typeof(string));
+    
+            var riPageNumberParameter = riPageNumber.HasValue ?
+                new ObjectParameter("riPageNumber", riPageNumber) :
+                new ObjectParameter("riPageNumber", typeof(int));
+    
+            var riPageSizeParameter = riPageSize != null ?
+                new ObjectParameter("riPageSize", riPageSize) :
+                new ObjectParameter("riPageSize", typeof(string));
+    
+            var riStatusIdParameter = riStatusId.HasValue ?
+                new ObjectParameter("riStatusId", riStatusId) :
+                new ObjectParameter("riStatusId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SG2_usp_SystemUser_GetAll", rsSearchCriteParameter, riPageNumberParameter, riPageSizeParameter, riStatusIdParameter);
         }
     
-        public virtual ObjectResult<SG2_usp_AssignJVBoxToCustomer_Result> SG2_usp_AssignJVBoxToCustomer(Nullable<int> riCustomerId, Nullable<int> riProfileId)
+        public virtual ObjectResult<SG2_usp_Customer_SignUp_Result> SG2_usp_Customer_SignUp(string rvcFirstName, string rvcSurName, string rvcEmailAddress, string rvcPassword, string rvcCreatedBy, string rvcGUID, string rvcLastLoginIP, Nullable<int> rvcStatusId)
         {
-            var riCustomerIdParameter = riCustomerId.HasValue ?
-                new ObjectParameter("riCustomerId", riCustomerId) :
-                new ObjectParameter("riCustomerId", typeof(int));
+            var rvcFirstNameParameter = rvcFirstName != null ?
+                new ObjectParameter("rvcFirstName", rvcFirstName) :
+                new ObjectParameter("rvcFirstName", typeof(string));
     
-            var riProfileIdParameter = riProfileId.HasValue ?
-                new ObjectParameter("riProfileId", riProfileId) :
-                new ObjectParameter("riProfileId", typeof(int));
+            var rvcSurNameParameter = rvcSurName != null ?
+                new ObjectParameter("rvcSurName", rvcSurName) :
+                new ObjectParameter("rvcSurName", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_AssignJVBoxToCustomer_Result>("SG2_usp_AssignJVBoxToCustomer", riCustomerIdParameter, riProfileIdParameter);
+            var rvcEmailAddressParameter = rvcEmailAddress != null ?
+                new ObjectParameter("rvcEmailAddress", rvcEmailAddress) :
+                new ObjectParameter("rvcEmailAddress", typeof(string));
+    
+            var rvcPasswordParameter = rvcPassword != null ?
+                new ObjectParameter("rvcPassword", rvcPassword) :
+                new ObjectParameter("rvcPassword", typeof(string));
+    
+            var rvcCreatedByParameter = rvcCreatedBy != null ?
+                new ObjectParameter("rvcCreatedBy", rvcCreatedBy) :
+                new ObjectParameter("rvcCreatedBy", typeof(string));
+    
+            var rvcGUIDParameter = rvcGUID != null ?
+                new ObjectParameter("rvcGUID", rvcGUID) :
+                new ObjectParameter("rvcGUID", typeof(string));
+    
+            var rvcLastLoginIPParameter = rvcLastLoginIP != null ?
+                new ObjectParameter("rvcLastLoginIP", rvcLastLoginIP) :
+                new ObjectParameter("rvcLastLoginIP", typeof(string));
+    
+            var rvcStatusIdParameter = rvcStatusId.HasValue ?
+                new ObjectParameter("rvcStatusId", rvcStatusId) :
+                new ObjectParameter("rvcStatusId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_SignUp_Result>("SG2_usp_Customer_SignUp", rvcFirstNameParameter, rvcSurNameParameter, rvcEmailAddressParameter, rvcPasswordParameter, rvcCreatedByParameter, rvcGUIDParameter, rvcLastLoginIPParameter, rvcStatusIdParameter);
         }
     
-        public virtual ObjectResult<SG2_usp_Customer_AssignedNearestProxyIP_Result> SG2_usp_Customer_AssignedNearestProxyIP(Nullable<int> riCustomer, Nullable<double> rfCustomerLatitude, Nullable<double> rfCustomerLongitude, Nullable<int> riSocialProfileId)
-        {
-            var riCustomerParameter = riCustomer.HasValue ?
-                new ObjectParameter("riCustomer", riCustomer) :
-                new ObjectParameter("riCustomer", typeof(int));
-    
-            var rfCustomerLatitudeParameter = rfCustomerLatitude.HasValue ?
-                new ObjectParameter("rfCustomerLatitude", rfCustomerLatitude) :
-                new ObjectParameter("rfCustomerLatitude", typeof(double));
-    
-            var rfCustomerLongitudeParameter = rfCustomerLongitude.HasValue ?
-                new ObjectParameter("rfCustomerLongitude", rfCustomerLongitude) :
-                new ObjectParameter("rfCustomerLongitude", typeof(double));
-    
-            var riSocialProfileIdParameter = riSocialProfileId.HasValue ?
-                new ObjectParameter("riSocialProfileId", riSocialProfileId) :
-                new ObjectParameter("riSocialProfileId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_AssignedNearestProxyIP_Result>("SG2_usp_Customer_AssignedNearestProxyIP", riCustomerParameter, rfCustomerLatitudeParameter, rfCustomerLongitudeParameter, riSocialProfileIdParameter);
-        }
-    
-        public virtual int SG2_usp_Customer_ProfileUpdate(Nullable<int> iCustomerId, string rvcUserName, string rvcFirstName, string rvcSurName, string rvcPhoneNumber, string rvcPhoneCode)
+        public virtual ObjectResult<SG2_usp_Customer_ProfileUpdate_Result> SG2_usp_Customer_ProfileUpdate(Nullable<int> iCustomerId, string rvcUserName, string rvcFirstName, string rvcSurName, string rvcPhoneNumber, string rvcPhoneCode)
         {
             var iCustomerIdParameter = iCustomerId.HasValue ?
                 new ObjectParameter("iCustomerId", iCustomerId) :
@@ -134,138 +150,29 @@ namespace SG2.CORE.DAL.DB
                 new ObjectParameter("rvcPhoneCode", rvcPhoneCode) :
                 new ObjectParameter("rvcPhoneCode", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SG2_usp_Customer_ProfileUpdate", iCustomerIdParameter, rvcUserNameParameter, rvcFirstNameParameter, rvcSurNameParameter, rvcPhoneNumberParameter, rvcPhoneCodeParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_ProfileUpdate_Result>("SG2_usp_Customer_ProfileUpdate", iCustomerIdParameter, rvcUserNameParameter, rvcFirstNameParameter, rvcSurNameParameter, rvcPhoneNumberParameter, rvcPhoneCodeParameter);
         }
     
-        public virtual ObjectResult<SG2_usp_Customer_SavePreference_Result> SG2_usp_Customer_SavePreference(Nullable<int> iSocialProfileId, string rvcPreference1, string rvcPreference2, string rvcPreference3, string rvcPreference4, Nullable<int> iPreference5, Nullable<int> iPreference6, Nullable<int> iPreference7, string rvcPreference8, string rvcPreference9, Nullable<int> rvcPreference10, string rvcInstaUser, string rvcInstaPassword, Nullable<int> rvcCity, string rvcSocialProfileName, Nullable<int> iCustomerId, Nullable<short> riStatusQueueId, Nullable<int> riAITargeting, Nullable<int> riSocialAccAs)
-        {
-            var iSocialProfileIdParameter = iSocialProfileId.HasValue ?
-                new ObjectParameter("iSocialProfileId", iSocialProfileId) :
-                new ObjectParameter("iSocialProfileId", typeof(int));
-    
-            var rvcPreference1Parameter = rvcPreference1 != null ?
-                new ObjectParameter("rvcPreference1", rvcPreference1) :
-                new ObjectParameter("rvcPreference1", typeof(string));
-    
-            var rvcPreference2Parameter = rvcPreference2 != null ?
-                new ObjectParameter("rvcPreference2", rvcPreference2) :
-                new ObjectParameter("rvcPreference2", typeof(string));
-    
-            var rvcPreference3Parameter = rvcPreference3 != null ?
-                new ObjectParameter("rvcPreference3", rvcPreference3) :
-                new ObjectParameter("rvcPreference3", typeof(string));
-    
-            var rvcPreference4Parameter = rvcPreference4 != null ?
-                new ObjectParameter("rvcPreference4", rvcPreference4) :
-                new ObjectParameter("rvcPreference4", typeof(string));
-    
-            var iPreference5Parameter = iPreference5.HasValue ?
-                new ObjectParameter("iPreference5", iPreference5) :
-                new ObjectParameter("iPreference5", typeof(int));
-    
-            var iPreference6Parameter = iPreference6.HasValue ?
-                new ObjectParameter("iPreference6", iPreference6) :
-                new ObjectParameter("iPreference6", typeof(int));
-    
-            var iPreference7Parameter = iPreference7.HasValue ?
-                new ObjectParameter("iPreference7", iPreference7) :
-                new ObjectParameter("iPreference7", typeof(int));
-    
-            var rvcPreference8Parameter = rvcPreference8 != null ?
-                new ObjectParameter("rvcPreference8", rvcPreference8) :
-                new ObjectParameter("rvcPreference8", typeof(string));
-    
-            var rvcPreference9Parameter = rvcPreference9 != null ?
-                new ObjectParameter("rvcPreference9", rvcPreference9) :
-                new ObjectParameter("rvcPreference9", typeof(string));
-    
-            var rvcPreference10Parameter = rvcPreference10.HasValue ?
-                new ObjectParameter("rvcPreference10", rvcPreference10) :
-                new ObjectParameter("rvcPreference10", typeof(int));
-    
-            var rvcInstaUserParameter = rvcInstaUser != null ?
-                new ObjectParameter("rvcInstaUser", rvcInstaUser) :
-                new ObjectParameter("rvcInstaUser", typeof(string));
-    
-            var rvcInstaPasswordParameter = rvcInstaPassword != null ?
-                new ObjectParameter("rvcInstaPassword", rvcInstaPassword) :
-                new ObjectParameter("rvcInstaPassword", typeof(string));
-    
-            var rvcCityParameter = rvcCity.HasValue ?
-                new ObjectParameter("rvcCity", rvcCity) :
-                new ObjectParameter("rvcCity", typeof(int));
-    
-            var rvcSocialProfileNameParameter = rvcSocialProfileName != null ?
-                new ObjectParameter("rvcSocialProfileName", rvcSocialProfileName) :
-                new ObjectParameter("rvcSocialProfileName", typeof(string));
-    
-            var iCustomerIdParameter = iCustomerId.HasValue ?
-                new ObjectParameter("iCustomerId", iCustomerId) :
-                new ObjectParameter("iCustomerId", typeof(int));
-    
-            var riStatusQueueIdParameter = riStatusQueueId.HasValue ?
-                new ObjectParameter("riStatusQueueId", riStatusQueueId) :
-                new ObjectParameter("riStatusQueueId", typeof(short));
-    
-            var riAITargetingParameter = riAITargeting.HasValue ?
-                new ObjectParameter("riAITargeting", riAITargeting) :
-                new ObjectParameter("riAITargeting", typeof(int));
-    
-            var riSocialAccAsParameter = riSocialAccAs.HasValue ?
-                new ObjectParameter("riSocialAccAs", riSocialAccAs) :
-                new ObjectParameter("riSocialAccAs", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_SavePreference_Result>("SG2_usp_Customer_SavePreference", iSocialProfileIdParameter, rvcPreference1Parameter, rvcPreference2Parameter, rvcPreference3Parameter, rvcPreference4Parameter, iPreference5Parameter, iPreference6Parameter, iPreference7Parameter, rvcPreference8Parameter, rvcPreference9Parameter, rvcPreference10Parameter, rvcInstaUserParameter, rvcInstaPasswordParameter, rvcCityParameter, rvcSocialProfileNameParameter, iCustomerIdParameter, riStatusQueueIdParameter, riAITargetingParameter, riSocialAccAsParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<int>> SG2_usp_Customer_ScheduleCall(Nullable<int> riCustomerId, Nullable<System.DateTime> rdtScheduleDate, string rvcTest)
+        public virtual int SG2_Delete_Customer_All(Nullable<int> riCustomerId, Nullable<int> riSocialProfileId)
         {
             var riCustomerIdParameter = riCustomerId.HasValue ?
                 new ObjectParameter("riCustomerId", riCustomerId) :
                 new ObjectParameter("riCustomerId", typeof(int));
     
-            var rdtScheduleDateParameter = rdtScheduleDate.HasValue ?
-                new ObjectParameter("rdtScheduleDate", rdtScheduleDate) :
-                new ObjectParameter("rdtScheduleDate", typeof(System.DateTime));
+            var riSocialProfileIdParameter = riSocialProfileId.HasValue ?
+                new ObjectParameter("riSocialProfileId", riSocialProfileId) :
+                new ObjectParameter("riSocialProfileId", typeof(int));
     
-            var rvcTestParameter = rvcTest != null ?
-                new ObjectParameter("rvcTest", rvcTest) :
-                new ObjectParameter("rvcTest", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SG2_usp_Customer_ScheduleCall", riCustomerIdParameter, rdtScheduleDateParameter, rvcTestParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SG2_Delete_Customer_All", riCustomerIdParameter, riSocialProfileIdParameter);
         }
     
-        public virtual ObjectResult<SG2_usp_Customers_Get_Result> SG2_usp_Customers_Get(Nullable<int> id)
+        public virtual ObjectResult<SG2_usp_Get_Customer_Instagram_TargetingInformation_Result> SG2_usp_Get_Customer_Instagram_TargetingInformation(Nullable<int> riSocialProfileId)
         {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("Id", id) :
-                new ObjectParameter("Id", typeof(int));
+            var riSocialProfileIdParameter = riSocialProfileId.HasValue ?
+                new ObjectParameter("riSocialProfileId", riSocialProfileId) :
+                new ObjectParameter("riSocialProfileId", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customers_Get_Result>("SG2_usp_Customers_Get", idParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_Get_AllUser_Result> SG2_usp_Get_AllUser()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Get_AllUser_Result>("SG2_usp_Get_AllUser");
-        }
-    
-        public virtual ObjectResult<SG2_usp_Get_EnumerationValue_Result> SG2_usp_Get_EnumerationValue()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Get_EnumerationValue_Result>("SG2_usp_Get_EnumerationValue");
-        }
-    
-        public virtual ObjectResult<SG2_usp_Get_Product_Result> SG2_usp_Get_Product()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Get_Product_Result>("SG2_usp_Get_Product");
-        }
-    
-        public virtual ObjectResult<SG2_usp_Get_ProxyCitiesAndCountries_Result> SG2_usp_Get_ProxyCitiesAndCountries(Nullable<int> riCityId)
-        {
-            var riCityIdParameter = riCityId.HasValue ?
-                new ObjectParameter("riCityId", riCityId) :
-                new ObjectParameter("riCityId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Get_ProxyCitiesAndCountries_Result>("SG2_usp_Get_ProxyCitiesAndCountries", riCityIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Get_Customer_Instagram_TargetingInformation_Result>("SG2_usp_Get_Customer_Instagram_TargetingInformation", riSocialProfileIdParameter);
         }
     
         public virtual ObjectResult<SG2_usp_Get_SpecificCustomerDetail_Result> SG2_usp_Get_SpecificCustomerDetail(Nullable<int> riCustomerId, Nullable<int> riProfileId)
@@ -281,23 +188,25 @@ namespace SG2.CORE.DAL.DB
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Get_SpecificCustomerDetail_Result>("SG2_usp_Get_SpecificCustomerDetail", riCustomerIdParameter, riProfileIdParameter);
         }
     
-        public virtual ObjectResult<SG2_usp_Get_Title_Result> SG2_usp_Get_Title()
+        public virtual ObjectResult<SG2_usp_Get_CustomerOrderHistory_Result> SG2_usp_Get_CustomerOrderHistory(Nullable<int> riCustomerId, Nullable<int> riSocialProfileId, Nullable<int> riPageNumber, string riPageSize)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Get_Title_Result>("SG2_usp_Get_Title");
-        }
+            var riCustomerIdParameter = riCustomerId.HasValue ?
+                new ObjectParameter("riCustomerId", riCustomerId) :
+                new ObjectParameter("riCustomerId", typeof(int));
     
-        public virtual ObjectResult<SG2_usp_Get_VPSSupplier_Result> SG2_usp_Get_VPSSupplier()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Get_VPSSupplier_Result>("SG2_usp_Get_VPSSupplier");
-        }
+            var riSocialProfileIdParameter = riSocialProfileId.HasValue ?
+                new ObjectParameter("riSocialProfileId", riSocialProfileId) :
+                new ObjectParameter("riSocialProfileId", typeof(int));
     
-        public virtual ObjectResult<SG2_usp_GetProxyIpDataAgainstSupplier_Result> SG2_usp_GetProxyIpDataAgainstSupplier(Nullable<int> riVPSSId)
-        {
-            var riVPSSIdParameter = riVPSSId.HasValue ?
-                new ObjectParameter("riVPSSId", riVPSSId) :
-                new ObjectParameter("riVPSSId", typeof(int));
+            var riPageNumberParameter = riPageNumber.HasValue ?
+                new ObjectParameter("riPageNumber", riPageNumber) :
+                new ObjectParameter("riPageNumber", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_GetProxyIpDataAgainstSupplier_Result>("SG2_usp_GetProxyIpDataAgainstSupplier", riVPSSIdParameter);
+            var riPageSizeParameter = riPageSize != null ?
+                new ObjectParameter("riPageSize", riPageSize) :
+                new ObjectParameter("riPageSize", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Get_CustomerOrderHistory_Result>("SG2_usp_Get_CustomerOrderHistory", riCustomerIdParameter, riSocialProfileIdParameter, riPageNumberParameter, riPageSizeParameter);
         }
     
         public virtual ObjectResult<SG2_usp_GetUserDetailsForbackOffice_Result> SG2_usp_GetUserDetailsForbackOffice(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId, string riProductId, string riJVStatus, Nullable<int> riSubscription)
@@ -333,195 +242,6 @@ namespace SG2.CORE.DAL.DB
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_GetUserDetailsForbackOffice_Result>("SG2_usp_GetUserDetailsForbackOffice", rsSearchCriteParameter, riPageNumberParameter, riPageSizeParameter, riStatusIdParameter, riProductIdParameter, riJVStatusParameter, riSubscriptionParameter);
         }
     
-        public virtual ObjectResult<SG2_usp_GETVPSSupplierData_Result> SG2_usp_GETVPSSupplierData(Nullable<int> riVPSSId)
-        {
-            var riVPSSIdParameter = riVPSSId.HasValue ?
-                new ObjectParameter("riVPSSId", riVPSSId) :
-                new ObjectParameter("riVPSSId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_GETVPSSupplierData_Result>("SG2_usp_GETVPSSupplierData", riVPSSIdParameter);
-        }
-    
-        public virtual int SG2_usp_JVBox_Delete(Nullable<int> riJVBoxId)
-        {
-            var riJVBoxIdParameter = riJVBoxId.HasValue ?
-                new ObjectParameter("riJVBoxId", riJVBoxId) :
-                new ObjectParameter("riJVBoxId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SG2_usp_JVBox_Delete", riJVBoxIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_JVBox_GetById_Result> SG2_usp_JVBox_GetById(Nullable<int> riJVBoxId)
-        {
-            var riJVBoxIdParameter = riJVBoxId.HasValue ?
-                new ObjectParameter("riJVBoxId", riJVBoxId) :
-                new ObjectParameter("riJVBoxId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_JVBox_GetById_Result>("SG2_usp_JVBox_GetById", riJVBoxIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_JVBox_GetCustomerHistory_Result> SG2_usp_JVBox_GetCustomerHistory(Nullable<int> riJVBoxId)
-        {
-            var riJVBoxIdParameter = riJVBoxId.HasValue ?
-                new ObjectParameter("riJVBoxId", riJVBoxId) :
-                new ObjectParameter("riJVBoxId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_JVBox_GetCustomerHistory_Result>("SG2_usp_JVBox_GetCustomerHistory", riJVBoxIdParameter);
-        }
-    
-        public virtual int SG2_usp_JVBox_Save(Nullable<int> riJVBoxId, string riBoxName, string rvcAdminName, string rvcAdminPassword, string rvcBoxManagedBy, string rvcSupportEmail, string rvcSupportPhone, string rvcHostedBy, string rvcHostingPhone, string rvcHostingWebsite, string rvcHostingAccount, string rvcHostingPassword, string rvcHostingPriceInfo, Nullable<int> riStatusId, Nullable<int> riJVBoxMaxLimit, Nullable<int> riJVServerType, string riJVBoxExchangeName, Nullable<int> riServerRunningStatusId)
-        {
-            var riJVBoxIdParameter = riJVBoxId.HasValue ?
-                new ObjectParameter("riJVBoxId", riJVBoxId) :
-                new ObjectParameter("riJVBoxId", typeof(int));
-    
-            var riBoxNameParameter = riBoxName != null ?
-                new ObjectParameter("riBoxName", riBoxName) :
-                new ObjectParameter("riBoxName", typeof(string));
-    
-            var rvcAdminNameParameter = rvcAdminName != null ?
-                new ObjectParameter("rvcAdminName", rvcAdminName) :
-                new ObjectParameter("rvcAdminName", typeof(string));
-    
-            var rvcAdminPasswordParameter = rvcAdminPassword != null ?
-                new ObjectParameter("rvcAdminPassword", rvcAdminPassword) :
-                new ObjectParameter("rvcAdminPassword", typeof(string));
-    
-            var rvcBoxManagedByParameter = rvcBoxManagedBy != null ?
-                new ObjectParameter("rvcBoxManagedBy", rvcBoxManagedBy) :
-                new ObjectParameter("rvcBoxManagedBy", typeof(string));
-    
-            var rvcSupportEmailParameter = rvcSupportEmail != null ?
-                new ObjectParameter("rvcSupportEmail", rvcSupportEmail) :
-                new ObjectParameter("rvcSupportEmail", typeof(string));
-    
-            var rvcSupportPhoneParameter = rvcSupportPhone != null ?
-                new ObjectParameter("rvcSupportPhone", rvcSupportPhone) :
-                new ObjectParameter("rvcSupportPhone", typeof(string));
-    
-            var rvcHostedByParameter = rvcHostedBy != null ?
-                new ObjectParameter("rvcHostedBy", rvcHostedBy) :
-                new ObjectParameter("rvcHostedBy", typeof(string));
-    
-            var rvcHostingPhoneParameter = rvcHostingPhone != null ?
-                new ObjectParameter("rvcHostingPhone", rvcHostingPhone) :
-                new ObjectParameter("rvcHostingPhone", typeof(string));
-    
-            var rvcHostingWebsiteParameter = rvcHostingWebsite != null ?
-                new ObjectParameter("rvcHostingWebsite", rvcHostingWebsite) :
-                new ObjectParameter("rvcHostingWebsite", typeof(string));
-    
-            var rvcHostingAccountParameter = rvcHostingAccount != null ?
-                new ObjectParameter("rvcHostingAccount", rvcHostingAccount) :
-                new ObjectParameter("rvcHostingAccount", typeof(string));
-    
-            var rvcHostingPasswordParameter = rvcHostingPassword != null ?
-                new ObjectParameter("rvcHostingPassword", rvcHostingPassword) :
-                new ObjectParameter("rvcHostingPassword", typeof(string));
-    
-            var rvcHostingPriceInfoParameter = rvcHostingPriceInfo != null ?
-                new ObjectParameter("rvcHostingPriceInfo", rvcHostingPriceInfo) :
-                new ObjectParameter("rvcHostingPriceInfo", typeof(string));
-    
-            var riStatusIdParameter = riStatusId.HasValue ?
-                new ObjectParameter("riStatusId", riStatusId) :
-                new ObjectParameter("riStatusId", typeof(int));
-    
-            var riJVBoxMaxLimitParameter = riJVBoxMaxLimit.HasValue ?
-                new ObjectParameter("riJVBoxMaxLimit", riJVBoxMaxLimit) :
-                new ObjectParameter("riJVBoxMaxLimit", typeof(int));
-    
-            var riJVServerTypeParameter = riJVServerType.HasValue ?
-                new ObjectParameter("riJVServerType", riJVServerType) :
-                new ObjectParameter("riJVServerType", typeof(int));
-    
-            var riJVBoxExchangeNameParameter = riJVBoxExchangeName != null ?
-                new ObjectParameter("riJVBoxExchangeName", riJVBoxExchangeName) :
-                new ObjectParameter("riJVBoxExchangeName", typeof(string));
-    
-            var riServerRunningStatusIdParameter = riServerRunningStatusId.HasValue ?
-                new ObjectParameter("riServerRunningStatusId", riServerRunningStatusId) :
-                new ObjectParameter("riServerRunningStatusId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SG2_usp_JVBox_Save", riJVBoxIdParameter, riBoxNameParameter, rvcAdminNameParameter, rvcAdminPasswordParameter, rvcBoxManagedByParameter, rvcSupportEmailParameter, rvcSupportPhoneParameter, rvcHostedByParameter, rvcHostingPhoneParameter, rvcHostingWebsiteParameter, rvcHostingAccountParameter, rvcHostingPasswordParameter, rvcHostingPriceInfoParameter, riStatusIdParameter, riJVBoxMaxLimitParameter, riJVServerTypeParameter, riJVBoxExchangeNameParameter, riServerRunningStatusIdParameter);
-        }
-    
-        public virtual int SG2_usp_LikeyAccount_Delete(Nullable<int> riLikeyAccountId)
-        {
-            var riLikeyAccountIdParameter = riLikeyAccountId.HasValue ?
-                new ObjectParameter("riLikeyAccountId", riLikeyAccountId) :
-                new ObjectParameter("riLikeyAccountId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SG2_usp_LikeyAccount_Delete", riLikeyAccountIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_LikeyAccount_GetAll_Result> SG2_usp_LikeyAccount_GetAll(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId)
-        {
-            var rsSearchCriteParameter = rsSearchCrite != null ?
-                new ObjectParameter("rsSearchCrite", rsSearchCrite) :
-                new ObjectParameter("rsSearchCrite", typeof(string));
-    
-            var riPageNumberParameter = riPageNumber.HasValue ?
-                new ObjectParameter("riPageNumber", riPageNumber) :
-                new ObjectParameter("riPageNumber", typeof(int));
-    
-            var riPageSizeParameter = riPageSize != null ?
-                new ObjectParameter("riPageSize", riPageSize) :
-                new ObjectParameter("riPageSize", typeof(string));
-    
-            var riStatusIdParameter = riStatusId.HasValue ?
-                new ObjectParameter("riStatusId", riStatusId) :
-                new ObjectParameter("riStatusId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_LikeyAccount_GetAll_Result>("SG2_usp_LikeyAccount_GetAll", rsSearchCriteParameter, riPageNumberParameter, riPageSizeParameter, riStatusIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_LikeyAccount_GetById_Result> SG2_usp_LikeyAccount_GetById(Nullable<int> riLikeyAccountId)
-        {
-            var riLikeyAccountIdParameter = riLikeyAccountId.HasValue ?
-                new ObjectParameter("riLikeyAccountId", riLikeyAccountId) :
-                new ObjectParameter("riLikeyAccountId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_LikeyAccount_GetById_Result>("SG2_usp_LikeyAccount_GetById", riLikeyAccountIdParameter);
-        }
-    
-        public virtual int SG2_usp_LikeyAccount_Save(Nullable<int> riLikeyAccountId, string rvcInstaUserName, string rvcInstaPassword, string rvcCountry, string rvcCity, Nullable<short> rvcGender, string rvcHashTag, Nullable<int> riStatusId)
-        {
-            var riLikeyAccountIdParameter = riLikeyAccountId.HasValue ?
-                new ObjectParameter("riLikeyAccountId", riLikeyAccountId) :
-                new ObjectParameter("riLikeyAccountId", typeof(int));
-    
-            var rvcInstaUserNameParameter = rvcInstaUserName != null ?
-                new ObjectParameter("rvcInstaUserName", rvcInstaUserName) :
-                new ObjectParameter("rvcInstaUserName", typeof(string));
-    
-            var rvcInstaPasswordParameter = rvcInstaPassword != null ?
-                new ObjectParameter("rvcInstaPassword", rvcInstaPassword) :
-                new ObjectParameter("rvcInstaPassword", typeof(string));
-    
-            var rvcCountryParameter = rvcCountry != null ?
-                new ObjectParameter("rvcCountry", rvcCountry) :
-                new ObjectParameter("rvcCountry", typeof(string));
-    
-            var rvcCityParameter = rvcCity != null ?
-                new ObjectParameter("rvcCity", rvcCity) :
-                new ObjectParameter("rvcCity", typeof(string));
-    
-            var rvcGenderParameter = rvcGender.HasValue ?
-                new ObjectParameter("rvcGender", rvcGender) :
-                new ObjectParameter("rvcGender", typeof(short));
-    
-            var rvcHashTagParameter = rvcHashTag != null ?
-                new ObjectParameter("rvcHashTag", rvcHashTag) :
-                new ObjectParameter("rvcHashTag", typeof(string));
-    
-            var riStatusIdParameter = riStatusId.HasValue ?
-                new ObjectParameter("riStatusId", riStatusId) :
-                new ObjectParameter("riStatusId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SG2_usp_LikeyAccount_Save", riLikeyAccountIdParameter, rvcInstaUserNameParameter, rvcInstaPasswordParameter, rvcCountryParameter, rvcCityParameter, rvcGenderParameter, rvcHashTagParameter, riStatusIdParameter);
-        }
-    
         public virtual ObjectResult<SG2_usp_Login_Customers_Result> SG2_usp_Login_Customers(string rvcEmailAddress, string rvcPassword, string rvcCreatedBy, string rvcLastLoginIP, Nullable<int> rvcStatusId)
         {
             var rvcEmailAddressParameter = rvcEmailAddress != null ?
@@ -547,536 +267,13 @@ namespace SG2.CORE.DAL.DB
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Login_Customers_Result>("SG2_usp_Login_Customers", rvcEmailAddressParameter, rvcPasswordParameter, rvcCreatedByParameter, rvcLastLoginIPParameter, rvcStatusIdParameter);
         }
     
-        public virtual int SG2_usp_PlanInformation_Save(Nullable<int> riPlanId, string rvcPlanName, string rvcPlanDescription, string rvcPlanType, Nullable<int> riLikes, Nullable<double> riPrice, Nullable<int> riNoOfLikesDuration, Nullable<int> riStatusId, Nullable<int> sortOrder, Nullable<bool> rbIsDefault, string rvcStripePlanId, Nullable<double> rvcStripePlanPrice, Nullable<int> riSocialPlanTypeId)
+        public virtual ObjectResult<SG2_usp_Customers_Get_Result> SG2_usp_Customers_Get(Nullable<int> id)
         {
-            var riPlanIdParameter = riPlanId.HasValue ?
-                new ObjectParameter("riPlanId", riPlanId) :
-                new ObjectParameter("riPlanId", typeof(int));
-    
-            var rvcPlanNameParameter = rvcPlanName != null ?
-                new ObjectParameter("rvcPlanName", rvcPlanName) :
-                new ObjectParameter("rvcPlanName", typeof(string));
-    
-            var rvcPlanDescriptionParameter = rvcPlanDescription != null ?
-                new ObjectParameter("rvcPlanDescription", rvcPlanDescription) :
-                new ObjectParameter("rvcPlanDescription", typeof(string));
-    
-            var rvcPlanTypeParameter = rvcPlanType != null ?
-                new ObjectParameter("rvcPlanType", rvcPlanType) :
-                new ObjectParameter("rvcPlanType", typeof(string));
-    
-            var riLikesParameter = riLikes.HasValue ?
-                new ObjectParameter("riLikes", riLikes) :
-                new ObjectParameter("riLikes", typeof(int));
-    
-            var riPriceParameter = riPrice.HasValue ?
-                new ObjectParameter("riPrice", riPrice) :
-                new ObjectParameter("riPrice", typeof(double));
-    
-            var riNoOfLikesDurationParameter = riNoOfLikesDuration.HasValue ?
-                new ObjectParameter("riNoOfLikesDuration", riNoOfLikesDuration) :
-                new ObjectParameter("riNoOfLikesDuration", typeof(int));
-    
-            var riStatusIdParameter = riStatusId.HasValue ?
-                new ObjectParameter("riStatusId", riStatusId) :
-                new ObjectParameter("riStatusId", typeof(int));
-    
-            var sortOrderParameter = sortOrder.HasValue ?
-                new ObjectParameter("SortOrder", sortOrder) :
-                new ObjectParameter("SortOrder", typeof(int));
-    
-            var rbIsDefaultParameter = rbIsDefault.HasValue ?
-                new ObjectParameter("rbIsDefault", rbIsDefault) :
-                new ObjectParameter("rbIsDefault", typeof(bool));
-    
-            var rvcStripePlanIdParameter = rvcStripePlanId != null ?
-                new ObjectParameter("rvcStripePlanId", rvcStripePlanId) :
-                new ObjectParameter("rvcStripePlanId", typeof(string));
-    
-            var rvcStripePlanPriceParameter = rvcStripePlanPrice.HasValue ?
-                new ObjectParameter("rvcStripePlanPrice", rvcStripePlanPrice) :
-                new ObjectParameter("rvcStripePlanPrice", typeof(double));
-    
-            var riSocialPlanTypeIdParameter = riSocialPlanTypeId.HasValue ?
-                new ObjectParameter("riSocialPlanTypeId", riSocialPlanTypeId) :
-                new ObjectParameter("riSocialPlanTypeId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SG2_usp_PlanInformation_Save", riPlanIdParameter, rvcPlanNameParameter, rvcPlanDescriptionParameter, rvcPlanTypeParameter, riLikesParameter, riPriceParameter, riNoOfLikesDurationParameter, riStatusIdParameter, sortOrderParameter, rbIsDefaultParameter, rvcStripePlanIdParameter, rvcStripePlanPriceParameter, riSocialPlanTypeIdParameter);
-        }
-    
-        public virtual int SG2_usp_Proxy_Delete(Nullable<int> riProxyId)
-        {
-            var riProxyIdParameter = riProxyId.HasValue ?
-                new ObjectParameter("riProxyId", riProxyId) :
-                new ObjectParameter("riProxyId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SG2_usp_Proxy_Delete", riProxyIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_Proxy_GetAll_Result> SG2_usp_Proxy_GetAll(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId, Nullable<int> iSupplierId)
-        {
-            var rsSearchCriteParameter = rsSearchCrite != null ?
-                new ObjectParameter("rsSearchCrite", rsSearchCrite) :
-                new ObjectParameter("rsSearchCrite", typeof(string));
-    
-            var riPageNumberParameter = riPageNumber.HasValue ?
-                new ObjectParameter("riPageNumber", riPageNumber) :
-                new ObjectParameter("riPageNumber", typeof(int));
-    
-            var riPageSizeParameter = riPageSize != null ?
-                new ObjectParameter("riPageSize", riPageSize) :
-                new ObjectParameter("riPageSize", typeof(string));
-    
-            var riStatusIdParameter = riStatusId.HasValue ?
-                new ObjectParameter("riStatusId", riStatusId) :
-                new ObjectParameter("riStatusId", typeof(int));
-    
-            var iSupplierIdParameter = iSupplierId.HasValue ?
-                new ObjectParameter("iSupplierId", iSupplierId) :
-                new ObjectParameter("iSupplierId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Proxy_GetAll_Result>("SG2_usp_Proxy_GetAll", rsSearchCriteParameter, riPageNumberParameter, riPageSizeParameter, riStatusIdParameter, iSupplierIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_Proxy_GetById_Result> SG2_usp_Proxy_GetById(Nullable<int> riProxyId)
-        {
-            var riProxyIdParameter = riProxyId.HasValue ?
-                new ObjectParameter("riProxyId", riProxyId) :
-                new ObjectParameter("riProxyId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Proxy_GetById_Result>("SG2_usp_Proxy_GetById", riProxyIdParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<bool>> SG2_usp_Proxy_IsCustomerIPExist(Nullable<int> riProxyId)
-        {
-            var riProxyIdParameter = riProxyId.HasValue ?
-                new ObjectParameter("riProxyId", riProxyId) :
-                new ObjectParameter("riProxyId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("SG2_usp_Proxy_IsCustomerIPExist", riProxyIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_Proxy_Save_Result> SG2_usp_Proxy_Save(Nullable<int> riProxyId, string riProxyIPNumber, string rvcProxyIPName, string rvcBaseCity, string rvcBaseCountry, string rvcGeoPoints, Nullable<int> riIssuingISPId, Nullable<int> riSocailProfileID1, Nullable<int> riSocalProfileID2, Nullable<int> riSocailProfileID3, string rvcProxyPort, Nullable<int> riStatusId)
-        {
-            var riProxyIdParameter = riProxyId.HasValue ?
-                new ObjectParameter("riProxyId", riProxyId) :
-                new ObjectParameter("riProxyId", typeof(int));
-    
-            var riProxyIPNumberParameter = riProxyIPNumber != null ?
-                new ObjectParameter("riProxyIPNumber", riProxyIPNumber) :
-                new ObjectParameter("riProxyIPNumber", typeof(string));
-    
-            var rvcProxyIPNameParameter = rvcProxyIPName != null ?
-                new ObjectParameter("rvcProxyIPName", rvcProxyIPName) :
-                new ObjectParameter("rvcProxyIPName", typeof(string));
-    
-            var rvcBaseCityParameter = rvcBaseCity != null ?
-                new ObjectParameter("rvcBaseCity", rvcBaseCity) :
-                new ObjectParameter("rvcBaseCity", typeof(string));
-    
-            var rvcBaseCountryParameter = rvcBaseCountry != null ?
-                new ObjectParameter("rvcBaseCountry", rvcBaseCountry) :
-                new ObjectParameter("rvcBaseCountry", typeof(string));
-    
-            var rvcGeoPointsParameter = rvcGeoPoints != null ?
-                new ObjectParameter("rvcGeoPoints", rvcGeoPoints) :
-                new ObjectParameter("rvcGeoPoints", typeof(string));
-    
-            var riIssuingISPIdParameter = riIssuingISPId.HasValue ?
-                new ObjectParameter("riIssuingISPId", riIssuingISPId) :
-                new ObjectParameter("riIssuingISPId", typeof(int));
-    
-            var riSocailProfileID1Parameter = riSocailProfileID1.HasValue ?
-                new ObjectParameter("riSocailProfileID1", riSocailProfileID1) :
-                new ObjectParameter("riSocailProfileID1", typeof(int));
-    
-            var riSocalProfileID2Parameter = riSocalProfileID2.HasValue ?
-                new ObjectParameter("riSocalProfileID2", riSocalProfileID2) :
-                new ObjectParameter("riSocalProfileID2", typeof(int));
-    
-            var riSocailProfileID3Parameter = riSocailProfileID3.HasValue ?
-                new ObjectParameter("riSocailProfileID3", riSocailProfileID3) :
-                new ObjectParameter("riSocailProfileID3", typeof(int));
-    
-            var rvcProxyPortParameter = rvcProxyPort != null ?
-                new ObjectParameter("rvcProxyPort", rvcProxyPort) :
-                new ObjectParameter("rvcProxyPort", typeof(string));
-    
-            var riStatusIdParameter = riStatusId.HasValue ?
-                new ObjectParameter("riStatusId", riStatusId) :
-                new ObjectParameter("riStatusId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Proxy_Save_Result>("SG2_usp_Proxy_Save", riProxyIdParameter, riProxyIPNumberParameter, rvcProxyIPNameParameter, rvcBaseCityParameter, rvcBaseCountryParameter, rvcGeoPointsParameter, riIssuingISPIdParameter, riSocailProfileID1Parameter, riSocalProfileID2Parameter, riSocailProfileID3Parameter, rvcProxyPortParameter, riStatusIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_SystemConfig_GetAll_Result> SG2_usp_SystemConfig_GetAll(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId)
-        {
-            var rsSearchCriteParameter = rsSearchCrite != null ?
-                new ObjectParameter("rsSearchCrite", rsSearchCrite) :
-                new ObjectParameter("rsSearchCrite", typeof(string));
-    
-            var riPageNumberParameter = riPageNumber.HasValue ?
-                new ObjectParameter("riPageNumber", riPageNumber) :
-                new ObjectParameter("riPageNumber", typeof(int));
-    
-            var riPageSizeParameter = riPageSize != null ?
-                new ObjectParameter("riPageSize", riPageSize) :
-                new ObjectParameter("riPageSize", typeof(string));
-    
-            var riStatusIdParameter = riStatusId.HasValue ?
-                new ObjectParameter("riStatusId", riStatusId) :
-                new ObjectParameter("riStatusId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_SystemConfig_GetAll_Result>("SG2_usp_SystemConfig_GetAll", rsSearchCriteParameter, riPageNumberParameter, riPageSizeParameter, riStatusIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_SystemConfig_GetById_Result> SG2_usp_SystemConfig_GetById(Nullable<short> riConfigId)
-        {
-            var riConfigIdParameter = riConfigId.HasValue ?
-                new ObjectParameter("riConfigId", riConfigId) :
-                new ObjectParameter("riConfigId", typeof(short));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_SystemConfig_GetById_Result>("SG2_usp_SystemConfig_GetById", riConfigIdParameter);
-        }
-    
-        public virtual int SG2_usp_SystemConfig_Save(Nullable<short> riConfigId, string rvcConfigValue, string rvcConfigValue2, Nullable<System.DateTime> rdtModifiedOn, string rvcModifiedBy)
-        {
-            var riConfigIdParameter = riConfigId.HasValue ?
-                new ObjectParameter("riConfigId", riConfigId) :
-                new ObjectParameter("riConfigId", typeof(short));
-    
-            var rvcConfigValueParameter = rvcConfigValue != null ?
-                new ObjectParameter("rvcConfigValue", rvcConfigValue) :
-                new ObjectParameter("rvcConfigValue", typeof(string));
-    
-            var rvcConfigValue2Parameter = rvcConfigValue2 != null ?
-                new ObjectParameter("rvcConfigValue2", rvcConfigValue2) :
-                new ObjectParameter("rvcConfigValue2", typeof(string));
-    
-            var rdtModifiedOnParameter = rdtModifiedOn.HasValue ?
-                new ObjectParameter("rdtModifiedOn", rdtModifiedOn) :
-                new ObjectParameter("rdtModifiedOn", typeof(System.DateTime));
-    
-            var rvcModifiedByParameter = rvcModifiedBy != null ?
-                new ObjectParameter("rvcModifiedBy", rvcModifiedBy) :
-                new ObjectParameter("rvcModifiedBy", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SG2_usp_SystemConfig_Save", riConfigIdParameter, rvcConfigValueParameter, rvcConfigValue2Parameter, rdtModifiedOnParameter, rvcModifiedByParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_SystemRole_AllRole_Result> SG2_usp_SystemRole_AllRole()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_SystemRole_AllRole_Result>("SG2_usp_SystemRole_AllRole");
-        }
-    
-        public virtual ObjectResult<SG2_usp_SystemUser_GetAll_Result> SG2_usp_SystemUser_GetAll(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId)
-        {
-            var rsSearchCriteParameter = rsSearchCrite != null ?
-                new ObjectParameter("rsSearchCrite", rsSearchCrite) :
-                new ObjectParameter("rsSearchCrite", typeof(string));
-    
-            var riPageNumberParameter = riPageNumber.HasValue ?
-                new ObjectParameter("riPageNumber", riPageNumber) :
-                new ObjectParameter("riPageNumber", typeof(int));
-    
-            var riPageSizeParameter = riPageSize != null ?
-                new ObjectParameter("riPageSize", riPageSize) :
-                new ObjectParameter("riPageSize", typeof(string));
-    
-            var riStatusIdParameter = riStatusId.HasValue ?
-                new ObjectParameter("riStatusId", riStatusId) :
-                new ObjectParameter("riStatusId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_SystemUser_GetAll_Result>("SG2_usp_SystemUser_GetAll", rsSearchCriteParameter, riPageNumberParameter, riPageSizeParameter, riStatusIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_SystemUser_GetById_Result> SG2_usp_SystemUser_GetById(Nullable<int> riSystemUserId)
-        {
-            var riSystemUserIdParameter = riSystemUserId.HasValue ?
-                new ObjectParameter("riSystemUserId", riSystemUserId) :
-                new ObjectParameter("riSystemUserId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_SystemUser_GetById_Result>("SG2_usp_SystemUser_GetById", riSystemUserIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_SystemUser_Login_Result> SG2_usp_SystemUser_Login(string rvcEmailAddress, string rvcPassword)
-        {
-            var rvcEmailAddressParameter = rvcEmailAddress != null ?
-                new ObjectParameter("rvcEmailAddress", rvcEmailAddress) :
-                new ObjectParameter("rvcEmailAddress", typeof(string));
-    
-            var rvcPasswordParameter = rvcPassword != null ?
-                new ObjectParameter("rvcPassword", rvcPassword) :
-                new ObjectParameter("rvcPassword", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_SystemUser_Login_Result>("SG2_usp_SystemUser_Login", rvcEmailAddressParameter, rvcPasswordParameter);
-        }
-    
-        public virtual int SG2_usp_SystemUser_Save(Nullable<int> riSystemUserId, string rvcTitle, string rvcFirstName, string rvcLastName, string rvcEmail, Nullable<int> riSystemRoleId, string rvcPassword, Nullable<short> riStatusId, Nullable<System.DateTime> rdtCreatedOn, string rvcCreatedBy, Nullable<System.DateTime> rdtModifiedOn, string rvcModifiedBy)
-        {
-            var riSystemUserIdParameter = riSystemUserId.HasValue ?
-                new ObjectParameter("riSystemUserId", riSystemUserId) :
-                new ObjectParameter("riSystemUserId", typeof(int));
-    
-            var rvcTitleParameter = rvcTitle != null ?
-                new ObjectParameter("rvcTitle", rvcTitle) :
-                new ObjectParameter("rvcTitle", typeof(string));
-    
-            var rvcFirstNameParameter = rvcFirstName != null ?
-                new ObjectParameter("rvcFirstName", rvcFirstName) :
-                new ObjectParameter("rvcFirstName", typeof(string));
-    
-            var rvcLastNameParameter = rvcLastName != null ?
-                new ObjectParameter("rvcLastName", rvcLastName) :
-                new ObjectParameter("rvcLastName", typeof(string));
-    
-            var rvcEmailParameter = rvcEmail != null ?
-                new ObjectParameter("rvcEmail", rvcEmail) :
-                new ObjectParameter("rvcEmail", typeof(string));
-    
-            var riSystemRoleIdParameter = riSystemRoleId.HasValue ?
-                new ObjectParameter("riSystemRoleId", riSystemRoleId) :
-                new ObjectParameter("riSystemRoleId", typeof(int));
-    
-            var rvcPasswordParameter = rvcPassword != null ?
-                new ObjectParameter("rvcPassword", rvcPassword) :
-                new ObjectParameter("rvcPassword", typeof(string));
-    
-            var riStatusIdParameter = riStatusId.HasValue ?
-                new ObjectParameter("riStatusId", riStatusId) :
-                new ObjectParameter("riStatusId", typeof(short));
-    
-            var rdtCreatedOnParameter = rdtCreatedOn.HasValue ?
-                new ObjectParameter("rdtCreatedOn", rdtCreatedOn) :
-                new ObjectParameter("rdtCreatedOn", typeof(System.DateTime));
-    
-            var rvcCreatedByParameter = rvcCreatedBy != null ?
-                new ObjectParameter("rvcCreatedBy", rvcCreatedBy) :
-                new ObjectParameter("rvcCreatedBy", typeof(string));
-    
-            var rdtModifiedOnParameter = rdtModifiedOn.HasValue ?
-                new ObjectParameter("rdtModifiedOn", rdtModifiedOn) :
-                new ObjectParameter("rdtModifiedOn", typeof(System.DateTime));
-    
-            var rvcModifiedByParameter = rvcModifiedBy != null ?
-                new ObjectParameter("rvcModifiedBy", rvcModifiedBy) :
-                new ObjectParameter("rvcModifiedBy", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SG2_usp_SystemUser_Save", riSystemUserIdParameter, rvcTitleParameter, rvcFirstNameParameter, rvcLastNameParameter, rvcEmailParameter, riSystemRoleIdParameter, rvcPasswordParameter, riStatusIdParameter, rdtCreatedOnParameter, rvcCreatedByParameter, rdtModifiedOnParameter, rvcModifiedByParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_VPSSupplier_GetAll_Result> SG2_usp_VPSSupplier_GetAll(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId)
-        {
-            var rsSearchCriteParameter = rsSearchCrite != null ?
-                new ObjectParameter("rsSearchCrite", rsSearchCrite) :
-                new ObjectParameter("rsSearchCrite", typeof(string));
-    
-            var riPageNumberParameter = riPageNumber.HasValue ?
-                new ObjectParameter("riPageNumber", riPageNumber) :
-                new ObjectParameter("riPageNumber", typeof(int));
-    
-            var riPageSizeParameter = riPageSize != null ?
-                new ObjectParameter("riPageSize", riPageSize) :
-                new ObjectParameter("riPageSize", typeof(string));
-    
-            var riStatusIdParameter = riStatusId.HasValue ?
-                new ObjectParameter("riStatusId", riStatusId) :
-                new ObjectParameter("riStatusId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_VPSSupplier_GetAll_Result>("SG2_usp_VPSSupplier_GetAll", rsSearchCriteParameter, riPageNumberParameter, riPageSizeParameter, riStatusIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_VPSSupplier_SaveUpdate_Result> SG2_usp_VPSSupplier_SaveUpdate(Nullable<int> riVPSSId, string rvcIPManageBy, string rvcSupportPhone, string rvcSupportEmail, string rvcIssuingISPName, string rvcIssuingISPPhone, string rvcIssuingISPWebsite, string rvcIssuingISPAccount, string rvcIssuingISPPassword, string rvcIssuingISPMemo, Nullable<int> riStatusId)
-        {
-            var riVPSSIdParameter = riVPSSId.HasValue ?
-                new ObjectParameter("riVPSSId", riVPSSId) :
-                new ObjectParameter("riVPSSId", typeof(int));
-    
-            var rvcIPManageByParameter = rvcIPManageBy != null ?
-                new ObjectParameter("rvcIPManageBy", rvcIPManageBy) :
-                new ObjectParameter("rvcIPManageBy", typeof(string));
-    
-            var rvcSupportPhoneParameter = rvcSupportPhone != null ?
-                new ObjectParameter("rvcSupportPhone", rvcSupportPhone) :
-                new ObjectParameter("rvcSupportPhone", typeof(string));
-    
-            var rvcSupportEmailParameter = rvcSupportEmail != null ?
-                new ObjectParameter("rvcSupportEmail", rvcSupportEmail) :
-                new ObjectParameter("rvcSupportEmail", typeof(string));
-    
-            var rvcIssuingISPNameParameter = rvcIssuingISPName != null ?
-                new ObjectParameter("rvcIssuingISPName", rvcIssuingISPName) :
-                new ObjectParameter("rvcIssuingISPName", typeof(string));
-    
-            var rvcIssuingISPPhoneParameter = rvcIssuingISPPhone != null ?
-                new ObjectParameter("rvcIssuingISPPhone", rvcIssuingISPPhone) :
-                new ObjectParameter("rvcIssuingISPPhone", typeof(string));
-    
-            var rvcIssuingISPWebsiteParameter = rvcIssuingISPWebsite != null ?
-                new ObjectParameter("rvcIssuingISPWebsite", rvcIssuingISPWebsite) :
-                new ObjectParameter("rvcIssuingISPWebsite", typeof(string));
-    
-            var rvcIssuingISPAccountParameter = rvcIssuingISPAccount != null ?
-                new ObjectParameter("rvcIssuingISPAccount", rvcIssuingISPAccount) :
-                new ObjectParameter("rvcIssuingISPAccount", typeof(string));
-    
-            var rvcIssuingISPPasswordParameter = rvcIssuingISPPassword != null ?
-                new ObjectParameter("rvcIssuingISPPassword", rvcIssuingISPPassword) :
-                new ObjectParameter("rvcIssuingISPPassword", typeof(string));
-    
-            var rvcIssuingISPMemoParameter = rvcIssuingISPMemo != null ?
-                new ObjectParameter("rvcIssuingISPMemo", rvcIssuingISPMemo) :
-                new ObjectParameter("rvcIssuingISPMemo", typeof(string));
-    
-            var riStatusIdParameter = riStatusId.HasValue ?
-                new ObjectParameter("riStatusId", riStatusId) :
-                new ObjectParameter("riStatusId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_VPSSupplier_SaveUpdate_Result>("SG2_usp_VPSSupplier_SaveUpdate", riVPSSIdParameter, rvcIPManageByParameter, rvcSupportPhoneParameter, rvcSupportEmailParameter, rvcIssuingISPNameParameter, rvcIssuingISPPhoneParameter, rvcIssuingISPWebsiteParameter, rvcIssuingISPAccountParameter, rvcIssuingISPPasswordParameter, rvcIssuingISPMemoParameter, riStatusIdParameter);
-        }
-    
-        public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            var versionParameter = version.HasValue ?
-                new ObjectParameter("version", version) :
-                new ObjectParameter("version", typeof(int));
-    
-            var definitionParameter = definition != null ?
-                new ObjectParameter("definition", definition) :
-                new ObjectParameter("definition", typeof(byte[]));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_alterdiagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
-        }
-    
-        public virtual int sp_creatediagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            var versionParameter = version.HasValue ?
-                new ObjectParameter("version", version) :
-                new ObjectParameter("version", typeof(int));
-    
-            var definitionParameter = definition != null ?
-                new ObjectParameter("definition", definition) :
-                new ObjectParameter("definition", typeof(byte[]));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_creatediagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
-        }
-    
-        public virtual int sp_dropdiagram(string diagramname, Nullable<int> owner_id)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dropdiagram", diagramnameParameter, owner_idParameter);
-        }
-    
-        public virtual ObjectResult<sp_helpdiagramdefinition_Result> sp_helpdiagramdefinition(string diagramname, Nullable<int> owner_id)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagramdefinition_Result>("sp_helpdiagramdefinition", diagramnameParameter, owner_idParameter);
-        }
-    
-        public virtual ObjectResult<sp_helpdiagrams_Result> sp_helpdiagrams(string diagramname, Nullable<int> owner_id)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagrams_Result>("sp_helpdiagrams", diagramnameParameter, owner_idParameter);
-        }
-    
-        public virtual int sp_renamediagram(string diagramname, Nullable<int> owner_id, string new_diagramname)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            var new_diagramnameParameter = new_diagramname != null ?
-                new ObjectParameter("new_diagramname", new_diagramname) :
-                new ObjectParameter("new_diagramname", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_renamediagram", diagramnameParameter, owner_idParameter, new_diagramnameParameter);
-        }
-    
-        public virtual int sp_upgraddiagrams()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
-        }
-    
-        public virtual ObjectResult<SG2_usp_SocialProfile_SaveStatistics_Result> SG2_usp_SocialProfile_SaveStatistics(string nvStatisticsDataJson)
-        {
-            var nvStatisticsDataJsonParameter = nvStatisticsDataJson != null ?
-                new ObjectParameter("nvStatisticsDataJson", nvStatisticsDataJson) :
-                new ObjectParameter("nvStatisticsDataJson", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_SocialProfile_SaveStatistics_Result>("SG2_usp_SocialProfile_SaveStatistics", nvStatisticsDataJsonParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_Customer_GetSocialProfilesByCustomerId_Result> SG2_usp_Customer_GetSocialProfilesByCustomerId(Nullable<int> customerId)
-        {
-            var customerIdParameter = customerId.HasValue ?
-                new ObjectParameter("CustomerId", customerId) :
-                new ObjectParameter("CustomerId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_GetSocialProfilesByCustomerId_Result>("SG2_usp_Customer_GetSocialProfilesByCustomerId", customerIdParameter);
-        }
-    
-        public virtual int SG2_usp_PlanInformation_Delete(Nullable<int> riPlanInformationId)
-        {
-            var riPlanInformationIdParameter = riPlanInformationId.HasValue ?
-                new ObjectParameter("riPlanInformationId", riPlanInformationId) :
-                new ObjectParameter("riPlanInformationId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SG2_usp_PlanInformation_Delete", riPlanInformationIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_Customer_GetSocialProfileById_Result> SG2_usp_Customer_GetSocialProfileById(Nullable<int> riSocialProfileId)
-        {
-            var riSocialProfileIdParameter = riSocialProfileId.HasValue ?
-                new ObjectParameter("riSocialProfileId", riSocialProfileId) :
-                new ObjectParameter("riSocialProfileId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_GetSocialProfileById_Result>("SG2_usp_Customer_GetSocialProfileById", riSocialProfileIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_Get_SocialProfile_PaymentPlan_Result> SG2_usp_Get_SocialProfile_PaymentPlan()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Get_SocialProfile_PaymentPlan_Result>("SG2_usp_Get_SocialProfile_PaymentPlan");
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customers_Get_Result>("SG2_usp_Customers_Get", idParameter);
         }
     
         public virtual ObjectResult<SG2_usp_SocialProfile_Subscription_Save_Result> SG2_usp_SocialProfile_Subscription_Save(Nullable<int> riSocialProfileId, string riStripeSubscriptionId, string rvcDescription, string rvcName, Nullable<decimal> riPrice, string riStripePlanId, string rvcSubscriptionType, Nullable<System.DateTime> rdtStartDate, Nullable<System.DateTime> rdtEndDate, Nullable<int> riStatusId, Nullable<int> riPaymentPlanId, string rvcStripeInvoiceId)
@@ -1130,76 +327,6 @@ namespace SG2.CORE.DAL.DB
                 new ObjectParameter("rvcStripeInvoiceId", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_SocialProfile_Subscription_Save_Result>("SG2_usp_SocialProfile_Subscription_Save", riSocialProfileIdParameter, riStripeSubscriptionIdParameter, rvcDescriptionParameter, rvcNameParameter, riPriceParameter, riStripePlanIdParameter, rvcSubscriptionTypeParameter, rdtStartDateParameter, rdtEndDateParameter, riStatusIdParameter, riPaymentPlanIdParameter, rvcStripeInvoiceIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_GetActionBoardData_Result> SG2_usp_GetActionBoardData()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_GetActionBoardData_Result>("SG2_usp_GetActionBoardData");
-        }
-    
-        public virtual ObjectResult<SG2_usp_PlanInformation_GetAll_Result> SG2_usp_PlanInformation_GetAll(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId)
-        {
-            var rsSearchCriteParameter = rsSearchCrite != null ?
-                new ObjectParameter("rsSearchCrite", rsSearchCrite) :
-                new ObjectParameter("rsSearchCrite", typeof(string));
-    
-            var riPageNumberParameter = riPageNumber.HasValue ?
-                new ObjectParameter("riPageNumber", riPageNumber) :
-                new ObjectParameter("riPageNumber", typeof(int));
-    
-            var riPageSizeParameter = riPageSize != null ?
-                new ObjectParameter("riPageSize", riPageSize) :
-                new ObjectParameter("riPageSize", typeof(string));
-    
-            var riStatusIdParameter = riStatusId.HasValue ?
-                new ObjectParameter("riStatusId", riStatusId) :
-                new ObjectParameter("riStatusId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_PlanInformation_GetAll_Result>("SG2_usp_PlanInformation_GetAll", rsSearchCriteParameter, riPageNumberParameter, riPageSizeParameter, riStatusIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_PlanInformation_GetById_Result> SG2_usp_PlanInformation_GetById(Nullable<int> riPlanId)
-        {
-            var riPlanIdParameter = riPlanId.HasValue ?
-                new ObjectParameter("riPlanId", riPlanId) :
-                new ObjectParameter("riPlanId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_PlanInformation_GetById_Result>("SG2_usp_PlanInformation_GetById", riPlanIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_SocialProfile_Statistics_GetFollowers_Result> SG2_usp_SocialProfile_Statistics_GetFollowers(Nullable<int> riSocialProfileId, Nullable<System.DateTime> dtFromDate, Nullable<System.DateTime> dtToDate)
-        {
-            var riSocialProfileIdParameter = riSocialProfileId.HasValue ?
-                new ObjectParameter("riSocialProfileId", riSocialProfileId) :
-                new ObjectParameter("riSocialProfileId", typeof(int));
-    
-            var dtFromDateParameter = dtFromDate.HasValue ?
-                new ObjectParameter("dtFromDate", dtFromDate) :
-                new ObjectParameter("dtFromDate", typeof(System.DateTime));
-    
-            var dtToDateParameter = dtToDate.HasValue ?
-                new ObjectParameter("dtToDate", dtToDate) :
-                new ObjectParameter("dtToDate", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_SocialProfile_Statistics_GetFollowers_Result>("SG2_usp_SocialProfile_Statistics_GetFollowers", riSocialProfileIdParameter, dtFromDateParameter, dtToDateParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_SocialProfile_Statistics_GetStatistics_Result> SG2_usp_SocialProfile_Statistics_GetStatistics(Nullable<int> riSocialProfileId)
-        {
-            var riSocialProfileIdParameter = riSocialProfileId.HasValue ?
-                new ObjectParameter("riSocialProfileId", riSocialProfileId) :
-                new ObjectParameter("riSocialProfileId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_SocialProfile_Statistics_GetStatistics_Result>("SG2_usp_SocialProfile_Statistics_GetStatistics", riSocialProfileIdParameter);
-        }
-    
-        public virtual int SG2_usp_Supplier_Delete(Nullable<int> riSSPId)
-        {
-            var riSSPIdParameter = riSSPId.HasValue ?
-                new ObjectParameter("riSSPId", riSSPId) :
-                new ObjectParameter("riSSPId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SG2_usp_Supplier_Delete", riSSPIdParameter);
         }
     
         public virtual ObjectResult<SG2_usp_Customer_SignUpCustomerWithPreference_Result> SG2_usp_Customer_SignUpCustomerWithPreference(string rvcFirstName, string rvcLastName, string rvcEmailAddress, string rvcPassword, string rvcGUID, string rvcLastLoginIP, string rvcPreference1, string rvcPreference2, string rvcPreference3, string rvcPreference4, Nullable<int> iPreference5, Nullable<int> iPreference6, Nullable<int> rvcCity, Nullable<int> rvcStatusId)
@@ -1261,427 +388,6 @@ namespace SG2.CORE.DAL.DB
                 new ObjectParameter("rvcStatusId", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_SignUpCustomerWithPreference_Result>("SG2_usp_Customer_SignUpCustomerWithPreference", rvcFirstNameParameter, rvcLastNameParameter, rvcEmailAddressParameter, rvcPasswordParameter, rvcGUIDParameter, rvcLastLoginIPParameter, rvcPreference1Parameter, rvcPreference2Parameter, rvcPreference3Parameter, rvcPreference4Parameter, iPreference5Parameter, iPreference6Parameter, rvcCityParameter, rvcStatusIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_Customer_SignUp_Result> SG2_usp_Customer_SignUp(string rvcFirstName, string rvcSurName, string rvcEmailAddress, string rvcPassword, string rvcCreatedBy, string rvcGUID, string rvcLastLoginIP, Nullable<int> rvcStatusId)
-        {
-            var rvcFirstNameParameter = rvcFirstName != null ?
-                new ObjectParameter("rvcFirstName", rvcFirstName) :
-                new ObjectParameter("rvcFirstName", typeof(string));
-    
-            var rvcSurNameParameter = rvcSurName != null ?
-                new ObjectParameter("rvcSurName", rvcSurName) :
-                new ObjectParameter("rvcSurName", typeof(string));
-    
-            var rvcEmailAddressParameter = rvcEmailAddress != null ?
-                new ObjectParameter("rvcEmailAddress", rvcEmailAddress) :
-                new ObjectParameter("rvcEmailAddress", typeof(string));
-    
-            var rvcPasswordParameter = rvcPassword != null ?
-                new ObjectParameter("rvcPassword", rvcPassword) :
-                new ObjectParameter("rvcPassword", typeof(string));
-    
-            var rvcCreatedByParameter = rvcCreatedBy != null ?
-                new ObjectParameter("rvcCreatedBy", rvcCreatedBy) :
-                new ObjectParameter("rvcCreatedBy", typeof(string));
-    
-            var rvcGUIDParameter = rvcGUID != null ?
-                new ObjectParameter("rvcGUID", rvcGUID) :
-                new ObjectParameter("rvcGUID", typeof(string));
-    
-            var rvcLastLoginIPParameter = rvcLastLoginIP != null ?
-                new ObjectParameter("rvcLastLoginIP", rvcLastLoginIP) :
-                new ObjectParameter("rvcLastLoginIP", typeof(string));
-    
-            var rvcStatusIdParameter = rvcStatusId.HasValue ?
-                new ObjectParameter("rvcStatusId", rvcStatusId) :
-                new ObjectParameter("rvcStatusId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_SignUp_Result>("SG2_usp_Customer_SignUp", rvcFirstNameParameter, rvcSurNameParameter, rvcEmailAddressParameter, rvcPasswordParameter, rvcCreatedByParameter, rvcGUIDParameter, rvcLastLoginIPParameter, rvcStatusIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_JVBox_GetStatuses_Result> SG2_usp_JVBox_GetStatuses()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_JVBox_GetStatuses_Result>("SG2_usp_JVBox_GetStatuses");
-        }
-    
-        public virtual ObjectResult<SG2_usp_GetProfilebyJVStatusId_Result> SG2_usp_GetProfilebyJVStatusId(Nullable<int> riJVStatusId)
-        {
-            var riJVStatusIdParameter = riJVStatusId.HasValue ?
-                new ObjectParameter("riJVStatusId", riJVStatusId) :
-                new ObjectParameter("riJVStatusId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_GetProfilebyJVStatusId_Result>("SG2_usp_GetProfilebyJVStatusId", riJVStatusIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_Get_CustomerOrderHistory_Result> SG2_usp_Get_CustomerOrderHistory(Nullable<int> riCustomerId, Nullable<int> riSocialProfileId, Nullable<int> riPageNumber, string riPageSize)
-        {
-            var riCustomerIdParameter = riCustomerId.HasValue ?
-                new ObjectParameter("riCustomerId", riCustomerId) :
-                new ObjectParameter("riCustomerId", typeof(int));
-    
-            var riSocialProfileIdParameter = riSocialProfileId.HasValue ?
-                new ObjectParameter("riSocialProfileId", riSocialProfileId) :
-                new ObjectParameter("riSocialProfileId", typeof(int));
-    
-            var riPageNumberParameter = riPageNumber.HasValue ?
-                new ObjectParameter("riPageNumber", riPageNumber) :
-                new ObjectParameter("riPageNumber", typeof(int));
-    
-            var riPageSizeParameter = riPageSize != null ?
-                new ObjectParameter("riPageSize", riPageSize) :
-                new ObjectParameter("riPageSize", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Get_CustomerOrderHistory_Result>("SG2_usp_Get_CustomerOrderHistory", riCustomerIdParameter, riSocialProfileIdParameter, riPageNumberParameter, riPageSizeParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_Get_CustomerTargetingInformation_Result> SG2_usp_Get_CustomerTargetingInformation(Nullable<int> riSocialProfileId)
-        {
-            var riSocialProfileIdParameter = riSocialProfileId.HasValue ?
-                new ObjectParameter("riSocialProfileId", riSocialProfileId) :
-                new ObjectParameter("riSocialProfileId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Get_CustomerTargetingInformation_Result>("SG2_usp_Get_CustomerTargetingInformation", riSocialProfileIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_Set_ProfileJVAttempts_Result> SG2_usp_Set_ProfileJVAttempts(Nullable<int> riJVAttempts, Nullable<System.DateTime> rdtJVAttemptsBlockedTill, Nullable<int> riJVAttemptStatus, Nullable<int> riProfileId)
-        {
-            var riJVAttemptsParameter = riJVAttempts.HasValue ?
-                new ObjectParameter("riJVAttempts", riJVAttempts) :
-                new ObjectParameter("riJVAttempts", typeof(int));
-    
-            var rdtJVAttemptsBlockedTillParameter = rdtJVAttemptsBlockedTill.HasValue ?
-                new ObjectParameter("rdtJVAttemptsBlockedTill", rdtJVAttemptsBlockedTill) :
-                new ObjectParameter("rdtJVAttemptsBlockedTill", typeof(System.DateTime));
-    
-            var riJVAttemptStatusParameter = riJVAttemptStatus.HasValue ?
-                new ObjectParameter("riJVAttemptStatus", riJVAttemptStatus) :
-                new ObjectParameter("riJVAttemptStatus", typeof(int));
-    
-            var riProfileIdParameter = riProfileId.HasValue ?
-                new ObjectParameter("riProfileId", riProfileId) :
-                new ObjectParameter("riProfileId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Set_ProfileJVAttempts_Result>("SG2_usp_Set_ProfileJVAttempts", riJVAttemptsParameter, rdtJVAttemptsBlockedTillParameter, riJVAttemptStatusParameter, riProfileIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_VPSSupplier_BulkInsert_Result> SG2_usp_VPSSupplier_BulkInsert(string rvcProxyXML)
-        {
-            var rvcProxyXMLParameter = rvcProxyXML != null ?
-                new ObjectParameter("rvcProxyXML", rvcProxyXML) :
-                new ObjectParameter("rvcProxyXML", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_VPSSupplier_BulkInsert_Result>("SG2_usp_VPSSupplier_BulkInsert", rvcProxyXMLParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_ProxyIP_GetGeoPoints_Result> SG2_usp_ProxyIP_GetGeoPoints()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_ProxyIP_GetGeoPoints_Result>("SG2_usp_ProxyIP_GetGeoPoints");
-        }
-    
-        public virtual ObjectResult<Nullable<int>> SG2_usp_ProxyIP_SaveGeoPoints(string rvcProxyXML)
-        {
-            var rvcProxyXMLParameter = rvcProxyXML != null ?
-                new ObjectParameter("rvcProxyXML", rvcProxyXML) :
-                new ObjectParameter("rvcProxyXML", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SG2_usp_ProxyIP_SaveGeoPoints", rvcProxyXMLParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_Report_GetReportData_Result> SG2_usp_Report_GetReportData()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Report_GetReportData_Result>("SG2_usp_Report_GetReportData");
-        }
-    
-        public virtual ObjectResult<SG2_usp_Report_GetJVBoxandProxyIPsData_Result> SG2_usp_Report_GetJVBoxandProxyIPsData(Nullable<System.DateTime> dtFromDate, Nullable<System.DateTime> dtToDate)
-        {
-            var dtFromDateParameter = dtFromDate.HasValue ?
-                new ObjectParameter("dtFromDate", dtFromDate) :
-                new ObjectParameter("dtFromDate", typeof(System.DateTime));
-    
-            var dtToDateParameter = dtToDate.HasValue ?
-                new ObjectParameter("dtToDate", dtToDate) :
-                new ObjectParameter("dtToDate", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Report_GetJVBoxandProxyIPsData_Result>("SG2_usp_Report_GetJVBoxandProxyIPsData", dtFromDateParameter, dtToDateParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_Report_GetMostUsedProductData_Result> SG2_usp_Report_GetMostUsedProductData(Nullable<System.DateTime> dtFromDate, Nullable<System.DateTime> dtToDate)
-        {
-            var dtFromDateParameter = dtFromDate.HasValue ?
-                new ObjectParameter("dtFromDate", dtFromDate) :
-                new ObjectParameter("dtFromDate", typeof(System.DateTime));
-    
-            var dtToDateParameter = dtToDate.HasValue ?
-                new ObjectParameter("dtToDate", dtToDate) :
-                new ObjectParameter("dtToDate", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Report_GetMostUsedProductData_Result>("SG2_usp_Report_GetMostUsedProductData", dtFromDateParameter, dtToDateParameter);
-        }
-    
-        public virtual int SG2_Delete_Customer_All(Nullable<int> riCustomerId, Nullable<int> riSocialProfileId)
-        {
-            var riCustomerIdParameter = riCustomerId.HasValue ?
-                new ObjectParameter("riCustomerId", riCustomerId) :
-                new ObjectParameter("riCustomerId", typeof(int));
-    
-            var riSocialProfileIdParameter = riSocialProfileId.HasValue ?
-                new ObjectParameter("riSocialProfileId", riSocialProfileId) :
-                new ObjectParameter("riSocialProfileId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SG2_Delete_Customer_All", riCustomerIdParameter, riSocialProfileIdParameter);
-        }
-    
-        public virtual int SG2_usp_QueueAudit_InsertLog(string rTransactionId, Nullable<short> rQueueType, Nullable<short> rQueueStatus, string rQueueData, string rErrorDescription, Nullable<int> rProfileId, string rJVBoxData, Nullable<System.DateTime> rCreatedDate, string rCreatedBy, Nullable<System.DateTime> rModifiedDate, string rModifiedBy, Nullable<int> rNoOfAttempts, string rQueueAction, Nullable<int> rJVServerId)
-        {
-            var rTransactionIdParameter = rTransactionId != null ?
-                new ObjectParameter("rTransactionId", rTransactionId) :
-                new ObjectParameter("rTransactionId", typeof(string));
-    
-            var rQueueTypeParameter = rQueueType.HasValue ?
-                new ObjectParameter("rQueueType", rQueueType) :
-                new ObjectParameter("rQueueType", typeof(short));
-    
-            var rQueueStatusParameter = rQueueStatus.HasValue ?
-                new ObjectParameter("rQueueStatus", rQueueStatus) :
-                new ObjectParameter("rQueueStatus", typeof(short));
-    
-            var rQueueDataParameter = rQueueData != null ?
-                new ObjectParameter("rQueueData", rQueueData) :
-                new ObjectParameter("rQueueData", typeof(string));
-    
-            var rErrorDescriptionParameter = rErrorDescription != null ?
-                new ObjectParameter("rErrorDescription", rErrorDescription) :
-                new ObjectParameter("rErrorDescription", typeof(string));
-    
-            var rProfileIdParameter = rProfileId.HasValue ?
-                new ObjectParameter("rProfileId", rProfileId) :
-                new ObjectParameter("rProfileId", typeof(int));
-    
-            var rJVBoxDataParameter = rJVBoxData != null ?
-                new ObjectParameter("rJVBoxData", rJVBoxData) :
-                new ObjectParameter("rJVBoxData", typeof(string));
-    
-            var rCreatedDateParameter = rCreatedDate.HasValue ?
-                new ObjectParameter("rCreatedDate", rCreatedDate) :
-                new ObjectParameter("rCreatedDate", typeof(System.DateTime));
-    
-            var rCreatedByParameter = rCreatedBy != null ?
-                new ObjectParameter("rCreatedBy", rCreatedBy) :
-                new ObjectParameter("rCreatedBy", typeof(string));
-    
-            var rModifiedDateParameter = rModifiedDate.HasValue ?
-                new ObjectParameter("rModifiedDate", rModifiedDate) :
-                new ObjectParameter("rModifiedDate", typeof(System.DateTime));
-    
-            var rModifiedByParameter = rModifiedBy != null ?
-                new ObjectParameter("rModifiedBy", rModifiedBy) :
-                new ObjectParameter("rModifiedBy", typeof(string));
-    
-            var rNoOfAttemptsParameter = rNoOfAttempts.HasValue ?
-                new ObjectParameter("rNoOfAttempts", rNoOfAttempts) :
-                new ObjectParameter("rNoOfAttempts", typeof(int));
-    
-            var rQueueActionParameter = rQueueAction != null ?
-                new ObjectParameter("rQueueAction", rQueueAction) :
-                new ObjectParameter("rQueueAction", typeof(string));
-    
-            var rJVServerIdParameter = rJVServerId.HasValue ?
-                new ObjectParameter("rJVServerId", rJVServerId) :
-                new ObjectParameter("rJVServerId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SG2_usp_QueueAudit_InsertLog", rTransactionIdParameter, rQueueTypeParameter, rQueueStatusParameter, rQueueDataParameter, rErrorDescriptionParameter, rProfileIdParameter, rJVBoxDataParameter, rCreatedDateParameter, rCreatedByParameter, rModifiedDateParameter, rModifiedByParameter, rNoOfAttemptsParameter, rQueueActionParameter, rJVServerIdParameter);
-        }
-    
-        public virtual int SG2_usp_QueueAudit_Detail_InsertLog(string rTransactionId, string rStepName, string rStepDetail, Nullable<int> rStepStatus, string rStepError, Nullable<System.DateTime> rCreatedDate, string rCreatedBy, byte[] rBase64Image)
-        {
-            var rTransactionIdParameter = rTransactionId != null ?
-                new ObjectParameter("rTransactionId", rTransactionId) :
-                new ObjectParameter("rTransactionId", typeof(string));
-    
-            var rStepNameParameter = rStepName != null ?
-                new ObjectParameter("rStepName", rStepName) :
-                new ObjectParameter("rStepName", typeof(string));
-    
-            var rStepDetailParameter = rStepDetail != null ?
-                new ObjectParameter("rStepDetail", rStepDetail) :
-                new ObjectParameter("rStepDetail", typeof(string));
-    
-            var rStepStatusParameter = rStepStatus.HasValue ?
-                new ObjectParameter("rStepStatus", rStepStatus) :
-                new ObjectParameter("rStepStatus", typeof(int));
-    
-            var rStepErrorParameter = rStepError != null ?
-                new ObjectParameter("rStepError", rStepError) :
-                new ObjectParameter("rStepError", typeof(string));
-    
-            var rCreatedDateParameter = rCreatedDate.HasValue ?
-                new ObjectParameter("rCreatedDate", rCreatedDate) :
-                new ObjectParameter("rCreatedDate", typeof(System.DateTime));
-    
-            var rCreatedByParameter = rCreatedBy != null ?
-                new ObjectParameter("rCreatedBy", rCreatedBy) :
-                new ObjectParameter("rCreatedBy", typeof(string));
-    
-            var rBase64ImageParameter = rBase64Image != null ?
-                new ObjectParameter("rBase64Image", rBase64Image) :
-                new ObjectParameter("rBase64Image", typeof(byte[]));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SG2_usp_QueueAudit_Detail_InsertLog", rTransactionIdParameter, rStepNameParameter, rStepDetailParameter, rStepStatusParameter, rStepErrorParameter, rCreatedDateParameter, rCreatedByParameter, rBase64ImageParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_QueueAudit_GetDetail_Result> SG2_usp_QueueAudit_GetDetail(Nullable<int> rJVServerId)
-        {
-            var rJVServerIdParameter = rJVServerId.HasValue ?
-                new ObjectParameter("rJVServerId", rJVServerId) :
-                new ObjectParameter("rJVServerId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_QueueAudit_GetDetail_Result>("SG2_usp_QueueAudit_GetDetail", rJVServerIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_QueueAuditDetail_GetDetail_Result> SG2_usp_QueueAuditDetail_GetDetail(string rTransactionId)
-        {
-            var rTransactionIdParameter = rTransactionId != null ?
-                new ObjectParameter("rTransactionId", rTransactionId) :
-                new ObjectParameter("rTransactionId", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_QueueAuditDetail_GetDetail_Result>("SG2_usp_QueueAuditDetail_GetDetail", rTransactionIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_Customer_GetPendingSocialProfiles_Result> SG2_usp_Customer_GetPendingSocialProfiles(Nullable<int> riStatusId)
-        {
-            var riStatusIdParameter = riStatusId.HasValue ?
-                new ObjectParameter("riStatusId", riStatusId) :
-                new ObjectParameter("riStatusId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_GetPendingSocialProfiles_Result>("SG2_usp_Customer_GetPendingSocialProfiles", riStatusIdParameter);
-        }
-    
-        public virtual ObjectResult<byte[]> SG2_usp_QueueAudit_GetimageData(string rTransactionId)
-        {
-            var rTransactionIdParameter = rTransactionId != null ?
-                new ObjectParameter("rTransactionId", rTransactionId) :
-                new ObjectParameter("rTransactionId", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<byte[]>("SG2_usp_QueueAudit_GetimageData", rTransactionIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_SocialProfile_BadProxy_Result> SG2_usp_SocialProfile_BadProxy(Nullable<int> riProxyId, Nullable<int> riSocailProfileID, Nullable<int> riStatusId)
-        {
-            var riProxyIdParameter = riProxyId.HasValue ?
-                new ObjectParameter("riProxyId", riProxyId) :
-                new ObjectParameter("riProxyId", typeof(int));
-    
-            var riSocailProfileIDParameter = riSocailProfileID.HasValue ?
-                new ObjectParameter("riSocailProfileID", riSocailProfileID) :
-                new ObjectParameter("riSocailProfileID", typeof(int));
-    
-            var riStatusIdParameter = riStatusId.HasValue ?
-                new ObjectParameter("riStatusId", riStatusId) :
-                new ObjectParameter("riStatusId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_SocialProfile_BadProxy_Result>("SG2_usp_SocialProfile_BadProxy", riProxyIdParameter, riSocailProfileIDParameter, riStatusIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_Get_AvailableProxies_Result> SG2_usp_Get_AvailableProxies(Nullable<int> riCountryId, Nullable<int> riCityId)
-        {
-            var riCountryIdParameter = riCountryId.HasValue ?
-                new ObjectParameter("riCountryId", riCountryId) :
-                new ObjectParameter("riCountryId", typeof(int));
-    
-            var riCityIdParameter = riCityId.HasValue ?
-                new ObjectParameter("riCityId", riCityId) :
-                new ObjectParameter("riCityId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Get_AvailableProxies_Result>("SG2_usp_Get_AvailableProxies", riCountryIdParameter, riCityIdParameter);
-        }
-    
-        public virtual int SG2_usp_ProxyMapping_Insert(Nullable<int> riProfileId, Nullable<int> riProxyId)
-        {
-            var riProfileIdParameter = riProfileId.HasValue ?
-                new ObjectParameter("riProfileId", riProfileId) :
-                new ObjectParameter("riProfileId", typeof(int));
-    
-            var riProxyIdParameter = riProxyId.HasValue ?
-                new ObjectParameter("riProxyId", riProxyId) :
-                new ObjectParameter("riProxyId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SG2_usp_ProxyMapping_Insert", riProfileIdParameter, riProxyIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_Get_AvailableMPBoxes_Result> SG2_usp_Get_AvailableMPBoxes()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Get_AvailableMPBoxes_Result>("SG2_usp_Get_AvailableMPBoxes");
-        }
-    
-        public virtual ObjectResult<SG2_usp_SocialProfile_GetNotificationsByStatus_Result> SG2_usp_SocialProfile_GetNotificationsByStatus(Nullable<short> statusId)
-        {
-            var statusIdParameter = statusId.HasValue ?
-                new ObjectParameter("StatusId", statusId) :
-                new ObjectParameter("StatusId", typeof(short));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_SocialProfile_GetNotificationsByStatus_Result>("SG2_usp_SocialProfile_GetNotificationsByStatus", statusIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_Proxy_GetbyProfileId_Result> SG2_usp_Proxy_GetbyProfileId(Nullable<int> riSpId)
-        {
-            var riSpIdParameter = riSpId.HasValue ?
-                new ObjectParameter("riSpId", riSpId) :
-                new ObjectParameter("riSpId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Proxy_GetbyProfileId_Result>("SG2_usp_Proxy_GetbyProfileId", riSpIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_GetBadProxyIPs_Result> SG2_usp_GetBadProxyIPs(string riPageSize, Nullable<int> riPageNumber)
-        {
-            var riPageSizeParameter = riPageSize != null ?
-                new ObjectParameter("riPageSize", riPageSize) :
-                new ObjectParameter("riPageSize", typeof(string));
-    
-            var riPageNumberParameter = riPageNumber.HasValue ?
-                new ObjectParameter("riPageNumber", riPageNumber) :
-                new ObjectParameter("riPageNumber", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_GetBadProxyIPs_Result>("SG2_usp_GetBadProxyIPs", riPageSizeParameter, riPageNumberParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_JVBox_GetAll_Result> SG2_usp_JVBox_GetAll(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId)
-        {
-            var rsSearchCriteParameter = rsSearchCrite != null ?
-                new ObjectParameter("rsSearchCrite", rsSearchCrite) :
-                new ObjectParameter("rsSearchCrite", typeof(string));
-    
-            var riPageNumberParameter = riPageNumber.HasValue ?
-                new ObjectParameter("riPageNumber", riPageNumber) :
-                new ObjectParameter("riPageNumber", typeof(int));
-    
-            var riPageSizeParameter = riPageSize != null ?
-                new ObjectParameter("riPageSize", riPageSize) :
-                new ObjectParameter("riPageSize", typeof(string));
-    
-            var riStatusIdParameter = riStatusId.HasValue ?
-                new ObjectParameter("riStatusId", riStatusId) :
-                new ObjectParameter("riStatusId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_JVBox_GetAll_Result>("SG2_usp_JVBox_GetAll", rsSearchCriteParameter, riPageNumberParameter, riPageSizeParameter, riStatusIdParameter);
-        }
-    
-        public virtual int SG2_usp_Delete_QueueAuditAndDetail1(string riTransactionId)
-        {
-            var riTransactionIdParameter = riTransactionId != null ?
-                new ObjectParameter("riTransactionId", riTransactionId) :
-                new ObjectParameter("riTransactionId", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SG2_usp_Delete_QueueAuditAndDetail1", riTransactionIdParameter);
-        }
-    
-        public virtual int SG2_usp_Delete_QueueAuditAndDetail(string riTransactionId)
-        {
-            var riTransactionIdParameter = riTransactionId != null ?
-                new ObjectParameter("riTransactionId", riTransactionId) :
-                new ObjectParameter("riTransactionId", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SG2_usp_Delete_QueueAuditAndDetail", riTransactionIdParameter);
         }
     }
 }

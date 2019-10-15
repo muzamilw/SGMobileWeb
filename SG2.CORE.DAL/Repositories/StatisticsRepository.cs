@@ -14,7 +14,7 @@ namespace SG2.CORE.DAL.Repositories
             try
             {
 
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     _db.SG2_usp_SocialProfile_SaveStatistics(data);
 
@@ -30,7 +30,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     List<StatisticsDTO> lstStatisticsDTO = new List<StatisticsDTO>();
                     var statsData = _db.SG2_usp_SocialProfile_Statistics_GetFollowers(socialProfileId, fromDate, ToDate).ToList();
@@ -71,7 +71,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     List<StatisticsDTO> lstStatisticsDTO = new List<StatisticsDTO>();
                     var statsData = _db.SG2_usp_SocialProfile_Statistics_GetStatistics(socialProfileId).FirstOrDefault();
@@ -103,7 +103,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                   
                     var reportData = _db.SG2_usp_Report_GetReportData().FirstOrDefault();
@@ -132,7 +132,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
 
                     var reportData = _db.SG2_usp_Report_GetJVBoxandProxyIPsData(fromDate, toDate).FirstOrDefault();
@@ -162,7 +162,7 @@ namespace SG2.CORE.DAL.Repositories
             try
             {
                 List<PlanListReportDTO> lstPlanReportDTO = new List<PlanListReportDTO>();
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
 
                     var reportData = _db.SG2_usp_Report_GetMostUsedProductData(fromDate, toDate);

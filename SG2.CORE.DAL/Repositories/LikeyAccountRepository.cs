@@ -14,7 +14,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
 
                     _db.SG2_usp_LikeyAccount_Save(entity.LikeyAccountId, entity.InstaUserName, entity.InstaPassword, entity.Country, entity.City, entity.Gender, entity.HashTag, entity.StatusId);
@@ -31,7 +31,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     _db.SG2_usp_LikeyAccount_Save(entity.LikeyAccountId, entity.InstaUserName, entity.InstaPassword, entity.Country, entity.City, entity.Gender, entity.HashTag, entity.StatusId);
                     return entity;
@@ -48,7 +48,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
 
                     if (LKaccId == 0) return !_db.SG2_LikeyAccount.Any(u => u.InstaUserName.Equals(InstaUserName));
@@ -70,7 +70,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var pro = _db.SG2_usp_LikeyAccount_GetById(LikeyAccountId).FirstOrDefault();
                     if (pro != null)
@@ -102,7 +102,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var LKaccount=_db.SG2_usp_LikeyAccount_Delete(LikeyAccountId);
                     if (LKaccount == 1)
@@ -121,7 +121,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var likeyAccountdata = _db.SG2_usp_LikeyAccount_GetAll(SearchCriteria, PageNumber, PageSize, StatusId).ToList();
                     if (likeyAccountdata != null)
@@ -155,7 +155,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     return true;
                 }

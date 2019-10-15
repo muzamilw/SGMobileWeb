@@ -10,13 +10,14 @@
 namespace SG2.CORE.DAL.DB
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class SG2_usp_SystemConfig_GetAll_Result
+    public partial class SystemCountry
     {
-        public short ConfigId { get; set; }
-        public string ConfigKey { get; set; }
-        public string ConfigValue1 { get; set; }
-        public string ConfigValue2 { get; set; }
-        public Nullable<int> TotalRecord { get; set; }
+        public short CountryId { get; set; }
+        public string Name { get; set; }
+        public string Code { get; set; }
+        public string PhoneCode { get; set; }
+        public Nullable<short> StatusId { get; set; }
     }
 }

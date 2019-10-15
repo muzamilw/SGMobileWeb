@@ -10,9 +10,17 @@
 namespace SG2.CORE.DAL.DB
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class SG2_usp_Customer_SignUp_Result
+    public partial class Customer
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Customer()
+        {
+            this.Customer_ContactDetail = new HashSet<Customer_ContactDetail>();
+            this.SocialProfiles = new HashSet<SocialProfile>();
+        }
+    
         public int CustomerId { get; set; }
         public string GUID { get; set; }
         public string FirstName { get; set; }
@@ -38,18 +46,11 @@ namespace SG2.CORE.DAL.DB
         public Nullable<System.DateTime> CancelledDate { get; set; }
         public Nullable<bool> IsOptedEducationalEmailSeries { get; set; }
         public Nullable<bool> IsOptedMarketingEmail { get; set; }
-        public Nullable<int> ContactDetailsId { get; set; }
-        public string JobTitle { get; set; }
-        public string MobileNumber { get; set; }
-        public string PhoneNumber { get; set; }
-        public string AddressLine1 { get; set; }
-        public string AddressLine2 { get; set; }
-        public string City { get; set; }
-        public string Sate { get; set; }
-        public string Country { get; set; }
-        public string PostalCode { get; set; }
-        public string PhoneCode { get; set; }
-        public string StripeSubscriptionId { get; set; }
-        public Nullable<int> DefaultSocialProfileId { get; set; }
+        public string Title { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Customer_ContactDetail> Customer_ContactDetail { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SocialProfile> SocialProfiles { get; set; }
     }
 }

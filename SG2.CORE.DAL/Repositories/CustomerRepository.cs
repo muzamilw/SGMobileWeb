@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using AutoMapper;
 using SG2.CORE.COMMON;
 using SG2.CORE.DAL.DB;
 using SG2.CORE.MODAL.DTO.Common;
@@ -20,18 +21,21 @@ namespace SG2.CORE.DAL.Repositories
 
         public bool IsEmailnameExist(string email, int id = 0)
         {
+
+           
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
+                    
 
-                    if (id == 0) return !_db.SG2_Customer.Any(u => u.EmailAddress.Equals(email));
-                    var user = _db.SG2_Customer.Find(id);
+                    if (id == 0) return !_db.Customers.Any(u => u.EmailAddress.Equals(email));
+                    var user = _db.Customers.Find(id);
                     if (user.EmailAddress.Equals(email, StringComparison.CurrentCultureIgnoreCase))
                     {
                         return true;
                     }
-                    return !_db.SG2_Customer.Any(r => r.EmailAddress.Equals(email) && r.CustomerId != id);
+                    return !_db.Customers.Any(r => r.EmailAddress.Equals(email) && r.CustomerId != id);
                 }
             }
             catch (Exception ex)
@@ -44,9 +48,9 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
-                    var user = _db.SG2_Customer.FirstOrDefault(x => x.EmailAddress == email);
+                    var user = _db.Customers.FirstOrDefault(x => x.EmailAddress == email);
 
                     if (user != null)
                     {
@@ -82,9 +86,9 @@ namespace SG2.CORE.DAL.Repositories
             try
             {
                 dbError = "";
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
-                    if (_db.SG2_Customer.Any(x => x.EmailAddress == entity.EmailAddress))
+                    if (_db.Customers.Any(x => x.EmailAddress == entity.EmailAddress))
                     {
                         dbError = "Email already exists. Please try another email.";
                         return null;
@@ -116,7 +120,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var item = _db.SG2_usp_Customer_ProfileUpdate(entity.CustomerId, entity.UserName, entity.FirstName, entity.SurName, entity.PhoneNumber, entity.PhoneCode);
                     return entity;
@@ -132,9 +136,9 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
-                    var usr = _db.SG2_Customer.FirstOrDefault(x => x.CustomerId == entity.CustomerId);
+                    var usr = _db.Customers.FirstOrDefault(x => x.CustomerId == entity.CustomerId);
                     if (usr != null)
                     {
                         usr.IsOptedEducationalEmailSeries = entity.IsOptedEducationalEmailSeries;
@@ -153,41 +157,14 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
         
-        public string GetProxyIp(int ProfileId)
-        {
-            try
-            {
-                using (var _db = new SocialGrowth2Entities())
-                {
-                    string ProIp = null;
-                    var result = _db.SG2_usp_Proxy_GetbyProfileId(ProfileId);
-                    if (result != null)
-                    {
-                        foreach (var item in result)
-                        {
-                            ProIp = item.ProxyIPNumber;
-                        }
-
-                    }
-                    return ProIp;
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-
-        }
-
+   
         public string GetUserComment(int CustomerId)
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
-                    var result = _db.SG2_Customer.SqlQuery("SELECT * from SG2_Customer where CustomerId=@CustomerId "
+                    var result = _db.Customers.SqlQuery("SELECT * from SG2_Customer where CustomerId=@CustomerId "
                                                    , new SqlParameter("@CustomerId", CustomerId)
                                                ).FirstOrDefault();
                     if (result != null)
@@ -211,11 +188,11 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     if ((fieldName == "InstaUsrName") || (fieldName == "InstaPassword"))
                     {
-                        var user = _db.SG2_SocialProfile.FirstOrDefault(x => x.SocialProfileId == socialProfileId);
+                        var user = _db.SocialProfiles.FirstOrDefault(x => x.SocialProfileId == socialProfileId);
 
                         if (user != null)
                         {
@@ -235,7 +212,7 @@ namespace SG2.CORE.DAL.Repositories
                     }
                     else if ((fieldName == "firstName") || (fieldName == "lastName") || (fieldName == "Source") || (fieldName == "Comment") || (fieldName == "Title") || (fieldName == "ResTeamMember") || (fieldName == "AvaToEveryOne") || (fieldName == "CustomerStatus"))
                     {
-                        var user = _db.SG2_Customer.FirstOrDefault(x => x.CustomerId == customerId);
+                        var user = _db.Customers.FirstOrDefault(x => x.CustomerId == customerId);
 
                         if (user != null)
                         {
@@ -296,7 +273,7 @@ namespace SG2.CORE.DAL.Repositories
                     }
                     else if ((fieldName == "Tel") || (fieldName == "Town") || (fieldName == "Country") || (fieldName == "Mobile") || (fieldName == "PostalCode") || (fieldName == "AddressLine"))
                     {
-                        var user = _db.SG2_Customer_ContactDetail.FirstOrDefault(x => x.CustomerId == customerId);
+                        var user = _db.Customer_ContactDetail.FirstOrDefault(x => x.CustomerId == customerId);
                         if (user != null)
                         {
                             if (fieldName == "Tel")
@@ -354,47 +331,21 @@ namespace SG2.CORE.DAL.Repositories
 
         }
 
-        public JVBoxDTO AssignJVBox(int customerId, int profileId)
-        {
-            try
-            {
-                using (var _db = new SocialGrowth2Entities())
-                {
-                    JVBoxDTO jVBox = new JVBoxDTO();
-                   var actiondata = _db.SG2_usp_AssignJVBoxToCustomer(customerId, profileId).FirstOrDefault();
-                    //var result = actiondata.Where(x => x.JVBoxId != null);
-                    if (actiondata != null)
-                    {
-                        jVBox.BoxName = actiondata.JVBoxName;
-                        jVBox.JVBoxId = (int)actiondata.JVBoxId;
-
-                    }
-                    return jVBox;
-                }
-
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-        }
-       
+              
 
         public bool DeleteCustomer(int customerId, int SocialProfileId)
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
-                    var actiondata = _db.SG2_Delete_Customer(customerId, SocialProfileId);
-                    if (actiondata == 1)
-                    {
-                        return true;
 
-                    }
-                    return false;
+                    var profile = _db.SocialProfiles.Where(g => g.SocialProfileId == SocialProfileId && g.CustomerId == customerId).SingleOrDefault();
+                    profile.StatusId = 18;
+
+                    _db.SaveChanges();
+
+                    return true;
                 }
 
             }
@@ -410,7 +361,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var actiondata = _db.SG2_Delete_Customer_All(customerId, SocialProfileId);
 
@@ -433,9 +384,9 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
-                    var usr = _db.SG2_Customer.FirstOrDefault(x => x.CustomerId == customerId);
+                    var usr = _db.Customers.FirstOrDefault(x => x.CustomerId == customerId);
                     if (usr != null)
                     {
                         usr.Password = password;
@@ -455,9 +406,9 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
-                    var usr = _db.SG2_Customer.FirstOrDefault(x => x.CustomerId == customerId);
+                    var usr = _db.Customers.FirstOrDefault(x => x.CustomerId == customerId);
                     if (usr != null)
                     {
                         usr.StatusId = statusId;
@@ -473,44 +424,14 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
-        //-- TODO: Change Method and move to exact repository
-        public List<ActionBoardJVSData> GetJVStatuses()
-        {
-            try
-            {
-                using (var _db = new SocialGrowth2Entities())
-                {
-                    var actionJVStatus = _db.SG2_usp_JVBox_GetStatuses().ToList();
-                    if (actionJVStatus != null)
-                    {
-                        List<ActionBoardJVSData> actionBoardJVSDatas = new List<ActionBoardJVSData>();
-                        foreach (var item in actionJVStatus)
-                        {
-                            ActionBoardJVSData actionBoardJVSData = new ActionBoardJVSData();
-                            actionBoardJVSData.JVBStatusId = item.JVStatusId;
-                            actionBoardJVSData.JVBStatusName = item.JVStatusName;
-                            actionBoardJVSData.JVBStatusDesc = item.JVStatusDesc;
-                            actionBoardJVSData.SequenceNo = item.SequenceNo;
-                            actionBoardJVSDatas.Add(actionBoardJVSData);
-                        }
-                        return actionBoardJVSDatas;
-                    }
-                    return null;
-                }
-            }
-            catch (Exception ex)
-            {
 
-                throw ex;
-            }
-        }
         public bool SetSocialProfileArchive(int id, int archive)
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
-                    var usr = _db.SG2_SocialProfile.FirstOrDefault(x => x.SocialProfileId == id);
+                    var usr = _db.SocialProfiles.FirstOrDefault(x => x.SocialProfileId == id);
                     if (usr != null)
                     {
                         if (archive == 1)
@@ -534,87 +455,91 @@ namespace SG2.CORE.DAL.Repositories
         }
         
         //-- TODO: Change Method and move to exact repository
-        public List<ActionBoardListingViewModel> GetActionBoardData(int? JVBoxStatusId)
-        {
-            try
-            {
-                using (var _db = new SocialGrowth2Entities())
-                {
-                    var actiondata = _db.SG2_usp_GetProfilebyJVStatusId(JVBoxStatusId).ToList();
-                    if (actiondata != null)
-                    {
-                        List<ActionBoardListingViewModel> actionBoardViewModelList = new List<ActionBoardListingViewModel>();
+        //public List<ActionBoardListingViewModel> GetActionBoardData(int? JVBoxStatusId)
+        //{
+        //    try
+        //    {
+        //        using (var _db = new SocialGrowth2Connection())
+        //        {
+        //            var actiondata = _db.SG2_usp_GetProfilebyJVStatusId(JVBoxStatusId).ToList();
+        //            if (actiondata != null)
+        //            {
+        //                List<ActionBoardListingViewModel> actionBoardViewModelList = new List<ActionBoardListingViewModel>();
 
-                        foreach (var item in actiondata)
-                        {
-                            ActionBoardListingViewModel actionBoardViewModel = new ActionBoardListingViewModel();
-                            actionBoardViewModel.InstaUsrName = item.InstaUsrName ?? "--";
-                            actionBoardViewModel.Status = item.JVStatusName;
-                            actionBoardViewModel.UserName = item.FullName ?? "--";
-                            actionBoardViewModel.CustomerId = HttpUtility.UrlEncode(CryptoEngine.Encrypt(item.CustomerId.ToString()));
-                            actionBoardViewModel.Email = item.Email;
-                            actionBoardViewModel.ProfileId = HttpUtility.UrlEncode(CryptoEngine.Encrypt(item.SPId.ToString()));
-                            actionBoardViewModel.EnumerationValueId = (short)item.JVStatusId;
-                            actionBoardViewModel.Comment = item.Comment ?? "--";
-                            actionBoardViewModel.IsArchived = item.IsArchived;
-                            actionBoardViewModelList.Add(actionBoardViewModel);
-                        }
-                        return actionBoardViewModelList;
-                    }
-                    return null;
-                }
-            }
-            catch (Exception ex)
-            {
+        //                foreach (var item in actiondata)
+        //                {
+        //                    ActionBoardListingViewModel actionBoardViewModel = new ActionBoardListingViewModel();
+        //                    actionBoardViewModel.InstaUsrName = item.InstaUsrName ?? "--";
+        //                    actionBoardViewModel.Status = item.JVStatusName;
+        //                    actionBoardViewModel.UserName = item.FullName ?? "--";
+        //                    actionBoardViewModel.CustomerId = HttpUtility.UrlEncode(CryptoEngine.Encrypt(item.CustomerId.ToString()));
+        //                    actionBoardViewModel.Email = item.Email;
+        //                    actionBoardViewModel.ProfileId = HttpUtility.UrlEncode(CryptoEngine.Encrypt(item.SPId.ToString()));
+        //                    actionBoardViewModel.EnumerationValueId = (short)item.JVStatusId;
+        //                    actionBoardViewModel.Comment = item.Comment ?? "--";
+        //                    actionBoardViewModel.IsArchived = item.IsArchived;
+        //                    actionBoardViewModelList.Add(actionBoardViewModel);
+        //                }
+        //                return actionBoardViewModelList;
+        //            }
+        //            return null;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                throw ex;
-            }
-        }
+        //        throw ex;
+        //    }
+        //}
 
         //-- TODO: Change Method and move to exact repository
         public CustomerTargetPreferencesViewModel GetSpecificUserTargettingInformation(int CustomerId, int SocialPId)
         {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<SG2_usp_Get_Customer_Instagram_TargetingInformation_Result, CustomerTargetPreferencesViewModel>());
+            var mapper = new Mapper(config);
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
-                    var actiondata = _db.SG2_usp_Get_CustomerTargetingInformation(SocialPId).FirstOrDefault();
+                    var actiondata = _db.SG2_usp_Get_Customer_Instagram_TargetingInformation (SocialPId).FirstOrDefault();
                     if (actiondata != null)
                     {
-                        CustomerTargetPreferencesViewModel customerTargetPreferencesViewModel = new CustomerTargetPreferencesViewModel();
-                        customerTargetPreferencesViewModel.Preference1 = actiondata.Preference1;
-                        customerTargetPreferencesViewModel.Preference2 = actiondata.Preference2;
-                        customerTargetPreferencesViewModel.Preference3 = actiondata.Preference3;
-                        customerTargetPreferencesViewModel.Preference4 = actiondata.Preference4;
-                        customerTargetPreferencesViewModel.Preference5 = actiondata.Preference5;
-                        customerTargetPreferencesViewModel.Preference6 = actiondata.Preference6;
-                        customerTargetPreferencesViewModel.Preference7 = actiondata.Preference7;
-                        customerTargetPreferencesViewModel.Preference8 = actiondata.Preference8;
-                        customerTargetPreferencesViewModel.Preference9 = actiondata.Preference9;
-                        customerTargetPreferencesViewModel.Preference10 = actiondata.Preference10;
-                        customerTargetPreferencesViewModel.Country = actiondata.SocialPrefferedCountry;
-                        customerTargetPreferencesViewModel.InstaUser = actiondata.SocialUsername;
-                        customerTargetPreferencesViewModel.Id = Convert.ToString(actiondata.CustomerId);
-                        customerTargetPreferencesViewModel.Status = actiondata.JVBoxStatus;
-                        customerTargetPreferencesViewModel.UserName = actiondata.SocialUsername;
-                        customerTargetPreferencesViewModel.InstaPassword = actiondata.SocialPassword;
-                        customerTargetPreferencesViewModel.City = actiondata.City;
-                        customerTargetPreferencesViewModel.SPId = actiondata.SocialProfileId.ToString();
-                        customerTargetPreferencesViewModel.CustomerUserName = actiondata.UserName;
-                        customerTargetPreferencesViewModel.Email = actiondata.Email;
-                        customerTargetPreferencesViewModel.SocialProfileName = actiondata.SocialProfileName;
-                        customerTargetPreferencesViewModel.SPStatus = actiondata.SPStatus;
-                        customerTargetPreferencesViewModel.JVStatus = actiondata.JVBoxStatusName;
-                        customerTargetPreferencesViewModel.NoOfProfile = actiondata.NoOfProfile;
-                        customerTargetPreferencesViewModel.JVName = actiondata.BoxName;
-                        customerTargetPreferencesViewModel.IP = actiondata.ProxyIPNumber;
-                        customerTargetPreferencesViewModel.SocialAccAS = actiondata.SocialAccAs;
-                        customerTargetPreferencesViewModel.VerificationCode = actiondata.VerificationCode;
-                        customerTargetPreferencesViewModel.MPBox = actiondata.JVBoxId;
-                        customerTargetPreferencesViewModel.Notes = actiondata.Comment;
-                        customerTargetPreferencesViewModel.ProxyId = actiondata.ProxyId;
-                        customerTargetPreferencesViewModel.ProxyPort = actiondata.ProxyPort;
-                        customerTargetPreferencesViewModel.IsArchived = actiondata.IsArchived;
+                        CustomerTargetPreferencesViewModel customerTargetPreferencesViewModel = mapper.Map<CustomerTargetPreferencesViewModel>(actiondata);
+
+                        //CustomerTargetPreferencesViewModel customerTargetPreferencesViewModel = new CustomerTargetPreferencesViewModel();
+                        //customerTargetPreferencesViewModel.Preference1 = actiondata.Preference1;
+                        //customerTargetPreferencesViewModel.Preference2 = actiondata.Preference2;
+                        //customerTargetPreferencesViewModel.Preference3 = actiondata.Preference3;
+                        //customerTargetPreferencesViewModel.Preference4 = actiondata.Preference4;
+                        //customerTargetPreferencesViewModel.Preference5 = actiondata.Preference5;
+                        //customerTargetPreferencesViewModel.Preference6 = actiondata.Preference6;
+                        //customerTargetPreferencesViewModel.Preference7 = actiondata.Preference7;
+                        //customerTargetPreferencesViewModel.Preference8 = actiondata.Preference8;
+                        //customerTargetPreferencesViewModel.Preference9 = actiondata.Preference9;
+                        //customerTargetPreferencesViewModel.Preference10 = actiondata.Preference10;
+                        //customerTargetPreferencesViewModel.Country = actiondata.SocialPrefferedCountry;
+                        //customerTargetPreferencesViewModel.InstaUser = actiondata.SocialUsername;
+                        //customerTargetPreferencesViewModel.Id = Convert.ToString(actiondata.CustomerId);
+                        //customerTargetPreferencesViewModel.Status = actiondata.JVBoxStatus;
+                        //customerTargetPreferencesViewModel.UserName = actiondata.SocialUsername;
+                        //customerTargetPreferencesViewModel.InstaPassword = actiondata.SocialPassword;
+                        //customerTargetPreferencesViewModel.City = actiondata.City;
+                        //customerTargetPreferencesViewModel.SPId = actiondata.SocialProfileId.ToString();
+                        //customerTargetPreferencesViewModel.CustomerUserName = actiondata.UserName;
+                        //customerTargetPreferencesViewModel.Email = actiondata.Email;
+                        //customerTargetPreferencesViewModel.SocialProfileName = actiondata.SocialProfileName;
+                        //customerTargetPreferencesViewModel.SPStatus = actiondata.SPStatus;
+                        //customerTargetPreferencesViewModel.JVStatus = actiondata.JVBoxStatusName;
+                        //customerTargetPreferencesViewModel.NoOfProfile = actiondata.NoOfProfile;
+                        //customerTargetPreferencesViewModel.JVName = actiondata.BoxName;
+                        //customerTargetPreferencesViewModel.IP = actiondata.ProxyIPNumber;
+                        //customerTargetPreferencesViewModel.SocialAccAS = actiondata.SocialAccAs;
+                        //customerTargetPreferencesViewModel.VerificationCode = actiondata.VerificationCode;
+                        //customerTargetPreferencesViewModel.MPBox = actiondata.JVBoxId;
+                        //customerTargetPreferencesViewModel.Notes = actiondata.Comment;
+                        //customerTargetPreferencesViewModel.ProxyId = actiondata.ProxyId;
+                        //customerTargetPreferencesViewModel.ProxyPort = actiondata.ProxyPort;
+                        //customerTargetPreferencesViewModel.IsArchived = actiondata.IsArchived;
                         return customerTargetPreferencesViewModel;
                     }
                     return null;
@@ -631,7 +556,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     //-- TODO: Change proper sp
                     var actiondata = _db.SG2_usp_Get_SpecificCustomerDetail(CustomerId, profileId).FirstOrDefault();
@@ -641,9 +566,9 @@ namespace SG2.CORE.DAL.Repositories
                         customerDetailViewModel.Id = Convert.ToString(actiondata.Id);
                         customerDetailViewModel.FirstName = actiondata.FirstName;
                         customerDetailViewModel.InstaUsrName = actiondata.InstaUsrName;
-                        customerDetailViewModel.IPNo = Convert.ToString(actiondata.IPNO);
-                        customerDetailViewModel.JVBoxNo = actiondata.JVBoxNo;
-                        customerDetailViewModel.JVStatus = actiondata.JVStatus;
+                        //customerDetailViewModel.IPNo = Convert.ToString(actiondata.IPNO);
+                        //customerDetailViewModel.JVBoxNo = actiondata.JVBoxNo;
+                        //customerDetailViewModel.JVStatus = actiondata.JVStatus;
                         customerDetailViewModel.LastName = actiondata.LastName;
                         customerDetailViewModel.Mobile = actiondata.Mobile;
                         customerDetailViewModel.Name = actiondata.Name;
@@ -653,7 +578,7 @@ namespace SG2.CORE.DAL.Repositories
                         customerDetailViewModel.Register = actiondata.Register;
                         customerDetailViewModel.ResTeamMember = actiondata.ResTeamMember;
                         customerDetailViewModel.Source = actiondata.Source;
-                        customerDetailViewModel.Status = actiondata.Status;
+                        //customerDetailViewModel.Status = actiondata.Status;
                         customerDetailViewModel.Tel = actiondata.Tel;
                         customerDetailViewModel.Title = actiondata.Title;
                         customerDetailViewModel.City = actiondata.City;
@@ -669,7 +594,7 @@ namespace SG2.CORE.DAL.Repositories
                         customerDetailViewModel.SocialProfileName = actiondata.SocialProfileName;
                         customerDetailViewModel.CustomerStatus = actiondata.CustomerStatus.ToString();
                         customerDetailViewModel.IsArchived = actiondata.IsArchived;
-                        customerDetailViewModel.ProxyPort = actiondata.ProxyPort;
+                        //customerDetailViewModel.ProxyPort = actiondata.ProxyPort;
                         return customerDetailViewModel;
                     }
                     return null;
@@ -689,9 +614,9 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
-                    var PrdDdata = _db.SG2_usp_Get_Product();
+                    var PrdDdata = _db.PaymentPlans;
                     if (PrdDdata != null)
                     {
                         List<ProductDTO> productDTOsList = new List<ProductDTO>();
@@ -699,8 +624,8 @@ namespace SG2.CORE.DAL.Repositories
                         foreach (var item in PrdDdata)
                         {
                             ProductDTO productDTO = new ProductDTO();
-                            productDTO.Name = item.Name;
-                            productDTO.StripePlanId = item.StripeSubscriptionId;
+                            productDTO.Name = item.PlanName;
+                            productDTO.StripePlanId = item.StripePlanId;
                             productDTOsList.Add(productDTO);
                         }
                         return productDTOsList;
@@ -720,10 +645,10 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     //-- TODO: Change Proper SP
-                    var Customers = _db.SG2_Get_AllCustomers().ToList();
+                    var Customers = _db.Customers.ToList();
                     if (Customers != null)
                     {
                         List<CustomerDTO> customerDTOs = new List<CustomerDTO>();
@@ -732,7 +657,7 @@ namespace SG2.CORE.DAL.Repositories
                             CustomerDTO customerDTO = new CustomerDTO();
 
                             customerDTO.CustomerId = item.CustomerId;
-                            customerDTO.FirstName = item.CustomerName;
+                            customerDTO.FirstName = item.FirstName + ' '  + item.SurName;
                             customerDTOs.Add(customerDTO);
 
 
@@ -756,7 +681,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     //-- TODO: Change SP to proper name and
                     var usrHData = _db.SG2_usp_Get_CustomerOrderHistory(id, SPId, PageNumber, PageSize).ToList();
@@ -779,7 +704,7 @@ namespace SG2.CORE.DAL.Repositories
                             orderHistoryViewModel.SusrName = item.SProfileUsrName;
                             orderHistoryViewModel.UserName = item.UserName;
                             orderHistoryViewModel.Email = item.Email;
-                            orderHistoryViewModel.JVStatus = item.JVBoxStatus;
+                            //orderHistoryViewModel.JVStatus = item.JVBoxStatus;
                             orderHistoryViewModels.Add(orderHistoryViewModel);
                         }
                         return orderHistoryViewModels;
@@ -799,7 +724,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     //-- TODO: Change proper sp
                     var usrdata = _db.SG2_usp_GetUserDetailsForbackOffice(SearchCriteria, PageNumber, PageSize, Status, (ProductId), JVStatus, Subscription).ToList();
@@ -838,7 +763,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     //-- TODO: Change sp to propername
                     var usr = _db.SG2_usp_Login_Customers(username, password, username, username, statusId).FirstOrDefault();
@@ -859,7 +784,7 @@ namespace SG2.CORE.DAL.Repositories
                             IsOptedMarketingEmail = Convert.ToBoolean(usr.IsOptedMarketingEmail),
                             StatusId = usr.StatusId,
                             StripeSubscriptionId = usr.StripeSubscriptionId,
-                            DefaultSocialProfileId = usr.DefaultSocialProfileId
+                            //DefaultSocialProfileId = usr.DefaultSocialProfileId
                         };
                         return cst;
                     }
@@ -876,12 +801,16 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
-                    var usr = _db.SG2_usp_Customer_ScheduleCall(customerId, schedule, notes);
-                    if (usr != null)
+
+                    var contact = _db.Customer_ContactDetail.Where(g => g.CustomerId == customerId).FirstOrDefault();
+                    
+                    if (contact != null)
                     {
-                        return true;
+                        contact.Notes = notes;
+                        contact.ScheduleCallDate = schedule;
+                        _db.SaveChanges();
                     }
                     return false;
                 }
@@ -899,9 +828,9 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
-                    var cus = _db.SG2_Customer.FirstOrDefault(x => x.CustomerId == CustomerId);
+                    var cus = _db.Customers.FirstOrDefault(x => x.CustomerId == CustomerId);
                     if (cus != null)
                     {
                         cus.StripeCustomerId = StripCustomerId;
@@ -921,7 +850,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var usr = _db.SG2_usp_Customers_Get(CustomerId).FirstOrDefault();
                     if (usr != null)
@@ -955,7 +884,7 @@ namespace SG2.CORE.DAL.Repositories
 
         public async Task<SubscriptionDTO> InsertSubscription(SubscriptionDTO subscriptionDTO)
         {
-            using (var _db = new SocialGrowth2Entities())
+            using (var _db = new SocialGrowth2Connection())
             {
                 try
                 {
@@ -981,13 +910,13 @@ namespace SG2.CORE.DAL.Repositories
         //TODO: Not usable
         public void UpdateSubscription(SubscriptionDTO subscriptionDTO)
         {
-            using (var _db = new SocialGrowth2Entities())
+            using (var _db = new SocialGrowth2Connection())
             {
 
-                SG2_SocialProfile_Subscription subscription = new SG2_SocialProfile_Subscription();
+                SocialProfile_Subscription subscription = new SocialProfile_Subscription();
 
                 var query =
-               from sub in _db.SG2_SocialProfile_Subscription
+               from sub in _db.SocialProfile_Subscription
                where sub.SubscriptionId == subscriptionDTO.SubscriptionId
                select sub;
 
@@ -1021,13 +950,13 @@ namespace SG2.CORE.DAL.Repositories
         
         public void UpdateSubscriptionStatus(int subscriptionId, int statusId)
         {
-            using (var _db = new SocialGrowth2Entities())
+            using (var _db = new SocialGrowth2Connection())
             {
 
-                SG2_SocialProfile_Subscription subscription = new SG2_SocialProfile_Subscription();
+                SocialProfile_Subscription subscription = new SocialProfile_Subscription();
 
                 var query =
-               from sub in _db.SG2_SocialProfile_Subscription
+               from sub in _db.SocialProfile_Subscription
                where sub.SubscriptionId == subscriptionId
                      && sub.StatusId == (int)GlobalEnums.PlanSubscription.Active
                select sub;
@@ -1054,12 +983,12 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                SG2_SocialProfile_Subscription sub = new SG2_SocialProfile_Subscription();
-                using (var _db = new SocialGrowth2Entities())
+                SocialProfile_Subscription sub = new SocialProfile_Subscription();
+                using (var _db = new SocialGrowth2Connection())
                 {
 
                     var query =
-                   from subscription in _db.SG2_SocialProfile_Subscription
+                   from subscription in _db.SocialProfile_Subscription
                    where subscription.SocialProfileId == SocialProfileId
                    && subscription.StatusId == 25 // Active Subscription 
                    select subscription;
@@ -1093,7 +1022,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var usr = _db.SG2_usp_Customer_SignUpCustomerWithPreference(entity.FirstName, entity.Lastname, entity.EmailAddress, entity.Password, entity.GUID, entity.LastLoginIP, entity.Preference1, entity.Preference2, entity.Preference3, entity.Preference4, entity.Preference5, entity.Preference6, int.Parse(entity.PreferLocation), entity.StatusId).FirstOrDefault();
                     if (usr != null)
@@ -1124,9 +1053,9 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
-                    var cust = _db.SG2_SocialProfile.FirstOrDefault(x => x.SocialProfileId == socialProfileId);//TODO add SocialProfileId
+                    var cust = _db.SocialProfile.FirstOrDefault(x => x.SocialProfileId == socialProfileId);//TODO add SocialProfileId
                     if (cust != null)
                     {
                         return (cust.SocialPrefferedCity);
@@ -1146,7 +1075,7 @@ namespace SG2.CORE.DAL.Repositories
             try
             {
                 List<CustomerSocialProfileDTO> profiles = null;
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var profs = _db.SG2_usp_Customer_GetSocialProfilesByCustomerId(customerId).ToList();
                     if (profs != null)
@@ -1184,13 +1113,13 @@ namespace SG2.CORE.DAL.Repositories
 
         public SubscriptionDTO GetLastCancelledSubscription(int profileId,  DateTime dateTime)
         {
-            SG2_SocialProfile_Subscription sub = new SG2_SocialProfile_Subscription();
+            SocialProfile_Subscription sub = new SocialProfile_Subscription();
           
-            using (var _db = new SocialGrowth2Entities())
+            using (var _db = new SocialGrowth2Connection())
             {
                 
                 var query =
-               from subscription in _db.SG2_SocialProfile_Subscription
+               from subscription in _db.SocialProfile_Subscription
                where subscription.SocialProfileId == profileId
                      && subscription.StatusId == (int)GlobalEnums.PlanSubscription.canceled
                select subscription;
@@ -1223,7 +1152,7 @@ namespace SG2.CORE.DAL.Repositories
             try
             {
                 CustomerTargetProfileDTO targetProfile = null;
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var prof = _db.SG2_usp_Customer_GetSocialProfileById(profileId).FirstOrDefault();
                     if (prof != null)
@@ -1285,312 +1214,312 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
-        public async Task<bool> SetSocialProfileJVStatus(int profileId, int jvStatusId, string updatedBy)
-        {
-            try
-            {
-                using (var _db = new SocialGrowth2Entities())
-                {
-                    var socialProfile = _db.SG2_SocialProfile.FirstOrDefault(m => m.SocialProfileId == profileId);
+        //public async Task<bool> SetSocialProfileJVStatus(int profileId, int jvStatusId, string updatedBy)
+        //{
+        //    try
+        //    {
+        //        using (var _db = new SocialGrowth2Connection())
+        //        {
+        //            var socialProfile = _db.SocialProfile.FirstOrDefault(m => m.SocialProfileId == profileId);
 
-                    int? JVBoxStatus = socialProfile.JVBoxStatusId;
-                    int? JVBoxId = socialProfile.JVBoxId;
+        //            int? JVBoxStatus = socialProfile.JVBoxStatusId;
+        //            int? JVBoxId = socialProfile.JVBoxId;
 
-                    if (socialProfile != null)
-                    {
-                        if (jvStatusId == 0)
-                            socialProfile.JVBoxStatusId = null;
-                        else
-                            socialProfile.JVBoxStatusId = jvStatusId;
-                        socialProfile.UpdatedBy = updatedBy;
-                        socialProfile.UpdatedOn = DateTime.Now;
-                        await _db.SaveChangesAsync();
+        //            if (socialProfile != null)
+        //            {
+        //                if (jvStatusId == 0)
+        //                    socialProfile.JVBoxStatusId = null;
+        //                else
+        //                    socialProfile.JVBoxStatusId = jvStatusId;
+        //                socialProfile.UpdatedBy = updatedBy;
+        //                socialProfile.UpdatedOn = DateTime.Now;
+        //                await _db.SaveChangesAsync();
 
-                    }
+        //            }
 
-                    if (JVBoxStatus != null)
-                    {
-                        var SPH = _db.Set<SG2_SocialProfile_StatusHistory>();
-                        SPH.Add(new SG2_SocialProfile_StatusHistory { JVBoxStatusId = JVBoxStatus, JVBoxId = JVBoxId, CreatedDate = DateTime.Now, SocialProfileId = profileId });
+        //            if (JVBoxStatus != null)
+        //            {
+        //                var SPH = _db.Set<SocialProfile_StatusHistory>();
+        //                SPH.Add(new SG2_SocialProfile_StatusHistory { JVBoxStatusId = JVBoxStatus, JVBoxId = JVBoxId, CreatedDate = DateTime.Now, SocialProfileId = profileId });
 
-                        await _db.SaveChangesAsync();
-                        return true;
-                    }
-                    return false;
-                }
-            }
-            catch (Exception)
-            {
+        //                await _db.SaveChangesAsync();
+        //                return true;
+        //            }
+        //            return false;
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
 
-                throw;
-            }
-        }
+        //        throw;
+        //    }
+        //}
 
-        public async Task<bool> UpdateSPNoOfAttempt(int profileId, short NoOfAttempt, DateTime JVAttemptsBlockedTill)
-        {
-            try
-            {
-                using (var _db = new SocialGrowth2Entities())
-                {
-                    var SP = _db.SG2_SocialProfile.FirstOrDefault(x => x.SocialProfileId == profileId);
-                    if (SP != null)
-                    {
-                        SP.JVAttempts = NoOfAttempt;
-                        SP.JVAttemptsBlockedTill = JVAttemptsBlockedTill;
-                        SP.UpdatedOn = DateTime.Now;
-                        await _db.SaveChangesAsync();
-                        return true;
-                    }
-                    return false;
+        //public async Task<bool> UpdateSPNoOfAttempt(int profileId, short NoOfAttempt, DateTime JVAttemptsBlockedTill)
+        //{
+        //    try
+        //    {
+        //        using (var _db = new SocialGrowth2Connection())
+        //        {
+        //            var SP = _db.SG2_SocialProfile.FirstOrDefault(x => x.SocialProfileId == profileId);
+        //            if (SP != null)
+        //            {
+        //                SP.JVAttempts = NoOfAttempt;
+        //                SP.JVAttemptsBlockedTill = JVAttemptsBlockedTill;
+        //                SP.UpdatedOn = DateTime.Now;
+        //                await _db.SaveChangesAsync();
+        //                return true;
+        //            }
+        //            return false;
 
-                }
-            }
-            catch (Exception ex)
-            {
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                throw ex;
-            }
-        }
+        //        throw ex;
+        //    }
+        //}
 
-        public async Task<bool> SetTargetPreferenceQueueStatus(int profileId, short queueStatus, string updatedBy)
-        {
-            try
-            {
-                using (var _db = new SocialGrowth2Entities())
-                {
-                    var SP = _db.SG2_SocialProfile_TargetingInformation.FirstOrDefault(x => x.SocialProfileId == profileId);
-                    if (SP != null)
-                    {
-                        SP.UpdatedBy = updatedBy;
-                        SP.UpdatedOn = DateTime.Now;
-                        SP.QueueStatus = queueStatus;
+        //public async Task<bool> SetTargetPreferenceQueueStatus(int profileId, short queueStatus, string updatedBy)
+        //{
+        //    try
+        //    {
+        //        using (var _db = new SocialGrowth2Connection())
+        //        {
+        //            var SP = _db.SG2_SocialProfile_TargetingInformation.FirstOrDefault(x => x.SocialProfileId == profileId);
+        //            if (SP != null)
+        //            {
+        //                SP.UpdatedBy = updatedBy;
+        //                SP.UpdatedOn = DateTime.Now;
+        //                SP.QueueStatus = queueStatus;
 
-                        await _db.SaveChangesAsync();
-                        return true;
-                    }
-                    return false;
+        //                await _db.SaveChangesAsync();
+        //                return true;
+        //            }
+        //            return false;
 
-                }
-            }
-            catch (Exception ex)
-            {
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                throw ex;
-            }
-        }
+        //        throw ex;
+        //    }
+        //}
 
-        public async Task<bool> SetTargetPreferenceLikeyStatus(int profileId, short jvLikeyStatus, int JVNoOfLikes, string updatedBy)
-        {
-            try
-            {
-                using (var _db = new SocialGrowth2Entities())
-                {
-                    var SP = _db.SG2_SocialProfile_TargetingInformation.FirstOrDefault(x => x.SocialProfileId == profileId);
-                    if (SP != null)
-                    {
-                        SP.JVLikeyStatus = jvLikeyStatus;
-                        SP.JVNoOfLikes = JVNoOfLikes;
+        //public async Task<bool> SetTargetPreferenceLikeyStatus(int profileId, short jvLikeyStatus, int JVNoOfLikes, string updatedBy)
+        //{
+        //    try
+        //    {
+        //        using (var _db = new SocialGrowth2Connection())
+        //        {
+        //            var SP = _db.SocialProfile_Instagram_TargetingInformation.FirstOrDefault(x => x.SocialProfileId == profileId);
+        //            if (SP != null)
+        //            {
+        //                SP.JVLikeyStatus = jvLikeyStatus;
+        //                SP.JVNoOfLikes = JVNoOfLikes;
 
-                        await _db.SaveChangesAsync();
-                        return true;
-                    }
-                    return false;
+        //                await _db.SaveChangesAsync();
+        //                return true;
+        //            }
+        //            return false;
 
-                }
-            }
-            catch (Exception ex)
-            {
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                throw ex;
-            }
-        }
+        //        throw ex;
+        //    }
+        //}
 
-        public bool UpdateJVStatus(int profileId, int? jvStatus = null)
-        {
-            try
-            {
-                using (var _db = new SocialGrowth2Entities())
-                {
-                    var SP = _db.SG2_SocialProfile.FirstOrDefault(x => x.SocialProfileId == profileId);
-                    if (SP != null)
-                    {
-                        SP.UpdatedOn = DateTime.Now;
-                        SP.JVBoxStatusId = jvStatus;
+        //public bool UpdateJVStatus(int profileId, int? jvStatus = null)
+        //{
+        //    try
+        //    {
+        //        using (var _db = new SocialGrowth2Connection())
+        //        {
+        //            var SP = _db.SG2_SocialProfile.FirstOrDefault(x => x.SocialProfileId == profileId);
+        //            if (SP != null)
+        //            {
+        //                SP.UpdatedOn = DateTime.Now;
+        //                SP.JVBoxStatusId = jvStatus;
 
-                        _db.SaveChanges();
-                        return true;
-                    }
-                    return false;
+        //                _db.SaveChanges();
+        //                return true;
+        //            }
+        //            return false;
 
-                }
-            }
-            catch (Exception ex)
-            {
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                throw ex;
-            }
-        }
+        //        throw ex;
+        //    }
+        //}
 
-        public bool UpdateMPBox(int profileId, int? MPBox)
-        {
-            try
-            {
-                using (var _db = new SocialGrowth2Entities())
-                {
-                    var SP = _db.SG2_SocialProfile.FirstOrDefault(x => x.SocialProfileId == profileId);
-                    if (SP != null && SP.JVBoxId != MPBox)
-                    {
-                        SP.UpdatedOn = DateTime.Now;
-                        SP.JVBoxId = MPBox;
+        //public bool UpdateMPBox(int profileId, int? MPBox)
+        //{
+        //    try
+        //    {
+        //        using (var _db = new SocialGrowth2Connection())
+        //        {
+        //            var SP = _db.SG2_SocialProfile.FirstOrDefault(x => x.SocialProfileId == profileId);
+        //            if (SP != null && SP.JVBoxId != MPBox)
+        //            {
+        //                SP.UpdatedOn = DateTime.Now;
+        //                SP.JVBoxId = MPBox;
 
-                        _db.SaveChanges();
-                        return true;
-                    }
-                    return false;
+        //                _db.SaveChanges();
+        //                return true;
+        //            }
+        //            return false;
 
-                }
-            }
-            catch (Exception ex)
-            {
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                throw ex;
-            }
-        }
+        //        throw ex;
+        //    }
+        //}
 
-        public bool UpdateProxyIp(int profileId, int? proxyIp = null)
-        {
-            try
-            {
-                using (var _db = new SocialGrowth2Entities())
-                {
-                    var SP = _db.SG2_usp_ProxyMapping_Insert(profileId, proxyIp);
+        //public bool UpdateProxyIp(int profileId, int? proxyIp = null)
+        //{
+        //    try
+        //    {
+        //        using (var _db = new SocialGrowth2Connection())
+        //        {
+        //            var SP = _db.SG2_usp_ProxyMapping_Insert(profileId, proxyIp);
 
-                    return true;
+        //            return true;
 
 
-                }
-            }
-            catch (Exception ex)
-            {
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                throw ex;
-            }
-        }
-
-        //--TODO: Move to specific repository
-        public List<JVBoxDTO> GetMPBoxes()
-        {
-            try
-            {
-                using (var _db = new SocialGrowth2Entities())
-                {
-                    List<JVBoxDTO> mPBoxDTOs = new List<JVBoxDTO>();
-                    var MPBoxes = _db.SG2_usp_Get_AvailableMPBoxes();
-                    if (MPBoxes != null)
-                    {
-                        foreach (var item in MPBoxes)
-                        {
-                            JVBoxDTO mPBoxDTO = new JVBoxDTO();
-                            mPBoxDTO.BoxName = item.BoxName;
-                            mPBoxDTO.JVBoxId = item.JVBoxId;
-                            mPBoxDTOs.Add(mPBoxDTO);
-                        }
-                        return mPBoxDTOs;
-
-                    }
-                    return null;
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
+        //        throw ex;
+        //    }
+        //}
 
         //--TODO: Move to specific repository
-        public List<ProxyIPDTO> GetProxyIPs(int CountryId, int CityId)
-        {
-            try
-            {
-                using (var _db = new SocialGrowth2Entities())
-                {
-                    List<ProxyIPDTO> ProxyIPDTOs = new List<ProxyIPDTO>();
-                    var proxy = _db.SG2_usp_Get_AvailableProxies(CountryId, CityId);
-                    if (proxy != null)
-                    {
-                        foreach (var item in proxy)
-                        {
-                            ProxyIPDTO PIPD = new ProxyIPDTO();
-                            PIPD.ProxyId = item.ProxyId;
-                            PIPD.ProxyNumber = item.ProxyIPNumber;
-                            ProxyIPDTOs.Add(PIPD);
-                        }
-                        return ProxyIPDTOs;
+        //public List<JVBoxDTO> GetMPBoxes()
+        //{
+        //    try
+        //    {
+        //        using (var _db = new SocialGrowth2Connection())
+        //        {
+        //            List<JVBoxDTO> mPBoxDTOs = new List<JVBoxDTO>();
+        //            var MPBoxes = _db.SG2_usp_Get_AvailableMPBoxes();
+        //            if (MPBoxes != null)
+        //            {
+        //                foreach (var item in MPBoxes)
+        //                {
+        //                    JVBoxDTO mPBoxDTO = new JVBoxDTO();
+        //                    mPBoxDTO.BoxName = item.BoxName;
+        //                    mPBoxDTO.JVBoxId = item.JVBoxId;
+        //                    mPBoxDTOs.Add(mPBoxDTO);
+        //                }
+        //                return mPBoxDTOs;
 
-                    }
-                    return null;
-                }
+        //            }
+        //            return null;
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
 
-            }
-            catch (Exception)
-            {
+        //        throw;
+        //    }
+        //}
 
-                throw;
-            }
+        ////--TODO: Move to specific repository
+        //public List<ProxyIPDTO> GetProxyIPs(int CountryId, int CityId)
+        //{
+        //    try
+        //    {
+        //        using (var _db = new SocialGrowth2Connection())
+        //        {
+        //            List<ProxyIPDTO> ProxyIPDTOs = new List<ProxyIPDTO>();
+        //            var proxy = _db.SG2_usp_Get_AvailableProxies(CountryId, CityId);
+        //            if (proxy != null)
+        //            {
+        //                foreach (var item in proxy)
+        //                {
+        //                    ProxyIPDTO PIPD = new ProxyIPDTO();
+        //                    PIPD.ProxyId = item.ProxyId;
+        //                    PIPD.ProxyNumber = item.ProxyIPNumber;
+        //                    ProxyIPDTOs.Add(PIPD);
+        //                }
+        //                return ProxyIPDTOs;
 
-        }
+        //            }
+        //            return null;
+        //        }
 
-        public bool UpdateNoOfAttempts(int profileId, int noOfAttempts)
-        {
-            try
-            {
-                using (var _db = new SocialGrowth2Entities())
-                {
-                    var cust = _db.SG2_SocialProfile.FirstOrDefault(x => x.SocialProfileId == profileId);
-                    if (cust != null)
-                    {
-                        cust.JVAttempts = (Int16) noOfAttempts;
-                        cust.UpdatedBy = "MP Bot";
-                        cust.UpdatedOn = DateTime.Now;
-                        _db.SaveChanges();
-                        return true;
-                    }
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
+        //    }
+        //    catch (Exception)
+        //    {
 
-                throw ex;
-            }
-        }
+        //        throw;
+        //    }
 
-        public bool BlockProfile24Hrs(int profileId, int noOfAttempts)
-        {
-            try
-            {
-                using (var _db = new SocialGrowth2Entities())
-                {
-                    var cust = _db.SG2_SocialProfile.FirstOrDefault(x => x.SocialProfileId == profileId);
-                    if (cust != null)
-                    {
-                        cust.JVAttempts = (Int16)noOfAttempts;
-                        cust.UpdatedBy = "MP Bot";
-                        cust.UpdatedOn = DateTime.Now;
-                        cust.JVAttemptsBlockedTill = DateTime.Now.AddDays(1);
-                        _db.SaveChanges();
-                        return true;
-                    }
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
+        //}
 
-                throw ex;
-            }
-        }
+        //public bool UpdateNoOfAttempts(int profileId, int noOfAttempts)
+        //{
+        //    try
+        //    {
+        //        using (var _db = new SocialGrowth2Connection())
+        //        {
+        //            var cust = _db.SG2_SocialProfile.FirstOrDefault(x => x.SocialProfileId == profileId);
+        //            if (cust != null)
+        //            {
+        //                cust.JVAttempts = (Int16) noOfAttempts;
+        //                cust.UpdatedBy = "MP Bot";
+        //                cust.UpdatedOn = DateTime.Now;
+        //                _db.SaveChanges();
+        //                return true;
+        //            }
+        //            return false;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+        //}
+
+        //public bool BlockProfile24Hrs(int profileId, int noOfAttempts)
+        //{
+        //    try
+        //    {
+        //        using (var _db = new SocialGrowth2Connection())
+        //        {
+        //            var cust = _db.SG2_SocialProfile.FirstOrDefault(x => x.SocialProfileId == profileId);
+        //            if (cust != null)
+        //            {
+        //                cust.JVAttempts = (Int16)noOfAttempts;
+        //                cust.UpdatedBy = "MP Bot";
+        //                cust.UpdatedOn = DateTime.Now;
+        //                cust.JVAttemptsBlockedTill = DateTime.Now.AddDays(1);
+        //                _db.SaveChanges();
+        //                return true;
+        //            }
+        //            return false;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+        //}
 
     }
 }

@@ -15,7 +15,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
 
                     _db.SG2_usp_SystemUser_Save(entity.SystemUserId, entity.Title, entity.FirstName, entity.LastName, entity.Email, entity.SystemRoleId,entity.Password,entity.StatusId,entity.CreatedOn,entity.CreatedBy,entity.ModifiedOn,entity.ModifiedBy);
@@ -32,7 +32,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     _db.SG2_usp_SystemUser_Save(entity.SystemUserId, entity.Title,entity.FirstName, entity.LastName, entity.Email, entity.SystemRoleId, entity.Password, entity.StatusId, entity.CreatedOn, entity.CreatedBy, entity.ModifiedOn, entity.ModifiedBy);
                     return entity;
@@ -49,7 +49,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var user = _db.SG2_usp_SystemUser_GetById(SystemUserId).FirstOrDefault();
                     if (user != null)
@@ -86,7 +86,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var teamMemberdata = _db.SG2_usp_SystemUser_GetAll(SearchCriteria, PageNumber, PageSize, StatusId).ToList();
                     if (teamMemberdata != null)
@@ -121,7 +121,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var roleList = _db.SG2_usp_SystemRole_AllRole().ToList();
                     if (roleList != null)
@@ -149,7 +149,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
 
                     if (id == 0) return !_db.SG2_SystemUser.Any(u => u.Email.Equals(email));
@@ -171,7 +171,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var user = _db.SG2_usp_SystemUser_Login(Email, Password).FirstOrDefault();
                     if (user != null)
@@ -209,7 +209,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var usr = _db.SG2_SystemUser.FirstOrDefault(x => x.SystemUserId == systemUserId);
                     if (usr != null)

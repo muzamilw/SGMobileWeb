@@ -10,13 +10,11 @@
 namespace SG2.CORE.DAL.DB
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class SG2_usp_SystemConfig_GetAll_Result
+    public partial class Customer_Title
     {
-        public short ConfigId { get; set; }
-        public string ConfigKey { get; set; }
-        public string ConfigValue1 { get; set; }
-        public string ConfigValue2 { get; set; }
-        public Nullable<int> TotalRecord { get; set; }
+        public int PkTitleId { get; set; }
+        public string TitleName { get; set; }
     }
 }
