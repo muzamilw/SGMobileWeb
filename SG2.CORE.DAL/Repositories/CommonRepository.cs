@@ -83,7 +83,7 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db=new SocialGrowth2Connection())
                 {
-                    var user = _db.SG2_usp_Get_AllUser1();
+                    var user = _db.SG2_usp_Get_AllUser();
                     if (user != null)
                     {
                         return user.Select(c => new UserDTO()

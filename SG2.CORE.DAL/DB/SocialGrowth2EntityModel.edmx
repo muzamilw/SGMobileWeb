@@ -462,6 +462,12 @@
           <Parameter Name="riCustomerId" Type="int" Mode="In" />
           <Parameter Name="riSocialProfileId" Type="int" Mode="In" />
         </Function>
+        <Function Name="SG2_usp_Customer_GetSocialProfileById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="riSocialProfileId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SG2_usp_Customer_GetSocialProfilesByCustomerId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CustomerId" Type="int" Mode="In" />
+        </Function>
         <Function Name="SG2_usp_Customer_ProfileUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="iCustomerId" Type="int" Mode="In" />
           <Parameter Name="rvcUserName" Type="nvarchar" Mode="In" />
@@ -755,6 +761,13 @@
             <Parameter Name="iPreference6" Mode="In" Type="Int32" />
             <Parameter Name="rvcCity" Mode="In" Type="Int32" />
             <Parameter Name="rvcStatusId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SG2_usp_Get_AllUser" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Get_AllUser_Result)" />
+          <FunctionImport Name="SG2_usp_Customer_GetSocialProfilesByCustomerId" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Customer_GetSocialProfilesByCustomerId_Result)">
+          <Parameter Name="CustomerId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SG2_usp_Customer_GetSocialProfileById" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Customer_GetSocialProfileById_Result)">
+            <Parameter Name="riSocialProfileId" Mode="In" Type="Int32" />
           </FunctionImport>
           
         </EntityContainer>
@@ -1585,6 +1598,139 @@
           <Property Type="String" Name="StripeCustomerId" Nullable="true" />
           <Property Type="Int32" Name="SocialProfileId" Nullable="false" />
         </ComplexType>
+        <ComplexType Name="SG2_usp_Get_AllUser_Result">
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SG2_usp_Customer_GetSocialProfilesByCustomerId_Result">
+          <Property Type="Int32" Name="SocialProfileId" Nullable="false" />
+          <Property Type="Int32" Name="CustomerId" Nullable="true" />
+          <Property Type="Int32" Name="SocialProfileTypeId" Nullable="true" />
+          <Property Type="Int32" Name="StatusId" Nullable="true" />
+          <Property Type="Int32" Name="StripeCustomerId" Nullable="true" />
+          <Property Type="String" Name="SocialUsername" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="SocialPassword" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ProfileName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="StatusName" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="SocialProfileTypeName" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="SubscriptionStatus" Nullable="false" MaxLength="7" />
+          <Property Type="String" Name="SubscriptionName" Nullable="true" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="SG2_usp_Customer_GetSocialProfileById_Result">
+          <Property Type="Int32" Name="TargetingInformationId" Nullable="false" />
+          <Property Type="Int32" Name="SocialProfileId" Nullable="true" />
+          <Property Type="Boolean" Name="IsSystem" Nullable="true" />
+          <Property Type="Boolean" Name="FollowOn" Nullable="true" />
+          <Property Type="Boolean" Name="LikeOn" Nullable="true" />
+          <Property Type="Boolean" Name="UnFollowOn" Nullable="true" />
+          <Property Type="Boolean" Name="StoryViewerOn" Nullable="true" />
+          <Property Type="Boolean" Name="ContactMembersOn" Nullable="true" />
+          <Property Type="String" Name="HashTagsToEngage" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="HashTagsToNotEngage" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="LocationsToEngage" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="GenderEngagmentPref" Nullable="true" />
+          <Property Type="Boolean" Name="IncludeBusinessAccounts" Nullable="true" />
+          <Property Type="Boolean" Name="MonOper" Nullable="true" />
+          <Property Type="Boolean" Name="TueOper" Nullable="true" />
+          <Property Type="Boolean" Name="WedOper" Nullable="true" />
+          <Property Type="Boolean" Name="ThuOper" Nullable="true" />
+          <Property Type="Boolean" Name="FriOper" Nullable="true" />
+          <Property Type="Boolean" Name="SatOper" Nullable="true" />
+          <Property Type="Boolean" Name="SunOper" Nullable="true" />
+          <Property Type="String" Name="ExecutionIntervals" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="RandomizeIntervalsDaily" Nullable="true" />
+          <Property Type="DateTime" Name="CreatedOn" Nullable="false" Precision="23" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="UpdatedOn" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UpdatedBy" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="SocialAccAs" Nullable="true" />
+          <Property Type="Int32" Name="FollNewPerDayLim" Nullable="true" />
+          <Property Type="Int32" Name="FollDailyIncreaseLim" Nullable="true" />
+          <Property Type="Int32" Name="FollMaxPerDayLim" Nullable="true" />
+          <Property Type="Int32" Name="UnFollNewPerDayLim" Nullable="true" />
+          <Property Type="Int32" Name="UnFollDailyIncreaseLim" Nullable="true" />
+          <Property Type="Int32" Name="UnFollMaxPerDayLim" Nullable="true" />
+          <Property Type="Int32" Name="LikePerDayLim" Nullable="true" />
+          <Property Type="Int32" Name="LikeDailyIncreaseLim" Nullable="true" />
+          <Property Type="Int32" Name="LikeMaxPerDayLim" Nullable="true" />
+          <Property Type="Int32" Name="ViewStoriesPerDayLim" Nullable="true" />
+          <Property Type="Int32" Name="ViewStoriesDailyIncreaseLim" Nullable="true" />
+          <Property Type="Int32" Name="ViewStoriesMaxPerDayLim" Nullable="true" />
+          <Property Type="Int32" Name="CommentPerDayLim" Nullable="true" />
+          <Property Type="Int32" Name="CommentDailyIncreaseLim" Nullable="true" />
+          <Property Type="Int32" Name="CommentMaxPerDayLim" Nullable="true" />
+          <Property Type="Int32" Name="DMPerDayLim" Nullable="true" />
+          <Property Type="Int32" Name="DMDailyIncreaseLim" Nullable="true" />
+          <Property Type="Int32" Name="DMMaxPerDayLim" Nullable="true" />
+          <Property Type="Boolean" Name="FollUserProfileImage" Nullable="true" />
+          <Property Type="Int32" Name="FollUserMinPosts" Nullable="true" />
+          <Property Type="Int32" Name="FollUserPostsLastXDays" Nullable="true" />
+          <Property Type="Boolean" Name="FollUseBlackList" Nullable="true" />
+          <Property Type="Boolean" Name="FollCheckPostsCapBlackList" Nullable="true" />
+          <Property Type="Boolean" Name="FollDoNotFollowPrivateUser" Nullable="true" />
+          <Property Type="Boolean" Name="FollSkipBizAcct" Nullable="true" />
+          <Property Type="Int32" Name="FollDoNotFollowUsernamewithdigits" Nullable="true" />
+          <Property Type="Int32" Name="FollOnlyFollowGender" Nullable="true" />
+          <Property Type="String" Name="FollUserLangs" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="AfterFollLikeuserPosts" Nullable="true" />
+          <Property Type="Int32" Name="AfterFollLikeuserPostsWaitSecsFrom" Nullable="true" />
+          <Property Type="Int32" Name="AfterFollLikeuserPostsWaitSecsTo" Nullable="true" />
+          <Property Type="Boolean" Name="AfterFollCommentUserPosts" Nullable="true" />
+          <Property Type="Boolean" Name="AfterFollViewUserStory" Nullable="true" />
+          <Property Type="Boolean" Name="AfterFollMuteUser" Nullable="true" />
+          <Property Type="Boolean" Name="FollEngageDaily" Nullable="true" />
+          <Property Type="Int32" Name="FollEngageDailyfollCountFrmUnFollowList" Nullable="true" />
+          <Property Type="Boolean" Name="FollEngageLikeRecentPost" Nullable="true" />
+          <Property Type="Boolean" Name="FollEngageEnableLikeCommAfterPostLike" Nullable="true" />
+          <Property Type="Boolean" Name="FollEngageSendDMAfterLike" Nullable="true" />
+          <Property Type="Boolean" Name="FollEngageViewUserStoryAfterLike" Nullable="true" />
+          <Property Type="Boolean" Name="UnFollFollowersAfterMinDays" Nullable="true" />
+          <Property Type="Int32" Name="UnFollFollowersAfterMinDaysVal" Nullable="true" />
+          <Property Type="Boolean" Name="UnFollDoNotUnFollowLikersOfPosts" Nullable="true" />
+          <Property Type="Int32" Name="UnFollDoNotUnFollowLikersOfPostsCount" Nullable="true" />
+          <Property Type="Boolean" Name="UnFollDoNotUnFollowCommThatCommented" Nullable="true" />
+          <Property Type="Int32" Name="UnFollDoNotUnFollowCommThatCommentedCount" Nullable="true" />
+          <Property Type="Boolean" Name="UnFollUseWhiteList" Nullable="true" />
+          <Property Type="Boolean" Name="StorVwOnlyPostXMin" Nullable="true" />
+          <Property Type="Int32" Name="StorVwOnlyPostXMinVal" Nullable="true" />
+          <Property Type="Boolean" Name="StorVwLikeUsrPostRcntPost" Nullable="true" />
+          <Property Type="Int32" Name="StorVwLikeUsrPostRcntPostVal" Nullable="true" />
+          <Property Type="Boolean" Name="StorVwReply" Nullable="true" />
+          <Property Type="Boolean" Name="StorVwSendDMAfterLike" Nullable="true" />
+          <Property Type="Boolean" Name="CommUsrRecentPosts" Nullable="true" />
+          <Property Type="Int32" Name="CommUsrRecentPostsVal" Nullable="true" />
+          <Property Type="Int32" Name="CommUsrRecentPostsTypes" Nullable="true" />
+          <Property Type="Boolean" Name="CommFltrPostsByLikeCount" Nullable="true" />
+          <Property Type="Boolean" Name="CommDelCommAfterXDays" Nullable="true" />
+          <Property Type="Int32" Name="CommDelCommAfterXDaysCount" Nullable="true" />
+          <Property Type="Boolean" Name="DMShowUnReadMsg" Nullable="true" />
+          <Property Type="Boolean" Name="DMShowPendingReq" Nullable="true" />
+          <Property Type="Boolean" Name="LEXLikeUsrMostRecentPosts" Nullable="true" />
+          <Property Type="Int32" Name="LEXLikeUsrMostRecentPostsCount" Nullable="true" />
+          <Property Type="Boolean" Name="LEXUseBlackList" Nullable="true" />
+          <Property Type="Boolean" Name="LEXChkPostCaptionsforBlackList" Nullable="true" />
+          <Property Type="Int32" Name="SocialProfileId1" Nullable="false" />
+          <Property Type="String" Name="SocialProfileName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="SocialUsername" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="SocialPassword" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="SocialProfileTypeId" Nullable="true" />
+          <Property Type="String" Name="SocialProfileType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ProfileStatus" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ProfileStatusId" Nullable="true" />
+          <Property Type="Int32" Name="paymentPlanId" Nullable="true" />
+          <Property Type="String" Name="PlanName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="StripePlanId" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="SubscriptionId" Nullable="true" />
+          <Property Type="DateTime" Name="SubscriptionStartDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="SubscriptionEndDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="SubscriptionStatusId" Nullable="true" />
+          <Property Type="String" Name="SubscriptionStatus" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="StripeSubscriptionId" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="SocialAccAS1" Nullable="true" />
+          <Property Type="String" Name="StripeInvoiceId" Nullable="true" MaxLength="255" />
+          <Property Type="Boolean" Name="IsArchived" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2361,6 +2507,151 @@
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="StripeCustomerId" ColumnName="StripeCustomerId" />
                 <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SG2_usp_Get_AllUser" FunctionName="SocialGrowth2Entities.Store.SG2_usp_Get_AllUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_Get_AllUser_Result">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SG2_usp_Customer_GetSocialProfilesByCustomerId" FunctionName="SocialGrowth2Entities.Store.SG2_usp_Customer_GetSocialProfilesByCustomerId">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_Customer_GetSocialProfilesByCustomerId_Result">
+                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="SocialProfileTypeId" ColumnName="SocialProfileTypeId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="StripeCustomerId" ColumnName="StripeCustomerId" />
+                <ScalarProperty Name="SocialUsername" ColumnName="SocialUsername" />
+                <ScalarProperty Name="SocialPassword" ColumnName="SocialPassword" />
+                <ScalarProperty Name="ProfileName" ColumnName="ProfileName" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="SocialProfileTypeName" ColumnName="SocialProfileTypeName" />
+                <ScalarProperty Name="SubscriptionStatus" ColumnName="SubscriptionStatus" />
+                <ScalarProperty Name="SubscriptionName" ColumnName="SubscriptionName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SG2_usp_Customer_GetSocialProfileById" FunctionName="SocialGrowth2Entities.Store.SG2_usp_Customer_GetSocialProfileById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_Customer_GetSocialProfileById_Result">
+                <ScalarProperty Name="TargetingInformationId" ColumnName="TargetingInformationId" />
+                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
+                <ScalarProperty Name="IsSystem" ColumnName="IsSystem" />
+                <ScalarProperty Name="FollowOn" ColumnName="FollowOn" />
+                <ScalarProperty Name="LikeOn" ColumnName="LikeOn" />
+                <ScalarProperty Name="UnFollowOn" ColumnName="UnFollowOn" />
+                <ScalarProperty Name="StoryViewerOn" ColumnName="StoryViewerOn" />
+                <ScalarProperty Name="ContactMembersOn" ColumnName="ContactMembersOn" />
+                <ScalarProperty Name="HashTagsToEngage" ColumnName="HashTagsToEngage" />
+                <ScalarProperty Name="HashTagsToNotEngage" ColumnName="HashTagsToNotEngage" />
+                <ScalarProperty Name="LocationsToEngage" ColumnName="LocationsToEngage" />
+                <ScalarProperty Name="GenderEngagmentPref" ColumnName="GenderEngagmentPref" />
+                <ScalarProperty Name="IncludeBusinessAccounts" ColumnName="IncludeBusinessAccounts" />
+                <ScalarProperty Name="MonOper" ColumnName="MonOper" />
+                <ScalarProperty Name="TueOper" ColumnName="TueOper" />
+                <ScalarProperty Name="WedOper" ColumnName="WedOper" />
+                <ScalarProperty Name="ThuOper" ColumnName="ThuOper" />
+                <ScalarProperty Name="FriOper" ColumnName="FriOper" />
+                <ScalarProperty Name="SatOper" ColumnName="SatOper" />
+                <ScalarProperty Name="SunOper" ColumnName="SunOper" />
+                <ScalarProperty Name="ExecutionIntervals" ColumnName="ExecutionIntervals" />
+                <ScalarProperty Name="RandomizeIntervalsDaily" ColumnName="RandomizeIntervalsDaily" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="SocialAccAs" ColumnName="SocialAccAs" />
+                <ScalarProperty Name="FollNewPerDayLim" ColumnName="FollNewPerDayLim" />
+                <ScalarProperty Name="FollDailyIncreaseLim" ColumnName="FollDailyIncreaseLim" />
+                <ScalarProperty Name="FollMaxPerDayLim" ColumnName="FollMaxPerDayLim" />
+                <ScalarProperty Name="UnFollNewPerDayLim" ColumnName="UnFollNewPerDayLim" />
+                <ScalarProperty Name="UnFollDailyIncreaseLim" ColumnName="UnFollDailyIncreaseLim" />
+                <ScalarProperty Name="UnFollMaxPerDayLim" ColumnName="UnFollMaxPerDayLim" />
+                <ScalarProperty Name="LikePerDayLim" ColumnName="LikePerDayLim" />
+                <ScalarProperty Name="LikeDailyIncreaseLim" ColumnName="LikeDailyIncreaseLim" />
+                <ScalarProperty Name="LikeMaxPerDayLim" ColumnName="LikeMaxPerDayLim" />
+                <ScalarProperty Name="ViewStoriesPerDayLim" ColumnName="ViewStoriesPerDayLim" />
+                <ScalarProperty Name="ViewStoriesDailyIncreaseLim" ColumnName="ViewStoriesDailyIncreaseLim" />
+                <ScalarProperty Name="ViewStoriesMaxPerDayLim" ColumnName="ViewStoriesMaxPerDayLim" />
+                <ScalarProperty Name="CommentPerDayLim" ColumnName="CommentPerDayLim" />
+                <ScalarProperty Name="CommentDailyIncreaseLim" ColumnName="CommentDailyIncreaseLim" />
+                <ScalarProperty Name="CommentMaxPerDayLim" ColumnName="CommentMaxPerDayLim" />
+                <ScalarProperty Name="DMPerDayLim" ColumnName="DMPerDayLim" />
+                <ScalarProperty Name="DMDailyIncreaseLim" ColumnName="DMDailyIncreaseLim" />
+                <ScalarProperty Name="DMMaxPerDayLim" ColumnName="DMMaxPerDayLim" />
+                <ScalarProperty Name="FollUserProfileImage" ColumnName="FollUserProfileImage" />
+                <ScalarProperty Name="FollUserMinPosts" ColumnName="FollUserMinPosts" />
+                <ScalarProperty Name="FollUserPostsLastXDays" ColumnName="FollUserPostsLastXDays" />
+                <ScalarProperty Name="FollUseBlackList" ColumnName="FollUseBlackList" />
+                <ScalarProperty Name="FollCheckPostsCapBlackList" ColumnName="FollCheckPostsCapBlackList" />
+                <ScalarProperty Name="FollDoNotFollowPrivateUser" ColumnName="FollDoNotFollowPrivateUser" />
+                <ScalarProperty Name="FollSkipBizAcct" ColumnName="FollSkipBizAcct" />
+                <ScalarProperty Name="FollDoNotFollowUsernamewithdigits" ColumnName="FollDoNotFollowUsernamewithdigits" />
+                <ScalarProperty Name="FollOnlyFollowGender" ColumnName="FollOnlyFollowGender" />
+                <ScalarProperty Name="FollUserLangs" ColumnName="FollUserLangs" />
+                <ScalarProperty Name="AfterFollLikeuserPosts" ColumnName="AfterFollLikeuserPosts" />
+                <ScalarProperty Name="AfterFollLikeuserPostsWaitSecsFrom" ColumnName="AfterFollLikeuserPostsWaitSecsFrom" />
+                <ScalarProperty Name="AfterFollLikeuserPostsWaitSecsTo" ColumnName="AfterFollLikeuserPostsWaitSecsTo" />
+                <ScalarProperty Name="AfterFollCommentUserPosts" ColumnName="AfterFollCommentUserPosts" />
+                <ScalarProperty Name="AfterFollViewUserStory" ColumnName="AfterFollViewUserStory" />
+                <ScalarProperty Name="AfterFollMuteUser" ColumnName="AfterFollMuteUser" />
+                <ScalarProperty Name="FollEngageDaily" ColumnName="FollEngageDaily" />
+                <ScalarProperty Name="FollEngageDailyfollCountFrmUnFollowList" ColumnName="FollEngageDailyfollCountFrmUnFollowList" />
+                <ScalarProperty Name="FollEngageLikeRecentPost" ColumnName="FollEngageLikeRecentPost" />
+                <ScalarProperty Name="FollEngageEnableLikeCommAfterPostLike" ColumnName="FollEngageEnableLikeCommAfterPostLike" />
+                <ScalarProperty Name="FollEngageSendDMAfterLike" ColumnName="FollEngageSendDMAfterLike" />
+                <ScalarProperty Name="FollEngageViewUserStoryAfterLike" ColumnName="FollEngageViewUserStoryAfterLike" />
+                <ScalarProperty Name="UnFollFollowersAfterMinDays" ColumnName="UnFollFollowersAfterMinDays" />
+                <ScalarProperty Name="UnFollFollowersAfterMinDaysVal" ColumnName="UnFollFollowersAfterMinDaysVal" />
+                <ScalarProperty Name="UnFollDoNotUnFollowLikersOfPosts" ColumnName="UnFollDoNotUnFollowLikersOfPosts" />
+                <ScalarProperty Name="UnFollDoNotUnFollowLikersOfPostsCount" ColumnName="UnFollDoNotUnFollowLikersOfPostsCount" />
+                <ScalarProperty Name="UnFollDoNotUnFollowCommThatCommented" ColumnName="UnFollDoNotUnFollowCommThatCommented" />
+                <ScalarProperty Name="UnFollDoNotUnFollowCommThatCommentedCount" ColumnName="UnFollDoNotUnFollowCommThatCommentedCount" />
+                <ScalarProperty Name="UnFollUseWhiteList" ColumnName="UnFollUseWhiteList" />
+                <ScalarProperty Name="StorVwOnlyPostXMin" ColumnName="StorVwOnlyPostXMin" />
+                <ScalarProperty Name="StorVwOnlyPostXMinVal" ColumnName="StorVwOnlyPostXMinVal" />
+                <ScalarProperty Name="StorVwLikeUsrPostRcntPost" ColumnName="StorVwLikeUsrPostRcntPost" />
+                <ScalarProperty Name="StorVwLikeUsrPostRcntPostVal" ColumnName="StorVwLikeUsrPostRcntPostVal" />
+                <ScalarProperty Name="StorVwReply" ColumnName="StorVwReply" />
+                <ScalarProperty Name="StorVwSendDMAfterLike" ColumnName="StorVwSendDMAfterLike" />
+                <ScalarProperty Name="CommUsrRecentPosts" ColumnName="CommUsrRecentPosts" />
+                <ScalarProperty Name="CommUsrRecentPostsVal" ColumnName="CommUsrRecentPostsVal" />
+                <ScalarProperty Name="CommUsrRecentPostsTypes" ColumnName="CommUsrRecentPostsTypes" />
+                <ScalarProperty Name="CommFltrPostsByLikeCount" ColumnName="CommFltrPostsByLikeCount" />
+                <ScalarProperty Name="CommDelCommAfterXDays" ColumnName="CommDelCommAfterXDays" />
+                <ScalarProperty Name="CommDelCommAfterXDaysCount" ColumnName="CommDelCommAfterXDaysCount" />
+                <ScalarProperty Name="DMShowUnReadMsg" ColumnName="DMShowUnReadMsg" />
+                <ScalarProperty Name="DMShowPendingReq" ColumnName="DMShowPendingReq" />
+                <ScalarProperty Name="LEXLikeUsrMostRecentPosts" ColumnName="LEXLikeUsrMostRecentPosts" />
+                <ScalarProperty Name="LEXLikeUsrMostRecentPostsCount" ColumnName="LEXLikeUsrMostRecentPostsCount" />
+                <ScalarProperty Name="LEXUseBlackList" ColumnName="LEXUseBlackList" />
+                <ScalarProperty Name="LEXChkPostCaptionsforBlackList" ColumnName="LEXChkPostCaptionsforBlackList" />
+                <ScalarProperty Name="SocialProfileId1" ColumnName="SocialProfileId1" />
+                <ScalarProperty Name="SocialProfileName" ColumnName="SocialProfileName" />
+                <ScalarProperty Name="SocialUsername" ColumnName="SocialUsername" />
+                <ScalarProperty Name="SocialPassword" ColumnName="SocialPassword" />
+                <ScalarProperty Name="SocialProfileTypeId" ColumnName="SocialProfileTypeId" />
+                <ScalarProperty Name="SocialProfileType" ColumnName="SocialProfileType" />
+                <ScalarProperty Name="ProfileStatus" ColumnName="ProfileStatus" />
+                <ScalarProperty Name="ProfileStatusId" ColumnName="ProfileStatusId" />
+                <ScalarProperty Name="paymentPlanId" ColumnName="paymentPlanId" />
+                <ScalarProperty Name="PlanName" ColumnName="PlanName" />
+                <ScalarProperty Name="StripePlanId" ColumnName="StripePlanId" />
+                <ScalarProperty Name="SubscriptionId" ColumnName="SubscriptionId" />
+                <ScalarProperty Name="SubscriptionStartDate" ColumnName="SubscriptionStartDate" />
+                <ScalarProperty Name="SubscriptionEndDate" ColumnName="SubscriptionEndDate" />
+                <ScalarProperty Name="SubscriptionStatusId" ColumnName="SubscriptionStatusId" />
+                <ScalarProperty Name="SubscriptionStatus" ColumnName="SubscriptionStatus" />
+                <ScalarProperty Name="StripeSubscriptionId" ColumnName="StripeSubscriptionId" />
+                <ScalarProperty Name="SocialAccAS1" ColumnName="SocialAccAS1" />
+                <ScalarProperty Name="StripeInvoiceId" ColumnName="StripeInvoiceId" />
+                <ScalarProperty Name="IsArchived" ColumnName="IsArchived" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

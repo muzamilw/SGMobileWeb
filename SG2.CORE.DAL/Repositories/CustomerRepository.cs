@@ -1049,26 +1049,26 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
-        public int? GetTargetedCityIdByCustomerId(int customerId, int socialProfileId)
-        {
-            try
-            {
-                using (var _db = new SocialGrowth2Connection())
-                {
-                    var cust = _db.SocialProfile.FirstOrDefault(x => x.SocialProfileId == socialProfileId);//TODO add SocialProfileId
-                    if (cust != null)
-                    {
-                        return (cust.SocialPrefferedCity);
-                    }
-                    return 0;
-                }
-            }
-            catch (Exception ex)
-            {
+        //public int? GetTargetedCityIdByCustomerId(int customerId, int socialProfileId)
+        //{
+        //    try
+        //    {
+        //        using (var _db = new SocialGrowth2Connection())
+        //        {
+        //            var cust = _db.SocialProfiles.FirstOrDefault(x => x.SocialProfileId == socialProfileId);//TODO add SocialProfileId
+        //            if (cust != null)
+        //            {
+        //                return (cust.SocialPrefferedCity);
+        //            }
+        //            return 0;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                throw ex;
-            }
-        }
+        //        throw ex;
+        //    }
+        //}
 
         public List<CustomerSocialProfileDTO> GetSocialProfilesByCustomerid(int customerId)
         {
@@ -1083,12 +1083,7 @@ namespace SG2.CORE.DAL.Repositories
                         profiles = profs.Select(p => new CustomerSocialProfileDTO()
                         {
                             CustomerId = p.CustomerId,
-                            JVBoxId = p.JVBoxId,
-                            JVBoxName = p.JVBoxName,
-                            JVBoxStatusId = p.JVBoxStatusId,
-                            JVBoxStatusName = p.JVBoxStatusName,
-                            PrefferedCityId = p.PrefferedCityId,
-                            PrefferedCountryId = p.PrefferedCountryId,
+                           
                             ProfileName = p.ProfileName,
                             SocialPassword = p.SocialPassword,
                             SocialProfileId = p.SocialProfileId,
@@ -1149,62 +1144,18 @@ namespace SG2.CORE.DAL.Repositories
 
         public CustomerTargetProfileDTO GetSocialProfilesById(int profileId)
         {
+
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<SG2_usp_Customer_GetSocialProfileById_Result, CustomerTargetProfileDTO>());
+            var mapper = new Mapper(config);
+
+
             try
             {
                 CustomerTargetProfileDTO targetProfile = null;
                 using (var _db = new SocialGrowth2Connection())
                 {
                     var prof = _db.SG2_usp_Customer_GetSocialProfileById(profileId).FirstOrDefault();
-                    if (prof != null)
-                    {
-                        targetProfile = new CustomerTargetProfileDTO()
-                        {
-                            TargetingInformationId = prof.TargetingInformationId,
-                            JVboxId = prof.JVboxId,
-                            JVBoxStatusName = prof.JVBoxStatusName,
-                            PlanId = prof.PlanId,
-                            PlanName = prof.PlanName,
-                            Preference1 = prof.Preference1,
-                            Preference10 = prof.Preference10,
-                            Preference2 = prof.Preference2,
-                            Preference3 = prof.Preference3,
-                            Preference4 = prof.Preference4,
-                            Preference5 = prof.Preference5,
-                            Preference6 = prof.Preference6,
-                            Preference7 = prof.Preference7,
-                            Preference8 = prof.Preference8,
-                            Preference9 = prof.Preference9,
-                            PrefferedCityId = prof.PrefferedCityId,
-                            PrefferedCountryId = prof.PrefferedCountryId,
-                            ProfileStatus = prof.ProfileStatus,
-                            ProfileStatusId = prof.ProfileStatusId,
-                            ProxyIPNumber = prof.ProxyIPNumber,
-                            ProxyPort = prof.ProxyPort,
-                            ProxyIPName = prof.ProxyIPName,
-                            SocialUsername = prof.SocialUsername,
-                            SocialPassword = prof.SocialPassword,
-                            SocialProfileId = prof.SocialProfileId,
-                            SocialProfileName = prof.SocialProfileName,
-                            SocialProfileType = prof.SocialProfileType,
-                            SocialProfileTypeId = prof.SocialProfileTypeId,
-                            StripePlanId = prof.StripePlanId,
-                            SubscriptionEndDate = prof.SubscriptionEndDate,
-                            SubscriptionId = prof.SubscriptionId,
-                            SubscriptionStartDate = prof.SubscriptionStartDate,
-                            SubscriptionStatus = prof.SubscriptionStatus,
-                            SubscriptionStatusId = prof.SubscriptionStatusId,
-                            StripeSubscriptionId = prof.StripeSubscriptionId,
-                            JVStatusId = prof.JVStatusId,
-                            JVAttempts = prof.JVAttempts,
-                            JVAttemptsBlockedTill = prof.JVAttemptsBlockedTill,
-                            JVAttemptStatus = prof.JVAttemptStatus,
-                            JVBoxExchangeName = prof.JVBoxExchangeName,
-                            SocialAccAS = prof.SocialAccAS,
-                            StripeInvoiceId = prof.StripeInvoiceId,
-                            ProxyId = prof.ProxyId,
-                            IsJVServerRunning = prof.IsJVServerRunning == 1
-                        };
-                    }
+                    targetProfile = mapper.Map<CustomerTargetProfileDTO>(prof);
                 }
                 return targetProfile;
             }

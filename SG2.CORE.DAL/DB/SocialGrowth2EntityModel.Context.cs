@@ -389,5 +389,28 @@ namespace SG2.CORE.DAL.DB
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_SignUpCustomerWithPreference_Result>("SG2_usp_Customer_SignUpCustomerWithPreference", rvcFirstNameParameter, rvcLastNameParameter, rvcEmailAddressParameter, rvcPasswordParameter, rvcGUIDParameter, rvcLastLoginIPParameter, rvcPreference1Parameter, rvcPreference2Parameter, rvcPreference3Parameter, rvcPreference4Parameter, iPreference5Parameter, iPreference6Parameter, rvcCityParameter, rvcStatusIdParameter);
         }
+    
+        public virtual ObjectResult<SG2_usp_Get_AllUser_Result> SG2_usp_Get_AllUser()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Get_AllUser_Result>("SG2_usp_Get_AllUser");
+        }
+    
+        public virtual ObjectResult<SG2_usp_Customer_GetSocialProfilesByCustomerId_Result> SG2_usp_Customer_GetSocialProfilesByCustomerId(Nullable<int> customerId)
+        {
+            var customerIdParameter = customerId.HasValue ?
+                new ObjectParameter("CustomerId", customerId) :
+                new ObjectParameter("CustomerId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_GetSocialProfilesByCustomerId_Result>("SG2_usp_Customer_GetSocialProfilesByCustomerId", customerIdParameter);
+        }
+    
+        public virtual ObjectResult<SG2_usp_Customer_GetSocialProfileById_Result> SG2_usp_Customer_GetSocialProfileById(Nullable<int> riSocialProfileId)
+        {
+            var riSocialProfileIdParameter = riSocialProfileId.HasValue ?
+                new ObjectParameter("riSocialProfileId", riSocialProfileId) :
+                new ObjectParameter("riSocialProfileId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_GetSocialProfileById_Result>("SG2_usp_Customer_GetSocialProfileById", riSocialProfileIdParameter);
+        }
     }
 }
