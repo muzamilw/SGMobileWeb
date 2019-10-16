@@ -184,7 +184,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIController\MobileController.cs" />
-    <Compile Include="APIController\QueueLoggerController.cs" />
+    <None Include="APIController\QueueLoggerController.cs" />
     <Compile Include="APIController\StatisticsController.cs" />
     <Compile Include="APIController\QueueStatusController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -197,18 +197,14 @@
     <Compile Include="Areas\SuperAdmin\Controllers\AccountController.cs" />
     <Compile Include="Areas\SuperAdmin\Controllers\ActionBoardController.cs" />
     <Compile Include="Areas\SuperAdmin\Controllers\BaseController.cs" />
-    <Compile Include="Areas\SuperAdmin\Controllers\BotMngrController.cs" />
     <Compile Include="Areas\SuperAdmin\Controllers\CRMController.cs" />
     <Compile Include="Areas\SuperAdmin\Controllers\DashboardController.cs" />
-    <Compile Include="Areas\SuperAdmin\Controllers\JVBoxesController.cs" />
     <Compile Include="Areas\SuperAdmin\Controllers\LikeAcctsController.cs" />
     <Compile Include="Areas\SuperAdmin\Controllers\PermissionController.cs" />
     <Compile Include="Areas\SuperAdmin\Controllers\PlanInformationController.cs" />
-    <Compile Include="Areas\SuperAdmin\Controllers\ProxyIPsController.cs" />
     <Compile Include="Areas\SuperAdmin\Controllers\SystemSettingsController.cs" />
     <Compile Include="Areas\SuperAdmin\Controllers\TeamMemberController.cs" />
     <Compile Include="Areas\SuperAdmin\Controllers\UserProfileController.cs" />
-    <Compile Include="Areas\SuperAdmin\Controllers\VPSSupplierController.cs" />
     <Compile Include="Areas\SuperAdmin\SuperAdminAreaRegistration.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CommonController.cs" />

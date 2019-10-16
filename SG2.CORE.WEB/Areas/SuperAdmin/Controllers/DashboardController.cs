@@ -16,13 +16,13 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
     {
         private readonly StatisticsManager _statisticsManager;
         private readonly NotificationManager _notificationManager;
-        private readonly JVBoxManager _jVBoxManager;
+        //private readonly JVBoxManager _jVBoxManager;
 
         public DashboardController()
         {
             _statisticsManager = new StatisticsManager();
             _notificationManager = new NotificationManager();
-            _jVBoxManager = new JVBoxManager();
+            //_jVBoxManager = new JVBoxManager();
             ViewBag.SetMenuActiveClass = "Dashboard";
         }
 
@@ -30,10 +30,10 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
         {
             try
             {
-                var jvBoxes = _jVBoxManager.GetJVBoxData(null, "200", 1, null);
+                //var jvBoxes = _jVBoxManager.GetJVBoxData(null, "200", 1, null);
                 var model = new DashboardViewModel()
                 {
-                    dashboardListingModel = jvBoxes,
+                    dashboardListingModel = null,
                 };
                 return View(model);
 
@@ -53,7 +53,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             {
 
 
-                AdminReportViewModel jvVBoxandProxyIPsData = _statisticsManager.GetJVBoxandProxyIPsData(DateTime.Now.AddMonths(-3), DateTime.Now);
+                //AdminReportViewModel jvVBoxandProxyIPsData = _statisticsManager.GetJVBoxandProxyIPsData(DateTime.Now.AddMonths(-3), DateTime.Now);
                 List<PlanListReportDTO> mostUsedProductData = _statisticsManager.GetMostUsedProductData(DateTime.Now.AddMonths(-3), DateTime.Now);
 
                 StringBuilder planNames = new StringBuilder();
@@ -78,29 +78,29 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                 }
 
 
-                if (jvVBoxandProxyIPsData != null)
-                {
-                    jr.Data = new
-                    {
-                        ResultType = "Success",
-                        message = "",
-                        ResultData = new
-                        {
+                //if (jvVBoxandProxyIPsData != null)
+                //{
+                //    jr.Data = new
+                //    {
+                //        ResultType = "Success",
+                //        message = "",
+                //        ResultData = new
+                //        {
 
-                            AllSlotsOnJVBox = jvVBoxandProxyIPsData.AllSlotsOnJVBox.ToString(),
-                            UsedSlotsOnJVBox = jvVBoxandProxyIPsData.UsedSlotsOnJVBox.ToString(),
-                            FreeSlotsOnJVServer = jvVBoxandProxyIPsData.FreeSlotsOnJVServer.ToString(),
-                            TotalUsedIPs = jvVBoxandProxyIPsData.TotalUsedIPs.ToString(),
-                            AllAvailableIPs = jvVBoxandProxyIPsData.AllAvailableIPs.ToString(),
-                            RemainingProxyIPs = jvVBoxandProxyIPsData.RemainingProxyIPs.ToString(),
+                //            AllSlotsOnJVBox = jvVBoxandProxyIPsData.AllSlotsOnJVBox.ToString(),
+                //            UsedSlotsOnJVBox = jvVBoxandProxyIPsData.UsedSlotsOnJVBox.ToString(),
+                //            FreeSlotsOnJVServer = jvVBoxandProxyIPsData.FreeSlotsOnJVServer.ToString(),
+                //            TotalUsedIPs = jvVBoxandProxyIPsData.TotalUsedIPs.ToString(),
+                //            AllAvailableIPs = jvVBoxandProxyIPsData.AllAvailableIPs.ToString(),
+                //            RemainingProxyIPs = jvVBoxandProxyIPsData.RemainingProxyIPs.ToString(),
 
-                            PlanNames = mostUsedProductData.Select(x => x.name).ToArray(),
-                            PlanNamesWithUsages = mostUsedProductData,
-                            NoOfAvailablePlans = noOfAvailablePlans
+                //            PlanNames = mostUsedProductData.Select(x => x.name).ToArray(),
+                //            PlanNamesWithUsages = mostUsedProductData,
+                //            NoOfAvailablePlans = noOfAvailablePlans
 
-                        }
-                    };
-                }
+                //        }
+                //    };
+                //}
                 else
                 {
                     jr.Data = new { ResultType = "Error", message = "" };
@@ -113,31 +113,6 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             }
 
             return Json(jr, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult JVBoxSetServerRunningStatus(int jvboxid, int serverrunningstatusId)
-        {
-            var jr = new JsonResult();
-
-            try
-            {
-                var RunningStatus = _jVBoxManager.JVBoxSetServerRunningStatus(jvboxid, serverrunningstatusId);
-                if (RunningStatus == true)
-                {
-                    jr.Data = new { ResultType = "Success", message = "" };
-                }
-                else
-                {
-                    jr.Data = new { ResultType = "Error", message = "Error. Can not find the data." };
-                }
-                return Json(jr, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-
         }
 
         public ActionResult GetNotificationData(int id)

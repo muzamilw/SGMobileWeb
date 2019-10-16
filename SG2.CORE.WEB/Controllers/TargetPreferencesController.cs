@@ -27,7 +27,7 @@ namespace SG2.CORE.WEB.Controllers
     [AuthorizeCustomer]
     public class TargetPreferencesController : BaseController
     {
-        protected readonly TargetPreferencesManager _targetPreferenceManager;
+       // protected readonly TargetPreferencesManager _targetPreferenceManager;
         protected readonly CustomerManager _cm;
         protected readonly CommonManager _commonManager;
         protected readonly PlanInformationManager _planManager;
@@ -35,732 +35,732 @@ namespace SG2.CORE.WEB.Controllers
         protected readonly CustomerManager _customerManager;
         protected readonly List<SystemSettingsDTO> SystemConfigs;
         protected readonly NotificationManager _notManager;
-        protected readonly QueueLoggerManager _queueLoggerManager;
-        protected readonly ProxyManager _proxyManager;
-        private readonly JVBoxManager _jVBoxManager;
+        //protected readonly QueueLoggerManager _queueLoggerManager;
+        //protected readonly ProxyManager _proxyManager;
+        //private readonly JVBoxManager _jVBoxManager;
         private string severMode = "Auto";
         //QueuePublisher<InstagramActionMessage> queue = new QueuePublisher<InstagramActionMessage>();
 
         public TargetPreferencesController()
         {
-            _targetPreferenceManager = new TargetPreferencesManager();
+            //_targetPreferenceManager = new TargetPreferencesManager();
             _cm = new CustomerManager();
             _planManager = new PlanInformationManager();
             _statisticsManager = new StatisticsManager();
             _commonManager = new CommonManager();
             _customerManager = new CustomerManager();
             SystemConfigs = SystemConfig.GetConfigs;
-            _queueLoggerManager = new QueueLoggerManager();
+            //_queueLoggerManager = new QueueLoggerManager();
             _notManager = new NotificationManager();
-            _proxyManager = new ProxyManager();
-            _jVBoxManager = new JVBoxManager();
+            //_proxyManager = new ProxyManager();
+            //_jVBoxManager = new JVBoxManager();
         }
 
-        public ActionResult ModifyTargetPreferences(int? socialProfileId = null)
-        {
-            //if (!string.IsNullOrEmpty((string)TempData["Success"]))
-            //{
-            //    ViewBag.Success = (string)TempData["Success"];
-            //    ViewBag.Message = TempData["Message"];
-            //}
-            int SocialProfileId = socialProfileId ?? 0;
-            ViewBag.CurrentUser = this.CDT;
-            ViewBag.SocailProfiles = this._cm.GetSocialProfilesByCustomerid(this.CDT.CustomerId);
-            var history = _customerManager.GetCustomerOrderHistory("50", 1, this.CDT.CustomerId, SocialProfileId);
-            var _stripeApiKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
-            var _stripePublishKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue2;
-            StripeConfiguration.SetApiKey(_stripeApiKey);
+        //public ActionResult ModifyTargetPreferences(int? socialProfileId = null)
+        //{
+        //    //if (!string.IsNullOrEmpty((string)TempData["Success"]))
+        //    //{
+        //    //    ViewBag.Success = (string)TempData["Success"];
+        //    //    ViewBag.Message = TempData["Message"];
+        //    //}
+        //    int SocialProfileId = socialProfileId ?? 0;
+        //    ViewBag.CurrentUser = this.CDT;
+        //    ViewBag.SocailProfiles = this._cm.GetSocialProfilesByCustomerid(this.CDT.CustomerId);
+        //    var history = _customerManager.GetCustomerOrderHistory("50", 1, this.CDT.CustomerId, SocialProfileId);
+        //    var _stripeApiKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
+        //    var _stripePublishKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue2;
+        //    StripeConfiguration.SetApiKey(_stripeApiKey);
 
-            CustomerTargetProfileDTO profileDTO = new CustomerTargetProfileDTO();
-            if (socialProfileId != null && socialProfileId > 0)
-            {
-                profileDTO = _cm.GetSocialProfilesById(socialProfileId ?? 0);
-            }
+        //    CustomerTargetProfileDTO profileDTO = new CustomerTargetProfileDTO();
+        //    if (socialProfileId != null && socialProfileId > 0)
+        //    {
+        //        profileDTO = _cm.GetSocialProfilesById(socialProfileId ?? 0);
+        //    }
 
-            TargetPreferencesViewModel targetPreferences = new TargetPreferencesViewModel();
-            var plans = _planManager.GetAllSocialGrowthPlans().ToList();
+        //    TargetPreferencesViewModel targetPreferences = new TargetPreferencesViewModel();
+        //    var plans = _planManager.GetAllSocialGrowthPlans().ToList();
 
-            PlanInformationDTO selectedPlan = new PlanInformationDTO();
-            if (profileDTO.PlanId != null)
-            {
-                selectedPlan = plans.FirstOrDefault(x => x.PlanId == profileDTO.PlanId);
-            }
+        //    PlanInformationDTO selectedPlan = new PlanInformationDTO();
+        //    if (profileDTO.paymentPlanId != null)
+        //    {
+        //        selectedPlan = plans.FirstOrDefault(x => x.PlanId == profileDTO.paymentPlanId);
+        //    }
 
-            targetPreferences.ProfileName = profileDTO.SocialProfileName;
-            targetPreferences.Preference1 = profileDTO.Preference1;
-            targetPreferences.Preference2 = profileDTO.Preference2;
-            targetPreferences.Preference3 = profileDTO.Preference3;
-            targetPreferences.Preference4 = profileDTO.Preference4;
-            targetPreferences.Preference5 = profileDTO.Preference5;
-            targetPreferences.Preference6 = profileDTO.Preference6;
-            targetPreferences.Preference7 = profileDTO.Preference7;
-            targetPreferences.Preference8 = profileDTO.Preference8;
-            targetPreferences.Preference9 = profileDTO.Preference9;
-            targetPreferences.Preference10 = profileDTO.Preference10;
-            targetPreferences.City = profileDTO.PrefferedCityId;
-            targetPreferences.Country = profileDTO.PrefferedCountryId;
-            targetPreferences.InstaPassword = profileDTO.SocialPassword;
-            targetPreferences.InstaUser = profileDTO.SocialUsername;
-            targetPreferences.TargetInformationId = profileDTO.TargetingInformationId;
-            targetPreferences.SocialProfileId = socialProfileId;
-            targetPreferences.Plans = plans;
-            targetPreferences.ActivePlanName = profileDTO.PlanName;
-            targetPreferences.ActivePlanId = selectedPlan.PlanId == 0 ? null : (int?)selectedPlan.PlanId;
-            targetPreferences.ActivePlanPrice = selectedPlan.DisplayPrice;
-            targetPreferences.ActivePlanLikes = selectedPlan.Likes;
-            targetPreferences.DefaultPaymentPlan = plans.FirstOrDefault(x => x.PlantypeName == "Likey" && (x.IsDefault != null && x.IsDefault == true));
-            targetPreferences.JVStatus = profileDTO.JVBoxStatusName;
-            targetPreferences.JVStatusId = profileDTO.JVStatusId;
-            targetPreferences.StripeApiKey = _stripeApiKey;
-            targetPreferences.StripePublishKey = _stripePublishKey;
-            targetPreferences.SPStatusId = profileDTO.ProfileStatusId;
-            targetPreferences.OrderHistoryViewModels = history;
-            targetPreferences.IsOptedMarketingEmail = profileDTO.IsOptedMarketingEmail;
-            targetPreferences.SocialAccAS = profileDTO.SocialAccAS;
-            if (targetPreferences.Country != null)
-            {
-                targetPreferences.Cities = CommonManager.GetCities().Where(m => m.CountryId == Convert.ToInt16(profileDTO.PrefferedCountryId)).ToList();
-            }
-            else
-            {
-                targetPreferences.Cities = CommonManager.GetCities();
-            }
+        //    targetPreferences.ProfileName = profileDTO.SocialProfileName;
+        //    targetPreferences.Preference1 = profileDTO.Preference1;
+        //    targetPreferences.Preference2 = profileDTO.Preference2;
+        //    targetPreferences.Preference3 = profileDTO.Preference3;
+        //    targetPreferences.Preference4 = profileDTO.Preference4;
+        //    targetPreferences.Preference5 = profileDTO.Preference5;
+        //    targetPreferences.Preference6 = profileDTO.Preference6;
+        //    targetPreferences.Preference7 = profileDTO.Preference7;
+        //    targetPreferences.Preference8 = profileDTO.Preference8;
+        //    targetPreferences.Preference9 = profileDTO.Preference9;
+        //    targetPreferences.Preference10 = profileDTO.Preference10;
+        //    targetPreferences.City = profileDTO.PrefferedCityId;
+        //    targetPreferences.Country = profileDTO.PrefferedCountryId;
+        //    targetPreferences.InstaPassword = profileDTO.SocialPassword;
+        //    targetPreferences.InstaUser = profileDTO.SocialUsername;
+        //    targetPreferences.TargetInformationId = profileDTO.TargetingInformationId;
+        //    targetPreferences.SocialProfileId = socialProfileId;
+        //    targetPreferences.Plans = plans;
+        //    targetPreferences.ActivePlanName = profileDTO.PlanName;
+        //    targetPreferences.ActivePlanId = selectedPlan.PlanId == 0 ? null : (int?)selectedPlan.PlanId;
+        //    targetPreferences.ActivePlanPrice = selectedPlan.DisplayPrice;
+        //    targetPreferences.ActivePlanLikes = selectedPlan.Likes;
+        //    targetPreferences.DefaultPaymentPlan = plans.FirstOrDefault(x => x.PlantypeName == "Likey" && (x.IsDefault != null && x.IsDefault == true));
+        //    targetPreferences.JVStatus = profileDTO.JVBoxStatusName;
+        //    targetPreferences.JVStatusId = profileDTO.JVStatusId;
+        //    targetPreferences.StripeApiKey = _stripeApiKey;
+        //    targetPreferences.StripePublishKey = _stripePublishKey;
+        //    targetPreferences.SPStatusId = profileDTO.ProfileStatusId;
+        //    targetPreferences.OrderHistoryViewModels = history;
+        //    targetPreferences.IsOptedMarketingEmail = profileDTO.IsOptedMarketingEmail;
+        //    targetPreferences.SocialAccAS = profileDTO.SocialAccAS;
+        //    if (targetPreferences.Country != null)
+        //    {
+        //        targetPreferences.Cities = CommonManager.GetCities().Where(m => m.CountryId == Convert.ToInt16(profileDTO.PrefferedCountryId)).ToList();
+        //    }
+        //    else
+        //    {
+        //        targetPreferences.Cities = CommonManager.GetCities();
+        //    }
 
-            var cardService = new CardService();
-            var cardOptions = new CardListOptions
-            {
-                Limit = 3,
-            };
-            List<CustomerPaymentCardsViewModel> payCards = null;
-            if (this.CDT.StripeCustomerId != null)
-            {
-                var striptCards = cardService.List(this.CDT.StripeCustomerId, cardOptions);
-                if (striptCards != null)
-                {
-                    payCards = new List<CustomerPaymentCardsViewModel>();
-                    foreach (var item in striptCards)
-                    {
-                        var card = new CustomerPaymentCardsViewModel();
-                        card.Last4 = item.Last4;
-                        card.ExpMonth = item.ExpMonth;
-                        card.ExpYear = item.ExpYear;
-                        card.Brand = item.Brand;
-                        card.Funding = item.Funding;
-                        payCards.Add(card);
-                    }
-                }
-            }
+        //    var cardService = new CardService();
+        //    var cardOptions = new CardListOptions
+        //    {
+        //        Limit = 3,
+        //    };
+        //    List<CustomerPaymentCardsViewModel> payCards = null;
+        //    if (this.CDT.StripeCustomerId != null)
+        //    {
+        //        var striptCards = cardService.List(this.CDT.StripeCustomerId, cardOptions);
+        //        if (striptCards != null)
+        //        {
+        //            payCards = new List<CustomerPaymentCardsViewModel>();
+        //            foreach (var item in striptCards)
+        //            {
+        //                var card = new CustomerPaymentCardsViewModel();
+        //                card.Last4 = item.Last4;
+        //                card.ExpMonth = item.ExpMonth;
+        //                card.ExpYear = item.ExpYear;
+        //                card.Brand = item.Brand;
+        //                card.Funding = item.Funding;
+        //                payCards.Add(card);
+        //            }
+        //        }
+        //    }
 
-            targetPreferences.PaymentCards = payCards;
-            targetPreferences.Countries = CommonManager.GetCountries();
-            return View(targetPreferences);
+        //    targetPreferences.PaymentCards = payCards;
+        //    targetPreferences.Countries = CommonManager.GetCountries();
+        //    return View(targetPreferences);
 
-        }
+        //}
 
-        [HttpPost]
-        public ActionResult ModifyTargetPreferences(TargetPreferencesViewModel model)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    var user = (CustomerDTO)_sessionManager.Get(SessionConstants.Customer);
-                    var dl = _targetPreferenceManager.SaveTargetPreferences(new TargetPreferencesDTO()
-                    {
-                        Preference1 = model.Preference1,
-                        Preference2 = model.Preference2,
-                        Preference3 = model.Preference3,
-                        Preference4 = model.Preference4,
-                        Preference5 = model.Preference5,
-                        Preference6 = model.Preference6,
-                        Preference7 = model.Preference7,
-                        Preference8 = model.Preference8,
-                        Preference9 = model.Preference9,
-                        Preference10 = model.Preference10,
-                        Country = model.Country,
-                        City = model.City,
-                        InstaUser = model.InstaUser,
-                        InstaPassword = model.InstaPassword,
-                        Id = user.CustomerId,
-                        SocialProfileId = model.SocialProfileId,
-                        ProfileName = model.ProfileName,
-                        CustomerId = this.CDT.CustomerId,
-                        SocialAccAs = model.SocialAccAS
-                    });
+        //[HttpPost]
+        //public ActionResult ModifyTargetPreferences(TargetPreferencesViewModel model)
+        //{
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            var user = (CustomerDTO)_sessionManager.Get(SessionConstants.Customer);
+        //            var dl = _targetPreferenceManager.SaveTargetPreferences(new TargetPreferencesDTO()
+        //            {
+        //                Preference1 = model.Preference1,
+        //                Preference2 = model.Preference2,
+        //                Preference3 = model.Preference3,
+        //                Preference4 = model.Preference4,
+        //                Preference5 = model.Preference5,
+        //                Preference6 = model.Preference6,
+        //                Preference7 = model.Preference7,
+        //                Preference8 = model.Preference8,
+        //                Preference9 = model.Preference9,
+        //                Preference10 = model.Preference10,
+        //                Country = model.Country,
+        //                City = model.City,
+        //                InstaUser = model.InstaUser,
+        //                InstaPassword = model.InstaPassword,
+        //                Id = user.CustomerId,
+        //                SocialProfileId = model.SocialProfileId,
+        //                ProfileName = model.ProfileName,
+        //                CustomerId = this.CDT.CustomerId,
+        //                SocialAccAs = model.SocialAccAS
+        //            });
                                        
 
-                    TempData["Success"] = "Yes";
-                    TempData["Message"] = "Prefrences updated successfully.";
-                    return RedirectToAction("ModifyTargetPreferences", "TargetPreferences");
-                }
-                else
-                {
-                    return View(model);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //            TempData["Success"] = "Yes";
+        //            TempData["Message"] = "Prefrences updated successfully.";
+        //            return RedirectToAction("ModifyTargetPreferences", "TargetPreferences");
+        //        }
+        //        else
+        //        {
+        //            return View(model);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
-        [HttpPost]
-        public ActionResult SaveTargetPreferencesOnly(TargetPreferencesViewModel model)
-        {
-            try
-            {
-                var jr = new JsonResult();
-                if (ModelState.IsValid)
-                {
-                    CustomerTargetProfileDTO profileDTO = _cm.GetSocialProfilesById(model.SocialProfileId ?? 0);
+        //[HttpPost]
+        //public ActionResult SaveTargetPreferencesOnly(TargetPreferencesViewModel model)
+        //{
+        //    try
+        //    {
+        //        var jr = new JsonResult();
+        //        if (ModelState.IsValid)
+        //        {
+        //            CustomerTargetProfileDTO profileDTO = _cm.GetSocialProfilesById(model.SocialProfileId ?? 0);
 
-                    if (!profileDTO.IsJVServerRunning)
-                    {
-                        severMode = "Manual";
-                    }
+        //            if (!profileDTO.IsJVServerRunning)
+        //            {
+        //                severMode = "Manual";
+        //            }
 
-                    var dl = _targetPreferenceManager.SaveTargetPreferences(new TargetPreferencesDTO()
-                    {
-                        Preference1 = model.Preference1,
-                        Preference2 = model.Preference2,
-                        Preference3 = model.Preference3,
-                        Preference4 = model.Preference4,
-                        Preference5 = model.Preference5,
-                        Preference6 = model.Preference6,
-                        Preference7 = model.Preference7,
-                        Preference8 = model.Preference8,
-                        Preference9 = model.Preference9,
-                        Preference10 = model.Preference10,
-                        SocialProfileId = model.SocialProfileId,
-                        ProfileName = model.ProfileName,
-                        CustomerId = this.CDT.CustomerId,
-                        QueueStatusId = (Int16)GlobalEnums.QueueStatus.Pending,
-                        SocialAccAs = model.SocialAccAS
-                    });
+        //            var dl = _targetPreferenceManager.SaveTargetPreferences(new TargetPreferencesDTO()
+        //            {
+        //                Preference1 = model.Preference1,
+        //                Preference2 = model.Preference2,
+        //                Preference3 = model.Preference3,
+        //                Preference4 = model.Preference4,
+        //                Preference5 = model.Preference5,
+        //                Preference6 = model.Preference6,
+        //                Preference7 = model.Preference7,
+        //                Preference8 = model.Preference8,
+        //                Preference9 = model.Preference9,
+        //                Preference10 = model.Preference10,
+        //                SocialProfileId = model.SocialProfileId,
+        //                ProfileName = model.ProfileName,
+        //                CustomerId = this.CDT.CustomerId,
+        //                QueueStatusId = (Int16)GlobalEnums.QueueStatus.Pending,
+        //                SocialAccAs = model.SocialAccAS
+        //            });
                   
 
-                        var nt = new NotificationDTO()
-                    {
-                        Notification = NotificationMessages[(int)NotificationMessagesIndexes.UpdateTargetPreferences],
-                        CreatedBy = profileDTO.SocialProfileId.ToString(),
-                        CreatedOn = System.DateTime.Now,
-                        Updatedby = profileDTO.SocialProfileId.ToString(),
-                        UpdateOn = DateTime.Now,
-                        SocialProfileId = profileDTO.SocialProfileId,
-                        StatusId = (int)GeneralStatus.Unread,
-                        Mode = severMode
-                    };
-                    _notManager.AddNotification(nt);
+        //                var nt = new NotificationDTO()
+        //            {
+        //                Notification = NotificationMessages[(int)NotificationMessagesIndexes.UpdateTargetPreferences],
+        //                CreatedBy = profileDTO.SocialProfileId.ToString(),
+        //                CreatedOn = System.DateTime.Now,
+        //                Updatedby = profileDTO.SocialProfileId.ToString(),
+        //                UpdateOn = DateTime.Now,
+        //                SocialProfileId = profileDTO.SocialProfileId,
+        //                StatusId = (int)GeneralStatus.Unread,
+        //                Mode = severMode
+        //            };
+        //            _notManager.AddNotification(nt);
 
 
-                    var JVListingData = _customerManager.SetSocialProfileArchive(model.SocialProfileId ?? 0, 0);
-                    if (JVListingData == true)
-                    {
-                        var ntUnarchive = new NotificationDTO()
-                        {
-                            Notification = NotificationMessages[(int)NotificationMessagesIndexes.UnarchiveFromTargetPreferences],
-                            CreatedBy = profileDTO.SocialProfileId.ToString(),
-                            CreatedOn = System.DateTime.Now,
-                            Updatedby = profileDTO.SocialProfileId.ToString(),
-                            UpdateOn = DateTime.Now,
-                            SocialProfileId = profileDTO.SocialProfileId,
-                            StatusId = (int)GeneralStatus.Unread,
-                            Mode = severMode
-                        };
-                        _notManager.AddNotification(ntUnarchive);
+        //            var JVListingData = _customerManager.SetSocialProfileArchive(model.SocialProfileId ?? 0, 0);
+        //            if (JVListingData == true)
+        //            {
+        //                var ntUnarchive = new NotificationDTO()
+        //                {
+        //                    Notification = NotificationMessages[(int)NotificationMessagesIndexes.UnarchiveFromTargetPreferences],
+        //                    CreatedBy = profileDTO.SocialProfileId.ToString(),
+        //                    CreatedOn = System.DateTime.Now,
+        //                    Updatedby = profileDTO.SocialProfileId.ToString(),
+        //                    UpdateOn = DateTime.Now,
+        //                    SocialProfileId = profileDTO.SocialProfileId,
+        //                    StatusId = (int)GeneralStatus.Unread,
+        //                    Mode = severMode
+        //                };
+        //                _notManager.AddNotification(ntUnarchive);
 
-                    }
+        //            }
                   
-                    if (dl != null)
-                    {
-                        var SPId = dl.SocialProfileId;
-                        jr.Data = new { ResultType = "Success", message = "Target Preferences Updated Successfully", SPId };
-                    }
-                    else
-                    {
-                        jr.Data = new { ResultType = "Error", message = "Error." };
-                    }
-                    return Json(jr, JsonRequestBehavior.AllowGet);
-                    //--Queue Logic to update preferences to JV according to Plan/Subscription
-                }
-                return null;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //            if (dl != null)
+        //            {
+        //                var SPId = dl.SocialProfileId;
+        //                jr.Data = new { ResultType = "Success", message = "Target Preferences Updated Successfully", SPId };
+        //            }
+        //            else
+        //            {
+        //                jr.Data = new { ResultType = "Error", message = "Error." };
+        //            }
+        //            return Json(jr, JsonRequestBehavior.AllowGet);
+        //            //--Queue Logic to update preferences to JV according to Plan/Subscription
+        //        }
+        //        return null;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
-        [HttpPost]
-        public ActionResult SaveSocialProfileData(string InstaUser = "",
-                                                    string InstaPassword = "",
-                                                    int City = 0,
-                                                    int Country = 0,
-                                                    int? SocialProfileId = null,
-                                                    string sessionId = "",
-                                                    string action = "",
-                                                    string verificationCode = "",
-                                                    int invalidCredentialsAttempts = 0)
-        {
+        //[HttpPost]
+        //public ActionResult SaveSocialProfileData(string InstaUser = "",
+        //                                            string InstaPassword = "",
+        //                                            int City = 0,
+        //                                            int Country = 0,
+        //                                            int? SocialProfileId = null,
+        //                                            string sessionId = "",
+        //                                            string action = "",
+        //                                            string verificationCode = "",
+        //                                            int invalidCredentialsAttempts = 0)
+        //{
 
         
-            var jr = new JsonResult();
+        //    var jr = new JsonResult();
             
-            try
-            {
-                int proxyNoOfAttemps = 0;
-                var _googleApiKey = SystemConfigs.First(x => x.ConfigKey == "GoogleMapApiKey").ConfigValue;
+        //    try
+        //    {
+        //        int proxyNoOfAttemps = 0;
+        //        var _googleApiKey = SystemConfigs.First(x => x.ConfigKey == "GoogleMapApiKey").ConfigValue;
                 
-            BadIP:
-                if (SocialProfileId != null && SocialProfileId > 0)
-                {
-                    CustomerTargetProfileDTO profileDTO = _cm.GetSocialProfilesById(SocialProfileId ?? 0);
-                    string rpcSessionId = (string)_sessionManager.Get(GlobalEnums.SessionConstants.JVRPCSESSIONID);
-                    var prevInstaUser = profileDTO.SocialUsername;
-                    var prevJVStatusId = profileDTO.JVStatusId;
+        //    BadIP:
+        //        if (SocialProfileId != null && SocialProfileId > 0)
+        //        {
+        //            CustomerTargetProfileDTO profileDTO = _cm.GetSocialProfilesById(SocialProfileId ?? 0);
+        //            string rpcSessionId = (string)_sessionManager.Get(GlobalEnums.SessionConstants.JVRPCSESSIONID);
+        //            var prevInstaUser = profileDTO.SocialUsername;
+        //            var prevJVStatusId = profileDTO.JVStatusId;
                     
-                    if (!profileDTO.IsJVServerRunning)
-                    {
-                        severMode = "Manual";
-                    }
+        //            if (!profileDTO.IsJVServerRunning)
+        //            {
+        //                severMode = "Manual";
+        //            }
 
-                    #region Check if profile is block due attempts
-                    if (
-                        profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.ProxyAndInternetIssue
-                        && profileDTO.JVAttemptsBlockedTill != null
-                        && profileDTO.JVAttemptsBlockedTill >= DateTime.Now)
-                    {
-                        jr.Data = new
-                        {
-                            ResultType = "Success",
-                            Message = "",
-                            ResultData = new { JVStaus = "ProxyAttemptLater24Hrs", JVRPCSessionId = rpcSessionId, JVStatusId = (int)GlobalEnums.JVStatus.ProxyAndInternetIssue }
-                        };
-                        return jr;
-                    }
-                    if (
-                        (profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.InvalidCredentials
-                            || profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.InvalidCredentialReSend
-                        )
-                        && profileDTO.JVAttemptsBlockedTill != null
-                        && profileDTO.JVAttemptsBlockedTill >= DateTime.Now)
-                    {
-                        jr.Data = new
-                        {
-                            ResultType = "Success",
-                            Message = "",
-                            ResultData = new { JVStaus = "InvalidCredentailsAttemptLater24Hrs", JVRPCSessionId = rpcSessionId, JVStatusId = (int)GlobalEnums.JVStatus.ProxyAndInternetIssue }
-                        };
-                        return jr;
-                    }
-                    #endregion
+        //            #region Check if profile is block due attempts
+        //            if (
+        //                profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.ProxyAndInternetIssue
+        //                && profileDTO.JVAttemptsBlockedTill != null
+        //                && profileDTO.JVAttemptsBlockedTill >= DateTime.Now)
+        //            {
+        //                jr.Data = new
+        //                {
+        //                    ResultType = "Success",
+        //                    Message = "",
+        //                    ResultData = new { JVStaus = "ProxyAttemptLater24Hrs", JVRPCSessionId = rpcSessionId, JVStatusId = (int)GlobalEnums.JVStatus.ProxyAndInternetIssue }
+        //                };
+        //                return jr;
+        //            }
+        //            if (
+        //                (profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.InvalidCredentials
+        //                    || profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.InvalidCredentialReSend
+        //                )
+        //                && profileDTO.JVAttemptsBlockedTill != null
+        //                && profileDTO.JVAttemptsBlockedTill >= DateTime.Now)
+        //            {
+        //                jr.Data = new
+        //                {
+        //                    ResultType = "Success",
+        //                    Message = "",
+        //                    ResultData = new { JVStaus = "InvalidCredentailsAttemptLater24Hrs", JVRPCSessionId = rpcSessionId, JVStatusId = (int)GlobalEnums.JVStatus.ProxyAndInternetIssue }
+        //                };
+        //                return jr;
+        //            }
+        //            #endregion
 
-                    if (proxyNoOfAttemps > 0)
-                    {
-                        _proxyManager.SaveBadProxyIP(profileDTO.ProxyId ?? 0, profileDTO.SocialProfileId);
-                        profileDTO.ProxyIPNumber = null;
-                    }
+        //            if (proxyNoOfAttemps > 0)
+        //            {
+        //                _proxyManager.SaveBadProxyIP(profileDTO.ProxyId ?? 0, profileDTO.SocialProfileId);
+        //                profileDTO.ProxyIPNumber = null;
+        //            }
 
-                    if (
-                            profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.ProfileNotSetup
-                            || profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.InvalidCredentials
-                            || profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.InvalidCredentialReSend
-                        )
-                    {
-                        var User = _targetPreferenceManager.SaveSocialProfileData(InstaUser, InstaPassword, City, Country, SocialProfileId ?? 0, 0, verificationCode);
-                        var nt = new NotificationDTO()
-                        {
-                            Notification = NotificationMessages[(int)NotificationMessagesIndexes.UpdateSocailProfile],
-                            CreatedBy = profileDTO.SocialProfileId.ToString(),
-                            CreatedOn = DateTime.Now,
-                            Updatedby = profileDTO.SocialProfileId.ToString(),
-                            UpdateOn = DateTime.Now,
-                            SocialProfileId = profileDTO.SocialProfileId,
-                            StatusId = (int)GeneralStatus.Unread,
-                            Mode = severMode
+        //            if (
+        //                    profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.ProfileNotSetup
+        //                    || profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.InvalidCredentials
+        //                    || profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.InvalidCredentialReSend
+        //                )
+        //            {
+        //                var User = _targetPreferenceManager.SaveSocialProfileData(InstaUser, InstaPassword, City, Country, SocialProfileId ?? 0, 0, verificationCode);
+        //                var nt = new NotificationDTO()
+        //                {
+        //                    Notification = NotificationMessages[(int)NotificationMessagesIndexes.UpdateSocailProfile],
+        //                    CreatedBy = profileDTO.SocialProfileId.ToString(),
+        //                    CreatedOn = DateTime.Now,
+        //                    Updatedby = profileDTO.SocialProfileId.ToString(),
+        //                    UpdateOn = DateTime.Now,
+        //                    SocialProfileId = profileDTO.SocialProfileId,
+        //                    StatusId = (int)GeneralStatus.Unread,
+        //                    Mode = severMode
                         
-                        };
-                        _notManager.AddNotification(nt);
-                    }
+        //                };
+        //                _notManager.AddNotification(nt);
+        //            }
 
-                    if (
-                            profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.EmailVerificationRequired
-                            || profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.TwoFactor
-                        )
-                    {
-                        var User = _targetPreferenceManager.SaveSocialProfileData("", "", 0, 0, SocialProfileId ?? 0, 0, verificationCode);
-                        var nt = new NotificationDTO()
-                        {
-                            Notification = string.Format(NotificationMessages[(int)NotificationMessagesIndexes.ProfileVerificationCode], verificationCode),
-                            CreatedBy = profileDTO.SocialProfileId.ToString(),
-                            CreatedOn = System.DateTime.Now,
-                            Updatedby = profileDTO.SocialProfileId.ToString(),
-                            UpdateOn = DateTime.Now,
-                            SocialProfileId = profileDTO.SocialProfileId,
-                            StatusId = (int)GeneralStatus.Unread,
-                            Mode = severMode
+        //            if (
+        //                    profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.EmailVerificationRequired
+        //                    || profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.TwoFactor
+        //                )
+        //            {
+        //                var User = _targetPreferenceManager.SaveSocialProfileData("", "", 0, 0, SocialProfileId ?? 0, 0, verificationCode);
+        //                var nt = new NotificationDTO()
+        //                {
+        //                    Notification = string.Format(NotificationMessages[(int)NotificationMessagesIndexes.ProfileVerificationCode], verificationCode),
+        //                    CreatedBy = profileDTO.SocialProfileId.ToString(),
+        //                    CreatedOn = System.DateTime.Now,
+        //                    Updatedby = profileDTO.SocialProfileId.ToString(),
+        //                    UpdateOn = DateTime.Now,
+        //                    SocialProfileId = profileDTO.SocialProfileId,
+        //                    StatusId = (int)GeneralStatus.Unread,
+        //                    Mode = severMode
                           
-                        };
-                        _notManager.AddNotification(nt);
-                    }
+        //                };
+        //                _notManager.AddNotification(nt);
+        //            }
 
-                    #region Assing MPBox
-                    if (profileDTO.JVboxId == null || profileDTO.JVboxId == 0)
-                    {
-                         var jVBox = _cm.AssignJVBoxToCustomer(this.CDT.CustomerId, profileDTO.SocialProfileId);
+        //            #region Assing MPBox
+        //            if (profileDTO.JVboxId == null || profileDTO.JVboxId == 0)
+        //            {
+        //                 var jVBox = _cm.AssignJVBoxToCustomer(this.CDT.CustomerId, profileDTO.SocialProfileId);
                           
-                         var jvBoxName = jVBox.BoxName;
+        //                 var jvBoxName = jVBox.BoxName;
 
-                        if (!_jVBoxManager.JVBoxGetServerRunningStatus((int)jVBox.JVBoxId))
-                        {
-                            severMode = "Manual";
-                        }
+        //                if (!_jVBoxManager.JVBoxGetServerRunningStatus((int)jVBox.JVBoxId))
+        //                {
+        //                    severMode = "Manual";
+        //                }
 
-                        var nt = new NotificationDTO()
-                        {
-                            Notification = string.Format(NotificationMessages[(int)NotificationMessagesIndexes.MPBoxAssign], jvBoxName),
-                            CreatedBy = profileDTO.SocialProfileId.ToString(),
-                            CreatedOn = DateTime.Now,
-                            Updatedby = profileDTO.SocialProfileId.ToString(),
-                            UpdateOn = DateTime.Now,
-                            SocialProfileId = profileDTO.SocialProfileId,
-                            StatusId = (int)GeneralStatus.Unread,
-                            Mode = severMode
-                        };
-                        _notManager.AddNotification(nt);
-                    }
-                    #endregion
+        //                var nt = new NotificationDTO()
+        //                {
+        //                    Notification = string.Format(NotificationMessages[(int)NotificationMessagesIndexes.MPBoxAssign], jvBoxName),
+        //                    CreatedBy = profileDTO.SocialProfileId.ToString(),
+        //                    CreatedOn = DateTime.Now,
+        //                    Updatedby = profileDTO.SocialProfileId.ToString(),
+        //                    UpdateOn = DateTime.Now,
+        //                    SocialProfileId = profileDTO.SocialProfileId,
+        //                    StatusId = (int)GeneralStatus.Unread,
+        //                    Mode = severMode
+        //                };
+        //                _notManager.AddNotification(nt);
+        //            }
+        //            #endregion
 
-                    #region AssignIpAddress
-                    if (string.IsNullOrEmpty(profileDTO.ProxyIPNumber))
-                    {
-                        if (City > 0)
-                        {
-                            var city = CommonManager.GetCityAndCountryData(City).FirstOrDefault();
-                            if (city != null)
-                            {
-                                var proxyInfo = _commonManager.AssignedNearestProxyIP(this.CDT.CustomerId, city.CountyCityName.Replace(",", ""), SocialProfileId ?? 0, _googleApiKey);
-                                if (proxyInfo != null)
-                                {
-                                    profileDTO.ProxyIPNumber = proxyInfo.ProxyIPNumber;
-                                    profileDTO.ProxyPort = proxyInfo.ProxyPort;
-                                    profileDTO.ProxyIPName = proxyInfo.ProxyIPName;
+        //            #region AssignIpAddress
+        //            if (string.IsNullOrEmpty(profileDTO.ProxyIPNumber))
+        //            {
+        //                if (City > 0)
+        //                {
+        //                    var city = CommonManager.GetCityAndCountryData(City).FirstOrDefault();
+        //                    if (city != null)
+        //                    {
+        //                        var proxyInfo = _commonManager.AssignedNearestProxyIP(this.CDT.CustomerId, city.CountyCityName.Replace(",", ""), SocialProfileId ?? 0, _googleApiKey);
+        //                        if (proxyInfo != null)
+        //                        {
+        //                            profileDTO.ProxyIPNumber = proxyInfo.ProxyIPNumber;
+        //                            profileDTO.ProxyPort = proxyInfo.ProxyPort;
+        //                            profileDTO.ProxyIPName = proxyInfo.ProxyIPName;
 
-                                    var nt = new NotificationDTO()
-                                    {
-                                        Notification = string.Format(NotificationMessages[(int)NotificationMessagesIndexes.IPAssinged], proxyInfo.ProxyIPNumber, proxyInfo.ProxyPort),
-                                        CreatedBy = profileDTO.SocialProfileId.ToString(),
-                                        CreatedOn = System.DateTime.Now,
-                                        Updatedby = profileDTO.SocialProfileId.ToString(),
-                                        UpdateOn = DateTime.Now,
-                                        SocialProfileId = profileDTO.SocialProfileId,
-                                        StatusId = (int)GeneralStatus.Unread,
-                                        Mode= severMode
-                                    };
-                                    _notManager.AddNotification(nt);
+        //                            var nt = new NotificationDTO()
+        //                            {
+        //                                Notification = string.Format(NotificationMessages[(int)NotificationMessagesIndexes.IPAssinged], proxyInfo.ProxyIPNumber, proxyInfo.ProxyPort),
+        //                                CreatedBy = profileDTO.SocialProfileId.ToString(),
+        //                                CreatedOn = System.DateTime.Now,
+        //                                Updatedby = profileDTO.SocialProfileId.ToString(),
+        //                                UpdateOn = DateTime.Now,
+        //                                SocialProfileId = profileDTO.SocialProfileId,
+        //                                StatusId = (int)GeneralStatus.Unread,
+        //                                Mode= severMode
+        //                            };
+        //                            _notManager.AddNotification(nt);
 
-                                }
-                            }
-                        }
-                    }
-                    #endregion
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            #endregion
 
-                    #region CheckingServerIsRunning
+        //            #region CheckingServerIsRunning
                     
-                    if (!profileDTO.IsJVServerRunning)
-                    {
-                        _cm.BlockProfile24Hrs(SocialProfileId ?? 0, proxyNoOfAttemps);
-                        jr.Data = new
-                        {
-                            ResultType = "Success",
-                            Message = "",
-                            ResultData = new
-                            {
-                                JVStaus = "ServerNotRunning",
-                                JVRPCSessionId = rpcSessionId,
-                                JVStatusId = (int)GlobalEnums.JVStatus.InvalidCredentials,
-                                InvalidCredentialsAttempts = invalidCredentialsAttempts + 1
-                            }
-                        };
-                        return jr;
-                    }
+        //            if (!profileDTO.IsJVServerRunning)
+        //            {
+        //                _cm.BlockProfile24Hrs(SocialProfileId ?? 0, proxyNoOfAttemps);
+        //                jr.Data = new
+        //                {
+        //                    ResultType = "Success",
+        //                    Message = "",
+        //                    ResultData = new
+        //                    {
+        //                        JVStaus = "ServerNotRunning",
+        //                        JVRPCSessionId = rpcSessionId,
+        //                        JVStatusId = (int)GlobalEnums.JVStatus.InvalidCredentials,
+        //                        InvalidCredentialsAttempts = invalidCredentialsAttempts + 1
+        //                    }
+        //                };
+        //                return jr;
+        //            }
 
-                    #endregion
+        //            #endregion
 
-                    jr.Data = new
-                    {
-                        ResultType = "Success",
-                        Message = "",
-                        ResultData = new { JVStaus = "ProfileSaved" }
-                    };
-                    return jr;
+        //            jr.Data = new
+        //            {
+        //                ResultType = "Success",
+        //                Message = "",
+        //                ResultData = new { JVStaus = "ProfileSaved" }
+        //            };
+        //            return jr;
                     
-                }
-                else
-                {
-                    jr.Data = new { ResultType = "Error", Message = "Social Profile not found. Please contact admin." };
-                }
-                return jr;
-            }
-            catch (Exception ex)
-            {
-                jr.Data = new
-                {
-                    ResultType = "Success",
-                    Message = "Profile setup session expired. Please try again later after 30 mints.",
-                    ResultData = new { JVStaus = "Exception", JVRPCSessionId = "", JVStatusId = "" }
-                };
-                return jr;
-            }
+        //        }
+        //        else
+        //        {
+        //            jr.Data = new { ResultType = "Error", Message = "Social Profile not found. Please contact admin." };
+        //        }
+        //        return jr;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        jr.Data = new
+        //        {
+        //            ResultType = "Success",
+        //            Message = "Profile setup session expired. Please try again later after 30 mints.",
+        //            ResultData = new { JVStaus = "Exception", JVRPCSessionId = "", JVStatusId = "" }
+        //        };
+        //        return jr;
+        //    }
 
-        }
+        //}
         
-        [HttpPost]
-        public ActionResult NewCardPayment(CustomerCardDetailViewModel model)
-        {
+        //[HttpPost]
+        //public ActionResult NewCardPayment(CustomerCardDetailViewModel model)
+        //{
 
-            KlaviyoAPI klaviyoAPI = new KlaviyoAPI();
-            KlaviyoProfile klaviyoProfile = new KlaviyoProfile();
-            var jr = new JsonResult();
-            try
-            {
-                int socialProfileId = model.SocialProfileId;//TODO: Social Profile Id
+        //    KlaviyoAPI klaviyoAPI = new KlaviyoAPI();
+        //    KlaviyoProfile klaviyoProfile = new KlaviyoProfile();
+        //    var jr = new JsonResult();
+        //    try
+        //    {
+        //        int socialProfileId = model.SocialProfileId;//TODO: Social Profile Id
 
-                var _stripeApiKey = SystemConfig.GetConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
-                StripeConfiguration.SetApiKey(_stripeApiKey);
+        //        var _stripeApiKey = SystemConfig.GetConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
+        //        StripeConfiguration.SetApiKey(_stripeApiKey);
 
-                CustomerTargetProfileDTO profileDTO = null;
-                if (model.SocialProfileId > 0)
-                {
-                    profileDTO = _cm.GetSocialProfilesById(model.SocialProfileId);
-                }
+        //        CustomerTargetProfileDTO profileDTO = null;
+        //        if (model.SocialProfileId > 0)
+        //        {
+        //            profileDTO = _cm.GetSocialProfilesById(model.SocialProfileId);
+        //        }
 
-                if (!profileDTO.IsJVServerRunning)
-                {
-                    severMode = "Manual";
-                }
+        //        if (!profileDTO.IsJVServerRunning)
+        //        {
+        //            severMode = "Manual";
+        //        }
 
-                var subscriptionService = new SubscriptionService();
-                Subscription stripeSubscription = null;
+        //        var subscriptionService = new SubscriptionService();
+        //        Subscription stripeSubscription = null;
 
-                if (this.CDT.StripeCustomerId != null)
-                {
-                    if (profileDTO.StripeSubscriptionId != null)
-                    {
-                        if (model.stripeToken != null)
-                        {
-                            var options = new CustomerUpdateOptions
-                            {
-                                SourceToken = model.stripeToken,
-                            };
-                            var service = new CustomerService();
-                            Customer customer = service.Update(this.CDT.StripeCustomerId, options);
-                        }
-                        Subscription subscriptionItemUpdate = subscriptionService.Get(profileDTO.StripeSubscriptionId);
+        //        if (this.CDT.StripeCustomerId != null)
+        //        {
+        //            if (profileDTO.StripeSubscriptionId != null)
+        //            {
+        //                if (model.stripeToken != null)
+        //                {
+        //                    var options = new CustomerUpdateOptions
+        //                    {
+        //                        SourceToken = model.stripeToken,
+        //                    };
+        //                    var service = new CustomerService();
+        //                    Customer customer = service.Update(this.CDT.StripeCustomerId, options);
+        //                }
+        //                Subscription subscriptionItemUpdate = subscriptionService.Get(profileDTO.StripeSubscriptionId);
 
-                        var items = new List<SubscriptionItemUpdateOption> {
-                                        new SubscriptionItemUpdateOption {
-                                        Id= subscriptionItemUpdate.Items.Data[0].Id,
-                                        PlanId = model.StripePlanId,
-                                        Quantity= 1,
-                                        },
-                                    };
+        //                var items = new List<SubscriptionItemUpdateOption> {
+        //                                new SubscriptionItemUpdateOption {
+        //                                Id= subscriptionItemUpdate.Items.Data[0].Id,
+        //                                PlanId = model.StripePlanId,
+        //                                Quantity= 1,
+        //                                },
+        //                            };
 
-                        var subscriptionUpdateoptions = new SubscriptionUpdateOptions
-                        {
-                            Items = items,
-                            Billing = Billing.ChargeAutomatically,
-                            BillingThresholds = { },
-                            Prorate = true,
-                            BillingCycleAnchorNow = true,
-                            BillingCycleAnchorUnchanged = true,
-                            //ProrationDate = DateTime.Now,
+        //                var subscriptionUpdateoptions = new SubscriptionUpdateOptions
+        //                {
+        //                    Items = items,
+        //                    Billing = Billing.ChargeAutomatically,
+        //                    BillingThresholds = { },
+        //                    Prorate = true,
+        //                    BillingCycleAnchorNow = true,
+        //                    BillingCycleAnchorUnchanged = true,
+        //                    //ProrationDate = DateTime.Now,
 
-                        };
+        //                };
 
-                        stripeSubscription = subscriptionService.Update(profileDTO.StripeSubscriptionId, subscriptionUpdateoptions);
-                    }
-                    else
-                    {
-                        var stripeItems = new List<SubscriptionItemOption> {
-                                      new SubscriptionItemOption {
-                                        PlanId = model.StripePlanId,
-                                        Quantity= 1
-                                      }
-                                    };
-                        var stripeSubscriptionCreateoptions = new SubscriptionCreateOptions
-                        {
-                            CustomerId = this.CDT.StripeCustomerId,
-                            Items = stripeItems,
-                            Billing = Billing.ChargeAutomatically,
-                            BillingThresholds = { }
-                        };
-                        stripeSubscription = subscriptionService.Create(stripeSubscriptionCreateoptions);
-                    }
+        //                stripeSubscription = subscriptionService.Update(profileDTO.StripeSubscriptionId, subscriptionUpdateoptions);
+        //            }
+        //            else
+        //            {
+        //                var stripeItems = new List<SubscriptionItemOption> {
+        //                              new SubscriptionItemOption {
+        //                                PlanId = model.StripePlanId,
+        //                                Quantity= 1
+        //                              }
+        //                            };
+        //                var stripeSubscriptionCreateoptions = new SubscriptionCreateOptions
+        //                {
+        //                    CustomerId = this.CDT.StripeCustomerId,
+        //                    Items = stripeItems,
+        //                    Billing = Billing.ChargeAutomatically,
+        //                    BillingThresholds = { }
+        //                };
+        //                stripeSubscription = subscriptionService.Create(stripeSubscriptionCreateoptions);
+        //            }
 
-                }
-                else
-                {
-                    var stripeCustomerCreateOptions = new CustomerCreateOptions
-                    {
-                        Description = " Customer for Social Growth" + this.CDT.EmailAddress,
-                        SourceToken = model.stripeToken,
-                        Name = this.CDT.FirstName + " " + this.CDT.SurName,
-                        Email = this.CDT.EmailAddress
-                    };
-                    var stripeCustomerService = new CustomerService();
-                    Customer stripeCustomer = stripeCustomerService.Create(stripeCustomerCreateOptions);
+        //        }
+        //        else
+        //        {
+        //            var stripeCustomerCreateOptions = new CustomerCreateOptions
+        //            {
+        //                Description = " Customer for Social Growth" + this.CDT.EmailAddress,
+        //                SourceToken = model.stripeToken,
+        //                Name = this.CDT.FirstName + " " + this.CDT.SurName,
+        //                Email = this.CDT.EmailAddress
+        //            };
+        //            var stripeCustomerService = new CustomerService();
+        //            Customer stripeCustomer = stripeCustomerService.Create(stripeCustomerCreateOptions);
 
-                    //-- Update customer stripe id async call not to wait.
-                    _cm.UpdateStripeCustomerId(this.CDT.CustomerId, stripeCustomer.Id);
+        //            //-- Update customer stripe id async call not to wait.
+        //            _cm.UpdateStripeCustomerId(this.CDT.CustomerId, stripeCustomer.Id);
 
-                    this.CDT.StripeCustomerId = stripeCustomer.Id;
-                    _sessionManager.Set(SessionConstants.Customer, this.CDT);
+        //            this.CDT.StripeCustomerId = stripeCustomer.Id;
+        //            _sessionManager.Set(SessionConstants.Customer, this.CDT);
 
-                    var stripeItems = new List<SubscriptionItemOption> {
-                      new SubscriptionItemOption {
-                        PlanId = model.StripePlanId,
-                        Quantity= 1
-                      }
-                    };
-                    var stripeSubscriptionCreateOptions = new SubscriptionCreateOptions
-                    {
-                        CustomerId = stripeCustomer.Id,
-                        Items = stripeItems,
-                        Billing = Billing.ChargeAutomatically,
-                        //  BillingCycleAnchor = DateTime.Now,
-                        BillingThresholds = { }
-                    };
-                    stripeSubscription = subscriptionService.Create(stripeSubscriptionCreateOptions);
-                }
+        //            var stripeItems = new List<SubscriptionItemOption> {
+        //              new SubscriptionItemOption {
+        //                PlanId = model.StripePlanId,
+        //                Quantity= 1
+        //              }
+        //            };
+        //            var stripeSubscriptionCreateOptions = new SubscriptionCreateOptions
+        //            {
+        //                CustomerId = stripeCustomer.Id,
+        //                Items = stripeItems,
+        //                Billing = Billing.ChargeAutomatically,
+        //                //  BillingCycleAnchor = DateTime.Now,
+        //                BillingThresholds = { }
+        //            };
+        //            stripeSubscription = subscriptionService.Create(stripeSubscriptionCreateOptions);
+        //        }
 
-                //--TODO: Check subscription status here
+        //        //--TODO: Check subscription status here
 
-                if (stripeSubscription != null)
-                {
-                    this.CDT.StripePlanId = model.StripePlanId;
-                    _sessionManager.Set(SessionConstants.Customer, this.CDT);
+        //        if (stripeSubscription != null)
+        //        {
+        //            this.CDT.StripePlanId = model.StripePlanId;
+        //            _sessionManager.Set(SessionConstants.Customer, this.CDT);
 
-                    PlanService service = new PlanService();
-                    //-- Subscription Description
-                    if (stripeSubscription.Plan == null)
-                    {
-                        var selectedPlan = service.Get(this.CDT.StripePlanId);
-                        stripeSubscription.Plan = selectedPlan;
-                    }
+        //            PlanService service = new PlanService();
+        //            //-- Subscription Description
+        //            if (stripeSubscription.Plan == null)
+        //            {
+        //                var selectedPlan = service.Get(this.CDT.StripePlanId);
+        //                stripeSubscription.Plan = selectedPlan;
+        //            }
 
-                    SubscriptionDTO subDTO = new SubscriptionDTO();
-                    subDTO.CustomerId = this.CDT.CustomerId;
-                    subDTO.StripeSubscriptionId = stripeSubscription.Id;
-                    subDTO.Description = stripeSubscription.Plan.Nickname;
-                    subDTO.Name = stripeSubscription.Plan.Nickname;
-                    subDTO.Price = stripeSubscription.Plan.Amount;
-                    //-- subDTO.Price = stripeSubscription.Plan.Amount;
-                    subDTO.StripePlanId = model.StripePlanId;
-                    subDTO.SubscriptionType = stripeSubscription.Plan.Interval;
+        //            SubscriptionDTO subDTO = new SubscriptionDTO();
+        //            subDTO.CustomerId = this.CDT.CustomerId;
+        //            subDTO.StripeSubscriptionId = stripeSubscription.Id;
+        //            subDTO.Description = stripeSubscription.Plan.Nickname;
+        //            subDTO.Name = stripeSubscription.Plan.Nickname;
+        //            subDTO.Price = stripeSubscription.Plan.Amount;
+        //            //-- subDTO.Price = stripeSubscription.Plan.Amount;
+        //            subDTO.StripePlanId = model.StripePlanId;
+        //            subDTO.SubscriptionType = stripeSubscription.Plan.Interval;
 
-                    subDTO.StartDate = stripeSubscription.Start ?? DateTime.Now;
-                    subDTO.EndDate = ((DateTime)stripeSubscription.Start).AddMonths(1);
-                    subDTO.StatusId = (int)GlobalEnums.PlanSubscription.Active;
-                    subDTO.PaymentPlanId = 0;
-                    subDTO.SocialProfileId = model.SocialProfileId;
-                    subDTO.StripeInvoiceId = stripeSubscription.LatestInvoiceId;
-                    _cm.InsertSubscription(subDTO);
+        //            subDTO.StartDate = stripeSubscription.Start ?? DateTime.Now;
+        //            subDTO.EndDate = ((DateTime)stripeSubscription.Start).AddMonths(1);
+        //            subDTO.StatusId = (int)GlobalEnums.PlanSubscription.Active;
+        //            subDTO.PaymentPlanId = 0;
+        //            subDTO.SocialProfileId = model.SocialProfileId;
+        //            subDTO.StripeInvoiceId = stripeSubscription.LatestInvoiceId;
+        //            _cm.InsertSubscription(subDTO);
 
-                    var nt = new NotificationDTO()
-                    {
-                        Notification = string.Format(NotificationMessages[(int)NotificationMessagesIndexes.PlanSubscribe], stripeSubscription.Plan.Nickname),
-                        CreatedBy = profileDTO.SocialProfileId.ToString(),
-                        CreatedOn = System.DateTime.Now,
-                        Updatedby = profileDTO.SocialProfileId.ToString(),
-                        UpdateOn = DateTime.Now,
-                        SocialProfileId = profileDTO.SocialProfileId,
-                        StatusId = (int)GeneralStatus.Unread,
-                        Mode = severMode
-                    };
-                    _notManager.AddNotification(nt);
+        //            var nt = new NotificationDTO()
+        //            {
+        //                Notification = string.Format(NotificationMessages[(int)NotificationMessagesIndexes.PlanSubscribe], stripeSubscription.Plan.Nickname),
+        //                CreatedBy = profileDTO.SocialProfileId.ToString(),
+        //                CreatedOn = System.DateTime.Now,
+        //                Updatedby = profileDTO.SocialProfileId.ToString(),
+        //                UpdateOn = DateTime.Now,
+        //                SocialProfileId = profileDTO.SocialProfileId,
+        //                StatusId = (int)GeneralStatus.Unread,
+        //                Mode = severMode
+        //            };
+        //            _notManager.AddNotification(nt);
 
-                    var message = "";
+        //            var message = "";
 
-                    int? jvStatusId = profileDTO.JVStatusId;
-                    if (profileDTO.JVStatusId == null)
-                    {
+        //            int? jvStatusId = profileDTO.JVStatusId;
+        //            if (profileDTO.JVStatusId == null)
+        //            {
 
-                        _cm.SetSocialProfileJVStatus(model.SocialProfileId, (int)GlobalEnums.JVStatus.ProfileNotSetup, this.CDT.EmailAddress);
-                        jvStatusId = (int)GlobalEnums.JVStatus.ProfileNotSetup;
+        //                _cm.SetSocialProfileJVStatus(model.SocialProfileId, (int)GlobalEnums.JVStatus.ProfileNotSetup, this.CDT.EmailAddress);
+        //                jvStatusId = (int)GlobalEnums.JVStatus.ProfileNotSetup;
 
-                        message = "Thankyou! Plan has succesfully update. Please set up your profile.";
+        //                message = "Thankyou! Plan has succesfully update. Please set up your profile.";
 
-                    }
-                    else if(profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.Deleted || profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.ProfileRequiresCancelling)
-                    {
-                        _cm.SetSocialProfileJVStatus(model.SocialProfileId, (int)GlobalEnums.JVStatus.ProfileNotSetup, this.CDT.EmailAddress);
-                        jvStatusId = (int)GlobalEnums.JVStatus.ProfileNotSetup;
+        //            }
+        //            else if(profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.Deleted || profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.ProfileRequiresCancelling)
+        //            {
+        //                _cm.SetSocialProfileJVStatus(model.SocialProfileId, (int)GlobalEnums.JVStatus.ProfileNotSetup, this.CDT.EmailAddress);
+        //                jvStatusId = (int)GlobalEnums.JVStatus.ProfileNotSetup;
 
-                        message = "Thankyou! Plan has succesfully update. Please set up your profile.";
-                    }
-                    object ResultData = new
-                    {
-                        JVStatusId = jvStatusId,
-                        JVStatusName = "Accounts to be loaded",
-                        ActivePlanId = model.StripePlanId
-                    };
+        //                message = "Thankyou! Plan has succesfully update. Please set up your profile.";
+        //            }
+        //            object ResultData = new
+        //            {
+        //                JVStatusId = jvStatusId,
+        //                JVStatusName = "Accounts to be loaded",
+        //                ActivePlanId = model.StripePlanId
+        //            };
 
-                    //_cm.AssignJVBoxToCustomer(this.CDT.CustomerId, socialProfileId);
-                    //var cityId = _cm.GetTargetedCityIdByCustomerId(this.CDT.CustomerId, socialProfileId);
-                    //if (cityId > 0)
-                    //{
-                    //    var city = CommonManager.GetCityAndCountryData(cityId).FirstOrDefault();
-                    //    if (city != null)
-                    //    {
-                    //        _commonManager.AssignedNearestProxyIP(this.CDT.CustomerId, city.CountyCityName.Replace(",", ""), socialProfileId);
-                    //    }
-                    //}
+        //            //_cm.AssignJVBoxToCustomer(this.CDT.CustomerId, socialProfileId);
+        //            //var cityId = _cm.GetTargetedCityIdByCustomerId(this.CDT.CustomerId, socialProfileId);
+        //            //if (cityId > 0)
+        //            //{
+        //            //    var city = CommonManager.GetCityAndCountryData(cityId).FirstOrDefault();
+        //            //    if (city != null)
+        //            //    {
+        //            //        _commonManager.AssignedNearestProxyIP(this.CDT.CustomerId, city.CountyCityName.Replace(",", ""), socialProfileId);
+        //            //    }
+        //            //}
 
-                    //eventAPI();
+        //            //eventAPI();
 
-                    //--TODO: Update Klaviyo Web API Key
-                    var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
-                    var _klavio_PayingSubscribeList = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_PayingSubscribeList").ToLower()).ConfigValue;
-                    var _klavio_NonPayingSubscribeList = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_NonPayingSubscribeList").ToLower()).ConfigValue;
-                    klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_NonPayingSubscribeList);
+        //            //--TODO: Update Klaviyo Web API Key
+        //            var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
+        //            var _klavio_PayingSubscribeList = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_PayingSubscribeList").ToLower()).ConfigValue;
+        //            var _klavio_NonPayingSubscribeList = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_NonPayingSubscribeList").ToLower()).ConfigValue;
+        //            klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_NonPayingSubscribeList);
 
-                    List<NotRequiredProperty> list = new List<NotRequiredProperty>()  {
-                        new NotRequiredProperty("$email", this.CDT.EmailAddress),
-                        new NotRequiredProperty("$first_name ", this.CDT.FirstName),
-                        new NotRequiredProperty("$last_name ", this.CDT.SurName),
-                        //new NotRequiredProperty("URL", URL),
-                        new NotRequiredProperty("InvoiceDate",subDTO.StartDate.ToString("dd MMMM yyyy") ),
-                        new NotRequiredProperty("PlanName", subDTO.Name),
-                        new NotRequiredProperty("Price",  "$" + subDTO.Price/100),
-                        new NotRequiredProperty("Card", ""),
-                        new NotRequiredProperty("Address","")
-                    };
-                    klaviyoProfile.email = this.CDT.EmailAddress;
-
-
-
-                    klaviyoAPI.PeopleAPI(list, _klaviyoPublishKey);
-                    var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_PayingSubscribeList);
+        //            List<NotRequiredProperty> list = new List<NotRequiredProperty>()  {
+        //                new NotRequiredProperty("$email", this.CDT.EmailAddress),
+        //                new NotRequiredProperty("$first_name ", this.CDT.FirstName),
+        //                new NotRequiredProperty("$last_name ", this.CDT.SurName),
+        //                //new NotRequiredProperty("URL", URL),
+        //                new NotRequiredProperty("InvoiceDate",subDTO.StartDate.ToString("dd MMMM yyyy") ),
+        //                new NotRequiredProperty("PlanName", subDTO.Name),
+        //                new NotRequiredProperty("Price",  "$" + subDTO.Price/100),
+        //                new NotRequiredProperty("Card", ""),
+        //                new NotRequiredProperty("Address","")
+        //            };
+        //            klaviyoProfile.email = this.CDT.EmailAddress;
 
 
 
-                    jr.Data = new { ResultType = "Success", Message = message, ResultData };
+        //            klaviyoAPI.PeopleAPI(list, _klaviyoPublishKey);
+        //            var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_PayingSubscribeList);
 
-                }
-                else
-                {
-                    jr.Data = new { ResultType = "Error", message = "Some error occurred. Please contact administrator." };
-                }
 
-                return jr;
-            }
-            catch (Exception ex)
-            {
-                jr.Data = new { ResultType = "Error", message = "Something Went Wrong.", ExceptionError = ex.InnerException != null ? ex.InnerException.Message : ex.Message };
-                return jr;
-            }
-        }
+
+        //            jr.Data = new { ResultType = "Success", Message = message, ResultData };
+
+        //        }
+        //        else
+        //        {
+        //            jr.Data = new { ResultType = "Error", message = "Some error occurred. Please contact administrator." };
+        //        }
+
+        //        return jr;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        jr.Data = new { ResultType = "Error", message = "Something Went Wrong.", ExceptionError = ex.InnerException != null ? ex.InnerException.Message : ex.Message };
+        //        return jr;
+        //    }
+        //}
 
         //private JsonResult JarveeUpdateProfile(string actionType)
         //{
@@ -873,17 +873,17 @@ namespace SG2.CORE.WEB.Controllers
         //    return jr;
         //}
 
-        public JsonResult IsSocialUserNameExist(string InstaUser, int SocialProfileId = 0)
-        {
-            try
-            {
-                return _targetPreferenceManager.IsSocialUserNameExist(InstaUser, SocialProfileId) ? Json(true, JsonRequestBehavior.AllowGet) : Json(false, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //public JsonResult IsSocialUserNameExist(string InstaUser, int SocialProfileId = 0)
+        //{
+        //    try
+        //    {
+        //        return _targetPreferenceManager.IsSocialUserNameExist(InstaUser, SocialProfileId) ? Json(true, JsonRequestBehavior.AllowGet) : Json(false, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
         public ActionResult GetFollowersStatistics(int socialProfileId)
         {
@@ -951,10 +951,10 @@ namespace SG2.CORE.WEB.Controllers
                 CustomerTargetProfileDTO profileDTO = _cm.GetSocialProfilesById(SocialProfileId);
 
 
-                if (!profileDTO.IsJVServerRunning)
-                {
-                    severMode = "Manual";
-                }
+                //if (!profileDTO.IsJVServerRunning)
+                //{
+                //    severMode = "Manual";
+                //}
                 var _stripeApiKey = SystemConfig.GetConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
                 if (profileDTO != null)
                 {
@@ -969,7 +969,7 @@ namespace SG2.CORE.WEB.Controllers
 
                             if (subscription != null)
                             {
-                                _cm.UpdateJVStatus(SocialProfileId, (int)GlobalEnums.JVStatus.ProfileRequiresCancelling);
+                                //_cm.UpdateJVStatus(SocialProfileId, (int)GlobalEnums.JVStatus.ProfileRequiresCancelling);
                                 _customerManager.UpdateSubscriptionStatus((int)profileDTO.SubscriptionId, (int)GlobalEnums.PlanSubscription.canceled);
                             }
 
@@ -985,7 +985,7 @@ namespace SG2.CORE.WEB.Controllers
                                     CreatedOn = DateTime.Now,
                                     Updatedby = profileDTO.SocialProfileId.ToString(),
                                     UpdateOn = DateTime.Now,
-                                    SocialProfileId = profileDTO.SocialProfileId,
+                                    SocialProfileId = profileDTO.SocialProfileId.Value,
                                     StatusId = (int)GeneralStatus.Unread,
                                     Mode = severMode
                                 };

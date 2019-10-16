@@ -23,7 +23,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
         protected readonly CustomerManager _customerManager;
         protected readonly CommonManager _commonManager;
         private readonly string _PageSize = string.Empty;
-        protected readonly TargetPreferencesManager _targetPreferenceManager;
+        //protected readonly TargetPreferencesManager _targetPreferenceManager;
         protected readonly List<SystemSettingsDTO> SystemConfigs;
 
 
@@ -32,7 +32,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             _customerManager = new CustomerManager();
             _commonManager = new CommonManager();
             _PageSize = WebConfigurationManager.AppSettings["PageSize"];
-            _targetPreferenceManager = new TargetPreferencesManager();
+            //_targetPreferenceManager = new TargetPreferencesManager();
             ViewBag.SetMenuActiveClass = "CRM";
             SystemConfigs = SystemConfig.GetConfigs;
 
@@ -116,7 +116,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             int custId1 = Convert.ToInt32(HttpUtility.UrlDecode(CryptoEngine.Decrypt(id)));
             int socialProfileId = Convert.ToInt32(HttpUtility.UrlDecode(CryptoEngine.Decrypt(SPId)));
             var model = _customerManager.GetSpecificUserData(custId1, socialProfileId);
-            model.Countries = CommonManager.GetCountries();
+            //model.Countries = CommonManager.GetCountries();
             if (!string.IsNullOrEmpty(model.Country))
             {
                 model.cities = CommonManager.GetCities().Where(m => m.CountryId == Convert.ToInt16(model.Country)).ToList();
@@ -210,63 +210,17 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                     //int custId = Convert.ToInt32(CryptoEngine.Decrypt(customerId.ToString()));
                     int custId = Convert.ToInt32((CryptoEngine.Decrypt(Cus)));
                     int socialProfileId = Convert.ToInt32((CryptoEngine.Decrypt(SPId)));
-                    var User = _customerManager.AssignJVBoxToCustomer(custId, socialProfileId);
-                    if (User != null)
-                    {
-                        jr.Data = new { ResultType = "Success", message = "JV Box assigned successfully.", User };
-                    }
+                    //var User = _customerManager.AssignJVBoxToCustomer(custId, socialProfileId);
+                    //if (User != null)
+                    //{
+                    //    jr.Data = new { ResultType = "Success", message = "JV Box assigned successfully.", User };
+                    //}
 
-                    else
-                    {
-                        string messages = "Something went wrong";
-                        jr.Data = new { ResultType = "Error", message = messages };
-                    }
-
-                }
-                return Json(jr, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-        }
-
-        public ActionResult AssignNearestIPToProfile(string customerId, string profileId)
-        {
-            try
-            {
-                var _googleApiKey = SystemConfigs.First(x => x.ConfigKey == "GoogleMapApiKey").ConfigValue;
-
-                var jr = new JsonResult();
-                if (!string.IsNullOrEmpty(customerId))
-                {
-                    var Cus = HttpUtility.UrlDecode(customerId);
-                    var SPId = HttpUtility.UrlDecode(profileId);
-                    //int custId = Convert.ToInt32(CryptoEngine.Decrypt(customerId.ToString()));
-                    int custId = Convert.ToInt32((CryptoEngine.Decrypt(Cus)));
-                    int socialProfileId = Convert.ToInt32((CryptoEngine.Decrypt(SPId)));
-
-                    var cityId = _customerManager.GetTargetedCityIdByCustomerId(custId, socialProfileId);
-                    if (cityId > 0)
-                    {
-                        var city = CommonManager.GetCityAndCountryData(cityId).FirstOrDefault();
-                        if (city != null)
-                        {
-                            var User = _commonManager.AssignedNearestProxyIP(custId, city.CountyCityName.Replace(",", ""), socialProfileId, _googleApiKey);
-                        }
-                    }
-
-                    if (User != null)
-                    {
-                        jr.Data = new { ResultType = "Success", message = "IP assigned successfully.", User };
-                    }
-
-                    else
-                    {
-                        string messages = "Something went wrong";
-                        jr.Data = new { ResultType = "Error", message = messages };
-                    }
+                    //else
+                    //{
+                    //    string messages = "Something went wrong";
+                    //    jr.Data = new { ResultType = "Error", message = messages };
+                    //}
 
                 }
                 return Json(jr, JsonRequestBehavior.AllowGet);
@@ -527,117 +481,6 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
         }
 
-        public ActionResult UpdateMPBox(string profileId, int? MPBox = null)
-        {
-            var jr = new JsonResult();
-            string messages = string.Empty;
-            try
-            {
-                if (!string.IsNullOrEmpty(profileId))
-                {
-                    var SPId = HttpUtility.UrlDecode(profileId);
-                    int socialProfileId = Convert.ToInt32((CryptoEngine.Decrypt(SPId)));
-                    var User = _customerManager.UpdateMPBox(socialProfileId, MPBox);
-                    if (User)
-                    {
-                        jr.Data = new { ResultType = "Success", message = "MP Box updated successfully." };
-                    }
-
-                    else
-                    {
-                        messages = "Something went wrong";
-                        jr.Data = new { ResultType = "Error", message = messages };
-                    }
-
-                }
-
-                return Json(jr, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-        }
-
-        public ActionResult UpdateJVStatus(string profileId, int? jvStatus = null)
-        {
-            var jr = new JsonResult();
-            string messages = string.Empty;
-            try
-            {
-                if (!string.IsNullOrEmpty(profileId))
-                {
-                    var SPId = HttpUtility.UrlDecode(profileId);
-                    int socialProfileId = Convert.ToInt32((CryptoEngine.Decrypt(SPId)));
-                    var User = _customerManager.UpdateJVStatus(socialProfileId, jvStatus);
-                    if (User)
-                    {
-                        jr.Data = new { ResultType = "Success", message = "Status updated successfully." };
-                    }
-
-                    else
-                    {
-                        messages = "Something went wrong";
-                        jr.Data = new { ResultType = "Error", message = messages };
-                    }
-
-                }
-
-                return Json(jr, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-
-        }
-
-        public ActionResult UpdateProxyIp(string profileId, int? proxyIp = null)
-        {
-            try
-            {
-                var jr = new JsonResult();
-                string messages = string.Empty;
-                if (!string.IsNullOrEmpty(profileId))
-                {
-                    var SPId = HttpUtility.UrlDecode(profileId);
-                    int socialProfileId = Convert.ToInt32((CryptoEngine.Decrypt(SPId)));
-                    var User = _customerManager.UpdateProxyIp(socialProfileId, proxyIp);
-                    if (User)
-                    {
-                        var data = _customerManager.GetProxyIp(socialProfileId);
-                        jr.Data = new { ResultType = "Success", message = "Proxy assigned successfully.", ResultData = data };
-                    }
-
-                    else
-                    {
-                        messages = "Something went wrong";
-                        jr.Data = new { ResultType = "Error", message = messages };
-                    }
-
-                }
-
-                return Json(jr, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-
-        }
-
-        public ActionResult GetProxyIps(int countryId, int cityId)
-        {
-            var proxyIP = _customerManager.GetProxyIPs(countryId, cityId).ToList();
-
-            return Json(proxyIP, JsonRequestBehavior.AllowGet);
-        }
 
         public ActionResult UserDetail()
         {
