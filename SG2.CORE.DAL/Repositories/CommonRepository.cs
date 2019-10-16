@@ -12,7 +12,31 @@ namespace SG2.CORE.DAL.Repositories
 
     public class CommonRepository
     {
-        
+        public static IList<StatusDTO> GetStatus()
+        {
+            using (var _db = new SocialGrowth2Connection())
+            {
+                var usrdata = _db.SG2_usp_Get_EnumerationValue().ToList();
+                if (usrdata != null)
+                {
+                    List<StatusDTO> statusDTOs = new List<StatusDTO>();
+                    foreach (var item in usrdata)
+                    {
+                        StatusDTO statusDTO = new StatusDTO();
+                        statusDTO.StatusName = item.Enumeration;
+                        statusDTO.StatusId = item.EnumerationValueId;
+                        statusDTO.StatusValue = item.Name;
+                        statusDTOs.Add(statusDTO);
+
+                    }
+                    return statusDTOs;
+
+                }
+                return null;
+            }
+
+        }
+
         public static List<SystemSettingsDTO> GetSystemConfigs()
         {
             try

@@ -28,18 +28,18 @@ namespace SG2.CORE.BAL.Managers
         }
 
 
-        public static IList<CountryDTO> GetCountries()
-        {
-            var Model = CommonRepository.GetCountries();
-            return Model;
-        }
+        //public static IList<CountryDTO> GetCountries()
+        //{
+        //    var Model = CommonRepository.GetCountries();
+        //    return Model;
+        //}
 
-        public static IList<CitiesAndCountriesDTO> GetCityAndCountryData(int? CityId)
-        {
-            var Model = CommonRepository.GetCityAndCountryData(CityId);
-            return Model;
+        //public static IList<CitiesAndCountriesDTO> GetCityAndCountryData(int? CityId)
+        //{
+        //    var Model = CommonRepository.GetCityAndCountryData(CityId);
+        //    return Model;
 
-        }
+        //}
         public static List<SystemSettingsDTO> GetSystemConfigs()
         {
             var Model = CommonRepository.GetSystemConfigs();
@@ -52,11 +52,7 @@ namespace SG2.CORE.BAL.Managers
             return Model;
         }
 
-        public static IList<VPSSDTO> GetVPSDTO()
-        {
-            var Model = CommonRepository.GetVPSDTO();
-            return Model;
-        }
+    
         public static IList<CityDTO> GetCitiesByCountryId(int countryid)
         {
             var Model = CommonRepository.GetCitiesByCountryId(countryid);
@@ -75,23 +71,7 @@ namespace SG2.CORE.BAL.Managers
             return Model;
         }
 
-        public ProxyMappingDTO AssignedNearestProxyIP(int customer, string address, int socialProfileId, string _googeApiKey)
-        {
-            ProxyMappingDTO proxyMappingDTO = new ProxyMappingDTO();
-            float Longitude = 0;
-            float Latitude = 0;
-            string geoCoordinate = GetLatitudeAndLongitude(address, _googeApiKey);
-            if (geoCoordinate != string.Empty)
-            {
-                var cords = geoCoordinate.Split(',');
-                Latitude =(float)Convert.ToDecimal(cords[0]);
-                Longitude = (float)Convert.ToDecimal(cords[1]);
-
-            }
-            proxyMappingDTO = CommonRepository.AssignedNearestProxyIP(customer, Latitude, Longitude, socialProfileId);
-            return proxyMappingDTO;
-
-        }
+       
         
         public string GetLatitudeAndLongitude(string address, string _googleApiKey)
         {

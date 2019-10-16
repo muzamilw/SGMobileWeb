@@ -64,7 +64,7 @@
     <Compile Include="Managers\NotificationManager.cs" />
     <Compile Include="Managers\StatisticsManager.cs" />
     <Compile Include="Managers\SystemSettingsManager.cs" />
-    <Compile Include="Managers\TargetPreferencesManager.cs" />
+    <None Include="Managers\TargetPreferencesManager.cs" />
     <Compile Include="Managers\TeamMemberManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -494,5 +494,10 @@ namespace SG2.CORE.DAL.DB
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_SocialProfile_GetNotificationsByStatus_Result>("SG2_usp_SocialProfile_GetNotificationsByStatus", statusIdParameter);
         }
+    
+        public virtual ObjectResult<SG2_usp_Get_EnumerationValue_Result> SG2_usp_Get_EnumerationValue()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Get_EnumerationValue_Result>("SG2_usp_Get_EnumerationValue");
+        }
     }
 }

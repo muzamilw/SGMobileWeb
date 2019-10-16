@@ -515,6 +515,7 @@
           <Parameter Name="riPageNumber" Type="int" Mode="In" />
           <Parameter Name="riPageSize" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SG2_usp_Get_EnumerationValue" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SG2_usp_Get_SocialProfile_PaymentPlan" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SG2_usp_Get_SpecificCustomerDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="riCustomerId" Type="int" Mode="In" />
@@ -815,8 +816,9 @@
             <Parameter Name="dtToDate" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="SG2_usp_SocialProfile_GetNotificationsByStatus" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_SocialProfile_GetNotificationsByStatus_Result)">
-            <Parameter Name="StatusId" Mode="In" Type="Int16" />
+          <Parameter Name="StatusId" Mode="In" Type="Int16" />
           </FunctionImport>
+          <FunctionImport Name="SG2_usp_Get_EnumerationValue" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Get_EnumerationValue_Result)" />
           
         </EntityContainer>
         <EntityType Name="Customer">
@@ -1858,6 +1860,11 @@
           <Property Type="String" Name="Updatedby" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="Mode" Nullable="false" MaxLength="20" />
         </ComplexType>
+        <ComplexType Name="SG2_usp_Get_EnumerationValue_Result">
+          <Property Type="String" Name="Enumeration" Nullable="false" MaxLength="50" />
+          <Property Type="Int16" Name="EnumerationValueId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2885,6 +2892,15 @@
                 <ScalarProperty Name="UpdateOn" ColumnName="UpdateOn" />
                 <ScalarProperty Name="Updatedby" ColumnName="Updatedby" />
                 <ScalarProperty Name="Mode" ColumnName="Mode" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SG2_usp_Get_EnumerationValue" FunctionName="SocialGrowth2Entities.Store.SG2_usp_Get_EnumerationValue">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_Get_EnumerationValue_Result">
+                <ScalarProperty Name="Enumeration" ColumnName="Enumeration" />
+                <ScalarProperty Name="EnumerationValueId" ColumnName="EnumerationValueId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

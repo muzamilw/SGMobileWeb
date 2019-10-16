@@ -219,16 +219,11 @@ namespace SG2.CORE.BAL.Managers
 
         public List<ActionBoardListingViewModel> GetActionBoardData(int? JVBoxStatusId)
         {
-            var Model = _customerRepository.GetActionBoardData(JVBoxStatusId);
-            return Model;
+            //var Model = _customerRepository.GetActionBoardData(JVBoxStatusId);
+            return new List<ActionBoardListingViewModel>();
         }
 
-        public List<ActionBoardJVSData> GetJVStatuses()
-        {
-            var Model = _customerRepository.GetJVStatuses();
-
-            return Model;
-        }
+      
 
         //public bool UpdateSuccessfulLogin(CustomerIndexViewModel model)
         //{
@@ -318,21 +313,6 @@ namespace SG2.CORE.BAL.Managers
 
         }
 
-        public JVBoxDTO AssignJVBoxToCustomer(int customerId, int socialProfileId)
-        {
-            try
-            {
-                var AssignJVBox = _customerRepository.AssignJVBox(customerId, socialProfileId);
-                return AssignJVBox;
-            }
-
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-
-        }
       
 
         public bool UpdateCustomerPassword(string password, int customerId)
@@ -373,88 +353,7 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public List<ProxyIPDTO> GetProxyIPs(int CountryId, int CityId)
-        {
-            try
-            {
-                return _customerRepository.GetProxyIPs(CountryId, CityId);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-        }
-
-        public List<JVBoxDTO> GetMPBoxes()
-        {
-            try
-            {
-                return _customerRepository.GetMPBoxes();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        public bool UpdateJVStatus(int profileId, int? jvStatus = null)
-        {
-            try
-            {
-                return _customerRepository.UpdateJVStatus(profileId, jvStatus);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-        }
-
-        public bool UpdateMPBox(int profileId, int? MPBox)
-        {
-            try
-            {
-                return _customerRepository.UpdateMPBox(profileId, MPBox);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-        }
-
-        public string GetProxyIp(int profileId)
-        {
-            try
-            {
-                return _customerRepository.GetProxyIp(profileId);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-        }
-
-        public bool UpdateProxyIp(int profileId, int? proxyIp = null)
-        {
-            try
-            {
-                return _customerRepository.UpdateProxyIp(profileId, proxyIp);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-        }
+      
 
         public CustomerDTO GetCustomerByCustomerId(int CustomerId)
         {
@@ -546,17 +445,6 @@ namespace SG2.CORE.BAL.Managers
 
         }
 
-        public int? GetTargetedCityIdByCustomerId(int customerId, int socialProfileId)
-        {
-            try
-            {
-                return _customerRepository.GetTargetedCityIdByCustomerId(customerId, socialProfileId);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
 
         public List<CustomerSocialProfileDTO> GetSocialProfilesByCustomerid(int customerId)
         {
@@ -610,80 +498,33 @@ namespace SG2.CORE.BAL.Managers
             }
 
         }
-          public async Task<bool> UpdateSPNoOfAttempt(int profileId, short NoOfAttempt, DateTime JVAttemptsBlockedTill)
-        {
-            try
-            {
-                return await _customerRepository.UpdateSPNoOfAttempt(profileId, NoOfAttempt, JVAttemptsBlockedTill);
+        
 
-                ;
-            }
-            catch (Exception ex)
-            {
 
-                throw ex;
-            }
-        }
+        //public async Task<bool> SetTargetPreferenceQueueStatus(int profileId, short queueStatus, string updatedBy)
+        //{
+        //    try
+        //    {
+        //        return await _customerRepository.SetTargetPreferenceQueueStatus(profileId, queueStatus, updatedBy);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
 
-        public async Task<bool> SetSocialProfileJVStatus(int profileId, int jvStatusId, string updatedBy)
-        {
-            try
-            {
-                return await _customerRepository.SetSocialProfileJVStatus(profileId, jvStatusId, updatedBy);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+        //public async Task<bool> SetTargetPreferenceLikeyStatus(int profileId, short jvLikeyStatus, int JVNoOfLikes, string updatedBy)
+        //{
+        //    try
+        //    {
+        //        return await _customerRepository.SetTargetPreferenceLikeyStatus(profileId, jvLikeyStatus, JVNoOfLikes, updatedBy);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
 
-        public async Task<bool> SetTargetPreferenceQueueStatus(int profileId, short queueStatus, string updatedBy)
-        {
-            try
-            {
-                return await _customerRepository.SetTargetPreferenceQueueStatus(profileId, queueStatus, updatedBy);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public async Task<bool> SetTargetPreferenceLikeyStatus(int profileId, short jvLikeyStatus, int JVNoOfLikes, string updatedBy)
-        {
-            try
-            {
-                return await _customerRepository.SetTargetPreferenceLikeyStatus(profileId, jvLikeyStatus, JVNoOfLikes, updatedBy);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public bool UpdateNoOfAttempts(int profileId, int noOfAttempts)
-        {
-            try
-            {
-                return _customerRepository.UpdateNoOfAttempts(profileId, noOfAttempts);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public bool BlockProfile24Hrs(int profileId, int noOfAttempts)
-        {
-            try
-            {
-                return _customerRepository.BlockProfile24Hrs(profileId, noOfAttempts);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
 
     }
 }
