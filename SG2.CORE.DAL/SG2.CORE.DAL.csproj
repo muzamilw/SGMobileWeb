@@ -186,7 +186,7 @@
     <None Include="Repositories\QueueLoggerRepository.cs" />
     <None Include="Repositories\StatisticsRepository.cs" />
     <None Include="Repositories\NotificationRepository.cs" />
-    <None Include="Repositories\SystemSettingsRepository.cs" />
+    <Compile Include="Repositories\SystemSettingsRepository.cs" />
     <None Include="Repositories\TargetPreferencesRepository.cs" />
     <None Include="Repositories\TeamMemberRepository.cs" />
   </ItemGroup>

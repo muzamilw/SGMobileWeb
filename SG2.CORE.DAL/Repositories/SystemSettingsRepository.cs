@@ -18,8 +18,15 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
+                    var config = new SystemConfig();
+                    config.ConfigValue = entity.ConfigValue;
+                    config.ConfigValue2 = entity.ConfigValue2;
+                    config.ModifiedOn = DateTime.Now;
+                    config.ModifiedBy = entity.ModifiedBy;
+                    _db.SystemConfigs.Add(config);
 
-                    _db.SG2_usp_SystemConfig_Save(entity.ConfigId, entity.ConfigValue, entity.ConfigValue2, entity.ModifiedOn, entity.ModifiedBy);
+                    _db.SaveChanges();
+                    entity.ConfigId = config.ConfigId;
                     return entity;
                 }
             }
@@ -35,7 +42,13 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    _db.SG2_usp_SystemConfig_Save(entity.ConfigId, entity.ConfigValue, entity.ConfigValue2, entity.ModifiedOn, entity.ModifiedBy);
+                    var config = _db.SystemConfigs.Where(g => g.ConfigId == entity.ConfigId).SingleOrDefault();
+                    config.ConfigValue = entity.ConfigValue;
+                    config.ConfigValue2 = entity.ConfigValue2;
+                    config.ModifiedOn = DateTime.Now;
+                    config.ModifiedBy = entity.ModifiedBy;
+
+                    _db.SaveChanges();
                     return entity;
                 }
 
@@ -52,7 +65,7 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db=new SocialGrowth2Connection())
                 {
-                    var systemConfigdata = _db.SG2_usp_SystemConfig_GetAll(null, 1, "100", null).ToList();
+                    var systemConfigdata = _db.SystemConfigs.ToList();
                     if (systemConfigdata != null)
                     {
                         List<SystemSettingsDTO> systemSettingsDTOs = new List<SystemSettingsDTO>();
@@ -83,7 +96,7 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    var sys = _db.SG2_usp_SystemConfig_GetById(ConfigId).FirstOrDefault();
+                    var sys = _db.SystemConfigs.Where(g => g.ConfigId == ConfigId).FirstOrDefault();
                     if (sys != null)
                     {
                         SystemSettingsDTO systemSettings = new SystemSettingsDTO()
@@ -115,7 +128,7 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    var systemConfigdata = _db.SG2_usp_SystemConfig_GetAll(SearchCriteria, PageNumber, PageSize, StatusId).ToList();
+                    var systemConfigdata = _db.SystemConfigs.ToList(); //_db.SG2_usp_SystemConfig_GetAll(SearchCriteria, PageNumber, PageSize, StatusId).ToList();
                     if (systemConfigdata != null)
                     {
                         List<SystemSettingsListingViewModal> systemSettingsListingViewModalList = new List<SystemSettingsListingViewModal>();
@@ -125,7 +138,7 @@ namespace SG2.CORE.DAL.Repositories
                             SystemSettingsListingViewModal systemSettingsListingViewModal = new SystemSettingsListingViewModal();
                             systemSettingsListingViewModal.ConfigId = item.ConfigId;
                             systemSettingsListingViewModal.ConfigKey = item.ConfigKey;
-                            systemSettingsListingViewModal.TotalRecord = item.TotalRecord;
+                            systemSettingsListingViewModal.TotalRecord = systemConfigdata.Count();
                             systemSettingsListingViewModalList.Add(systemSettingsListingViewModal);
                         }
                         return systemSettingsListingViewModalList;
