@@ -72,35 +72,35 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public AdminReportViewModel GetAdminReports()
-        {
-            try
-            {
+        //public AdminReportViewModel GetAdminReports()
+        //{
+        //    try
+        //    {
 
-                var model = _statistics.GetAdminReports();
-                return model;
+        //        var model = _statistics.GetAdminReports();
+        //        return model;
 
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
-        public AdminReportViewModel GetJVBoxandProxyIPsData(DateTime fromDate, DateTime toDate)
-        {
-            try
-            {
+        //public AdminReportViewModel GetJVBoxandProxyIPsData(DateTime fromDate, DateTime toDate)
+        //{
+        //    try
+        //    {
 
-                var model = _statistics.GetJVBoxandProxyIPsData(fromDate, toDate);
-                return model;
+        //        var model = _statistics.GetJVBoxandProxyIPsData(fromDate, toDate);
+        //        return model;
 
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
         public List<PlanListReportDTO> GetMostUsedProductData(DateTime fromDate, DateTime toDate)
         {

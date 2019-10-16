@@ -548,6 +548,10 @@
           <Parameter Name="riPageSize" Type="varchar" Mode="In" />
           <Parameter Name="riStatusId" Type="int" Mode="In" />
         </Function>
+        <Function Name="SG2_usp_Report_GetMostUsedProductData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="dtFromDate" Type="date" Mode="In" />
+          <Parameter Name="dtToDate" Type="date" Mode="In" />
+        </Function>
         <Function Name="SG2_usp_SocialProfile_Subscription_Save" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="riSocialProfileId" Type="int" Mode="In" />
           <Parameter Name="riStripeSubscriptionId" Type="nvarchar" Mode="In" />
@@ -573,6 +577,10 @@
           <Parameter Name="riPageNumber" Type="int" Mode="In" />
           <Parameter Name="riPageSize" Type="varchar" Mode="In" />
           <Parameter Name="riStatusId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SG2_usp_SystemUser_Login" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rvcEmailAddress" Type="nvarchar" Mode="In" />
+          <Parameter Name="rvcPassword" Type="nvarchar" Mode="In" />
         </Function>
         <EntityContainer Name="SocialGrowth2EntitiesStoreContainer">
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
@@ -685,7 +693,7 @@
             <Parameter Name="riPageSize" Mode="In" Type="String" />
             <Parameter Name="riStatusId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="SG2_usp_SystemUser_GetAll">
+          <FunctionImport Name="SG2_usp_SystemUser_GetAll" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_SystemUser_GetAll_Result)">
             <Parameter Name="rsSearchCrite" Mode="In" Type="String" />
             <Parameter Name="riPageNumber" Mode="In" Type="Int32" />
             <Parameter Name="riPageSize" Mode="In" Type="String" />
@@ -795,6 +803,14 @@
             <Parameter Name="riStatusId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SG2_usp_Get_SocialProfile_PaymentPlan" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Get_SocialProfile_PaymentPlan_Result)" />
+          <FunctionImport Name="SG2_usp_SystemUser_Login" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_SystemUser_Login_Result)">
+            <Parameter Name="rvcEmailAddress" Mode="In" Type="String" />
+            <Parameter Name="rvcPassword" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SG2_usp_Report_GetMostUsedProductData" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Report_GetMostUsedProductData_Result)">
+            <Parameter Name="dtFromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="dtToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
           
         </EntityContainer>
         <EntityType Name="Customer">
@@ -1795,6 +1811,35 @@
           <Property Type="Boolean" Name="IsDefault" Nullable="true" />
           <Property Type="Double" Name="DisplayPrice" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="SG2_usp_SystemUser_GetAll_Result">
+          <Property Type="Int32" Name="SystemUserId" Nullable="false" />
+          <Property Type="String" Name="FullName" Nullable="false" MaxLength="101" />
+          <Property Type="String" Name="RoleName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="StatusName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="TotalRecord" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SG2_usp_SystemUser_Login_Result">
+          <Property Type="Int32" Name="SystemUserId" Nullable="false" />
+          <Property Type="String" Name="Title" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
+          <Property Type="Int16" Name="SystemRoleId" Nullable="false" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" />
+          <Property Type="Int16" Name="StatusId" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedOn" Nullable="false" Precision="23" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="ModifiedOn" Nullable="false" Precision="23" />
+          <Property Type="String" Name="ModifiedBy" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="HostUser" Nullable="false" />
+          <Property Type="String" Name="RoleName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SG2_usp_Report_GetMostUsedProductData_Result">
+          <Property Type="String" Name="PlanName" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="PlanSold" Nullable="true" />
+          <Property Type="Int64" Name="TotalPlanSold" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2186,7 +2231,18 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SG2_usp_SystemUser_GetAll" FunctionName="SocialGrowth2Entities.Store.SG2_usp_SystemUser_GetAll" />
+          <FunctionImportMapping FunctionImportName="SG2_usp_SystemUser_GetAll" FunctionName="SocialGrowth2Entities.Store.SG2_usp_SystemUser_GetAll" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_SystemUser_GetAll_Result">
+                <ScalarProperty Name="SystemUserId" ColumnName="SystemUserId" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="TotalRecord" ColumnName="TotalRecord" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SG2_usp_Customer_SignUp" FunctionName="SocialGrowth2Entities.Store.SG2_usp_Customer_SignUp" >
             <ResultMapping>
               <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_Customer_SignUp_Result">
@@ -2766,6 +2822,35 @@
                 <ScalarProperty Name="socialplatform" ColumnName="socialplatform" />
                 <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
                 <ScalarProperty Name="DisplayPrice" ColumnName="DisplayPrice" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SG2_usp_SystemUser_Login" FunctionName="SocialGrowth2Entities.Store.SG2_usp_SystemUser_Login">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_SystemUser_Login_Result">
+                <ScalarProperty Name="SystemUserId" ColumnName="SystemUserId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="SystemRoleId" ColumnName="SystemRoleId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="HostUser" ColumnName="HostUser" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SG2_usp_Report_GetMostUsedProductData" FunctionName="SocialGrowth2Entities.Store.SG2_usp_Report_GetMostUsedProductData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_Report_GetMostUsedProductData_Result">
+                <ScalarProperty Name="PlanName" ColumnName="PlanName" />
+                <ScalarProperty Name="PlanSold" ColumnName="PlanSold" />
+                <ScalarProperty Name="TotalPlanSold" ColumnName="TotalPlanSold" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

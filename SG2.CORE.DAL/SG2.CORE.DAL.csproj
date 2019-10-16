@@ -121,10 +121,19 @@
     <Compile Include="DB\SG2_usp_PlanInformation_GetAll_Result.cs">
       <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DB\SG2_usp_Report_GetMostUsedProductData_Result.cs">
+      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DB\SG2_usp_SocialProfile_Subscription_Save_Result.cs">
       <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DB\SG2_usp_SystemConfig_GetAll_Result.cs">
+      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\SG2_usp_SystemUser_GetAll_Result.cs">
+      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\SG2_usp_SystemUser_Login_Result.cs">
       <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DB\SocialGrowth2EntityModel.Context.cs">
@@ -184,11 +193,11 @@
     <Compile Include="Repositories\LikeyAccountRepository.cs" />
     <Compile Include="Repositories\PlanInformationRepository.cs" />
     <None Include="Repositories\QueueLoggerRepository.cs" />
-    <None Include="Repositories\StatisticsRepository.cs" />
+    <Compile Include="Repositories\StatisticsRepository.cs" />
     <None Include="Repositories\NotificationRepository.cs" />
     <Compile Include="Repositories\SystemSettingsRepository.cs" />
     <None Include="Repositories\TargetPreferencesRepository.cs" />
-    <None Include="Repositories\TeamMemberRepository.cs" />
+    <Compile Include="Repositories\TeamMemberRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />

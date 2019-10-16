@@ -66,7 +66,7 @@ namespace SG2.CORE.DAL.DB
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_SystemConfig_GetAll_Result>("SG2_usp_SystemConfig_GetAll", rsSearchCriteParameter, riPageNumberParameter, riPageSizeParameter, riStatusIdParameter);
         }
     
-        public virtual int SG2_usp_SystemUser_GetAll(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId)
+        public virtual ObjectResult<SG2_usp_SystemUser_GetAll_Result> SG2_usp_SystemUser_GetAll(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId)
         {
             var rsSearchCriteParameter = rsSearchCrite != null ?
                 new ObjectParameter("rsSearchCrite", rsSearchCrite) :
@@ -84,7 +84,7 @@ namespace SG2.CORE.DAL.DB
                 new ObjectParameter("riStatusId", riStatusId) :
                 new ObjectParameter("riStatusId", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SG2_usp_SystemUser_GetAll", rsSearchCriteParameter, riPageNumberParameter, riPageSizeParameter, riStatusIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_SystemUser_GetAll_Result>("SG2_usp_SystemUser_GetAll", rsSearchCriteParameter, riPageNumberParameter, riPageSizeParameter, riStatusIdParameter);
         }
     
         public virtual ObjectResult<SG2_usp_Customer_SignUp_Result> SG2_usp_Customer_SignUp(string rvcFirstName, string rvcSurName, string rvcEmailAddress, string rvcPassword, string rvcCreatedBy, string rvcGUID, string rvcLastLoginIP, Nullable<int> rvcStatusId)
@@ -458,6 +458,32 @@ namespace SG2.CORE.DAL.DB
         public virtual ObjectResult<SG2_usp_Get_SocialProfile_PaymentPlan_Result> SG2_usp_Get_SocialProfile_PaymentPlan()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Get_SocialProfile_PaymentPlan_Result>("SG2_usp_Get_SocialProfile_PaymentPlan");
+        }
+    
+        public virtual ObjectResult<SG2_usp_SystemUser_Login_Result> SG2_usp_SystemUser_Login(string rvcEmailAddress, string rvcPassword)
+        {
+            var rvcEmailAddressParameter = rvcEmailAddress != null ?
+                new ObjectParameter("rvcEmailAddress", rvcEmailAddress) :
+                new ObjectParameter("rvcEmailAddress", typeof(string));
+    
+            var rvcPasswordParameter = rvcPassword != null ?
+                new ObjectParameter("rvcPassword", rvcPassword) :
+                new ObjectParameter("rvcPassword", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_SystemUser_Login_Result>("SG2_usp_SystemUser_Login", rvcEmailAddressParameter, rvcPasswordParameter);
+        }
+    
+        public virtual ObjectResult<SG2_usp_Report_GetMostUsedProductData_Result> SG2_usp_Report_GetMostUsedProductData(Nullable<System.DateTime> dtFromDate, Nullable<System.DateTime> dtToDate)
+        {
+            var dtFromDateParameter = dtFromDate.HasValue ?
+                new ObjectParameter("dtFromDate", dtFromDate) :
+                new ObjectParameter("dtFromDate", typeof(System.DateTime));
+    
+            var dtToDateParameter = dtToDate.HasValue ?
+                new ObjectParameter("dtToDate", dtToDate) :
+                new ObjectParameter("dtToDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Report_GetMostUsedProductData_Result>("SG2_usp_Report_GetMostUsedProductData", dtFromDateParameter, dtToDateParameter);
         }
     }
 }

@@ -17,8 +17,23 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
+                    var oUser = new SystemUser();
+                    oUser.Title = entity.Title;
+                    oUser.FirstName = entity.FirstName;
+                    oUser.LastName = entity.LastName;
+                    oUser.Email = entity.Email;
+                    oUser.SystemRoleId = entity.SystemRoleId;
+                    oUser.Password = entity.Password;
+                    oUser.StatusId = entity.StatusId;
+                    oUser.CreatedBy = entity.CreatedBy;
+                    oUser.CreatedOn = DateTime.Now;
+                    oUser.ModifiedBy = entity.ModifiedBy;
+                    oUser.ModifiedOn = DateTime.Now;
 
-                    _db.SG2_usp_SystemUser_Save(entity.SystemUserId, entity.Title, entity.FirstName, entity.LastName, entity.Email, entity.SystemRoleId,entity.Password,entity.StatusId,entity.CreatedOn,entity.CreatedBy,entity.ModifiedOn,entity.ModifiedBy);
+
+                    _db.SystemUsers.Add(oUser);
+                    _db.SaveChanges();
+                    entity.SystemUserId = oUser.SystemUserId;
                     return entity;
                 }
             }
@@ -34,7 +49,22 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    _db.SG2_usp_SystemUser_Save(entity.SystemUserId, entity.Title,entity.FirstName, entity.LastName, entity.Email, entity.SystemRoleId, entity.Password, entity.StatusId, entity.CreatedOn, entity.CreatedBy, entity.ModifiedOn, entity.ModifiedBy);
+                    var oUser = _db.SystemUsers.Where(g => g.SystemUserId == entity.SystemUserId).SingleOrDefault();
+                    oUser.Title = entity.Title;
+                    oUser.FirstName = entity.FirstName;
+                    oUser.LastName = entity.LastName;
+                    oUser.Email = entity.Email;
+                    oUser.SystemRoleId = entity.SystemRoleId;
+                    oUser.Password = entity.Password;
+                    oUser.StatusId = entity.StatusId;
+                    oUser.CreatedBy = entity.CreatedBy;
+                    oUser.CreatedOn = DateTime.Now;
+                    oUser.ModifiedBy = entity.ModifiedBy;
+                    oUser.ModifiedOn = DateTime.Now;
+
+
+                   
+                    _db.SaveChanges();
                     return entity;
                 }
 
@@ -51,7 +81,7 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    var user = _db.SG2_usp_SystemUser_GetById(SystemUserId).FirstOrDefault();
+                    var user = _db.SystemUsers.Where(g => g.SystemUserId == SystemUserId).SingleOrDefault();
                     if (user != null)
                     {
                         SystemUserDTO systemSettings = new SystemUserDTO()
@@ -123,7 +153,7 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    var roleList = _db.SG2_usp_SystemRole_AllRole().ToList();
+                    var roleList = _db.SystemRoles.Where(g => g.StatusId == 19 && g.RoleId != 1).ToList();
                     if (roleList != null)
                     {
                         List<SystemRoleDTO> SystemRoleList = new List<SystemRoleDTO>();
@@ -152,13 +182,13 @@ namespace SG2.CORE.DAL.Repositories
                 using (var _db = new SocialGrowth2Connection())
                 {
 
-                    if (id == 0) return !_db.SG2_SystemUser.Any(u => u.Email.Equals(email));
-                    var user = _db.SG2_SystemUser.Find(id);
+                    if (id == 0) return !_db.SystemUsers.Any(u => u.Email.Equals(email));
+                    var user = _db.SystemUsers.Find(id);
                     if (user.Email.Equals(email, StringComparison.CurrentCultureIgnoreCase))
                     {
                         return true;
                     }
-                    return !_db.SG2_SystemUser.Any(r => r.Email.Equals(email) && r.SystemUserId != id);
+                    return !_db.SystemUsers.Any(r => r.Email.Equals(email) && r.SystemUserId != id);
                 }
             }
             catch (Exception ex)
@@ -211,7 +241,7 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    var usr = _db.SG2_SystemUser.FirstOrDefault(x => x.SystemUserId == systemUserId);
+                    var usr = _db.SystemUsers.FirstOrDefault(x => x.SystemUserId == systemUserId);
                     if (usr != null)
                     {
                         usr.Password = password;
