@@ -552,6 +552,9 @@
           <Parameter Name="dtFromDate" Type="date" Mode="In" />
           <Parameter Name="dtToDate" Type="date" Mode="In" />
         </Function>
+        <Function Name="SG2_usp_SocialProfile_GetNotificationsByStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StatusId" Type="smallint" Mode="In" />
+        </Function>
         <Function Name="SG2_usp_SocialProfile_Subscription_Save" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="riSocialProfileId" Type="int" Mode="In" />
           <Parameter Name="riStripeSubscriptionId" Type="nvarchar" Mode="In" />
@@ -810,6 +813,9 @@
           <FunctionImport Name="SG2_usp_Report_GetMostUsedProductData" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Report_GetMostUsedProductData_Result)">
             <Parameter Name="dtFromDate" Mode="In" Type="DateTime" />
             <Parameter Name="dtToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="SG2_usp_SocialProfile_GetNotificationsByStatus" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_SocialProfile_GetNotificationsByStatus_Result)">
+            <Parameter Name="StatusId" Mode="In" Type="Int16" />
           </FunctionImport>
           
         </EntityContainer>
@@ -1840,6 +1846,18 @@
           <Property Type="Int32" Name="PlanSold" Nullable="true" />
           <Property Type="Int64" Name="TotalPlanSold" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="SG2_usp_SocialProfile_GetNotificationsByStatus_Result">
+          <Property Type="Int64" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Notification" Nullable="false" MaxLength="250" />
+          <Property Type="Int16" Name="StatusId" Nullable="false" />
+          <Property Type="Int32" Name="SocialProfileId" Nullable="false" />
+          <Property Type="String" Name="SocialUsername" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="CreatedOn" Nullable="false" Precision="23" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="UpdateOn" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Updatedby" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Mode" Nullable="false" MaxLength="20" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2851,6 +2869,22 @@
                 <ScalarProperty Name="PlanName" ColumnName="PlanName" />
                 <ScalarProperty Name="PlanSold" ColumnName="PlanSold" />
                 <ScalarProperty Name="TotalPlanSold" ColumnName="TotalPlanSold" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SG2_usp_SocialProfile_GetNotificationsByStatus" FunctionName="SocialGrowth2Entities.Store.SG2_usp_SocialProfile_GetNotificationsByStatus">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_SocialProfile_GetNotificationsByStatus_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Notification" ColumnName="Notification" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
+                <ScalarProperty Name="SocialUsername" ColumnName="SocialUsername" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="UpdateOn" ColumnName="UpdateOn" />
+                <ScalarProperty Name="Updatedby" ColumnName="Updatedby" />
+                <ScalarProperty Name="Mode" ColumnName="Mode" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -54,7 +54,7 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    var dt = _db.SG2_SocialProfile_Notification.Add(new SG2_SocialProfile_Notification()
+                    var dt = _db.SocialProfile_Notification.Add(new SocialProfile_Notification()
                     {
                         Notification = model.Notification,
                         SocialProfileId = model.SocialProfileId,
@@ -86,7 +86,7 @@ namespace SG2.CORE.DAL.Repositories
                 using (var _db = new SocialGrowth2Connection())
                 {
                    
-                    _db.SG2_SocialProfile_Notification.RemoveRange(_db.SG2_SocialProfile_Notification.Where(x => x.Id == notificationId));
+                    _db.SocialProfile_Notification.RemoveRange(_db.SocialProfile_Notification.Where(x => x.Id == notificationId));
                     _db.SaveChanges();
                   
                         return true;
@@ -105,11 +105,11 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    var result = _db.SG2_SocialProfile_Notification.SqlQuery("Update SG2_SocialProfile_Notification set StatusId=@statudId where id=@notificationId;select top 1 * from SG2_SocialProfile_Notification where id=@notificationId "
+                    var result = _db.SocialProfile_Notification.SqlQuery("Update SocialProfile_Notification set StatusId=@statudId where id=@notificationId;select top 1 * from SocialProfile_Notification where id=@notificationId "
                                                    , new SqlParameter("@statudId", statusId)
                                                    , new SqlParameter("@notificationId", notificationId)
                                                ).ToList();
-                    _db.SG2_SocialProfile_Notification.RemoveRange(_db.SG2_SocialProfile_Notification.Where(x => x.Id == notificationId));
+                    _db.SocialProfile_Notification.RemoveRange(_db.SocialProfile_Notification.Where(x => x.Id == notificationId));
                     _db.SaveChanges();
                     if (result != null && result.Count > 0)
                     {

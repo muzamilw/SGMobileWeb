@@ -485,5 +485,14 @@ namespace SG2.CORE.DAL.DB
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Report_GetMostUsedProductData_Result>("SG2_usp_Report_GetMostUsedProductData", dtFromDateParameter, dtToDateParameter);
         }
+    
+        public virtual ObjectResult<SG2_usp_SocialProfile_GetNotificationsByStatus_Result> SG2_usp_SocialProfile_GetNotificationsByStatus(Nullable<short> statusId)
+        {
+            var statusIdParameter = statusId.HasValue ?
+                new ObjectParameter("StatusId", statusId) :
+                new ObjectParameter("StatusId", typeof(short));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_SocialProfile_GetNotificationsByStatus_Result>("SG2_usp_SocialProfile_GetNotificationsByStatus", statusIdParameter);
+        }
     }
 }
