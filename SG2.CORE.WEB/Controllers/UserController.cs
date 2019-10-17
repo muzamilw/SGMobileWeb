@@ -76,7 +76,7 @@ namespace SG2.CORE.WEB.Controllers
                 PhoneCode = user.PhoneCode,
                 PhoneNumber = user.PhoneNumber,
                 UserName = user.UserName,
-                Countries = CommonManager.GetCountries()
+                //Countries = CommonManager.GetCountries()
             };
 
             var model = new CustomerProfileViewModel();
@@ -758,16 +758,16 @@ namespace SG2.CORE.WEB.Controllers
                 _customerManager.UpdateSubscriptionStatus(subDTO.SubscriptionId, subDTO.StatusId);
 
 
-                _customerManager.AssignJVBoxToCustomer(this.CDT.CustomerId, socialProfileId);
-                var cityId = _customerManager.GetTargetedCityIdByCustomerId(this.CDT.CustomerId, socialProfileId);
-                if (cityId > 0)
-                {
-                    var city = CommonManager.GetCityAndCountryData(cityId).FirstOrDefault();
-                    if (city != null)
-                    {
-                        _commonManager.AssignedNearestProxyIP(this.CDT.CustomerId, city.CountyCityName.Replace(",", ""), socialProfileId, _googleApiKey);
-                    }
-                }
+                ////_customerManager.AssignJVBoxToCustomer(this.CDT.CustomerId, socialProfileId);
+                ////var cityId = _customerManager.GetTargetedCityIdByCustomerId(this.CDT.CustomerId, socialProfileId);
+                ////if (cityId > 0)
+                ////{
+                ////    var city = CommonManager.GetCityAndCountryData(cityId).FirstOrDefault();
+                ////    if (city != null)
+                ////    {
+                ////        _commonManager.AssignedNearestProxyIP(this.CDT.CustomerId, city.CountyCityName.Replace(",", ""), socialProfileId, _googleApiKey);
+                ////    }
+                ////}
 
 
                 jr.Data = new { ResultType = "Success", message = "Plan has successfully updated." };

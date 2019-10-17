@@ -9,7 +9,7 @@ using SG2.CORE.MODAL.ViewModals.Backend.ActionBoard;
 using System.Threading.Tasks;
 using SG2.CORE.MODAL.DTO.TargetPreferences;
 using SG2.CORE.MODAL.DTO.Common;
-using SG2.CORE.MODAL.DTO.JVBox;
+
 
 namespace SG2.CORE.BAL.Managers
 {

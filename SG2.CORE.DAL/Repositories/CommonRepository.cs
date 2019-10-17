@@ -1,7 +1,7 @@
 ﻿using SG2.CORE.DAL.DB;
 using SG2.CORE.MODAL.DTO.Common;
 using SG2.CORE.MODAL.DTO.Customers;
-using SG2.CORE.MODAL.DTO.Proxy;
+
 using SG2.CORE.MODAL.DTO.SystemSettings;
 using System;
 using System.Collections.Generic;

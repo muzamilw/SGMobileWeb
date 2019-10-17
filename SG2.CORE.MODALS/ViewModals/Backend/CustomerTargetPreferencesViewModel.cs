@@ -1,6 +1,6 @@
 ﻿using SG2.CORE.MODAL.DTO.Common;
 using SG2.CORE.MODAL.DTO.Customers;
-using SG2.CORE.MODAL.DTO.JVBox;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -193,8 +193,7 @@ namespace SG2.CORE.MODAL.ViewModals.Backend
 
         public IList<StatusDTO> JarveeStatuses { get; set; }
 
-        public List<JVBoxDTO> MPBoxList { get; set; }
-
+    
         public List<ProxyIPDTO> ProxyIPs { get; set; }
         public int? ProxyIP { get; set; }
 

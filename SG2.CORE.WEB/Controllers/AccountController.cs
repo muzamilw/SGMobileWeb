@@ -335,16 +335,16 @@ namespace SG2.CORE.WEB.Controllers
 
                     _customerManager.InsertSubscription(subDTO);
 
-                    _customerManager.AssignJVBoxToCustomer(this.CDT.CustomerId, this.CDT.SocialProfileId);
-                    var cityId = _customerManager.GetTargetedCityIdByCustomerId(this.CDT.CustomerId, this.CDT.SocialProfileId);
-                    if (cityId > 0)
-                    {
-                        var city = CommonManager.GetCityAndCountryData(cityId).FirstOrDefault();
-                        if (city != null)
-                        {
-                            _commonManager.AssignedNearestProxyIP(this.CDT.CustomerId, city.CountyCityName.Replace(",", ""), this.CDT.SocialProfileId, _googleApiKey);
-                        }
-                    }
+                    ////_customerManager.AssignJVBoxToCustomer(this.CDT.CustomerId, this.CDT.SocialProfileId);
+                    ////var cityId = _customerManager.GetTargetedCityIdByCustomerId(this.CDT.CustomerId, this.CDT.SocialProfileId);
+                    ////if (cityId > 0)
+                    ////{
+                    ////    var city = CommonManager.GetCityAndCountryData(cityId).FirstOrDefault();
+                    ////    if (city != null)
+                    ////    {
+                    ////        _commonManager.AssignedNearestProxyIP(this.CDT.CustomerId, city.CountyCityName.Replace(",", ""), this.CDT.SocialProfileId, _googleApiKey);
+                    ////    }
+                    ////}
                     anyError = false;
                 }
 

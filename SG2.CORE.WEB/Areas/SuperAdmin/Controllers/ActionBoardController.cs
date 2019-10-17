@@ -35,7 +35,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             {
                 //JVStatuses = JVStatusesData,
                 //MPBoxList = _customerManager.GetMPBoxes(),
-                Countries = countries,
+                //Countries = countries,
                 Cities = cities
 
             };

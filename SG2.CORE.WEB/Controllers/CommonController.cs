@@ -32,8 +32,8 @@ namespace SG2.CORE.WEB.Controllers
 
         public IList<CitiesAndCountriesDTO> GetCityAndCountryData(int? CityId)
         {
-            var CACData=CommonManager.GetCityAndCountryData(CityId);
-            return CACData;
+            //var CACData = null;// CommonManager.GetCityAndCountryData(CityId);
+            return null;
         }
 
     }

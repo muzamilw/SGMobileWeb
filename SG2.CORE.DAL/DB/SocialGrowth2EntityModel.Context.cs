@@ -404,15 +404,6 @@ namespace SG2.CORE.DAL.DB
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_GetSocialProfilesByCustomerId_Result>("SG2_usp_Customer_GetSocialProfilesByCustomerId", customerIdParameter);
         }
     
-        public virtual ObjectResult<SG2_usp_Customer_GetSocialProfileById_Result> SG2_usp_Customer_GetSocialProfileById(Nullable<int> riSocialProfileId)
-        {
-            var riSocialProfileIdParameter = riSocialProfileId.HasValue ?
-                new ObjectParameter("riSocialProfileId", riSocialProfileId) :
-                new ObjectParameter("riSocialProfileId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_GetSocialProfileById_Result>("SG2_usp_Customer_GetSocialProfileById", riSocialProfileIdParameter);
-        }
-    
         public virtual ObjectResult<SG2_usp_LikeyAccount_GetAll_Result> SG2_usp_LikeyAccount_GetAll(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId)
         {
             var rsSearchCriteParameter = rsSearchCrite != null ?
@@ -498,6 +489,15 @@ namespace SG2.CORE.DAL.DB
         public virtual ObjectResult<SG2_usp_Get_EnumerationValue_Result> SG2_usp_Get_EnumerationValue()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Get_EnumerationValue_Result>("SG2_usp_Get_EnumerationValue");
+        }
+    
+        public virtual ObjectResult<SG2_usp_Customer_GetSocialProfileById_Result> SG2_usp_Customer_GetSocialProfileById(Nullable<int> riSocialProfileId)
+        {
+            var riSocialProfileIdParameter = riSocialProfileId.HasValue ?
+                new ObjectParameter("riSocialProfileId", riSocialProfileId) :
+                new ObjectParameter("riSocialProfileId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_GetSocialProfileById_Result>("SG2_usp_Customer_GetSocialProfileById", riSocialProfileIdParameter);
         }
     }
 }

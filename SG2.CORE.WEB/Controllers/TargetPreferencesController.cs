@@ -56,106 +56,106 @@ namespace SG2.CORE.WEB.Controllers
             //_jVBoxManager = new JVBoxManager();
         }
 
-        //public ActionResult ModifyTargetPreferences(int? socialProfileId = null)
-        //{
-        //    //if (!string.IsNullOrEmpty((string)TempData["Success"]))
-        //    //{
-        //    //    ViewBag.Success = (string)TempData["Success"];
-        //    //    ViewBag.Message = TempData["Message"];
-        //    //}
-        //    int SocialProfileId = socialProfileId ?? 0;
-        //    ViewBag.CurrentUser = this.CDT;
-        //    ViewBag.SocailProfiles = this._cm.GetSocialProfilesByCustomerid(this.CDT.CustomerId);
-        //    var history = _customerManager.GetCustomerOrderHistory("50", 1, this.CDT.CustomerId, SocialProfileId);
-        //    var _stripeApiKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
-        //    var _stripePublishKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue2;
-        //    StripeConfiguration.SetApiKey(_stripeApiKey);
+        public ActionResult ModifyTargetPreferences(int? socialProfileId = null)
+        {
+            //if (!string.IsNullOrEmpty((string)TempData["Success"]))
+            //{
+            //    ViewBag.Success = (string)TempData["Success"];
+            //    ViewBag.Message = TempData["Message"];
+            //}
+            int SocialProfileId = socialProfileId ?? 0;
+            ViewBag.CurrentUser = this.CDT;
+            ViewBag.SocailProfiles = this._cm.GetSocialProfilesByCustomerid(this.CDT.CustomerId);
+            var history = _customerManager.GetCustomerOrderHistory("50", 1, this.CDT.CustomerId, SocialProfileId);
+            var _stripeApiKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
+            var _stripePublishKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue2;
+            StripeConfiguration.SetApiKey(_stripeApiKey);
 
-        //    CustomerTargetProfileDTO profileDTO = new CustomerTargetProfileDTO();
-        //    if (socialProfileId != null && socialProfileId > 0)
-        //    {
-        //        profileDTO = _cm.GetSocialProfilesById(socialProfileId ?? 0);
-        //    }
+            CustomerTargetProfileDTO profileDTO = new CustomerTargetProfileDTO();
+            if (socialProfileId != null && socialProfileId > 0)
+            {
+                profileDTO = _cm.GetSocialProfilesById(socialProfileId ?? 0);
+            }
 
-        //    TargetPreferencesViewModel targetPreferences = new TargetPreferencesViewModel();
-        //    var plans = _planManager.GetAllSocialGrowthPlans().ToList();
+            TargetPreferencesViewModel targetPreferences = new TargetPreferencesViewModel();
+            var plans = _planManager.GetAllSocialGrowthPlans().ToList();
 
-        //    PlanInformationDTO selectedPlan = new PlanInformationDTO();
-        //    if (profileDTO.paymentPlanId != null)
-        //    {
-        //        selectedPlan = plans.FirstOrDefault(x => x.PlanId == profileDTO.paymentPlanId);
-        //    }
+            PlanInformationDTO selectedPlan = new PlanInformationDTO();
+            if (profileDTO.paymentPlanId != null)
+            {
+                selectedPlan = plans.FirstOrDefault(x => x.PlanId == profileDTO.paymentPlanId);
+            }
 
-        //    targetPreferences.ProfileName = profileDTO.SocialProfileName;
-        //    targetPreferences.Preference1 = profileDTO.Preference1;
-        //    targetPreferences.Preference2 = profileDTO.Preference2;
-        //    targetPreferences.Preference3 = profileDTO.Preference3;
-        //    targetPreferences.Preference4 = profileDTO.Preference4;
-        //    targetPreferences.Preference5 = profileDTO.Preference5;
-        //    targetPreferences.Preference6 = profileDTO.Preference6;
-        //    targetPreferences.Preference7 = profileDTO.Preference7;
-        //    targetPreferences.Preference8 = profileDTO.Preference8;
-        //    targetPreferences.Preference9 = profileDTO.Preference9;
-        //    targetPreferences.Preference10 = profileDTO.Preference10;
-        //    targetPreferences.City = profileDTO.PrefferedCityId;
-        //    targetPreferences.Country = profileDTO.PrefferedCountryId;
-        //    targetPreferences.InstaPassword = profileDTO.SocialPassword;
-        //    targetPreferences.InstaUser = profileDTO.SocialUsername;
-        //    targetPreferences.TargetInformationId = profileDTO.TargetingInformationId;
-        //    targetPreferences.SocialProfileId = socialProfileId;
-        //    targetPreferences.Plans = plans;
-        //    targetPreferences.ActivePlanName = profileDTO.PlanName;
-        //    targetPreferences.ActivePlanId = selectedPlan.PlanId == 0 ? null : (int?)selectedPlan.PlanId;
-        //    targetPreferences.ActivePlanPrice = selectedPlan.DisplayPrice;
-        //    targetPreferences.ActivePlanLikes = selectedPlan.Likes;
-        //    targetPreferences.DefaultPaymentPlan = plans.FirstOrDefault(x => x.PlantypeName == "Likey" && (x.IsDefault != null && x.IsDefault == true));
-        //    targetPreferences.JVStatus = profileDTO.JVBoxStatusName;
-        //    targetPreferences.JVStatusId = profileDTO.JVStatusId;
-        //    targetPreferences.StripeApiKey = _stripeApiKey;
-        //    targetPreferences.StripePublishKey = _stripePublishKey;
-        //    targetPreferences.SPStatusId = profileDTO.ProfileStatusId;
-        //    targetPreferences.OrderHistoryViewModels = history;
-        //    targetPreferences.IsOptedMarketingEmail = profileDTO.IsOptedMarketingEmail;
-        //    targetPreferences.SocialAccAS = profileDTO.SocialAccAS;
-        //    if (targetPreferences.Country != null)
-        //    {
-        //        targetPreferences.Cities = CommonManager.GetCities().Where(m => m.CountryId == Convert.ToInt16(profileDTO.PrefferedCountryId)).ToList();
-        //    }
-        //    else
-        //    {
-        //        targetPreferences.Cities = CommonManager.GetCities();
-        //    }
+            targetPreferences.ProfileName = profileDTO.SocialProfileName;
+            //targetPreferences.Preference1 = profileDTO.Preference1;
+            //targetPreferences.Preference2 = profileDTO.Preference2;
+            //targetPreferences.Preference3 = profileDTO.Preference3;
+            //targetPreferences.Preference4 = profileDTO.Preference4;
+            //targetPreferences.Preference5 = profileDTO.Preference5;
+            //targetPreferences.Preference6 = profileDTO.Preference6;
+            //targetPreferences.Preference7 = profileDTO.Preference7;
+            //targetPreferences.Preference8 = profileDTO.Preference8;
+            //targetPreferences.Preference9 = profileDTO.Preference9;
+            //targetPreferences.Preference10 = profileDTO.Preference10;
+            //targetPreferences.City = profileDTO.PrefferedCityId;
+            //targetPreferences.Country = profileDTO.PrefferedCountryId;
+            targetPreferences.InstaPassword = profileDTO.SocialPassword;
+            targetPreferences.InstaUser = profileDTO.SocialUsername;
+            targetPreferences.TargetInformationId = profileDTO.TargetingInformationId;
+            targetPreferences.SocialProfileId = socialProfileId;
+            targetPreferences.Plans = plans;
+            targetPreferences.ActivePlanName = profileDTO.PlanName;
+            targetPreferences.ActivePlanId = selectedPlan.PlanId == 0 ? null : (int?)selectedPlan.PlanId;
+            targetPreferences.ActivePlanPrice = selectedPlan.DisplayPrice;
+            targetPreferences.ActivePlanLikes = selectedPlan.Likes;
+            targetPreferences.DefaultPaymentPlan = plans.FirstOrDefault(x => x.IsParentPlan == true &&  x.SocialPlanTypeId == 30 && x.IsDefault == 1);
+            //targetPreferences.JVStatus = profileDTO.JVBoxStatusName;
+            //targetPreferences.JVStatusId = profileDTO.JVStatusId;
+            targetPreferences.StripeApiKey = _stripeApiKey;
+            targetPreferences.StripePublishKey = _stripePublishKey;
+            targetPreferences.SPStatusId = profileDTO.ProfileStatusId;
+            targetPreferences.OrderHistoryViewModels = history;
+            //targetPreferences.IsOptedMarketingEmail = profileDTO.IsOptedMarketingEmail;
+            //targetPreferences.SocialAccAS = profileDTO.SocialAccAS;
+            //if (targetPreferences.Country != null)
+            //{
+            //    targetPreferences.Cities = CommonManager.GetCities().Where(m => m.CountryId == Convert.ToInt16(profileDTO.PrefferedCountryId)).ToList();
+            //}
+            //else
+            //{
+            //    targetPreferences.Cities = CommonManager.GetCities();
+            //}
 
-        //    var cardService = new CardService();
-        //    var cardOptions = new CardListOptions
-        //    {
-        //        Limit = 3,
-        //    };
-        //    List<CustomerPaymentCardsViewModel> payCards = null;
-        //    if (this.CDT.StripeCustomerId != null)
-        //    {
-        //        var striptCards = cardService.List(this.CDT.StripeCustomerId, cardOptions);
-        //        if (striptCards != null)
-        //        {
-        //            payCards = new List<CustomerPaymentCardsViewModel>();
-        //            foreach (var item in striptCards)
-        //            {
-        //                var card = new CustomerPaymentCardsViewModel();
-        //                card.Last4 = item.Last4;
-        //                card.ExpMonth = item.ExpMonth;
-        //                card.ExpYear = item.ExpYear;
-        //                card.Brand = item.Brand;
-        //                card.Funding = item.Funding;
-        //                payCards.Add(card);
-        //            }
-        //        }
-        //    }
+            var cardService = new CardService();
+            var cardOptions = new CardListOptions
+            {
+                Limit = 3,
+            };
+            List<CustomerPaymentCardsViewModel> payCards = null;
+            if (this.CDT.StripeCustomerId != null)
+            {
+                var striptCards = cardService.List(this.CDT.StripeCustomerId, cardOptions);
+                if (striptCards != null)
+                {
+                    payCards = new List<CustomerPaymentCardsViewModel>();
+                    foreach (var item in striptCards)
+                    {
+                        var card = new CustomerPaymentCardsViewModel();
+                        card.Last4 = item.Last4;
+                        card.ExpMonth = item.ExpMonth;
+                        card.ExpYear = item.ExpYear;
+                        card.Brand = item.Brand;
+                        card.Funding = item.Funding;
+                        payCards.Add(card);
+                    }
+                }
+            }
 
-        //    targetPreferences.PaymentCards = payCards;
-        //    targetPreferences.Countries = CommonManager.GetCountries();
-        //    return View(targetPreferences);
+            targetPreferences.PaymentCards = payCards;
+            //targetPreferences.Countries = CommonManager.GetCountries();
+            return View(targetPreferences);
 
-        //}
+        }
 
         //[HttpPost]
         //public ActionResult ModifyTargetPreferences(TargetPreferencesViewModel model)
@@ -187,7 +187,7 @@ namespace SG2.CORE.WEB.Controllers
         //                CustomerId = this.CDT.CustomerId,
         //                SocialAccAs = model.SocialAccAS
         //            });
-                                       
+
 
         //            TempData["Success"] = "Yes";
         //            TempData["Message"] = "Prefrences updated successfully.";
@@ -237,7 +237,7 @@ namespace SG2.CORE.WEB.Controllers
         //                QueueStatusId = (Int16)GlobalEnums.QueueStatus.Pending,
         //                SocialAccAs = model.SocialAccAS
         //            });
-                  
+
 
         //                var nt = new NotificationDTO()
         //            {
@@ -270,7 +270,7 @@ namespace SG2.CORE.WEB.Controllers
         //                _notManager.AddNotification(ntUnarchive);
 
         //            }
-                  
+
         //            if (dl != null)
         //            {
         //                var SPId = dl.SocialProfileId;
@@ -303,14 +303,14 @@ namespace SG2.CORE.WEB.Controllers
         //                                            int invalidCredentialsAttempts = 0)
         //{
 
-        
+
         //    var jr = new JsonResult();
-            
+
         //    try
         //    {
         //        int proxyNoOfAttemps = 0;
         //        var _googleApiKey = SystemConfigs.First(x => x.ConfigKey == "GoogleMapApiKey").ConfigValue;
-                
+
         //    BadIP:
         //        if (SocialProfileId != null && SocialProfileId > 0)
         //        {
@@ -318,7 +318,7 @@ namespace SG2.CORE.WEB.Controllers
         //            string rpcSessionId = (string)_sessionManager.Get(GlobalEnums.SessionConstants.JVRPCSESSIONID);
         //            var prevInstaUser = profileDTO.SocialUsername;
         //            var prevJVStatusId = profileDTO.JVStatusId;
-                    
+
         //            if (!profileDTO.IsJVServerRunning)
         //            {
         //                severMode = "Manual";
@@ -378,7 +378,7 @@ namespace SG2.CORE.WEB.Controllers
         //                    SocialProfileId = profileDTO.SocialProfileId,
         //                    StatusId = (int)GeneralStatus.Unread,
         //                    Mode = severMode
-                        
+
         //                };
         //                _notManager.AddNotification(nt);
         //            }
@@ -399,7 +399,7 @@ namespace SG2.CORE.WEB.Controllers
         //                    SocialProfileId = profileDTO.SocialProfileId,
         //                    StatusId = (int)GeneralStatus.Unread,
         //                    Mode = severMode
-                          
+
         //                };
         //                _notManager.AddNotification(nt);
         //            }
@@ -408,7 +408,7 @@ namespace SG2.CORE.WEB.Controllers
         //            if (profileDTO.JVboxId == null || profileDTO.JVboxId == 0)
         //            {
         //                 var jVBox = _cm.AssignJVBoxToCustomer(this.CDT.CustomerId, profileDTO.SocialProfileId);
-                          
+
         //                 var jvBoxName = jVBox.BoxName;
 
         //                if (!_jVBoxManager.JVBoxGetServerRunningStatus((int)jVBox.JVBoxId))
@@ -466,7 +466,7 @@ namespace SG2.CORE.WEB.Controllers
         //            #endregion
 
         //            #region CheckingServerIsRunning
-                    
+
         //            if (!profileDTO.IsJVServerRunning)
         //            {
         //                _cm.BlockProfile24Hrs(SocialProfileId ?? 0, proxyNoOfAttemps);
@@ -494,7 +494,7 @@ namespace SG2.CORE.WEB.Controllers
         //                ResultData = new { JVStaus = "ProfileSaved" }
         //            };
         //            return jr;
-                    
+
         //        }
         //        else
         //        {
@@ -514,7 +514,7 @@ namespace SG2.CORE.WEB.Controllers
         //    }
 
         //}
-        
+
         //[HttpPost]
         //public ActionResult NewCardPayment(CustomerCardDetailViewModel model)
         //{

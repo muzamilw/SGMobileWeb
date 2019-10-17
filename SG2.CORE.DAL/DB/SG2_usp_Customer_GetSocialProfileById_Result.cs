@@ -39,7 +39,6 @@ namespace SG2.CORE.DAL.DB
         public string CreatedBy { get; set; }
         public System.DateTime UpdatedOn { get; set; }
         public string UpdatedBy { get; set; }
-        public Nullable<int> SocialAccAs { get; set; }
         public Nullable<int> FollNewPerDayLim { get; set; }
         public Nullable<int> FollDailyIncreaseLim { get; set; }
         public Nullable<int> FollMaxPerDayLim { get; set; }
@@ -105,7 +104,6 @@ namespace SG2.CORE.DAL.DB
         public Nullable<int> LEXLikeUsrMostRecentPostsCount { get; set; }
         public Nullable<bool> LEXUseBlackList { get; set; }
         public Nullable<bool> LEXChkPostCaptionsforBlackList { get; set; }
-        public int SocialProfileId1 { get; set; }
         public string SocialProfileName { get; set; }
         public string SocialUsername { get; set; }
         public string SocialPassword { get; set; }
@@ -122,7 +120,7 @@ namespace SG2.CORE.DAL.DB
         public Nullable<int> SubscriptionStatusId { get; set; }
         public string SubscriptionStatus { get; set; }
         public string StripeSubscriptionId { get; set; }
-        public Nullable<int> SocialAccAS1 { get; set; }
+        public Nullable<int> SocialAccAS { get; set; }
         public string StripeInvoiceId { get; set; }
         public Nullable<bool> IsArchived { get; set; }
     }

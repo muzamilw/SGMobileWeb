@@ -38,7 +38,7 @@ namespace SG2.CORE.WEB.Controllers
         {
             var indexVM = new IndexViewModel();
             indexVM.SignupWizardViewModel = new SignupWizardViewModel();
-            indexVM.SignupWizardViewModel.Cities = CommonManager.GetCityAndCountryData(null);
+            //indexVM.SignupWizardViewModel.Cities = CommonManager.GetCityAndCountryData(null);
             indexVM.StripeApikey = SystemConfig.GetConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue2;
 
             //var connectionString = ConfigurationManager.AppSettings["RabbitMQ:ConnectionString"];

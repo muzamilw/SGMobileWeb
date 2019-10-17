@@ -13,16 +13,16 @@
 
     List<SelectListItem> countries = new List<SelectListItem>();
 
-    foreach (var item in Model.Countries)
-    {
-        countries.Add(new SelectListItem { Text = item.Name, Value = item.CountryId.ToString() });
-    }
+    //foreach (var item in Model.Countries)
+    //{
+    //    countries.Add(new SelectListItem { Text = item.Name, Value = item.CountryId.ToString() });
+    //}
 
-    List<SelectListItem> cities = new List<SelectListItem>();
-    foreach (var item in Model.Cities)
-    {
-        cities.Add(new SelectListItem { Text = item.Name, Value = item.CityId.ToString() });
-    }
+    //List<SelectListItem> cities = new List<SelectListItem>();
+    //foreach (var item in Model.Cities)
+    //{
+    //    cities.Add(new SelectListItem { Text = item.Name, Value = item.CityId.ToString() });
+    //}
 
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
     var socailProfiles = (List<CustomerSocialProfileDTO>)ViewBag.SocailProfiles;
@@ -392,7 +392,7 @@
                                             <ul class="range-labels">
                                                 @{
 
-                                                    foreach (var plan in Model.Plans.Where(x => x.PlanType == "28"))
+                                                    foreach (var plan in Model.Plans.Where(x => x.IsParentPlan == true))
                                                     {
                                                         if (plan.SortOrder < planSq)
                                                         {
@@ -521,11 +521,11 @@
                                                 <span style="display:block">Country</span>
                                                 @if (Model.JVStatusId == (int)GlobalEnums.JVStatus.ValidAndNotSetup || Model.JVStatusId == (int)GlobalEnums.JVStatus.ValidAndSetUp)
                                                 {
-                                                    @Html.DropDownListFor(m => m.Country, countries, "-- Select Country --", new { @id = "input_Country", @class = "slct required", @disabled = "disabled" })
+                                                    //@Html.DropDownListFor(m => m.Country, countries, "-- Select Country --", new { @id = "input_Country", @class = "slct required", @disabled = "disabled" })
                                                 }
                                                 else
                                                 {
-                                                    @Html.DropDownListFor(m => m.Country, countries, "-- Select Country --", new { @id = "input_Country", @class = "slct required" })
+                                                    //@Html.DropDownListFor(m => m.Country, countries, "-- Select Country --", new { @id = "input_Country", @class = "slct required" })
                                                 }
 
                                                 @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
@@ -537,11 +537,11 @@
                                                 <span style="display:block">City, State, Country</span>
                                                 @if (Model.JVStatusId == (int)GlobalEnums.JVStatus.ValidAndNotSetup || Model.JVStatusId == (int)GlobalEnums.JVStatus.ValidAndSetUp)
                                                 {
-                                                    @Html.DropDownListFor(m => m.City, cities, "-- Select City --", new { @id = "input_City", @class = "slct required", @readonly = "readonly", @disabled = "disabled" })
+                                                    //@Html.DropDownListFor(m => m.City, cities, "-- Select City --", new { @id = "input_City", @class = "slct required", @readonly = "readonly", @disabled = "disabled" })
                                                 }
                                                 else
                                                 {
-                                                    @Html.DropDownListFor(m => m.City, cities, "-- Select City --", new { @id = "input_City", @class = "slct required" })
+                                                    //@Html.DropDownListFor(m => m.City, cities, "-- Select City --", new { @id = "input_City", @class = "slct required" })
                                                 }
                                                 @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
                                             </div>

@@ -355,7 +355,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                 CustomerTargetPreferencesViewModel model1 = new CustomerTargetPreferencesViewModel();
                 model1.SPId = SocialPId.ToString();
                 model1.Id = custId.ToString();
-                model1.Countries = CommonManager.GetCountries();
+                //model1.Countries = CommonManager.GetCountries();
                 if (model1.Country != null)
                 {
                     model1.Cities = CommonManager.GetCities().Where(m => m.CountryId == Convert.ToInt16(model.Country)).ToList();
@@ -365,14 +365,14 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                 {
                     model1.Cities = CommonManager.GetCities();
                 }
-                model1.ProxyIPs = _customerManager.GetProxyIPs(model.Country ?? 0, model.City ?? 0);
-                model1.JarveeStatuses = this.ApplicationStatuses;
-                model.MPBoxList = _customerManager.GetMPBoxes();
+                //model1.ProxyIPs = _customerManager.GetProxyIPs(model.Country ?? 0, model.City ?? 0);
+                //model1.JarveeStatuses = this.ApplicationStatuses;
+                //model.MPBoxList = _customerManager.GetMPBoxes();
                 return View(model1);
             }
             else
             {
-                model.Countries = CommonManager.GetCountries();
+                //model.Countries = CommonManager.GetCountries();
                 if (model.Country != null)
                 {
                     model.Cities = CommonManager.GetCities().Where(m => m.CountryId == Convert.ToInt16(model.Country)).ToList();
@@ -381,9 +381,9 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                 {
                     model.Cities = CommonManager.GetCities();
                 }
-                model.ProxyIPs = _customerManager.GetProxyIPs(model.Country ?? 0, model.City ?? 0);
-                model.JarveeStatuses = this.ApplicationStatuses;
-                model.MPBoxList = _customerManager.GetMPBoxes();
+                //model.ProxyIPs = _customerManager.GetProxyIPs(model.Country ?? 0, model.City ?? 0);
+                //model.JarveeStatuses = this.ApplicationStatuses;
+                //model.MPBoxList = _customerManager.GetMPBoxes();
                 return View(model);
             }
         }
@@ -395,31 +395,31 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var dl = _targetPreferenceManager.SaveTargetPreferences(new TargetPreferencesDTO()
-                    {
-                        Preference1 = model.Preference1,
-                        Preference2 = model.Preference2,
-                        Preference3 = model.Preference3,
-                        Preference4 = model.Preference4,
-                        Preference5 = model.Preference5,
-                        Preference6 = model.Preference6,
-                        Preference7 = model.Preference7,
-                        Preference8 = model.Preference8,
-                        Preference9 = model.Preference9,
-                        Preference10 = model.Preference10,
-                        //Country = model.Country,
-                        //City = model.City,
-                        //InstaUser = model.InstaUser,
-                        //InstaPassword = model.InstaPassword,
-                        SocialProfileId = Convert.ToInt32(model.SPId),
-                        Id = Convert.ToInt32(model.Id),
-                        SocialAccAs = model.SocialAccAS
-                    });
+                    //var dl = _targetPreferenceManager.SaveTargetPreferences(new TargetPreferencesDTO()
+                    //{
+                    //    Preference1 = model.Preference1,
+                    //    Preference2 = model.Preference2,
+                    //    Preference3 = model.Preference3,
+                    //    Preference4 = model.Preference4,
+                    //    Preference5 = model.Preference5,
+                    //    Preference6 = model.Preference6,
+                    //    Preference7 = model.Preference7,
+                    //    Preference8 = model.Preference8,
+                    //    Preference9 = model.Preference9,
+                    //    Preference10 = model.Preference10,
+                    //    //Country = model.Country,
+                    //    //City = model.City,
+                    //    //InstaUser = model.InstaUser,
+                    //    //InstaPassword = model.InstaPassword,
+                    //    SocialProfileId = Convert.ToInt32(model.SPId),
+                    //    Id = Convert.ToInt32(model.Id),
+                    //    SocialAccAs = model.SocialAccAS
+                    //});
 
                     TempData["Success"] = "Yes";
                     TempData["Message"] = "Profile updated successfully.";
                     //return RedirectToAction("TargettingInformation", "CRM", new { @id = CryptoEngine.Encrypt(Convert.ToString(dl.Id)), @SPId= model.SPId });
-                    return Redirect("/sadmin/crm/targettinginformation?id=" + Url.Encode(CryptoEngine.Encrypt(Convert.ToString(dl.Id))) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(model.SPId)));
+                    return Redirect("/sadmin/crm/targettinginformation?id=" + Url.Encode(CryptoEngine.Encrypt(Convert.ToString(1))) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(model.SPId)));
                 }
                 else
                 {
@@ -451,15 +451,15 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                 {
                     int? CityId = model.City;
                     int? CountryId = model.Country;
-                    var dl = _targetPreferenceManager.SaveSocialProfileData(
-                        model.InstaUser,
-                        model.InstaPassword,
-                        CityId ?? 0,
-                        CountryId ?? 0,
-                        Convert.ToInt32(model.SPId),
-                        Convert.ToInt32(model.Status)
-                    );
-                    return Redirect("/sadmin/crm/targettinginformation?id=" + Url.Encode(CryptoEngine.Encrypt(model.Id)) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(model.SPId)));
+                    //var dl = _targetPreferenceManager.SaveSocialProfileData(
+                    //    model.InstaUser,
+                    //    model.InstaPassword,
+                    //    CityId ?? 0,
+                    //    CountryId ?? 0,
+                    //    Convert.ToInt32(model.SPId),
+                    //    Convert.ToInt32(model.Status)
+                    //);
+                    return Redirect("/sadmin/crm/targettinginformation?id=" + Url.Encode(CryptoEngine.Encrypt("")) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(model.SPId)));
                 }
                 else
                 {
@@ -595,7 +595,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                                 else
                                 {
                                     SubscriptionDTO cancelledSub = new SubscriptionDTO();
-                                    cancelledSub = _customerManager.GetLastCancelledSubscription(profileDTO.SocialProfileId, DateTime.Now);
+                                    cancelledSub = _customerManager.GetLastCancelledSubscription(profileDTO.SocialProfileId.Value, DateTime.Now);
                                     profileDTO.StripeSubscriptionId = cancelledSub.StripeSubscriptionId;
                                     profileDTO.StripeInvoiceId = cancelledSub.StripeInvoiceId;
 
@@ -632,7 +632,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                                 //int custId = Convert.ToInt32(CryptoEngine.Decrypt(customerId.ToString()));
                                 int custId = Convert.ToInt32((CryptoEngine.Decrypt(Cus)));
-                                var User = _customerManager.SaveUpdateUserDataIndividually(value, "Comment", custId, profileDTO.SocialProfileId);
+                                var User = _customerManager.SaveUpdateUserDataIndividually(value, "Comment", custId, profileDTO.SocialProfileId.Value);
 
 
                             }

@@ -101,7 +101,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                         PlanId = model.PlanId,
                         PlanName = model.PlanName,
                         Likes = model.Likes,
-                        PlanType = model.PlanType,
+                        PlantypeName = model.PlanType,
                         PlanPrice = model.PlanPrice,
                         DisplayPrice=model.DisplayPrice,
                         PlanDescription = model.PlanDescription,
@@ -151,7 +151,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             {
                 model.PlanId = planInformationDTO.PlanId;
                 model.PlanName = planInformationDTO.PlanName;
-                model.PlanType = planInformationDTO.PlanType;
+                model.PlanType = planInformationDTO.PlantypeName;
                 model.PlanPrice = planInformationDTO.PlanPrice;
                 model.DisplayPrice = planInformationDTO.DisplayPrice;
                 model.Likes = planInformationDTO.Likes;
@@ -206,7 +206,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                         PlanId = model.PlanId,
                         PlanName = model.PlanName,
                         Likes = model.Likes,
-                        PlanType = model.PlanType,
+                        PlantypeName = model.PlanType,
                         PlanPrice = model.PlanPrice,
                         DisplayPrice = model.DisplayPrice,
                         PlanDescription = model.PlanDescription,

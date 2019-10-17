@@ -1,5 +1,5 @@
 ﻿using SG2.CORE.MODAL.DTO.Common;
-using SG2.CORE.MODAL.DTO.JVBox;
+
 using SG2.CORE.MODAL.ViewModals.Backend.ActionBoard;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ namespace SG2.CORE.MODAL.ViewModals.Backend.ActionBoard
     public class ActionBoardViewModel
     {
         public List<ActionBoardJVSData> JVStatuses { get; set; }
-        public List<JVBoxDTO> MPBoxList { get; set; }
+       
         public IList<CountryDTO> Countries { get; set; }
         public List<ProxyIPDTO> ProxyIPs { get; set; }
         public IList<CityDTO> Cities { get; set; }

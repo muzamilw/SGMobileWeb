@@ -10,7 +10,7 @@ using SG2.CORE.COMMON;
 using SG2.CORE.DAL.DB;
 using SG2.CORE.MODAL.DTO.Common;
 using SG2.CORE.MODAL.DTO.Customers;
-using SG2.CORE.MODAL.DTO.JVBox;
+
 using SG2.CORE.MODAL.ViewModals.Backend;
 using SG2.CORE.MODAL.ViewModals.Backend.ActionBoard;
 
@@ -784,7 +784,7 @@ namespace SG2.CORE.DAL.Repositories
                             IsOptedMarketingEmail = Convert.ToBoolean(usr.IsOptedMarketingEmail),
                             StatusId = usr.StatusId,
                             StripeSubscriptionId = usr.StripeSubscriptionId,
-                            //DefaultSocialProfileId = usr.DefaultSocialProfileId
+                            DefaultSocialProfileId = usr.DefaultSocialProfileId.Value
                         };
                         return cst;
                     }

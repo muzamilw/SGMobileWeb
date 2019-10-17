@@ -67,7 +67,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             LikeyAccountDTO likeyAccountDTO = new LikeyAccountDTO();
             UpdateLikeyAccountViewModel model = new UpdateLikeyAccountViewModel
             {
-                Countries = CommonManager.GetCountries(),
+                //Countries = CommonManager.GetCountries(),
                 Statuses = this.ApplicationStatuses
             };
             int likeyAccountId = 0;
@@ -174,7 +174,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             LikeyAccountDTO likeyAccountDTO = new LikeyAccountDTO();
             LikeyAccountViewModal model = new LikeyAccountViewModal
             {
-                Countries = CommonManager.GetCountries(),
+                //Countries = CommonManager.GetCountries(),
                 Cities = new List<CityDTO>(),
                 Statuses = this.ApplicationStatuses
             };
