@@ -188,6 +188,10 @@
           <Property Name="FollDoNotFollowUsernamewithdigits" Type="int" />
           <Property Name="FollOnlyFollowGender" Type="int" />
           <Property Name="FollUserLangs" Type="nvarchar" MaxLength="500" />
+          <Property Name="FollowLikeCommentHashtagsKeywordw" Type="bit" />
+          <Property Name="FollowLikeCommentHashtagsKeywordwValue" Type="int" />
+          <Property Name="FollowLikeViewCommentTopPosts" Type="bit" />
+          <Property Name="FollowLikeViewCommentTopPostsValue" Type="int" />
           <Property Name="AfterFollLikeuserPosts" Type="bit" />
           <Property Name="AfterFollLikeuserPostsWaitSecsFrom" Type="int" />
           <Property Name="AfterFollLikeuserPostsWaitSecsTo" Type="int" />
@@ -219,6 +223,11 @@
           <Property Name="CommFltrPostsByLikeCount" Type="bit" />
           <Property Name="CommDelCommAfterXDays" Type="bit" />
           <Property Name="CommDelCommAfterXDaysCount" Type="int" />
+          <Property Name="CommLine1" Type="nvarchar" MaxLength="500" />
+          <Property Name="CommLine2" Type="nvarchar" MaxLength="500" />
+          <Property Name="CommLine3" Type="nvarchar" MaxLength="500" />
+          <Property Name="CommLine4" Type="nvarchar" MaxLength="500" />
+          <Property Name="CommLine5" Type="nvarchar" MaxLength="500" />
           <Property Name="DMShowUnReadMsg" Type="bit" />
           <Property Name="DMShowPendingReq" Type="bit" />
           <Property Name="LEXLikeUsrMostRecentPosts" Type="bit" />
@@ -817,7 +826,7 @@
           </FunctionImport>
           <FunctionImport Name="SG2_usp_Get_EnumerationValue" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Get_EnumerationValue_Result)" />
           <FunctionImport Name="SG2_usp_Customer_GetSocialProfileById" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Customer_GetSocialProfileById_Result)">
-            <Parameter Name="riSocialProfileId" Mode="In" Type="Int32" />
+          <Parameter Name="riSocialProfileId" Mode="In" Type="Int32" />
           </FunctionImport>
           
         </EntityContainer>
@@ -1052,6 +1061,15 @@
           <Property Name="LEXUseBlackList" Type="Boolean" />
           <Property Name="LEXChkPostCaptionsforBlackList" Type="Boolean" />
           <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" FromRole="SocialProfile_Instagram_TargetingInformation" ToRole="SocialProfile" />
+          <Property Name="FollowLikeCommentHashtagsKeywordw" Type="Boolean" />
+          <Property Name="FollowLikeCommentHashtagsKeywordwValue" Type="Int32" />
+          <Property Name="FollowLikeViewCommentTopPosts" Type="Boolean" />
+          <Property Name="FollowLikeViewCommentTopPostsValue" Type="Int32" />
+          <Property Name="CommLine1" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CommLine2" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CommLine3" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CommLine4" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CommLine5" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SocialProfile_Notification">
           <Key>
@@ -2003,6 +2021,15 @@
           <EntitySetMapping Name="SocialProfile_Instagram_TargetingInformation">
             <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile_Instagram_TargetingInformation">
               <MappingFragment StoreEntitySet="SocialProfile_Instagram_TargetingInformation">
+                <ScalarProperty Name="CommLine5" ColumnName="CommLine5" />
+                <ScalarProperty Name="CommLine4" ColumnName="CommLine4" />
+                <ScalarProperty Name="CommLine3" ColumnName="CommLine3" />
+                <ScalarProperty Name="CommLine2" ColumnName="CommLine2" />
+                <ScalarProperty Name="CommLine1" ColumnName="CommLine1" />
+                <ScalarProperty Name="FollowLikeViewCommentTopPostsValue" ColumnName="FollowLikeViewCommentTopPostsValue" />
+                <ScalarProperty Name="FollowLikeViewCommentTopPosts" ColumnName="FollowLikeViewCommentTopPosts" />
+                <ScalarProperty Name="FollowLikeCommentHashtagsKeywordwValue" ColumnName="FollowLikeCommentHashtagsKeywordwValue" />
+                <ScalarProperty Name="FollowLikeCommentHashtagsKeywordw" ColumnName="FollowLikeCommentHashtagsKeywordw" />
                 <ScalarProperty Name="LEXChkPostCaptionsforBlackList" ColumnName="LEXChkPostCaptionsforBlackList" />
                 <ScalarProperty Name="LEXUseBlackList" ColumnName="LEXUseBlackList" />
                 <ScalarProperty Name="LEXLikeUsrMostRecentPostsCount" ColumnName="LEXLikeUsrMostRecentPostsCount" />

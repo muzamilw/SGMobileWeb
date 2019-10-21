@@ -106,6 +106,15 @@ namespace SG2.CORE.DAL.DB
         public Nullable<int> LEXLikeUsrMostRecentPostsCount { get; set; }
         public Nullable<bool> LEXUseBlackList { get; set; }
         public Nullable<bool> LEXChkPostCaptionsforBlackList { get; set; }
+        public Nullable<bool> FollowLikeCommentHashtagsKeywordw { get; set; }
+        public Nullable<int> FollowLikeCommentHashtagsKeywordwValue { get; set; }
+        public Nullable<bool> FollowLikeViewCommentTopPosts { get; set; }
+        public Nullable<int> FollowLikeViewCommentTopPostsValue { get; set; }
+        public string CommLine1 { get; set; }
+        public string CommLine2 { get; set; }
+        public string CommLine3 { get; set; }
+        public string CommLine4 { get; set; }
+        public string CommLine5 { get; set; }
     
         public virtual SocialProfile SocialProfile { get; set; }
     }

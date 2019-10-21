@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>DbDeploymentClassic</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{84522935-aed6-4679-b911-fcf56a811fb2}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>DbDeploymentClassic</RootNamespace>
+    <AssemblyName>DbDeploymentClassic</AssemblyName>
+    <ModelCollation>1033,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Views\" />
+    <Folder Include="dbo\Functions\" />
+    <Folder Include="dbo\Stored Procedures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\Enumeration.sql" />
+    <Build Include="dbo\Tables\EnumerationValue.sql" />
+    <Build Include="dbo\Tables\SocialProfile_Instagram_TargetingInformation.sql" />
+    <Build Include="dbo\Tables\__MigrationLog.sql" />
+    <Build Include="dbo\Tables\__SchemaSnapshot.sql" />
+    <Build Include="dbo\Tables\Customer.sql" />
+    <Build Include="dbo\Tables\Customer_ContactDetail.sql" />
+    <Build Include="dbo\Tables\Customer_Title.sql" />
+    <Build Include="dbo\Tables\LikeyAccount.sql" />
+    <Build Include="dbo\Tables\SocialProfile.sql" />
+    <Build Include="dbo\Tables\SocialProfile_Notification.sql" />
+    <Build Include="dbo\Tables\SocialProfile_Statistics.sql" />
+    <Build Include="dbo\Tables\SocialProfile_Subscription.sql" />
+    <Build Include="dbo\Tables\SystemCity.sql" />
+    <Build Include="dbo\Tables\SystemConfig.sql" />
+    <Build Include="dbo\Tables\SystemCountry.sql" />
+    <Build Include="dbo\Tables\SystemRole.sql" />
+    <Build Include="dbo\Tables\SystemState.sql" />
+    <Build Include="dbo\Tables\SystemUser.sql" />
+    <Build Include="dbo\Tables\PaymentPlan.sql" />
+    <Build Include="dbo\Tables\SocialProfile_Actions.sql" />
+    <Build Include="dbo\Views\__MigrationLogCurrent.sql" />
+    <Build Include="dbo\Functions\StringSplit.sql" />
+    <Build Include="dbo\Functions\udf_utl_CSVtoTwelveColumns.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_Delete_Customer.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_Delete_Customer_All.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_Get_AllCustomers.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_AssignJVBoxToCustomer.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_Customer_AssignedNearestProxyIP.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_Customer_GetPendingSocialProfiles.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_Customer_GetSocialProfileById.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_Customer_GetSocialProfilesByCustomerId.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_Customer_ProfileUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_Customer_SavePreference.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_Customer_ScheduleCall.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_Customer_SignUp.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_Customer_SignUpCustomerWithPreference.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_Customers_Get.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_Get_AllUser.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_Get_CustomerOrderHistory.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_Get_Customer_Instagram_TargetingInformation.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_Get_EnumerationValue.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_Get_Product.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_Get_SocialProfile_PaymentPlan.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_Get_SpecificCustomerDetail.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_Get_Title.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_GetUserDetailsForbackOffice.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_LikeyAccount_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_LikeyAccount_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_LikeyAccount_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_LikeyAccount_Save.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_Login_Customers.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_PlanInformation_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_PlanInformation_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_PlanInformation_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_PlanInformation_Save.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_Report_GetMostUsedProductData.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_Report_GetReportData.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_SocialProfile_BadProxy.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_SocialProfile_GetNotificationsByStatus.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_SocialProfile_SaveStatistics.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_SocialProfile_Statistics_GetFollowers.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_SocialProfile_Statistics_GetFollowers_Old.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_SocialProfile_Statistics_GetStatistics.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_SocialProfile_Subscription_Save.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_SystemConfig_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_SystemConfig_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_SystemConfig_Save.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_SystemRole_AllRole.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_SystemUser_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_SystemUser_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_SystemUser_Login.sql" />
+    <Build Include="dbo\Stored Procedures\SG2_usp_SystemUser_Save.sql" />
+  </ItemGroup>
+</Project>

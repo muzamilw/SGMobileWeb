@@ -370,7 +370,7 @@ namespace SG2.CORE.DAL.Repositories
 
 
                 }
-                return false;
+               
             }
             catch (Exception ex)
             {
