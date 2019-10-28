@@ -18,6 +18,7 @@ namespace SG2.CORE.DAL.DB
         public PaymentPlan()
         {
             this.SocialProfile_Subscription = new HashSet<SocialProfile_Subscription>();
+            this.SocialProfiles = new HashSet<SocialProfile>();
         }
     
         public int PaymentPlanId { get; set; }
@@ -40,5 +41,7 @@ namespace SG2.CORE.DAL.DB
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SocialProfile_Subscription> SocialProfile_Subscription { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SocialProfile> SocialProfiles { get; set; }
     }
 }

@@ -110,7 +110,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                         SortOrder = model.SortOrder,
                         IsDefault=model.IsDefault,
                         StripePlanId= subscription.Id,
-                        SocialPlanTypeId=model.SocialPlanTypeId
+                        SocialPlatform=model.SocialPlanTypeId
 
                     });
                     TempData["Success"] = "Yes";
@@ -161,7 +161,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                 model.StatusId = planInformationDTO.StatusId;
                 model.SortOrder = planInformationDTO.SortOrder;
                 model.IsDefault = planInformationDTO.IsDefault;
-                model.SocialPlanTypeId = planInformationDTO.SocialPlanTypeId;
+                model.SocialPlanTypeId = planInformationDTO.SocialPlatform;
             }
             return View(model);
         }
@@ -215,7 +215,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                         SortOrder=model.SortOrder,
                         IsDefault=model.IsDefault,
                         StripePlanId= model.StripePlanId==null? subscription.Id : model.StripePlanId,
-                        SocialPlanTypeId = model.SocialPlanTypeId
+                        SocialPlatform = model.SocialPlanTypeId
 
                     });
                     TempData["Success"] = "Yes";

@@ -25,6 +25,7 @@ namespace SG2.CORE.DAL.DB
         public string HashTagsToEngage { get; set; }
         public string HashTagsToNotEngage { get; set; }
         public string LocationsToEngage { get; set; }
+        public string DirectCompetitors { get; set; }
         public Nullable<int> GenderEngagmentPref { get; set; }
         public Nullable<bool> IncludeBusinessAccounts { get; set; }
         public Nullable<bool> MonOper { get; set; }
@@ -64,14 +65,17 @@ namespace SG2.CORE.DAL.DB
         public Nullable<int> FollUserPostsLastXDays { get; set; }
         public Nullable<bool> FollUseBlackList { get; set; }
         public Nullable<bool> FollCheckPostsCapBlackList { get; set; }
-        public Nullable<bool> FollDoNotFollowPrivateUser { get; set; }
-        public Nullable<bool> FollSkipBizAcct { get; set; }
-        public Nullable<int> FollDoNotFollowUsernamewithdigits { get; set; }
-        public Nullable<int> FollOnlyFollowGender { get; set; }
-        public string FollUserLangs { get; set; }
+        public Nullable<bool> FollDoNotFollowUsernamewithdigits { get; set; }
+        public Nullable<int> FollDoNotFollowUsernamewithdigitsVal { get; set; }
+        public Nullable<bool> FollUserLangs { get; set; }
+        public string FollUserLangsList { get; set; }
+        public Nullable<int> FollowWaitBetweenActionsVal1 { get; set; }
+        public Nullable<int> FollowWaitBetweenActionsVal2 { get; set; }
+        public Nullable<bool> FollowCompetitorsFollowers { get; set; }
+        public Nullable<int> FollowCompetitorsFollowersVal { get; set; }
+        public Nullable<bool> FollowUsersfromHashtagResults { get; set; }
+        public Nullable<int> FollowUsersfromHashtagResultsVal { get; set; }
         public Nullable<bool> AfterFollLikeuserPosts { get; set; }
-        public Nullable<int> AfterFollLikeuserPostsWaitSecsFrom { get; set; }
-        public Nullable<int> AfterFollLikeuserPostsWaitSecsTo { get; set; }
         public Nullable<bool> AfterFollCommentUserPosts { get; set; }
         public Nullable<bool> AfterFollViewUserStory { get; set; }
         public Nullable<bool> AfterFollMuteUser { get; set; }
@@ -90,31 +94,39 @@ namespace SG2.CORE.DAL.DB
         public Nullable<bool> UnFollUseWhiteList { get; set; }
         public Nullable<bool> StorVwOnlyPostXMin { get; set; }
         public Nullable<int> StorVwOnlyPostXMinVal { get; set; }
-        public Nullable<bool> StorVwLikeUsrPostRcntPost { get; set; }
-        public Nullable<int> StorVwLikeUsrPostRcntPostVal { get; set; }
-        public Nullable<bool> StorVwReply { get; set; }
-        public Nullable<bool> StorVwSendDMAfterLike { get; set; }
+        public Nullable<bool> StorVwAfterReply { get; set; }
+        public Nullable<int> StorVwAfterLikeSendDM { get; set; }
         public Nullable<bool> CommUsrRecentPosts { get; set; }
         public Nullable<int> CommUsrRecentPostsVal { get; set; }
         public Nullable<int> CommUsrRecentPostsTypes { get; set; }
-        public Nullable<bool> CommFltrPostsByLikeCount { get; set; }
+        public Nullable<bool> CommUserPostedWithinXDays { get; set; }
+        public Nullable<int> CommUserPostedWithinXDaysVal { get; set; }
+        public Nullable<bool> CommFltrPostsByLike { get; set; }
+        public Nullable<int> CommFltrPostsByLikeCount { get; set; }
         public Nullable<bool> CommDelCommAfterXDays { get; set; }
         public Nullable<int> CommDelCommAfterXDaysCount { get; set; }
+        public string CommLine1 { get; set; }
+        public string CommLine2 { get; set; }
+        public string CommLine3 { get; set; }
+        public string CommLine4 { get; set; }
+        public string CommLine5 { get; set; }
         public Nullable<bool> DMShowUnReadMsg { get; set; }
         public Nullable<bool> DMShowPendingReq { get; set; }
         public Nullable<bool> LEXLikeUsrMostRecentPosts { get; set; }
         public Nullable<int> LEXLikeUsrMostRecentPostsCount { get; set; }
         public Nullable<bool> LEXUseBlackList { get; set; }
         public Nullable<bool> LEXChkPostCaptionsforBlackList { get; set; }
-        public Nullable<bool> FollowLikeCommentHashtagsKeywordw { get; set; }
-        public Nullable<int> FollowLikeCommentHashtagsKeywordwValue { get; set; }
-        public Nullable<bool> FollowLikeViewCommentTopPosts { get; set; }
-        public Nullable<int> FollowLikeViewCommentTopPostsValue { get; set; }
-        public string CommLine1 { get; set; }
-        public string CommLine2 { get; set; }
-        public string CommLine3 { get; set; }
-        public string CommLine4 { get; set; }
-        public string CommLine5 { get; set; }
+        public Nullable<bool> LEXPostedWithinLastXDays { get; set; }
+        public Nullable<int> LEXPostedWithinLastXDaysVal { get; set; }
+        public Nullable<bool> LEXPostActionEmpty { get; set; }
+        public string LEXDonotLikePvtUsers { get; set; }
+        public Nullable<bool> LEXSkipBizAccount { get; set; }
+        public string WhistListManualUsers { get; set; }
+        public string WhilstListImportedUsers { get; set; }
+        public string BlackListUsers { get; set; }
+        public string BlackListLocations { get; set; }
+        public string BlackListHashtags { get; set; }
+        public string BlackListWordsManual { get; set; }
     
         public virtual SocialProfile SocialProfile { get; set; }
     }

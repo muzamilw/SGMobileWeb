@@ -12,7 +12,6 @@
         <EntityTypeShape EntityType="SocialGrowth2Entities.PaymentPlan" Width="1.5" PointX="6" PointY="4" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile" Width="1.5" PointX="3" PointY="21.625" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Actions" Width="1.5" PointX="5.25" PointY="9.875" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Instagram_TargetingInformation" Width="1.5" PointX="5.25" PointY="24.25" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Notification" Width="1.5" PointX="8.75" PointY="5.75" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Statistics" Width="1.5" PointX="5.25" PointY="12.875" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Subscription" Width="1.5" PointX="8.25" PointY="22.25" />
@@ -28,8 +27,14 @@
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" />
-        <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SystemUsers_SG2_SystemRoles" />
+        <AssociationConnector Association="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_FollowedAccounts" Width="1.5" PointX="5.25" PointY="19.875" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Instagram_TargetingInformation" Width="1.5" PointX="5.25" PointY="22.875" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.Enumeration" Width="1.5" PointX="11.375" PointY="5.75" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.EnumerationValue" Width="1.5" PointX="12.375" PointY="8.75" />
+        <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" />
+        <AssociationConnector Association="SocialGrowth2Entities.FK_SocialProfile_FollowedAccounts_SocialProfile" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

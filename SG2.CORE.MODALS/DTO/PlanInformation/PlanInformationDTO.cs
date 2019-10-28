@@ -22,7 +22,7 @@ namespace SG2.CORE.MODAL.DTO.PlanInformation
         public short? SortOrder { get; set; }
         public int NoOfLikesDuration { get; set; }
 
-        public int? SocialPlanTypeId { get; set; }
+        public int? SocialPlatform { get; set; }
         public bool? IsDefault { get; set; }
     }
 }

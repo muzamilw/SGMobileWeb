@@ -67,6 +67,12 @@
     <Compile Include="DB\Customer_Title.cs">
       <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DB\Enumeration.cs">
+      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\EnumerationValue.cs">
+      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DB\LikeyAccount.cs">
       <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
     </Compile>
@@ -161,6 +167,9 @@
       <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DB\SocialProfile_Actions.cs">
+      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\SocialProfile_FollowedAccounts.cs">
       <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DB\SocialProfile_Instagram_TargetingInformation.cs">

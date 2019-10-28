@@ -21,6 +21,7 @@ namespace SG2.CORE.DAL.DB
             this.SocialProfile_Actions = new HashSet<SocialProfile_Actions>();
             this.SocialProfile_Subscription = new HashSet<SocialProfile_Subscription>();
             this.SocialProfile_Instagram_TargetingInformation = new HashSet<SocialProfile_Instagram_TargetingInformation>();
+            this.SocialProfile_FollowedAccounts = new HashSet<SocialProfile_FollowedAccounts>();
         }
     
         public int SocialProfileId { get; set; }
@@ -39,6 +40,11 @@ namespace SG2.CORE.DAL.DB
         public Nullable<bool> IsArchived { get; set; }
         public string DeviceIMEI { get; set; }
         public Nullable<int> DeviceStatus { get; set; }
+        public string StripeSubscriptionId { get; set; }
+        public Nullable<int> PaymentPlanId { get; set; }
+        public string IMSI { get; set; }
+        public string PinCode { get; set; }
+        public string Comments { get; set; }
     
         public virtual Customer Customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -47,7 +53,10 @@ namespace SG2.CORE.DAL.DB
         public virtual ICollection<SocialProfile_Actions> SocialProfile_Actions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SocialProfile_Subscription> SocialProfile_Subscription { get; set; }
+        public virtual PaymentPlan PaymentPlan { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SocialProfile_Instagram_TargetingInformation> SocialProfile_Instagram_TargetingInformation { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SocialProfile_FollowedAccounts> SocialProfile_FollowedAccounts { get; set; }
     }
 }

@@ -108,7 +108,7 @@ namespace SG2.CORE.WEB.Controllers
             targetPreferences.ActivePlanId = selectedPlan.PlanId == 0 ? null : (int?)selectedPlan.PlanId;
             targetPreferences.ActivePlanPrice = selectedPlan.DisplayPrice;
             targetPreferences.ActivePlanLikes = selectedPlan.Likes;
-            targetPreferences.DefaultPaymentPlan = plans.FirstOrDefault(x => x.IsParentPlan == true &&  x.SocialPlanTypeId == 30 && x.IsDefault.Value == true);
+            targetPreferences.DefaultPaymentPlan = plans.FirstOrDefault(x => x.IsParentPlan == true &&  x.SocialPlatform == 30 && x.IsDefault.Value == true);
             //targetPreferences.JVStatus = profileDTO.JVBoxStatusName;
             //targetPreferences.JVStatusId = profileDTO.JVStatusId;
             targetPreferences.StripeApiKey = _stripeApiKey;

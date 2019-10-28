@@ -73,7 +73,7 @@ namespace SG2.CORE.DAL.Repositories
                         plan.IsDefault = entity.IsDefault;
                         plan.StripePlanId = entity.StripePlanId;
                         plan.StripePlanPrice = entity.PlanPrice;
-                        plan.SocialPlatform = entity.SocialPlanTypeId;
+                        plan.SocialPlatform = entity.SocialPlatform;
 
                         _db.SaveChanges();
                     }
@@ -91,7 +91,7 @@ namespace SG2.CORE.DAL.Repositories
                         plan.IsDefault = entity.IsDefault;
                         plan.StripePlanId = entity.StripePlanId;
                         plan.StripePlanPrice = entity.PlanPrice;
-                        plan.SocialPlatform = entity.SocialPlanTypeId;
+                        plan.SocialPlatform = entity.SocialPlatform;
                         _db.PaymentPlans.Add(plan);
 
                         _db.SaveChanges();
@@ -136,6 +136,7 @@ namespace SG2.CORE.DAL.Repositories
                             plnInfo.IsDefault = pro.IsDefault??false;
                             //plnInfo.PlantypeName = pro.PlanType;
                             plnInfo.StatusName = pro.StatusName;
+                            plnInfo.SocialPlatform = pro.socialplatform;
                             planInformationDTOs.Add(plnInfo);
                             }
                         return planInformationDTOs;
@@ -173,7 +174,7 @@ namespace SG2.CORE.DAL.Repositories
                             StatusId=pro.StatusId,
                             SortOrder=pro.SortOrder,
                             IsDefault=pro.IsDefault,
-                            SocialPlanTypeId=pro.SocialPlatform
+                            SocialPlatform=pro.SocialPlatform
 
                         };
                         return plnInfo;

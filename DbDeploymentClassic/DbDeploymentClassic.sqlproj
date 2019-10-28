@@ -64,6 +64,7 @@
     <Folder Include="dbo\Views\" />
     <Folder Include="dbo\Functions\" />
     <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="Snapshots" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Enumeration.sql" />
@@ -139,5 +140,8 @@
     <Build Include="dbo\Stored Procedures\SG2_usp_SystemUser_GetById.sql" />
     <Build Include="dbo\Stored Procedures\SG2_usp_SystemUser_Login.sql" />
     <Build Include="dbo\Stored Procedures\SG2_usp_SystemUser_Save.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Snapshots\DbDeploymentClassic_20191028_06-10-07.dacpac" />
   </ItemGroup>
 </Project>
