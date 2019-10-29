@@ -63,28 +63,17 @@
           <Property Name="PkTitleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TitleName" Type="varchar" MaxLength="50" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Enumeration' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Enumeration">
           <Key>
             <PropertyRef Name="EnumerationId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="Description" />
           </Key>
           <Property Name="EnumerationId" Type="smallint" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="EnumerationValue">
           <Key>
             <PropertyRef Name="EnumerationValueId" />
-            <PropertyRef Name="EnumerationId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="Description" />
-            <PropertyRef Name="IsDefault" />
-            <PropertyRef Name="SequenceNo" />
           </Key>
           <Property Name="EnumerationValueId" Type="smallint" Nullable="false" />
           <Property Name="EnumerationId" Type="smallint" Nullable="false" />
@@ -355,6 +344,16 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
           <Property Name="BlockedFollowers" Type="bigint" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="SystemCity">
           <Key>
@@ -648,20 +647,6 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
         <Function Name="SG2_usp_SocialProfile_GetNotificationsByStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="StatusId" Type="smallint" Mode="In" />
         </Function>
-        <Function Name="SG2_usp_SocialProfile_Subscription_Save" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="riSocialProfileId" Type="int" Mode="In" />
-          <Parameter Name="riStripeSubscriptionId" Type="nvarchar" Mode="In" />
-          <Parameter Name="rvcDescription" Type="nvarchar" Mode="In" />
-          <Parameter Name="rvcName" Type="nvarchar" Mode="In" />
-          <Parameter Name="riPrice" Type="decimal" Mode="In" />
-          <Parameter Name="riStripePlanId" Type="nvarchar" Mode="In" />
-          <Parameter Name="rvcSubscriptionType" Type="nvarchar" Mode="In" />
-          <Parameter Name="rdtStartDate" Type="datetime" Mode="In" />
-          <Parameter Name="rdtEndDate" Type="datetime" Mode="In" />
-          <Parameter Name="riStatusId" Type="int" Mode="In" />
-          <Parameter Name="riPaymentPlanId" Type="int" Mode="In" />
-          <Parameter Name="rvcStripeInvoiceId" Type="nvarchar" Mode="In" />
-        </Function>
         <Function Name="SG2_usp_SystemConfig_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="rsSearchCrite" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="riPageNumber" Type="int" Mode="In" />
@@ -682,6 +667,8 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer_ContactDetail" EntityType="Self.Customer_ContactDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer_Title" EntityType="Self.Customer_Title" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Enumeration" EntityType="Self.Enumeration" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EnumerationValue" EntityType="Self.EnumerationValue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LikeyAccount" EntityType="Self.LikeyAccount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentPlan" EntityType="Self.PaymentPlan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SocialProfile" EntityType="Self.SocialProfile" Schema="dbo" store:Type="Tables" />
@@ -691,30 +678,13 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
           <EntitySet Name="SocialProfile_Notification" EntityType="Self.SocialProfile_Notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SocialProfile_Payments" EntityType="Self.SocialProfile_Payments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SocialProfile_Statistics" EntityType="Self.SocialProfile_Statistics" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemCity" EntityType="Self.SystemCity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemConfig" EntityType="Self.SystemConfig" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemCountry" EntityType="Self.SystemCountry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemRole" EntityType="Self.SystemRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemState" EntityType="Self.SystemState" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemUser" EntityType="Self.SystemUser" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Enumeration" EntityType="Self.Enumeration" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Enumeration].[EnumerationId] AS [EnumerationId], 
-    [Enumeration].[Name] AS [Name], 
-    [Enumeration].[Description] AS [Description]
-    FROM [dbo].[Enumeration] AS [Enumeration]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="EnumerationValue" EntityType="Self.EnumerationValue" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [EnumerationValue].[EnumerationValueId] AS [EnumerationValueId], 
-    [EnumerationValue].[EnumerationId] AS [EnumerationId], 
-    [EnumerationValue].[Name] AS [Name], 
-    [EnumerationValue].[Description] AS [Description], 
-    [EnumerationValue].[IsDefault] AS [IsDefault], 
-    [EnumerationValue].[SequenceNo] AS [SequenceNo], 
-    [EnumerationValue].[IsVisible] AS [IsVisible]
-    FROM [dbo].[EnumerationValue] AS [EnumerationValue]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_SG2_ContactDetails_SG2_Customer" Association="Self.FK_SG2_ContactDetails_SG2_Customer">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="Customer_ContactDetail" EntitySet="Customer_ContactDetail" />
@@ -761,41 +731,6 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
     <edmx:ConceptualModels>
       <Schema Namespace="SocialGrowth2Entities" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="SocialGrowth2Connection" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Customers" EntityType="SocialGrowth2Entities.Customer" />
-          <EntitySet Name="Customer_ContactDetail" EntityType="SocialGrowth2Entities.Customer_ContactDetail" />
-          <EntitySet Name="Customer_Title" EntityType="SocialGrowth2Entities.Customer_Title" />
-          <EntitySet Name="LikeyAccounts" EntityType="SocialGrowth2Entities.LikeyAccount" />
-          <EntitySet Name="PaymentPlans" EntityType="SocialGrowth2Entities.PaymentPlan" />
-          <EntitySet Name="SocialProfiles" EntityType="SocialGrowth2Entities.SocialProfile" />
-          <EntitySet Name="SocialProfile_Actions" EntityType="SocialGrowth2Entities.SocialProfile_Actions" />
-          <EntitySet Name="SocialProfile_Notification" EntityType="SocialGrowth2Entities.SocialProfile_Notification" />
-          <EntitySet Name="SocialProfile_Statistics" EntityType="SocialGrowth2Entities.SocialProfile_Statistics" />
-          <EntitySet Name="SystemCities" EntityType="SocialGrowth2Entities.SystemCity" />
-          <EntitySet Name="SystemConfigs" EntityType="SocialGrowth2Entities.SystemConfig" />
-          <EntitySet Name="SystemCountries" EntityType="SocialGrowth2Entities.SystemCountry" />
-          <EntitySet Name="SystemRoles" EntityType="SocialGrowth2Entities.SystemRole" />
-          <EntitySet Name="SystemStates" EntityType="SocialGrowth2Entities.SystemState" />
-          <EntitySet Name="SystemUsers" EntityType="SocialGrowth2Entities.SystemUser" />
-          <AssociationSet Name="FK_SG2_ContactDetails_SG2_Customer" Association="SocialGrowth2Entities.FK_SG2_ContactDetails_SG2_Customer">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="Customer_ContactDetail" EntitySet="Customer_ContactDetail" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SG2_SocialProfile_SG2_Customer" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="SocialProfile" EntitySet="SocialProfiles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
-            <End Role="SocialProfile" EntitySet="SocialProfiles" />
-            <End Role="SocialProfile_Statistics" EntitySet="SocialProfile_Statistics" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile">
-            <End Role="SocialProfile" EntitySet="SocialProfiles" />
-            <End Role="SocialProfile_Actions" EntitySet="SocialProfile_Actions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SG2_SystemUsers_SG2_SystemRoles" Association="SocialGrowth2Entities.FK_SG2_SystemUsers_SG2_SystemRoles">
-            <End Role="SystemRole" EntitySet="SystemRoles" />
-            <End Role="SystemUser" EntitySet="SystemUsers" />
-          </AssociationSet>
           <FunctionImport Name="SG2_usp_SystemConfig_GetAll" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_SystemConfig_GetAll_Result)">
             <Parameter Name="rsSearchCrite" Mode="In" Type="String" />
             <Parameter Name="riPageNumber" Mode="In" Type="Int32" />
@@ -862,7 +797,7 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
           <FunctionImport Name="SG2_usp_Customers_Get" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Customers_Get_Result)">
           <Parameter Name="Id" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="SG2_usp_SocialProfile_Subscription_Save" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_SocialProfile_Subscription_Save_Result)">
+          <FunctionImport Name="SG2_usp_SocialProfile_Payments_Save" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_SocialProfile_Payments_Save_Result)">
             <Parameter Name="riSocialProfileId" Mode="In" Type="Int32" />
             <Parameter Name="riStripeSubscriptionId" Mode="In" Type="String" />
             <Parameter Name="rvcDescription" Mode="In" Type="String" />
@@ -924,14 +859,55 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
           <FunctionImport Name="SG2_usp_Customer_GetSocialProfileById" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Customer_GetSocialProfileById_Result)">
           <Parameter Name="riSocialProfileId" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="Customers" EntityType="SocialGrowth2Entities.Customer" />
+          <EntitySet Name="Customer_ContactDetail" EntityType="SocialGrowth2Entities.Customer_ContactDetail" />
+          <EntitySet Name="Customer_Title" EntityType="SocialGrowth2Entities.Customer_Title" />
+          <EntitySet Name="Enumerations" EntityType="SocialGrowth2Entities.Enumeration" />
+          <EntitySet Name="EnumerationValues" EntityType="SocialGrowth2Entities.EnumerationValue" />
+          <EntitySet Name="LikeyAccounts" EntityType="SocialGrowth2Entities.LikeyAccount" />
+          <EntitySet Name="PaymentPlans" EntityType="SocialGrowth2Entities.PaymentPlan" />
+          <EntitySet Name="SocialProfiles" EntityType="SocialGrowth2Entities.SocialProfile" />
+          <EntitySet Name="SocialProfile_Actions" EntityType="SocialGrowth2Entities.SocialProfile_Actions" />
+          <EntitySet Name="SocialProfile_FollowedAccounts" EntityType="SocialGrowth2Entities.SocialProfile_FollowedAccounts" />
+          <EntitySet Name="SocialProfile_Instagram_TargetingInformation" EntityType="SocialGrowth2Entities.SocialProfile_Instagram_TargetingInformation" />
+          <EntitySet Name="SocialProfile_Notification" EntityType="SocialGrowth2Entities.SocialProfile_Notification" />
+          <EntitySet Name="SocialProfile_Payments" EntityType="SocialGrowth2Entities.SocialProfile_Payments" />
+          <EntitySet Name="SocialProfile_Statistics" EntityType="SocialGrowth2Entities.SocialProfile_Statistics" />
+          <EntitySet Name="sysdiagrams" EntityType="SocialGrowth2Entities.sysdiagram" />
+          <EntitySet Name="SystemCities" EntityType="SocialGrowth2Entities.SystemCity" />
+          <EntitySet Name="SystemConfigs" EntityType="SocialGrowth2Entities.SystemConfig" />
+          <EntitySet Name="SystemCountries" EntityType="SocialGrowth2Entities.SystemCountry" />
+          <EntitySet Name="SystemRoles" EntityType="SocialGrowth2Entities.SystemRole" />
+          <EntitySet Name="SystemStates" EntityType="SocialGrowth2Entities.SystemState" />
+          <EntitySet Name="SystemUsers" EntityType="SocialGrowth2Entities.SystemUser" />
+          <AssociationSet Name="FK_SG2_ContactDetails_SG2_Customer" Association="SocialGrowth2Entities.FK_SG2_ContactDetails_SG2_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Customer_ContactDetail" EntitySet="Customer_ContactDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SG2_SocialProfile_SG2_Customer" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="SocialProfile" EntitySet="SocialProfiles" />
+          </AssociationSet>
           <AssociationSet Name="FK_SocialProfile_PaymentPlan" Association="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan">
             <End Role="PaymentPlan" EntitySet="PaymentPlans" />
             <End Role="SocialProfile" EntitySet="SocialProfiles" />
           </AssociationSet>
-          <EntitySet Name="SocialProfile_FollowedAccounts" EntityType="SocialGrowth2Entities.SocialProfile_FollowedAccounts" />
-          <EntitySet Name="SocialProfile_Instagram_TargetingInformation" EntityType="SocialGrowth2Entities.SocialProfile_Instagram_TargetingInformation" />
-          <EntitySet Name="Enumerations" EntityType="SocialGrowth2Entities.Enumeration" />
-          <EntitySet Name="EnumerationValues" EntityType="SocialGrowth2Entities.EnumerationValue" />
+          <AssociationSet Name="FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" Association="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan">
+            <End Role="PaymentPlan" EntitySet="PaymentPlans" />
+            <End Role="SocialProfile_Payments" EntitySet="SocialProfile_Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
+            <End Role="SocialProfile" EntitySet="SocialProfiles" />
+            <End Role="SocialProfile_Statistics" EntitySet="SocialProfile_Statistics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile">
+            <End Role="SocialProfile" EntitySet="SocialProfiles" />
+            <End Role="SocialProfile_Actions" EntitySet="SocialProfile_Actions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile">
+            <End Role="SocialProfile" EntitySet="SocialProfiles" />
+            <End Role="SocialProfile_Payments" EntitySet="SocialProfile_Payments" />
+          </AssociationSet>
           <AssociationSet Name="FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile">
             <End Role="SocialProfile" EntitySet="SocialProfiles" />
             <End Role="SocialProfile_Instagram_TargetingInformation" EntitySet="SocialProfile_Instagram_TargetingInformation" />
@@ -940,340 +916,11 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
             <End Role="SocialProfile" EntitySet="SocialProfiles" />
             <End Role="SocialProfile_FollowedAccounts" EntitySet="SocialProfile_FollowedAccounts" />
           </AssociationSet>
-          <EntitySet Name="SocialProfile_Payments" EntityType="SocialGrowth2Entities.SocialProfile_Payments" />
-          <AssociationSet Name="FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" Association="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan">
-            <End Role="PaymentPlan" EntitySet="PaymentPlans" />
-            <End Role="SocialProfile_Payments" EntitySet="SocialProfile_Payments" />
+          <AssociationSet Name="FK_SG2_SystemUsers_SG2_SystemRoles" Association="SocialGrowth2Entities.FK_SG2_SystemUsers_SG2_SystemRoles">
+            <End Role="SystemRole" EntitySet="SystemRoles" />
+            <End Role="SystemUser" EntitySet="SystemUsers" />
           </AssociationSet>
-          <AssociationSet Name="FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile">
-            <End Role="SocialProfile" EntitySet="SocialProfiles" />
-            <End Role="SocialProfile_Payments" EntitySet="SocialProfile_Payments" />
-          </AssociationSet>
-          
-        </EntityContainer>
-        <EntityType Name="Customer">
-          <Key>
-            <PropertyRef Name="CustomerId" />
-          </Key>
-          <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="GUID" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="true" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="SurName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StatusId" Type="Int16" Nullable="false" />
-          <Property Name="LastLoginDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="LoginAttempts" Type="Byte" Nullable="false" />
-          <Property Name="LastLoginIP" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Tocken" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="StripeCustomerId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Source" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ResponsibleTeamMemberId" Type="Int32" />
-          <Property Name="AvailableToEveryOne" Type="Boolean" />
-          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CancelledDate" Type="DateTime" Precision="3" />
-          <Property Name="IsOptedEducationalEmailSeries" Type="Boolean" />
-          <Property Name="IsOptedMarketingEmail" Type="Boolean" />
-          <Property Name="Title" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Customer_ContactDetail" Relationship="SocialGrowth2Entities.FK_SG2_ContactDetails_SG2_Customer" FromRole="Customer" ToRole="Customer_ContactDetail" />
-          <NavigationProperty Name="SocialProfiles" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer" FromRole="Customer" ToRole="SocialProfile" />
-        </EntityType>
-        <EntityType Name="Customer_ContactDetail">
-          <Key>
-            <PropertyRef Name="ContactDetailsId" />
-          </Key>
-          <Property Name="ContactDetailsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CustomerId" Type="Int32" Nullable="false" />
-          <Property Name="JobTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MobileNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AddressLine1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="AddressLine2" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Sate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PostalCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="GUID" Type="String" MaxLength="36" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneCode" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
-          <Property Name="ScheduleCallDate" Type="DateTime" Precision="3" />
-          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Customer" Relationship="SocialGrowth2Entities.FK_SG2_ContactDetails_SG2_Customer" FromRole="Customer_ContactDetail" ToRole="Customer" />
-        </EntityType>
-        <EntityType Name="Customer_Title">
-          <Key>
-            <PropertyRef Name="PkTitleId" />
-          </Key>
-          <Property Name="PkTitleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TitleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="LikeyAccount">
-          <Key>
-            <PropertyRef Name="LikeyAccountId" />
-          </Key>
-          <Property Name="LikeyAccountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="InstaUserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="InstaPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="City" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Gender" Type="Int32" Nullable="false" />
-          <Property Name="HashTag" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StatusId" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="PaymentPlan">
-          <Key>
-            <PropertyRef Name="PaymentPlanId" />
-          </Key>
-          <Property Name="PaymentPlanId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NoOfLikes" Type="Int32" />
-          <Property Name="DisplayPrice" Type="Double" />
-          <Property Name="PlanName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="PlanShortDescription" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="IsParentPlan" Type="Boolean" />
-          <Property Name="StripePlanId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StripePlanPrice" Type="Double" />
-          <Property Name="NoOfLikesDuration" Type="Int32" />
-          <Property Name="StatusId" Type="Int32" />
-          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
-          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SortOrder" Type="Int16" />
-          <Property Name="SocialPlatform" Type="Int32" />
-          <Property Name="IsDefault" Type="Boolean" />
-          <NavigationProperty Name="SocialProfiles" Relationship="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan" FromRole="PaymentPlan" ToRole="SocialProfile" />
-          <NavigationProperty Name="SocialProfile_Payments" Relationship="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" FromRole="PaymentPlan" ToRole="SocialProfile_Payments" />
-        </EntityType>
-        <EntityType Name="SocialProfile">
-          <Key>
-            <PropertyRef Name="SocialProfileId" />
-          </Key>
-          <Property Name="SocialProfileId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CustomerId" Type="Int32" />
-          <Property Name="SocialProfileTypeId" Type="Int32" />
-          <Property Name="StatusId" Type="Int32" />
-          <Property Name="StripeCustomerId" Type="Int32" />
-          <Property Name="SocialUsername" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SocialPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SocialProfileName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="verificationCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IsArchived" Type="Boolean" />
-          <Property Name="DeviceIMEI" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="DeviceStatus" Type="Int32" />
-          <NavigationProperty Name="Customer" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer" FromRole="SocialProfile" ToRole="Customer" />
-          <NavigationProperty Name="SocialProfile_Statistics" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Statistics" />
-          <NavigationProperty Name="SocialProfile_Actions" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Actions" />
-          <Property Name="StripeSubscriptionId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="PaymentPlanId" Type="Int32" />
-          <Property Name="IMSI" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PinCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="PaymentPlan" Relationship="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan" FromRole="SocialProfile" ToRole="PaymentPlan" />
-          <NavigationProperty Name="SocialProfile_Instagram_TargetingInformation" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Instagram_TargetingInformation" />
-          <NavigationProperty Name="SocialProfile_FollowedAccounts" Relationship="SocialGrowth2Entities.FK_SocialProfile_FollowedAccounts_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_FollowedAccounts" />
-          <NavigationProperty Name="SocialProfile_Payments" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Payments" />
-        </EntityType>
-        <EntityType Name="SocialProfile_Actions">
-          <Key>
-            <PropertyRef Name="SPSHId" />
-          </Key>
-          <Property Name="SPSHId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SocialProfileId" Type="Int32" />
-          <Property Name="ActionID" Type="Int32" />
-          <Property Name="TargetProfile" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ActionDateTime" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile" FromRole="SocialProfile_Actions" ToRole="SocialProfile" />
-        </EntityType>
-        <EntityType Name="SocialProfile_Notification">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Notification" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="StatusId" Type="Int16" Nullable="false" />
-          <Property Name="SocialProfileId" Type="Int32" Nullable="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UpdateOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Mode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="SocialProfile_Statistics">
-          <Key>
-            <PropertyRef Name="SocialStatisticsId" />
-          </Key>
-          <Property Name="SocialStatisticsId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SocialProfileId" Type="Int32" Nullable="false" />
-          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="FollowersGain" Type="Int64" />
-          <Property Name="Followers" Type="Int64" />
-          <Property Name="Followings" Type="Int64" />
-          <Property Name="FollowingsRatio" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Joiner" Type="Int64" />
-          <Property Name="Unjoiner" Type="Int64" />
-          <Property Name="Follow" Type="Int64" />
-          <Property Name="Unfollow" Type="Int64" />
-          <Property Name="ContactMassage" Type="Int64" />
-          <Property Name="ContactFriends" Type="Int64" />
-          <Property Name="REPinTweetBlog" Type="Int64" />
-          <Property Name="Bump" Type="Int64" />
-          <Property Name="Like" Type="Int64" />
-          <Property Name="Comment" Type="Int64" />
-          <Property Name="Engagement" Type="Int64" />
-          <Property Name="Repost" Type="Int64" />
-          <Property Name="LikeComments" Type="Int64" />
-          <Property Name="StoryViewer" Type="Int64" />
-          <Property Name="BlockedFollowers" Type="Int64" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" FromRole="SocialProfile_Statistics" ToRole="SocialProfile" />
-        </EntityType>
-        <EntityType Name="SystemCity">
-          <Key>
-            <PropertyRef Name="CityId" />
-          </Key>
-          <Property Name="CityId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CountryId" Type="Int16" Nullable="false" />
-          <Property Name="StateId" Type="Int16" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Code" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
-          <Property Name="StatusId" Type="Int16" />
-        </EntityType>
-        <EntityType Name="SystemConfig">
-          <Key>
-            <PropertyRef Name="ConfigId" />
-          </Key>
-          <Property Name="ConfigId" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ConfigKey" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ConfigValue" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="ConfigValue2" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="SystemCountry">
-          <Key>
-            <PropertyRef Name="CountryId" />
-          </Key>
-          <Property Name="CountryId" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Code" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneCode" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
-          <Property Name="StatusId" Type="Int16" />
-        </EntityType>
-        <EntityType Name="SystemRole">
-          <Key>
-            <PropertyRef Name="RoleId" />
-          </Key>
-          <Property Name="RoleId" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StatusId" Type="Int16" Nullable="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="SystemUsers" Relationship="SocialGrowth2Entities.FK_SG2_SystemUsers_SG2_SystemRoles" FromRole="SystemRole" ToRole="SystemUser" />
-        </EntityType>
-        <EntityType Name="SystemState">
-          <Key>
-            <PropertyRef Name="StateId" />
-          </Key>
-          <Property Name="StateId" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CountryId" Type="Int16" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Code" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
-          <Property Name="StatusId" Type="Int16" />
-        </EntityType>
-        <EntityType Name="SystemUser">
-          <Key>
-            <PropertyRef Name="SystemUserId" />
-          </Key>
-          <Property Name="SystemUserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SystemRoleId" Type="Int16" Nullable="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StatusId" Type="Int16" Nullable="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="HostUser" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="SystemRole" Relationship="SocialGrowth2Entities.FK_SG2_SystemUsers_SG2_SystemRoles" FromRole="SystemUser" ToRole="SystemRole" />
-        </EntityType>
-        <Association Name="FK_SG2_ContactDetails_SG2_Customer">
-          <End Type="SocialGrowth2Entities.Customer" Role="Customer" Multiplicity="1" />
-          <End Type="SocialGrowth2Entities.Customer_ContactDetail" Role="Customer_ContactDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="CustomerId" />
-            </Principal>
-            <Dependent Role="Customer_ContactDetail">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SG2_SocialProfile_SG2_Customer">
-          <End Type="SocialGrowth2Entities.Customer" Role="Customer" Multiplicity="0..1" />
-          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="CustomerId" />
-            </Principal>
-            <Dependent Role="SocialProfile">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
-          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="1" />
-          <End Type="SocialGrowth2Entities.SocialProfile_Statistics" Role="SocialProfile_Statistics" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SocialProfile">
-              <PropertyRef Name="SocialProfileId" />
-            </Principal>
-            <Dependent Role="SocialProfile_Statistics">
-              <PropertyRef Name="SocialProfileId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile">
-          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="0..1" />
-          <End Type="SocialGrowth2Entities.SocialProfile_Actions" Role="SocialProfile_Actions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SocialProfile">
-              <PropertyRef Name="SocialProfileId" />
-            </Principal>
-            <Dependent Role="SocialProfile_Actions">
-              <PropertyRef Name="SocialProfileId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SG2_SystemUsers_SG2_SystemRoles">
-          <End Type="SocialGrowth2Entities.SystemRole" Role="SystemRole" Multiplicity="1" />
-          <End Type="SocialGrowth2Entities.SystemUser" Role="SystemUser" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SystemRole">
-              <PropertyRef Name="RoleId" />
-            </Principal>
-            <Dependent Role="SystemUser">
-              <PropertyRef Name="SystemRoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+          </EntityContainer>
         <ComplexType Name="SG2_usp_Get_AllUser1_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
           <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
@@ -1564,8 +1211,8 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
           <Property Type="String" Name="Country" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="PostalCode" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="PhoneCode" Nullable="true" MaxLength="5" />
-          <Property Type="String" Name="StripeSubscriptionId" Nullable="true" MaxLength="255" />
           <Property Type="Int32" Name="DefaultSocialProfileId" Nullable="true" />
+          <Property Type="Int32" Name="PaymentId" Nullable="true" />
         </ComplexType>
         <ComplexType Name="SG2_usp_Customers_Get_Result">
           <Property Type="Int32" Name="CustomerId" Nullable="false" />
@@ -1607,7 +1254,7 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
           <Property Type="String" Name="StripeSubscriptionId" Nullable="true" MaxLength="255" />
           <Property Type="Int32" Name="DefaultSocialProfileId" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="SG2_usp_SocialProfile_Subscription_Save_Result">
+        <ComplexType Name="SG2_usp_SocialProfile_Payments_Save_Result">
           <Property Type="Int32" Name="SubscriptionId" Nullable="false" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
           <Property Type="String" Name="Description" Nullable="false" MaxLength="255" />
@@ -1847,18 +1494,168 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
           <Property Type="String" Name="StripeInvoiceId" Nullable="true" MaxLength="255" />
           <Property Type="Boolean" Name="IsArchived" Nullable="true" />
         </ComplexType>
-        <Association Name="FK_SocialProfile_PaymentPlan">
-          <End Type="SocialGrowth2Entities.PaymentPlan" Role="PaymentPlan" Multiplicity="0..1" />
-          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PaymentPlan">
-              <PropertyRef Name="PaymentPlanId" />
-            </Principal>
-            <Dependent Role="SocialProfile">
-              <PropertyRef Name="PaymentPlanId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GUID" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="SurName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int16" Nullable="false" />
+          <Property Name="LastLoginDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LoginAttempts" Type="Byte" Nullable="false" />
+          <Property Name="LastLoginIP" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Tocken" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="StripeCustomerId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Source" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ResponsibleTeamMemberId" Type="Int32" />
+          <Property Name="AvailableToEveryOne" Type="Boolean" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CancelledDate" Type="DateTime" Precision="3" />
+          <Property Name="IsOptedEducationalEmailSeries" Type="Boolean" />
+          <Property Name="IsOptedMarketingEmail" Type="Boolean" />
+          <Property Name="Title" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Customer_ContactDetail" Relationship="SocialGrowth2Entities.FK_SG2_ContactDetails_SG2_Customer" FromRole="Customer" ToRole="Customer_ContactDetail" />
+          <NavigationProperty Name="SocialProfiles" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer" FromRole="Customer" ToRole="SocialProfile" />
+        </EntityType>
+        <EntityType Name="Customer_ContactDetail">
+          <Key>
+            <PropertyRef Name="ContactDetailsId" />
+          </Key>
+          <Property Name="ContactDetailsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="JobTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MobileNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AddressLine1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AddressLine2" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PostalCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GUID" Type="String" MaxLength="36" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneCode" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="ScheduleCallDate" Type="DateTime" Precision="3" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Customer" Relationship="SocialGrowth2Entities.FK_SG2_ContactDetails_SG2_Customer" FromRole="Customer_ContactDetail" ToRole="Customer" />
+        </EntityType>
+        <EntityType Name="Customer_Title">
+          <Key>
+            <PropertyRef Name="PkTitleId" />
+          </Key>
+          <Property Name="PkTitleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TitleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Enumeration">
+          <Key>
+            <PropertyRef Name="EnumerationId" />
+          </Key>
+          <Property Name="EnumerationId" Type="Int16" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="EnumerationValue">
+          <Key>
+            <PropertyRef Name="EnumerationValueId" />
+          </Key>
+          <Property Name="EnumerationValueId" Type="Int16" Nullable="false" />
+          <Property Name="EnumerationId" Type="Int16" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="IsDefault" Type="Boolean" Nullable="false" />
+          <Property Name="SequenceNo" Type="Int32" Nullable="false" />
+          <Property Name="IsVisible" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="LikeyAccount">
+          <Key>
+            <PropertyRef Name="LikeyAccountId" />
+          </Key>
+          <Property Name="LikeyAccountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InstaUserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InstaPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="Int32" Nullable="false" />
+          <Property Name="HashTag" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentPlan">
+          <Key>
+            <PropertyRef Name="PaymentPlanId" />
+          </Key>
+          <Property Name="PaymentPlanId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NoOfLikes" Type="Int32" />
+          <Property Name="DisplayPrice" Type="Double" />
+          <Property Name="PlanName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="PlanShortDescription" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IsParentPlan" Type="Boolean" />
+          <Property Name="StripePlanId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StripePlanPrice" Type="Double" />
+          <Property Name="NoOfLikesDuration" Type="Int32" />
+          <Property Name="StatusId" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SortOrder" Type="Int16" />
+          <Property Name="SocialPlatform" Type="Int32" />
+          <Property Name="IsDefault" Type="Boolean" />
+          <NavigationProperty Name="SocialProfiles" Relationship="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan" FromRole="PaymentPlan" ToRole="SocialProfile" />
+          <NavigationProperty Name="SocialProfile_Payments" Relationship="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" FromRole="PaymentPlan" ToRole="SocialProfile_Payments" />
+        </EntityType>
+        <EntityType Name="SocialProfile">
+          <Key>
+            <PropertyRef Name="SocialProfileId" />
+          </Key>
+          <Property Name="SocialProfileId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="SocialProfileTypeId" Type="Int32" />
+          <Property Name="StatusId" Type="Int32" />
+          <Property Name="StripeSubscriptionId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="StripeCustomerId" Type="Int32" />
+          <Property Name="PaymentPlanId" Type="Int32" />
+          <Property Name="SocialUsername" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SocialPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SocialProfileName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="verificationCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsArchived" Type="Boolean" />
+          <Property Name="IMSI" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DeviceIMEI" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DeviceStatus" Type="Int32" />
+          <Property Name="PinCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Customer" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer" FromRole="SocialProfile" ToRole="Customer" />
+          <NavigationProperty Name="PaymentPlan" Relationship="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan" FromRole="SocialProfile" ToRole="PaymentPlan" />
+          <NavigationProperty Name="SocialProfile_Statistics" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Statistics" />
+          <NavigationProperty Name="SocialProfile_Actions" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Actions" />
+          <NavigationProperty Name="SocialProfile_Payments" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Payments" />
+          <NavigationProperty Name="SocialProfile_Instagram_TargetingInformation" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Instagram_TargetingInformation" />
+          <NavigationProperty Name="SocialProfile_FollowedAccounts" Relationship="SocialGrowth2Entities.FK_SocialProfile_FollowedAccounts_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_FollowedAccounts" />
+        </EntityType>
+        <EntityType Name="SocialProfile_Actions">
+          <Key>
+            <PropertyRef Name="SPSHId" />
+          </Key>
+          <Property Name="SPSHId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SocialProfileId" Type="Int32" />
+          <Property Name="ActionID" Type="Int32" />
+          <Property Name="TargetProfile" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ActionDateTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile" FromRole="SocialProfile_Actions" ToRole="SocialProfile" />
+        </EntityType>
         <EntityType Name="SocialProfile_FollowedAccounts">
           <Key>
             <PropertyRef Name="SocialProfileFollowedAccountId" />
@@ -1989,33 +1786,242 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
           <Property Name="BlackListWordsManual" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" FromRole="SocialProfile_Instagram_TargetingInformation" ToRole="SocialProfile" />
         </EntityType>
-        <EntityType Name="Enumeration">
+        <EntityType Name="SocialProfile_Notification">
           <Key>
-            <PropertyRef Name="EnumerationId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="Description" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="EnumerationId" Type="Int16" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Notification" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int16" Nullable="false" />
+          <Property Name="SocialProfileId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="EnumerationValue">
+        <EntityType Name="SocialProfile_Payments">
           <Key>
-            <PropertyRef Name="EnumerationValueId" />
-            <PropertyRef Name="EnumerationId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="Description" />
-            <PropertyRef Name="IsDefault" />
-            <PropertyRef Name="SequenceNo" />
+            <PropertyRef Name="PaymentId" />
           </Key>
-          <Property Name="EnumerationValueId" Type="Int16" Nullable="false" />
-          <Property Name="EnumerationId" Type="Int16" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="IsDefault" Type="Boolean" Nullable="false" />
-          <Property Name="SequenceNo" Type="Int32" Nullable="false" />
-          <Property Name="IsVisible" Type="Boolean" />
+          <Property Name="SubscriptionType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PaymentDateTime" Type="DateTime" Precision="3" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SocialProfileId" Type="Int32" Nullable="false" />
+          <Property Name="StripeSubscriptionId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int32" />
+          <Property Name="StripePlanId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentPlanId" Type="Int32" />
+          <Property Name="StripeInvoiceId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PaymentPlan" Relationship="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" FromRole="SocialProfile_Payments" ToRole="PaymentPlan" />
+          <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" FromRole="SocialProfile_Payments" ToRole="SocialProfile" />
         </EntityType>
+        <EntityType Name="SocialProfile_Statistics">
+          <Key>
+            <PropertyRef Name="SocialStatisticsId" />
+          </Key>
+          <Property Name="SocialStatisticsId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SocialProfileId" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FollowersGain" Type="Int64" />
+          <Property Name="Followers" Type="Int64" />
+          <Property Name="Followings" Type="Int64" />
+          <Property Name="FollowingsRatio" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Joiner" Type="Int64" />
+          <Property Name="Unjoiner" Type="Int64" />
+          <Property Name="Follow" Type="Int64" />
+          <Property Name="Unfollow" Type="Int64" />
+          <Property Name="ContactMassage" Type="Int64" />
+          <Property Name="ContactFriends" Type="Int64" />
+          <Property Name="REPinTweetBlog" Type="Int64" />
+          <Property Name="Bump" Type="Int64" />
+          <Property Name="Like" Type="Int64" />
+          <Property Name="Comment" Type="Int64" />
+          <Property Name="Engagement" Type="Int64" />
+          <Property Name="Repost" Type="Int64" />
+          <Property Name="LikeComments" Type="Int64" />
+          <Property Name="StoryViewer" Type="Int64" />
+          <Property Name="BlockedFollowers" Type="Int64" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" FromRole="SocialProfile_Statistics" ToRole="SocialProfile" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="SystemCity">
+          <Key>
+            <PropertyRef Name="CityId" />
+          </Key>
+          <Property Name="CityId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryId" Type="Int16" Nullable="false" />
+          <Property Name="StateId" Type="Int16" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int16" />
+        </EntityType>
+        <EntityType Name="SystemConfig">
+          <Key>
+            <PropertyRef Name="ConfigId" />
+          </Key>
+          <Property Name="ConfigId" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConfigKey" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ConfigValue" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ConfigValue2" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SystemCountry">
+          <Key>
+            <PropertyRef Name="CountryId" />
+          </Key>
+          <Property Name="CountryId" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneCode" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int16" />
+        </EntityType>
+        <EntityType Name="SystemRole">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int16" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SystemUsers" Relationship="SocialGrowth2Entities.FK_SG2_SystemUsers_SG2_SystemRoles" FromRole="SystemRole" ToRole="SystemUser" />
+        </EntityType>
+        <EntityType Name="SystemState">
+          <Key>
+            <PropertyRef Name="StateId" />
+          </Key>
+          <Property Name="StateId" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryId" Type="Int16" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int16" />
+        </EntityType>
+        <EntityType Name="SystemUser">
+          <Key>
+            <PropertyRef Name="SystemUserId" />
+          </Key>
+          <Property Name="SystemUserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SystemRoleId" Type="Int16" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int16" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HostUser" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SystemRole" Relationship="SocialGrowth2Entities.FK_SG2_SystemUsers_SG2_SystemRoles" FromRole="SystemUser" ToRole="SystemRole" />
+        </EntityType>
+        <Association Name="FK_SG2_ContactDetails_SG2_Customer">
+          <End Type="SocialGrowth2Entities.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="SocialGrowth2Entities.Customer_ContactDetail" Role="Customer_ContactDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="Customer_ContactDetail">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SG2_SocialProfile_SG2_Customer">
+          <End Type="SocialGrowth2Entities.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="SocialProfile">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SocialProfile_PaymentPlan">
+          <End Type="SocialGrowth2Entities.PaymentPlan" Role="PaymentPlan" Multiplicity="0..1" />
+          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentPlan">
+              <PropertyRef Name="PaymentPlanId" />
+            </Principal>
+            <Dependent Role="SocialProfile">
+              <PropertyRef Name="PaymentPlanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SocialProfile_Subscription_SocialProfile_PaymentPlan">
+          <End Type="SocialGrowth2Entities.PaymentPlan" Role="PaymentPlan" Multiplicity="0..1" />
+          <End Type="SocialGrowth2Entities.SocialProfile_Payments" Role="SocialProfile_Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentPlan">
+              <PropertyRef Name="PaymentPlanId" />
+            </Principal>
+            <Dependent Role="SocialProfile_Payments">
+              <PropertyRef Name="PaymentPlanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
+          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="1" />
+          <End Type="SocialGrowth2Entities.SocialProfile_Statistics" Role="SocialProfile_Statistics" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SocialProfile">
+              <PropertyRef Name="SocialProfileId" />
+            </Principal>
+            <Dependent Role="SocialProfile_Statistics">
+              <PropertyRef Name="SocialProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile">
+          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="0..1" />
+          <End Type="SocialGrowth2Entities.SocialProfile_Actions" Role="SocialProfile_Actions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SocialProfile">
+              <PropertyRef Name="SocialProfileId" />
+            </Principal>
+            <Dependent Role="SocialProfile_Actions">
+              <PropertyRef Name="SocialProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SG2_SocialProfile_Subscription_SG2_SocialProfile">
+          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="1" />
+          <End Type="SocialGrowth2Entities.SocialProfile_Payments" Role="SocialProfile_Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SocialProfile">
+              <PropertyRef Name="SocialProfileId" />
+            </Principal>
+            <Dependent Role="SocialProfile_Payments">
+              <PropertyRef Name="SocialProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile">
           <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="0..1" />
           <End Type="SocialGrowth2Entities.SocialProfile_Instagram_TargetingInformation" Role="SocialProfile_Instagram_TargetingInformation" Multiplicity="*" />
@@ -2040,319 +2046,24 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="SocialProfile_Payments">
-          <Key>
-            <PropertyRef Name="PaymentId" />
-          </Key>
-          <Property Name="PaymentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="SubscriptionType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PaymentDateTime" Type="DateTime" Precision="3" />
-          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="SocialProfileId" Type="Int32" Nullable="false" />
-          <Property Name="StripeSubscriptionId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="StatusId" Type="Int32" />
-          <Property Name="StripePlanId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="PaymentPlanId" Type="Int32" />
-          <Property Name="StripeInvoiceId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="PaymentPlan" Relationship="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" FromRole="SocialProfile_Payments" ToRole="PaymentPlan" />
-          <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" FromRole="SocialProfile_Payments" ToRole="SocialProfile" />
-        </EntityType>
-        <Association Name="FK_SocialProfile_Subscription_SocialProfile_PaymentPlan">
-          <End Type="SocialGrowth2Entities.PaymentPlan" Role="PaymentPlan" Multiplicity="0..1" />
-          <End Type="SocialGrowth2Entities.SocialProfile_Payments" Role="SocialProfile_Payments" Multiplicity="*" />
+        <Association Name="FK_SG2_SystemUsers_SG2_SystemRoles">
+          <End Type="SocialGrowth2Entities.SystemRole" Role="SystemRole" Multiplicity="1" />
+          <End Type="SocialGrowth2Entities.SystemUser" Role="SystemUser" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="PaymentPlan">
-              <PropertyRef Name="PaymentPlanId" />
+            <Principal Role="SystemRole">
+              <PropertyRef Name="RoleId" />
             </Principal>
-            <Dependent Role="SocialProfile_Payments">
-              <PropertyRef Name="PaymentPlanId" />
+            <Dependent Role="SystemUser">
+              <PropertyRef Name="SystemRoleId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_SG2_SocialProfile_Subscription_SG2_SocialProfile">
-          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="1" />
-          <End Type="SocialGrowth2Entities.SocialProfile_Payments" Role="SocialProfile_Payments" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SocialProfile">
-              <PropertyRef Name="SocialProfileId" />
-            </Principal>
-            <Dependent Role="SocialProfile_Payments">
-              <PropertyRef Name="SocialProfileId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="SocialGrowth2EntitiesStoreContainer" CdmEntityContainer="SocialGrowth2Connection">
-          <EntitySetMapping Name="Customers">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.Customer">
-              <MappingFragment StoreEntitySet="Customer">
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="IsOptedMarketingEmail" ColumnName="IsOptedMarketingEmail" />
-                <ScalarProperty Name="IsOptedEducationalEmailSeries" ColumnName="IsOptedEducationalEmailSeries" />
-                <ScalarProperty Name="CancelledDate" ColumnName="CancelledDate" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="AvailableToEveryOne" ColumnName="AvailableToEveryOne" />
-                <ScalarProperty Name="ResponsibleTeamMemberId" ColumnName="ResponsibleTeamMemberId" />
-                <ScalarProperty Name="Register" ColumnName="Register" />
-                <ScalarProperty Name="Source" ColumnName="Source" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="StripeCustomerId" ColumnName="StripeCustomerId" />
-                <ScalarProperty Name="Tocken" ColumnName="Tocken" />
-                <ScalarProperty Name="LastLoginIP" ColumnName="LastLoginIP" />
-                <ScalarProperty Name="LoginAttempts" ColumnName="LoginAttempts" />
-                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
-                <ScalarProperty Name="SurName" ColumnName="SurName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="GUID" ColumnName="GUID" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Customer_ContactDetail">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.Customer_ContactDetail">
-              <MappingFragment StoreEntitySet="Customer_ContactDetail">
-                <ScalarProperty Name="Notes" ColumnName="Notes" />
-                <ScalarProperty Name="ScheduleCallDate" ColumnName="ScheduleCallDate" />
-                <ScalarProperty Name="PhoneCode" ColumnName="PhoneCode" />
-                <ScalarProperty Name="GUID" ColumnName="GUID" />
-                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="Sate" ColumnName="Sate" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
-                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
-                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="ContactDetailsId" ColumnName="ContactDetailsId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Customer_Title">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.Customer_Title">
-              <MappingFragment StoreEntitySet="Customer_Title">
-                <ScalarProperty Name="TitleName" ColumnName="TitleName" />
-                <ScalarProperty Name="PkTitleId" ColumnName="PkTitleId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="LikeyAccounts">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.LikeyAccount">
-              <MappingFragment StoreEntitySet="LikeyAccount">
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="HashTag" ColumnName="HashTag" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="InstaPassword" ColumnName="InstaPassword" />
-                <ScalarProperty Name="InstaUserName" ColumnName="InstaUserName" />
-                <ScalarProperty Name="LikeyAccountId" ColumnName="LikeyAccountId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PaymentPlans">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.PaymentPlan">
-              <MappingFragment StoreEntitySet="PaymentPlan">
-                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
-                <ScalarProperty Name="SocialPlatform" ColumnName="SocialPlatform" />
-                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="NoOfLikesDuration" ColumnName="NoOfLikesDuration" />
-                <ScalarProperty Name="StripePlanPrice" ColumnName="StripePlanPrice" />
-                <ScalarProperty Name="StripePlanId" ColumnName="StripePlanId" />
-                <ScalarProperty Name="IsParentPlan" ColumnName="IsParentPlan" />
-                <ScalarProperty Name="PlanShortDescription" ColumnName="PlanShortDescription" />
-                <ScalarProperty Name="PlanName" ColumnName="PlanName" />
-                <ScalarProperty Name="DisplayPrice" ColumnName="DisplayPrice" />
-                <ScalarProperty Name="NoOfLikes" ColumnName="NoOfLikes" />
-                <ScalarProperty Name="PaymentPlanId" ColumnName="PaymentPlanId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SocialProfiles">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile">
-              <MappingFragment StoreEntitySet="SocialProfile">
-                <ScalarProperty Name="Comments" ColumnName="Comments" />
-                <ScalarProperty Name="PinCode" ColumnName="PinCode" />
-                <ScalarProperty Name="IMSI" ColumnName="IMSI" />
-                <ScalarProperty Name="PaymentPlanId" ColumnName="PaymentPlanId" />
-                <ScalarProperty Name="StripeSubscriptionId" ColumnName="StripeSubscriptionId" />
-                <ScalarProperty Name="DeviceStatus" ColumnName="DeviceStatus" />
-                <ScalarProperty Name="DeviceIMEI" ColumnName="DeviceIMEI" />
-                <ScalarProperty Name="IsArchived" ColumnName="IsArchived" />
-                <ScalarProperty Name="verificationCode" ColumnName="verificationCode" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="SocialProfileName" ColumnName="SocialProfileName" />
-                <ScalarProperty Name="SocialPassword" ColumnName="SocialPassword" />
-                <ScalarProperty Name="SocialUsername" ColumnName="SocialUsername" />
-                <ScalarProperty Name="StripeCustomerId" ColumnName="StripeCustomerId" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="SocialProfileTypeId" ColumnName="SocialProfileTypeId" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SocialProfile_Actions">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile_Actions">
-              <MappingFragment StoreEntitySet="SocialProfile_Actions">
-                <ScalarProperty Name="ActionDateTime" ColumnName="ActionDateTime" />
-                <ScalarProperty Name="TargetProfile" ColumnName="TargetProfile" />
-                <ScalarProperty Name="ActionID" ColumnName="ActionID" />
-                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
-                <ScalarProperty Name="SPSHId" ColumnName="SPSHId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SocialProfile_Notification">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile_Notification">
-              <MappingFragment StoreEntitySet="SocialProfile_Notification">
-                <ScalarProperty Name="Mode" ColumnName="Mode" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdateOn" ColumnName="UpdateOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="Notification" ColumnName="Notification" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SocialProfile_Statistics">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile_Statistics">
-              <MappingFragment StoreEntitySet="SocialProfile_Statistics">
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="BlockedFollowers" ColumnName="BlockedFollowers" />
-                <ScalarProperty Name="StoryViewer" ColumnName="StoryViewer" />
-                <ScalarProperty Name="LikeComments" ColumnName="LikeComments" />
-                <ScalarProperty Name="Repost" ColumnName="Repost" />
-                <ScalarProperty Name="Engagement" ColumnName="Engagement" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="Like" ColumnName="Like" />
-                <ScalarProperty Name="Bump" ColumnName="Bump" />
-                <ScalarProperty Name="REPinTweetBlog" ColumnName="REPinTweetBlog" />
-                <ScalarProperty Name="ContactFriends" ColumnName="ContactFriends" />
-                <ScalarProperty Name="ContactMassage" ColumnName="ContactMassage" />
-                <ScalarProperty Name="Unfollow" ColumnName="Unfollow" />
-                <ScalarProperty Name="Follow" ColumnName="Follow" />
-                <ScalarProperty Name="Unjoiner" ColumnName="Unjoiner" />
-                <ScalarProperty Name="Joiner" ColumnName="Joiner" />
-                <ScalarProperty Name="FollowingsRatio" ColumnName="FollowingsRatio" />
-                <ScalarProperty Name="Followings" ColumnName="Followings" />
-                <ScalarProperty Name="Followers" ColumnName="Followers" />
-                <ScalarProperty Name="FollowersGain" ColumnName="FollowersGain" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
-                <ScalarProperty Name="SocialStatisticsId" ColumnName="SocialStatisticsId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SystemCities">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.SystemCity">
-              <MappingFragment StoreEntitySet="SystemCity">
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="StateId" ColumnName="StateId" />
-                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
-                <ScalarProperty Name="CityId" ColumnName="CityId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SystemConfigs">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.SystemConfig">
-              <MappingFragment StoreEntitySet="SystemConfig">
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="ConfigValue2" ColumnName="ConfigValue2" />
-                <ScalarProperty Name="ConfigValue" ColumnName="ConfigValue" />
-                <ScalarProperty Name="ConfigKey" ColumnName="ConfigKey" />
-                <ScalarProperty Name="ConfigId" ColumnName="ConfigId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SystemCountries">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.SystemCountry">
-              <MappingFragment StoreEntitySet="SystemCountry">
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="PhoneCode" ColumnName="PhoneCode" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SystemRoles">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.SystemRole">
-              <MappingFragment StoreEntitySet="SystemRole">
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SystemStates">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.SystemState">
-              <MappingFragment StoreEntitySet="SystemState">
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
-                <ScalarProperty Name="StateId" ColumnName="StateId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SystemUsers">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.SystemUser">
-              <MappingFragment StoreEntitySet="SystemUser">
-                <ScalarProperty Name="HostUser" ColumnName="HostUser" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="SystemRoleId" ColumnName="SystemRoleId" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="SystemUserId" ColumnName="SystemUserId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SG2_usp_SystemConfig_GetAll" FunctionName="SocialGrowth2Entities.Store.SG2_usp_SystemConfig_GetAll">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_SystemConfig_GetAll_Result">
@@ -2681,8 +2392,8 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
                 <ScalarProperty Name="Country" ColumnName="Country" />
                 <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
                 <ScalarProperty Name="PhoneCode" ColumnName="PhoneCode" />
-                <ScalarProperty Name="StripeSubscriptionId" ColumnName="StripeSubscriptionId" />
                 <ScalarProperty Name="DefaultSocialProfileId" ColumnName="DefaultSocialProfileId" />
+                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -2727,25 +2438,6 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
                 <ScalarProperty Name="PhoneCode" ColumnName="PhoneCode" />
                 <ScalarProperty Name="StripeSubscriptionId" ColumnName="StripeSubscriptionId" />
                 <ScalarProperty Name="DefaultSocialProfileId" ColumnName="DefaultSocialProfileId" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SG2_usp_SocialProfile_Subscription_Save" FunctionName="SocialGrowth2Entities.Store.SG2_usp_SocialProfile_Subscription_Save" >
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_SocialProfile_Subscription_Save_Result">
-                <ScalarProperty Name="SubscriptionId" ColumnName="SubscriptionId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="SubscriptionType" ColumnName="SubscriptionType" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
-                <ScalarProperty Name="StripeSubscriptionId" ColumnName="StripeSubscriptionId" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="StripePlanId" ColumnName="StripePlanId" />
-                <ScalarProperty Name="PaymentPlanId" ColumnName="PaymentPlanId" />
-                <ScalarProperty Name="StripeInvoiceId" ColumnName="StripeInvoiceId" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -3010,6 +2702,164 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="IsOptedMarketingEmail" ColumnName="IsOptedMarketingEmail" />
+                <ScalarProperty Name="IsOptedEducationalEmailSeries" ColumnName="IsOptedEducationalEmailSeries" />
+                <ScalarProperty Name="CancelledDate" ColumnName="CancelledDate" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="AvailableToEveryOne" ColumnName="AvailableToEveryOne" />
+                <ScalarProperty Name="ResponsibleTeamMemberId" ColumnName="ResponsibleTeamMemberId" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="StripeCustomerId" ColumnName="StripeCustomerId" />
+                <ScalarProperty Name="Tocken" ColumnName="Tocken" />
+                <ScalarProperty Name="LastLoginIP" ColumnName="LastLoginIP" />
+                <ScalarProperty Name="LoginAttempts" ColumnName="LoginAttempts" />
+                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="SurName" ColumnName="SurName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customer_ContactDetail">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.Customer_ContactDetail">
+              <MappingFragment StoreEntitySet="Customer_ContactDetail">
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="ScheduleCallDate" ColumnName="ScheduleCallDate" />
+                <ScalarProperty Name="PhoneCode" ColumnName="PhoneCode" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Sate" ColumnName="Sate" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="ContactDetailsId" ColumnName="ContactDetailsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customer_Title">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.Customer_Title">
+              <MappingFragment StoreEntitySet="Customer_Title">
+                <ScalarProperty Name="TitleName" ColumnName="TitleName" />
+                <ScalarProperty Name="PkTitleId" ColumnName="PkTitleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Enumerations">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.Enumeration">
+              <MappingFragment StoreEntitySet="Enumeration">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EnumerationId" ColumnName="EnumerationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EnumerationValues">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.EnumerationValue">
+              <MappingFragment StoreEntitySet="EnumerationValue">
+                <ScalarProperty Name="IsVisible" ColumnName="IsVisible" />
+                <ScalarProperty Name="SequenceNo" ColumnName="SequenceNo" />
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EnumerationId" ColumnName="EnumerationId" />
+                <ScalarProperty Name="EnumerationValueId" ColumnName="EnumerationValueId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LikeyAccounts">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.LikeyAccount">
+              <MappingFragment StoreEntitySet="LikeyAccount">
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="HashTag" ColumnName="HashTag" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="InstaPassword" ColumnName="InstaPassword" />
+                <ScalarProperty Name="InstaUserName" ColumnName="InstaUserName" />
+                <ScalarProperty Name="LikeyAccountId" ColumnName="LikeyAccountId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentPlans">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.PaymentPlan">
+              <MappingFragment StoreEntitySet="PaymentPlan">
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+                <ScalarProperty Name="SocialPlatform" ColumnName="SocialPlatform" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="NoOfLikesDuration" ColumnName="NoOfLikesDuration" />
+                <ScalarProperty Name="StripePlanPrice" ColumnName="StripePlanPrice" />
+                <ScalarProperty Name="StripePlanId" ColumnName="StripePlanId" />
+                <ScalarProperty Name="IsParentPlan" ColumnName="IsParentPlan" />
+                <ScalarProperty Name="PlanShortDescription" ColumnName="PlanShortDescription" />
+                <ScalarProperty Name="PlanName" ColumnName="PlanName" />
+                <ScalarProperty Name="DisplayPrice" ColumnName="DisplayPrice" />
+                <ScalarProperty Name="NoOfLikes" ColumnName="NoOfLikes" />
+                <ScalarProperty Name="PaymentPlanId" ColumnName="PaymentPlanId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SocialProfiles">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile">
+              <MappingFragment StoreEntitySet="SocialProfile">
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="PinCode" ColumnName="PinCode" />
+                <ScalarProperty Name="DeviceStatus" ColumnName="DeviceStatus" />
+                <ScalarProperty Name="DeviceIMEI" ColumnName="DeviceIMEI" />
+                <ScalarProperty Name="IMSI" ColumnName="IMSI" />
+                <ScalarProperty Name="IsArchived" ColumnName="IsArchived" />
+                <ScalarProperty Name="verificationCode" ColumnName="verificationCode" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="SocialProfileName" ColumnName="SocialProfileName" />
+                <ScalarProperty Name="SocialPassword" ColumnName="SocialPassword" />
+                <ScalarProperty Name="SocialUsername" ColumnName="SocialUsername" />
+                <ScalarProperty Name="PaymentPlanId" ColumnName="PaymentPlanId" />
+                <ScalarProperty Name="StripeCustomerId" ColumnName="StripeCustomerId" />
+                <ScalarProperty Name="StripeSubscriptionId" ColumnName="StripeSubscriptionId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="SocialProfileTypeId" ColumnName="SocialProfileTypeId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SocialProfile_Actions">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile_Actions">
+              <MappingFragment StoreEntitySet="SocialProfile_Actions">
+                <ScalarProperty Name="ActionDateTime" ColumnName="ActionDateTime" />
+                <ScalarProperty Name="TargetProfile" ColumnName="TargetProfile" />
+                <ScalarProperty Name="ActionID" ColumnName="ActionID" />
+                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
+                <ScalarProperty Name="SPSHId" ColumnName="SPSHId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="SocialProfile_FollowedAccounts">
             <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile_FollowedAccounts">
               <MappingFragment StoreEntitySet="SocialProfile_FollowedAccounts">
@@ -3140,25 +2990,18 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Enumerations">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.Enumeration">
-              <MappingFragment StoreEntitySet="Enumeration">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="EnumerationId" ColumnName="EnumerationId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EnumerationValues">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.EnumerationValue">
-              <MappingFragment StoreEntitySet="EnumerationValue">
-                <ScalarProperty Name="IsVisible" ColumnName="IsVisible" />
-                <ScalarProperty Name="SequenceNo" ColumnName="SequenceNo" />
-                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="EnumerationId" ColumnName="EnumerationId" />
-                <ScalarProperty Name="EnumerationValueId" ColumnName="EnumerationValueId" />
+          <EntitySetMapping Name="SocialProfile_Notification">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile_Notification">
+              <MappingFragment StoreEntitySet="SocialProfile_Notification">
+                <ScalarProperty Name="Mode" ColumnName="Mode" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdateOn" ColumnName="UpdateOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="Notification" ColumnName="Notification" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3182,7 +3025,129 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          <EntitySetMapping Name="SocialProfile_Statistics">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile_Statistics">
+              <MappingFragment StoreEntitySet="SocialProfile_Statistics">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="BlockedFollowers" ColumnName="BlockedFollowers" />
+                <ScalarProperty Name="StoryViewer" ColumnName="StoryViewer" />
+                <ScalarProperty Name="LikeComments" ColumnName="LikeComments" />
+                <ScalarProperty Name="Repost" ColumnName="Repost" />
+                <ScalarProperty Name="Engagement" ColumnName="Engagement" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Like" ColumnName="Like" />
+                <ScalarProperty Name="Bump" ColumnName="Bump" />
+                <ScalarProperty Name="REPinTweetBlog" ColumnName="REPinTweetBlog" />
+                <ScalarProperty Name="ContactFriends" ColumnName="ContactFriends" />
+                <ScalarProperty Name="ContactMassage" ColumnName="ContactMassage" />
+                <ScalarProperty Name="Unfollow" ColumnName="Unfollow" />
+                <ScalarProperty Name="Follow" ColumnName="Follow" />
+                <ScalarProperty Name="Unjoiner" ColumnName="Unjoiner" />
+                <ScalarProperty Name="Joiner" ColumnName="Joiner" />
+                <ScalarProperty Name="FollowingsRatio" ColumnName="FollowingsRatio" />
+                <ScalarProperty Name="Followings" ColumnName="Followings" />
+                <ScalarProperty Name="Followers" ColumnName="Followers" />
+                <ScalarProperty Name="FollowersGain" ColumnName="FollowersGain" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
+                <ScalarProperty Name="SocialStatisticsId" ColumnName="SocialStatisticsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemCities">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.SystemCity">
+              <MappingFragment StoreEntitySet="SystemCity">
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemConfigs">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.SystemConfig">
+              <MappingFragment StoreEntitySet="SystemConfig">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="ConfigValue2" ColumnName="ConfigValue2" />
+                <ScalarProperty Name="ConfigValue" ColumnName="ConfigValue" />
+                <ScalarProperty Name="ConfigKey" ColumnName="ConfigKey" />
+                <ScalarProperty Name="ConfigId" ColumnName="ConfigId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemCountries">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.SystemCountry">
+              <MappingFragment StoreEntitySet="SystemCountry">
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="PhoneCode" ColumnName="PhoneCode" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemRoles">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.SystemRole">
+              <MappingFragment StoreEntitySet="SystemRole">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemStates">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.SystemState">
+              <MappingFragment StoreEntitySet="SystemState">
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemUsers">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.SystemUser">
+              <MappingFragment StoreEntitySet="SystemUser">
+                <ScalarProperty Name="HostUser" ColumnName="HostUser" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="SystemRoleId" ColumnName="SystemRoleId" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="SystemUserId" ColumnName="SystemUserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

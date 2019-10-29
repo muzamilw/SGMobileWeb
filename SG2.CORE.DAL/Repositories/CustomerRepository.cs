@@ -783,7 +783,7 @@ namespace SG2.CORE.DAL.Repositories
                             IsOptedEducationalEmailSeries = Convert.ToBoolean(usr.IsOptedEducationalEmailSeries),
                             IsOptedMarketingEmail = Convert.ToBoolean(usr.IsOptedMarketingEmail),
                             StatusId = usr.StatusId,
-                            StripeSubscriptionId = usr.StripeSubscriptionId,
+                            StripeSubscriptionId = usr.PaymentId.Value.ToString(),
                             DefaultSocialProfileId = usr.DefaultSocialProfileId.Value
                         };
                         return cst;
@@ -1151,7 +1151,7 @@ namespace SG2.CORE.DAL.Repositories
 
             try
             {
-                SocialProfileDTO profile = null;
+                SocialProfileDTO profile = new SocialProfileDTO();
                 using (var _db = new SocialGrowth2Connection())
                 {
 

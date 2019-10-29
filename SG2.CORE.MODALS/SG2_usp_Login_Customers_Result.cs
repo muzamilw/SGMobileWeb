@@ -49,7 +49,7 @@ namespace SG2.CORE.MODAL
         public string Country { get; set; }
         public string PostalCode { get; set; }
         public string PhoneCode { get; set; }
-        public string StripeSubscriptionId { get; set; }
         public Nullable<int> DefaultSocialProfileId { get; set; }
+        public Nullable<int> PaymentId { get; set; }
     }
 }

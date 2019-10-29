@@ -55,14 +55,17 @@ namespace SG2.CORE.BAL.Managers
                 StatisticsViewModel followersStatisticsViewModel = new StatisticsViewModel();
                 followersStatisticsViewModel.StatisticsListing = _statistics.GetFollersStatistics(socialProfileId, fromDate, ToDate).ToList();
                 var model = _statistics.GetStatistics(socialProfileId);
-                followersStatisticsViewModel.TotalComment = model.TotalComment;
-                followersStatisticsViewModel.TotalEngagement = model.TotalEngagement;
-                followersStatisticsViewModel.TotalLike = model.TotalLike;
-                followersStatisticsViewModel.TotalLikeComment = model.TotalLikeComment;
-                followersStatisticsViewModel.TotalFollowingsRatio = model.TotalFollowingsRatio;
-                followersStatisticsViewModel.TotalFollowings = model.TotalFollowings;
-                followersStatisticsViewModel.TotalFollowersGain = model.TotalFollowersGain;
-                followersStatisticsViewModel.TotalFollowers = model.TotalFollowers;
+                if (model != null)
+                {
+                    followersStatisticsViewModel.TotalComment = model.TotalComment;
+                    followersStatisticsViewModel.TotalEngagement = model.TotalEngagement;
+                    followersStatisticsViewModel.TotalLike = model.TotalLike;
+                    followersStatisticsViewModel.TotalLikeComment = model.TotalLikeComment;
+                    followersStatisticsViewModel.TotalFollowingsRatio = model.TotalFollowingsRatio;
+                    followersStatisticsViewModel.TotalFollowings = model.TotalFollowings;
+                    followersStatisticsViewModel.TotalFollowersGain = model.TotalFollowersGain;
+                    followersStatisticsViewModel.TotalFollowers = model.TotalFollowers;
+                }
                 return followersStatisticsViewModel;
 
             }

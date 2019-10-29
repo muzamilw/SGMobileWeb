@@ -31,23 +31,24 @@ namespace SG2.CORE.DAL.DB
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Customer_ContactDetail> Customer_ContactDetail { get; set; }
         public virtual DbSet<Customer_Title> Customer_Title { get; set; }
+        public virtual DbSet<Enumeration> Enumerations { get; set; }
+        public virtual DbSet<EnumerationValue> EnumerationValues { get; set; }
         public virtual DbSet<LikeyAccount> LikeyAccounts { get; set; }
         public virtual DbSet<PaymentPlan> PaymentPlans { get; set; }
         public virtual DbSet<SocialProfile> SocialProfiles { get; set; }
         public virtual DbSet<SocialProfile_Actions> SocialProfile_Actions { get; set; }
+        public virtual DbSet<SocialProfile_FollowedAccounts> SocialProfile_FollowedAccounts { get; set; }
+        public virtual DbSet<SocialProfile_Instagram_TargetingInformation> SocialProfile_Instagram_TargetingInformation { get; set; }
         public virtual DbSet<SocialProfile_Notification> SocialProfile_Notification { get; set; }
+        public virtual DbSet<SocialProfile_Payments> SocialProfile_Payments { get; set; }
         public virtual DbSet<SocialProfile_Statistics> SocialProfile_Statistics { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<SystemCity> SystemCities { get; set; }
         public virtual DbSet<SystemConfig> SystemConfigs { get; set; }
         public virtual DbSet<SystemCountry> SystemCountries { get; set; }
         public virtual DbSet<SystemRole> SystemRoles { get; set; }
         public virtual DbSet<SystemState> SystemStates { get; set; }
         public virtual DbSet<SystemUser> SystemUsers { get; set; }
-        public virtual DbSet<SocialProfile_FollowedAccounts> SocialProfile_FollowedAccounts { get; set; }
-        public virtual DbSet<SocialProfile_Instagram_TargetingInformation> SocialProfile_Instagram_TargetingInformation { get; set; }
-        public virtual DbSet<Enumeration> Enumerations { get; set; }
-        public virtual DbSet<EnumerationValue> EnumerationValues { get; set; }
-        public virtual DbSet<SocialProfile_Payments> SocialProfile_Payments { get; set; }
     
         public virtual ObjectResult<SG2_usp_SystemConfig_GetAll_Result> SG2_usp_SystemConfig_GetAll(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId)
         {
