@@ -472,7 +472,7 @@ namespace SG2.CORE.BAL.Managers
 
         //}
 
-        public CustomerTargetProfileDTO GetSocialProfilesById(int profileId)
+        public SocialProfileDTO GetSocialProfilesById(int profileId)
         {
             try
             {

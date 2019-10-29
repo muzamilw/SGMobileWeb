@@ -71,7 +71,7 @@ namespace SG2.CORE.WEB.Controllers
             var _stripePublishKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue2;
             StripeConfiguration.SetApiKey(_stripeApiKey);
 
-            CustomerTargetProfileDTO profileDTO = new CustomerTargetProfileDTO();
+            SocialProfileDTO profileDTO = new SocialProfileDTO();
             if (socialProfileId != null && socialProfileId > 0)
             {
                 profileDTO = _cm.GetSocialProfilesById(socialProfileId ?? 0);
@@ -81,12 +81,12 @@ namespace SG2.CORE.WEB.Controllers
             var plans = _planManager.GetAllSocialGrowthPlans().ToList();
 
             PlanInformationDTO selectedPlan = new PlanInformationDTO();
-            if (profileDTO.paymentPlanId != null)
+            if (profileDTO.SocialProfile.PaymentPlanId != null)
             {
-                selectedPlan = plans.FirstOrDefault(x => x.PlanId == profileDTO.paymentPlanId);
+                selectedPlan = plans.FirstOrDefault(x => x.PlanId == profileDTO.SocialProfile.PaymentPlanId);
             }
 
-            targetPreferences.ProfileName = profileDTO.SocialProfileName;
+            targetPreferences.ProfileName = profileDTO.SocialProfile.SocialUsername;
             //targetPreferences.Preference1 = profileDTO.Preference1;
             //targetPreferences.Preference2 = profileDTO.Preference2;
             //targetPreferences.Preference3 = profileDTO.Preference3;
@@ -99,12 +99,12 @@ namespace SG2.CORE.WEB.Controllers
             //targetPreferences.Preference10 = profileDTO.Preference10;
             //targetPreferences.City = profileDTO.PrefferedCityId;
             //targetPreferences.Country = profileDTO.PrefferedCountryId;
-            targetPreferences.InstaPassword = profileDTO.SocialPassword;
-            targetPreferences.InstaUser = profileDTO.SocialUsername;
-            targetPreferences.TargetInformationId = profileDTO.TargetingInformationId;
+            targetPreferences.InstaPassword = profileDTO.SocialProfile.SocialPassword;
+            targetPreferences.InstaUser = profileDTO.SocialProfile.SocialUsername;
+            targetPreferences.TargetInformationId = profileDTO.SocialProfile_Instagram_TargetingInformation.TargetingInformationId;
             targetPreferences.SocialProfileId = socialProfileId;
             targetPreferences.Plans = plans;
-            targetPreferences.ActivePlanName = profileDTO.PlanName;
+            targetPreferences.ActivePlanName = profileDTO.CurrentPaymentPlan.PlanName;
             targetPreferences.ActivePlanId = selectedPlan.PlanId == 0 ? null : (int?)selectedPlan.PlanId;
             targetPreferences.ActivePlanPrice = selectedPlan.DisplayPrice;
             targetPreferences.ActivePlanLikes = selectedPlan.Likes;
@@ -113,7 +113,7 @@ namespace SG2.CORE.WEB.Controllers
             //targetPreferences.JVStatusId = profileDTO.JVStatusId;
             targetPreferences.StripeApiKey = _stripeApiKey;
             targetPreferences.StripePublishKey = _stripePublishKey;
-            targetPreferences.SPStatusId = profileDTO.ProfileStatusId;
+            targetPreferences.SPStatusId = profileDTO.SocialProfile.StatusId;
             targetPreferences.OrderHistoryViewModels = history;
             //targetPreferences.IsOptedMarketingEmail = profileDTO.IsOptedMarketingEmail;
             //targetPreferences.SocialAccAS = profileDTO.SocialAccAS;
@@ -948,7 +948,7 @@ namespace SG2.CORE.WEB.Controllers
                 KlaviyoProfile klaviyoProfile = new KlaviyoProfile();
                 KlaviyoEvent ev = new KlaviyoEvent();
 
-                CustomerTargetProfileDTO profileDTO = _cm.GetSocialProfilesById(SocialProfileId);
+                SocialProfileDTO profileDTO = _cm.GetSocialProfilesById(SocialProfileId);
 
 
                 //if (!profileDTO.IsJVServerRunning)
@@ -959,18 +959,18 @@ namespace SG2.CORE.WEB.Controllers
                 if (profileDTO != null)
                 {
                    
-                    if (profileDTO.ProfileStatusId != 18)
+                    if (profileDTO.SocialProfile .StatusId != 18)
                     {
-                        if (!string.IsNullOrEmpty(profileDTO.StripeSubscriptionId))
+                        if (!string.IsNullOrEmpty(profileDTO.SocialProfile.StripeSubscriptionId))
                         {
                             StripeConfiguration.SetApiKey(_stripeApiKey);
                             var service = new SubscriptionService();
-                            var subscription = service.Cancel(profileDTO.StripeSubscriptionId, null);
+                            var subscription = service.Cancel(profileDTO.SocialProfile.StripeSubscriptionId, null);
 
                             if (subscription != null)
                             {
                                 //_cm.UpdateJVStatus(SocialProfileId, (int)GlobalEnums.JVStatus.ProfileRequiresCancelling);
-                                _customerManager.UpdateSubscriptionStatus((int)profileDTO.SubscriptionId, (int)GlobalEnums.PlanSubscription.canceled);
+                                _customerManager.UpdateSubscriptionStatus(Convert.ToInt32( profileDTO.SocialProfile.StripeSubscriptionId), (int)GlobalEnums.PlanSubscription.canceled);
                             }
 
 
@@ -981,11 +981,11 @@ namespace SG2.CORE.WEB.Controllers
                                 var nt = new NotificationDTO()
                                 {
                                     Notification = NotificationMessages[(int)NotificationMessagesIndexes.Unsubscribe],
-                                    CreatedBy = profileDTO.SocialProfileId.ToString(),
+                                    CreatedBy = profileDTO.SocialProfile.SocialProfileId.ToString(),
                                     CreatedOn = DateTime.Now,
-                                    Updatedby = profileDTO.SocialProfileId.ToString(),
+                                    Updatedby = profileDTO.SocialProfile.SocialProfileId.ToString(),
                                     UpdateOn = DateTime.Now,
-                                    SocialProfileId = profileDTO.SocialProfileId.Value,
+                                    SocialProfileId = profileDTO.SocialProfile.SocialProfileId,
                                     StatusId = (int)GeneralStatus.Unread,
                                     Mode = severMode
                                 };

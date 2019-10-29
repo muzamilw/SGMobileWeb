@@ -10,7 +10,7 @@ using SG2.CORE.COMMON;
 using SG2.CORE.DAL.DB;
 using SG2.CORE.MODAL.DTO.Common;
 using SG2.CORE.MODAL.DTO.Customers;
-
+using SG2.CORE.MODAL;
 using SG2.CORE.MODAL.ViewModals.Backend;
 using SG2.CORE.MODAL.ViewModals.Backend.ActionBoard;
 
@@ -888,7 +888,7 @@ namespace SG2.CORE.DAL.Repositories
             {
                 try
                 {
-                    var result = await Task.Run(() => _db.SG2_usp_SocialProfile_Subscription_Save(subscriptionDTO.SocialProfileId, subscriptionDTO.StripeSubscriptionId, subscriptionDTO.Description, subscriptionDTO.Description,
+                    var result = await Task.Run(() => _db.SG2_usp_SocialProfile_Payments_Save(subscriptionDTO.SocialProfileId, subscriptionDTO.StripeSubscriptionId, subscriptionDTO.Description, subscriptionDTO.Description,
                     subscriptionDTO.Price, subscriptionDTO.StripePlanId, subscriptionDTO.SubscriptionType, subscriptionDTO.StartDate, subscriptionDTO.EndDate, subscriptionDTO.StatusId
                     , subscriptionDTO.PaymentPlanId, subscriptionDTO.StripeInvoiceId).ToList());
                     if (result != null)
@@ -913,17 +913,17 @@ namespace SG2.CORE.DAL.Repositories
             using (var _db = new SocialGrowth2Connection())
             {
 
-                SocialProfile_Subscription subscription = new SocialProfile_Subscription();
+                SocialProfile_Payments subscription = new SocialProfile_Payments();
 
                 var query =
-               from sub in _db.SocialProfile_Subscription
-               where sub.SubscriptionId == subscriptionDTO.SubscriptionId
+               from sub in _db.SocialProfile_Payments
+               where sub.PaymentId == subscriptionDTO.SubscriptionId
                select sub;
 
                 subscription = query.FirstOrDefault();
                 // Execute the query, and change the column values
                 // you want to change.
-                subscription.SubscriptionId = subscriptionDTO.SubscriptionId;
+                subscription.PaymentId = subscriptionDTO.SubscriptionId;
                 subscription.Description = subscriptionDTO.Description;
                 subscription.Name = subscriptionDTO.Description;
                 subscription.Price = subscriptionDTO.Price;
@@ -953,16 +953,16 @@ namespace SG2.CORE.DAL.Repositories
             using (var _db = new SocialGrowth2Connection())
             {
 
-                SocialProfile_Subscription subscription = new SocialProfile_Subscription();
+                SocialProfile_Payments subscription = new SocialProfile_Payments();
 
                 var query =
-               from sub in _db.SocialProfile_Subscription
-               where sub.SubscriptionId == subscriptionId
+               from sub in _db.SocialProfile_Payments
+               where sub.PaymentId == subscriptionId
                      && sub.StatusId == (int)GlobalEnums.PlanSubscription.Active
                select sub;
 
                 subscription = query.FirstOrDefault();
-                subscription.SubscriptionId = subscriptionId;
+                subscription.PaymentId = subscriptionId;
                 subscription.StatusId = statusId;
 
                 // Submit the changes to the database.
@@ -983,12 +983,12 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                SocialProfile_Subscription sub = new SocialProfile_Subscription();
+                SocialProfile_Payments sub = new SocialProfile_Payments();
                 using (var _db = new SocialGrowth2Connection())
                 {
 
                     var query =
-                   from subscription in _db.SocialProfile_Subscription
+                   from subscription in _db.SocialProfile_Payments
                    where subscription.SocialProfileId == SocialProfileId
                    && subscription.StatusId == 25 // Active Subscription 
                    select subscription;
@@ -999,7 +999,7 @@ namespace SG2.CORE.DAL.Repositories
                 {
                     subscriptionDTO.CustomerId  //TODO Ass Social Profileid
                         = sub.SocialProfileId;
-                    subscriptionDTO.SubscriptionId = sub.SubscriptionId;
+                    subscriptionDTO.SubscriptionId = sub.PaymentId;
                     subscriptionDTO.StripeSubscriptionId = sub.StripeSubscriptionId;
                     subscriptionDTO.Description = sub.Description;
                     subscriptionDTO.Name = sub.Description;
@@ -1108,13 +1108,13 @@ namespace SG2.CORE.DAL.Repositories
 
         public SubscriptionDTO GetLastCancelledSubscription(int profileId,  DateTime dateTime)
         {
-            SocialProfile_Subscription sub = new SocialProfile_Subscription();
+            SocialProfile_Payments sub = new SocialProfile_Payments();
           
             using (var _db = new SocialGrowth2Connection())
             {
                 
                 var query =
-               from subscription in _db.SocialProfile_Subscription
+               from subscription in _db.SocialProfile_Payments
                where subscription.SocialProfileId == profileId
                      && subscription.StatusId == (int)GlobalEnums.PlanSubscription.canceled
                select subscription;
@@ -1126,7 +1126,7 @@ namespace SG2.CORE.DAL.Repositories
                 {
                     subscriptionDTO.CustomerId  //TODO Ass Social Profileid
                         = sub.SocialProfileId;
-                    subscriptionDTO.SubscriptionId = sub.SubscriptionId;
+                    subscriptionDTO.SubscriptionId = sub.PaymentId;
                     subscriptionDTO.StripeSubscriptionId = sub.StripeSubscriptionId;
                     subscriptionDTO.Description = sub.Description;
                     subscriptionDTO.Name = sub.Description;
@@ -1142,22 +1142,27 @@ namespace SG2.CORE.DAL.Repositories
            
         }
 
-        public CustomerTargetProfileDTO GetSocialProfilesById(int profileId)
+        public SocialProfileDTO GetSocialProfilesById(int profileId)
         {
 
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<SG2_usp_Customer_GetSocialProfileById_Result, CustomerTargetProfileDTO>());
-            var mapper = new Mapper(config);
+            //var config = new MapperConfiguration(cfg => cfg.CreateMap<SG2_usp_Customer_GetSocialProfileById_Result, CustomerTargetProfileDTO>());
+            //var mapper = new Mapper(config);
 
 
             try
             {
-                CustomerTargetProfileDTO targetProfile = null;
+                SocialProfileDTO profile = null;
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    var prof = _db.SG2_usp_Customer_GetSocialProfileById(profileId).FirstOrDefault();
-                    targetProfile = mapper.Map<CustomerTargetProfileDTO>(prof);
+
+                    //var prof = _db.SG2_usp_Customer_GetSocialProfileById(profileId).FirstOrDefault();
+                    //targetProfile = mapper.Map<SocialProfileDTO>(prof);
+                    profile.SocialProfile = _db.SocialProfiles.Where(g => g.SocialProfileId == profileId).SingleOrDefault();
+                    profile.SocialProfile_Instagram_TargetingInformation = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.SocialProfileId == profileId).SingleOrDefault();
+                    profile.CurrentPaymentPlan = _db.PaymentPlans.Where(g => g.PaymentPlanId == profile.SocialProfile.PaymentPlanId).SingleOrDefault();
+                    profile.LastSocialProfile_Payments = _db.SocialProfile_Payments.Where(g => g.SocialProfileId == profileId).OrderByDescending(g => g.PaymentDateTime).FirstOrDefault();
                 }
-                return targetProfile;
+                return profile;
             }
             catch (Exception ex)
             {

@@ -5,7 +5,7 @@ As
 Begin
 DECLARE @StripPlanId int
 SELECT @StripPlanId=[StripePlanId]  FROM [dbo].[SG2_SocialProfile_PaymentPlan] where PlanId=@riPlanInformationId
-if not exists(SELECT 1 from [dbo].[SG2_SocialProfile_Subscription] where [StripeSubscriptionId]=@StripPlanId)
+if not exists(SELECT 1 from [dbo].[SG2_SocialProfile_Payments] where [StripeSubscriptionId]=@StripPlanId)
 BEGIN
 DELETE FROM [dbo].[SG2_SocialProfile_PaymentPlan] where [StripePlanId]=@StripPlanId
 END

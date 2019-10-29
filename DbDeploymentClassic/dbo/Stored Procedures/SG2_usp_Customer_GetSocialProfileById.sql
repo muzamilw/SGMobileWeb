@@ -143,7 +143,7 @@ Begin
 
   Left join EnumerationValue EV4  
 ON EV.EnumerationValueId = SP.socialprofiletypeid  
-  Left join [dbo].[SocialProfile_Subscription] Subc  
+  Left join [dbo].[SocialProfile_Payments] Subc  
    on Subc.socialprofileid = SP.socialprofileid and subc.statusid = 25  
   Left Join [dbo].[PaymentPlan] PP  
    on Subc.paymentplanid = pp.paymentplanid  

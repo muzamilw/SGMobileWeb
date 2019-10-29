@@ -62,7 +62,7 @@ Begin
   From dbo.Customer Customer With (Nolock)   
   Inner join [dbo].[SocialProfile] SP ON SP.CustomerId=Customer.CustomerId  
 
- left join [dbo].[SocialProfile_Subscription] SubS   
+ left join [dbo].[SocialProfile_Payments] SubS   
   ON SubS.[SocialProfileId]=SP.[SocialProfileId]   
     --AND SubS.StatusId=25  
  left join [dbo].[SocialProfile_Instagram_TargetingInformation] TI   

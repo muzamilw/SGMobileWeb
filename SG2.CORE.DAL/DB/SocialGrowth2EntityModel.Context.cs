@@ -12,6 +12,7 @@ namespace SG2.CORE.DAL.DB
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using SG2.CORE.MODAL;
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
@@ -36,7 +37,6 @@ namespace SG2.CORE.DAL.DB
         public virtual DbSet<SocialProfile_Actions> SocialProfile_Actions { get; set; }
         public virtual DbSet<SocialProfile_Notification> SocialProfile_Notification { get; set; }
         public virtual DbSet<SocialProfile_Statistics> SocialProfile_Statistics { get; set; }
-        public virtual DbSet<SocialProfile_Subscription> SocialProfile_Subscription { get; set; }
         public virtual DbSet<SystemCity> SystemCities { get; set; }
         public virtual DbSet<SystemConfig> SystemConfigs { get; set; }
         public virtual DbSet<SystemCountry> SystemCountries { get; set; }
@@ -47,6 +47,7 @@ namespace SG2.CORE.DAL.DB
         public virtual DbSet<SocialProfile_Instagram_TargetingInformation> SocialProfile_Instagram_TargetingInformation { get; set; }
         public virtual DbSet<Enumeration> Enumerations { get; set; }
         public virtual DbSet<EnumerationValue> EnumerationValues { get; set; }
+        public virtual DbSet<SocialProfile_Payments> SocialProfile_Payments { get; set; }
     
         public virtual ObjectResult<SG2_usp_SystemConfig_GetAll_Result> SG2_usp_SystemConfig_GetAll(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId)
         {
@@ -279,7 +280,7 @@ namespace SG2.CORE.DAL.DB
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customers_Get_Result>("SG2_usp_Customers_Get", idParameter);
         }
     
-        public virtual ObjectResult<SG2_usp_SocialProfile_Subscription_Save_Result> SG2_usp_SocialProfile_Subscription_Save(Nullable<int> riSocialProfileId, string riStripeSubscriptionId, string rvcDescription, string rvcName, Nullable<decimal> riPrice, string riStripePlanId, string rvcSubscriptionType, Nullable<System.DateTime> rdtStartDate, Nullable<System.DateTime> rdtEndDate, Nullable<int> riStatusId, Nullable<int> riPaymentPlanId, string rvcStripeInvoiceId)
+        public virtual ObjectResult<SG2_usp_SocialProfile_Payments_Save_Result> SG2_usp_SocialProfile_Payments_Save(Nullable<int> riSocialProfileId, string riStripeSubscriptionId, string rvcDescription, string rvcName, Nullable<decimal> riPrice, string riStripePlanId, string rvcSubscriptionType, Nullable<System.DateTime> rdtStartDate, Nullable<System.DateTime> rdtEndDate, Nullable<int> riStatusId, Nullable<int> riPaymentPlanId, string rvcStripeInvoiceId)
         {
             var riSocialProfileIdParameter = riSocialProfileId.HasValue ?
                 new ObjectParameter("riSocialProfileId", riSocialProfileId) :
@@ -329,7 +330,7 @@ namespace SG2.CORE.DAL.DB
                 new ObjectParameter("rvcStripeInvoiceId", rvcStripeInvoiceId) :
                 new ObjectParameter("rvcStripeInvoiceId", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_SocialProfile_Subscription_Save_Result>("SG2_usp_SocialProfile_Subscription_Save", riSocialProfileIdParameter, riStripeSubscriptionIdParameter, rvcDescriptionParameter, rvcNameParameter, riPriceParameter, riStripePlanIdParameter, rvcSubscriptionTypeParameter, rdtStartDateParameter, rdtEndDateParameter, riStatusIdParameter, riPaymentPlanIdParameter, rvcStripeInvoiceIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_SocialProfile_Payments_Save_Result>("SG2_usp_SocialProfile_Payments_Save", riSocialProfileIdParameter, riStripeSubscriptionIdParameter, rvcDescriptionParameter, rvcNameParameter, riPriceParameter, riStripePlanIdParameter, rvcSubscriptionTypeParameter, rdtStartDateParameter, rdtEndDateParameter, riStatusIdParameter, riPaymentPlanIdParameter, rvcStripeInvoiceIdParameter);
         }
     
         public virtual ObjectResult<SG2_usp_Customer_SignUpCustomerWithPreference_Result> SG2_usp_Customer_SignUpCustomerWithPreference(string rvcFirstName, string rvcLastName, string rvcEmailAddress, string rvcPassword, string rvcGUID, string rvcLastLoginIP, string rvcPreference1, string rvcPreference2, string rvcPreference3, string rvcPreference4, Nullable<int> iPreference5, Nullable<int> iPreference6, Nullable<int> rvcCity, Nullable<int> rvcStatusId)

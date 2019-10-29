@@ -1,9 +1,9 @@
 -- <Migration ID="08b0585b-7819-4cf7-a986-9cea9327590c" />
 GO
 
-PRINT N'Creating [dbo].[SocialProfile_Subscription]'
+PRINT N'Creating [dbo].[SocialProfile_Payments]'
 GO
-CREATE TABLE [dbo].[SocialProfile_Subscription]
+CREATE TABLE [dbo].[SocialProfile_Payments]
 (
 [SubscriptionId] [int] NOT NULL IDENTITY(1, 1),
 [Name] [nvarchar] (255) NOT NULL,
@@ -20,9 +20,9 @@ CREATE TABLE [dbo].[SocialProfile_Subscription]
 [StripeInvoiceId] [nvarchar] (255) NULL
 )
 GO
-PRINT N'Creating primary key [PK_SG2_Subscription] on [dbo].[SocialProfile_Subscription]'
+PRINT N'Creating primary key [PK_SG2_Subscription] on [dbo].[SocialProfile_Payments]'
 GO
-ALTER TABLE [dbo].[SocialProfile_Subscription] ADD CONSTRAINT [PK_SG2_Subscription] PRIMARY KEY CLUSTERED  ([SubscriptionId])
+ALTER TABLE [dbo].[SocialProfile_Payments] ADD CONSTRAINT [PK_SG2_Subscription] PRIMARY KEY CLUSTERED  ([SubscriptionId])
 GO
 PRINT N'Creating [dbo].[SocialProfile_Statistics]'
 GO
@@ -285,7 +285,7 @@ DELETE SST
       Where C.CustomerId=@riCustomerId  
   
 DELETE SS  
-FROM [dbo].[SocialProfile_Subscription] SS Inner join [dbo].[SocialProfile]  SP  
+FROM [dbo].[SocialProfile_Payments] SS Inner join [dbo].[SocialProfile]  SP  
      ON SS.SocialProfileId=SP.[SocialProfileId]  
      Inner join [dbo].[Customer] C ON C.CustomerId=SP.CustomerId  
       Where C.CustomerId=@riCustomerId  
@@ -316,7 +316,7 @@ DELETE SST
       Where SST.SocialProfileId=@riSocialProfileId  
   
 DELETE SS  
-FROM [dbo].[SocialProfile_Subscription] SS  
+FROM [dbo].[SocialProfile_Payments] SS  
       Where SS.SocialProfileId=@riSocialProfileId  
 DELETE SPSH  
 FROM [dbo].[SocialProfile_StatusHistory] SPSH   
@@ -520,7 +520,7 @@ Begin
 
   Left join EnumerationValue EV4  
 ON EV.EnumerationValueId = SP.socialprofiletypeid  
-  Left join [dbo].[SocialProfile_Subscription] Subc  
+  Left join [dbo].[SocialProfile_Payments] Subc  
    on Subc.socialprofileid = SP.socialprofileid and subc.statusid = 25  
   Left Join [dbo].[PaymentPlan] PP  
    on Subc.paymentplanid = pp.paymentplanid  
@@ -574,7 +574,7 @@ BEGIN
   End SubscriptionStatus,  
   SS.[Name] as SubscriptionName  
  FROM [dbo].[SocialProfile] SP  
- LEFT JOIN [dbo].[SocialProfile_Subscription] SS ON SP.[SocialProfileId]=SS.[SocialProfileId]  
+ LEFT JOIN [dbo].[SocialProfile_Payments] SS ON SP.[SocialProfileId]=SS.[SocialProfileId]  
                AND SS.StatusId=25  
  INNER JOIN [dbo].[EnumerationValue] EV  
   ON EV.[EnumerationValueId] = SP.STATUSID  
@@ -640,7 +640,7 @@ Begin
 	  FROM  [dbo].[Customer] CST
 			Left Join [dbo].[Customer_ContactDetail] CD on cd.customerid = cst.customerid
 			Inner join [dbo].[SocialProfile] SP ON SP.[CustomerId]=cd.customerid
-			Left Join [dbo].[SocialProfile_Subscription] sub on sub.[SocialProfileId]= SP.[SocialProfileId] AND sub.StatusId = 25 -- Active Subsription
+			Left Join [dbo].[SocialProfile_Payments] sub on sub.[SocialProfileId]= SP.[SocialProfileId] AND sub.StatusId = 25 -- Active Subsription
 		Where CST.CustomerId=@Id
    
 End
@@ -1288,7 +1288,7 @@ Declare @iFirstRow Int
 				EV3.[Name] as SubscriptionStatus,
 				 ROW_NUMBER() OVER (PARTITION BY S.[SocialProfileId] ORDER BY S.StartDate desc) AS RankId
 	
-		 FROM [dbo].[SocialProfile_Subscription] S
+		 FROM [dbo].[SocialProfile_Payments] S
 		 Inner Join [dbo].[SocialProfile] SP ON SP.[SocialProfileId]=S.[SocialProfileId]
 												AND SP.SocialProfileId= @riSocialProfileId	
 		 inner Join [dbo].[Customer] C on C.[CustomerId]=SP.[CustomerId]	
@@ -1656,7 +1656,7 @@ Begin
   From dbo.Customer Customer With (Nolock)   
   Inner join [dbo].[SocialProfile] SP ON SP.CustomerId=Customer.CustomerId  
 
- left join [dbo].[SocialProfile_Subscription] SubS   
+ left join [dbo].[SocialProfile_Payments] SubS   
   ON SubS.[SocialProfileId]=SP.[SocialProfileId]   
     --AND SubS.StatusId=25  
  left join [dbo].[SocialProfile_Instagram_TargetingInformation] TI   
@@ -1913,11 +1913,11 @@ SET FMTONLY OFF;
    DECLARE @iTotalPlan BIGINT  
        
    SELECT   @iTotalPlan =  count(t.[SubscriptionId])   
-   FROM [dbo].[SocialProfile_Subscription] t  
+   FROM [dbo].[SocialProfile_Payments] t  
    WHERE T.StartDate BETWEEN @dtFromDate AND @dtToDate  
   
    SELECT S.Name as PlanName, COUNT(S.PaymentPlanID) PlanSold, @iTotalPlan as TotalPlanSold  
-   FROM [dbo].[SocialProfile_Subscription] S   
+   FROM [dbo].[SocialProfile_Payments] S   
    WHERE S.StartDate BETWEEN @dtFromDate AND @dtToDate  
    GROUP BY S.Name  
   
@@ -2111,10 +2111,10 @@ drop table #tblStatisticData
 End
 
 GO
-PRINT N'Creating [dbo].[SG2_usp_SocialProfile_Subscription_Save]'
+PRINT N'Creating [dbo].[SG2_usp_SocialProfile_Payments_Save]'
 GO
   
-CREATE PROCEDURE [dbo].[SG2_usp_SocialProfile_Subscription_Save]  
+CREATE PROCEDURE [dbo].[SG2_usp_SocialProfile_Payments_Save]  
 (  
  @riSocialProfileId     INT,  
  @riStripeSubscriptionId    NVARCHAR(255),  
@@ -2136,13 +2136,13 @@ AS
 BEGIN  
    declare @subId int;  
   
-      Update [dbo].[SocialProfile_Subscription]  
+      Update [dbo].[SocialProfile_Payments]  
    Set StatusId=27  
    where [SocialProfileId]=@riSocialProfileId  
    AND StatusId not in (26,27)  
   
     
-   INSERT INTO [dbo].[SocialProfile_Subscription]  
+   INSERT INTO [dbo].[SocialProfile_Payments]  
            ([Name]  
            ,[Description]  
            ,[SubscriptionType]  
@@ -2188,7 +2188,7 @@ BEGIN
       ,[StripePlanId]  
       ,[PaymentPlanId]  
    ,StripeInvoiceId  
-  FROM [dbo].[SocialProfile_Subscription]  
+  FROM [dbo].[SocialProfile_Payments]  
  where [SubscriptionId] = @subId  
     
 END  
@@ -2503,7 +2503,7 @@ Begin
 	if (
 		(@JVBoxId is null) 
 		and 
-		exists(SELECT 1 from [dbo].[SG2_SocialProfile_Subscription] where [SocialProfileId]= @riProfileId and StatusId=25))
+		exists(SELECT 1 from [dbo].[SG2_SocialProfile_Payments] where [SocialProfileId]= @riProfileId and StatusId=25))
 	Begin 
 		INSERT INTO @JVBoxes(JVBoxId,MaxCount,AssignedCount,JVBoxStatus)
 		SELECT JVBox.JVBoxId,MaxLimit, Count(C.JVBoxId),JVBox.StatusId FROM SG2_JVBox JVBox  
@@ -2938,7 +2938,7 @@ As
 Begin
 DECLARE @StripPlanId int
 SELECT @StripPlanId=[StripePlanId]  FROM [dbo].[SG2_SocialProfile_PaymentPlan] where PlanId=@riPlanInformationId
-if not exists(SELECT 1 from [dbo].[SG2_SocialProfile_Subscription] where [StripeSubscriptionId]=@StripPlanId)
+if not exists(SELECT 1 from [dbo].[SG2_SocialProfile_Payments] where [StripeSubscriptionId]=@StripPlanId)
 BEGIN
 DELETE FROM [dbo].[SG2_SocialProfile_PaymentPlan] where [StripePlanId]=@StripPlanId
 END
@@ -3109,7 +3109,7 @@ SET FMTONLY OFF;
 			INSERT INTO #tblMaxUsedPlan(PlanName,NoOfPlanUsed,TotalAmount)
 			SELECT PP.PlanName, COUNT(S.PaymentPlanID),
 					SUM(PP.StripePlanPrice)
-			From [dbo].[SG2_SocialProfile_Subscription] S 
+			From [dbo].[SG2_SocialProfile_Payments] S 
 					INNER JOIN [dbo].[SG2_SocialProfile_PaymentPlan] PP ON S.PaymentPlanID = PP.PlanID
 			GROUP BY PP.PlanName
 
@@ -3462,11 +3462,11 @@ PRINT N'Adding foreign keys to [dbo].[SocialProfile]'
 GO
 ALTER TABLE [dbo].[SocialProfile] ADD CONSTRAINT [FK_SG2_SocialProfile_SG2_Customer] FOREIGN KEY ([CustomerId]) REFERENCES [dbo].[Customer] ([CustomerId])
 GO
-PRINT N'Adding foreign keys to [dbo].[SocialProfile_Subscription]'
+PRINT N'Adding foreign keys to [dbo].[SocialProfile_Payments]'
 GO
-ALTER TABLE [dbo].[SocialProfile_Subscription] ADD CONSTRAINT [FK_SocialProfile_Subscription_SocialProfile_PaymentPlan] FOREIGN KEY ([PaymentPlanId]) REFERENCES [dbo].[PaymentPlan] ([PaymentPlanId])
+ALTER TABLE [dbo].[SocialProfile_Payments] ADD CONSTRAINT [FK_SocialProfile_Payments_SocialProfile_PaymentPlan] FOREIGN KEY ([PaymentPlanId]) REFERENCES [dbo].[PaymentPlan] ([PaymentPlanId])
 GO
-ALTER TABLE [dbo].[SocialProfile_Subscription] ADD CONSTRAINT [FK_SG2_SocialProfile_Subscription_SG2_SocialProfile] FOREIGN KEY ([SocialProfileId]) REFERENCES [dbo].[SocialProfile] ([SocialProfileId])
+ALTER TABLE [dbo].[SocialProfile_Payments] ADD CONSTRAINT [FK_SG2_SocialProfile_Payments_SG2_SocialProfile] FOREIGN KEY ([SocialProfileId]) REFERENCES [dbo].[SocialProfile] ([SocialProfileId])
 GO
 PRINT N'Adding foreign keys to [dbo].[SocialProfile_Statistics]'
 GO

@@ -510,12 +510,12 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                     //int custId = Convert.ToInt32(CryptoEngine.Decrypt(customerId.ToString()));
                     int proId = Convert.ToInt32((CryptoEngine.Decrypt(pro)));
-                    CustomerTargetProfileDTO profileDTO = _customerManager.GetSocialProfilesById(proId);
+                    SocialProfileDTO profileDTO = _customerManager.GetSocialProfilesById(proId);
 
                     if (profileDTO != null)
                     {
 
-                        Subscription subscriptionItemUpdate = subscriptionService.Get(profileDTO.StripeSubscriptionId);
+                        Subscription subscriptionItemUpdate = subscriptionService.Get(profileDTO.SocialProfile.StripeSubscriptionId);
 
 
                         var items = new List<SubscriptionItemUpdateOption> {
@@ -539,7 +539,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                             //EndTrialNow = true,
 
                         };
-                        stripeSubscription = subscriptionService.Update(profileDTO.StripeSubscriptionId, subscriptionUpdateoptions);
+                        stripeSubscription = subscriptionService.Update(profileDTO.SocialProfile.StripeSubscriptionId, subscriptionUpdateoptions);
                         jr.Data = new { ResultType = "Success", message = "Free days successfully added to customer Current subscription.", User };
                     }
 
@@ -577,36 +577,36 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                     //int custId = Convert.ToInt32(CryptoEngine.Decrypt(customerId.ToString()));
                     int proId = Convert.ToInt32((CryptoEngine.Decrypt(pro)));
-                    CustomerTargetProfileDTO profileDTO = _customerManager.GetSocialProfilesById(proId);
+                    SocialProfileDTO profileDTO = _customerManager.GetSocialProfilesById(proId);
 
                     if (profileDTO != null)
                     {
                        
                         if (profileDTO != null)
                         {
-                            if (profileDTO.ProfileStatusId != 18)
+                            if (profileDTO.SocialProfile .StatusId != 18)
                             {
-                                if (!string.IsNullOrEmpty(profileDTO.StripeSubscriptionId))
+                                if (!string.IsNullOrEmpty(profileDTO.SocialProfile.StripeSubscriptionId))
                                 {
                                     StripeConfiguration.SetApiKey(_stripeApiKey);
                                     var service = new SubscriptionService();
-                                    var subscription = service.Cancel(profileDTO.StripeSubscriptionId, null);
+                                    var subscription = service.Cancel(profileDTO.SocialProfile.StripeSubscriptionId, null);
                                 }
                                 else
                                 {
                                     SubscriptionDTO cancelledSub = new SubscriptionDTO();
-                                    cancelledSub = _customerManager.GetLastCancelledSubscription(profileDTO.SocialProfileId.Value, DateTime.Now);
-                                    profileDTO.StripeSubscriptionId = cancelledSub.StripeSubscriptionId;
-                                    profileDTO.StripeInvoiceId = cancelledSub.StripeInvoiceId;
+                                    cancelledSub = _customerManager.GetLastCancelledSubscription(profileDTO.SocialProfile .SocialProfileId, DateTime.Now);
+                                    profileDTO.SocialProfile.StripeSubscriptionId = cancelledSub.StripeSubscriptionId;
+                                    //profileDTO.StripeInvoiceId = cancelledSub.StripeInvoiceId;
 
                                 }
 
                             }
                         }
 
-                        Subscription subscriptionItemUpdate = subscriptionService.Get(profileDTO.StripeSubscriptionId);
+                        Subscription subscriptionItemUpdate = subscriptionService.Get(profileDTO.SocialProfile.StripeSubscriptionId);
                         var invoiceService = new InvoiceService();
-                        var invoice = invoiceService.Get(profileDTO.StripeInvoiceId);
+                        var invoice = invoiceService.Get(profileDTO.LastSocialProfile_Payments.StripeInvoiceId);
                         var chargeService = new ChargeService();
                         var charge = chargeService.Get(invoice.ChargeId);
                         var refundOptions = new RefundCreateOptions
@@ -632,7 +632,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                                 //int custId = Convert.ToInt32(CryptoEngine.Decrypt(customerId.ToString()));
                                 int custId = Convert.ToInt32((CryptoEngine.Decrypt(Cus)));
-                                var User = _customerManager.SaveUpdateUserDataIndividually(value, "Comment", custId, profileDTO.SocialProfileId.Value);
+                                var User = _customerManager.SaveUpdateUserDataIndividually(value, "Comment", custId, profileDTO.SocialProfile. SocialProfileId);
 
 
                             }

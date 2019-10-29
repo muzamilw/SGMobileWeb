@@ -58,149 +58,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DB\Customer.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\Customer_ContactDetail.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\Customer_Title.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\Enumeration.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\EnumerationValue.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\LikeyAccount.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\PaymentPlan.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SG2_usp_Customers_Get_Result.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SG2_usp_Customer_GetSocialProfileById_Result.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SG2_usp_Customer_GetSocialProfilesByCustomerId_Result.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SG2_usp_Customer_ProfileUpdate_Result.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SG2_usp_Customer_SignUpCustomerWithPreference_Result.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SG2_usp_Customer_SignUp_Result.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SG2_usp_GetUserDetailsForbackOffice_Result.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SG2_usp_Get_AllUser1_Result.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SG2_usp_Get_AllUser_Result.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SG2_usp_Get_CustomerOrderHistory_Result.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SG2_usp_Get_Customer_Instagram_TargetingInformation_Result.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SG2_usp_Get_EnumerationValue_Result.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SG2_usp_Get_SocialProfile_PaymentPlan_Result.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SG2_usp_Get_SpecificCustomerDetail_Result.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SG2_usp_LikeyAccount_GetAll_Result.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SG2_usp_Login_Customers_Result.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SG2_usp_PlanInformation_GetAll_Result.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SG2_usp_Report_GetMostUsedProductData_Result.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SG2_usp_SocialProfile_GetNotificationsByStatus_Result.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SG2_usp_SocialProfile_Subscription_Save_Result.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SG2_usp_SystemConfig_GetAll_Result.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SG2_usp_SystemUser_GetAll_Result.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SG2_usp_SystemUser_Login_Result.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="DB\SocialGrowth2EntityModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SocialGrowth2EntityModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="DB\SocialGrowth2EntityModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="DB\SocialGrowth2EntityModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SocialGrowth2EntityModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SocialProfile.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SocialProfile_Actions.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SocialProfile_FollowedAccounts.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SocialProfile_Instagram_TargetingInformation.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SocialProfile_Notification.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SocialProfile_Statistics.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SocialProfile_Subscription.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SystemCity.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SystemConfig.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SystemCountry.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SystemRole.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SystemState.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\SystemUser.cs">
-      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CommonRepository.cs" />
@@ -248,11 +114,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>SocialGrowth2EntityModel.edmx</DependentUpon>
       <LastGenOutput>SocialGrowth2EntityModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="DB\SocialGrowth2EntityModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>SocialGrowth2EntityModel.edmx</DependentUpon>
-      <LastGenOutput>SocialGrowth2EntityModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

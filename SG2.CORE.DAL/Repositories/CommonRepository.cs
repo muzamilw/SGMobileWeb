@@ -6,6 +6,7 @@ using SG2.CORE.MODAL.DTO.SystemSettings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SG2.CORE.MODAL;
 
 namespace SG2.CORE.DAL.Repositories
 {

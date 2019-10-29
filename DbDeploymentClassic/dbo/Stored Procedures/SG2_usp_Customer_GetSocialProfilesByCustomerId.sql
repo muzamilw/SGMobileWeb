@@ -31,7 +31,7 @@ BEGIN
   End SubscriptionStatus,  
   SS.[Name] as SubscriptionName  
  FROM [dbo].[SocialProfile] SP  
- LEFT JOIN [dbo].[SocialProfile_Subscription] SS ON SP.[SocialProfileId]=SS.[SocialProfileId]  
+ LEFT JOIN [dbo].[SocialProfile_Payments] SS ON SP.[SocialProfileId]=SS.[SocialProfileId]  
                AND SS.StatusId=25  
  INNER JOIN [dbo].[EnumerationValue] EV  
   ON EV.[EnumerationValueId] = SP.STATUSID  

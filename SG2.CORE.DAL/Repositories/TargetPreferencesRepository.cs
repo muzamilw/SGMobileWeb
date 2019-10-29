@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SG2.CORE.MODAL;
 
 namespace SG2.CORE.DAL.Repositories
 {

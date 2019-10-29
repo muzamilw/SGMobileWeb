@@ -24,7 +24,7 @@ DELETE SST
       Where C.CustomerId=@riCustomerId  
   
 DELETE SS  
-FROM [dbo].[SocialProfile_Subscription] SS Inner join [dbo].[SocialProfile]  SP  
+FROM [dbo].[SocialProfile_Payments] SS Inner join [dbo].[SocialProfile]  SP  
      ON SS.SocialProfileId=SP.[SocialProfileId]  
      Inner join [dbo].[Customer] C ON C.CustomerId=SP.CustomerId  
       Where C.CustomerId=@riCustomerId  
@@ -55,7 +55,7 @@ DELETE SST
       Where SST.SocialProfileId=@riSocialProfileId  
   
 DELETE SS  
-FROM [dbo].[SocialProfile_Subscription] SS  
+FROM [dbo].[SocialProfile_Payments] SS  
       Where SS.SocialProfileId=@riSocialProfileId  
 DELETE SPSH  
 FROM [dbo].[SocialProfile_StatusHistory] SPSH   

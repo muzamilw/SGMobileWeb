@@ -51,7 +51,7 @@ Begin
 	  FROM  [dbo].[Customer] CST
 			Left Join [dbo].[Customer_ContactDetail] CD on cd.customerid = cst.customerid
 			Inner join [dbo].[SocialProfile] SP ON SP.[CustomerId]=cd.customerid
-			Left Join [dbo].[SocialProfile_Subscription] sub on sub.[SocialProfileId]= SP.[SocialProfileId] AND sub.StatusId = 25 -- Active Subsription
+			Left Join [dbo].[SocialProfile_Payments] sub on sub.[SocialProfileId]= SP.[SocialProfileId] AND sub.StatusId = 25 -- Active Subsription
 		Where CST.CustomerId=@Id
    
 End

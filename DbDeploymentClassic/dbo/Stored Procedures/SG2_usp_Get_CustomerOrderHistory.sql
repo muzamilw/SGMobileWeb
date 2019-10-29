@@ -51,7 +51,7 @@ Declare @iFirstRow Int
 				EV3.[Name] as SubscriptionStatus,
 				 ROW_NUMBER() OVER (PARTITION BY S.[SocialProfileId] ORDER BY S.StartDate desc) AS RankId
 	
-		 FROM [dbo].[SocialProfile_Subscription] S
+		 FROM [dbo].[SocialProfile_Payments] S
 		 Inner Join [dbo].[SocialProfile] SP ON SP.[SocialProfileId]=S.[SocialProfileId]
 												AND SP.SocialProfileId= @riSocialProfileId	
 		 inner Join [dbo].[Customer] C on C.[CustomerId]=SP.[CustomerId]	

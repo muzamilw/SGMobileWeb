@@ -17,7 +17,7 @@ Begin
 	if (
 		(@JVBoxId is null) 
 		and 
-		exists(SELECT 1 from [dbo].[SG2_SocialProfile_Subscription] where [SocialProfileId]= @riProfileId and StatusId=25))
+		exists(SELECT 1 from [dbo].[SG2_SocialProfile_Payments] where [SocialProfileId]= @riProfileId and StatusId=25))
 	Begin 
 		INSERT INTO @JVBoxes(JVBoxId,MaxCount,AssignedCount,JVBoxStatus)
 		SELECT JVBox.JVBoxId,MaxLimit, Count(C.JVBoxId),JVBox.StatusId FROM SG2_JVBox JVBox  

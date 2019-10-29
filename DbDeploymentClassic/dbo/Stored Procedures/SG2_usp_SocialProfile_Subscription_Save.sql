@@ -1,5 +1,5 @@
 ﻿  
-CREATE PROCEDURE [dbo].[SG2_usp_SocialProfile_Subscription_Save]  
+CREATE PROCEDURE [dbo].[SG2_usp_SocialProfile_Payments_Save]  
 (  
  @riSocialProfileId     INT,  
  @riStripeSubscriptionId    NVARCHAR(255),  
@@ -21,13 +21,13 @@ AS
 BEGIN  
    declare @subId int;  
   
-      Update [dbo].[SocialProfile_Subscription]  
+      Update [dbo].[SocialProfile_Payments]  
    Set StatusId=27  
    where [SocialProfileId]=@riSocialProfileId  
    AND StatusId not in (26,27)  
   
     
-   INSERT INTO [dbo].[SocialProfile_Subscription]  
+   INSERT INTO [dbo].[SocialProfile_Payments]  
            ([Name]  
            ,[Description]  
            ,[SubscriptionType]  
@@ -73,7 +73,7 @@ BEGIN
       ,[StripePlanId]  
       ,[PaymentPlanId]  
    ,StripeInvoiceId  
-  FROM [dbo].[SocialProfile_Subscription]  
+  FROM [dbo].[SocialProfile_Payments]  
  where [SubscriptionId] = @subId  
     
 END  

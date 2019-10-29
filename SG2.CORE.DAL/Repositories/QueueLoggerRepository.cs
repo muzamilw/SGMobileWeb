@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using SG2.CORE.MODAL;
 
 namespace SG2.CORE.DAL.Repositories
 {

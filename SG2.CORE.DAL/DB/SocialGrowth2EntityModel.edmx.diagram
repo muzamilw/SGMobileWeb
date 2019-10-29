@@ -14,7 +14,6 @@
         <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Actions" Width="1.5" PointX="5.25" PointY="9.875" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Notification" Width="1.5" PointX="8.75" PointY="5.75" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Statistics" Width="1.5" PointX="5.25" PointY="12.875" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Subscription" Width="1.5" PointX="8.25" PointY="22.25" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.SystemCity" Width="1.5" PointX="4.75" PointY="0.75" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.SystemConfig" Width="1.5" PointX="7.75" PointY="9.75" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.SystemCountry" Width="1.5" PointX="9.75" PointY="9.75" />
@@ -23,10 +22,8 @@
         <EntityTypeShape EntityType="SocialGrowth2Entities.SystemUser" Width="1.5" PointX="11" PointY="1" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_ContactDetails_SG2_Customer" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer" />
-        <AssociationConnector Association="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile" />
-        <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SystemUsers_SG2_SystemRoles" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_FollowedAccounts" Width="1.5" PointX="5.25" PointY="19.875" />
@@ -35,6 +32,9 @@
         <EntityTypeShape EntityType="SocialGrowth2Entities.EnumerationValue" Width="1.5" PointX="12.375" PointY="8.75" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SocialProfile_FollowedAccounts_SocialProfile" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Payments" Width="1.5" PointX="8.25" PointY="14" />
+        <AssociationConnector Association="SocialGrowth2Entities.FK_SocialProfile_Payments_SocialProfile_PaymentPlan" />
+        <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_Payments_SG2_SocialProfile" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

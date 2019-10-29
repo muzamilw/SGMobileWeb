@@ -307,6 +307,25 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Mode" Type="nvarchar" MaxLength="20" Nullable="false" />
         </EntityType>
+        <EntityType Name="SocialProfile_Payments">
+          <Key>
+            <PropertyRef Name="PaymentId" />
+          </Key>
+          <Property Name="PaymentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="SubscriptionType" Type="nvarchar" MaxLength="255" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PaymentDateTime" Type="datetime" />
+          <Property Name="StartDate" Type="datetime" Nullable="false" />
+          <Property Name="EndDate" Type="datetime" Nullable="false" />
+          <Property Name="SocialProfileId" Type="int" Nullable="false" />
+          <Property Name="StripeSubscriptionId" Type="nvarchar" MaxLength="255" />
+          <Property Name="StatusId" Type="int" />
+          <Property Name="StripePlanId" Type="nvarchar" MaxLength="255" />
+          <Property Name="PaymentPlanId" Type="int" />
+          <Property Name="StripeInvoiceId" Type="nvarchar" MaxLength="255" />
+        </EntityType>
         <EntityType Name="SocialProfile_Statistics">
           <Key>
             <PropertyRef Name="SocialStatisticsId" />
@@ -336,24 +355,6 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
           <Property Name="BlockedFollowers" Type="bigint" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="UpdateDate" Type="datetime" />
-        </EntityType>
-        <EntityType Name="SocialProfile_Subscription">
-          <Key>
-            <PropertyRef Name="SubscriptionId" />
-          </Key>
-          <Property Name="SubscriptionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="SubscriptionType" Type="nvarchar" MaxLength="255" />
-          <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="StartDate" Type="datetime" Nullable="false" />
-          <Property Name="EndDate" Type="datetime" Nullable="false" />
-          <Property Name="SocialProfileId" Type="int" Nullable="false" />
-          <Property Name="StripeSubscriptionId" Type="nvarchar" MaxLength="255" />
-          <Property Name="StatusId" Type="int" />
-          <Property Name="StripePlanId" Type="nvarchar" MaxLength="255" />
-          <Property Name="PaymentPlanId" Type="int" />
-          <Property Name="StripeInvoiceId" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="SystemCity">
           <Key>
@@ -479,12 +480,12 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
         </Association>
         <Association Name="FK_SG2_SocialProfile_Subscription_SG2_SocialProfile">
           <End Role="SocialProfile" Type="Self.SocialProfile" Multiplicity="1" />
-          <End Role="SocialProfile_Subscription" Type="Self.SocialProfile_Subscription" Multiplicity="*" />
+          <End Role="SocialProfile_Payments" Type="Self.SocialProfile_Payments" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SocialProfile">
               <PropertyRef Name="SocialProfileId" />
             </Principal>
-            <Dependent Role="SocialProfile_Subscription">
+            <Dependent Role="SocialProfile_Payments">
               <PropertyRef Name="SocialProfileId" />
             </Dependent>
           </ReferentialConstraint>
@@ -539,12 +540,12 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
         </Association>
         <Association Name="FK_SocialProfile_Subscription_SocialProfile_PaymentPlan">
           <End Role="PaymentPlan" Type="Self.PaymentPlan" Multiplicity="0..1" />
-          <End Role="SocialProfile_Subscription" Type="Self.SocialProfile_Subscription" Multiplicity="*" />
+          <End Role="SocialProfile_Payments" Type="Self.SocialProfile_Payments" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PaymentPlan">
               <PropertyRef Name="PaymentPlanId" />
             </Principal>
-            <Dependent Role="SocialProfile_Subscription">
+            <Dependent Role="SocialProfile_Payments">
               <PropertyRef Name="PaymentPlanId" />
             </Dependent>
           </ReferentialConstraint>
@@ -688,8 +689,8 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
           <EntitySet Name="SocialProfile_FollowedAccounts" EntityType="Self.SocialProfile_FollowedAccounts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SocialProfile_Instagram_TargetingInformation" EntityType="Self.SocialProfile_Instagram_TargetingInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SocialProfile_Notification" EntityType="Self.SocialProfile_Notification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SocialProfile_Payments" EntityType="Self.SocialProfile_Payments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SocialProfile_Statistics" EntityType="Self.SocialProfile_Statistics" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SocialProfile_Subscription" EntityType="Self.SocialProfile_Subscription" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemCity" EntityType="Self.SystemCity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemConfig" EntityType="Self.SystemConfig" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemCountry" EntityType="Self.SystemCountry" Schema="dbo" store:Type="Tables" />
@@ -732,7 +733,7 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
           </AssociationSet>
           <AssociationSet Name="FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" Association="Self.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile">
             <End Role="SocialProfile" EntitySet="SocialProfile" />
-            <End Role="SocialProfile_Subscription" EntitySet="SocialProfile_Subscription" />
+            <End Role="SocialProfile_Payments" EntitySet="SocialProfile_Payments" />
           </AssociationSet>
           <AssociationSet Name="FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" Association="Self.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile">
             <End Role="SocialProfile" EntitySet="SocialProfile" />
@@ -752,7 +753,7 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
           </AssociationSet>
           <AssociationSet Name="FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" Association="Self.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan">
             <End Role="PaymentPlan" EntitySet="PaymentPlan" />
-            <End Role="SocialProfile_Subscription" EntitySet="SocialProfile_Subscription" />
+            <End Role="SocialProfile_Payments" EntitySet="SocialProfile_Payments" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -769,7 +770,6 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
           <EntitySet Name="SocialProfile_Actions" EntityType="SocialGrowth2Entities.SocialProfile_Actions" />
           <EntitySet Name="SocialProfile_Notification" EntityType="SocialGrowth2Entities.SocialProfile_Notification" />
           <EntitySet Name="SocialProfile_Statistics" EntityType="SocialGrowth2Entities.SocialProfile_Statistics" />
-          <EntitySet Name="SocialProfile_Subscription" EntityType="SocialGrowth2Entities.SocialProfile_Subscription" />
           <EntitySet Name="SystemCities" EntityType="SocialGrowth2Entities.SystemCity" />
           <EntitySet Name="SystemConfigs" EntityType="SocialGrowth2Entities.SystemConfig" />
           <EntitySet Name="SystemCountries" EntityType="SocialGrowth2Entities.SystemCountry" />
@@ -784,10 +784,6 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
             <End Role="Customer" EntitySet="Customers" />
             <End Role="SocialProfile" EntitySet="SocialProfiles" />
           </AssociationSet>
-          <AssociationSet Name="FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" Association="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan">
-            <End Role="PaymentPlan" EntitySet="PaymentPlans" />
-            <End Role="SocialProfile_Subscription" EntitySet="SocialProfile_Subscription" />
-          </AssociationSet>
           <AssociationSet Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
             <End Role="SocialProfile" EntitySet="SocialProfiles" />
             <End Role="SocialProfile_Statistics" EntitySet="SocialProfile_Statistics" />
@@ -795,10 +791,6 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
           <AssociationSet Name="FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile">
             <End Role="SocialProfile" EntitySet="SocialProfiles" />
             <End Role="SocialProfile_Actions" EntitySet="SocialProfile_Actions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile">
-            <End Role="SocialProfile" EntitySet="SocialProfiles" />
-            <End Role="SocialProfile_Subscription" EntitySet="SocialProfile_Subscription" />
           </AssociationSet>
           <AssociationSet Name="FK_SG2_SystemUsers_SG2_SystemRoles" Association="SocialGrowth2Entities.FK_SG2_SystemUsers_SG2_SystemRoles">
             <End Role="SystemRole" EntitySet="SystemRoles" />
@@ -948,6 +940,15 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
             <End Role="SocialProfile" EntitySet="SocialProfiles" />
             <End Role="SocialProfile_FollowedAccounts" EntitySet="SocialProfile_FollowedAccounts" />
           </AssociationSet>
+          <EntitySet Name="SocialProfile_Payments" EntityType="SocialGrowth2Entities.SocialProfile_Payments" />
+          <AssociationSet Name="FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" Association="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan">
+            <End Role="PaymentPlan" EntitySet="PaymentPlans" />
+            <End Role="SocialProfile_Payments" EntitySet="SocialProfile_Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile">
+            <End Role="SocialProfile" EntitySet="SocialProfiles" />
+            <End Role="SocialProfile_Payments" EntitySet="SocialProfile_Payments" />
+          </AssociationSet>
           
         </EntityContainer>
         <EntityType Name="Customer">
@@ -1045,8 +1046,8 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
           <Property Name="SortOrder" Type="Int16" />
           <Property Name="SocialPlatform" Type="Int32" />
           <Property Name="IsDefault" Type="Boolean" />
-          <NavigationProperty Name="SocialProfile_Subscription" Relationship="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" FromRole="PaymentPlan" ToRole="SocialProfile_Subscription" />
           <NavigationProperty Name="SocialProfiles" Relationship="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan" FromRole="PaymentPlan" ToRole="SocialProfile" />
+          <NavigationProperty Name="SocialProfile_Payments" Relationship="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" FromRole="PaymentPlan" ToRole="SocialProfile_Payments" />
         </EntityType>
         <EntityType Name="SocialProfile">
           <Key>
@@ -1071,7 +1072,6 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
           <NavigationProperty Name="Customer" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer" FromRole="SocialProfile" ToRole="Customer" />
           <NavigationProperty Name="SocialProfile_Statistics" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Statistics" />
           <NavigationProperty Name="SocialProfile_Actions" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Actions" />
-          <NavigationProperty Name="SocialProfile_Subscription" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Subscription" />
           <Property Name="StripeSubscriptionId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="PaymentPlanId" Type="Int32" />
           <Property Name="IMSI" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1080,6 +1080,7 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
           <NavigationProperty Name="PaymentPlan" Relationship="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan" FromRole="SocialProfile" ToRole="PaymentPlan" />
           <NavigationProperty Name="SocialProfile_Instagram_TargetingInformation" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Instagram_TargetingInformation" />
           <NavigationProperty Name="SocialProfile_FollowedAccounts" Relationship="SocialGrowth2Entities.FK_SocialProfile_FollowedAccounts_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_FollowedAccounts" />
+          <NavigationProperty Name="SocialProfile_Payments" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Payments" />
         </EntityType>
         <EntityType Name="SocialProfile_Actions">
           <Key>
@@ -1136,26 +1137,6 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" FromRole="SocialProfile_Statistics" ToRole="SocialProfile" />
-        </EntityType>
-        <EntityType Name="SocialProfile_Subscription">
-          <Key>
-            <PropertyRef Name="SubscriptionId" />
-          </Key>
-          <Property Name="SubscriptionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="SubscriptionType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="SocialProfileId" Type="Int32" Nullable="false" />
-          <Property Name="StripeSubscriptionId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="StatusId" Type="Int32" />
-          <Property Name="StripePlanId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="PaymentPlanId" Type="Int32" />
-          <Property Name="StripeInvoiceId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="PaymentPlan" Relationship="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" FromRole="SocialProfile_Subscription" ToRole="PaymentPlan" />
-          <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" FromRole="SocialProfile_Subscription" ToRole="SocialProfile" />
         </EntityType>
         <EntityType Name="SystemCity">
           <Key>
@@ -1257,18 +1238,6 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_SocialProfile_Subscription_SocialProfile_PaymentPlan">
-          <End Type="SocialGrowth2Entities.PaymentPlan" Role="PaymentPlan" Multiplicity="0..1" />
-          <End Type="SocialGrowth2Entities.SocialProfile_Subscription" Role="SocialProfile_Subscription" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PaymentPlan">
-              <PropertyRef Name="PaymentPlanId" />
-            </Principal>
-            <Dependent Role="SocialProfile_Subscription">
-              <PropertyRef Name="PaymentPlanId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
           <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="1" />
           <End Type="SocialGrowth2Entities.SocialProfile_Statistics" Role="SocialProfile_Statistics" Multiplicity="*" />
@@ -1289,18 +1258,6 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
               <PropertyRef Name="SocialProfileId" />
             </Principal>
             <Dependent Role="SocialProfile_Actions">
-              <PropertyRef Name="SocialProfileId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SG2_SocialProfile_Subscription_SG2_SocialProfile">
-          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="1" />
-          <End Type="SocialGrowth2Entities.SocialProfile_Subscription" Role="SocialProfile_Subscription" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SocialProfile">
-              <PropertyRef Name="SocialProfileId" />
-            </Principal>
-            <Dependent Role="SocialProfile_Subscription">
               <PropertyRef Name="SocialProfileId" />
             </Dependent>
           </ReferentialConstraint>
@@ -2083,6 +2040,51 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SocialProfile_Payments">
+          <Key>
+            <PropertyRef Name="PaymentId" />
+          </Key>
+          <Property Name="PaymentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="SubscriptionType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PaymentDateTime" Type="DateTime" Precision="3" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SocialProfileId" Type="Int32" Nullable="false" />
+          <Property Name="StripeSubscriptionId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int32" />
+          <Property Name="StripePlanId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentPlanId" Type="Int32" />
+          <Property Name="StripeInvoiceId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PaymentPlan" Relationship="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" FromRole="SocialProfile_Payments" ToRole="PaymentPlan" />
+          <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" FromRole="SocialProfile_Payments" ToRole="SocialProfile" />
+        </EntityType>
+        <Association Name="FK_SocialProfile_Subscription_SocialProfile_PaymentPlan">
+          <End Type="SocialGrowth2Entities.PaymentPlan" Role="PaymentPlan" Multiplicity="0..1" />
+          <End Type="SocialGrowth2Entities.SocialProfile_Payments" Role="SocialProfile_Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentPlan">
+              <PropertyRef Name="PaymentPlanId" />
+            </Principal>
+            <Dependent Role="SocialProfile_Payments">
+              <PropertyRef Name="PaymentPlanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SG2_SocialProfile_Subscription_SG2_SocialProfile">
+          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="1" />
+          <End Type="SocialGrowth2Entities.SocialProfile_Payments" Role="SocialProfile_Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SocialProfile">
+              <PropertyRef Name="SocialProfileId" />
+            </Principal>
+            <Dependent Role="SocialProfile_Payments">
+              <PropertyRef Name="SocialProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2268,25 +2270,6 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
                 <ScalarProperty Name="SocialStatisticsId" ColumnName="SocialStatisticsId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SocialProfile_Subscription">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile_Subscription">
-              <MappingFragment StoreEntitySet="SocialProfile_Subscription">
-                <ScalarProperty Name="StripeInvoiceId" ColumnName="StripeInvoiceId" />
-                <ScalarProperty Name="PaymentPlanId" ColumnName="PaymentPlanId" />
-                <ScalarProperty Name="StripePlanId" ColumnName="StripePlanId" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="StripeSubscriptionId" ColumnName="StripeSubscriptionId" />
-                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="SubscriptionType" ColumnName="SubscriptionType" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="SubscriptionId" ColumnName="SubscriptionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3176,6 +3159,26 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.EnumerationValue' does 
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="EnumerationId" ColumnName="EnumerationId" />
                 <ScalarProperty Name="EnumerationValueId" ColumnName="EnumerationValueId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SocialProfile_Payments">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile_Payments">
+              <MappingFragment StoreEntitySet="SocialProfile_Payments">
+                <ScalarProperty Name="StripeInvoiceId" ColumnName="StripeInvoiceId" />
+                <ScalarProperty Name="PaymentPlanId" ColumnName="PaymentPlanId" />
+                <ScalarProperty Name="StripePlanId" ColumnName="StripePlanId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="StripeSubscriptionId" ColumnName="StripeSubscriptionId" />
+                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="PaymentDateTime" ColumnName="PaymentDateTime" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="SubscriptionType" ColumnName="SubscriptionType" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

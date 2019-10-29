@@ -11,11 +11,11 @@ SET FMTONLY OFF;
    DECLARE @iTotalPlan BIGINT  
        
    SELECT   @iTotalPlan =  count(t.[SubscriptionId])   
-   FROM [dbo].[SocialProfile_Subscription] t  
+   FROM [dbo].[SocialProfile_Payments] t  
    WHERE T.StartDate BETWEEN @dtFromDate AND @dtToDate  
   
    SELECT S.Name as PlanName, COUNT(S.PaymentPlanID) PlanSold, @iTotalPlan as TotalPlanSold  
-   FROM [dbo].[SocialProfile_Subscription] S   
+   FROM [dbo].[SocialProfile_Payments] S   
    WHERE S.StartDate BETWEEN @dtFromDate AND @dtToDate  
    GROUP BY S.Name  
   

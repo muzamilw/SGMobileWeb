@@ -42,7 +42,7 @@ SET FMTONLY OFF;
 			INSERT INTO #tblMaxUsedPlan(PlanName,NoOfPlanUsed,TotalAmount)
 			SELECT PP.PlanName, COUNT(S.PaymentPlanID),
 					SUM(PP.StripePlanPrice)
-			From [dbo].[SG2_SocialProfile_Subscription] S 
+			From [dbo].[SG2_SocialProfile_Payments] S 
 					INNER JOIN [dbo].[SG2_SocialProfile_PaymentPlan] PP ON S.PaymentPlanID = PP.PlanID
 			GROUP BY PP.PlanName
 
