@@ -25,13 +25,13 @@
     //}
 
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
-    var socailProfiles = (List<CustomerSocialProfileDTO>)ViewBag.SocailProfiles;
+    SocialProfileDTO SocailProfile = (SocialProfileDTO)ViewBag.SocailProfile;
 
-    List<SelectListItem> profiles = new List<SelectListItem>();
-    foreach (var item in socailProfiles)
-    {
-        profiles.Add(new SelectListItem { Text = item.ProfileName, Value = item.SocialProfileId.ToString() });
-    }
+    //List<SelectListItem> profiles = new List<SelectListItem>();
+    //foreach (var item in socailProfiles)
+    //{
+    //    profiles.Add(new SelectListItem { Text = item.ProfileName, Value = item.SocialProfileId.ToString() });
+    //}
 
     var profileUpdateButtonClass = "hide";
     if (Model.JVStatusId != null &&
@@ -80,7 +80,7 @@
                 <div class="sec-filename">
                     <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="40" />
                     <span class="displayBlock" id="ProfileName-textBlock">
-                        <b class="displayText">@socailProfiles.FirstOrDefault().ProfileName</b>
+                        <b class="displayText">@SocailProfile.SocialProfile.SocialUsername</b>
                         @*<a href="#" text-block="ProfileName-textBlock" edit-Block="ProfileName-editBlock" class="editProfileButton"><i class="fa fa-pencil"></i></a>*@
                     </span>
                     <span class="editBlock" id="ProfileName-editBlock" style="display:none">
@@ -101,11 +101,11 @@
             <div class="col-md-12 col-sm-12 col-xs-12 text-right">
                 <div class="sec-profileStatus">
                     @*<p class="color-crimson">
-                            <span class="personSetting">
-                                Omar - Setting
+                    <span class="personSetting">
+                        Omar - Setting
 
-                            </span>
-                        </p>*@
+                    </span>
+                </p>*@
 
                     <ul>
                         <li>
@@ -119,29 +119,42 @@
 
             <div class="col-xs-12" id="hidecol-xs">&nbsp;</div>
 
-            <div class="col-xs-12 col-md-4 col-sm-4 btn_mg_top">
-
-                <!--         <a href="/TargetPreferences/ModifyTargetPreferences?socialProfileId=@socailProfiles.FirstOrDefault().SocialProfileId" class="btn btn-primary btn-block">
-                -->
+            <div class="col-xs-12 col-md-2 col-sm-2 btn_mg_top">
                 <a href="#GoToSection1" class="btn btn-primary btn-block">
                     <b class="circle"><span>1</span></b>
-                    Target &amp; Grow
+                    Stats
                 </a>
             </div>
 
-            <div class="col-xs-12 col-md-4 col-sm-4 btn_mg_top">
+            <div class="col-xs-12 col-md-2 col-sm-2 btn_mg_top">
                 <a href="#GoToSection2" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
                     <b class="circle"><span>2</span></b>
-                    Select Plan
+                    Contact Details
                 </a>
             </div>
 
-            <div class="col-xs-12 col-md-4 col-sm-4 btn_mg_top">
-                <!--    <a href="/TargetPreferences/ModifyTargetPreferences?socialProfileId=@socailProfiles.FirstOrDefault().SocialProfileId" class="btn btn-primary btn-block">
-                 -->
+            <div class="col-xs-12 col-md-2 col-sm-2 btn_mg_top">
                 <a href="#GoToSection3" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
                     <b class="circle"><span>3</span></b>
-                    Insights &amp; Statistics
+                    Match Filters
+                </a>
+            </div>
+            <div class="col-xs-12 col-md-2 col-sm-2 btn_mg_top">
+                <a href="#GoToSection3" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
+                    <b class="circle"><span>4</span></b>
+                    While & Black Lists
+                </a>
+            </div>
+            <div class="col-xs-12 col-md-2 col-sm-2 btn_mg_top">
+                <a href="#GoToSection3" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
+                    <b class="circle"><span>5</span></b>
+                    New Followings
+                </a>
+            </div>
+            <div class="col-xs-12 col-md-2 col-sm-2 btn_mg_top">
+                <a href="#GoToSection3" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
+                    <b class="circle"><span>6</span></b>
+                   Order History
                 </a>
             </div>
 

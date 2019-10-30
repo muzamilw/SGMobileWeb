@@ -1088,7 +1088,7 @@ namespace SG2.CORE.DAL.Repositories
                             SocialPassword = p.SocialPassword,
                             SocialProfileId = p.SocialProfileId,
                             SocialProfileTypeId = p.SocialProfileTypeId,
-                            SocialProfileTypeName = p.SocialProfileTypeName,
+                            SocialProfileTypeName = p.SocialProfileTypeId == 30 ? "Instagram": "Other",
                             SocialUsername = p.SocialUsername,
                             StatusId = p.StatusId,
                             StatusName = p.StatusName,

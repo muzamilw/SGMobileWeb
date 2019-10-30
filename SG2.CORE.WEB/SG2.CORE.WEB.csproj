@@ -211,7 +211,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\PagesController.cs" />
-    <Compile Include="Controllers\TargetPreferencesController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -539,7 +539,7 @@
     <Content Include="Views\User\partials\_PartialUpdateUserProfile.cshtml" />
     <Content Include="Views\User\partials\_PartialUpdateUserPassword.cshtml" />
     <Content Include="Views\User\ConfirmAndPay.cshtml" />
-    <Content Include="Views\TargetPreferences\ModifyTargetPreferences.cshtml" />
+    <Content Include="Views\Profile\Target.cshtml" />
     <Content Include="Views\User\ConfirmPayment.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialLoginPopup.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialMarketPlannerPopup.cshtml" />
@@ -572,12 +572,13 @@
     <Content Include="socialgrowthengine\assets\Gotham-Mediumd41d.eot" />
     <Content Include="Views\Pages\TermsConditions.cshtml" />
     <Content Include="Views\Pages\PrivacyPolicy.cshtml" />
+    <Content Include="Views\Profile\Basic.cshtml" />
     <None Include="Views\Shared\Partial\_PartialForgetPasswordPopup.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialSignupPopup.cshtml" />
     <Content Include="Views\User\Home.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialMarketGrowPopup.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialSignupWizardPopup.cshtml" />
-    <Content Include="Views\TargetPreferences\Partial\_PartialWizardPopup.cshtml" />
+    <Content Include="Views\Profile\Partial\_PartialWizardPopup.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialWidgetMainIntro1.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialWidgetRealPeople.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialWidgetGettingStarted.cshtml" />

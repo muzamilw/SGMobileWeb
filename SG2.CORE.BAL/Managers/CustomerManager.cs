@@ -458,6 +458,18 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
+        public SocialProfileDTO GetSocialProfileById(int profileId)
+        {
+            try
+            {
+                return _customerRepository.GetSocialProfilesById(profileId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         //public  List<TargetPreferencesDTO> SetPendingTargetPreferenceIntoQueue()
         //{
         //    try
