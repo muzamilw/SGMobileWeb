@@ -13,6 +13,7 @@ using SG2.CORE.MODAL.DTO.Customers;
 using SG2.CORE.MODAL;
 using SG2.CORE.MODAL.ViewModals.Backend;
 using SG2.CORE.MODAL.ViewModals.Backend.ActionBoard;
+using static SG2.CORE.COMMON.GlobalEnums;
 
 namespace SG2.CORE.DAL.Repositories
 {
@@ -758,6 +759,27 @@ namespace SG2.CORE.DAL.Repositories
                 throw ex;
             }
         }
+
+        public bool ValidateProfilePinSetDeviceStatus(int CustomerId, int ProfileId, string Pin, string DeviceIMEI)
+        {
+
+            using (var _db = new SocialGrowth2Connection())
+            {
+                var profile = _db.SocialProfiles.Where(g => g.CustomerId == CustomerId && g.SocialProfileId == ProfileId && g.PinCode == Pin).SingleOrDefault();
+                if ( profile != null)
+                {
+                    profile.DeviceIMEI = DeviceIMEI;
+                    profile.DeviceStatus = (int)DeviceStatus.Connected;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            }
+
 
         public CustomerDTO GetLogin(string username, string password, short statusId)
         {

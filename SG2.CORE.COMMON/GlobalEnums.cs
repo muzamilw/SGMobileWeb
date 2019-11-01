@@ -163,6 +163,13 @@
         }
 
 
+        public enum DeviceStatus
+        {
+            Connected = 54,
+            NotConnected = 55
+        }
+
+
     }
 }
 

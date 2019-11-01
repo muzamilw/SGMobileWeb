@@ -163,7 +163,7 @@ namespace SG2.CORE.WEB.Controllers
                 if (ModelState.IsValid)
                 {
                     string errorMesage = "";
-                    if (_customerManager.LoginUser(model.EmailAddress, model.Password, ref errorMesage))
+                    if (_customerManager.LoginUser(model.EmailAddress, model.Password, ref errorMesage).Item1)
                     {
                         var usr = (CustomerDTO)_sessionManager.Get(SessionConstants.Customer);
                         HttpContext.Items["isAuthentication"] = true;

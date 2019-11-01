@@ -161,7 +161,7 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public List<string> ProfileUserNames { get; set; }
     }
 
-    public class MobileJsonRootObject
+    public class MobileManifest
     {
         public int CustomerId { get; set; }
         public string CustomerEmail { get; set; }

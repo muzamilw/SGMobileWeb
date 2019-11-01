@@ -11,6 +11,7 @@ using SG2.CORE.MODAL.DTO.TargetPreferences;
 using SG2.CORE.MODAL.DTO.Common;
 
 
+
 namespace SG2.CORE.BAL.Managers
 {
     public class CustomerManager
@@ -79,7 +80,7 @@ namespace SG2.CORE.BAL.Managers
 
         }
 
-        public bool LoginUser(string username, string password, ref string errorMessage)
+        public (bool, int, string) LoginUser(string username, string password, ref string errorMessage)
         {
             try
             {
@@ -91,32 +92,37 @@ namespace SG2.CORE.BAL.Managers
                     if (cust.StatusId == 7)
                     {
                         errorMessage = "Email verification required.";
-                        return false;
+                        return (false,0,null) ;
                     }
                     else if (cust.StatusId == 6)
                     {
                         errorMessage = "Your account is inactive. Please contact adminstrator.";
-                        return false;
+                        return (false, 0,null);
                     }
                     else if (cust.StatusId == 4)
                     {
                         errorMessage = "Your account has been deleted.";
-                        return false;
+                        return (false, 0, null);
                     }
                     else if (cust.StatusId == 5 || cust.StatusId == 1)
                     {
                         _sessionManager.Set(SessionConstants.Customer, cust);
-                        return true;
+                        return (false, cust.CustomerId,cust.EmailAddress);
                     }
 
                 }
                 errorMessage = "Invalid email or password.";
-                return false;
+                return (false,0, null);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+        }
+
+        public bool ValidateProfilePinSetDeviceStatus(int CustomerId, int ProfileId, string Pin, string DeviceIMEI)
+        {
+            return _customerRepository.ValidateProfilePinSetDeviceStatus(CustomerId, ProfileId, Pin, DeviceIMEI);
         }
 
         public IList<CustomerListingViewModel> GetUserData(string SearchCriteria, string PageSize, int PageNumber, int? StatusId, string ProductId, string JVStatus, int? Subscription)

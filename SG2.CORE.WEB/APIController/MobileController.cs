@@ -3,102 +3,154 @@ using System;
 using System.Web.Http;
 using System.Collections.Generic;
 using Action = SG2.CORE.MODAL.MobileViewModels.Action;
+using SG2.CORE.BAL.Managers;
+using System.Web;
 
 namespace SG2.CORE.WEB.APIController
 {
     [RoutePrefix("api/mobile")]
     public class MobileController : ApiController
     {
+
+        protected readonly CustomerManager _customerManager;
+
+        public MobileController()
+        {
+            _customerManager = new CustomerManager();
+        }
+
         [Route("Login")]
         [HttpPost]
         public IHttpActionResult Login(MobileLoginViewModel model)
         {
             if (ModelState.IsValid)
             {
+                string errorMesage = "";
 
-
-            }
-            List<Platform> Platforms = new List<Platform>();
-            Platform Profile1 = new Platform();
-            Profile1.PlatfromId = 1;
-            Profile1.Name = "Instagram";
-            Profile1.PlatformStatus = "Enabled";
-            Profile1.ProfileUserNames = new List<string> { "n_sardar000", "waheedsardar321" };
-            Platforms.Add(Profile1);
-
-            if (model.Status == null)
-            {
-                return Ok(new
+                var res = _customerManager.LoginUser(model.Email, model.Password, ref errorMesage);
+                if (res.Item1)
                 {
-                    MobileLoginJsonRootObject = new MobileLoginJsonRootObject
+                    return Ok(new
                     {
-                        CustomerEmail = model.Email,
-                        CustomerId = 1234,
-                        DeviceEMEI = "ANVF34S-DF",
-                        DeviceId = "AS22",
-                        Platforms = Platforms,
-                        StatusCode = 1,
-                        StatusMessage = "Success"
-                    }
+                        MobileLoginJsonRootObject = new MobileLoginJsonRootObject
+                        {
+                            StatusCode = 1,
+                            StatusMessage = "Success",
+                            CustomerId = res.Item2,
+                            CustomerEmail = res.Item3
 
-                });
+                        }
+
+                    });
+                }
+                else
+                {
+                    return Ok(new
+                    {
+                        MobileLoginJsonRootObject = new MobileLoginJsonRootObject
+                        {
+                            StatusCode = 4,
+                            StatusMessage = "Invalid username or password"
+                        }
+
+                    });
+                }
 
             }
             else
-            if (model.Status != null && model.Status == 2)
-            {
-                return Ok(new
-                {
-                    MobileLoginJsonRootObject = new MobileLoginJsonRootObject
-                    {
-                        StatusCode = 2,
-                        StatusMessage = "Invalid email and PIN"
-                    }
-
-                });
-
-            }
-            else
-            if (model.Status != null && model.Status == 3)
-            {
-                return Ok(new
-                {
-                    MobileLoginJsonRootObject = new MobileLoginJsonRootObject
-                    {
-                        StatusCode = 3,
-                        StatusMessage = "Device Id not matched"
-                    }
-
-                });
-
-            }
-            else
-            if (model.Status != null && model.Status == 4)
             {
                 return Ok(new
                 {
                     MobileLoginJsonRootObject = new MobileLoginJsonRootObject
                     {
                         StatusCode = 4,
-                        StatusMessage = "Subscription expired"
+                        StatusMessage = "Invalid username or password"
                     }
 
                 });
-
             }
-            else
-            {
-                return Ok(new
-                {
-                    MobileLoginJsonRootObject = new MobileLoginJsonRootObject
-                    {
-                        StatusCode =0 ,
-                        StatusMessage = "UnKnown Status"
-                    }
 
-                });
+            //List<Platform> Platforms = new List<Platform>();
+            //Platform Profile1 = new Platform();
+            //Profile1.PlatfromId = 1;
+            //Profile1.Name = "Instagram";
+            //Profile1.PlatformStatus = "Enabled";
+            //Profile1.ProfileUserNames = new List<string> { "n_sardar000", "waheedsardar321" };
+            //Platforms.Add(Profile1);
 
-            } 
+            //if (model.Status == null)
+            //{
+            //    return Ok(new
+            //    {
+            //        MobileLoginJsonRootObject = new MobileLoginJsonRootObject
+            //        {
+            //            CustomerEmail = model.Email,
+            //            CustomerId = 1234,
+            //            DeviceEMEI = "ANVF34S-DF",
+            //            DeviceId = "AS22",
+            //            Platforms = Platforms,
+            //            StatusCode = 1,
+            //            StatusMessage = "Success"
+            //        }
+
+            //    });
+
+            //}
+            //else
+            //if (model.Status != null && model.Status == 2)
+            //{
+            //    return Ok(new
+            //    {
+            //        MobileLoginJsonRootObject = new MobileLoginJsonRootObject
+            //        {
+            //            StatusCode = 2,
+            //            StatusMessage = "Invalid email and PIN"
+            //        }
+
+            //    });
+
+            //}
+            //else
+            //if (model.Status != null && model.Status == 3)
+            //{
+            //    return Ok(new
+            //    {
+            //        MobileLoginJsonRootObject = new MobileLoginJsonRootObject
+            //        {
+            //            StatusCode = 3,
+            //            StatusMessage = "Device Id not matched"
+            //        }
+
+            //    });
+
+            //}
+            //else
+            //if (model.Status != null && model.Status == 4)
+            //{
+            //    return Ok(new
+            //    {
+            //        MobileLoginJsonRootObject = new MobileLoginJsonRootObject
+            //        {
+            //            StatusCode = 4,
+            //            StatusMessage = "Subscription expired"
+            //        }
+
+            //    });
+
+            //}
+            //else
+            //{
+            //    return Ok(new
+            //    {
+            //        MobileLoginJsonRootObject = new MobileLoginJsonRootObject
+            //        {
+            //            StatusCode =0 ,
+            //            StatusMessage = "UnKnown Status"
+            //        }
+
+            //    });
+
+            //} 
         }
         [Route("GetManifestFile")]
         [HttpPost]
@@ -115,7 +167,7 @@ namespace SG2.CORE.WEB.APIController
         }
 
 
-    private MobileJsonRootObject GetMobileManifestData()
+    private MobileManifest GetMobileManifestData()
     {
         var platforms = new List<Platform>();
         var profiles = new List<Profile>();
@@ -292,7 +344,7 @@ namespace SG2.CORE.WEB.APIController
 
         platforms.Add(platform);
 
-        return new MobileJsonRootObject
+        return new MobileManifest
         {
             CustomerId = 123456,
             CustomerEmail = "hassanjamil.bwp@gmail.com",
