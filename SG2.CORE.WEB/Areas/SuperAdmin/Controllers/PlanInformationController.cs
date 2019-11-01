@@ -77,7 +77,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                     StripeConfiguration.SetApiKey(Stripe);
                     var options = new PlanCreateOptions
                     {
-                        ProductId = StripeInstagramProductId,
+                        Product = StripeInstagramProductId,
                         Nickname = model.PlanName,
                         Amount = Convert.ToInt32(model.PlanPrice * 100),
                         Active = true,
@@ -182,7 +182,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                         StripeConfiguration.SetApiKey(Stripe);
                         var options = new PlanCreateOptions
                         {
-                            ProductId = StripeInstagramProductId,
+                            Product = StripeInstagramProductId,
                             Nickname = model.PlanName,
                             Amount = Convert.ToInt32(model.PlanPrice * 100),
                             Active = true,
@@ -284,7 +284,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                         
                     //    Name = "LikeyXA"
                     //},
-                    ProductId = "prod_Ev6ss2wq4CxHA1",
+                    Product = "prod_Ev6ss2wq4CxHA1",
                     Nickname= "LikeyXAB",
                     Amount = 5000,
                     Active = true,

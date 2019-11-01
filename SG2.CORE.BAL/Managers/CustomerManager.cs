@@ -107,7 +107,7 @@ namespace SG2.CORE.BAL.Managers
                     else if (cust.StatusId == 5 || cust.StatusId == 1)
                     {
                         _sessionManager.Set(SessionConstants.Customer, cust);
-                        return (false, cust.CustomerId,cust.EmailAddress);
+                        return (true, cust.CustomerId,cust.EmailAddress);
                     }
 
                 }

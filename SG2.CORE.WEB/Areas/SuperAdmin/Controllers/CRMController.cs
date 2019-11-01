@@ -521,7 +521,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                         var items = new List<SubscriptionItemUpdateOption> {
                                         new SubscriptionItemUpdateOption {
                                         Id= subscriptionItemUpdate.Items.Data[0].Id,
-                                        PlanId = subscriptionItemUpdate.Plan.Id,
+                                        Plan = subscriptionItemUpdate.Plan.Id,
                                         Quantity= 1,
 
                                        },
@@ -534,7 +534,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                             //BillingThresholds = { },
                             Prorate = false,
-                            BillingCycleAnchorUnchanged = false,
+                            //BillingCycleAnchorUnchanged = false,
                             TrialEnd = subscriptionItemUpdate.CurrentPeriodEnd.Value.AddDays(addFreeDays),
                             //EndTrialNow = true,
 
@@ -613,7 +613,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                         {
                             Amount = charge.Amount,
                             Reason = RefundReasons.RequestedByCustomer,
-                            ChargeId = charge.Id
+                            Charge = charge.Id
                         };
                         var refundService = new RefundService();
                         Refund refund = refundService.Create(refundOptions);

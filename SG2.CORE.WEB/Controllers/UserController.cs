@@ -435,22 +435,22 @@ namespace SG2.CORE.WEB.Controllers
                         var items = new List<SubscriptionItemUpdateOption> {
                                         new SubscriptionItemUpdateOption {
                                         Id= subscriptionItemUpdate.Items.Data[0].Id,
-                                        PlanId = model.PlanId,
+                                        Plan = model.PlanId,
                                         Quantity= 1,
                                         },
                                     };
                         var subscriptionUpdateoptions = new SubscriptionUpdateOptions
                         {
                             Items = items,
-                            Billing = Billing.ChargeAutomatically,
+                           // Billing = Billing.ChargeAutomatically,
                             //  billingcycleanchor = datetime.now,
                             BillingThresholds = { },
                             Prorate = true,
                             // cancelat = datetime.now.adddays(30),
                             //  daysuntildue = 5,
                             // DefaultPaymentMethodId = paymentmethod.id,
-                            BillingCycleAnchorNow = true,
-                            BillingCycleAnchorUnchanged = true,
+                           // BillingCycleAnchorNow = true,
+                            //BillingCycleAnchorUnchanged = true,
                             ProrationDate = prorationDate,
                         };
                         subscription = subscriptionService.Update(subscriptionDTO.StripeSubscriptionId, subscriptionUpdateoptions);
@@ -459,16 +459,16 @@ namespace SG2.CORE.WEB.Controllers
                     {
                         var items = new List<SubscriptionItemOption> {
                                       new SubscriptionItemOption {
-                                        PlanId = model.PlanId,
+                                        Plan = model.PlanId,
                                         Quantity= 1
                                       }
                                     };
 
                         var subscriptionCreateoptions = new SubscriptionCreateOptions
                         {
-                            CustomerId = this.CDT.StripeCustomerId,
+                            Customer = this.CDT.StripeCustomerId,
                             Items = items,
-                            Billing = Billing.ChargeAutomatically,
+                            //Billing = Billing.ChargeAutomatically,
                             //  billingcycleanchor = datetime.now,
                             BillingThresholds = { },
                             // cancelat = datetime.now.adddays(30),
@@ -501,7 +501,7 @@ namespace SG2.CORE.WEB.Controllers
                     var customerCreateOptions = new CustomerCreateOptions
                     {
                         Description = " Customer for Social Growth" + this.CDT.EmailAddress,
-                        SourceToken = "tok_visa",
+                        //SourceToken = "tok_visa",
                         Address = new AddressOptions
                         {
                             City = "Lahore",
@@ -514,7 +514,7 @@ namespace SG2.CORE.WEB.Controllers
 
                         Name = this.CDT.FirstName + " " + this.CDT.UserName,
                         Email = this.CDT.EmailAddress,
-                        PaymentMethodId = paymentMethod.Id
+                        PaymentMethod = paymentMethod.Id
                     };
 
                     var customerService = new CustomerService();
@@ -525,21 +525,21 @@ namespace SG2.CORE.WEB.Controllers
 
                     var items = new List<SubscriptionItemOption> {
                       new SubscriptionItemOption {
-                        PlanId = model.PlanId,
+                        Plan = model.PlanId,
                         Quantity= 1
                       }
                     };
 
                     var subscriptionCreateOptions = new SubscriptionCreateOptions
                     {
-                        CustomerId = stripeCustomer.Id,
+                        Customer = stripeCustomer.Id,
                         Items = items,
-                        Billing = Billing.ChargeAutomatically,
+                        //Billing = Billing.ChargeAutomatically,
                         //  BillingCycleAnchor = DateTime.Now,
                         BillingThresholds = { },
                         // CancelAt = DateTime.Now.AddDays(30),
                         //  DaysUntilDue = 5,
-                        DefaultPaymentMethodId = paymentMethod.Id,
+                        DefaultPaymentMethod = paymentMethod.Id,
                     };
 
 
@@ -556,7 +556,7 @@ namespace SG2.CORE.WEB.Controllers
                 subDTO.Price = subscription.Plan.Amount;
                 subDTO.StripePlanId = subscription.Plan.Id;
                 subDTO.SubscriptionType = subscription.Plan.Interval;
-                subDTO.StartDate = subscription.Start ?? DateTime.Now;
+                subDTO.StartDate = subscription.StartDate ?? DateTime.Now;
                 subDTO.EndDate = subscription.EndedAt ?? DateTime.Now.AddMonths(1);
 
                 if (subscriptionDTO.SubscriptionId != 0)
@@ -648,7 +648,7 @@ namespace SG2.CORE.WEB.Controllers
                         {
                             var options = new CustomerUpdateOptions
                             {
-                                SourceToken = model.stripeToken,
+                                //SourceToken = model.stripeToken,
                             };
                             var service = new CustomerService();
                             Customer customer = service.Update(this.CDT.StripeCustomerId, options);
@@ -658,22 +658,22 @@ namespace SG2.CORE.WEB.Controllers
                         var items = new List<SubscriptionItemUpdateOption> {
                                         new SubscriptionItemUpdateOption {
                                         Id= subscriptionItemUpdate.Items.Data[0].Id,
-                                        PlanId = model.StripePlanId,
+                                        Plan = model.StripePlanId,
                                         Quantity= 1,
                                         },
                                     };
                         var subscriptionUpdateoptions = new SubscriptionUpdateOptions
                         {
                             Items = items,
-                            Billing = Billing.ChargeAutomatically,
+                            //Billing = Billing.ChargeAutomatically,
                             //  billingcycleanchor = datetime.now,
                             BillingThresholds = { },
                             Prorate = true,
                             // cancelat = datetime.now.adddays(30),
                             //  daysuntildue = 5,
                             // DefaultPaymentMethodId = paymentmethod.id,
-                            BillingCycleAnchorNow = true,
-                            BillingCycleAnchorUnchanged = true,
+                            //BillingCycleAnchorNow = true,
+                            //BillingCycleAnchorUnchanged = true,
                             ProrationDate = prorationDate,
                         };
                         subscription = subscriptionService.Update(subscriptionDTO.StripeSubscriptionId, subscriptionUpdateoptions);
@@ -682,16 +682,16 @@ namespace SG2.CORE.WEB.Controllers
                     {
                         var items = new List<SubscriptionItemOption> {
                                       new SubscriptionItemOption {
-                                        PlanId = model.StripePlanId,
+                                        Plan = model.StripePlanId,
                                         Quantity= 1
                                       }
                                     };
 
                         var subscriptionCreateoptions = new SubscriptionCreateOptions
                         {
-                            CustomerId = this.CDT.StripeCustomerId,
+                            Customer = this.CDT.StripeCustomerId,
                             Items = items,
-                            Billing = Billing.ChargeAutomatically,
+                            //Billing = Billing.ChargeAutomatically,
                             //  billingcycleanchor = datetime.now,
                             BillingThresholds = { },
                             // cancelat = datetime.now.adddays(30),
@@ -708,7 +708,7 @@ namespace SG2.CORE.WEB.Controllers
                     var customerCreateOptions = new CustomerCreateOptions
                     {
                         Description = " Customer for Social Growth" + this.CDT.EmailAddress,
-                        SourceToken = model.stripeToken,
+                        //SourceToken = model.stripeToken,
                         Name = this.CDT.FirstName + " " + this.CDT.UserName,
                         Email = this.CDT.EmailAddress,
 
@@ -719,16 +719,16 @@ namespace SG2.CORE.WEB.Controllers
                     _customerManager.UpdateStripeCustomerId(this.CDT.CustomerId, stripeCustomer.Id);
                     var items = new List<SubscriptionItemOption> {
                       new SubscriptionItemOption {
-                        PlanId = model.StripePlanId,
+                        Plan = model.StripePlanId,
                         Quantity= 1
                       }
                     };
 
                     var subscriptionCreateOptions = new SubscriptionCreateOptions
                     {
-                        CustomerId = stripeCustomer.Id,
+                        Customer = stripeCustomer.Id,
                         Items = items,
-                        Billing = Billing.ChargeAutomatically,
+                        //Billing = Billing.ChargeAutomatically,
                         //  BillingCycleAnchor = DateTime.Now,
                         BillingThresholds = { }
                     };
@@ -745,8 +745,8 @@ namespace SG2.CORE.WEB.Controllers
                 subDTO.Price = subscription.Plan.Amount;
                 subDTO.StripePlanId = subscription.Plan.Id;
                 subDTO.SubscriptionType = subscription.Plan.Interval;
-                subDTO.StartDate = subscription.Start ?? DateTime.Now;
-                subDTO.EndDate = ((DateTime)subscription.Start).AddMonths(1);
+                subDTO.StartDate = subscription.StartDate ?? DateTime.Now;
+                subDTO.EndDate = ((DateTime)subscription.StartDate).AddMonths(1);
                 subDTO.StatusId = 25; // Active Subscription
 
                 subDTO.SubscriptionId = subscriptionDTO.SubscriptionId;
@@ -798,7 +798,7 @@ namespace SG2.CORE.WEB.Controllers
                 subDTO.Price = subscription.Plan.Amount;
                 subDTO.StripePlanId = subscription.Plan.Id;
                 subDTO.SubscriptionType = subscription.Plan.Interval;
-                subDTO.StartDate = subscription.Start ?? DateTime.Now;
+                subDTO.StartDate = subscription.StartDate ?? DateTime.Now;
                 subDTO.EndDate = subscription.EndedAt ?? DateTime.Now.AddMonths(1);
                 subDTO.StatusId = 26;// Canceled Subscription
                 _customerManager.InsertSubscription(subDTO);

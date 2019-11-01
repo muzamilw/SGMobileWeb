@@ -163,7 +163,9 @@ namespace SG2.CORE.WEB.Controllers
                 if (ModelState.IsValid)
                 {
                     string errorMesage = "";
-                    if (_customerManager.LoginUser(model.EmailAddress, model.Password, ref errorMesage).Item1)
+                    var resp = _customerManager.LoginUser(model.EmailAddress, model.Password, ref errorMesage);
+
+                    if (resp.Item1)
                     {
                         var usr = (CustomerDTO)_sessionManager.Get(SessionConstants.Customer);
                         HttpContext.Items["isAuthentication"] = true;
@@ -284,7 +286,7 @@ namespace SG2.CORE.WEB.Controllers
                 var customerCreateOptions = new CustomerCreateOptions
                 {
                     Description = "Customer for Social Growth" + this.CDT.EmailAddress,
-                    SourceToken = model.stripeToken,
+                    //SourceToken = model.stripeToken,
                     Name = this.CDT.FirstName + " " + this.CDT.SurName,
                     Email = this.CDT.EmailAddress,
                 };
@@ -299,15 +301,15 @@ namespace SG2.CORE.WEB.Controllers
                 //Create Subscription into stripe.
                 var stripeItems = new List<SubscriptionItemOption> {
                       new SubscriptionItemOption {
-                        PlanId = stripeDefaultPlan.StripePlanId,
+                        Plan = stripeDefaultPlan.StripePlanId,
                         Quantity= 1
                       }
                     };
                 var stripeSubscriptionCreateOptions = new SubscriptionCreateOptions
                 {
-                    CustomerId = stripeCustomer.Id,
+                    Customer = stripeCustomer.Id,
                     Items = stripeItems,
-                    Billing = Billing.ChargeAutomatically,
+                    //Billing = Billing.ChargeAutomatically,
                     BillingThresholds = { }
                 };
                 var stripeSubscriptionService = new SubscriptionService();
@@ -327,8 +329,8 @@ namespace SG2.CORE.WEB.Controllers
                     subDTO.Price = stripeSubscription.Plan.Amount;
                     subDTO.StripePlanId = stripeDefaultPlan.StripePlanId;
                     subDTO.SubscriptionType = stripeSubscription.Plan.Interval;
-                    subDTO.StartDate = stripeSubscription.Start ?? DateTime.Now;
-                    subDTO.EndDate = ((DateTime)stripeSubscription.Start).AddMonths(1);
+                    subDTO.StartDate = stripeSubscription.StartDate ?? DateTime.Now;
+                    subDTO.EndDate = ((DateTime)stripeSubscription.StartDate).AddMonths(1);
                     subDTO.StatusId = (int)GlobalEnums.PlanSubscription.Active;
                     subDTO.PaymentPlanId = stripeDefaultPlan.PlanId;
                     subDTO.SocialProfileId = this.CDT.SocialProfileId;
