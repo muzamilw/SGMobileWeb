@@ -146,7 +146,7 @@ namespace SG2.CORE.WEB.APIController
                
         [Route("GetManifestFile")]
         [HttpPost]
-        public IHttpActionResult GetManifestFile(MobileLoginViewModel Model)
+        public IHttpActionResult GetManifestFile(MobileManifestRequest Model)
         {
           
 

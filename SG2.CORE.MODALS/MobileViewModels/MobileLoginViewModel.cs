@@ -25,16 +25,14 @@ namespace SG2.CORE.MODAL.MobileViewModels
     }
 
 
-    public class MobileRegisterViewModel
+    public class MobileManifestRequest
     {
         [Required]
-        public string Email { get; set; }
-        [Required]
-        public string Password { get; set; }
-        [Required]
-        public int PIN { get; set; }
-        [Required]
-        public string DeviceEMEI { get; set; }
+        public string SocialProfileId { get; set; }
+        
+        public string SocialPassword { get; set; }
+       
+
 
 
     }
