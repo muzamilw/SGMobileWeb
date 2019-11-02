@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Action = SG2.CORE.MODAL.MobileViewModels.Action;
 using SG2.CORE.BAL.Managers;
 using System.Web;
+using System.Net;
 
 namespace SG2.CORE.WEB.APIController
 {
@@ -25,19 +26,17 @@ namespace SG2.CORE.WEB.APIController
         {
             if (ModelState.IsValid)
             {
-                string errorMesage = "";
-
-                var res = _customerManager.LoginUser(model.Email, model.Password, ref errorMesage);
+                
+                var res = _customerManager.PerformMobileLogin(model.Email, model.Pin,model.IMEI, model.ForceSwitchDevice);
                 if (res.Item1)
                 {
                     return Ok(new
                     {
-                        MobileLoginJsonRootObject = new MobileLoginJsonRootObject
+                        MobileLoginJsonRootObject = new MobileLoginResponse
                         {
                             StatusCode = 1,
                             StatusMessage = "Success",
-                            CustomerId = res.Item2,
-                            CustomerEmail = res.Item3
+                            SocialProfileId = res.Item3,
 
                         }
 
@@ -47,10 +46,10 @@ namespace SG2.CORE.WEB.APIController
                 {
                     return Ok(new
                     {
-                        MobileLoginJsonRootObject = new MobileLoginJsonRootObject
+                        MobileLoginJsonRootObject = new MobileLoginResponse
                         {
-                            StatusCode = 4,
-                            StatusMessage = "Invalid username or password"
+                            StatusCode = 2,
+                            StatusMessage = res.Item2
                         }
 
                     });
@@ -59,15 +58,7 @@ namespace SG2.CORE.WEB.APIController
             }
             else
             {
-                return Ok(new
-                {
-                    MobileLoginJsonRootObject = new MobileLoginJsonRootObject
-                    {
-                        StatusCode = 4,
-                        StatusMessage = "Invalid username or password"
-                    }
-
-                });
+                return Content(HttpStatusCode.BadRequest, "Input params missing");
             }
 
             //List<Platform> Platforms = new List<Platform>();
@@ -152,6 +143,7 @@ namespace SG2.CORE.WEB.APIController
 
             //} 
         }
+               
         [Route("GetManifestFile")]
         [HttpPost]
         public IHttpActionResult GetManifestFile(MobileLoginViewModel Model)

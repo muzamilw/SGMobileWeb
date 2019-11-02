@@ -80,7 +80,12 @@ namespace SG2.CORE.BAL.Managers
 
         }
 
-        public (bool, int, string) LoginUser(string username, string password, ref string errorMessage)
+        public (bool, string, int) PerformMobileLogin(string SocialUserName, string Pin, string DeviceIMEI, bool ForceSwitchDevice)
+        {
+            return _customerRepository.PerformMobileLogin(SocialUserName, Pin, DeviceIMEI, ForceSwitchDevice);
+        }
+
+            public (bool, int, string) LoginUser(string username, string password, ref string errorMessage)
         {
             try
             {
@@ -120,10 +125,7 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public bool ValidateProfilePinSetDeviceStatus(int CustomerId, int ProfileId, string Pin, string DeviceIMEI)
-        {
-            return _customerRepository.ValidateProfilePinSetDeviceStatus(CustomerId, ProfileId, Pin, DeviceIMEI);
-        }
+      
 
         public IList<CustomerListingViewModel> GetUserData(string SearchCriteria, string PageSize, int PageNumber, int? StatusId, string ProductId, string JVStatus, int? Subscription)
         {

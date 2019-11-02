@@ -143,6 +143,7 @@
           <Property Name="DeviceStatus" Type="int" />
           <Property Name="PinCode" Type="nvarchar" MaxLength="50" />
           <Property Name="Comments" Type="nvarchar(max)" />
+          <Property Name="LastConnectedDateTime" Type="datetime" />
         </EntityType>
         <EntityType Name="SocialProfile_Actions">
           <Key>
@@ -1644,6 +1645,7 @@
           <NavigationProperty Name="SocialProfile_Payments" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Payments" />
           <NavigationProperty Name="SocialProfile_Instagram_TargetingInformation" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Instagram_TargetingInformation" />
           <NavigationProperty Name="SocialProfile_FollowedAccounts" Relationship="SocialGrowth2Entities.FK_SocialProfile_FollowedAccounts_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_FollowedAccounts" />
+          <Property Name="LastConnectedDateTime" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="SocialProfile_Actions">
           <Key>
@@ -2825,6 +2827,7 @@
           <EntitySetMapping Name="SocialProfiles">
             <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile">
               <MappingFragment StoreEntitySet="SocialProfile">
+                <ScalarProperty Name="LastConnectedDateTime" ColumnName="LastConnectedDateTime" />
                 <ScalarProperty Name="Comments" ColumnName="Comments" />
                 <ScalarProperty Name="PinCode" ColumnName="PinCode" />
                 <ScalarProperty Name="DeviceStatus" ColumnName="DeviceStatus" />

@@ -12,9 +12,15 @@ namespace SG2.CORE.MODAL.MobileViewModels
         [Required]
         public string Email { get; set; }
         [Required]
-        public string Password { get; set; }
+        public string Pin { get; set; }
+
         [Required]
-        public string DeviceEMEI { get; set; }
+        public string IMEI { get; set; }
+
+        [Required]
+        public bool ForceSwitchDevice { get; set; }
+
+
 
     }
 
