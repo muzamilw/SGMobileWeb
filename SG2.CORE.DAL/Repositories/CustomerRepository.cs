@@ -760,7 +760,7 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
-        public (bool, string, int) PerformMobileLogin(string SocialUserName, string Pin, string DeviceIMEI, bool ForceSwitchDevice)
+        public (bool, string, int, bool) PerformMobileLogin(string SocialUserName, string Pin, string DeviceIMEI, bool ForceSwitchDevice)
         {
 
             using (var _db = new SocialGrowth2Connection())
@@ -774,7 +774,7 @@ namespace SG2.CORE.DAL.Repositories
                         profile.DeviceStatus = (int)DeviceStatus.Connected;
                         profile.LastConnectedDateTime = DateTime.Now;
                         _db.SaveChanges();
-                        return (true, "Login Sucessful", profile.SocialProfileId);
+                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty( profile.SocialPassword) );
                     }
                     else if (profile.DeviceIMEI == DeviceIMEI)
                     {
@@ -782,11 +782,11 @@ namespace SG2.CORE.DAL.Repositories
                         profile.DeviceStatus = (int)DeviceStatus.Connected;
                         profile.LastConnectedDateTime = DateTime.Now;
                         _db.SaveChanges();
-                        return (true, "Login Sucessful", profile.SocialProfileId);
+                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty(profile.SocialPassword));
                     }
                     else if (profile.DeviceIMEI != DeviceIMEI && ForceSwitchDevice == false)
                     {
-                        return (false, "Device IMEI does not match", profile.SocialProfileId);
+                        return (false, "Device IMEI does not match", profile.SocialProfileId,false);
                     }
                     else if (profile.DeviceIMEI != DeviceIMEI && ForceSwitchDevice == true)
                     {
@@ -794,18 +794,18 @@ namespace SG2.CORE.DAL.Repositories
                         profile.DeviceStatus = (int)DeviceStatus.Connected;
                         profile.LastConnectedDateTime = DateTime.Now;
                         _db.SaveChanges();
-                        return (true, "Login Sucessful", profile.SocialProfileId);
+                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty(profile.SocialPassword));
                     }
                     else
                     {
-                        return (false, "Device IMEI does not match", profile.SocialProfileId);
+                        return (false, "Device IMEI does not match", profile.SocialProfileId, false);
                     }
 
 
                 }
                 else
                 {
-                    return (false, "Invalid username or Pin", 0);
+                    return (false, "Invalid username or Pin", 0,false);
                 }
 
             }

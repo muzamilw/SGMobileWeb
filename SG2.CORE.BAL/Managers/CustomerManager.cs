@@ -80,7 +80,7 @@ namespace SG2.CORE.BAL.Managers
 
         }
 
-        public (bool, string, int) PerformMobileLogin(string SocialUserName, string Pin, string DeviceIMEI, bool ForceSwitchDevice)
+        public (bool LoginSuccessful, string Message, int SocialProfileId, bool PasswordNeeded) PerformMobileLogin(string SocialUserName, string Pin, string DeviceIMEI, bool ForceSwitchDevice)
         {
             return _customerRepository.PerformMobileLogin(SocialUserName, Pin, DeviceIMEI, ForceSwitchDevice);
         }
