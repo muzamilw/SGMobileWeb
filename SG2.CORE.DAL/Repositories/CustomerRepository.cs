@@ -1207,7 +1207,7 @@ namespace SG2.CORE.DAL.Repositories
                 SocialProfileDTO profile = new SocialProfileDTO();
                 using (var _db = new SocialGrowth2Connection())
                 {
-
+                    _db.Configuration.LazyLoadingEnabled = false;
                     //var prof = _db.SG2_usp_Customer_GetSocialProfileById(profileId).FirstOrDefault();
                     //targetProfile = mapper.Map<SocialProfileDTO>(prof);
                     profile.SocialProfile = _db.SocialProfiles.Where(g => g.SocialProfileId == profileId).SingleOrDefault();

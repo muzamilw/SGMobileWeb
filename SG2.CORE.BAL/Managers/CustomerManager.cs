@@ -9,6 +9,7 @@ using SG2.CORE.MODAL.ViewModals.Backend.ActionBoard;
 using System.Threading.Tasks;
 using SG2.CORE.MODAL.DTO.TargetPreferences;
 using SG2.CORE.MODAL.DTO.Common;
+using SG2.CORE.MODAL;
 
 
 
@@ -466,6 +467,7 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
+
         public SocialProfileDTO GetSocialProfileById(int profileId)
         {
             try
@@ -474,36 +476,12 @@ namespace SG2.CORE.BAL.Managers
             }
             catch (Exception ex)
             {
-                throw ex;
-            }
-        }
-
-        //public  List<TargetPreferencesDTO> SetPendingTargetPreferenceIntoQueue()
-        //{
-        //    try
-        //    {
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        throw ex;
-        //    }
-
-        //}
-
-        public SocialProfileDTO GetSocialProfilesById(int profileId)
-        {
-            try
-            {
-                return _customerRepository.GetSocialProfilesById(profileId);
-            }
-            catch (Exception ex)
-            {
 
                 throw ex;
             }
         }
+
+       
 
         public SubscriptionDTO GetLastCancelledSubscription(int profileId, DateTime dateTime)
         {

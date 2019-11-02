@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using SG2.CORE.BAL.Managers;
 using System.Web;
 using System.Net;
+using AutoMapper;
+using SG2.CORE.MODAL;
 
 namespace SG2.CORE.WEB.APIController
 {
@@ -64,26 +66,41 @@ namespace SG2.CORE.WEB.APIController
 
         }
 
-        [Route("GetManifestFile")]
-        [HttpPost]
-        public IHttpActionResult GetManifestFile(MobileManifestRequest model)
+        [Route("GetManifest")]
+        public IHttpActionResult GetManifest(MobileManifestRequest model)
         {
-            var profile = _customerManager.GetSocialProfileById(model.SocialProfileId);
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<SocialProfile, MobileSocialProfile>()
+            );
 
-            var manifest = new MobileManifestResponse
-            {
-                CustomerId = 123456,
-                CustomerEmail = "hassanjamil.bwp@gmail.com",
-                LicenseExpiredDateUTC = DateTime.Now.AddDays(10).ToFileTimeUtc(),
-                StatusCode = 1,
-                StatusMessage = "",
-               
-            };
+            var config2 = new MapperConfiguration(cfg => cfg.CreateMap<SocialProfile_Instagram_TargetingInformation, MobileSocialProfile_Instagram_TargetingInformation>()
+           );
+            var mapper = new Mapper(config);
+            var mapper2 = new Mapper(config2);
 
-            return Ok(new
+            if (ModelState.IsValid)
             {
-                MobileJsonRootObject = manifest
-            });
+
+                var profile = _customerManager.GetSocialProfileById(model.SocialProfileId);
+
+                var manifest = new MobileManifestResponse
+                {
+                    CustomerId = profile.SocialProfile.CustomerId.Value,
+                    StatusCode = 1,
+                    StatusMessage = "",
+                    Profile = mapper.Map<MobileSocialProfile>(profile.SocialProfile),
+                    TargetInformation = mapper2.Map<MobileSocialProfile_Instagram_TargetingInformation>( profile.SocialProfile_Instagram_TargetingInformation)
+
+                };
+
+                return Ok(new
+                {
+                    MobileJsonRootObject = manifest
+                });
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, "Input params missing");
+            }
 
 
         }
