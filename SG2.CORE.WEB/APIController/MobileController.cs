@@ -8,6 +8,7 @@ using System.Web;
 using System.Net;
 using AutoMapper;
 using SG2.CORE.MODAL;
+using static SG2.CORE.COMMON.GlobalEnums;
 
 namespace SG2.CORE.WEB.APIController
 {
@@ -74,8 +75,13 @@ namespace SG2.CORE.WEB.APIController
 
             var config2 = new MapperConfiguration(cfg => cfg.CreateMap<SocialProfile_Instagram_TargetingInformation, MobileSocialProfile_Instagram_TargetingInformation>()
            );
+
+
+            var config3 = new MapperConfiguration(cfg => cfg.CreateMap<List<SocialProfile_FollowedAccounts>, List<MobileSocialProfile_FollowedAccounts>>()
+           );
             var mapper = new Mapper(config);
             var mapper2 = new Mapper(config2);
+            var mapper3 = new Mapper(config3);
 
             if (ModelState.IsValid)
             {
@@ -88,9 +94,14 @@ namespace SG2.CORE.WEB.APIController
                     StatusCode = 1,
                     StatusMessage = "",
                     Profile = mapper.Map<MobileSocialProfile>(profile.SocialProfile),
-                    TargetInformation = mapper2.Map<MobileSocialProfile_Instagram_TargetingInformation>( profile.SocialProfile_Instagram_TargetingInformation)
+                    TargetInformation = mapper2.Map<MobileSocialProfile_Instagram_TargetingInformation>(profile.SocialProfile_Instagram_TargetingInformation),
+                    ExistingFollowers = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts)
 
                 };
+
+                manifest.Profile.Status = ((GeneralStatus)profile.SocialProfile.StatusId).ToString();
+
+                manifest.Profile.SocialProfileType = ((SocialMedia)profile.SocialProfile.SocialProfileTypeId).ToString();
 
                 return Ok(new
                 {
@@ -107,7 +118,38 @@ namespace SG2.CORE.WEB.APIController
 
 
 
+        [Route("AppAction")]
+        [HttpPost]
+        public IHttpActionResult AppAction(MobileActionRequest model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (_customerManager.SaveMobileAppAction(model))
+                        return Ok();
+                    else
+                        return Content(HttpStatusCode.BadRequest, "action could not be saved");
 
-
+                }
+                catch (Exception e)
+                {
+                    return Content(HttpStatusCode.BadRequest, e.ToString());
+                }
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, "Input params missing");
+            }
+        }
     }
 }
+
+
+  
+           
+
+
+
+    
+

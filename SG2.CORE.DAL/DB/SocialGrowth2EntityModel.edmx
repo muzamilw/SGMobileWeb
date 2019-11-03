@@ -144,6 +144,7 @@
           <Property Name="PinCode" Type="nvarchar" MaxLength="50" />
           <Property Name="Comments" Type="nvarchar(max)" />
           <Property Name="LastConnectedDateTime" Type="datetime" />
+          <Property Name="DeviceBinLocation" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="SocialProfile_Actions">
           <Key>
@@ -152,8 +153,9 @@
           <Property Name="SPSHId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SocialProfileId" Type="int" />
           <Property Name="ActionID" Type="int" />
-          <Property Name="TargetProfile" Type="nvarchar" MaxLength="100" />
+          <Property Name="TargetProfile" Type="nvarchar" MaxLength="500" />
           <Property Name="ActionDateTime" Type="datetime" />
+          <Property Name="Message" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="SocialProfile_FollowedAccounts">
           <Key>
@@ -1646,6 +1648,7 @@
           <NavigationProperty Name="SocialProfile_Instagram_TargetingInformation" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Instagram_TargetingInformation" />
           <NavigationProperty Name="SocialProfile_FollowedAccounts" Relationship="SocialGrowth2Entities.FK_SocialProfile_FollowedAccounts_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_FollowedAccounts" />
           <Property Name="LastConnectedDateTime" Type="DateTime" Precision="3" />
+          <Property Name="DeviceBinLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SocialProfile_Actions">
           <Key>
@@ -1654,9 +1657,10 @@
           <Property Name="SPSHId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SocialProfileId" Type="Int32" />
           <Property Name="ActionID" Type="Int32" />
-          <Property Name="TargetProfile" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TargetProfile" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="ActionDateTime" Type="DateTime" Precision="3" />
           <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile" FromRole="SocialProfile_Actions" ToRole="SocialProfile" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SocialProfile_FollowedAccounts">
           <Key>
@@ -2827,6 +2831,7 @@
           <EntitySetMapping Name="SocialProfiles">
             <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile">
               <MappingFragment StoreEntitySet="SocialProfile">
+                <ScalarProperty Name="DeviceBinLocation" ColumnName="DeviceBinLocation" />
                 <ScalarProperty Name="LastConnectedDateTime" ColumnName="LastConnectedDateTime" />
                 <ScalarProperty Name="Comments" ColumnName="Comments" />
                 <ScalarProperty Name="PinCode" ColumnName="PinCode" />
@@ -2855,6 +2860,7 @@
           <EntitySetMapping Name="SocialProfile_Actions">
             <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile_Actions">
               <MappingFragment StoreEntitySet="SocialProfile_Actions">
+                <ScalarProperty Name="Message" ColumnName="Message" />
                 <ScalarProperty Name="ActionDateTime" ColumnName="ActionDateTime" />
                 <ScalarProperty Name="TargetProfile" ColumnName="TargetProfile" />
                 <ScalarProperty Name="ActionID" ColumnName="ActionID" />

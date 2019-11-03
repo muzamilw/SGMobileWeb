@@ -10,8 +10,7 @@ using System.Threading.Tasks;
 using SG2.CORE.MODAL.DTO.TargetPreferences;
 using SG2.CORE.MODAL.DTO.Common;
 using SG2.CORE.MODAL;
-
-
+using SG2.CORE.MODAL.MobileViewModels;
 
 namespace SG2.CORE.BAL.Managers
 {
@@ -481,7 +480,20 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-       
+        public bool SaveMobileAppAction(MobileActionRequest model)
+        {
+            try
+            {
+                return _customerRepository.SaveMobileAppActions(model);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+
 
         public SubscriptionDTO GetLastCancelledSubscription(int profileId, DateTime dateTime)
         {

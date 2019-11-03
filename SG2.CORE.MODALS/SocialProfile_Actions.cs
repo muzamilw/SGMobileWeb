@@ -19,6 +19,7 @@ namespace SG2.CORE.MODAL
         public Nullable<int> ActionID { get; set; }
         public string TargetProfile { get; set; }
         public Nullable<System.DateTime> ActionDateTime { get; set; }
+        public string Message { get; set; }
     
         public virtual SocialProfile SocialProfile { get; set; }
     }

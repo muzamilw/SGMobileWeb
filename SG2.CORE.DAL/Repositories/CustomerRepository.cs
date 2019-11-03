@@ -14,6 +14,7 @@ using SG2.CORE.MODAL;
 using SG2.CORE.MODAL.ViewModals.Backend;
 using SG2.CORE.MODAL.ViewModals.Backend.ActionBoard;
 using static SG2.CORE.COMMON.GlobalEnums;
+using SG2.CORE.MODAL.MobileViewModels;
 
 namespace SG2.CORE.DAL.Repositories
 {
@@ -1195,6 +1196,33 @@ namespace SG2.CORE.DAL.Repositories
            
         }
 
+
+        public bool SaveMobileAppActions(MobileActionRequest model)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    var action = new SocialProfile_Actions();
+                    action.ActionDateTime = DateTime.UtcNow;
+                    action.ActionID = model.ActionId;
+                    action.Message = model.Message;
+                    action.SocialProfileId = model.SocialProfileId;
+                    action.TargetProfile = model.TargetSocialUserName;
+
+                    _db.SocialProfile_Actions.Add(action);
+                    _db.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return true;
+        }
+
         public SocialProfileDTO GetSocialProfilesById(int profileId)
         {
 
@@ -1213,7 +1241,8 @@ namespace SG2.CORE.DAL.Repositories
                     profile.SocialProfile = _db.SocialProfiles.Where(g => g.SocialProfileId == profileId).SingleOrDefault();
                     profile.SocialProfile_Instagram_TargetingInformation = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.SocialProfileId == profileId).SingleOrDefault();
                     profile.CurrentPaymentPlan = _db.PaymentPlans.Where(g => g.PaymentPlanId == profile.SocialProfile.PaymentPlanId).SingleOrDefault();
-                    profile.LastSocialProfile_Payments = _db.SocialProfile_Payments.Where(g => g.SocialProfileId == profileId).OrderByDescending(g => g.PaymentDateTime).FirstOrDefault();
+                    profile.LastSocialProfile_Payments = _db.SocialProfile_Payments.Where(g => g.SocialProfileId == profileId).OrderByDescending(g => g.PaymentDateTime).ToList();
+                    profile.SocialProfile_FollowedAccounts = _db.SocialProfile_FollowedAccounts.Where(g => g.SocialProfileId == profileId).OrderByDescending(g => g.FollowedDateTime).ToList();
                 }
                 return profile;
             }

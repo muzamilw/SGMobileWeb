@@ -15,7 +15,9 @@ namespace SG2.CORE.MODAL.DTO.Customers
 
         public PaymentPlan CurrentPaymentPlan { get; set; }
 
-        public SocialProfile_Payments LastSocialProfile_Payments { get; set; }
+        public List<SocialProfile_Payments> LastSocialProfile_Payments { get; set; }
+
+        public List<SocialProfile_FollowedAccounts> SocialProfile_FollowedAccounts { get; set; }
 
     }
 }

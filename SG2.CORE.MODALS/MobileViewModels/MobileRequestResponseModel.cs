@@ -41,6 +41,8 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public MobileSocialProfile Profile { get; set; }
 
         public MobileSocialProfile_Instagram_TargetingInformation TargetInformation { get; set; }
+
+        public List<MobileSocialProfile_FollowedAccounts> ExistingFollowers { get; set; }
     }
 
 
@@ -54,38 +56,39 @@ namespace SG2.CORE.MODAL.MobileViewModels
     }
 
 
+    public class MobileActionRequest
+    {
+        [Required]
+        public int SocialProfileId { get; set; }
+        [Required]
+        public int ActionId { get; set; }
+        [Required]
+        public string TargetSocialUserName { get; set; }
+        
+        public string Message { get; set; }
+    }
+
+
     public class MobileSocialProfile
     {
         public int SocialProfileId { get; set; }
         public Nullable<int> CustomerId { get; set; }
-        public Nullable<int> SocialProfileTypeId { get; set; }
-        public Nullable<int> StatusId { get; set; }
-        public string StripeSubscriptionId { get; set; }
-        public Nullable<int> StripeCustomerId { get; set; }
-        public Nullable<int> PaymentPlanId { get; set; }
+        public string SocialProfileType { get; set; }
+        public string Status { get; set; }
         public string SocialUsername { get; set; }
         public string SocialPassword { get; set; }
-        public string SocialProfileName { get; set; }
-        public System.DateTime CreatedOn { get; set; }
-        public string CreatedBy { get; set; }
-        public System.DateTime UpdatedOn { get; set; }
-        public string UpdatedBy { get; set; }
         public string verificationCode { get; set; }
-        public Nullable<bool> IsArchived { get; set; }
-        public string IMSI { get; set; }
         public string DeviceIMEI { get; set; }
         public Nullable<int> DeviceStatus { get; set; }
-        public string PinCode { get; set; }
-        public string Comments { get; set; }
+       
+      
         public Nullable<System.DateTime> LastConnectedDateTime { get; set; }
     }
 
 
     public class MobileSocialProfile_Instagram_TargetingInformation
     {
-        public int TargetingInformationId { get; set; }
         public Nullable<int> SocialProfileId { get; set; }
-        public Nullable<bool> IsSystem { get; set; }
         public Nullable<bool> FollowOn { get; set; }
         public Nullable<bool> LikeOn { get; set; }
         public Nullable<bool> UnFollowOn { get; set; }
@@ -106,10 +109,7 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public Nullable<bool> SunOper { get; set; }
         public string ExecutionIntervals { get; set; }
         public Nullable<bool> RandomizeIntervalsDaily { get; set; }
-        public System.DateTime CreatedOn { get; set; }
-        public string CreatedBy { get; set; }
-        public System.DateTime UpdatedOn { get; set; }
-        public string UpdatedBy { get; set; }
+      
         public Nullable<int> SocialAccAs { get; set; }
         public Nullable<int> FollNewPerDayLim { get; set; }
         public Nullable<int> FollDailyIncreaseLim { get; set; }
@@ -196,6 +196,15 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public string BlackListLocations { get; set; }
         public string BlackListHashtags { get; set; }
         public string BlackListWordsManual { get; set; }
+        
+    }
+
+
+    public partial class MobileSocialProfile_FollowedAccounts
+    {
+        public string FollowedSocialUsername { get; set; }
+        public Nullable<System.DateTime> FollowedDateTime { get; set; }
+
         
     }
 }
