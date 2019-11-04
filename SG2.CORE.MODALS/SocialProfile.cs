@@ -45,6 +45,8 @@ namespace SG2.CORE.MODAL
         public Nullable<int> DeviceStatus { get; set; }
         public string PinCode { get; set; }
         public string Comments { get; set; }
+        public Nullable<System.DateTime> LastConnectedDateTime { get; set; }
+        public string DeviceBinLocation { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual PaymentPlan PaymentPlan { get; set; }

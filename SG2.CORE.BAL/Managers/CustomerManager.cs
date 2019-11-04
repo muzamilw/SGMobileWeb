@@ -9,8 +9,8 @@ using SG2.CORE.MODAL.ViewModals.Backend.ActionBoard;
 using System.Threading.Tasks;
 using SG2.CORE.MODAL.DTO.TargetPreferences;
 using SG2.CORE.MODAL.DTO.Common;
-
-
+using SG2.CORE.MODAL;
+using SG2.CORE.MODAL.MobileViewModels;
 
 namespace SG2.CORE.BAL.Managers
 {
@@ -80,7 +80,12 @@ namespace SG2.CORE.BAL.Managers
 
         }
 
-        public (bool, int, string) LoginUser(string username, string password, ref string errorMessage)
+        public (bool LoginSuccessful, string Message, int SocialProfileId, bool PasswordNeeded) PerformMobileLogin(string SocialUserName, string Pin, string DeviceIMEI, bool ForceSwitchDevice)
+        {
+            return _customerRepository.PerformMobileLogin(SocialUserName, Pin, DeviceIMEI, ForceSwitchDevice);
+        }
+
+            public (bool, int, string) LoginUser(string username, string password, ref string errorMessage)
         {
             try
             {
@@ -120,10 +125,7 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public bool ValidateProfilePinSetDeviceStatus(int CustomerId, int ProfileId, string Pin, string DeviceIMEI)
-        {
-            return _customerRepository.ValidateProfilePinSetDeviceStatus(CustomerId, ProfileId, Pin, DeviceIMEI);
-        }
+      
 
         public IList<CustomerListingViewModel> GetUserData(string SearchCriteria, string PageSize, int PageNumber, int? StatusId, string ProductId, string JVStatus, int? Subscription)
         {
@@ -464,6 +466,7 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
+
         public SocialProfileDTO GetSocialProfileById(int profileId)
         {
             try
@@ -472,29 +475,16 @@ namespace SG2.CORE.BAL.Managers
             }
             catch (Exception ex)
             {
+
                 throw ex;
             }
         }
 
-        //public  List<TargetPreferencesDTO> SetPendingTargetPreferenceIntoQueue()
-        //{
-        //    try
-        //    {
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        throw ex;
-        //    }
-
-        //}
-
-        public SocialProfileDTO GetSocialProfilesById(int profileId)
+        public bool SaveMobileAppAction(MobileActionRequest model)
         {
             try
             {
-                return _customerRepository.GetSocialProfilesById(profileId);
+                return _customerRepository.SaveMobileAppActions(model);
             }
             catch (Exception ex)
             {
@@ -502,6 +492,8 @@ namespace SG2.CORE.BAL.Managers
                 throw ex;
             }
         }
+
+
 
         public SubscriptionDTO GetLastCancelledSubscription(int profileId, DateTime dateTime)
         {

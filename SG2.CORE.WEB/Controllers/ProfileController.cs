@@ -74,7 +74,7 @@ namespace SG2.CORE.WEB.Controllers
             SocialProfileDTO profileDTO = new SocialProfileDTO();
             if (socialProfileId != null && socialProfileId > 0)
             {
-                profileDTO = _cm.GetSocialProfilesById(socialProfileId ?? 0);
+                profileDTO = _cm.GetSocialProfileById(socialProfileId ?? 0);
             }
 
             TargetPreferencesViewModel targetPreferences = new TargetPreferencesViewModel();
@@ -175,7 +175,7 @@ namespace SG2.CORE.WEB.Controllers
             SocialProfileDTO profileDTO = new SocialProfileDTO();
             if (socialProfileId != null && socialProfileId > 0)
             {
-                profileDTO = _cm.GetSocialProfilesById(socialProfileId ?? 0);
+                profileDTO = _cm.GetSocialProfileById(socialProfileId ?? 0);
             }
 
             TargetPreferencesViewModel targetPreferences = new TargetPreferencesViewModel();
@@ -1049,7 +1049,7 @@ namespace SG2.CORE.WEB.Controllers
                 KlaviyoProfile klaviyoProfile = new KlaviyoProfile();
                 KlaviyoEvent ev = new KlaviyoEvent();
 
-                SocialProfileDTO profileDTO = _cm.GetSocialProfilesById(SocialProfileId);
+                SocialProfileDTO profileDTO = _cm.GetSocialProfileById(SocialProfileId);
 
 
                 //if (!profileDTO.IsJVServerRunning)

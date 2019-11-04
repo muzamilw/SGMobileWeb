@@ -14,6 +14,7 @@ using SG2.CORE.MODAL;
 using SG2.CORE.MODAL.ViewModals.Backend;
 using SG2.CORE.MODAL.ViewModals.Backend.ActionBoard;
 using static SG2.CORE.COMMON.GlobalEnums;
+using SG2.CORE.MODAL.MobileViewModels;
 
 namespace SG2.CORE.DAL.Repositories
 {
@@ -760,25 +761,56 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
-        public bool ValidateProfilePinSetDeviceStatus(int CustomerId, int ProfileId, string Pin, string DeviceIMEI)
+        public (bool, string, int, bool) PerformMobileLogin(string SocialUserName, string Pin, string DeviceIMEI, bool ForceSwitchDevice)
         {
 
             using (var _db = new SocialGrowth2Connection())
             {
-                var profile = _db.SocialProfiles.Where(g => g.CustomerId == CustomerId && g.SocialProfileId == ProfileId && g.PinCode == Pin).SingleOrDefault();
-                if ( profile != null)
+                var profile = _db.SocialProfiles.Where(g => g.SocialUsername == SocialUserName && g.PinCode == Pin && g.PinCode == Pin).SingleOrDefault();
+                if (profile != null)
                 {
-                    profile.DeviceIMEI = DeviceIMEI;
-                    profile.DeviceStatus = (int)DeviceStatus.Connected;
-                    return true;
+                    if (string.IsNullOrEmpty(profile.DeviceIMEI))
+                    {
+                        profile.DeviceIMEI = DeviceIMEI;
+                        profile.DeviceStatus = (int)DeviceStatus.Connected;
+                        profile.LastConnectedDateTime = DateTime.Now;
+                        _db.SaveChanges();
+                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty( profile.SocialPassword) );
+                    }
+                    else if (profile.DeviceIMEI == DeviceIMEI)
+                    {
+                        profile.DeviceIMEI = DeviceIMEI;
+                        profile.DeviceStatus = (int)DeviceStatus.Connected;
+                        profile.LastConnectedDateTime = DateTime.Now;
+                        _db.SaveChanges();
+                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty(profile.SocialPassword));
+                    }
+                    else if (profile.DeviceIMEI != DeviceIMEI && ForceSwitchDevice == false)
+                    {
+                        return (false, "Device IMEI does not match", profile.SocialProfileId,false);
+                    }
+                    else if (profile.DeviceIMEI != DeviceIMEI && ForceSwitchDevice == true)
+                    {
+                        profile.DeviceIMEI = DeviceIMEI;
+                        profile.DeviceStatus = (int)DeviceStatus.Connected;
+                        profile.LastConnectedDateTime = DateTime.Now;
+                        _db.SaveChanges();
+                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty(profile.SocialPassword));
+                    }
+                    else
+                    {
+                        return (false, "Device IMEI does not match", profile.SocialProfileId, false);
+                    }
+
+
                 }
                 else
                 {
-                    return false;
+                    return (false, "Invalid username or Pin", 0,false);
                 }
 
             }
-            }
+        }
 
 
         public CustomerDTO GetLogin(string username, string password, short statusId)
@@ -1164,6 +1196,33 @@ namespace SG2.CORE.DAL.Repositories
            
         }
 
+
+        public bool SaveMobileAppActions(MobileActionRequest model)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    var action = new SocialProfile_Actions();
+                    action.ActionDateTime = DateTime.UtcNow;
+                    action.ActionID = model.ActionId;
+                    action.Message = model.Message;
+                    action.SocialProfileId = model.SocialProfileId;
+                    action.TargetProfile = model.TargetSocialUserName;
+
+                    _db.SocialProfile_Actions.Add(action);
+                    _db.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return true;
+        }
+
         public SocialProfileDTO GetSocialProfilesById(int profileId)
         {
 
@@ -1176,13 +1235,14 @@ namespace SG2.CORE.DAL.Repositories
                 SocialProfileDTO profile = new SocialProfileDTO();
                 using (var _db = new SocialGrowth2Connection())
                 {
-
+                    _db.Configuration.LazyLoadingEnabled = false;
                     //var prof = _db.SG2_usp_Customer_GetSocialProfileById(profileId).FirstOrDefault();
                     //targetProfile = mapper.Map<SocialProfileDTO>(prof);
                     profile.SocialProfile = _db.SocialProfiles.Where(g => g.SocialProfileId == profileId).SingleOrDefault();
                     profile.SocialProfile_Instagram_TargetingInformation = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.SocialProfileId == profileId).SingleOrDefault();
                     profile.CurrentPaymentPlan = _db.PaymentPlans.Where(g => g.PaymentPlanId == profile.SocialProfile.PaymentPlanId).SingleOrDefault();
-                    profile.LastSocialProfile_Payments = _db.SocialProfile_Payments.Where(g => g.SocialProfileId == profileId).OrderByDescending(g => g.PaymentDateTime).FirstOrDefault();
+                    profile.LastSocialProfile_Payments = _db.SocialProfile_Payments.Where(g => g.SocialProfileId == profileId).OrderByDescending(g => g.PaymentDateTime).ToList();
+                    profile.SocialProfile_FollowedAccounts = _db.SocialProfile_FollowedAccounts.Where(g => g.SocialProfileId == profileId).OrderByDescending(g => g.FollowedDateTime).ToList();
                 }
                 return profile;
             }

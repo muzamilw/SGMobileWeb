@@ -84,24 +84,7 @@
             Deleted=10
         }
 
-        public enum JVStatus
-        {
-            TwoFactor = 32,
-            EmailVerificationRequired=36,
-            InvalidCredentials=17,
-            InvalidCredentialReSend=31,
-            APIBlock=33,
-            ValidAndNotSetup=39,
-            ValidAndSetUp = 40,
-            ProfileAdding=11,
-            ProfileAdded=41,
-            TargetToBeUpdated = 14,
-            Deleted = 35,
-            CancelButNotDeletedOnMP = 37,
-            ProfileNotSetup = 42,
-            ProxyAndInternetIssue = 50,
-            ProfileRequiresCancelling = 15
-        }
+       
 
         public enum GeneralStatus
         {
@@ -130,39 +113,18 @@
             Unsubscribe=27
         }
 
-        public enum JVServerType
-        {
-            Likey=28,
-            GrowthEngine=29
-        }
-
+      
         public enum SocialMedia
         {
-            Instagram=30
+            Instagram=30,
+            LinkedIn = 56,
+            FaceBook = 57,
+            TikTok = 58
+
 
         }
 
-        public enum QueueStatus
-        {
-            Pending=43,
-            Inprogress=44,
-            Completed=45,
-            Error = 48,
-
-        }
-
-        public enum QueueType
-        {
-            RPC=47,
-            Regular=46,
-        }
-
-        public enum ProxyIP
-        {
-            BadIP= 49
-        }
-
-
+      
         public enum DeviceStatus
         {
             Connected = 54,

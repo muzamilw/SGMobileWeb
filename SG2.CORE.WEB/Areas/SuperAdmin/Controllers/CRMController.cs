@@ -510,7 +510,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                     //int custId = Convert.ToInt32(CryptoEngine.Decrypt(customerId.ToString()));
                     int proId = Convert.ToInt32((CryptoEngine.Decrypt(pro)));
-                    SocialProfileDTO profileDTO = _customerManager.GetSocialProfilesById(proId);
+                    SocialProfileDTO profileDTO = _customerManager.GetSocialProfileById(proId);
 
                     if (profileDTO != null)
                     {
@@ -577,7 +577,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                     //int custId = Convert.ToInt32(CryptoEngine.Decrypt(customerId.ToString()));
                     int proId = Convert.ToInt32((CryptoEngine.Decrypt(pro)));
-                    SocialProfileDTO profileDTO = _customerManager.GetSocialProfilesById(proId);
+                    SocialProfileDTO profileDTO = _customerManager.GetSocialProfileById(proId);
 
                     if (profileDTO != null)
                     {
@@ -606,7 +606,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                         Subscription subscriptionItemUpdate = subscriptionService.Get(profileDTO.SocialProfile.StripeSubscriptionId);
                         var invoiceService = new InvoiceService();
-                        var invoice = invoiceService.Get(profileDTO.LastSocialProfile_Payments.StripeInvoiceId);
+                        var invoice = invoiceService.Get(profileDTO.LastSocialProfile_Payments.First().StripeInvoiceId);
                         var chargeService = new ChargeService();
                         var charge = chargeService.Get(invoice.ChargeId);
                         var refundOptions = new RefundCreateOptions
