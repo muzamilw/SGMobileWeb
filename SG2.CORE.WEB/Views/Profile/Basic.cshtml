@@ -34,15 +34,7 @@
     //}
 
     var profileUpdateButtonClass = "hide";
-    if (Model.JVStatusId != null &&
-        Model.JVStatusId != 0 &&
-                                    (Model.JVStatusId == (int)GlobalEnums.JVStatus.InvalidCredentials
-                                    || Model.JVStatusId == (int)GlobalEnums.JVStatus.InvalidCredentialReSend
-                                    || Model.JVStatusId == (int)GlobalEnums.JVStatus.ProfileNotSetup)
-                                )
-    {
-        profileUpdateButtonClass = "";
-    }
+    
 
     short? planSq = 1;
     if (Model.ActivePlanId != null)
@@ -501,14 +493,9 @@
                                                 <img class="pull-right" src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="49" />
                                                 @Html.LabelFor(m => m.InstaUser, new { @class = "" })
                                                 <span style="display:block">Your Instagram @@username<br /><br /></span>
-                                                @if (Model.JVStatusId == (int)GlobalEnums.JVStatus.ValidAndNotSetup || Model.JVStatusId == (int)GlobalEnums.JVStatus.ValidAndSetUp)
-                                                {
-                                                    @Html.TextBoxFor(m => m.InstaUser, new { @class = "form-control required", @readonly = "readonly" })
-                                                }
-                                                else
-                                                {
+                                               
                                                     @Html.TextBoxFor(m => m.InstaUser, new { @class = "form-control required" })
-                                                }
+                                               
                                                 @Html.ValidationMessageFor(model => model.InstaUser, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -516,67 +503,28 @@
                                             <div class="form-group">
                                                 @Html.LabelFor(m => m.InstaPassword, new { @class = "" })
                                                 <span style="display:block">Please make sure you provide the correct password to avoid delay in getting started. (Your password is submitted over SSL 256Bit Encryption)</span>
-                                                @if (Model.JVStatusId == (int)GlobalEnums.JVStatus.ValidAndNotSetup || Model.JVStatusId == (int)GlobalEnums.JVStatus.ValidAndSetUp)
-                                                {
-                                                    @Html.PasswordFor(m => m.InstaPassword, new { @class = "form-control required", @readonly = "readonly" })
-                                                }
-                                                else
-                                                {
+                                               
                                                     @Html.PasswordFor(m => m.InstaPassword, new { @class = "form-control required" })
-                                                }
+                                                
 
                                                 @Html.ValidationMessageFor(model => model.InstaPassword, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>&nbsp;</label>
-                                                <span style="display:block">Country</span>
-                                                @if (Model.JVStatusId == (int)GlobalEnums.JVStatus.ValidAndNotSetup || Model.JVStatusId == (int)GlobalEnums.JVStatus.ValidAndSetUp)
-                                                {
-                                                    //@Html.DropDownListFor(m => m.Country, countries, "-- Select Country --", new { @id = "input_Country", @class = "slct required", @disabled = "disabled" })
-                                                }
-                                                else
-                                                {
-                                                    //@Html.DropDownListFor(m => m.Country, countries, "-- Select Country --", new { @id = "input_Country", @class = "slct required" })
-                                                }
-
-                                                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                @Html.LabelFor(m => m.City, new { @class = "" })
-                                                <span style="display:block">City, State, Country</span>
-                                                @if (Model.JVStatusId == (int)GlobalEnums.JVStatus.ValidAndNotSetup || Model.JVStatusId == (int)GlobalEnums.JVStatus.ValidAndSetUp)
-                                                {
-                                                    //@Html.DropDownListFor(m => m.City, cities, "-- Select City --", new { @id = "input_City", @class = "slct required", @readonly = "readonly", @disabled = "disabled" })
-                                                }
-                                                else
-                                                {
-                                                    //@Html.DropDownListFor(m => m.City, cities, "-- Select City --", new { @id = "input_City", @class = "slct required" })
-                                                }
-                                                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
+                                
                                     </div>
 
                                     <div class="col-md-12">
                                         <div class="form-group" style="text-align:center">
                                             <br />
-                                            @if (Model.JVStatusId == (int)GlobalEnums.JVStatus.ValidAndNotSetup || Model.JVStatusId == (int)GlobalEnums.JVStatus.ValidAndSetUp)
-                                            {
-
-                                            }
-                                            else
-                                            {
-                                                var hideStr = "";
-                                                if (Model.ActivePlanId == null)
-                                                {
-                                                    hideStr = "hide";
+                                           
+                                                @{var hideStr = "";
+                                                    if (Model.ActivePlanId == null)
+                                                    {
+                                                        hideStr = "hide";
+                                                    }
                                                 }
                                                 <button type="button" class="btn btn-primary btn-height47 @(hideStr)" id="btn_updateSocialProfile">Login into Intagram</button>
-                                            }
+                                            
 
                                         </div>
                                     </div>
@@ -1939,9 +1887,7 @@
             $(".verifyingProgress-bar").attr("aria-valuenow", "0");
             $(".verifyingProgress-bar").text("0%");
             $("#From_SocialProfile_SocialProfileId").val($("#SocialProfileId").val());
-            if (glb_profileJVStatusId == "@((int)GlobalEnums.JVStatus.ProfileNotSetup)"
-                || glb_profileJVStatusId == "@((int)GlobalEnums.JVStatus.ProxyAndInternetIssue)")
-            {
+           
                 if ($("#Form_SocialProfile").valid()) {
 
                     $(".div_ModalBody div.div_ContentBody").each(function (i, iElem) {
@@ -1954,12 +1900,8 @@
                     $("#Modal_SettingUpProfile").modal("show");
                     UpdateSocialProfileAjax();
                 }
-            }
-            if (
-                glb_profileJVStatusId == "@((int)GlobalEnums.JVStatus.InvalidCredentials)"
-                || glb_profileJVStatusId == "@((int)GlobalEnums.JVStatus.InvalidCredentialReSend)"
-            )
-            {
+            
+           
                 if ($("#Form_SocialProfile").valid()) {
                     $(".div_ModalBody div.div_ContentBody").each(function (i, iElem) {
                         $(iElem).addClass("hide");
@@ -1972,48 +1914,8 @@
                     $("#From_SocialProfile_invalidCredentialsAttempts").val(glb_invalidCredentialAttempts);
                     UpdateSocialProfileAjax();
                 }
-            }
-            if (glb_profileJVStatusId == "@((int)GlobalEnums.JVStatus.EmailVerificationRequired)")
-            {
-                if ($(e).attr("id") == "btn_updateSocialProfile")
-                {
-                    ShowProfileStatusPopup();
-                }
-                else
-                {
-                    $(".div_ModalBody div.div_ContentBody").each(function (i, iElem) {
-                        $(iElem).addClass("hide");
-                    });
-                    StartVerifyingProgressBar();
-                    $(".div_stepWaitingProcess").removeClass("hide");
-                    glb_bxSlider.destroySlider({});
-                    glb_bxSlider.reloadSlider();
-
-                    $("#Modal_SettingUpProfile").modal("show");
-                    $("#From_SocialProfile_VerificationCode").val($("#input_emailVerificationCode").val());
-                    UpdateSocialProfileAjax();
-                }
-            }
-            if (glb_profileJVStatusId == "@((int)GlobalEnums.JVStatus.TwoFactor)")
-            {
-                if ($(e).attr("id") == "btn_updateSocialProfile") {
-                    ShowProfileStatusPopup();
-                }
-                else
-                {
-                    $(".div_ModalBody div.div_ContentBody").each(function (i, iElem) {
-                        $(iElem).addClass("hide");
-                    });
-                    StartVerifyingProgressBar();
-                    $(".div_stepWaitingProcess").removeClass("hide");
-                    glb_bxSlider.destroySlider({});
-                    glb_bxSlider.reloadSlider();
-
-                    $("#Modal_SettingUpProfile").modal("show");
-                    $("#From_SocialProfile_VerificationCode").val($("#input_2FVerificationCode").val());
-                    UpdateSocialProfileAjax();
-                }
-            }
+            
+          
 
         }
 
@@ -2109,7 +2011,7 @@
 
         function ShowProfileStatusPopup() {
 
-            if (glb_profileJVStatusId == "@((int)GlobalEnums.JVStatus.EmailVerificationRequired)") {
+            @*if (glb_profileJVStatusId == "@((int)GlobalEnums.JVStatus.EmailVerificationRequired)") {
                 $(".div_ModalBody div.div_ContentBody").each(function (i, iElem) {
                     $(iElem).addClass("hide");
                 });
@@ -2124,12 +2026,12 @@
                 $(".div_step2FARequired").removeClass("hide");
                 $(".div_step2FARequired span.error").addClass("hide");
                 $("#Modal_SettingUpProfile").modal("show");
-            }
+            }*@
         }
 
         function EnableDisableProfileSection() {
 
-            $("#btn_updateSocialProfile").removeClass("hide");
+            @*$("#btn_updateSocialProfile").removeClass("hide");
             glb_bxSlider.destroySlider({});
             glb_bxSlider.reloadSlider();
             if (glb_profileJVStatusId == "@((int)GlobalEnums.JVStatus.EmailVerificationRequired)"
@@ -2168,7 +2070,7 @@
                 $(".div_blockInstaprofile input").attr("readonly", "readonly");
                 $(".div_blockInstaprofile select").attr("disabled", "disabled");
                 $("#btn_updateSocialProfile").attr("disabled", "disabled");
-            }
+            }*@
 
         }
 
