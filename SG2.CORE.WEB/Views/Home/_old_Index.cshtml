@@ -1,0 +1,721 @@
+﻿@model SG2.CORE.MODAL.ViewModals.Home.IndexViewModel
+@{
+    /**/
+
+    ViewBag.Title = "Social Growth";
+}
+
+
+@Html.Partial("~/Views/Shared/Partial/_PartialWidgetGrowFaster.cshtml")
+
+@Html.Partial("~/Views/Shared/Partial/_PartialWidgetMainIntro1.cshtml")
+
+@Html.Partial("~/Views/Shared/Partial/_PartialWidgetRealPeople.cshtml")
+
+@Html.Partial("~/Views/Shared/Partial/_PartialWidgetGettingStarted.cshtml")
+
+@Html.Partial("~/Views/Shared/Partial/_PartialWidgetWeAreYou.cshtml")
+
+@Html.Partial("~/Views/Shared/Partial/_PartialWidgetSocialMedia.cshtml")
+
+@Html.Partial("~/Views/Shared/Partial/_PartialWidgetGrowYourInsta.cshtml")
+
+@Html.Partial("~/Views/Shared/Partial/_PartialWidgetRelexAndProfit.cshtml")
+
+@Html.Partial("~/Views/Shared/Partial/_PartialWidgetOurCustomers.cshtml")
+
+@Html.Partial("~/Views/Shared/Partial/_PartialWidget2ColumnBlog.cshtml")
+
+
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 text-center">
+                <h3>
+                    GET MORE LIKES & FOLLOWERS
+                </h3>
+            </div>
+            <div class="col-md-3">
+                <a href="#" class="btn_ShowSignUpWizardPopup">Get Started Wizard</a>
+                <a href="/home/howwework" class="">How we work</a>
+                <a href="#" class="">Blog</a>
+                <a href="#" class="lnk_ShowSignupModal">Sign up</a>
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3"></div>
+            <div class="col-xs-12">
+                <div class="footer-logo text-center">
+                    <img src="~/Content/ThemeAssets/Images/social-growth-footer-logo.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+@*@section scripts{
+    <script src="~/Scripts/bootstrap-tagsinput.min.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script type="text/javascript">
+        $("document").ready(function () {
+
+            $("#Form_SubscriptionWizardForm").validate({
+                rules: {
+                    CardMumber: {
+                        required: true
+                    },
+                    CVC: {
+                        required: true,
+                    },
+                    Month: {
+                        required: true,
+                    },
+                    Year: {
+                        required: true,
+                    }
+                },
+                messages: {
+                    CardMumber: {
+                        required: "Creditcard number required"
+                    },
+                    CVC: {
+                        required: "CVC required"
+                    },
+                    Month: {
+                        required: "Month required"
+                    },
+                    Year: {
+                        required: "Year required"
+                    }
+                }
+            });
+
+            $("#Form_InstagramPermissionWizardForm").validate({
+                rules: {
+                    InstaUser: {
+                        required: true
+                    },
+                    InstaPassword: {
+                        required: true,
+                    }
+                },
+                messages: {
+                    InstaUser: {
+                        required: "Insta UserName required"
+                    },
+                    InstaPassword: {
+                        required: "Insta Password required"
+                    }
+                }
+            });
+
+            $(".btn_ShowSignUpWizardPopup").on("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation;
+                $("#Modal_SignupWizardPopup2 .wizard_step2").addClass("hide");
+                $("#Modal_SignupWizardPopup2 .wizard_step3").addClass("hide");
+                $("#Modal_SignupWizardPopup2 .wizard_step4").addClass("hide");
+                $("#Modal_SignupWizardPopup2 .wizard_step5").addClass("hide");
+                $("#Modal_SignupWizardPopup2 .wizard_step6").addClass("hide");
+                $("#Modal_SignupWizardPopup2 .wizard_step7").addClass("hide");
+                $("#Modal_SignupWizardPopup2 .wizard_step8").addClass("hide");
+                $("#Modal_SignupWizardPopup2 .wizard_step9").addClass("hide");
+                $("#Modal_SignupWizardPopup2 .wizard_step10").addClass("hide");
+                $("#Modal_SignupWizardPopup2 .wizard_step11").addClass("hide");
+                $("#Modal_SignupWizardPopup2 .wizard_step12").addClass("hide");
+
+                $("#Modal_SignupWizardPopup2 .wizard_step1").removeClass("hide");
+                $("#Modal_SignupWizardPopup2").modal("show");
+                return false;
+            });
+
+
+            $(".btn_PrefStep1").on("click", function () {
+                if ($("#field_WizardHashtag").valid()) {
+                    $("#Modal_SignupWizardPopup2 .wizard_step1").addClass("hide");
+                    $("#Modal_SignupWizardPopup2 .wizard_step2").removeClass("hide");
+                }
+            });
+
+            $(".btn_PrefStep2").on("click", function () {
+                $("#Modal_SignupWizardPopup2 .wizard_step2").addClass("hide");
+                $("#Modal_SignupWizardPopup2 .wizard_step3").removeClass("hide");
+
+            });
+
+            $(".btn_PrefStep3").on("click", function () {
+                if ($("#field_WizardPreferLocation").valid()) {
+                    $("#Modal_SignupWizardPopup2 .wizard_step3").addClass("hide");
+                    $("#Modal_SignupWizardPopup2 .wizard_step4").removeClass("hide");
+                }
+            });
+
+            $(".btn_PrefStep4").on("click", function () {
+                $(".field_WizarEffectiveGrowth").valid();
+                $(".field_WizarTargetGender").valid();
+                if ($(".field_WizarEffectiveGrowth").valid() && $(".field_WizarTargetGender").valid()) {
+                    $("#Modal_SignupWizardPopup2 .wizard_step4").addClass("hide");
+                    $("#Modal_SignupWizardPopup2 .wizard_step5").removeClass("hide");
+                }
+
+
+            });
+
+            $(".btn_PrefStep5").on("click", function () {
+                $("#Modal_SignupWizardPopup2 .wizard_step5").addClass("hide");
+                $("#Modal_SignupWizardPopup2 .wizard_step6").removeClass("hide");
+            });
+
+            $(".btn_PrefStep6").on("click", function () {
+                $("#field_WizardFirstname").valid();
+                $("#field_WizardLastname").valid();
+                $("#field_WizardEmail").valid();
+                $("#field_WizardPassword").valid();
+                $("#field_WizardRePassword").valid();
+
+                if ($("#field_WizardFirstname").valid() && $("#field_WizardLastname").valid() &&
+                    $("#field_WizardEmail").valid() && $("#field_WizardPassword").valid() &&
+                    $("#field_WizardRePassword").valid()
+                ) {
+
+
+                    if ($("#Form_SignupWizardForm").valid()) {
+                        var data = $("#Form_SignupWizardForm").serialize();
+                        $.ajax({
+                            type: "POST",
+                            url: "/account/SignupWizard",
+                            data: data,
+                            dataType: "json",
+                            success: function (data) {
+                                if (!$.isEmptyObject(data)) {
+                                    if (data.ResultType == "Success") {
+                                        $("#Modal_SignupWizardPopup2 .wizard_step6").addClass("hide");
+                                        $("#Modal_SignupWizardPopup2 .wizard_step7").removeClass("hide");
+                                    }
+                                }
+                            },
+                            failure: function (errMsg) {
+
+                            }
+                        });
+                    }
+
+                    //$("#Modal_SignupWizardPopup2 .wizard_step6").addClass("hide");
+                    //$("#Modal_SignupWizardPopup2 .wizard_step7").removeClass("hide");
+
+                }
+
+            });
+
+            $(".btn_PrefStep7").on("click", function () {
+
+                //$("#field_WizardCardMumber").valid();
+                //$("#field_WizardCardCVC").valid();
+                //$("#field_WizardCardMonth").valid();
+                //$("#field_WizardCardYear").valid();
+
+                //if ($("#Form_SubscriptionWizardForm").valid()) {
+                //    var data = $("#Form_SubscriptionWizardForm").serialize();
+                //    $.ajax({
+                //        type: "POST",
+                //        url: "/account/SubscriptionWizard",
+                //        data: data,
+                //        dataType: "json",
+                //        success: function (data) {
+                //            if (!$.isEmptyObject(data)) {
+                //                if (data.ResultType = "Success") {
+                //                    $("#Modal_SignupWizardPopup2 .wizard_step7").addClass("hide");
+                //                    $("#Modal_SignupWizardPopup2 .wizard_step8").removeClass("hide");
+                //                }
+                //            }
+                //        },
+                //        failure: function (errMsg) {
+
+                //        }
+                //    });
+                //}
+                stripe.createToken(card).then(function (result) {
+                    if (result.error) {
+                        // Inform the user if there was an error.
+                        var errorElement = document.getElementById('card-errors');
+                        errorElement.textContent = result.error.message;
+                    } else {
+                        // Send the token to your server.
+                        stripeTokenHandler(result.token);
+                    }
+                });
+            });
+
+            $(".btn_PrefStep8").on("click", function () {
+
+                if ($("#Form_InstagramPermissionWizardForm").valid()) {
+                    var data = $("#Form_InstagramPermissionWizardForm").serialize();
+
+                    $("#Modal_SignupWizardPopup2 .wizard_step8").addClass("hide");
+                    $("#Modal_SignupWizardPopup2 .wizard_step9").removeClass("hide");
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/account/InstagramPermissionWizard",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (!$.isEmptyObject(data)) {
+                                if (data.ResultType = "Success") {
+                                    if (data.data.JVStaus == "Valid") {
+
+                                        $("p#jvMessage").text("Success! your instagram account successfully configured.");
+                                        $("#Modal_SignupWizardPopup2 .wizard_step9").addClass("hide");
+                                        $("#Modal_SignupWizardPopup2 .wizard_step12").removeClass("hide");
+
+                                    } else if (data.data.JVStaus == "EmailConfirmationRequired") {
+
+                                        $("#Modal_SignupWizardPopup2 .wizard_step9").addClass("hide");
+                                        $("#Modal_SignupWizardPopup2 .wizard_step11").removeClass("hide");
+                                        $(".txt_JVSessionId").val(data.data.JVRPCSessionId)
+
+                                    } else if (data.data.JVStaus == "TwoFaRequired") {
+
+                                        $("#Modal_SignupWizardPopup2 .wizard_step9").addClass("hide");
+                                        $("#Modal_SignupWizardPopup2 .wizard_step10").removeClass("hide");
+                                        $(".txt_JVSessionId").val(data.data.JVRPCSessionId)
+
+                                    } else if (data.data.JVStaus == "ValidationPending") {
+
+                                        $("p#jvMessage").text("Error! your instagram account validation pending please try later.");
+                                        $("#Modal_SignupWizardPopup2 .wizard_step9").addClass("hide");
+                                        $("#Modal_SignupWizardPopup2 .wizard_step12").removeClass("hide");
+
+                                    } else if (data.data.JVStaus == "InvalidCredentials") {
+                                        $("#Modal_SignupWizardPopup2 .wizard_step9").addClass("hide");
+                                        $("#Modal_SignupWizardPopup2 .wizard_step13").removeClass("hide");
+                                    }
+
+                                }
+                            }
+                        },
+                        failure: function (errMsg) {
+
+                        }
+                    });
+                }
+            });
+
+            $(".btn_PrefStep12").on("click", function () {
+                $("#Modal_SignupWizardPopup2").modal("hide");
+            });
+
+            $(".btn_PrefStep10").on("click", function () {
+                console.log("btn_PrefStep10 pressed");
+                $.ajax({
+                    type: "POST",
+                    url: "/account/ValidateOnInstagram",
+                    data: { code: $("#txt_2FACode").val(), callType: "TwoFaRequired", sessionId:$(".txt_JVSessionId").val()},
+                    dataType: "json",
+                    success: function (data) {
+                        if (!$.isEmptyObject(data)) {
+                            var message = data.message;
+                            ;
+                            if (data.ResultType == "Success") {
+                                $("p#jvMessage").text(message);
+                                $("#Modal_SignupWizardPopup2 .wizard_step9").addClass("hide");
+                                $("#Modal_SignupWizardPopup2 .wizard_step10").addClass("hide");
+                                $("#Modal_SignupWizardPopup2 .wizard_step12").removeClass("hide");
+                            } else if (data.ResultType == "Error") {
+                                if (data.data.JVStaus == "InvalidVerificationCode") {
+
+                                } else if (data.data.JVStaus == "EmailConfirmationRequired") {
+                                    $("#Modal_SignupWizardPopup2 .wizard_step9").addClass("hide");
+                                    $("#Modal_SignupWizardPopup2 .wizard_step11").removeClass("hide");
+                                    $(".txt_JVSessionId").val(data.data.JVRPCSessionId)
+                                } else if (data.data.JVStaus == "TwoFaRequired") {
+                                    $("#Modal_SignupWizardPopup2 .wizard_step9").addClass("hide");
+                                    $("#Modal_SignupWizardPopup2 .wizard_step11").removeClass("hide");
+                                    $(".txt_JVSessionId").val(data.data.JVRPCSessionId)
+                                }
+                            }
+                        }
+                    },
+                    failure: function (errMsg) {
+
+                    }
+                });
+            });
+
+            $(".btn_PrefStep11").on("click", function () {
+                console.log("btn_PrefStep11 pressed");
+                $.ajax({
+                    type: "POST",
+                    url: "/account/ValidateOnInstagram",
+                    data: { code: $("#txt_EmailConfirmationCode").val(), callType: "EmailConfirmationRequired", sessionId:$(".txt_JVSessionId").val() },
+                    dataType: "json",
+                    success: function (data) {
+                        if (!$.isEmptyObject(data)) {
+                            ;
+                            var message = data.message;
+                            if (data.ResultType == "Success") {
+                                $("p#jvMessage").text(message);
+                                $("#Modal_SignupWizardPopup2 .wizard_step9").addClass("hide");
+                                $("#Modal_SignupWizardPopup2 .wizard_step12").removeClass("hide");
+                            } else if (data.ResultType == "Error") {
+                                if (data.data.JVStaus == "InvalidVerificationCode") {
+                                    $(".invalid_emailCode").removeClass("hide");
+                                } else if (data.data.JVStaus == "TwoFaRequired") {
+                                    $("#Modal_SignupWizardPopup2 .wizard_step9").addClass("hide");
+                                    $("#Modal_SignupWizardPopup2 .wizard_step11").addClass("hide");
+                                    $("#Modal_SignupWizardPopup2 .wizard_step10").removeClass("hide");
+                                    $(".txt_JVSessionId").val(data.data.JVRPCSessionId)
+                                }
+                            }
+                        }
+                    },
+                    failure: function (errMsg) {
+
+                    }
+                });
+            });
+
+            $(".btn_PrefStep13").on("click", function () {
+                console.log("btn_PrefStep13 pressed");
+                $.ajax({
+                    type: "POST",
+                    url: "/account/ValidateOnInstagram",
+                    data: {
+                        code: "",
+                        callType: "InvalidCredentails",
+                        sessionId: $(".txt_JVSessionId").val(),
+                        username: $("#field_VerWizardInstaUser").val(),
+                        password: $("#field_VerWizardPassword").val()
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        if (!$.isEmptyObject(data)) {
+                            var message = data.message;
+                            if (data.ResultType == "Success") {
+                                $("p#jvMessage").text(message);
+                                $("#Modal_SignupWizardPopup2 .wizard_step13").addClass("hide");
+                                $("#Modal_SignupWizardPopup2 .wizard_step12").removeClass("hide");
+                            } else if (data.ResultType == "Error") {
+                                if (data.data.JVStaus == "EmailConfirmationRequired") {
+                                    $("#Modal_SignupWizardPopup2 .wizard_step13").addClass("hide");
+                                    $("#Modal_SignupWizardPopup2 .wizard_step11").removeClass("hide");
+                                    $(".txt_JVSessionId").val(data.data.JVRPCSessionId)
+                                } else if (data.data.JVStaus == "TwoFaRequired") {
+                                    $("#Modal_SignupWizardPopup2 .wizard_step13").addClass("hide");
+                                    $("#Modal_SignupWizardPopup2 .wizard_step10").removeClass("hide");
+                                    $(".txt_JVSessionId").val(data.data.JVRPCSessionId)
+                                }
+                            }
+                        }
+                    },
+                    failure: function (errMsg) {
+
+                    }
+                });
+            });
+
+            $(".btn_PrevStep").on("click", function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                var curStep = $(this).attr("cur-step");
+                var prevStep = $(this).attr("prev-step");
+
+                $("#Modal_SignupWizardPopup2 ." + curStep).addClass("hide");
+                $("#Modal_SignupWizardPopup2 ." + prevStep).removeClass("hide");
+            });
+
+        });
+
+        // Create a Stripe client.
+        var stripe = Stripe('@Model.StripeApikey');
+
+        // Create an instance of Elements.
+        var elements = stripe.elements();
+
+        // Custom styling can be passed to options when creating an Element.
+        // (Note that this demo uses a wider set of styles than the guide below.)
+        var style = {
+            base: {
+                color: '#32325d',
+                fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                fontSmoothing: 'antialiased',
+                fontSize: '16px',
+                '::placeholder': {
+                    color: '#aab7c4'
+                }
+            },
+            invalid: {
+                color: '#fa755a',
+                iconColor: '#fa755a'
+            }
+        };
+
+        // Create an instance of the card Element.
+        var card = elements.create('card', { style: style });
+
+        // Add an instance of the card Element into the `card-element` <div>.
+        card.mount('#card-element');
+
+        // Handle real-time validation errors from the card Element.
+        card.addEventListener('change', function (event) {
+            var displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+
+        // Handle form submission.
+        var form = document.getElementById('Form_SubscriptionWizardForm');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            stripe.createToken(card).then(function (result) {
+                if (result.error) {
+                    // Inform the user if there was an error.
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                } else {
+                    // Send the token to your server.
+                    stripeTokenHandler(result.token);
+                }
+            });
+        });
+
+        // Submit the form with the token ID.
+        function stripeTokenHandler(token) {
+            // Insert the token ID into the form so it gets submitted to the server
+            var form = document.getElementById('Form_SubscriptionWizardForm');
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripeToken');
+            hiddenInput.setAttribute('value', token.id);
+            form.appendChild(hiddenInput);
+
+            if ($("#Form_SubscriptionWizardForm").valid()) {
+                var data = $("#Form_SubscriptionWizardForm").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/account/SubscriptionWizard",
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        if (!$.isEmptyObject(data)) {
+                            if (data.ResultType == "Success") {
+                                 $("#Modal_SignupWizardPopup2 .wizard_step7").addClass("hide");
+                                 $("#Modal_SignupWizardPopup2 .wizard_step8").removeClass("hide");
+                            } else {
+
+                            }
+                        }
+                    },
+                    failure: function (errMsg) {
+
+                    }
+                });
+            }
+
+            // Submit the form
+            //form.submit();
+        }
+
+
+    </script>
+}
+
+<link href="~/Content/ThemeAssets/css/bootstrap-tagsinput.css" rel="stylesheet" />
+<style type="text/css">
+
+
+    /**
+    * The CSS shown here will not be introduced in the Quickstart guide, but shows
+    * how you can use CSS to style your Element's container.
+    */
+    .StripeElement {
+        box-sizing: border-box;
+        height: 40px;
+        padding: 10px 12px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        background-color: white;
+        box-shadow: 0 1px 3px 0 #e6ebf1;
+        -webkit-transition: box-shadow 150ms ease;
+        transition: box-shadow 150ms ease;
+    }
+
+    .StripeElement--focus {
+        box-shadow: 0 1px 3px 0 #cfd7df;
+    }
+
+    .StripeElement--invalid {
+        border-color: #fa755a;
+    }
+
+    .StripeElement--webkit-autofill {
+        background-color: #fefde5 !important;
+    }
+
+    #Modal_SignupWizardPopup2 .modal-body {
+        padding: 5% 10%
+    }
+
+    #Modal_SignupWizardPopup2 .field-validation-error {
+        color: indianred;
+        position: relative;
+        top: 5px;
+        left: 5px;
+    }
+
+    #Modal_SignupWizardPopup2 .wizardImg {
+        text-align: center
+    }
+
+        #Modal_SignupWizardPopup2 .wizardImg img.width25Per {
+            width: 25%
+        }
+
+        #Modal_SignupWizardPopup2 .wizardImg img.width15Per {
+            width: 15%
+        }
+
+        #Modal_SignupWizardPopup2 .wizardImg img.width35Per {
+            width: 35%
+        }
+
+        #Modal_SignupWizardPopup2 .wizardImg h1 {
+            font-size: 85pt;
+            color: indianred;
+            font-weight: 600;
+        }
+
+    #Modal_SignupWizardPopup2 .wizardTitle {
+        text-align: center;
+    }
+
+        #Modal_SignupWizardPopup2 .wizardTitle h1 {
+            color: #4e50ce;
+            font-size: 30pt;
+            font-weight: 300
+        }
+
+    #Modal_SignupWizardPopup2 .wizardContents {
+    }
+
+        #Modal_SignupWizardPopup2 .wizardContents p {
+            color: #6b6b6b;
+            font-size: 16pt;
+            margin: 18px 0;
+            line-height: 28px;
+        }
+
+            #Modal_SignupWizardPopup2 .wizardContents p.offer {
+                color: indianred;
+                font-weight: 500;
+            }
+
+            #Modal_SignupWizardPopup2 .wizardContents p.price {
+                margin: 30px 0;
+                font-size: 36pt;
+                color: #4e50ce;
+                font-weight: 600;
+            }
+
+                #Modal_SignupWizardPopup2 .wizardContents p.price sup {
+                    font-size: 20pt;
+                    font-weight: 400;
+                }
+
+            #Modal_SignupWizardPopup2 .wizardContents p a {
+                text-decoration: underline
+            }
+
+    #Modal_SignupWizardPopup2 .wizardActions {
+        text-align: center;
+    }
+
+        #Modal_SignupWizardPopup2 .wizardActions button {
+            padding: 5px 40px;
+            background-color: #4e50ce;
+            font-size: 20pt;
+            font-weight: 300;
+        }
+
+        #Modal_SignupWizardPopup2 .wizardActions a {
+            position: relative;
+            left: -32%;
+            text-decoration: underline;
+            color: #6b6b6b;
+        }
+
+        #Modal_SignupWizardPopup2 .wizardActions button:hover {
+            background-color: #587ae8;
+        }
+
+    #Modal_SignupWizardPopup2 .wizardFooter {
+        text-align: center;
+    }
+
+        #Modal_SignupWizardPopup2 .wizardFooter p {
+            color: #c4c4c4;
+            font-size: 14pt;
+            margin: 18px 0;
+        }
+
+    #Modal_SignupWizardPopup2 input[type=text],
+    #Modal_SignupWizardPopup2 input[type=password],
+    #Modal_SignupWizardPopup2 input[type=email],
+    #Modal_SignupWizardPopup2 textarea {
+        margin: 15px 0;
+    }
+
+    .wizard_step7 .paymentCard {
+        padding: 20px 30px;
+        margin: 0 10px;
+        border: 1px solid #aaa;
+        border-radius: 5px;
+        box-shadow: 0px 0px 6px;
+        background-color: white
+    }
+
+        .wizard_step7 .paymentCard h3 {
+            font-weight: 400;
+        }
+
+        .wizard_step7 .paymentCard img {
+            width: 8%;
+            position: relative;
+            top: -6px;
+        }
+
+        .wizard_step7 .paymentCard label {
+            margin: 8px 0px;
+        }
+
+
+
+    .bootstrap-tagsinput {
+        width: 100%;
+        padding: 0px 6px;
+        height: 47px;
+    }
+
+        .bootstrap-tagsinput span {
+            display: inline;
+            padding: 5px;
+            font-size: 1.6rem;
+            background-color: #6ab8ee;
+        }
+
+        .bootstrap-tagsinput .tag {
+            top: 0px;
+            position: relative;
+            font-weight: 400;
+        }
+
+    #Modal_SignupWizardPopup2 .bootstrap-tagsinput input[type=text] {
+        display: inline;
+        margin: 3px 0;
+        height: 40px;
+    }
+</style>*@

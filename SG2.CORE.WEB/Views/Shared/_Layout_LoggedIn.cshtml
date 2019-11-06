@@ -11,25 +11,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Social Growth</title>
-
-    @*@Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")*@
-
-    <link href="~/Content/ThemeAssets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="~/Content/ThemeAssets/css/owl.carousel.css" rel="stylesheet" type="text/css">
-    <link href="~/Content/ThemeAssets/css/owl.theme.default.css" rel="stylesheet" type="text/css">
-    <link href="~/Content/ThemeAssets/css/fontawesome-all.css" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="~/Content/ThemeAssets/css/Home.css" rel="stylesheet" />
-    @Styles.Render("~/Content/intercom.css")
     <link href="~/Content/ThemeAssets/css/style.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="~/Content/ThemeAssets/css/responsive.css">
-    <link rel="stylesheet" href="~/Content/ThemeAssets/css/hover.css">
-
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-    @*<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />*@
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
+    <link href="~/Content/ThemeAssets/css/fontawesome-all.css" rel="stylesheet" type="text/css">
     @RenderSection("styles", required: false)
 
     <style>
@@ -47,89 +34,59 @@
 
     <header class="header">
         <div class="container">
-            <div class="row">
 
-                @if (ViewBag.IsAuthentication != null)
-                {
-                    <div class="col-xs-12 col-md-2" id="">
-                        <div class="logo">
-                            <a href="/Profile/Target?socialProfileId=@custDto.DefaultSocialProfileId">
-                                <img src="~/Content/ThemeAssets/images/social-growth.png" alt="">
+            <nav class="navbar navbar-expand-md navbar-light">
+                <a href="/Profile/Target?socialProfileId=@custDto.DefaultSocialProfileId" class="navbar-brand">
+                    <img src="~/Content/ThemeAssets/images/social-growth.png" height="28" alt="Social Growth">
+                </a>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    @*<div class="navbar-nav">
+                        <a href="#" class="nav-item nav-link active">Home</a>
+                        <a href="#" class="nav-item nav-link">Profile</a>
+                        <a href="#" class="nav-item nav-link">Messages</a>
+                        <a href="#" class="nav-item nav-link disabled" tabindex="-1">Reports</a>
+                    </div>*@
+                    <div class="navbar-nav ml-auto">
+                        @if (ViewBag.IsAuthentication == null)
+                        {
+                            <a href="#" class="nav-item nav-link">Login</a>
+                        }
+                        else
+                        {
+                            <a href="/Account/Logout" class="btn_logout">
+                                <i class="fa fa-sign-out" aria-hidden="true"></i> Logout
                             </a>
-                            <div class="logOutOnMobile col-xs text-right">
-                                <a href="/Account/Logout" class="btn_logout">
-                                    <i class="fa fa-sign-out" aria-hidden="true"></i> Logout
-                                </a>
-                            </div>
-                        </div>
+                        }
                     </div>
-                }
-                else
-                {
-                    <div class="col-xs-12 col-md-2" id="">
-                        <div class="logo">
-                            <a href="/">
-                                <img src="~/Content/ThemeAssets/images/social-growth.png" alt="">
-                            </a>
-                            <div class="mobile-menu" id="i-mobilemenu" onclick="mymg()">
-                                <img src="/Content/ThemeAssets/Images/mobile-icon.png" alt="">
-                            </div>
-                        </div>
-                    </div>
-                }
-                <div class="col-xs-12 col-md-10 menu">
-                    <div class="right-sec">
-                        <ul class="nav navbar-nav">
-                            @if (ViewBag.IsAuthentication == null)
-                            {
-                                <li>
-                                    <a href="/home" class="active"><span class="sr-only">(current)</span>Home</a>
-                                </li>
-
-                                <li>
-                                    <a href="#" class="lnk_ShowLoginModal">Login</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="lnk_ShowSignupModal">Sign up</a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li>
-                                    <div class="logOutOnDesktop">
-                                        <a href="/Account/Logout" class="btn_logout">
-                                            <i class="fa fa-sign-out" aria-hidden="true"></i> Logout
-                                        </a>
-                                    </div>
-                                </li>
-                                @*<li>
-                                        <a href="/Profile/Target?socialProfileId=@custDto.DefaultSocialProfileId">
-                                            Profile
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/user/userprofile">
-                                            @custDto.FirstName  @(custDto.SurName == null ? string.Empty : @custDto.SurName.Substring(0, 1))  &nbsp; <i class="fa fa-user" aria-hidden="true"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/Account/Logout" class="btn_logout">
-                                            <i class="fa fa-power-off"></i>
-                                        </a>
-                                    </li>*@
-                            }
-
-                        </ul>
-
-                        @*<a href="/" class="transiton">OC</a>*@
-                    </div>
-                    <div style="clear:both"></div>
                 </div>
-            </div>
+            </nav>
+
+            
         </div>
     </header>
 
     @RenderBody()
+
+   
+    <footer class="footer">
+        <div class="row">
+            <div class="col text-center">
+                @RenderSection("footer", required: false)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <img src="~/Content/ThemeAssets/images/social-growth.png" height="28" alt="Social Growth">
+                </div>
+            </div>
+
+</footer>
+       
+   
 
     @Html.Partial("~/Views/Shared/Partial/_PartialLoginPopup.cshtml")
 
@@ -139,17 +96,23 @@
 
     @Html.Partial("~/Views/Shared/Partial/_PartialMessagePopup.cshtml")
 
-    @*@Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")*@
-    <script src="~/Content/ThemeAssets/js/jquery.min.js"></script>
-    <script src="~/Content/ThemeAssets/js/bootstrap.min.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/Content/ThemeAssets/js/owl.carousel.min.js"></script>
-    <script src="~/Content/ThemeAssets/js/functions.js"></script>
+    @*@Scripts.Render("~/bundles/jquery")*@
+
+    @*<script src="~/Content/ThemeAssets/js/jquery.min.js"></script>
+        <script src="~/Content/ThemeAssets/js/bootstrap.min.js"></script>*@
+    @*<script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
+
 
     @*<script src="https://unpkg.com/aos@next/dist/aos.js"></script>*@
 
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+    <script src="~/Content/ThemeAssets/js/owl.carousel.min.js"></script>
+    <script src="~/Content/ThemeAssets/js/functions.js"></script>
     <script type="text/javascript">
         var glb_intercomKey = '@_intercomPublishKey';
     </script>
@@ -404,9 +367,6 @@
 
     </script>
 
-    <script>
-
-    </script>
 
 </body>
 </html>

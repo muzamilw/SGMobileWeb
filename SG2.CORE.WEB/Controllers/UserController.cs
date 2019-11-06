@@ -17,7 +17,7 @@ using static SG2.CORE.COMMON.GlobalEnums;
 
 namespace SG2.CORE.WEB.Controllers
 {
-    [AuthorizeCustomer]
+    //[AuthorizeCustomer]
     public class UserController : BaseController
     {
         protected readonly CustomerManager _customerManager;

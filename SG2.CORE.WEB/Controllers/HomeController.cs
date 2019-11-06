@@ -43,10 +43,10 @@ namespace SG2.CORE.WEB.Controllers
 
             //var connectionString = ConfigurationManager.AppSettings["RabbitMQ:ConnectionString"];
             //var hostNames = ConfigurationManager.AppSettings["RabbitMQ:HostNames"].Split(',');
-            var ExchangeName = "SG2Bot_Rpc"; //ConfigurationManager.AppSettings["RabbitMQ:Exchange"];
+            //ConfigurationManager.AppSettings["RabbitMQ:Exchange"];
 
             string rpcSessionId = Guid.NewGuid().ToString();
-            return View("~/views/home/HowWeWork2.cshtml");
+            return View("Index");
         }
 
         public ActionResult HowWeWork()
