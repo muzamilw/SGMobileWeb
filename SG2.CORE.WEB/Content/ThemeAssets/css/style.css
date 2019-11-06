@@ -276,7 +276,7 @@ textarea {
         background-color: #e6f5fa;
     }
 
-.btn {
+/*.btn {
     background-color: #587ae8;
     color: #fff;
     font-size: 16pt;
@@ -285,7 +285,7 @@ textarea {
     border-radius: 5px;
     border: 0px;
     font-weight: 500;
-}
+}*/
 
     .btn:hover {
         color: #fff;
@@ -368,14 +368,14 @@ iframe {
 
 
 /* css custom **************************************************/
-.container {
+/*.container {
     max-width: 100%;
     width: 100%;
     margin: 0 auto;
     padding-left: 7%;
     padding-right: 7%;
     position: relative;
-}
+}*/
 
 .mainIntro3 #2coldiv {
     max-height: 350px;
@@ -389,6 +389,15 @@ iframe {
     height: 102px;
 }
 
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /*height: 60px;*/ /* Set the fixed height of the footer here */
+    line-height: 30px; /* Vertically center the text there */
+    
+}
+
 .contaier_pd_bottom {
     padding-bottom: 40px;
 }
@@ -397,11 +406,11 @@ iframe {
     padding-bottom: 50px;
 }
 
-.header .container {
+/*.header .container {
     top: 25px;
     padding-left: 3%;
     padding-right: 3%;
-}
+}*/
 
 .header .logo span {
     color: #a9a9a9;
@@ -497,11 +506,7 @@ iframe {
 }
 
 .main h2 {
-    font-size: 4rem;
-    color: #3c3c3c;
-    margin-top: 10px;
-    font-family: arial sans-serif;
-    font-weight: 400;
+   
 }
 
 .form-wrap select {
@@ -576,9 +581,6 @@ iframe {
         font-weight: 500;
     }
 
-.footer {
-    padding: 60px 15px;
-}
 
 .pagination-wrap {
     float: right;
