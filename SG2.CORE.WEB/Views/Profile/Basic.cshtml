@@ -177,7 +177,7 @@
                     <div class="row" id="section1MG">
                         <div class="col-xs-12">
                             @Html.ValidationSummary()
-                            @using (Html.BeginForm("ModifyTargetPreferences", "TargetPreferences", FormMethod.Post, new { @class = "", @id = "Form_TargetPreferences" }))
+                            @using (Html.BeginForm("Target", "TargetPreferences", FormMethod.Post, new { @class = "", @id = "Form_TargetPreferences" }))
                             {
                                 @*<div class="form-group">
                                         @Html.LabelFor(m => m.ProfileName, new { @class = "" })
@@ -358,7 +358,7 @@
                     <div class="row" id="section2MG">
                         <div class="col-xs-12">
                             @Html.ValidationSummary()
-                            @using (Html.BeginForm("ModifyTargetPreferences", "UpdatePlan", FormMethod.Post, new { @class = "", @id = "Form_UpdatePlan" }))
+                            @using (Html.BeginForm("Target", "UpdatePlan", FormMethod.Post, new { @class = "", @id = "Form_UpdatePlan" }))
                             {
                                 <h1 class="color-crimson weight500" style="color:#587ae8;">
                                     <span class="CircleWithinLinkTag">
@@ -465,7 +465,7 @@
                                 </div>
                             }
 
-                            @using (Html.BeginForm("ModifyTargetPreferences", "UpdateSocialProfile", FormMethod.Post, new { @class = "", @id = "Form_SocialProfile" }))
+                            @using (Html.BeginForm("Target", "UpdateSocialProfile", FormMethod.Post, new { @class = "", @id = "Form_SocialProfile" }))
                             {
                                 <input type="hidden" value="" name="SocialProfileId" id="From_SocialProfile_SocialProfileId" />
                                 <input type="hidden" value="" name="verificationCode" id="From_SocialProfile_VerificationCode" />

@@ -157,7 +157,7 @@ namespace SG2.CORE.WEB.Controllers
 
         }
 
-        public ActionResult ModifyTargetPreferences(int? socialProfileId = null)
+        public ActionResult Target(int? socialProfileId = null)
         {
             //if (!string.IsNullOrEmpty((string)TempData["Success"]))
             //{
@@ -292,7 +292,7 @@ namespace SG2.CORE.WEB.Controllers
 
         //            TempData["Success"] = "Yes";
         //            TempData["Message"] = "Prefrences updated successfully.";
-        //            return RedirectToAction("ModifyTargetPreferences", "TargetPreferences");
+        //            return RedirectToAction("Target", "TargetPreferences");
         //        }
         //        else
         //        {
