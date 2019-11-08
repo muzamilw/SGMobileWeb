@@ -1,6 +1,8 @@
 ﻿@using SG2.CORE.MODAL.DTO.Customers;
 @{
-    var custDto = (CustomerDTO)ViewBag.CustomerDTO;
+                /**/
+
+                var custDto = (CustomerDTO)ViewBag.CustomerDTO;
 }
 @{
     var _intercomPublishKey = SG2.CORE.WEB.Architecture.SystemConfig.GetConfigs.First(x => x.ConfigKey == "Intercom").ConfigValue;
@@ -45,11 +47,11 @@
 
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     @*<div class="navbar-nav">
-                        <a href="#" class="nav-item nav-link active">Home</a>
-                        <a href="#" class="nav-item nav-link">Profile</a>
-                        <a href="#" class="nav-item nav-link">Messages</a>
-                        <a href="#" class="nav-item nav-link disabled" tabindex="-1">Reports</a>
-                    </div>*@
+                            <a href="#" class="nav-item nav-link active">Home</a>
+                            <a href="#" class="nav-item nav-link">Profile</a>
+                            <a href="#" class="nav-item nav-link">Messages</a>
+                            <a href="#" class="nav-item nav-link disabled" tabindex="-1">Reports</a>
+                        </div>*@
                     <div class="navbar-nav ml-auto">
                         @if (ViewBag.IsAuthentication == null)
                         {
@@ -65,13 +67,13 @@
                 </div>
             </nav>
 
-            
+
         </div>
     </header>
 
     @RenderBody()
 
-   
+
     <footer class="footer">
         <div class="row">
             <div class="col text-center">
@@ -81,12 +83,12 @@
         <div class="row">
             <div class="col text-center">
                 <img src="~/Content/ThemeAssets/images/social-growth.png" height="28" alt="Social Growth">
-                </div>
             </div>
+        </div>
 
-</footer>
-       
-   
+    </footer>
+
+
 
     @Html.Partial("~/Views/Shared/Partial/_PartialLoginPopup.cshtml")
 
@@ -100,17 +102,17 @@
 
     @*<script src="~/Content/ThemeAssets/js/jquery.min.js"></script>
         <script src="~/Content/ThemeAssets/js/bootstrap.min.js"></script>*@
-    @*<script src="~/Scripts/jquery.validate.min.js"></script>
-        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
+
 
 
     @*<script src="https://unpkg.com/aos@next/dist/aos.js"></script>*@
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Content/ThemeAssets/js/owl.carousel.min.js"></script>
     <script src="~/Content/ThemeAssets/js/functions.js"></script>
     <script type="text/javascript">
