@@ -1,7 +1,8 @@
 ﻿@using SG2.CORE.MODAL.DTO.Customers
+@model SG2.CORE.MODAL.DTO.Customers.SocialProfileDTO
 @{
 
-    ViewBag.Title = "Dashboard";
+    ViewBag.Title = "Insights & Statistics";
     Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
 
@@ -11,11 +12,29 @@
 
 }
 
-
-
 <div class="app-content container center-layout mt-2">
     <div class="content-wrapper">
         <div class="content-header row">
+            <div class="content-header-left col-md-6 col-12 mb-2">
+
+                <div class="media">
+                    <a class="media-left align-self-center" href="#">
+                        <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" alt="Generic placeholder image" style="width: 64px;height: 64px;" />
+                    </a>
+                    <div class="media-body mt-2">
+                        <h3 class="media-heading">@Model.SocialProfile.SocialUsername</h3>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="content-header-right col-md-6 col-12">
+                <div class="media width-250 float-right">
+                    <div class="media-body media-right text-right">
+                        <h3 class="m-0">Active</h3>
+                    </div>
+                </div>
+            </div>
         </div>
         <section class="content-body">
             <!-- Analytics spakline & chartjs  -->

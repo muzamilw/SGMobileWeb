@@ -41,6 +41,7 @@
     <!-- END: Page CSS-->
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
+    @RenderSection("styles", required: false)
     <!-- END: Custom CSS-->
 </head>
 <!-- END: Head-->
@@ -95,27 +96,27 @@
 
                 </li>
                 <li class="dropdown nav-item" data-menu="dropdown">
-                    <a class="dropdown-toggle nav-link" href="~/Profile/stats?socialProfileId=@custDto.DefaultSocialProfileId" data-toggle="dropdown"><i class="ft-monitor"></i><span>Stats</span></a>
+                    <a class="nav-link" href="~/Profile/stats?socialProfileId=@custDto.DefaultSocialProfileId"><i class="ft-monitor"></i><span>Stats</span></a>
 
                 </li>
                 <li class="dropdown nav-item" data-menu="dropdown">
-                    <a class="dropdown-toggle nav-link" href="~/Profile/Basic?socialProfileId=@custDto.DefaultSocialProfileId" data-toggle="dropdown"><i class="ft-layout"></i><span>Contact Details</span></a>
+                    <a class="nav-link" href="~/Profile/Basic?socialProfileId=@custDto.DefaultSocialProfileId"><i class="ft-layout"></i><span>Contact Details</span></a>
 
                 </li>
                 <li class="dropdown nav-item" data-menu="dropdown">
-                    <a class="dropdown-toggle nav-link" href="~/Profile/target?socialProfileId=@custDto.DefaultSocialProfileId" data-toggle="dropdown"><i class="ft-zap"></i><span>Match Filters</span></a>
+                    <a class="nav-link" href="~/Profile/target?socialProfileId=@custDto.DefaultSocialProfileId"><i class="ft-zap"></i><span>Match Filters</span></a>
 
                 </li>
                 <li class="dropdown mega-dropdown nav-item" data-menu="megamenu">
-                    <a class="dropdown-toggle nav-link" href="~/Profile/lists?socialProfileId=@custDto.DefaultSocialProfileId" data-toggle="dropdown"><i class="ft-box"></i><span>White & Black Lists</span></a>
+                    <a class="nav-link" href="~/Profile/lists?socialProfileId=@custDto.DefaultSocialProfileId"><i class="ft-box"></i><span>White & Black Lists</span></a>
 
                 </li>
                 <li class="dropdown nav-item" data-menu="dropdown">
-                    <a class="dropdown-toggle nav-link" href="~/Profile/followings?socialProfileId=@custDto.DefaultSocialProfileId" data-toggle="dropdown"><i class="ft-droplet"></i><span>New Followings</span></a>
+                    <a class="nav-link" href="~/Profile/followings?socialProfileId=@custDto.DefaultSocialProfileId"><i class="ft-droplet"></i><span>New Followings</span></a>
 
                 </li>
                 <li class="dropdown nav-item" data-menu="dropdown">
-                    <a class="dropdown-toggle nav-link" href="~/Profile/history?socialProfileId=@custDto.DefaultSocialProfileId" data-toggle="dropdown"><i class="ft-briefcase"></i><span>Order History</span></a>
+                    <a class="nav-link" href="~/Profile/history?socialProfileId=@custDto.DefaultSocialProfileId"><i class="ft-briefcase"></i><span>Order History</span></a>
 
                 </li>
 
@@ -152,6 +153,7 @@
     <script src="~/Content/app-assets/vendors/js/extensions/unslider-min.js"></script>
     <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/core/colors/palette-climacon.css">
     <link rel="stylesheet" type="text/css" href="~/Content/app-assets/fonts/simple-line-icons/style.min.css">
+
     <!-- END: Page Vendor JS-->
     <!-- BEGIN: Theme JS-->
     <script src="~/Content/app-assets/js/core/app-menu.js"></script>
