@@ -2,513 +2,422 @@
 @{
 
     ViewBag.Title = "Dashboard";
-    Layout = "~/Views/Shared/_Layout_LoggedIn.cshtml";
+    Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
 
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
     var socailProfiles = (List<CustomerSocialProfileDTO>)ViewBag.SocailProfiles;
 
-    
+
 }
 
 
 
-
-            <div class="main">
-                <div class="container">
-                    <div class="row" id="SocialProfileBtn">
-
-                        <div class="col-md-6 col-sm-6 col-xs-2">
-                            <div class="sec-filename">
-                                <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="40" />
-                                <span class="displayBlock" id="ProfileName-textBlock">
-                                    <b class="displayText">@socailProfiles.FirstOrDefault().ProfileName</b>
-                                    @*<a href="#" text-block="ProfileName-textBlock" edit-Block="ProfileName-editBlock" class="editProfileButton"><i class="fa fa-pencil"></i></a>*@
-                                </span>
-                                <span class="editBlock" id="ProfileName-editBlock" style="display:none">
-                                    <input type="text" value="@Model.ProfileName" id="input_ProfileName" class="SPName" name="firstName" />
-                                    <a href="#" text-block="ProfileName-textBlock" edit-Block="ProfileName-editBlock" control-id="input_ProfileName" class="btn_saveProfileName"><i class="fa fa-save"></i></a> &nbsp; &nbsp;
-                                    <a href="#" text-block="ProfileName-textBlock" edit-Block="ProfileName-editBlock" class="cancelProfileEditIcon"><i class="fa fa-times"></i></a>
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 col-sm-6 col-xs-9 text-right">
-                            <div class="sec-profileStatus">
-                                @*<h1 class="text-primary">@(Model.ActivePlanName ?? "Free Plan")</h1>*@
-                                <p class="color-crimson"><span class="span_jvStatusName">@(Model.JVStatus ?? "Not Activated")</span></p>
-                            </div>
-                        </div>
-
-
-                        <div class="col-md-12 col-sm-12 col-xs-12 text-right">
-                            <div class="sec-profileStatus">
-                                <ul>
-                                    <li>
-                                        <a href="/user/userprofile" class="personSetting" style="color:#666;">
-                                            @custDto.FirstName  @(custDto.SurName == null ? string.Empty : @custDto.SurName.Substring(0, 1))  &nbsp; <i class="fa fa-gear" aria-hidden="true"></i>
-                                        </a>
-                                    </li>
+<div class="app-content container center-layout mt-2">
+    <div class="content-wrapper">
+        <div class="content-header row">
+        </div>
+        <section class="content-body">
+            <!-- Analytics spakline & chartjs  -->
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="card">
+                        <div class="card-header border-0-bottom">
+                            <h4 class="card-title">Insights & Stats Overview</h4>
+                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <ul class="list-inline mb-0">
+                                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
                                 </ul>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-2">
-
-
-                            <a href="#GoToSection1" class="btn btn-primary btn-block">
-                                <b class="circle"><span>1</span></b>
-                                Stats
-                            </a>
-                        </div>
-
-                        <div class="col-2">
-                            <a href="#GoToSection2" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
-                                <b class="circle"><span>2</span></b>
-                                Contact Details
-                            </a>
-                        </div>
-
-                        <div class="col-2">
-                            <a href="#GoToSection3" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
-                                <b class="circle"><span>3</span></b>
-                                Match Filters
-                            </a>
-                        </div>
-
-                        <div class="col-2">
-                            <a href="#GoToSection3" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
-                                <b class="circle"><span>3</span></b>
-                                White & Black Lists
-                            </a>
-                        </div>
-                        <div class="col-2">
-                            <a href="#GoToSection3" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
-                                <b class="circle"><span>3</span></b>
-                                New Followings
-                            </a>
-                        </div>
-                        <div class="col-2">
-                            <a href="#GoToSection3" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
-                                <b class="circle"><span>3</span></b>
-                                Order History
-                            </a>
-                        </div>
-
-                    </div>
-
-
-                </div>
-            </div>
-
-
-            <div class="information-form">
-                <div class="container">
-                    <div class="information-form-inner">
-                        <div class="row">
-
-                            <div class="col-xs-8">
-                                <div id="FollowerBarChart" style="width:850px; height:500px"></div>
-                            </div>
-                            <div class="col-xs-4">
-                                <div id="FollowerPiChart" style="width:400px; height:500px"></div>
-                            </div>
-
-                            <div class="col-xs-8">
-                                <div id="LikeBarChart" style="width:850px; height:500px"></div>
-                            </div>
-                            <div class="col-xs-4">
-                                <div id="LikePiChart" style="width:400px; height:500px"></div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="row my-1">
+                                    <div class="col-lg-4 col-12">
+                                        <div class="text-center">
+                                            <h3>23,454</h3>
+                                            <p class="text-muted">Posts <span class="success"><i class="ft-arrow-up"></i> 8.16%</span></p>
+                                            <div id="sp-tristate-bar-total-revenue"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <div class="text-center">
+                                            <h3>6,630</h3>
+                                            <p class="text-muted">Followers <span class="danger"><i class="ft-arrow-down"></i> 2.30%</span></p>
+                                            <div id="sp-stacked-bar-total-sales"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <div class="text-center">
+                                            <h3>86,578</h3>
+                                            <p class="text-muted">Followings <span class="warning"><i class="ft-arrow-up"></i> 4.27%</span></p>
+                                            <div id="sp-bar-total-cost"></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
+            <!--/ Analytics spakline & chartjs  -->
+            <!--stats-->
 
+            <div class="row">
+                <div class="col-xl-3 col-lg-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body text-left w-100">
+                                        <h3 class="primary">78%</h3>
+                                        <span>Follows</span>
+                                    </div>
+                                    <div class="media-right media-middle">
+                                        <i class="icon-user-follow primary font-large-2 float-right"></i>
+                                    </div>
+                                </div>
+                                <div class="progress progress-sm mt-1 mb-0">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body text-left w-100">
+                                        <h3 class="danger">423</h3>
+                                        <span>Likes</span>
+                                    </div>
+                                    <div class="media-right media-middle">
+                                        <i class="icon-social-dropbox danger font-large-2 float-right"></i>
+                                    </div>
+                                </div>
+                                <div class="progress progress-sm mt-1 mb-0">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 40%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body text-left w-100">
+                                        <h3 class="success">64.89 %</h3>
+                                        <span>UnFollow</span>
+                                    </div>
+                                    <div class="media-right media-middle">
+                                        <i class="icon-layers success font-large-2 float-right"></i>
+                                    </div>
+                                </div>
+                                <div class="progress progress-sm mt-1 mb-0">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body text-left w-100">
+                                        <h3 class="warning">02.12</h3>
+                                        <span>Story Views</span>
+                                    </div>
+                                    <div class="media-right media-middle">
+                                        <i class="icon-globe warning font-large-2 float-right"></i>
+                                    </div>
+                                </div>
+                                <div class="progress progress-sm mt-1 mb-0">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 35%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            <style type="text/css">
-                .btn-height47 {
-                    height: 47px;
-                    font-weight: 400;
-                }
+            <!--/stats-->
+            <!--Followers Line Chart-->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Followers</h4>
+                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <ul class="list-inline mb-0">
+                                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
 
-                .btn-height64 {
-                    height: 64px;
-                    font-weight: 400;
-                    font-size: 3rem;
-                }
+                                <div id="line-followers" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/Followers Line Chart-->
+            <!--Followings Line Chart-->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Followings</h4>
+                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <ul class="list-inline mb-0">
+                                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
 
-                .btn-white {
-                    background-color: white;
-                    color: darkgray;
-                }
+                                <div id="line-followings" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/Followings Line Chart-->
+            <!--Engagement Rate Line Chart-->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Engagement Rate</h4>
+                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <ul class="list-inline mb-0">
+                                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
 
-                    .btn-white:hover {
-                        background-color: white;
-                        color: darkgray;
-                    }
+                                <div id="line-engagement" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/Engagement Rate Line Chart-->
+            <!--Average Likes Line Chart-->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Average Likes</h4>
+                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <ul class="list-inline mb-0">
+                                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
 
-                .main .container hr {
-                    border-bottom: 2px solid #ccc
-                }
-            </style>
+                                <div id="line-likes" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/Average Like Line Chart-->
+            <!--Average Like Posting Line Chart-->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Average Like Posting Times</h4>
+                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <ul class="list-inline mb-0">
+                                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
 
-            @section Scripts{
+                                <div id="line-posting" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/Average Like Posting Line Chart-->
+            <!-- Bounce Rate & List -->
+            <div class="row match-height">
 
-                <script src="~/Scripts/ECharts/echarts.js"></script>
-                <script src="~/Scripts/ECharts/echarts-all.js"></script>
-                <script src="~/Scripts/ECharts/chart/bar.js"></script>
-                <script src="~/Scripts/ECharts/chart/line.js"></script>
-                <script src="~/Scripts/ECharts/chart/chord.js"></script>
-                <script src="~/Scripts/ECharts/chart/eventRiver.js"></script>
-                <script src="~/Scripts/ECharts/chart/force.js"></script>
-                <script src="~/Scripts/ECharts/chart/funnel.js"></script>
-                <script src="~/Scripts/ECharts/chart/gauge.js"></script>
-                <script src="~/Scripts/ECharts/chart/k.js"></script>
-                <script src="~/Scripts/ECharts/chart/map.js"></script>
-                <script src="~/Scripts/ECharts/chart/pie.js"></script>
-                <script src="~/Scripts/ECharts/chart/radar.js"></script>
-                <script src="~/Scripts/ECharts/chart/scatter.js"></script>
-                <script src="~/Scripts/ECharts/chart/tree.js"></script>
-                <script src="~/Scripts/ECharts/chart/treemap.js"></script>
-                <script src="~/Scripts/ECharts/chart/venn.js"></script>
-                <script src="~/Scripts/ECharts/chart/wordCloud.js"></script>
-                <script src="~/Scripts/ECharts/chart/echarts-all-english-v2.js"></script>
-                <script type="text/javascript">
+                <div class="col-xl-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-header border-0">
+                            <h4 class="card-title">Overview</h4>
+                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <ul class="list-inline mb-0">
+                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div id="audience-list-scroll" class="table-responsive height-300 position-relative">
+                                <table class="table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Country</th>
+                                            <th>Page views</th>
+                                            <th>Device</th>
+                                            <th>% Bounce rate</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><i class="flag-icon flag-icon-gb"></i> United State</td>
+                                            <td>18</td>
+                                            <td>Desktop</td>
+                                            <td class="text-center font-small-2">
+                                                85%
+                                                <div class="progress progress-sm mt-1 mb-0">
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 85%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="flag-icon flag-icon-au"></i> Australia</td>
+                                            <td>12</td>
+                                            <td>Mobile</td>
+                                            <td class="text-center font-small-2">
+                                                75%
+                                                <div class="progress progress-sm mt-1 mb-0">
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="flag-icon flag-icon-br"></i> Brazil</td>
+                                            <td>25</td>
+                                            <td>Tablet</td>
+                                            <td class="text-center font-small-2">
+                                                66%
+                                                <div class="progress progress-sm mt-1 mb-0">
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 66%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="flag-icon flag-icon-gb"></i> Great Britain (UK)</td>
+                                            <td>8</td>
+                                            <td>Mobile</td>
+                                            <td class="text-center font-small-2">
+                                                58%
+                                                <div class="progress progress-sm mt-1 mb-0">
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 85%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="flag-icon flag-icon-hk"></i> Hong Kong</td>
+                                            <td>18</td>
+                                            <td>Desktop</td>
+                                            <td class="text-center font-small-2">
+                                                45%
+                                                <div class="progress progress-sm mt-1 mb-0">
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 45%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="flag-icon flag-icon-in"></i> India</td>
+                                            <td>10</td>
+                                            <td>Desktop</td>
+                                            <td class="text-center font-small-2">
+                                                38%
+                                                <div class="progress progress-sm mt-1 mb-0">
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 38%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="flag-icon flag-icon-jp"></i> Japan</td>
+                                            <td>11</td>
+                                            <td>Moblie</td>
+                                            <td class="text-center font-small-2">
+                                                25%
+                                                <div class="progress progress-sm mt-1 mb-0">
+                                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="flag-icon flag-icon-mx"></i> Mexico</td>
+                                            <td>15</td>
+                                            <td>Tablet</td>
+                                            <td class="text-center font-small-2">
+                                                22%
+                                                <div class="progress progress-sm mt-1 mb-0">
+                                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 22%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="flag-icon flag-icon-ma"></i> Morocco</td>
+                                            <td>14</td>
+                                            <td>Moblie</td>
+                                            <td class="text-center font-small-2">
+                                                18%
+                                                <div class="progress progress-sm mt-1 mb-0">
+                                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 18%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ Bounce Rate & List -->
 
-                    $("document").ready(function () {
+        </section>
+    </div>
 
+</div>
 
-                        $.ajax({
-                            type: "GET",
-                            url: "/Profile/GetStats?socialProfileId=@ViewBag.SocialProfileId",
-                            dataType: "json",
-                            success: function (Response) {
-
-
-                                if (!$.isEmptyObject(Response)) {
-                                    if (Response.Data.ResultType == "Success") {
-
-
-                                        LoadFollowersBarChart(Response.Data.ResultData);
-                                        LoadFollowersPiChart(Response.Data.ResultData);
-                                        LoadLikeBarChart(Response.Data.ResultData);
-                                        LoadLikePiChart(Response.Data.ResultData);
-
-                                    } else {
-
-                                    }
-                                }
-                            },
-                            failure: function (errMsg) {
-                                alert("hello2");
-
-                            }
-                        });
-
-                    });
-
-                    function LoadFollowersBarChart(ChartsData) {
-
-                        var dom = document.getElementById("FollowerBarChart");
-                        var myChart = echarts.init(dom);
-                        var app = {};
-                        option = null;
-                        option = {
-                            title: {
-                                text: ''
-                            },
-                            tooltip: {
-                                trigger: 'axis',
-                                axisPointer: {
-                                    type: 'cross',
-                                    label: {
-                                        backgroundColor: '#6a7985'
-                                    }
-                                }
-                            },
-                            legend: {
-                                data: ['Followers', 'Followers Change', 'Followings', 'Followings Change Ratio']
-                            },
-                            toolbox: {
-                                show: true,
-                                feature: {
-
-
-                                    magicType: { show: true, type: ['line', 'bar'] },
-                                    restore: { show: true },
-                                    saveAsImage: { show: true }
-                                }
-                            },
-                            grid: {
-                                left: '3%',
-                                right: '4%',
-                                bottom: '3%',
-                                containLabel: true
-                            },
-                            xAxis: [
-                                {
-                                    type: 'category',
-                                    boundaryGap: false,
-                                    data: ChartsData.Date// ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-                                }
-                            ],
-                            yAxis: [
-                                {
-                                    type: 'value'
-                                }
-                            ]
-                            ,
-                            series: [
-                                {
-                                    name: 'Followers',
-                                    type: 'line',
-                                    stack: ChartsData.TotalFollowers,
-                                    areaStyle: {},
-                                    data: ChartsData.FollowersData
-                                },
-                                {
-                                    name: 'Followers Change',
-                                    type: 'line',
-                                    stack: ChartsData.TotalFollowersGain,
-                                    areaStyle: {},
-                                    data: ChartsData.FollowersGainData
-                                },
-                                //{
-                                //    name: 'Avg. Follower Change Per Day',
-                                //    type: 'line',
-                                //    stack: '8000',
-                                //    areaStyle: { normal: {} },
-                                //    data: ChartsData.AVGFollowersData.split(',')
-                                //},
-                                {
-                                    name: 'Followings',
-                                    type: 'line',
-                                    stack: ChartsData.TotalFollowings,
-                                    areaStyle: {},
-                                    data: ChartsData.FollowingsData
-                                },
-                                {
-                                    name: 'Followings Change Ratio',
-                                    type: 'line',
-                                    stack: ChartsData.TotalFollowingsRatio,
-                                    areaStyle: {},
-                                    data: ChartsData.FollowingsRatioData
-                                }
-                            ]
-                        };
-                        ;
-
-
-                        myChart.setOption(option);
-                        if (option && typeof option === "object") {
-                            myChart.setOption(option, true);
-                        }
-
-                    }
-
-                    function LoadFollowersPiChart(ChartsData) {
-
-
-                        var dom = document.getElementById("FollowerPiChart");
-                        var myChart = echarts.init(dom);
-                        var app = {};
-                        option = null;
-                        option = {
-                            title: {
-                                text: '',
-                                subtext: '',
-                                x: 'center'
-                            },
-                            tooltip: {
-                                trigger: 'item',
-                                formatter: "{a} <br/>{b} : {c} ({d}%)"
-                            },
-                            legend: {
-                                orient: 'vertical',
-                                left: 'left',
-                                data: ['Followers', 'Followers Change', 'Followings', 'Followings Change Ratio']
-                            },
-                            series: [
-                                {
-                                    name: 'Followers',
-                                    type: 'pie',
-                                    radius: '45%',
-                                    center: ['50%', '60%'],
-                                    data: [
-                                        { value: ChartsData.TotalFollowers, name: 'Followers' },
-                                        { value: ChartsData.TotalFollowersGain, name: 'Followers Change' },
-                                        //{ value: 234, name: 'Avg. Follower Change Per Day' },
-                                        { value: ChartsData.TotalFollowings, name: 'Followings' },
-                                        { value: ChartsData.TotalFollowingsRatio, name: 'Followings Change Ratio' }
-                                    ],
-                                    itemStyle: {
-                                        emphasis: {
-                                            shadowBlur: 10,
-                                            shadowOffsetX: 0,
-                                            shadowColor: 'rgba(0, 0, 0, 0.5)'
-                                        }
-                                    }
-                                }
-                            ]
-                        };
-                        ;
-                        if (option && typeof option === "object") {
-                            myChart.setOption(option, true);
-                        }
-                    }
-
-                    function LoadLikeBarChart(ChartsData) {
-
-                        var dom = document.getElementById("LikeBarChart");
-                        var myChart = echarts.init(dom);
-                        var app = {};
-                        option = null;
-                        option = {
-                            title: {
-                                text: ''
-                            },
-                            tooltip: {
-                                trigger: 'axis',
-                                axisPointer: {
-                                    type: 'cross',
-                                    label: {
-                                        backgroundColor: '#6a7985'
-                                    }
-                                }
-                            },
-                            legend: {
-                                data: ['Like', 'Comment', 'Like Comment', 'Engagement']
-                            },
-                            toolbox: {
-                                show: true,
-                                feature: {
-
-
-                                    magicType: { show: true, type: ['line', 'bar'] },
-                                    restore: { show: true },
-                                    saveAsImage: { show: true }
-                                }
-                            },
-                            grid: {
-                                left: '3%',
-                                right: '4%',
-                                bottom: '3%',
-                                containLabel: true
-                            },
-                            xAxis: [
-                                {
-                                    type: 'category',
-                                    boundaryGap: false,
-                                    data: ChartsData.Date// ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-                                }
-                            ],
-                            yAxis: [
-                                {
-                                    type: 'value'
-                                }
-                            ]
-                            ,
-                            series: [
-                                {
-                                    name: 'Like',
-                                    type: 'line',
-                                    stack: ChartsData.TotalLike,
-                                    areaStyle: {},
-                                    data: ChartsData.LikeData
-                                },
-                                {
-                                    name: 'Comment',
-                                    type: 'line',
-                                    stack: ChartsData.TotalComment,
-                                    areaStyle: {},
-                                    data: ChartsData.CommentData
-                                },
-                                //{
-                                //    name: 'Avg. Follower Change Per Day',
-                                //    type: 'line',
-                                //    stack: '8000',
-                                //    areaStyle: { normal: {} },
-                                //    data: ChartsData.AVGFollowersData.split(',')
-                                //},
-                                {
-                                    name: 'Like Comment',
-                                    type: 'line',
-                                    stack: ChartsData.TotalFollowings,
-                                    areaStyle: {},
-                                    data: ChartsData.LikeCommentData
-                                },
-                                {
-                                    name: 'Engagement',
-                                    type: 'line',
-                                    stack: ChartsData.TotalEngagement,
-                                    areaStyle: {},
-                                    data: ChartsData.Engagement
-                                }
-                            ]
-                        };
-                        ;
-
-
-                        myChart.setOption(option);
-                        if (option && typeof option === "object") {
-                            myChart.setOption(option, true);
-                        }
-
-                    }
-
-                    function LoadLikePiChart(ChartsData) {
-
-                        ;
-                        var dom = document.getElementById("LikePiChart");
-                        var myChart = echarts.init(dom);
-                        var app = {};
-                        option = null;
-                        option = {
-                            title: {
-                                text: '',
-                                subtext: '',
-                                x: 'center'
-                            },
-                            tooltip: {
-                                trigger: 'item',
-                                formatter: "{a} <br/>{b} : {c} ({d}%)"
-                            },
-                            legend: {
-                                orient: 'vertical',
-                                left: 'left',
-                                data: ['Like', 'Comment', 'Like Comment', 'Engagement']
-                            },
-                            series: [
-                                {
-                                    name: 'Followers',
-                                    type: 'pie',
-                                    radius: '45%',
-                                    center: ['50%', '60%'],
-                                    data: [
-                                        { value: ChartsData.TotalLike, name: 'Like' },
-                                        { value: ChartsData.TotalComment, name: 'Comment' },
-                                        //{ value: 234, name: 'Avg. Follower Change Per Day' },
-                                        { value: ChartsData.TotalLikeComment, name: 'Like Commen' },
-                                        { value: ChartsData.TotalEngagement, name: 'Engagement' }
-                                    ],
-                                    itemStyle: {
-                                        emphasis: {
-                                            shadowBlur: 10,
-                                            shadowOffsetX: 0,
-                                            shadowColor: 'rgba(0, 0, 0, 0.5)'
-                                        }
-                                    }
-                                }
-                            ]
-                        };
-                        ;
-                        if (option && typeof option === "object") {
-                            myChart.setOption(option, true);
-                        }
-                    }
-
-                </script>
-            }
+@section Scripts{
+    <script src="~/Content/app-assets/js/scripts/charts/morris/line.js"></script>
+}

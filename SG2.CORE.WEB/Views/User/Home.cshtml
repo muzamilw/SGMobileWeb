@@ -2,7 +2,7 @@
 @{
 
     ViewBag.Title = "Dashboard";
-    Layout = "~/Views/Shared/_Layout_LoggedIn.cshtml";
+    Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
 
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
     var socailProfiles = (List<CustomerSocialProfileDTO>)ViewBag.SocailProfiles;
@@ -15,103 +15,121 @@
 
 }
 
-<div class="main">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <h6>Select which growth engine you want to tweak and boost.</h6>
+<!-- BEGIN: Content-->
+<div class="app-content container center-layout mt-2">
+    <div class="content-wrapper">
+        <div class="content-header row">
+            <div class="content-header-left col-md-6 col-12 mb-2">
+                <h3 class="content-header-title mb-0">Select a growth engine you want to tweak and boost</h3>
+               
             </div>
-            <div class="col-4 text-right">
-                <button type="button" class="btn btn-success">
-                    <i class="fa fa-plus"></i> Become an Afilliate
-                </button>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col-8">
-                <h4>Social Media Profiles</h4>
-            </div>
-            <div class="col-4 text-right">
-
-                <button type="button" class="btn btn-primary">
-
-                    <i class="fa fa-plus"></i> Social Media Profile
-                </button>
-
-
+            <div class="content-header-right col-md-6 col-12">
+                <div class="media width-250 float-right">
+                    <div class="media-right text-right">
+                        <div id="sp-bar-total-sales"></div>
+                    </div>
+                    
+                </div>
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="table-responsive">
-                <table class="table table-hover">
+        <div class="content-body">
+            <!-- Extra large table start -->
+            <div class="row match-height">
+                <div class="col-9">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Social media profiles (CRM)</h4>
+                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-blue"><i class="fa fa-plus"></i> Social Media Profile</button>
 
-                    @foreach (var item in socailProfiles)
-                    {
-                        <tr>
-                            <td class="align-middle">
-                                @if (item.SocialProfileTypeId == 30)
-                                {
-                                    <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="49" class="float-left" />
-                                }
-                                <a href="/Profile/Basic?socialProfileId=@item.SocialProfileId"><h4>@item.SocialUsername</h4></a>
-                            </td>
-                            <td class="text-right align-middle">
-                                @if (@socailProfiles.FirstOrDefault().SubscriptionName != null)
-                                {
-                                    <h4>Plan: @item.SubscriptionName</h4>
-                                }
-                                else
-                                {
-                                    <b>Free Plan</b>
-                                }
-                            </td>
 
-                        </tr>
-                    }
-                </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body card-dashboard">
+                                <p class="card-text">Max 5 social profiles permitted.<br />Upgrade to afilliate and manage more profiles with greater features and discounts.</p>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-xl mb-0">
+
+                                    <tbody>
+                                        @foreach (var item in socailProfiles)
+                                        {
+                                            <tr>
+                                                <th scope="row">
+                                                    @if (item.SocialProfileTypeId == 30)
+                                                    {
+                                                        <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="49" class="float-left" />
+                                                    }
+                                                    <a href="/Profile/Basic?socialProfileId=@item.SocialProfileId"><h4>@item.SocialUsername</h4></a>
+                                                </th>
+                                                <td>
+                                                    <div class="badge badge-primary label-square">
+                                                        <i class="fa fa-paperclip font-medium-2"></i>
+                                                        <span>Active</span>
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    @if (@socailProfiles.FirstOrDefault().SubscriptionName != null)
+                                                    {
+                                                        <div class="badge badge-success label-square">Plan: @item.SubscriptionName</div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <b>Free Plan</b>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 col-sm-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <img class="card-img-top img-fluid" src="~/Content/app-assets/images/carousel/06.jpg" alt="Card image cap">
+                            <div class="card-body">
+                                <h4 class="card-title">Become an Afilliate</h4>
+                                <p class="card-text">
+                                    Select a growth engine you want to tweak and boost
+                                    .
+                                </p>
+                                <a href="#" class="btn btn-success">GBecome an Afilliate</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-xs-12">
-                &nbsp;
-            </div>
-
+            <!-- Extra large table end -->
         </div>
     </div>
 </div>
-@section footer
-{
-
-    <span class="text-muted">Max 5 social profiles permitted.</span><br />
-    <span class="text-muted">Upgrade to afilliate and manage more profiles with greater features and discounts.</span>
-
-}
+<!-- END: Content-->
 
 
 
 
-<style type="text/css">
-    .btn-height47 {
-        height: 47px;
-        font-weight: 400;
-    }
 
-    .btn-height64 {
-        height: 64px;
-        font-weight: 400;
-        font-size: 3rem;
-    }
 
-    .btn-white {
-        background-color: white;
-        color: darkgray;
-    }
 
-        .btn-white:hover {
-            background-color: white;
-            color: darkgray;
-        }
 
-    .main .container hr {
-        border-bottom: 2px solid #ccc
-    }
-</style>
+
+
+
+
+
+
+
+
+
+
+
 
