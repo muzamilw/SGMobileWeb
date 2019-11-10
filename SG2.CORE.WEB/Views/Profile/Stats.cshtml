@@ -1,0 +1,442 @@
+﻿@using SG2.CORE.MODAL.DTO.Customers
+@model SG2.CORE.MODAL.DTO.Customers.SocialProfileDTO
+@{
+
+    ViewBag.Title = "Insights & Statistics";
+    Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
+    var custDto = (CustomerDTO)ViewBag.CustomerDTO;
+
+    var currentUser = (CustomerDTO)ViewBag.CurrentUser;
+    var socailProfiles = (List<CustomerSocialProfileDTO>)ViewBag.SocailProfiles;
+
+
+}
+
+<div class="app-content container center-layout mt-2">
+    <div class="content-wrapper">
+        <div class="content-header row">
+            <div class="content-header-left col-md-6 col-12 mb-2">
+
+                <div class="media">
+                    <a class="media-left align-self-center" href="#">
+                        <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" alt="Generic placeholder image" style="width: 64px;height: 64px;" />
+                    </a>
+                    <div class="media-body mt-2">
+                        <h3 class="media-heading">@Model.SocialProfile.SocialUsername</h3>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="content-header-right col-md-6 col-12">
+                <div class="media width-250 float-right">
+                    <div class="media-body media-right text-right">
+                        <h3 class="m-0">Active</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section class="content-body">
+            <!-- Analytics spakline & chartjs  -->
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="card">
+                        <div class="card-header border-0-bottom">
+                            <h4 class="card-title">Insights & Stats Overview</h4>
+                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <ul class="list-inline mb-0">
+                                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="row my-1">
+                                    <div class="col-lg-4 col-12">
+                                        <div class="text-center">
+                                            <h3>23,454</h3>
+                                            <p class="text-muted">Posts <span class="success"><i class="ft-arrow-up"></i> 8.16%</span></p>
+                                            <div id="sp-tristate-bar-total-revenue"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <div class="text-center">
+                                            <h3>6,630</h3>
+                                            <p class="text-muted">Followers <span class="danger"><i class="ft-arrow-down"></i> 2.30%</span></p>
+                                            <div id="sp-stacked-bar-total-sales"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <div class="text-center">
+                                            <h3>86,578</h3>
+                                            <p class="text-muted">Followings <span class="warning"><i class="ft-arrow-up"></i> 4.27%</span></p>
+                                            <div id="sp-bar-total-cost"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ Analytics spakline & chartjs  -->
+            <!--stats-->
+
+            <div class="row">
+                <div class="col-xl-3 col-lg-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body text-left w-100">
+                                        <h3 class="primary">78%</h3>
+                                        <span>Follows</span>
+                                    </div>
+                                    <div class="media-right media-middle">
+                                        <i class="icon-user-follow primary font-large-2 float-right"></i>
+                                    </div>
+                                </div>
+                                <div class="progress progress-sm mt-1 mb-0">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body text-left w-100">
+                                        <h3 class="danger">423</h3>
+                                        <span>Likes</span>
+                                    </div>
+                                    <div class="media-right media-middle">
+                                        <i class="icon-social-dropbox danger font-large-2 float-right"></i>
+                                    </div>
+                                </div>
+                                <div class="progress progress-sm mt-1 mb-0">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 40%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body text-left w-100">
+                                        <h3 class="success">64.89 %</h3>
+                                        <span>UnFollow</span>
+                                    </div>
+                                    <div class="media-right media-middle">
+                                        <i class="icon-layers success font-large-2 float-right"></i>
+                                    </div>
+                                </div>
+                                <div class="progress progress-sm mt-1 mb-0">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body text-left w-100">
+                                        <h3 class="warning">02.12</h3>
+                                        <span>Story Views</span>
+                                    </div>
+                                    <div class="media-right media-middle">
+                                        <i class="icon-globe warning font-large-2 float-right"></i>
+                                    </div>
+                                </div>
+                                <div class="progress progress-sm mt-1 mb-0">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 35%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--/stats-->
+            <!--Followers Line Chart-->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Followers</h4>
+                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <ul class="list-inline mb-0">
+                                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+
+                                <div id="line-followers" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/Followers Line Chart-->
+            <!--Followings Line Chart-->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Followings</h4>
+                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <ul class="list-inline mb-0">
+                                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+
+                                <div id="line-followings" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/Followings Line Chart-->
+            <!--Engagement Rate Line Chart-->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Engagement Rate</h4>
+                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <ul class="list-inline mb-0">
+                                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+
+                                <div id="line-engagement" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/Engagement Rate Line Chart-->
+            <!--Average Likes Line Chart-->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Average Likes</h4>
+                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <ul class="list-inline mb-0">
+                                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+
+                                <div id="line-likes" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/Average Like Line Chart-->
+            <!--Average Like Posting Line Chart-->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Average Like Posting Times</h4>
+                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <ul class="list-inline mb-0">
+                                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+
+                                <div id="line-posting" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/Average Like Posting Line Chart-->
+            <!-- Bounce Rate & List -->
+            <div class="row match-height">
+
+                <div class="col-xl-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-header border-0">
+                            <h4 class="card-title">Overview</h4>
+                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <ul class="list-inline mb-0">
+                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div id="audience-list-scroll" class="table-responsive height-300 position-relative">
+                                <table class="table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Country</th>
+                                            <th>Page views</th>
+                                            <th>Device</th>
+                                            <th>% Bounce rate</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><i class="flag-icon flag-icon-gb"></i> United State</td>
+                                            <td>18</td>
+                                            <td>Desktop</td>
+                                            <td class="text-center font-small-2">
+                                                85%
+                                                <div class="progress progress-sm mt-1 mb-0">
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 85%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="flag-icon flag-icon-au"></i> Australia</td>
+                                            <td>12</td>
+                                            <td>Mobile</td>
+                                            <td class="text-center font-small-2">
+                                                75%
+                                                <div class="progress progress-sm mt-1 mb-0">
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="flag-icon flag-icon-br"></i> Brazil</td>
+                                            <td>25</td>
+                                            <td>Tablet</td>
+                                            <td class="text-center font-small-2">
+                                                66%
+                                                <div class="progress progress-sm mt-1 mb-0">
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 66%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="flag-icon flag-icon-gb"></i> Great Britain (UK)</td>
+                                            <td>8</td>
+                                            <td>Mobile</td>
+                                            <td class="text-center font-small-2">
+                                                58%
+                                                <div class="progress progress-sm mt-1 mb-0">
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 85%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="flag-icon flag-icon-hk"></i> Hong Kong</td>
+                                            <td>18</td>
+                                            <td>Desktop</td>
+                                            <td class="text-center font-small-2">
+                                                45%
+                                                <div class="progress progress-sm mt-1 mb-0">
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 45%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="flag-icon flag-icon-in"></i> India</td>
+                                            <td>10</td>
+                                            <td>Desktop</td>
+                                            <td class="text-center font-small-2">
+                                                38%
+                                                <div class="progress progress-sm mt-1 mb-0">
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 38%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="flag-icon flag-icon-jp"></i> Japan</td>
+                                            <td>11</td>
+                                            <td>Moblie</td>
+                                            <td class="text-center font-small-2">
+                                                25%
+                                                <div class="progress progress-sm mt-1 mb-0">
+                                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="flag-icon flag-icon-mx"></i> Mexico</td>
+                                            <td>15</td>
+                                            <td>Tablet</td>
+                                            <td class="text-center font-small-2">
+                                                22%
+                                                <div class="progress progress-sm mt-1 mb-0">
+                                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 22%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="flag-icon flag-icon-ma"></i> Morocco</td>
+                                            <td>14</td>
+                                            <td>Moblie</td>
+                                            <td class="text-center font-small-2">
+                                                18%
+                                                <div class="progress progress-sm mt-1 mb-0">
+                                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 18%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ Bounce Rate & List -->
+
+        </section>
+    </div>
+
+</div>
+
+@section Scripts{
+    <script src="~/Content/app-assets/js/scripts/charts/morris/line.js"></script>
+}

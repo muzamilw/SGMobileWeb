@@ -1,7 +1,7 @@
 ﻿@model SG2.CORE.MODAL.ViewModals.Backend.TeamMember.AddTeamMemberViewModal
 @{
     ViewBag.Title = "Add Team Member";
-    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout_LoggedIn.cshtml";
 
     List<SelectListItem> rolesSelectList = new List<SelectListItem>();
     foreach (var item in Model.RoleListing)

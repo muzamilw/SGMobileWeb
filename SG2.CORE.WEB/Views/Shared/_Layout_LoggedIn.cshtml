@@ -1,0 +1,374 @@
+﻿@using SG2.CORE.MODAL.DTO.Customers;
+@{
+                /**/
+
+                var custDto = (CustomerDTO)ViewBag.CustomerDTO;
+}
+@{
+    var _intercomPublishKey = SG2.CORE.WEB.Architecture.SystemConfig.GetConfigs.First(x => x.ConfigKey == "Intercom").ConfigValue;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Social Growth</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="~/Content/ThemeAssets/css/Home.css" rel="stylesheet" />
+    <link href="~/Content/ThemeAssets/css/style.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" type="text/css">
+    @RenderSection("styles", required: false)
+
+	<style>
+		.fa-user {
+			border: 1px solid;
+			padding: 2px 4px;
+			border-radius: 15px;
+			padding-bottom: 4px;
+		}
+	</style>
+
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container">
+
+            <nav class="navbar navbar-expand-md navbar-light">
+                <a href="/Profile/Basic?socialProfileId=@custDto.DefaultSocialProfileId" class="navbar-brand">
+                    <img src="~/Content/ThemeAssets/images/social-growth.png" height="28" alt="Social Growth">
+                </a>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    @*<div class="navbar-nav">
+                            <a href="#" class="nav-item nav-link active">Home</a>
+                            <a href="#" class="nav-item nav-link">Profile</a>
+                            <a href="#" class="nav-item nav-link">Messages</a>
+                            <a href="#" class="nav-item nav-link disabled" tabindex="-1">Reports</a>
+                        </div>*@
+                    <div class="navbar-nav ml-auto">
+                        @if (ViewBag.IsAuthentication == null)
+                        {
+                            <a href="#" class="nav-item nav-link">Login</a>
+                        }
+                        else
+                        {
+                            <a href="/Account/Logout" class="btn_logout">
+                                <i class="fa fa-sign-out" aria-hidden="true"></i> Logout
+                            </a>
+                        }
+                    </div>
+                </div>
+            </nav>
+
+
+        </div>
+    </header>
+
+    @RenderBody()
+
+
+    <footer class="footer">
+        <div class="row">
+            <div class="col text-center">
+                @RenderSection("footer", required: false)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <img src="~/Content/ThemeAssets/images/social-growth.png" height="28" alt="Social Growth">
+            </div>
+        </div>
+
+    </footer>
+
+
+
+    @Html.Partial("~/Views/Shared/Partial/_PartialLoginPopup.cshtml")
+
+    @Html.Partial("~/Views/Shared/Partial/_PartialForgetPasswordPopup.cshtml")
+
+    @Html.Partial("~/Views/Shared/Partial/_PartialSignupPopup.cshtml")
+
+    @Html.Partial("~/Views/Shared/Partial/_PartialMessagePopup.cshtml")
+
+    @*@Scripts.Render("~/bundles/jquery")*@
+
+    @*<script src="~/Content/ThemeAssets/js/jquery.min.js"></script>
+        <script src="~/Content/ThemeAssets/js/bootstrap.min.js"></script>*@
+
+
+
+    @*<script src="https://unpkg.com/aos@next/dist/aos.js"></script>*@
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Content/ThemeAssets/js/owl.carousel.min.js"></script>
+    <script src="~/Content/ThemeAssets/js/functions.js"></script>
+    <script type="text/javascript">
+        var glb_intercomKey = '@_intercomPublishKey';
+    </script>
+
+    @Scripts.Render("~/Scripts/Intercom1.1.js")
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('body').css('padding-right', '0');
+
+            $("#Form_Login").validate({
+                rules: {
+                    EmailAddress: {
+                        required: true,
+                        email: true
+                    },
+                    Password: {
+                        required: true,
+                    }
+                },
+                messages: {
+                    EmailAddress: {
+                        required: "Email required"
+                    },
+                    Password: {
+                        required: "Password required"
+                    }
+                }
+            });
+
+            $("#Form_ForgetPassword").validate({
+                rules: {
+                    EmailAddress: {
+                        required: true,
+                        email: true
+                    }
+                },
+                messages: {
+                    EmailAddress: {
+                        required: "Email required."
+                    }
+                }
+            });
+
+            $("#Form_Signup").validate({
+                rules: {
+                    FirstName: {
+                        required: true,
+                    },
+                    SurName: {
+                        required: true,
+                    },
+                    EmailAddress: {
+                        required: true,
+                        email: true,
+                        remote: {
+                            type: "GET",
+                            url: "/account/IsEmailExist?" + $("#Modal_SignupPopup input#SignEmailAddress").val(),
+                        }
+                    },
+                    Password: {
+                        required: true,
+                    },
+                    Re_Password: {
+                        equalTo: "#SignupPassword"
+                    }
+                },
+                messages: {
+                    FirstName: {
+                        required: "Firstname required."
+                    },
+                    SurName: {
+                        required: "Lastname required."
+                    },
+                    EmailAddress: {
+                        required: "Email required.",
+                        remote: "Email already exists"
+                    },
+                    Password: {
+                        required: "Password required."
+                    },
+                    Re_Password: {
+                        equalTo: "Password not matched."
+                    }
+                }
+            });
+
+            $("a.lnk_ShowLoginModal").on("click", function (e) {
+                $("#login-error").hide().html("");
+                $("#forgetpassword-error").hide().html("");
+
+                $("#Form_Login").validate().resetForm();
+
+                $("#Form_ForgetPassword").validate().resetForm();
+                $(".Modal-LoginStep").removeClass("hide");
+
+                $(".Modal-ForgetPasswordStep").addClass("hide");
+
+                $("#forgetPassowrdMessage").hide();
+                $(".forgetPasswordFields").show();
+                $("#Form_ForgetPassword").trigger("reset");
+                $("#Form_Login").trigger("reset");
+
+                $("#Modal_SignupPopup").modal("hide");
+                $("#Modal_LoginPopup").modal("show");
+
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            $("a.lnk_ShowFrogetPasswordModal").on("click", function (e) {
+                $(".Modal-LoginStep").addClass("hide");
+                $(".Modal-ForgetPasswordStep").removeClass("hide");
+
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            $("a.lnk_ShowSignupModal").on("click", function (e) {
+                $("h1.signup-success-message").addClass("hide");
+                $("#Form_Signup").show();
+                $("#Form_Signup").validate().resetForm();
+
+                $("#Modal_LoginPopup").modal("hide");
+                $("#Modal_SignupPopup").modal("show");
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            $(".btn_formLogin").on("click", function (e) {
+                $("#login-error").html("");
+                if ($("#Form_Login").valid()) {
+                    $("#LoginSpiner").show();
+                    var frmData = $("#Form_Login").serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "/account/Login",
+                        data: frmData,
+                        dataType: "json",
+                        success: function (data) {
+                            if (!$.isEmptyObject(data)) {
+                                if (data.ResultType == "Success") {
+                                    //window.location = "/Profile/Target?socialProfileId=" + data.ResultData;
+                                    window.location = "/User/Home";
+                                } else {
+                                    $("#LoginSpiner").hide();
+                                    $("#login-error").show().html(data.message);
+                                }
+                            }
+                        },
+                        failure: function (errMsg) {
+                            $("#LoginSpiner").hide();
+                        }
+                    });
+                }
+
+            });
+
+            $(".btn_forgetPassword").on("click", function (e) {
+                $("#forgetpassword-error").html("");
+                if ($("#Form_ForgetPassword").valid()) {
+                    $("#ForgotPassSpiner").show();
+                    var data = $("#Form_ForgetPassword").serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "/account/forgetpassword",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            $("#ForgotPassSpiner").hide();
+                            if (!$.isEmptyObject(data)) {
+                                $("#ForgotPassSpiner").hide();
+                                if (data.ResultType == "Success") {
+                                    $("#forgetPassowrdMessage").show();
+                                    $(".forgetPasswordFields").hide();
+                                } else {
+                                    $("#forgetpassword-error").show().html(data.message);
+                                }
+                            }
+                        },
+                        failure: function (errMsg) {
+                            $("#ForgotPassSpiner").hide();
+                        }
+                    });
+
+                }
+
+            });
+
+            $(".btn_formSignup").on("click", function (e) {
+                if ($("#Form_Signup").valid()) {
+                    $("#SignUpSpinner").show();
+                    var data = $("#Form_Signup").serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "/account/SignUp",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (!$.isEmptyObject(data)) {
+                                if (data.ResultType == "Success") {
+                                    $("#SignUpSpinner").hide();
+                                    $("#Modal_SignupPopup").modal("hide");
+                                    $("#Modal_MessageBoxTitle").text("Account Created Succesfully.!");
+                                    $("#Modal_MessageBoxBody").text("Congratulation! Your account has successfully created. Please check your inbox for verification.!");
+                                    $("#Modal_Messagebox").modal("show");
+                                } else {
+                                    $("#signup-error").show().html(data.message);
+                                    $("#SignUpSpinner").hide();
+                                }
+                            }
+                        },
+                        failure: function (errMsg) {
+                            $("#SignUpSpinner").hide();
+                        }
+                    });
+                    $("#SignUpSpinner").hide();
+                }
+            });
+
+        });
+
+    </script>
+
+
+    @RenderSection("scripts", required: false)
+
+    <!-- control mobile dropdown margin-->
+    <script>
+        function myFunction() {
+            var x = document.getElementById("myLinks");
+            if (x.style.display === "block") {
+                x.style.display = "none";
+            } else {
+                x.style.display = "block";
+            }
+        }
+    </script>
+
+    <script>
+        function mymg() {
+            var x = document.getElementById("headermg");
+            if (x.style.display === "block") {
+                x.style.display = "none";
+            } else {
+                x.style.display = "block";
+            }
+        }
+
+    </script>
+
+
+</body>
+</html>

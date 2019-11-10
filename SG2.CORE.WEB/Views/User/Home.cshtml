@@ -2,7 +2,7 @@
 @{
 
     ViewBag.Title = "Dashboard";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
 
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
     var socailProfiles = (List<CustomerSocialProfileDTO>)ViewBag.SocailProfiles;
@@ -15,503 +15,121 @@
 
 }
 
-<div class="main">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-8">
-                <h4>Select which growth engine you want to tweak and boost.</h4>
-              
-
-            </div>
-            <div class="col-xs-4 text-right">
-                <button type="button" class="btn btn-primary btn-height47">
-
-                    <i class="fa fa-plus"></i> Become an Afilliate
-                </button>
-            </div>
-            <div class="col-xs-12">
-                <hr />
-            </div>
-            <div class="col-xs-8">
-                <h3>Social Media Profiles</h3>
-            </div>
-            <div class="col-xs-4 text-right">
+<!-- BEGIN: Content-->
+<div class="app-content container center-layout mt-2">
+    <div class="content-wrapper">
+        <div class="content-header row">
+            <div class="content-header-left col-md-6 col-12 mb-2">
+                <h3 class="content-header-title mb-0">Select a growth engine you want to tweak and boost</h3>
                
-                    <button type="button" class="btn btn btn-height47">
-
-                        <i class="fa fa-plus"></i> Social Media Profile
-                    </button>
-                
-
             </div>
-            <div class="col-xs-12">
-                <hr />
-            </div>
-
-            @foreach (var item in socailProfiles)
-            {
-                <div class="col-xs-6">
-                    @if (item.SocialProfileTypeId == 30)
-                    {
-                        <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="49" />
-                    }
-                    <a href="/Profile/Basic?socialProfileId=@item.SocialProfileId">@item.SocialUsername</a>
+            <div class="content-header-right col-md-6 col-12">
+                <div class="media width-250 float-right">
+                    <div class="media-right text-right">
+                        <div id="sp-bar-total-sales"></div>
+                    </div>
+                    
                 </div>
-                <div class="col-xs-6 text-right">
-                    @if (@socailProfiles.FirstOrDefault().SubscriptionName != null)
-                    {
-                        <h1 class="text-primary">Plan: @item.SubscriptionName</h1>
-                    }
-                    else
-                    {
-                        <b>Free Plan</b>
-                    }
+            </div>
+        </div>
+        <div class="content-body">
+            <!-- Extra large table start -->
+            <div class="row match-height">
+                <div class="col-9">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Social media profiles (CRM)</h4>
+                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-blue"><i class="fa fa-plus"></i> Social Media Profile</button>
 
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body card-dashboard">
+                                <p class="card-text">Max 5 social profiles permitted.<br />Upgrade to afilliate and manage more profiles with greater features and discounts.</p>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-xl mb-0">
+
+                                    <tbody>
+                                        @foreach (var item in socailProfiles)
+                                        {
+                                            <tr>
+                                                <th scope="row">
+                                                    @if (item.SocialProfileTypeId == 30)
+                                                    {
+                                                        <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="49" class="float-left" />
+                                                    }
+                                                    <a href="/Profile/Basic?socialProfileId=@item.SocialProfileId"><h4>@item.SocialUsername</h4></a>
+                                                </th>
+                                                <td>
+                                                    <div class="badge badge-primary label-square">
+                                                        <i class="fa fa-paperclip font-medium-2"></i>
+                                                        <span>Active</span>
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    @if (@socailProfiles.FirstOrDefault().SubscriptionName != null)
+                                                    {
+                                                        <div class="badge badge-success label-square">Plan: @item.SubscriptionName</div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <b>Free Plan</b>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            }
 
-            <div class="col-xs-12">
-                &nbsp;
+                <div class="col-xl-3 col-md-6 col-sm-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <img class="card-img-top img-fluid" src="~/Content/app-assets/images/carousel/06.jpg" alt="Card image cap">
+                            <div class="card-body">
+                                <h4 class="card-title">Become an Afilliate</h4>
+                                <p class="card-text">
+                                    Select a growth engine you want to tweak and boost
+                                    .
+                                </p>
+                                <a href="#" class="btn btn-success">GBecome an Afilliate</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-xs-6">
-                <a href="#" class="btn btn-primary btn-height64 btn-block">
-                    Insights And Statistics
-                </a>
-            </div>
-            <div class="col-xs-6">
-                <a href="/Profile/Target?socialProfileId=@socailProfiles.FirstOrDefault().SocialProfileId" class="btn btn-primary btn-height64 btn-block btn-white">
-                    Target Preferences
-                </a>
-            </div>
+            <!-- Extra large table end -->
         </div>
     </div>
 </div>
+<!-- END: Content-->
 
 
-@*<div class="main">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <h2>
-                    Hi,
-
-                        @currentUser.FirstName @currentUser.SurName !</h2>
-                    <h4>See how well you instagram is doing.</h4>
-                </div>
-            </div>
-        </div>
-    </div>*@
-
-<br />
-
-<div class="information-form">
-    <div class="container">
-        <div class="information-form-inner">
-            <div class="row">
-
-                <div class="col-xs-8">
-                    <div id="FollowerBarChart" style="width:850px; height:500px"></div>
-                </div>
-                <div class="col-xs-4">
-                    <div id="FollowerPiChart" style="width:400px; height:500px"></div>
-                </div>
-
-                <div class="col-xs-8">
-                    <div id="LikeBarChart" style="width:850px; height:500px"></div>
-                </div>
-                <div class="col-xs-4">
-                    <div id="LikePiChart" style="width:400px; height:500px"></div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
 
 
-<style type="text/css">
-    .btn-height47 {
-        height: 47px;
-        font-weight: 400;
-    }
-
-    .btn-height64 {
-        height: 64px;
-        font-weight: 400;
-        font-size: 3rem;
-    }
-
-    .btn-white {
-        background-color: white;
-        color: darkgray;
-    }
-
-        .btn-white:hover {
-            background-color: white;
-            color: darkgray;
-        }
-
-    .main .container hr {
-        border-bottom: 2px solid #ccc
-    }
-</style>
-
-@section Scripts{
-
-    <script src="~/Scripts/ECharts/echarts.js"></script>
-    <script src="~/Scripts/ECharts/echarts-all.js"></script>
-    <script src="~/Scripts/ECharts/chart/bar.js"></script>
-    <script src="~/Scripts/ECharts/chart/line.js"></script>
-    <script src="~/Scripts/ECharts/chart/chord.js"></script>
-    <script src="~/Scripts/ECharts/chart/eventRiver.js"></script>
-    <script src="~/Scripts/ECharts/chart/force.js"></script>
-    <script src="~/Scripts/ECharts/chart/funnel.js"></script>
-    <script src="~/Scripts/ECharts/chart/gauge.js"></script>
-    <script src="~/Scripts/ECharts/chart/k.js"></script>
-    <script src="~/Scripts/ECharts/chart/map.js"></script>
-    <script src="~/Scripts/ECharts/chart/pie.js"></script>
-    <script src="~/Scripts/ECharts/chart/radar.js"></script>
-    <script src="~/Scripts/ECharts/chart/scatter.js"></script>
-    <script src="~/Scripts/ECharts/chart/tree.js"></script>
-    <script src="~/Scripts/ECharts/chart/treemap.js"></script>
-    <script src="~/Scripts/ECharts/chart/venn.js"></script>
-    <script src="~/Scripts/ECharts/chart/wordCloud.js"></script>
-    <script src="~/Scripts/ECharts/chart/echarts-all-english-v2.js"></script>
-    <script type="text/javascript">
-
-        $("document").ready(function () {
 
 
-            $.ajax({
-                type: "GET",
-                url: "/user/GetFollowersStatistics",
-                dataType: "json",
-                success: function (Response) {
 
 
-                    if (!$.isEmptyObject(Response)) {
-                        if (Response.Data.ResultType == "Success") {
 
 
-                            LoadFollowersBarChart(Response.Data.ResultData);
-                            LoadFollowersPiChart(Response.Data.ResultData);
-                            LoadLikeBarChart(Response.Data.ResultData);
-                            LoadLikePiChart(Response.Data.ResultData);
-
-                        } else {
-
-                        }
-                    }
-                },
-                failure: function (errMsg) {
-                    alert("hello2");
-
-                }
-            });
-
-        });
-
-        function LoadFollowersBarChart(ChartsData) {
-
-            var dom = document.getElementById("FollowerBarChart");
-            var myChart = echarts.init(dom);
-            var app = {};
-            option = null;
-            option = {
-                title: {
-                    text: ''
-                },
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'cross',
-                        label: {
-                            backgroundColor: '#6a7985'
-                        }
-                    }
-                },
-                legend: {
-                    data: ['Followers', 'Followers Change', 'Followings', 'Followings Change Ratio']
-                },
-                toolbox: {
-                    show: true,
-                    feature: {
 
 
-                        magicType: { show: true, type: ['line', 'bar'] },
-                        restore: { show: true },
-                        saveAsImage: { show: true }
-                    }
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                xAxis: [
-                    {
-                        type: 'category',
-                        boundaryGap: false,
-                        data: ChartsData.Date// ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-                    }
-                ],
-                yAxis: [
-                    {
-                        type: 'value'
-                    }
-                ]
-                ,
-                series: [
-                    {
-                        name: 'Followers',
-                        type: 'line',
-                        stack: ChartsData.TotalFollowers,
-                        areaStyle: {},
-                        data: ChartsData.FollowersData
-                    },
-                    {
-                        name: 'Followers Change',
-                        type: 'line',
-                        stack: ChartsData.TotalFollowersGain,
-                        areaStyle: {},
-                        data: ChartsData.FollowersGainData
-                    },
-                    //{
-                    //    name: 'Avg. Follower Change Per Day',
-                    //    type: 'line',
-                    //    stack: '8000',
-                    //    areaStyle: { normal: {} },
-                    //    data: ChartsData.AVGFollowersData.split(',')
-                    //},
-                    {
-                        name: 'Followings',
-                        type: 'line',
-                        stack: ChartsData.TotalFollowings,
-                        areaStyle: {},
-                        data: ChartsData.FollowingsData
-                    },
-                    {
-                        name: 'Followings Change Ratio',
-                        type: 'line',
-                        stack: ChartsData.TotalFollowingsRatio,
-                        areaStyle: {},
-                        data: ChartsData.FollowingsRatioData
-                    }
-                ]
-            };
-            ;
 
 
-            myChart.setOption(option);
-            if (option && typeof option === "object") {
-                myChart.setOption(option, true);
-            }
-
-        }
-
-        function LoadFollowersPiChart(ChartsData) {
 
 
-            var dom = document.getElementById("FollowerPiChart");
-            var myChart = echarts.init(dom);
-            var app = {};
-            option = null;
-            option = {
-                title: {
-                    text: '',
-                    subtext: '',
-                    x: 'center'
-                },
-                tooltip: {
-                    trigger: 'item',
-                    formatter: "{a} <br/>{b} : {c} ({d}%)"
-                },
-                legend: {
-                    orient: 'vertical',
-                    left: 'left',
-                    data: ['Followers', 'Followers Change', 'Followings', 'Followings Change Ratio']
-                },
-                series: [
-                    {
-                        name: 'Followers',
-                        type: 'pie',
-                        radius: '45%',
-                        center: ['50%', '60%'],
-                        data: [
-                            { value: ChartsData.TotalFollowers, name: 'Followers' },
-                            { value: ChartsData.TotalFollowersGain, name: 'Followers Change' },
-                            //{ value: 234, name: 'Avg. Follower Change Per Day' },
-                            { value: ChartsData.TotalFollowings, name: 'Followings' },
-                            { value: ChartsData.TotalFollowingsRatio, name: 'Followings Change Ratio' }
-                        ],
-                        itemStyle: {
-                            emphasis: {
-                                shadowBlur: 10,
-                                shadowOffsetX: 0,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                            }
-                        }
-                    }
-                ]
-            };
-            ;
-            if (option && typeof option === "object") {
-                myChart.setOption(option, true);
-            }
-        }
-
-        function LoadLikeBarChart(ChartsData) {
-
-            var dom = document.getElementById("LikeBarChart");
-            var myChart = echarts.init(dom);
-            var app = {};
-            option = null;
-            option = {
-                title: {
-                    text: ''
-                },
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'cross',
-                        label: {
-                            backgroundColor: '#6a7985'
-                        }
-                    }
-                },
-                legend: {
-                    data: ['Like', 'Comment', 'Like Comment', 'Engagement']
-                },
-                toolbox: {
-                    show: true,
-                    feature: {
 
 
-                        magicType: { show: true, type: ['line', 'bar'] },
-                        restore: { show: true },
-                        saveAsImage: { show: true }
-                    }
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                xAxis: [
-                    {
-                        type: 'category',
-                        boundaryGap: false,
-                        data: ChartsData.Date// ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-                    }
-                ],
-                yAxis: [
-                    {
-                        type: 'value'
-                    }
-                ]
-                ,
-                series: [
-                    {
-                        name: 'Like',
-                        type: 'line',
-                        stack: ChartsData.TotalLike,
-                        areaStyle: {},
-                        data: ChartsData.LikeData
-                    },
-                    {
-                        name: 'Comment',
-                        type: 'line',
-                        stack: ChartsData.TotalComment,
-                        areaStyle: {},
-                        data: ChartsData.CommentData
-                    },
-                    //{
-                    //    name: 'Avg. Follower Change Per Day',
-                    //    type: 'line',
-                    //    stack: '8000',
-                    //    areaStyle: { normal: {} },
-                    //    data: ChartsData.AVGFollowersData.split(',')
-                    //},
-                    {
-                        name: 'Like Comment',
-                        type: 'line',
-                        stack: ChartsData.TotalFollowings,
-                        areaStyle: {},
-                        data: ChartsData.LikeCommentData
-                    },
-                    {
-                        name: 'Engagement',
-                        type: 'line',
-                        stack: ChartsData.TotalEngagement,
-                        areaStyle: {},
-                        data: ChartsData.Engagement
-                    }
-                ]
-            };
-            ;
 
 
-            myChart.setOption(option);
-            if (option && typeof option === "object") {
-                myChart.setOption(option, true);
-            }
-
-        }
-
-        function LoadLikePiChart(ChartsData) {
-
-            ;
-            var dom = document.getElementById("LikePiChart");
-            var myChart = echarts.init(dom);
-            var app = {};
-            option = null;
-            option = {
-                title: {
-                    text: '',
-                    subtext: '',
-                    x: 'center'
-                },
-                tooltip: {
-                    trigger: 'item',
-                    formatter: "{a} <br/>{b} : {c} ({d}%)"
-                },
-                legend: {
-                    orient: 'vertical',
-                    left: 'left',
-                    data: ['Like', 'Comment', 'Like Comment', 'Engagement']
-                },
-                series: [
-                    {
-                        name: 'Followers',
-                        type: 'pie',
-                        radius: '45%',
-                        center: ['50%', '60%'],
-                        data: [
-                            { value: ChartsData.TotalLike, name: 'Like' },
-                            { value: ChartsData.TotalComment, name: 'Comment' },
-                            //{ value: 234, name: 'Avg. Follower Change Per Day' },
-                            { value: ChartsData.TotalLikeComment, name: 'Like Commen' },
-                            { value: ChartsData.TotalEngagement, name: 'Engagement' }
-                        ],
-                        itemStyle: {
-                            emphasis: {
-                                shadowBlur: 10,
-                                shadowOffsetX: 0,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                            }
-                        }
-                    }
-                ]
-            };
-            ;
-            if (option && typeof option === "object") {
-                myChart.setOption(option, true);
-            }
-        }
-
-    </script>
-
-    @Html.DropDownList("SocialProfile", profiles)
-}

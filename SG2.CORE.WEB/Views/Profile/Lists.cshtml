@@ -1,0 +1,153 @@
+﻿@using SG2.CORE.MODAL.DTO.Customers;
+@model SG2.CORE.MODAL.DTO.Customers.SocialProfileDTO
+@{
+
+    ViewBag.Title = "White & Black Lists";
+    Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
+    var custDto = (CustomerDTO)ViewBag.CustomerDTO;
+
+    var currentUser = (CustomerDTO)ViewBag.CurrentUser;
+
+}
+
+
+@section styles{
+
+    <link href="~/Content/app-assets/vendors/css/forms/tags/tagging.css" rel="stylesheet" />
+}
+
+
+
+
+<!-- BEGIN: Content-->
+<div class="app-content container center-layout mt-2">
+    <div class="content-wrapper">
+        <div class="content-header row">
+            <div class="content-header-left col-md-6 col-12 mb-2">
+
+                <div class="media">
+                    <a class="media-left align-self-center" href="#">
+                        <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" alt="Generic placeholder image" style="width: 64px;height: 64px;" />
+                    </a>
+                    <div class="media-body mt-2">
+                        <h3 class="media-heading">@Model.SocialProfile.SocialUsername</h3>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="content-header-right col-md-6 col-12">
+                <div class="media width-250 float-right">
+                    <div class="media-body media-right text-right">
+                        <h3 class="m-0">Active</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-body">
+            <!-- Basic form layout section start -->
+            <section id="horizontal-form-layouts">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title" id="horz-layout-basic">White & Black Lists</h4>
+                                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                <div class="heading-elements">
+                                    <ul class="list-inline mb-0">
+                                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-content collpase show">
+                                <div class="card-body">
+
+                                    <form class="form form-horizontal">
+                                        <div class="form-body">
+                                            <h4 class="form-section"><i class="ft-user"></i> White Lists</h4>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="projectinput1">White List (User typed in )</label>
+                                                <div class="col-md-9">
+                                                    <div class="edit-on-delete form-control" data-tags-input-name="wltyped">Cairo, Amsterdam, Washington</div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="projectinput2">White List (Extracted from live account )</label>
+                                                <div class="col-md-9">
+                                                    <div class="edit-on-delete form-control" data-tags-input-name="wlextracted">Cairo, Amsterdam, Washington</div>
+                                                </div>
+                                            </div>
+                      
+                                            <h4 class="form-section"><i class="ft-clipboard"></i> Black Lists</h4><p>
+    User typed in Usernames, hashtags and locations to not follow
+</p>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="projectinput5">Usernames</label>
+                                                <div class="col-md-9">
+                                                    <div class="edit-on-delete form-control" data-tags-input-name="blUsernames">Cairo, Amsterdam, Washington</div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="projectinput6">Locations</label>
+                                                <div class="col-md-9">
+                                                    <div class="edit-on-delete form-control" data-tags-input-name="blLocations">Cairo, Amsterdam, Washington</div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="projectinput7">Hashtags</label>
+                                                <div class="col-md-9">
+                                                    <div class="edit-on-delete form-control" data-tags-input-name="blHashtags">Cairo, Amsterdam, Washington</div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control">Black List Words</label>
+                                                <div class="col-md-9">
+                                                    <div class="edit-on-delete form-control" data-tags-input-name="blHashtags">Cairo, Amsterdam, Washington</div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="button" class="btn btn-warning mr-1">
+                                                <i class="ft-x"></i> Cancel
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fa fa-check-square-o"></i> Save
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- // Basic form layout section end -->
+        </div>
+    </div>
+</div>
+<!-- END: Content-->
+
+
+
+@section Scripts{
+   
+    <script src="~/Content/app-assets/vendors/js/forms/tags/tagging.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            /*******************************
+            *       Simple Options         *
+            *******************************/
+
+
+
+            // Edit / Delete tag on delete
+            $(".edit-on-delete").tagging({
+                "edit-on-delete": false,
+            });
+
+        });
+    </script>
+
+}

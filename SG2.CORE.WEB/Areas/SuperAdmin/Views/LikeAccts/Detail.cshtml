@@ -1,7 +1,7 @@
 ﻿@model SG2.CORE.MODAL.ViewModals.Backend.LikeyAccount.LikeyAccountViewModal
 @{
     ViewBag.Title = "Detail";
-    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout_LoggedIn.cshtml";
     var BaseURl = ViewBag.BaseUrl;
     List<SelectListItem> countries = new List<SelectListItem>();
     foreach (var item in Model.Countries)
