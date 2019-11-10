@@ -234,6 +234,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\animate.css" />
+    <Content Include="Content\input_style.css" />
     <Content Include="Content\ThemeAssets\css\backendcss.css" />
     <Content Include="Content\ThemeAssets\css\bootstrap-tagsinput.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -322,6 +323,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\bootstrap-switch.js" />
+    <Content Include="Scripts\bootstrap-switch.test.js" />
     <Content Include="Scripts\bootstrap-tagsinput.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -450,6 +453,8 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\tokenizer.js" />
+    <Content Include="Scripts\tokenizer.min.js" />
     <Content Include="socialgrowthengine\assets\ajax-loader8e98.gif" />
     <Content Include="socialgrowthengine\assets\bold-options7d04.css" />
     <Content Include="socialgrowthengine\assets\bold-ro7d04.css" />
@@ -589,6 +594,8 @@
     <Content Include="Views\Pages\TermsConditions.cshtml" />
     <Content Include="Views\Pages\PrivacyPolicy.cshtml" />
     <Content Include="Views\Profile\Basic.cshtml" />
+    <Content Include="Views\Profile\Partial\_PartialContactDetail.cshtml" />
+    <Content Include="Views\Profile\Partial\_PartialMatchFilter.cshtml" />
     <None Include="Views\Shared\Partial\_PartialForgetPasswordPopup.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialSignupPopup.cshtml" />
     <Content Include="Views\User\Home.cshtml" />

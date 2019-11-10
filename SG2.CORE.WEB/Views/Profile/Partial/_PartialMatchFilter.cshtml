@@ -1,0 +1,1125 @@
+﻿
+@model SG2.CORE.MODAL.SocialProfile_Instagram_TargetingInformation
+
+
+@using SG2.CORE.COMMON;
+@{
+	ViewBag.Title = "Target Preferences";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+
+<section id="GoToSection1" style="clear:both">
+	<div class="information-form">
+		<div class="container">
+			<div class="information-form-inner">
+				<div class="section_targetgrow">
+					<div class="row" id="section1MG">
+						<div class="row">
+							<div class="col-md-6"><h3 style="margin-top:-9px;margin-bottom:30px;float:left">Match FILTERS</h3></div><div class="col-md-6"><h3 style="margin-top:20px;margin-bottom:20px;float:right"></h3></div>
+						</div>
+						<div class="form-group">
+							@*@Html.LabelFor(m => m.Preference1, new { @class = "" })*@
+							@*<span style="display:block"> Please use this format for hashtags: #hashtag,#hashtag,#hashtag</span>*@
+							<label>Choose the hashtags you want to engage with:</label>
+							@Html.TextBoxFor(m => m.HashTagsToEngage, new { @class = "form-control", @data_role = "tagsinput" })
+
+
+						</div>
+						<div class="form-group">
+							@*@Html.LabelFor(m => m.Preference1, new { @class = "" })*@
+							@*<span style="display:block"> Please use this format for hashtags: #hashtag,#hashtag,#hashtag</span>*@
+							<label>Choose the hashtags you DO NOT want to engage (Optional):</label>
+							@Html.TextBoxFor(m => m.HashTagsToNotEngage, new { @class = "form-control", @data_role = "tagsinput" })
+
+						</div>
+						<div class="form-group">
+							@*<span style="display:block"> Please use this format for hashtags: #hashtag,#hashtag,#hashtag</span>*@
+							<label>Choose up to 8 locations 10 focus on. Cities work best (optional):</label>
+							@Html.TextBoxFor(m => m.LocationsToEngage, new { @class = "form-control", @data_role = "tagsinput" })
+
+						</div>
+						<div class="form-group">
+							@*@Html.LabelFor(m => m.Preference1, new { @class = "" })*@
+							@*<span style="display:block"> Please use this format for hashtags: #hashtag,#hashtag,#hashtag</span>*@
+							<label>Direct competitors or similar accounts.Provide at least 10 accounts with a following of at least 2000 followrs.*</label>
+							@Html.TextBoxFor(m => m.DirectCompetitors, new { @class = "form-control", @data_role = "tagsinput" })
+
+						</div>
+
+					</div>
+
+
+					<div class="row">
+						<div class="col-md-12">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Do you want to engage with males and females are Both</label>
+
+									<label class="form-radio" col-md-3>
+										Males
+										@Html.RadioButtonFor(m => m.GenderEngagmentPref, "1")
+
+										<span class="checkmark"></span>
+									</label>
+									<label class="form-radio" col-md-3>
+										Females
+										@Html.RadioButtonFor(m => m.GenderEngagmentPref, "2")
+
+										<span class="checkmark"></span>
+									</label>
+									<label class="form-radio" col-md-3>
+										Both
+										@Html.RadioButtonFor(m => m.GenderEngagmentPref, "3")
+
+										<span class="checkmark"></span>
+									</label>
+								</div>
+							</div>
+							<div class="col-md-6">
+
+								<div class="form-group">
+									<label>Do you want to only follow</label>
+
+									<label class="form-radio" col-md-3>
+										Business Account
+										@Html.RadioButtonFor(m => m.IncludeBusinessAccounts, "1")
+
+										<span class="checkmark"></span>
+									</label>
+									<label class="form-radio" col-md-3>
+										Private Account(Private Accounts can't be linked or commented to)
+										@Html.RadioButtonFor(m => m.IncludeBusinessAccounts, "2")
+										<span class="checkmark"></span>
+									</label>
+									<label class="form-radio" col-md-3>
+										Both
+										@Html.RadioButtonFor(m => m.IncludeBusinessAccounts, "3")
+										<span class="checkmark"></span>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<div class="row">
+	<div class="col-md-12">
+		<div class="col-md-4"></div><div class="col-md-4"><h4 style="margin-top: 18px;">Run Timer for APP daily operations</h4></div><div class="col-md-4">
+			<button type="button" style=" height: 36px; font-size: 14px;float: right; margin-right: 79px; margin-top: 10px;  margin-bottom: 10px;" class="btn btn-danger" id="btn_Loaddefualtfilters">
+				load Defualt Filters
+				<div id="Loaddefualtfilters" class="hidden btn-danger"><i class="fa fa-spinner fa-spin"></i></div>
+			</button>
+		</div>
+	</div>
+</div>
+<section id="GoToSection2" style="clear:both">
+	<div class="information-form">
+		<div class="container">
+			<div class="information-form-inner">
+				<div class="section_targetgrow">
+					<div class="row">
+						<div class="col-md-5">
+							<div class="col-md-4">
+								<span>Execute Between</span>
+							</div>
+							<div class="col-md-4"><input type="time" name="usr_time1"></div>
+							<div class="col-md-4"> <input type="time" name="usr_time1"></div>
+							<div class="col-md-12">
+								<div class="col-md-3"> </div>
+								<div class="col-md-3">
+									<button type="button" style=" font-size: 12px;" class="btn btn-danger" id="btn_btnadd">
+										Add Internal
+										<div id="Loaddefualtfilters" class="hidden btn-danger"><i class="fa fa-spinner fa-spin"></i></div>
+									</button>
+								</div>
+								<div class="col-md-6">
+									<div class="weekDays-selector1">
+
+										@Html.CheckBoxFor(m => m.RandomizeIntervalsDaily.HasValue)
+										<label for="weekday-mon">Randomly internal daily</label>
+									</div>
+
+								</div>
+							</div>
+
+						</div>
+						<div class="col-md-7">
+							<div class="col-md-12">
+								<span>Days of the week when to operate</span>
+							</div>
+							<div class="col-md-12">
+								<div class="weekDays-selector">
+									@Html.CheckBoxFor(m => m.MonOper.HasValue, new { @class = "weekday" })
+
+									<label for="weekday-mon">Monday</label>
+
+									@Html.CheckBoxFor(m => m.TueOper.HasValue, new { @class = "weekday" })
+									<label for="weekday-tue">Tueday</label>
+
+									@Html.CheckBoxFor(m => m.WedOper.HasValue, new { @class = "weekday" })
+									<label for="weekday-wed">Wednesday</label>
+									@Html.CheckBoxFor(m => m.ThuOper.HasValue, new { @class = "weekday" })
+
+									<label for="weekday-thu">Tursday</label>
+									@Html.CheckBoxFor(m => m.FriOper.HasValue, new { @class = "weekday" })
+
+									<label for="weekday-fri">Friday</label>
+									@Html.CheckBoxFor(m => m.SatOper.HasValue, new { @class = "weekday" })
+
+									<label for="weekday-sat">Saturday</label>
+									@Html.CheckBoxFor(m => m.SunOper.HasValue, new { @class = "weekday" })
+
+									<label for="weekday-sun">Sunday</label>
+								</div>
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<div class="row">
+	<div class="col-md-12">
+		<div class="col-md-4"></div><div class="col-md-4"><h3>User Limits for daily operations</h3></div><div class="col-md-4">
+
+		</div>
+	</div>
+	<section id="GoToSection31" style="clear:both">
+		<div class="information-form">
+			<div class="container">
+				<div class="information-form-inner">
+					<div class="section_targetgrow">
+						<div class="col-md-12 bgw">
+							<div class="col-md-6">
+								<div class="col-md-7 pd-0">
+									<label class=" mgt-8">Follow new accounts by Search tags</label>
+								</div>
+								<div class="col-md-3 pd-0">
+									@Html.EditorFor(m => m.FollNewPerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+								</div>
+								<div class="col-md-2  pd-0">
+									<label class="mgt-8">per Days</label>
+								</div>
+
+							</div>
+							<div class="col-md-3">
+								<div class="col-md-8 pd-0">
+									<label class=" mgt-8">
+										Increase daily with
+									</label>
+								</div>
+								<div class="col-md-4 pd-0">
+									@Html.EditorFor(m => m.FollDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;" } })
+								</div>
+
+							</div>
+							<div class="col-md-3">
+								<div class="col-md-8 pd-0">
+									<label class=" mgt-8">
+										untill it reaches
+									</label>
+								</div>
+								<div class="col-md-4 pd-0">
+									@Html.EditorFor(m => m.FollMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12 bgw">
+							<div class="col-md-6">
+								<div class="col-md-7 pd-0">
+									<label class=" mgt-8">
+										Un-Follow after 16 days of engaging
+									</label>
+								</div>
+								<div class="col-md-3 pd-0">
+									@Html.EditorFor(m => m.UnFollNewPerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+								</div>
+								<div class="col-md-2  pd-0">
+									<label class="mgt-8">per Days</label>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="col-md-8 pd-0">
+									<label class=" mgt-8">
+										Increase daily with
+									</label>
+								</div>
+								<div class="col-md-4 pd-0">
+									@Html.EditorFor(m => m.UnFollDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;" } })
+								</div>
+
+							</div>
+							<div class="col-md-3">
+								<div class="col-md-8 pd-0">
+									<label class=" mgt-8">
+										untill it reaches
+									</label>
+								</div>
+								<div class="col-md-4 pd-0">
+									@Html.EditorFor(m => m.UnFollMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+								</div>
+
+							</div>
+						</div>
+						<div class="col-md-12 bgw">
+							<div class="col-md-6">
+								<div class="col-md-7 pd-0">
+									<label class=" mgt-8">
+										Like on Followings Posts
+									</label>
+								</div>
+								<div class="col-md-3 pd-0">
+									@Html.EditorFor(m => m.LikePerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+								</div>
+								<div class="col-md-2  pd-0">
+									<label class="mgt-8">per Days</label>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="col-md-8 pd-0">
+									<label class=" mgt-8">
+										Increase daily with
+									</label>
+								</div>
+								<div class="col-md-4 pd-0">
+									@Html.EditorFor(m => m.LikeDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;" } })
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="col-md-8 pd-0">
+									<label class=" mgt-8">
+										untill it reaches
+									</label>
+								</div>
+								<div class="col-md-4 pd-0">
+									@Html.EditorFor(m => m.LikeMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+								</div>
+
+							</div>
+						</div>
+
+						<div class="col-md-12 bgw">
+							<div class="col-md-6">
+								<div class="col-md-7 pd-0">
+									<label class=" mgt-8">
+										View stories by Followings
+									</label>
+								</div>
+								<div class="col-md-3 pd-0">
+									@Html.EditorFor(m => m.ViewStoriesPerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+								</div>
+								<div class="col-md-2  pd-0">
+									<label class="mgt-8">per Days</label>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="col-md-8 pd-0">
+									<label class=" mgt-8">
+										Increase daily with
+									</label>
+								</div>
+								<div class="col-md-4 pd-0">
+									@Html.EditorFor(m => m.ViewStoriesDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;" } })
+								</div>
+
+							</div>
+							<div class="col-md-3">
+								<div class="col-md-8 pd-0">
+									<label class=" mgt-8">
+										untill it reaches
+									</label>
+								</div>
+								<div class="col-md-4 pd-0">
+									@Html.EditorFor(m => m.ViewStoriesMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+								</div>
+
+							</div>
+						</div>
+
+						<div class="col-md-12 bgw">
+							<div class="col-md-6">
+								<div class="col-md-7 pd-0">
+									<label class=" mgt-8">
+										Comment on Following POSTS
+									</label>
+								</div>
+								<div class="col-md-3 pd-0">
+									@Html.EditorFor(m => m.CommentPerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+								</div>
+								<div class="col-md-2  pd-0">
+									<label class="mgt-8">per Days</label>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="col-md-8 pd-0">
+									<label class=" mgt-8">
+										Increase daily with
+									</label>
+								</div>
+								<div class="col-md-4 pd-0">
+									@Html.EditorFor(m => m.CommentDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;" } })
+								</div>
+
+							</div>
+							<div class="col-md-3">
+								<div class="col-md-8 pd-0">
+									<label class=" mgt-8">
+										untill it reaches
+									</label>
+								</div>
+								<div class="col-md-4 pd-0">
+									@Html.EditorFor(m => m.CommentMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+								</div>
+
+							</div>
+						</div>
+
+						<div class="col-md-12 bgw">
+							<div class="col-md-6">
+								<div class="col-md-7 pd-0">
+									<label class=" mgt-8">
+										Direct Messaging
+									</label>
+								</div>
+								<div class="col-md-3 pd-0">
+									@Html.EditorFor(m => m.DMPerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+								</div>
+								<div class="col-md-2  pd-0">
+									<label class="mgt-8">per Days</label>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="col-md-8 pd-0">
+									<label class=" mgt-8">
+										Increase daily with
+									</label>
+								</div>
+								<div class="col-md-4 pd-0">
+									@Html.EditorFor(m => m.DMDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;" } })
+								</div>
+
+							</div>
+							<div class="col-md-3">
+								<div class="col-md-8 pd-0">
+									<label class=" mgt-8">
+										untill it reaches
+									</label>
+								</div>
+								<div class="col-md-4 pd-0">
+									@Html.EditorFor(m => m.DMMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+<div class="col-md-12">
+	<div class="col-md-4"></div><div class="col-md-4"><h3 style="margin-top:30px">Operation Filters</h3></div><div class="col-md-4">
+
+	</div>
+</div>
+<section id="GoToSection1" style="clear:both">
+	<div class="information-form">
+		<div class="container">
+			<div class="information-form-inner">
+				<div class="section_targetgrow">
+					<div class="row" id="section1MG">
+						
+
+						<div class="col-md-12">
+							<div class="col-md-2">
+								<div class="custom-control custom-switch">
+									<input type="checkbox" checked data-toggle="toggle" data-onstyle="success">
+								</div>
+								
+							</div>
+							<div class="col-md-3"><span style="color:forestgreen">Started</span><span style="margin-left:10px">Next thur @(DateTime.Now)</span></div>
+							<div class="col-md-7">
+								<div class="col-md-6">
+									<span>106/642 follow </span><a href="dd">details..</a>
+								</div><div class="col-md-6"><span>follwing the days</span></div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<fieldset>
+								<legend>SELECTION FOLLOW FILTERS:</legend>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										@Html.CheckBoxFor(m => m.FollUserProfileImage.HasValue, new { @class = "weekday" })
+										<label for="weekday-mon">User has profile image</label>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										@Html.CheckBoxFor(m => m.FollUserMinPosts.HasValue, new { @class = "weekday" })
+										<label for="weekday-mon">User has a minimum number of posts</label>
+										@*@Html.EditorFor(m=>m.FollUserMinPosts)*@
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										@Html.CheckBoxFor(m => m.FollUserPostsLastXDays.HasValue, new { @class = "weekday" })
+										<label for="weekday-mon">User posted within the last X days</label> <input type="number" name="quantity" min="1" max="5">
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										@Html.CheckBoxFor(m => m.FollUseBlackList.HasValue, new { @class = "weekday" })
+										<label for="weekday-mon">Use blacklist skip specified users)</label>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										@Html.CheckBoxFor(m => m.FollCheckPostsCapBlackList.HasValue, new { @class = "weekday" })
+										<label for="weekday-mon">Check most recent posts caption for <b>Black list words</b></label>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+
+										@Html.CheckBoxFor(m => m.FollDoNotFollowUsernamewithdigits.HasValue, new { @class = "weekday" })
+										<label for="weekday-mon">Do not follow accounts with more then</label> <input type="number" name="quantity" min="1" max="5"><label>digits in their usrname</label>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										<input type="checkbox" id="internaladd" class="weekday" />
+										<label for="weekday-mon"><b>Follow users ONLY in these Languages</b></label><select><option></option></select>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										<label for="weekday-mon">Wait between</label> @Html.EditorFor(m => m.FollowWaitBetweenActionsVal2) second before each<b>action e.g follow, comments and view</b>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+
+									<div class="weekDays-selector1">
+
+										@Html.CheckBoxFor(m => m.FollowCompetitorsFollowers.HasValue, new { @class = "weekday" })
+										<label for="weekday-mon" style="color:red">Follow COMPETITORS followers Select & Aacute; follow</label> @Html.EditorFor(m => m.FollowCompetitorsFollowersVal)<label style="color:red"> random competitors followers daily</label>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+
+									<div class="weekDays-selector1">
+										@Html.CheckBoxFor(m => m.FollowUsersfromHashtagResults.HasValue, new { @class = "weekday" })
+										<label for="weekday-mon" style="color:red">Follower Users from HASHTAG search results Select any random post from top</label> @Html.EditorFor(m => m.FollowUsersfromHashtagResultsVal) <label style="color:red"> posts result</label>
+									</div>
+
+								</div>
+							</fieldset>
+						</div>
+
+						<div class="col-md-12">
+							<fieldset>
+								<legend>AFTER FIRST FOLLOW ACTION:</legend>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										@Html.CheckBoxFor(m => m.AfterFollLikeuserPosts.HasValue, new { @class = "weekday" })
+
+										<label for="weekday-mon">Like user's latest posts</label>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										@Html.CheckBoxFor(m => m.AfterFollCommentUserPosts.HasValue, new { @class = "weekday" })
+
+										<label for="weekday-mon">Comment user's post</label>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										@Html.CheckBoxFor(m => m.AfterFollViewUserStory.HasValue, new { @class = "weekday" })
+										<label for="weekday-mon">View users latest story</label>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										<input type="checkbox" id="internaladd" class="weekday" />
+										<label for="weekday-mon">Mute user after follow</label>
+									</div>
+
+								</div>
+
+							</fieldset>
+						</div>
+						<div class="col-md-12">
+							<fieldset>
+								<legend>Engage actions <span style="color:red">with followings(un-followr List)</span>:</legend>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										<input type="checkbox" id="internaladd" class="weekday" />
+										<label for="weekday-mon"><b>Engage every day with</b></label><label><b>new followings from UN FOLLOWER LIST</b></label>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										<input type="checkbox" id="internaladd" class="weekday" />
+										<label for="weekday-mon"><b>Like most recent post</b></label>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										<input type="checkbox" id="internaladd" class="weekday" />
+										<label for="weekday-mon">Enable like comments after post is like</label>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										<input type="checkbox" id="internaladd" class="weekday" />
+										<label for="weekday-mon">Send a direct message after like</label>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										<input type="checkbox" id="internaladd" class="weekday" />
+										<label for="weekday-mon"><b>View user stories after like</b></label>
+									</div>
+
+								</div>
+
+							</fieldset>
+						</div>
+						@*</div>*@
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<div class="container">
+	<div class="col-md-12">
+		<div class="col-md-4"><h4 style="margin-top:30px">UN-FOLLOW</h4></div><div class="col-md-4">
+			<div class="col-md-4"></div>
+
+		</div>
+	</div>
+</div>
+<section id="GoToSection5" style="clear:both">
+	<div class="information-form">
+		<div class="container">
+			<div class="information-form-inner">
+				<div class="section_targetgrow">
+					<div class="row" id="section1MG">
+
+						<div class="col-md-12">
+							<div class="col-md-2">
+								<div class="custom-control custom-switch">
+									<input type="checkbox" checked data-toggle="toggle" data-onstyle="success">
+								</div>
+							</div>
+							<div class="col-md-3"><span style="color:forestgreen">Started</span><span style="margin-left:10px">Next thur @(DateTime.Now)</span></div>
+							<div class="col-md-7">
+								<div class="col-md-6">
+									<span>106/642 follow </span><a href="dd">details..</a>
+								</div><div class="col-md-6"><span>follwing the days</span></div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<fieldset>
+								<legend>USER FILTERS:</legend>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										<input type="checkbox" id="internaladd" class="weekday" />
+										<label for="weekday-mon">Unfollow followers afteer a minimum of</label> <input type="number" name="quantity" min="1" max="5"><label>days</label>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										<input type="checkbox" id="internaladd" class="weekday" />
+										<label for="weekday-mon">Do not unfollow likers that liked any</label> <input type="number" name="quantity" min="1" max="5"><label>posts</label>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										<input type="checkbox" id="internaladd" class="weekday" />
+										<label for="weekday-mon">Do not unfollow commenters that comminted on any</label> <input type="number" name="quantity" min="1" max="5"><label>posts</label>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										<input type="checkbox" id="internaladd" class="weekday" />
+										<label for="weekday-mon">Use whitelist</label><a href="" style="color:red;text-underline-position:below; margin-left:15px"><b>go to whitelist Tab to add more usernames</b></a>
+									</div>
+
+								</div>
+
+							</fieldset>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div class="container">
+	<div class="col-md-12">
+		<div class="col-md-4"><h4 style="margin-top:30px">STORY VIEWS</h4></div><div class="col-md-4">
+			<div class="col-md-4"></div>
+
+		</div>
+	</div>
+</div>
+<section id="GoToSection5" style="clear:both">
+	<div class="information-form">
+		<div class="container">
+			<div class="information-form-inner">
+				<div class="section_targetgrow">
+					<div class="row" id="section1MG">
+						<div class="col-md-12">
+							<div class="col-md-2">
+								<div class="custom-control custom-switch">
+									<input type="checkbox" checked data-toggle="toggle" data-onstyle="success">
+								</div>
+							</div>
+							<div class="col-md-3"><span style="color:forestgreen">Started</span><span style="margin-left:10px">Next thur @(DateTime.Now)</span></div>
+							<div class="col-md-7">
+								<div class="col-md-6">
+									<span>106/642 follow </span><a href="dd">details..</a>
+								</div><div class="col-md-6"><span>follwing the days</span></div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<fieldset>
+								<legend>USER FILTERS:</legend>
+
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										<input type="checkbox" id="internaladd" class="weekday" />
+										<label for="weekday-mon">View only stories that were posted no more then a minutes ago</label>
+									</div>
+
+								</div>
+
+
+
+							</fieldset>
+						</div>
+
+						<div class="col-md-12">
+							<fieldset>
+								<legend>AFTER VIEW ACTIONS:</legend>
+
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										<input type="checkbox" id="internaladd" class="weekday" />
+										<label for="weekday-mon">Reply to story after view</label>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										<input type="checkbox" id="internaladd" class="weekday" />
+										<label for="weekday-mon">send a direct message after like</label>
+									</div>
+
+								</div>
+
+
+							</fieldset>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div class="container">
+	<div class="col-md-12">
+		<div class="col-md-4"><h4 style="margin-top:30px">COMMENTS</h4></div><div class="col-md-4">
+			<div class="col-md-4"></div>
+
+		</div>
+	</div>
+</div>
+<section id="GoToSection6" style="clear:both">
+	<div class="information-form">
+		<div class="container">
+			<div class="information-form-inner">
+				<div class="section_targetgrow">
+					<div class="row" id="section1MG">
+						<div class="col-md-12">
+							<div class="col-md-2">
+								<div class="custom-control custom-switch">
+									<input type="checkbox" checked data-toggle="toggle" data-onstyle="success">
+								</div>
+							</div>
+							<div class="col-md-3"><span style="color:forestgreen">Started</span><span style="margin-left:10px">Next thur @(DateTime.Now)</span></div>
+							<div class="col-md-7">
+								<div class="col-md-6">
+									<span>106/642 follow </span><a href="dd">details..</a>
+								</div><div class="col-md-6"><span>follwing the days</span></div>
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							<fieldset>
+								<legend>POST FILTERS</legend>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										<input type="checkbox" id="internaladd" class="weekday" />
+										<label for="weekday-mon">Comment users most posts </label> <input type="number" name="quantity" min="1" max="5"><label>most recent posts</label>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										<label for="weekday-mon">Comment only</label>
+										<input type="radio" id="internaladd" class="weekday" />
+
+										<label for="weekday-mon">Image</label>
+										<input type="radio" id="internaladd" class="weekday" />
+
+										<label for="weekday-mon">Vedios</label>
+										<input type="radio" id="internaladd" class="weekday" />
+
+										<label for="weekday-mon">Images and Vedios</label>
+										<input type="radio" id="internaladd" class="weekday" />
+										<label for="weekday-mon">Albums</label>
+
+										<input type="radio" id="internaladd" class="weekday" />
+										<label for="weekday-mon">All</label>
+										<input type="radio" id="internaladd" class="weekday" />
+
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										<input type="checkbox" id="internaladd" class="weekday" />
+										<label for="weekday-mon">Posted whin the last X days</label>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										<input type="checkbox" id="internaladd" class="weekday" />
+										<label for="weekday-mon">Filter posts by number of likes</label> <input type="number" name="quantity" min="1" max="5"><label>Like</label>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="weekDays-selector1">
+										<input type="checkbox" id="internaladd" class="weekday" />
+										<label for="weekday-mon">Delete comment after</label> <input type="number" name="quantity" min="1" max="5"><label>days</label>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="col-md-2">
+										<div class="weekDays-selector1">
+											<label for="weekday-mon">Comment line 1</label>
+										</div>
+									</div>
+									<div class="col-md-10">
+										<div class="weekDays-selector1">
+											<input type="text" id="internaladd" class="weekday" />
+										</div>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="col-md-2">
+										<div class="weekDays-selector1">
+											<label for="weekday-mon">Comment line 2</label>
+										</div>
+									</div>
+									<div class="col-md-10">
+										<div class="weekDays-selector1">
+											<input type="text" id="internaladd" class="weekday" />
+										</div>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="col-md-2">
+										<div class="weekDays-selector1">
+											<label for="weekday-mon">Comment line 3</label>
+										</div>
+									</div>
+									<div class="col-md-10">
+										<div class="weekDays-selector1">
+											<input type="text" id="internaladd" class="weekday" />
+										</div>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="col-md-2">
+										<div class="weekDays-selector1">
+											<label for="weekday-mon">Comment line 4</label>
+										</div>
+									</div>
+									<div class="col-md-10">
+										<div class="weekDays-selector1">
+											<input type="text" id="internaladd" class="weekday" />
+										</div>
+									</div>
+
+								</div>
+								<div class="col-md-12">
+									<div class="col-md-2">
+										<div class="weekDays-selector1">
+											<label for="weekday-mon">Comment line 5</label>
+										</div>
+									</div>
+									<div class="col-md-10">
+										<div class="weekDays-selector1">
+											<input type="text" id="internaladd" class="weekday" />
+										</div>
+									</div>
+
+								</div>
+
+							</fieldset>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div class="container">
+	<div class="col-md-12">
+		<div class="col-md-4"><h4 style="margin-top:30px">DIRECT MESSAGE</h4></div><div class="col-md-4">
+			<div class="col-md-4"></div>
+
+		</div>
+	</div>
+</div>
+<section id="GoToSection9" style="clear:both">
+	<div class="information-form">
+		<div class="container">
+			<div class="information-form-inner">
+				<div class="section_targetgrow">
+					<div class="row" id="section1MG">
+						<div class="col-md-12">
+							<div class="col-md-2">
+								<div class="custom-control custom-switch">
+									<input type="checkbox" checked data-toggle="toggle" data-onstyle="success">
+								</div>
+							</div>
+							<div class="col-md-3"><span style="color:forestgreen">STOPPED</span><span style="margin-left:10px">Next thur @(DateTime.Now)</span></div>
+							<div class="col-md-7">
+								<div class="col-md-6">
+									<span>106/642 follow </span><a href="dd">details..</a>
+								</div><div class="col-md-6"><span>follwing the days</span></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div class="container">
+	<div class="col-md-12">
+		<div class="col-md-4"><h4 style="margin-top:30px">LIKE EXCHANGE Participation</h4></div><div class="col-md-4">
+			<div class="col-md-4"></div>
+
+		</div>
+	</div>
+</div>
+<section id="GoToSection6" style="clear:both">
+	<div class="information-form">
+		<div class="container">
+			<div class="information-form-inner">
+				<div class="section_targetgrow">
+					<div class="row" id="section1MG">
+						<div class="col-md-12">
+							<div class="col-md-2">
+								<div class="custom-control custom-switch">
+									<input type="checkbox" checked data-toggle="toggle" data-onstyle="success">
+								</div>
+							</div>
+							<div class="col-md-3"><span style="color:forestgreen">Started</span><span style="margin-left:10px">Next thur @(DateTime.Now)</span></div>
+							<div class="col-md-7">
+								<div class="col-md-6">
+									<span>106/642 follow </span><a href="dd">details..</a>
+								</div><div class="col-md-6"><span>follwing the days</span></div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="col-md-12">
+								<div class="weekDays-selector1">
+									<input type="checkbox" id="internaladd" class="weekday" />
+									<label for="weekday-mon">Like users most recent posts</label> <input type="number" name="quantity" min="1" max="5"><label>most recent posts</label>
+								</div>
+
+							</div>
+							<div class="col-md-12">
+								<div class="weekDays-selector1">
+									<input type="checkbox" id="internaladd" class="weekday" />
+									<label for="weekday-mon">Use blacklist (skip specified users)</label>
+								</div>
+
+							</div>
+							<div class="col-md-12">
+								<div class="weekDays-selector1">
+									<input type="checkbox" id="internaladd" class="weekday" />
+									<label for="weekday-mon">Check most recent posts caption for<b>Black list words</b></label>
+								</div>
+
+							</div>
+						</div>
+						<div class="col-md-6">
+
+							<div class="col-md-12">
+								<div class="weekDays-selector1">
+									<input type="checkbox" id="internaladd" class="weekday" />
+									<label for="weekday-mon">Posted within the Last X days</label><input type="number" name="quantity" min="1" max="5">
+								</div>
+
+							</div>
+							<div class="col-md-12">
+								<div class="weekDays-selector1">
+									<input type="checkbox" id="internaladd" class="weekday" />
+									<label for="weekday-mon">Post caption is empty</label>
+								</div>
+
+							</div>
+							<div class="col-md-12">
+								<div class="weekDays-selector1">
+									<input type="checkbox" id="internaladd" class="weekday" />
+									<label for="weekday-mon">Do not  <b>Like</b> private users</label>
+								</div>
+
+							</div>
+							<div class="col-md-12">
+								<div class="weekDays-selector1">
+									<input type="checkbox" id="internaladd" class="weekday" />
+									<label for="weekday-mon">Skip business accounts</label>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<style>
+	.weekDays-selector input {
+		/*display: none !important;*/
+	}
+
+		.weekDays-selector input[type=checkbox] + label {
+			display: inline-block;
+			border-radius: 0px;
+			/*background: #dddddd;*/
+			/*height: 24px;
+									width: 83px;*/
+			line-height: 40px;
+			text-align: center;
+			cursor: pointer;
+		}
+
+		.weekDays-selector input[type=checkbox]:checked + label {
+			/*background: #2AD705;*/
+			color: #ffffff;
+		}
+
+	.button {
+		height: 40px;
+		font-size: 13px;
+	}
+
+	input {
+		padding: 0px !important;
+		border: 1px solid lightgrey !important;
+	}
+
+	.weekDays-selector1 input[type=number] {
+		display: inline-block;
+		border-radius: 0px;
+		/*background: #dddddd;*/
+		height: 24px;
+		width: 65px;
+		line-height: 40px;
+		text-align: center;
+		cursor: pointer;
+	}
+
+	.weekDays-selector1 select {
+		display: inline-block;
+		border-radius: 6px;
+		/*background: #dddddd;*/
+		height: 40px;
+		width: 83px;
+		line-height: 40px;
+		text-align: center;
+		cursor: pointer;
+	}
+
+	label {
+		font-size: 12px !important;
+	}
+
+	width-95 {
+		width: 95% !important;
+	}
+
+	.pd-0 {
+		padding: 0px;
+	}
+
+	.mgt-4 {
+		margin-top: 4px;
+	}
+
+	.mgt-8 {
+		margin-top: 8px;
+	}
+
+	.bgw {
+		background: #fff;
+	}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+@*<script src="~/Scripts/bootstrap.min.js"></script>*@
+<script src="~/Scripts/bootstrap-switch.js"></script>
+<script type='text/javascript'>
+
+
+</script>

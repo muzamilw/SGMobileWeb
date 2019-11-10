@@ -63,7 +63,8 @@
             public static string SellerUser = "SellerUser";
             public static string SystemUser = "SystemUser";
             public static string JVRPCSESSIONID = "JVRPCSESSIONID";
-        }
+			public static string SocialProfile = "SocialProfile";
+		}
 
         public enum CustomersStatus
         {

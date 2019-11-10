@@ -1243,6 +1243,7 @@ namespace SG2.CORE.DAL.Repositories
                     profile.CurrentPaymentPlan = _db.PaymentPlans.Where(g => g.PaymentPlanId == profile.SocialProfile.PaymentPlanId).SingleOrDefault();
                     profile.LastSocialProfile_Payments = _db.SocialProfile_Payments.Where(g => g.SocialProfileId == profileId).OrderByDescending(g => g.PaymentDateTime).ToList();
                     profile.SocialProfile_FollowedAccounts = _db.SocialProfile_FollowedAccounts.Where(g => g.SocialProfileId == profileId).OrderByDescending(g => g.FollowedDateTime).ToList();
+					profile.socialcustomer = _db.Customers.Where(g => g.CustomerId == profile.SocialProfile.CustomerId).SingleOrDefault();
                 }
                 return profile;
             }

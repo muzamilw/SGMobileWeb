@@ -8,38 +8,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Social Growth</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>@ViewBag.Title - Social Growth</title>
 
-    @*@Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")*@
+	@*@Styles.Render("~/Content/css")
+		@Scripts.Render("~/bundles/modernizr")*@
 
-    <link href="~/Content/ThemeAssets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="~/Content/ThemeAssets/css/owl.carousel.css" rel="stylesheet" type="text/css">
-    <link href="~/Content/ThemeAssets/css/owl.theme.default.css" rel="stylesheet" type="text/css">
-    <link href="~/Content/ThemeAssets/css/fontawesome-all.css" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700' rel='stylesheet' type='text/css'>
-    <link href="~/Content/ThemeAssets/css/Home.css" rel="stylesheet" />
-    @Styles.Render("~/Content/intercom.css")
-    <link href="~/Content/ThemeAssets/css/style.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="~/Content/ThemeAssets/css/responsive.css">
-    <link rel="stylesheet" href="~/Content/ThemeAssets/css/hover.css">
+	<link href="~/Content/ThemeAssets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="~/Content/ThemeAssets/css/owl.carousel.css" rel="stylesheet" type="text/css">
+	<link href="~/Content/ThemeAssets/css/owl.theme.default.css" rel="stylesheet" type="text/css">
+	<link href="~/Content/ThemeAssets/css/fontawesome-all.css" rel="stylesheet" type="text/css">
+	<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700' rel='stylesheet' type='text/css'>
+	<link href="~/Content/ThemeAssets/css/Home.css" rel="stylesheet" />
+	@Styles.Render("~/Content/intercom.css")
+	<link href="~/Content/ThemeAssets/css/style.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="~/Content/ThemeAssets/css/responsive.css">
+	<link rel="stylesheet" href="~/Content/ThemeAssets/css/hover.css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-    @*<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />*@
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+	@*<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />*@
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	@RenderSection("styles", required: false)
 
-    @RenderSection("styles", required: false)
-
-    <style>
-        .fa-user {
-            border: 1px solid;
-            padding: 2px 4px;
-            border-radius: 15px;
-            padding-bottom: 4px;
-        }
-    </style>
+	<style>
+		.fa-user {
+			border: 1px solid;
+			padding: 2px 4px;
+			border-radius: 15px;
+			padding-bottom: 4px;
+		}
+	</style>
 
 </head>
 

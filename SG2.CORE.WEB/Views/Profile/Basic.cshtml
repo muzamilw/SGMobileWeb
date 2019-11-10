@@ -1,46 +1,46 @@
 ﻿@model SG2.CORE.MODAL.ViewModals.TargetPreferences.TargetPreferencesViewModel
 @using SG2.CORE.MODAL.DTO.Customers;
 @{
-    var custDto = (CustomerDTO)ViewBag.CustomerDTO;
+	var custDto = (CustomerDTO)ViewBag.CustomerDTO;
 }
 @using SG2.CORE.COMMON;
 @{
 
-    var customerDTO = (CustomerDTO)ViewBag.CustomerDTO;
+	var customerDTO = (CustomerDTO)ViewBag.CustomerDTO;
 
-    ViewBag.Title = "Target Preferences";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "Target Preferences";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 
-    List<SelectListItem> countries = new List<SelectListItem>();
+	List<SelectListItem> countries = new List<SelectListItem>();
 
-    //foreach (var item in Model.Countries)
-    //{
-    //    countries.Add(new SelectListItem { Text = item.Name, Value = item.CountryId.ToString() });
-    //}
+	//foreach (var item in Model.Countries)
+	//{
+	//    countries.Add(new SelectListItem { Text = item.Name, Value = item.CountryId.ToString() });
+	//}
 
-    //List<SelectListItem> cities = new List<SelectListItem>();
-    //foreach (var item in Model.Cities)
-    //{
-    //    cities.Add(new SelectListItem { Text = item.Name, Value = item.CityId.ToString() });
-    //}
+	//List<SelectListItem> cities = new List<SelectListItem>();
+	//foreach (var item in Model.Cities)
+	//{
+	//    cities.Add(new SelectListItem { Text = item.Name, Value = item.CityId.ToString() });
+	//}
 
-    var currentUser = (CustomerDTO)ViewBag.CurrentUser;
-    SocialProfileDTO SocailProfile = (SocialProfileDTO)ViewBag.SocailProfile;
+	var currentUser = (CustomerDTO)ViewBag.CurrentUser;
+	SocialProfileDTO SocailProfile = (SocialProfileDTO)ViewBag.SocailProfile;
 
-    //List<SelectListItem> profiles = new List<SelectListItem>();
-    //foreach (var item in socailProfiles)
-    //{
-    //    profiles.Add(new SelectListItem { Text = item.ProfileName, Value = item.SocialProfileId.ToString() });
-    //}
+	//List<SelectListItem> profiles = new List<SelectListItem>();
+	//foreach (var item in socailProfiles)
+	//{
+	//    profiles.Add(new SelectListItem { Text = item.ProfileName, Value = item.SocialProfileId.ToString() });
+	//}
 
-    var profileUpdateButtonClass = "hide";
-    
+	var profileUpdateButtonClass = "hide";
 
-    short? planSq = 1;
-    if (Model.ActivePlanId != null)
-    {
-        planSq = Model.Plans.First(x => x.PlanId == Model.ActivePlanId).SortOrder;
-    }
+
+	short? planSq = 1;
+	if (Model.ActivePlanId != null)
+	{
+		planSq = Model.Plans.First(x => x.PlanId == Model.ActivePlanId).SortOrder;
+	}
 
 }
 
@@ -118,19 +118,19 @@
                 </a>
             </div>
 
-            <div class="col-xs-12 col-md-2 col-sm-2 btn_mg_top">
-                <a href="#GoToSection2" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
-                    <b class="circle"><span>2</span></b>
-                    Contact Details
-                </a>
-            </div>
+			<div class="col-xs-12 col-md-2 col-sm-2 btn_mg_top">
+				<a onclick="MoveToSection(1)" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
+			<b class="circle"><span>2</span></b>
+			Contact Details
+		</a>
+			</div>
 
-            <div class="col-xs-12 col-md-2 col-sm-2 btn_mg_top">
-                <a href="#GoToSection3" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
-                    <b class="circle"><span>3</span></b>
-                    Match Filters
-                </a>
-            </div>
+			<div class="col-xs-12 col-md-2 col-sm-2 btn_mg_top">
+				<a  onclick="MoveToSection(2)" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
+			<b class="circle"><span>3</span></b>
+			Match Filters
+		</a>
+			</div>
             <div class="col-xs-12 col-md-2 col-sm-2 btn_mg_top">
                 <a href="#GoToSection3" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
                     <b class="circle"><span>4</span></b>
@@ -166,10 +166,15 @@
 
     </div>
 </div>
-
+<section id="pcd">
+	@Html.Partial("~/Views/Profile/Partial/_PartialContactDetail.cshtml",SocailProfile)
+</section>
+<section id="pmf">
+	@Html.Partial("~/Views/Profile/Partial/_PartialMatchFilter.cshtml", SocailProfile.SocialProfile_Instagram_TargetingInformation)
+</section>
 <br />
 
-<section id="GoToSection1">
+<section id="GoToSection1" style="clear:both">
     <div class="information-form">
         <div class="container">
             <div class="information-form-inner">
@@ -464,6 +469,7 @@
                                     <br />
                                 </div>
                             }
+					
 
                             @using (Html.BeginForm("ModifyTargetPreferences", "UpdateSocialProfile", FormMethod.Post, new { @class = "", @id = "Form_SocialProfile" }))
                             {
@@ -581,67 +587,67 @@
         <div class="container">
             <div class="information-form-inner">
                 <div class="section_targetgrow">
-                    <div class="row">
+					<div class="row">
+						@*@Html.Partial("~/Views/Profile/Partial/_MatchFilter.cshtml")*@
+						<div class="col-xs-12">
+							<h1 class="color-crimson weight500" style="color:#587ae8;"><span class="CircleWithinLinkTag"><span style="color:white;font-size:16pt; margin:0px;">3</span></span>Insights &amp; Statistics</h1>
+							<hr />
+						</div>
 
-                        <div class="col-xs-12">
-                            <h1 class="color-crimson weight500" style="color:#587ae8;"><span class="CircleWithinLinkTag"><span style="color:white;font-size:16pt; margin:0px;">3</span></span>Insights &amp; Statistics</h1>
-                            <hr />
-                        </div>
+						<div class="div_ChartsData hide text-center">
+							<div class="col-md-6 col-sm-12">
+								<h3>
+									Bar Chart: Followers
+								</h3>
+								<div id="FollowerBarChart" style="width:100%; height:400px"></div>
+							</div>
+							<div class="col-md-6 col-sm-12">
+								<h3>
+									Line Chart: Followers
+								</h3>
+								<div id="FollowerLineChart" style="width:100%; height:400px"></div>
+							</div>
+							<div class="col-md-12">
+								<hr />
+							</div>
+							<div class="col-md-6 col-sm-12">
+								<h3>
+									Bar Chart: Likies
+								</h3>
+								<div id="LikeBarChart" style="width:100%; height:400px"></div>
+							</div>
+							<div class="col-md-6 col-sm-12">
+								<h3>
+									Line Chart: Likies
+								</h3>
+								<div id="LikeLineChart" style="width:100%; height:400px"></div>
+							</div>
+						</div>
 
-                        <div class="div_ChartsData hide text-center">
-                            <div class="col-md-6 col-sm-12">
-                                <h3>
-                                    Bar Chart: Followers
-                                </h3>
-                                <div id="FollowerBarChart" style="width:100%; height:400px"></div>
-                            </div>
-                            <div class="col-md-6 col-sm-12">
-                                <h3>
-                                    Line Chart: Followers
-                                </h3>
-                                <div id="FollowerLineChart" style="width:100%; height:400px"></div>
-                            </div>
-                            <div class="col-md-12">
-                                <hr />
-                            </div>
-                            <div class="col-md-6 col-sm-12">
-                                <h3>
-                                    Bar Chart: Likies
-                                </h3>
-                                <div id="LikeBarChart" style="width:100%; height:400px"></div>
-                            </div>
-                            <div class="col-md-6 col-sm-12">
-                                <h3>
-                                    Line Chart: Likies
-                                </h3>
-                                <div id="LikeLineChart" style="width:100%; height:400px"></div>
-                            </div>
-                        </div>
+						<div class="div_NoChartsData hide">
+							<div class="col-md-12 text-center">
+								<img src="~/Content/ThemeAssets/Images/Simple_Social_Growth.png" />
+								<br />
+								<h3>Growth charts and analytics will be shown after few days.</h3>
+								<br />
+								@*<br />
+				<img src="~/Content/ThemeAssets/Images/comingsoon.png" />
+				<br />
+				<br />
+				<img src="~/Content/ThemeAssets/Images/givinglist.png" />*@
+							</div>
+						</div>
 
-                        <div class="div_NoChartsData hide">
-                            <div class="col-md-12 text-center">
-                                <img src="~/Content/ThemeAssets/Images/Simple_Social_Growth.png" />
-                                <br />
-                                <h3>Growth charts and analytics will be shown after few days.</h3>
-                                <br />
-                                @*<br />
-                                    <img src="~/Content/ThemeAssets/Images/comingsoon.png" />
-                                    <br />
-                                    <br />
-                                    <img src="~/Content/ThemeAssets/Images/givinglist.png" />*@
-                            </div>
-                        </div>
+						<div class="div_LoadingData">
 
-                        <div class="div_LoadingData">
+							<div class="col-md-12 text-center">
 
-                            <div class="col-md-12 text-center">
+								<br />
+								<h3>Loading data... <i class="fa fa-spin fa-spinner"></i></h3>
+							</div>
+						</div>
 
-                                <br />
-                                <h3>Loading data... <i class="fa fa-spin fa-spinner"></i></h3>
-                            </div>
-                        </div>
-
-                    </div>
+					</div>
                 </div>
             </div>
         </div>
@@ -1356,7 +1362,19 @@
         prefs = ['webkit-slider-runnable-track', 'moz-range-track', 'ms-track'];
 
         document.body.appendChild(sheet);
-
+	function MoveToSection(section) {
+		if (section == 1) {
+			$("#pcd").show();
+			$("#pmf").hide();
+		} else if (section == 2) {
+			$("#pcd").hide();
+			$("#pmf").show();
+		} else {
+			$("#pmf").hide();
+			$("#pcd").hide();
+		}
+	}
+	MoveToSection(0);
         var getTrackStyle = function (el) {
             var curVal = el.value,
                 val = (curVal - 1) * 20,

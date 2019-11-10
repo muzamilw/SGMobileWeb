@@ -17,12 +17,14 @@ namespace SG2.CORE.BAL.Managers
     public class CustomerManager
     {
         private readonly CustomerRepository _customerRepository;
+		private readonly SocialProfileRepository _socialRepository;
 
-        private readonly SessionManager _sessionManager;
+		private readonly SessionManager _sessionManager;
 
         public CustomerManager()
         {
             _customerRepository = new CustomerRepository();
+			_socialRepository = new SocialProfileRepository();
             _sessionManager = new SessionManager();
         }
 
@@ -282,6 +284,24 @@ namespace SG2.CORE.BAL.Managers
                 throw ex;
             }
         }
+		public bool UpdateSocialProfile(SocialProfileDTO model) {
+			try
+			{
+				var socialprofile = _socialRepository.UpdateSocialProfile(model.SocialProfile.DeviceBinLocation,model.SocialProfile.SocialProfileName,model.SocialProfile.SocialProfileId);
+				if (socialprofile)
+				{
+					_sessionManager.Set(SessionConstants.SocialProfile, socialprofile);
+				}
+				return socialprofile;
+
+			}
+			catch (Exception)
+			{
+
+				throw;
+				
+			}
+		}
 
         public CustomerDTO UpdateCustomerProfile(CustomerDTO model)
         {

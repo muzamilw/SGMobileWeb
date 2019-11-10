@@ -156,8 +156,35 @@ namespace SG2.CORE.WEB.Controllers
             return View(targetPreferences);
 
         }
+	
+		[HttpPost]
+		public ActionResult ContactDetailsPOST(FormCollection fomr)
+		{
+			
+			string DeviceBinLocation = Convert.ToString(fomr["DeviceBinLocation"]);
+			string SocialProfileName= Convert.ToString(fomr["SocialProfileName"]);
+			int SocialProfileId = Convert.ToInt32(fomr["SocialProfileId"]);
+			var model = this._cm.GetSocialProfileById(SocialProfileId); 
+			model.SocialProfile.DeviceBinLocation = DeviceBinLocation;
+			model.SocialProfile.SocialProfileName = SocialProfileName;
+			model.SocialProfile.SocialProfileId = SocialProfileId;
+			//int SocialProfileId = socialProfileId ?? 0;
+			var socialprofile = this._cm.UpdateSocialProfile(model);
+			//ViewBag.SocailProfile = socialprofile;
+			return RedirectToAction("Basic", "Profile", new { @socialProfileId = SocialProfileId });
+			//return RedirectToAction("Basic", "Profile");
 
-        public ActionResult ModifyTargetPreferences(int? socialProfileId = null)
+		}
+		public ActionResult MatchFilters(int? socialProfileId = null)
+		{
+			//int SocialProfileId = socialProfileId ?? 0;
+			//var socialprofile = this._cm.GetSocialProfileById(SocialProfileId);
+			//ViewBag.SocailProfile = socialprofile;
+			//return RedirectToAction("Basic", "Profile", new { @socialProfileId = socialProfileId });
+			return PartialView();
+
+		}
+		public ActionResult ModifyTargetPreferences(int? socialProfileId = null)
         {
             //if (!string.IsNullOrEmpty((string)TempData["Success"]))
             //{
