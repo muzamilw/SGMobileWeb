@@ -12,52 +12,52 @@
 // ------------------------------
 $(window).on("load", function(){
 
-    Morris.Line({
-        element: 'line-followers',
-        data: [{
-            "year": "2010",
+    //Morris.Line({
+    //    element: 'line-followers',
+    //    data: [{
+    //        "year": "2010",
       
-            "Followers": 62
-        }, {
-            "year": "2011",
+    //        "Followers": 62
+    //    }, {
+    //        "year": "2011",
          
-            "Followers": 120
-        }, {
-            "year": "2012",
+    //        "Followers": 120
+    //    }, {
+    //        "year": "2012",
           
-            "Followers": 80
-        }, {
-            "year": "2013",
+    //        "Followers": 80
+    //    }, {
+    //        "year": "2013",
          
-            "Followers": 75
-        }, {
-            "year": "2014",
+    //        "Followers": 75
+    //    }, {
+    //        "year": "2014",
           
-            "Followers": 100
-        }, {
-            "year": "2015",
+    //        "Followers": 100
+    //    }, {
+    //        "year": "2015",
            
-            "Followers": 80
-        }, {
-            "year": "2016",
+    //        "Followers": 80
+    //    }, {
+    //        "year": "2016",
           
-            "Followers": 90
-        }],
-        xkey: 'year',
-        ykeys: ['Followers'],
-        labels: ['Followers'],
-        resize: true,
-        smooth: false,
-        pointSize: 3,
-        pointStrokeColors:['#FF4558'],
-        gridLineColor: '#e3e3e3',
-        behaveLikeLine: true,
-        numLines: 6,
-        gridtextSize: 14,
-        lineWidth: 3,
-        hideHover: 'auto',
-        lineColors: ['#FF4558']
-    });
+    //        "Followers": 90
+    //    }],
+    //    xkey: 'year',
+    //    ykeys: ['Followers'],
+    //    labels: ['Followers'],
+    //    resize: true,
+    //    smooth: false,
+    //    pointSize: 3,
+    //    pointStrokeColors:['#FF4558'],
+    //    gridLineColor: '#e3e3e3',
+    //    behaveLikeLine: true,
+    //    numLines: 6,
+    //    gridtextSize: 14,
+    //    lineWidth: 3,
+    //    hideHover: 'auto',
+    //    lineColors: ['#FF4558']
+    //});
 
     Morris.Line({
         element: 'line-followings',

@@ -187,15 +187,19 @@ namespace SG2.CORE.WEB.Controllers
                 DateTime startdate = DateTime.Today.AddDays(-7);   //1 week
                 DateTime enddate = DateTime.Today.AddHours(24);
 
-                if ( mode == 2)
+                if (mode == 2)
+                {
+                    startdate = DateTime.Today.AddDays(-30);  //3 months
+                }
+                if ( mode == 3)
                 {
                     startdate = DateTime.Today.AddMonths(-3);  //3 months
                 }
-                else if ( mode == 3)
+                else if ( mode == 4)
                 {
                     startdate = DateTime.Today.AddMonths(-6); //6 months
                 }
-                else if (mode == 4)
+                else if (mode == 5)
                 {
                     startdate = DateTime.Today.AddMonths(-12); //6 months
                 }
@@ -210,8 +214,8 @@ namespace SG2.CORE.WEB.Controllers
                         message = "",
                         ResultData = new
                         {
-                            Date = trends.Select(x => x.Date.ToString("dd/MM/yyyy")).ToArray(),
-                            FollowersData = trends.Select(x => x.Followers.ToString()).ToArray(),
+                            Date = trends.Select(x => x.Date.ToString("dd-MMM-yyyy")).ToArray(),
+                            Followers = trends.Select(x => x.Followers.ToString()).ToArray(),
                             //FollowersGainData = statisticsViewModel.StatisticsListing.Select(x => x.FollowersGain.ToString()).ToArray(),
                             FollowingsData = trends.Select(x => x.Followings.ToString()).ToArray(),
                             //FollowingsRatioData = statisticsViewModel.StatisticsListing.Select(x => x.FollowingsRatio.ToString()).ToArray(),
