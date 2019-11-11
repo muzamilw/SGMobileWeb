@@ -469,6 +469,7 @@
     <Content Include="Content\app-assets\css\pages\under-maintenance.min.css" />
     <Content Include="Content\app-assets\css\pages\users.css" />
     <Content Include="Content\app-assets\css\pages\users.min.css" />
+    <Content Include="Content\app-assets\css\pincode.css" />
     <Content Include="Content\app-assets\css\plugins\animate\animate.css" />
     <Content Include="Content\app-assets\css\plugins\animate\animate.min.css" />
     <Content Include="Content\app-assets\css\plugins\calendars\fullcalendar.css" />
@@ -1694,6 +1695,7 @@
     <Content Include="Content\app-assets\js\core\app.min.js" />
     <Content Include="Content\app-assets\js\core\libraries\bootstrap.min.js" />
     <Content Include="Content\app-assets\js\core\libraries\jquery.min.js" />
+    <Content Include="Content\app-assets\js\scripts\bootstrap-pincode-input.js" />
     <Content Include="Content\app-assets\js\scripts\cards\card-charts.js" />
     <Content Include="Content\app-assets\js\scripts\cards\card-charts.min.js" />
     <Content Include="Content\app-assets\js\scripts\cards\card-ecommerce.js" />

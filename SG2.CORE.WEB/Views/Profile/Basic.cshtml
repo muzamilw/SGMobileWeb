@@ -14,6 +14,7 @@
 @section styles{
 
     <link href="~/Content/app-assets/vendors/css/forms/tags/tagging.css" rel="stylesheet" />
+    <link href="~/Content/app-assets/css/pincode.css" rel="stylesheet" />
 }
 
 
@@ -21,232 +22,170 @@
 
 <!-- BEGIN: Content-->
 <div class="app-content container center-layout mt-2">
-	<div class="content-wrapper">
-		<div class="content-header row">
-			<div class="content-header-left col-md-6 col-12 mb-2">
+    <div class="content-wrapper">
+        <div class="content-header row">
+            <div class="content-header-left col-md-6 col-12 mb-2">
 
-				<div class="media">
-					<a class="media-left align-self-center" href="#">
-						<img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" alt="Generic placeholder image" style="width: 64px;height: 64px;" />
-					</a>
-					<div class="media-body mt-2">
-						<h3 class="media-heading">@Model.SocialProfile.SocialUsername</h3>
-					</div>
-				</div>
-				<div class="col-xs-12" id="hidecol-xs">&nbsp;</div>
+                <div class="media">
+                    <a class="media-left align-self-center" href="#">
+                        <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" alt="Generic placeholder image" style="width: 64px;height: 64px;" />
+                    </a>
+                    <div class="media-body mt-2">
+                        <h3 class="media-heading">@Model.SocialProfile.SocialUsername</h3>
 
-				<div class="col-xs-12 col-md-2 col-sm-2 btn_mg_top">
-					<a href="#GoToSection1" class="btn btn-primary btn-block">
-						<b class="circle"><span>1</span></b>
-						Stats
-					</a>
-				</div>
+                    </div>
+                </div>
 
-				<div class="col-xs-12 col-md-2 col-sm-2 btn_mg_top">
-					<a onclick="MoveToSection(1)" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
-						<b class="circle"><span>2</span></b>
-						Contact Details
-					</a>
-				</div>
+            </div>
+            <div class="content-header-right col-md-6 col-12">
+                <div class="media width-250 float-right">
+                    <div class="media-body media-right text-right">
+                        <h3 class="m-0">Active</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-body">
+            <!-- Basic form layout section start -->
+            <section id="horizontal-form-layouts">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title" id="horz-layout-basic">Contect Details</h4>
+                                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                <div class="heading-elements">
+                                    <ul class="list-inline mb-0">
+                                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
 
-				<div class="col-xs-12 col-md-2 col-sm-2 btn_mg_top">
-					<a onclick="MoveToSection(2)" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
-						<b class="circle"><span>3</span></b>
-						Match Filters
-					</a>
-				</div>
-				<div class="col-xs-12 col-md-2 col-sm-2 btn_mg_top">
-					<a href="#GoToSection3" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
-						<b class="circle"><span>4</span></b>
-						While & Black Lists
-					</a>
-				</div>
-				<div class="col-xs-12 col-md-2 col-sm-2 btn_mg_top">
-					<a href="#GoToSection3" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
-						<b class="circle"><span>5</span></b>
-						New Followings
-					</a>
-				</div>
-				<div class="col-xs-12 col-md-2 col-sm-2 btn_mg_top">
-					<a href="#GoToSection3" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
-						<b class="circle"><span>6</span></b>
-						Order History
-					</a>
-				</div>
-			</div>
-		</div>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-content collpase show">
+                                <div class="card-body">
 
-		<div class="content-body">
-			<!-- Basic form layout section start -->
-			<section id="horizontal-form-layouts">
-				<div class="row">
-					<div class="col-md-12">
-						<div class="card">
-							<div class="card-header">
-								<h4 class="card-title" id="horz-layout-basic">White & Black Lists</h4>
-								<a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-								<div class="heading-elements">
-									<ul class="list-inline mb-0">
-										<li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                    <form class="form">
+                                        <div class="form-body">
+                                            <h4 class="form-section"><i class="ft-user"></i> Status</h4>
 
-								</div>
-							</div>
-							<section id="pcd">
-								@Html.Partial("~/Views/Profile/Partial/_PartialContactDetail.cshtml", Model)
-							</section>
-							<section id="pmf">
-								@Html.Partial("~/Views/Profile/Partial/_PartialMatchFilter.cshtml", Model.SocialProfile_Instagram_TargetingInformation)
-							</section>
-							<br />
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="label-control" for="projectinput1">App Connection Status</label>
 
-							<section id="GoToSection1" style="clear:both">
-								<div class="information-form">
-									<div class="container">
-										<div class="information-form-inner">
-											<div class="section_targetgrow">
-												<div class="row" id="section1MG">
-													<div class="col-xs-12">
-														@Html.ValidationSummary()
-														@using (Html.BeginForm("ModifyTargetPreferences", "TargetPreferences", FormMethod.Post, new { @class = "", @id = "Form_TargetPreferences" }))
-														{
-															@*<div class="form-group">
-																	@Html.LabelFor(m => m.ProfileName, new { @class = "" })
-																	@Html.TextBoxFor(m => m.ProfileName, new { @class = "form-control" })
-																	@Html.ValidationMessageFor(model => model.ProfileName, "", new { @class = "text-danger" })
-																</div>
-																<br />*@
+                                                        <input type="text" class="form-control" value="@Model.SocialProfile.DeviceStatus" readonly="readonly" id="appstatus">
 
-															<input type="text" class="form-control" id="firstName1">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="label-control" for="projectinput2">Profile Account Status</label>
 
-															@*</div>
-																</div>*@
-															<div class="col-md-6">
-																<div class="form-group">
-																	<label class="label-control" for="projectinput2">White List (Extracted from live account )</label>
+                                                        <input type="text" class="form-control" readonly="readonly" id="acctstatus" value="@Model.SocialProfile.SocialUsername">
 
-																	<input type="text" class="form-control" id="firstName1">
+                                                    </div>
+                                                </div>
+                                            </div>
 
-																</div>
-															</div>
-															@* </div>*@
-															<div class="row">
-																<div class="col-md-6">
-																	<div class="form-group">
-																		<label class="label-control" for="projectinput1">White List (User typed in )</label>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="label-control" for="projectinput1">Device IMEI #</label>
 
-																		<input type="text" class="form-control" id="firstName1">
+                                                        <input type="text" class="form-control" readonly="readonly" id="firstName1" value="@Model.SocialProfile.DeviceIMEI">
 
-																	</div>
-																</div>
-																<div class="col-md-6">
-																	<div class="form-group">
-																		<label class="label-control" for="projectinput2">White List (Extracted from live account )</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="label-control" for="projectinput2">Device Bin Location</label>
+                                                        <input type="text" class="form-control"  id="devicebinlocation" value="@Model.SocialProfile.DeviceBinLocation">
+                                                        
 
-																		<input type="text" class="form-control" id="firstName1">
+                                                    </div>
+                                                </div>
+                                            </div>
 
-																	</div>
-																</div>
-															</div>
-															<div class="row">
-																<div class="col-md-6">
-																	<div class="form-group">
-																		<label class="label-control" for="projectinput1">White List (User typed in )</label>
+                                            <h4 class="form-section"><i class="ft-user"></i> Social Profile Details</h4>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="label-control" for="projectinput1">Your Intagram Username</label>
 
-																		<input type="text" class="form-control" id="firstName1">
+                                                        <input type="text" class="form-control" id="firstName1" readonly="readonly" value="@Model.SocialProfile.SocialUsername">
 
-																	</div>
-																</div>
-																<div class="col-md-6">
-																	<div class="form-group">
-																		<label class="label-control" for="projectinput2">White List (Extracted from live account )</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="label-control" for="projectinput2">Instagram Password</label>
 
-																		<input type="text" class="form-control" id="firstName1">
+                                                        <input type="text" class="form-control" id="firstName1" readonly="readonly" value="@Model.SocialProfile.SocialPassword">
 
-																	</div>
-																</div>
-															</div>
-															<div class="row">
-																<div class="col-md-6">
-																	<div class="form-group">
-																		<label class="label-control" for="projectinput1">White List (User typed in )</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="label-control" for="projectinput1">Pin Code</label>
 
-																		<input type="text" class="form-control" id="firstName1">
+                                                        <input type="text" class="form-control" id="pincode" value="@Model.SocialProfile.PinCode">
 
-																	</div>
-																</div>
-																<div class="col-md-6">
-																	<div class="form-group">
-																		<label class="label-control" for="projectinput2">White List (Extracted from live account )</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="label-control" for="projectinput2">Profile Created On</label>
 
-																		<input type="text" class="form-control" id="firstName1">
+                                                        <input type="text" class="form-control" id="firstName1" readonly="readonly" value="@Model.SocialProfile.CreatedOn">
 
-																	</div>
-																</div>
-															</div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-															@*</div>
+                                        </div>
 
-																</div>*@
-															<div class="form-actions">
-																<button type="button" class="btn btn-warning mr-1">
-																	<i class="ft-x"></i> Cancel
-																</button>
-																<button type="submit" class="btn btn-primary">
-																	<i class="fa fa-check-square-o"></i> Save
-																</button>
-															</div>
-														}
-														@*</form>*@
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-
-									<!-- // Basic form layout section end -->
-								</div>
-							</section>
-						</div>
-					</div>
-				</div>
-			</section>
-		</div>
-	</div>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-warning mr-1">
+                                        <i class="ft-x"></i> Cancel
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fa fa-check-square-o"></i> Save
+                                    </button>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        </section>
+        <!-- // Basic form layout section end -->
+    </div>
 </div>
-		<!-- END: Content-->
+</div>
+<!-- END: Content-->
 
 
 
-		@section Scripts{
+@section Scripts{
+    <script src="~/Content/app-assets/js/scripts/bootstrap-pincode-input.js"></script>
+    <script src="~/Content/app-assets/vendors/js/forms/tags/tagging.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            /*******************************
+            *       Simple Options         *
+            *******************************/
+            $(".edit-on-delete").tagging({
+                "edit-on-delete": false,
+            });
 
-			<script src="~/Content/app-assets/vendors/js/forms/tags/tagging.min.js"></script>
-			<script>
-				$(document).ready(function () {
-					/*******************************
-					*       Simple Options         *
-					*******************************/
 
+            $('#pincode').pincodeInput({ hidedigits: false, inputs: 8 });
 
+        });
+    </script>
 
-					// Edit / Delete tag on delete
-					$(".edit-on-delete").tagging({
-						"edit-on-delete": false,
-					});
-
-				});
-				function MoveToSection(section) {
-					if (section == 1) {
-						$("#pcd").show();
-						$("#pmf").hide();
-					} else if (section == 2) {
-						$("#pcd").hide();
-						$("#pmf").show();
-					} else {
-						$("#pmf").hide();
-						$("#pcd").hide();
-					}
-				}
-				MoveToSection(0);
-			</script>
-
-		}
+}
