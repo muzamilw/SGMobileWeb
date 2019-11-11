@@ -170,11 +170,85 @@ namespace SG2.CORE.WEB.Controllers
         {
 
             ViewBag.CurrentUser = this.CDT;
-            var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
+            ViewBag.socialProfile = this._cm.GetSocialProfileById(socialProfileId);
 
-            return View(SocailProfile);
+            
+
+            return View(this._statisticsManager.GetStatistics(socialProfileId));
            
 
+        }
+
+        public ActionResult Trends(int socialProfileId, int mode)
+        {
+            var jr = new JsonResult();
+            try
+            {
+                DateTime startdate = DateTime.Today.AddDays(-7);   //1 week
+                DateTime enddate = DateTime.Today.AddHours(24);
+
+                if ( mode == 2)
+                {
+                    startdate = DateTime.Today.AddMonths(-3);  //3 months
+                }
+                else if ( mode == 3)
+                {
+                    startdate = DateTime.Today.AddMonths(-6); //6 months
+                }
+                else if (mode == 4)
+                {
+                    startdate = DateTime.Today.AddMonths(-12); //6 months
+                }
+
+
+                var trends  = _statisticsManager.GetProfileTrends(socialProfileId, startdate, enddate);
+                if (trends != null)
+                {
+                    jr.Data = new
+                    {
+                        ResultType = "Success",
+                        message = "",
+                        ResultData = new
+                        {
+                            Date = trends.Select(x => x.Date.ToString("dd/MM/yyyy")).ToArray(),
+                            FollowersData = trends.Select(x => x.Followers.ToString()).ToArray(),
+                            //FollowersGainData = statisticsViewModel.StatisticsListing.Select(x => x.FollowersGain.ToString()).ToArray(),
+                            FollowingsData = trends.Select(x => x.Followings.ToString()).ToArray(),
+                            //FollowingsRatioData = statisticsViewModel.StatisticsListing.Select(x => x.FollowingsRatio.ToString()).ToArray(),
+                            //AVGFollowersData = statisticsViewModel.StatisticsListing.Select(x => x.AVGFollowers.ToString()).ToArray(),
+
+
+                            //LikeData = statisticsViewModel.StatisticsListing.Select(x => x.Like.ToString()).ToArray(),
+                            //CommentData = statisticsViewModel.StatisticsListing.Select(x => x.Comment.ToString()).ToArray(),
+                            //LikeCommentData = statisticsViewModel.StatisticsListing.Select(x => x.LikeComments.ToString()).ToArray(),
+                            Engagement = trends.Select(x => x.Engagement.ToString()).ToArray(),
+
+                            AvgLikes = trends.Select(x => x.Like.ToString()).ToArray()
+
+
+                            //TotalComment = statisticsViewModel.TotalComment.ToString(),
+                            //TotalEngagement = statisticsViewModel.TotalEngagement.ToString(),
+                            //TotalFollowers = statisticsViewModel.TotalFollowers.ToString(),
+                            //TotalFollowersGain = statisticsViewModel.TotalFollowersGain.ToString(),
+                            //TotalFollowings = statisticsViewModel.TotalFollowings.ToString(),
+                            //TotalFollowingsRatio = statisticsViewModel.TotalFollowingsRatio.ToString(),
+                            //TotalLike = statisticsViewModel.TotalLike.ToString(),
+                            //TotalLikeComment = statisticsViewModel.TotalLikeComment.ToString()
+                        }
+                    };
+                }
+                else
+                {
+                    jr.Data = new { ResultType = "Error", message = "" };
+                }
+
+            }
+            catch (Exception exp)
+            {
+                throw exp;
+            }
+
+            return Json(jr, JsonRequestBehavior.AllowGet);
         }
 
         //[HttpPost]

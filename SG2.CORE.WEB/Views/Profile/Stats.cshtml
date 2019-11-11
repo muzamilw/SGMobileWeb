@@ -5,7 +5,7 @@
     ViewBag.Title = "Insights & Statistics";
     Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
-
+    var socialProfile = (SocialProfileDTO)ViewBag.socialProfile;
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
 
 
@@ -22,7 +22,7 @@
                         <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" alt="Generic placeholder image" style="width: 64px;height: 64px;" />
                     </a>
                     <div class="media-body mt-2">
-                        <h3 class="media-heading">@Model.SocialProfile.SocialUsername</h3>
+                        <h3 class="media-heading">@socialProfile.SocialProfile.SocialUsername</h3>
 
                     </div>
                 </div>
@@ -56,22 +56,22 @@
                                 <div class="row my-1">
                                     <div class="col-lg-4 col-12">
                                         <div class="text-center">
-                                            <h3>23,454</h3>
-                                            <p class="text-muted">Posts <span class="success"><i class="ft-arrow-up"></i> 8.16%</span></p>
+                                            <h3>@Model.PostsTotal</h3>
+                                            <p class="text-muted">Posts from start <span class="success"><i class="ft-arrow-up"></i> @Model.PostsInitial</span></p>
                                             <div id="sp-tristate-bar-total-revenue"></div>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-12">
                                         <div class="text-center">
-                                            <h3>6,630</h3>
-                                            <p class="text-muted">Followers <span class="danger"><i class="ft-arrow-down"></i> 2.30%</span></p>
+                                            <h3>@Model.FollowersTotal</h3>
+                                            <p class="text-muted">Followers from start <span class="success"><i class="ft-arrow-up"></i> @Model.FollowersInitial</span></p>
                                             <div id="sp-stacked-bar-total-sales"></div>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-12">
                                         <div class="text-center">
-                                            <h3>86,578</h3>
-                                            <p class="text-muted">Followings <span class="warning"><i class="ft-arrow-up"></i> 4.27%</span></p>
+                                            <h3>@Model.FollowingsTotal</h3>
+                                            <p class="text-muted">Followings from start <span class="success"><i class="ft-arrow-up"></i> @Model.FollowingsInitial</span></p>
                                             <div id="sp-bar-total-cost"></div>
                                         </div>
                                     </div>
@@ -91,7 +91,7 @@
                             <div class="card-body">
                                 <div class="media">
                                     <div class="media-body text-left w-100">
-                                        <h3 class="primary">78%</h3>
+                                        <h3 class="primary">@Model.FollowsRecent / @Model.FollowsTotal</h3>
                                         <span>Follows</span>
                                     </div>
                                     <div class="media-right media-middle">
@@ -111,7 +111,7 @@
                             <div class="card-body">
                                 <div class="media">
                                     <div class="media-body text-left w-100">
-                                        <h3 class="danger">423</h3>
+                                        <h3 class="danger">@Model.LikesRecent / @Model.LikesTotal</h3>
                                         <span>Likes</span>
                                     </div>
                                     <div class="media-right media-middle">
@@ -131,7 +131,7 @@
                             <div class="card-body">
                                 <div class="media">
                                     <div class="media-body text-left w-100">
-                                        <h3 class="success">64.89 %</h3>
+                                        <h3 class="success">@Model.UnFollowRecent / @Model.UnFollowTotal</h3>
                                         <span>UnFollow</span>
                                     </div>
                                     <div class="media-right media-middle">
@@ -151,7 +151,7 @@
                             <div class="card-body">
                                 <div class="media">
                                     <div class="media-body text-left w-100">
-                                        <h3 class="warning">02.12</h3>
+                                        <h3 class="warning">@Model.StoryViewsRecent / @Model.StoryViewsTotal</h3>
                                         <span>Story Views</span>
                                     </div>
                                     <div class="media-right media-middle">

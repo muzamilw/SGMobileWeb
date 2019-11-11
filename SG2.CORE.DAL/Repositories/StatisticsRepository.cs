@@ -27,7 +27,7 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
-        public IList<SocialProfile_Statistics>  GetStatistics(int socialProfileId, DateTime fromDate, DateTime ToDate)
+        public IList<SocialProfile_Statistics>  GetProfileTrends(int socialProfileId, DateTime fromDate, DateTime ToDate)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace SG2.CORE.DAL.Repositories
                     List<SocialProfile_Statistics> lstStatisticsDTO = new List<SocialProfile_Statistics>();
                     lstStatisticsDTO.Add(_db.SocialProfile_Statistics.Where(g => g.SocialProfileId == socialProfileId).OrderBy(g => g.Date).FirstOrDefault()); ///very first record
                     lstStatisticsDTO.Add(_db.SocialProfile_Statistics.Where(g => g.SocialProfileId == socialProfileId).OrderByDescending(g => g.Date).FirstOrDefault()); ///recent record
-                    return null;
+                    return lstStatisticsDTO;
                 }
             }
             catch (Exception ex)

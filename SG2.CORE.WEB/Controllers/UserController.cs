@@ -824,55 +824,55 @@ namespace SG2.CORE.WEB.Controllers
             return Json(jr, JsonRequestBehavior.AllowGet);
         }
        
-        public ActionResult GetFollowersStatistics()
-        {
-            var jr = new JsonResult();
-            try
-            {
+        //public ActionResult GetFollowersStatistics()
+        //{
+        //    var jr = new JsonResult();
+        //    try
+        //    {
                 
-                StatisticsViewModel statisticsViewModel = _statisticsManager.GetStatistics(8, DateTime.Now.AddDays(-15), DateTime.Now.AddDays(+5));
+        //        StatisticsViewModel statisticsViewModel = _statisticsManager.GetStatistics(8, DateTime.Now.AddDays(-15), DateTime.Now.AddDays(+5));
                 
-                if (statisticsViewModel.StatisticsListing !=  null)
-                {
-                    jr.Data = new { ResultType = "Success", message = "",
-                          ResultData = new {
-                                                Date = statisticsViewModel.StatisticsListing.Select(x => x.Date.ToString("dd/MM/yyyy")).ToArray(),
-                                                FollowersData = statisticsViewModel.StatisticsListing.Select(x => x.Followers.ToString()).ToArray(),
-                                                FollowersGainData = statisticsViewModel.StatisticsListing.Select(x => x.FollowersGain.ToString()).ToArray(),
-                                                FollowingsData = statisticsViewModel.StatisticsListing.Select(x => x.Followings.ToString()).ToArray(),
-                                                FollowingsRatioData = statisticsViewModel.StatisticsListing.Select(x => x.FollowingsRatio.ToString()).ToArray(),
-                                                AVGFollowersData  = statisticsViewModel.StatisticsListing.Select(x => x.AVGFollowers.ToString()).ToArray(),
+        //        if (statisticsViewModel.StatisticsListing !=  null)
+        //        {
+        //            jr.Data = new { ResultType = "Success", message = "",
+        //                  ResultData = new {
+        //                                        Date = statisticsViewModel.StatisticsListing.Select(x => x.Date.ToString("dd/MM/yyyy")).ToArray(),
+        //                                        FollowersData = statisticsViewModel.StatisticsListing.Select(x => x.Followers.ToString()).ToArray(),
+        //                                        FollowersGainData = statisticsViewModel.StatisticsListing.Select(x => x.FollowersGain.ToString()).ToArray(),
+        //                                        FollowingsData = statisticsViewModel.StatisticsListing.Select(x => x.Followings.ToString()).ToArray(),
+        //                                        FollowingsRatioData = statisticsViewModel.StatisticsListing.Select(x => x.FollowingsRatio.ToString()).ToArray(),
+        //                                        AVGFollowersData  = statisticsViewModel.StatisticsListing.Select(x => x.AVGFollowers.ToString()).ToArray(),
 
 
-                                                LikeData = statisticsViewModel.StatisticsListing.Select(x => x.Like.ToString()).ToArray(),
-                                                CommentData = statisticsViewModel.StatisticsListing.Select(x => x.Comment.ToString()).ToArray(),
-                                                LikeCommentData = statisticsViewModel.StatisticsListing.Select(x => x.LikeComments.ToString()).ToArray(),
-                                                Engagement = statisticsViewModel.StatisticsListing.Select(x => x.Engagement.ToString()).ToArray(),
+        //                                        LikeData = statisticsViewModel.StatisticsListing.Select(x => x.Like.ToString()).ToArray(),
+        //                                        CommentData = statisticsViewModel.StatisticsListing.Select(x => x.Comment.ToString()).ToArray(),
+        //                                        LikeCommentData = statisticsViewModel.StatisticsListing.Select(x => x.LikeComments.ToString()).ToArray(),
+        //                                        Engagement = statisticsViewModel.StatisticsListing.Select(x => x.Engagement.ToString()).ToArray(),
 
 
-                                                TotalComment = statisticsViewModel.TotalComment.ToString(),
-                                                TotalEngagement = statisticsViewModel.TotalEngagement.ToString(),
-                                                TotalFollowers = statisticsViewModel.TotalFollowers.ToString(),
-                                                TotalFollowersGain = statisticsViewModel.TotalFollowersGain.ToString(),
-                                                TotalFollowings = statisticsViewModel.TotalFollowings.ToString(),
-                                                TotalFollowingsRatio = statisticsViewModel.TotalFollowingsRatio.ToString(),
-                                                TotalLike = statisticsViewModel.TotalLike.ToString(),
-                                                TotalLikeComment = statisticsViewModel.TotalLikeComment.ToString()
-                                            } };
-                }
-                else
-                {
-                    jr.Data = new { ResultType = "Error", message = "" };
-                }
+        //                                        TotalComment = statisticsViewModel.TotalComment.ToString(),
+        //                                        TotalEngagement = statisticsViewModel.TotalEngagement.ToString(),
+        //                                        TotalFollowers = statisticsViewModel.TotalFollowers.ToString(),
+        //                                        TotalFollowersGain = statisticsViewModel.TotalFollowersGain.ToString(),
+        //                                        TotalFollowings = statisticsViewModel.TotalFollowings.ToString(),
+        //                                        TotalFollowingsRatio = statisticsViewModel.TotalFollowingsRatio.ToString(),
+        //                                        TotalLike = statisticsViewModel.TotalLike.ToString(),
+        //                                        TotalLikeComment = statisticsViewModel.TotalLikeComment.ToString()
+        //                                    } };
+        //        }
+        //        else
+        //        {
+        //            jr.Data = new { ResultType = "Error", message = "" };
+        //        }
 
-            }
-            catch (Exception exp)
-            {
-                throw exp;
-            }
+        //    }
+        //    catch (Exception exp)
+        //    {
+        //        throw exp;
+        //    }
             
-            return Json(jr, JsonRequestBehavior.AllowGet);
-        }
+        //    return Json(jr, JsonRequestBehavior.AllowGet);
+        //}
 
     }
 }

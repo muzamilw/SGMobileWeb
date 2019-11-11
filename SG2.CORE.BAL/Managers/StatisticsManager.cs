@@ -1,4 +1,5 @@
 ﻿using SG2.CORE.DAL.Repositories;
+using SG2.CORE.MODAL;
 using SG2.CORE.MODAL.DTO.Statistics;
 using SG2.CORE.MODAL.ViewModals.Statistics;
 using System;
@@ -34,9 +35,23 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-       
+        public IList<SocialProfile_Statistics> GetProfileTrends(int socialProfileId, DateTime fromDate, DateTime ToDate)
+        {
+            try
+            {
+                return _statistics.GetProfileTrends(socialProfileId, fromDate, ToDate);
 
-        public StatisticsViewModel GetStatistics(int socialProfileId, DateTime fromDate, DateTime ToDate)
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+
+
+
+            public StatisticsViewModel GetStatistics(int socialProfileId)
         {
             try
             {
@@ -64,7 +79,7 @@ namespace SG2.CORE.BAL.Managers
                     followersStatisticsViewModel.UnFollowTotal = model[1].UnfollowTotal;
 
                     followersStatisticsViewModel.StoryViewsRecent = model[1].StoryViews;
-                    followersStatisticsViewModel.UnFollowTotal = model[1].StoryViewsTotal;
+                    followersStatisticsViewModel.StoryViewsTotal = model[1].StoryViewsTotal;
 
                 }
                 return followersStatisticsViewModel;
