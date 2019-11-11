@@ -27,39 +27,17 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
-        public IList<StatisticsDTO>  GetFollersStatistics(int socialProfileId, DateTime fromDate, DateTime ToDate)
+        public IList<SocialProfile_Statistics>  GetStatistics(int socialProfileId, DateTime fromDate, DateTime ToDate)
         {
             try
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    List<StatisticsDTO> lstStatisticsDTO = new List<StatisticsDTO>();
+                   
                     var statsData = _db.SocialProfile_Statistics.Where (g=> g.SocialProfileId ==  socialProfileId && g.Date >= fromDate && g.Date <= ToDate).ToList();
-                    if (statsData != null)
-                    {
+                    
+                    return statsData;
 
-                        foreach (var item in statsData)
-                        {
-                            StatisticsDTO statisticsDTO = new StatisticsDTO();
-                            statisticsDTO.SocialProfileId = item.SocialProfileId;
-                            statisticsDTO.Username = item.Username;
-                            statisticsDTO.Followers = item.Followers;
-                            statisticsDTO.FollowersGain = item.FollowersGain;
-                            statisticsDTO.Followings = item.Followings;
-                            statisticsDTO.FollowingsRatio = item.FollowingsRatio;
-                            statisticsDTO.AVGFollowers = item.Followers/24;
-                            statisticsDTO.Date = item.Date;
-                            statisticsDTO.Like = item.Like;
-                            statisticsDTO.Comment = item.Comment;
-                            statisticsDTO.Engagement = item.Engagement;
-                            statisticsDTO.LikeComments = item.LikeComments;
-
-                            lstStatisticsDTO.Add(statisticsDTO);
-                        }
-                        return lstStatisticsDTO;
-                    }
-
-                    return null;
                 }
             }
             catch (Exception ex)
@@ -68,29 +46,15 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
-        public StatisticsViewModel GetStatistics(int socialProfileId)
+        public List<SocialProfile_Statistics> GetStatisticsFirstAndRecent(int socialProfileId)
         {
             try
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    List<StatisticsDTO> lstStatisticsDTO = new List<StatisticsDTO>();
-                    var statsData = _db.SocialProfile_Statistics.Where ( g=> g.SocialProfileId == socialProfileId).FirstOrDefault();
-                    if (statsData != null)
-                    {
-                             StatisticsViewModel model = new StatisticsViewModel();
-                            model.TotalFollowers = statsData.Followers;
-                            model.TotalFollowersGain = statsData.FollowersGain;
-                            model.TotalFollowings = statsData.Followings;
-                            model.TotalFollowingsRatio = Convert.ToInt32( statsData.FollowingsRatio);
-                            model.TotalLike = statsData.Like;
-                            model.TotalLikeComment = statsData.LikeComments;
-                            
-                            model.TotalEngagement = statsData.Engagement;
-
-                        return model;
-                    }
-
+                    List<SocialProfile_Statistics> lstStatisticsDTO = new List<SocialProfile_Statistics>();
+                    lstStatisticsDTO.Add(_db.SocialProfile_Statistics.Where(g => g.SocialProfileId == socialProfileId).OrderBy(g => g.Date).FirstOrDefault()); ///very first record
+                    lstStatisticsDTO.Add(_db.SocialProfile_Statistics.Where(g => g.SocialProfileId == socialProfileId).OrderByDescending(g => g.Date).FirstOrDefault()); ///recent record
                     return null;
                 }
             }

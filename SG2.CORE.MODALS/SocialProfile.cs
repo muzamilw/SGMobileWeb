@@ -17,11 +17,11 @@ namespace SG2.CORE.MODAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SocialProfile()
         {
-            this.SocialProfile_Statistics = new HashSet<SocialProfile_Statistics>();
             this.SocialProfile_Actions = new HashSet<SocialProfile_Actions>();
             this.SocialProfile_Payments = new HashSet<SocialProfile_Payments>();
             this.SocialProfile_Instagram_TargetingInformation = new HashSet<SocialProfile_Instagram_TargetingInformation>();
             this.SocialProfile_FollowedAccounts = new HashSet<SocialProfile_FollowedAccounts>();
+            this.SocialProfile_Statistics = new HashSet<SocialProfile_Statistics>();
         }
     
         public int SocialProfileId { get; set; }
@@ -51,8 +51,6 @@ namespace SG2.CORE.MODAL
         public virtual Customer Customer { get; set; }
         public virtual PaymentPlan PaymentPlan { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SocialProfile_Statistics> SocialProfile_Statistics { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SocialProfile_Actions> SocialProfile_Actions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SocialProfile_Payments> SocialProfile_Payments { get; set; }
@@ -60,5 +58,7 @@ namespace SG2.CORE.MODAL
         public virtual ICollection<SocialProfile_Instagram_TargetingInformation> SocialProfile_Instagram_TargetingInformation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SocialProfile_FollowedAccounts> SocialProfile_FollowedAccounts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SocialProfile_Statistics> SocialProfile_Statistics { get; set; }
     }
 }

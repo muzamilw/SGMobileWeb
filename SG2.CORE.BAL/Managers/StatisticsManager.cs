@@ -34,37 +34,38 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public List<StatisticsDTO> GetFollersStatistics(int socialProfileId, DateTime fromDate, DateTime ToDate)
-        {
-            try
-            {
-                var model = _statistics.GetFollersStatistics(socialProfileId, fromDate, ToDate).ToList();
-                return model;
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+       
 
         public StatisticsViewModel GetStatistics(int socialProfileId, DateTime fromDate, DateTime ToDate)
         {
             try
             {
                 StatisticsViewModel followersStatisticsViewModel = new StatisticsViewModel();
-                followersStatisticsViewModel.StatisticsListing = _statistics.GetFollersStatistics(socialProfileId, fromDate, ToDate).ToList();
-                var model = _statistics.GetStatistics(socialProfileId);
+                //followersStatisticsViewModel.StatisticsListing = _statistics.GetStatistics(socialProfileId, fromDate, ToDate).ToList();
+                var model = _statistics.GetStatisticsFirstAndRecent(socialProfileId);
                 if (model != null)
                 {
-                    followersStatisticsViewModel.TotalComment = model.TotalComment;
-                    followersStatisticsViewModel.TotalEngagement = model.TotalEngagement;
-                    followersStatisticsViewModel.TotalLike = model.TotalLike;
-                    followersStatisticsViewModel.TotalLikeComment = model.TotalLikeComment;
-                    followersStatisticsViewModel.TotalFollowingsRatio = model.TotalFollowingsRatio;
-                    followersStatisticsViewModel.TotalFollowings = model.TotalFollowings;
-                    followersStatisticsViewModel.TotalFollowersGain = model.TotalFollowersGain;
-                    followersStatisticsViewModel.TotalFollowers = model.TotalFollowers;
+                    followersStatisticsViewModel.FollowersInitial = model[0].Followers;
+                    followersStatisticsViewModel.FollowersTotal = model[1].FollowersTotal;
+
+                    followersStatisticsViewModel.FollowingsInitial = model[0].Followings;
+                    followersStatisticsViewModel.FollowingsTotal = model[1].FollowingsTotal;
+
+                    followersStatisticsViewModel.PostsInitial = model[0].Posts;
+                    followersStatisticsViewModel.PostsTotal = model[1].PostsTotal;
+
+                    followersStatisticsViewModel.FollowsRecent = model[1].Follow;
+                    followersStatisticsViewModel.FollowsTotal = model[1].FollowTotal;
+
+                    followersStatisticsViewModel.LikesRecent = model[1].Like;
+                    followersStatisticsViewModel.LikesTotal = model[1].LikeTotal;
+
+                    followersStatisticsViewModel.UnFollowRecent = model[1].Unfollow;
+                    followersStatisticsViewModel.UnFollowTotal = model[1].UnfollowTotal;
+
+                    followersStatisticsViewModel.StoryViewsRecent = model[1].StoryViews;
+                    followersStatisticsViewModel.UnFollowTotal = model[1].StoryViewsTotal;
+
                 }
                 return followersStatisticsViewModel;
 

@@ -328,17 +328,20 @@
           <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="FollowersGain" Type="bigint" />
           <Property Name="Followers" Type="bigint" />
+          <Property Name="FollowersTotal" Type="bigint" />
           <Property Name="Followings" Type="bigint" />
-          <Property Name="FollowingsRatio" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="FollowingsTotal" Type="bigint" />
           <Property Name="Joiner" Type="bigint" />
           <Property Name="Unjoiner" Type="bigint" />
           <Property Name="Follow" Type="bigint" />
           <Property Name="Unfollow" Type="bigint" />
+          <Property Name="UnfollowTotal" Type="bigint" />
           <Property Name="ContactMassage" Type="bigint" />
           <Property Name="ContactFriends" Type="bigint" />
           <Property Name="REPinTweetBlog" Type="bigint" />
           <Property Name="Bump" Type="bigint" />
           <Property Name="Like" Type="bigint" />
+          <Property Name="LikeTotal" Type="bigint" />
           <Property Name="Comment" Type="bigint" />
           <Property Name="Engagement" Type="bigint" />
           <Property Name="Repost" Type="bigint" />
@@ -347,6 +350,11 @@
           <Property Name="BlockedFollowers" Type="bigint" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="Posts" Type="bigint" />
+          <Property Name="StoryViews" Type="bigint" />
+          <Property Name="PostsTotal" Type="bigint" />
+          <Property Name="FollowTotal" Type="bigint" />
+          <Property Name="StoryViewsTotal" Type="bigint" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -875,7 +883,6 @@
           <EntitySet Name="SocialProfile_Instagram_TargetingInformation" EntityType="SocialGrowth2Entities.SocialProfile_Instagram_TargetingInformation" />
           <EntitySet Name="SocialProfile_Notification" EntityType="SocialGrowth2Entities.SocialProfile_Notification" />
           <EntitySet Name="SocialProfile_Payments" EntityType="SocialGrowth2Entities.SocialProfile_Payments" />
-          <EntitySet Name="SocialProfile_Statistics" EntityType="SocialGrowth2Entities.SocialProfile_Statistics" />
           <EntitySet Name="sysdiagrams" EntityType="SocialGrowth2Entities.sysdiagram" />
           <EntitySet Name="SystemCities" EntityType="SocialGrowth2Entities.SystemCity" />
           <EntitySet Name="SystemConfigs" EntityType="SocialGrowth2Entities.SystemConfig" />
@@ -899,10 +906,6 @@
             <End Role="PaymentPlan" EntitySet="PaymentPlans" />
             <End Role="SocialProfile_Payments" EntitySet="SocialProfile_Payments" />
           </AssociationSet>
-          <AssociationSet Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
-            <End Role="SocialProfile" EntitySet="SocialProfiles" />
-            <End Role="SocialProfile_Statistics" EntitySet="SocialProfile_Statistics" />
-          </AssociationSet>
           <AssociationSet Name="FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile">
             <End Role="SocialProfile" EntitySet="SocialProfiles" />
             <End Role="SocialProfile_Actions" EntitySet="SocialProfile_Actions" />
@@ -922,6 +925,11 @@
           <AssociationSet Name="FK_SG2_SystemUsers_SG2_SystemRoles" Association="SocialGrowth2Entities.FK_SG2_SystemUsers_SG2_SystemRoles">
             <End Role="SystemRole" EntitySet="SystemRoles" />
             <End Role="SystemUser" EntitySet="SystemUsers" />
+          </AssociationSet>
+          <EntitySet Name="SocialProfile_Statistics" EntityType="SocialGrowth2Entities.SocialProfile_Statistics" />
+          <AssociationSet Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
+            <End Role="SocialProfile" EntitySet="SocialProfiles" />
+            <End Role="SocialProfile_Statistics" EntitySet="SocialProfile_Statistics" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="SG2_usp_Get_AllUser1_Result">
@@ -1642,13 +1650,13 @@
           <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Customer" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer" FromRole="SocialProfile" ToRole="Customer" />
           <NavigationProperty Name="PaymentPlan" Relationship="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan" FromRole="SocialProfile" ToRole="PaymentPlan" />
-          <NavigationProperty Name="SocialProfile_Statistics" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Statistics" />
           <NavigationProperty Name="SocialProfile_Actions" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Actions" />
           <NavigationProperty Name="SocialProfile_Payments" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Payments" />
           <NavigationProperty Name="SocialProfile_Instagram_TargetingInformation" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Instagram_TargetingInformation" />
           <NavigationProperty Name="SocialProfile_FollowedAccounts" Relationship="SocialGrowth2Entities.FK_SocialProfile_FollowedAccounts_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_FollowedAccounts" />
           <Property Name="LastConnectedDateTime" Type="DateTime" Precision="3" />
           <Property Name="DeviceBinLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SocialProfile_Statistics" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Statistics" />
         </EntityType>
         <EntityType Name="SocialProfile_Actions">
           <Key>
@@ -1827,37 +1835,6 @@
           <NavigationProperty Name="PaymentPlan" Relationship="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" FromRole="SocialProfile_Payments" ToRole="PaymentPlan" />
           <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" FromRole="SocialProfile_Payments" ToRole="SocialProfile" />
         </EntityType>
-        <EntityType Name="SocialProfile_Statistics">
-          <Key>
-            <PropertyRef Name="SocialStatisticsId" />
-          </Key>
-          <Property Name="SocialStatisticsId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SocialProfileId" Type="Int32" Nullable="false" />
-          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="FollowersGain" Type="Int64" />
-          <Property Name="Followers" Type="Int64" />
-          <Property Name="Followings" Type="Int64" />
-          <Property Name="FollowingsRatio" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Joiner" Type="Int64" />
-          <Property Name="Unjoiner" Type="Int64" />
-          <Property Name="Follow" Type="Int64" />
-          <Property Name="Unfollow" Type="Int64" />
-          <Property Name="ContactMassage" Type="Int64" />
-          <Property Name="ContactFriends" Type="Int64" />
-          <Property Name="REPinTweetBlog" Type="Int64" />
-          <Property Name="Bump" Type="Int64" />
-          <Property Name="Like" Type="Int64" />
-          <Property Name="Comment" Type="Int64" />
-          <Property Name="Engagement" Type="Int64" />
-          <Property Name="Repost" Type="Int64" />
-          <Property Name="LikeComments" Type="Int64" />
-          <Property Name="StoryViewer" Type="Int64" />
-          <Property Name="BlockedFollowers" Type="Int64" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" FromRole="SocialProfile_Statistics" ToRole="SocialProfile" />
-        </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -1992,18 +1969,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
-          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="1" />
-          <End Type="SocialGrowth2Entities.SocialProfile_Statistics" Role="SocialProfile_Statistics" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SocialProfile">
-              <PropertyRef Name="SocialProfileId" />
-            </Principal>
-            <Dependent Role="SocialProfile_Statistics">
-              <PropertyRef Name="SocialProfileId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile">
           <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="0..1" />
           <End Type="SocialGrowth2Entities.SocialProfile_Actions" Role="SocialProfile_Actions" Multiplicity="*" />
@@ -2061,6 +2026,57 @@
             </Principal>
             <Dependent Role="SystemUser">
               <PropertyRef Name="SystemRoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SocialProfile_Statistics">
+          <Key>
+            <PropertyRef Name="SocialStatisticsId" />
+          </Key>
+          <Property Name="SocialStatisticsId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SocialProfileId" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FollowersGain" Type="Int64" />
+          <Property Name="Followers" Type="Int64" />
+          <Property Name="FollowersTotal" Type="Int64" />
+          <Property Name="Followings" Type="Int64" />
+          <Property Name="FollowingsTotal" Type="Int64" />
+          <Property Name="Joiner" Type="Int64" />
+          <Property Name="Unjoiner" Type="Int64" />
+          <Property Name="Follow" Type="Int64" />
+          <Property Name="Unfollow" Type="Int64" />
+          <Property Name="UnfollowTotal" Type="Int64" />
+          <Property Name="ContactMassage" Type="Int64" />
+          <Property Name="ContactFriends" Type="Int64" />
+          <Property Name="REPinTweetBlog" Type="Int64" />
+          <Property Name="Bump" Type="Int64" />
+          <Property Name="Like" Type="Int64" />
+          <Property Name="LikeTotal" Type="Int64" />
+          <Property Name="Comment" Type="Int64" />
+          <Property Name="Engagement" Type="Int64" />
+          <Property Name="Repost" Type="Int64" />
+          <Property Name="LikeComments" Type="Int64" />
+          <Property Name="StoryViewer" Type="Int64" />
+          <Property Name="BlockedFollowers" Type="Int64" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="Posts" Type="Int64" />
+          <Property Name="StoryViews" Type="Int64" />
+          <Property Name="PostsTotal" Type="Int64" />
+          <Property Name="FollowTotal" Type="Int64" />
+          <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" FromRole="SocialProfile_Statistics" ToRole="SocialProfile" />
+          <Property Name="StoryViewsTotal" Type="Int64" />
+        </EntityType>
+        <Association Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
+          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="1" />
+          <End Type="SocialGrowth2Entities.SocialProfile_Statistics" Role="SocialProfile_Statistics" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SocialProfile">
+              <PropertyRef Name="SocialProfileId" />
+            </Principal>
+            <Dependent Role="SocialProfile_Statistics">
+              <PropertyRef Name="SocialProfileId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3034,37 +3050,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SocialProfile_Statistics">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile_Statistics">
-              <MappingFragment StoreEntitySet="SocialProfile_Statistics">
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="BlockedFollowers" ColumnName="BlockedFollowers" />
-                <ScalarProperty Name="StoryViewer" ColumnName="StoryViewer" />
-                <ScalarProperty Name="LikeComments" ColumnName="LikeComments" />
-                <ScalarProperty Name="Repost" ColumnName="Repost" />
-                <ScalarProperty Name="Engagement" ColumnName="Engagement" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="Like" ColumnName="Like" />
-                <ScalarProperty Name="Bump" ColumnName="Bump" />
-                <ScalarProperty Name="REPinTweetBlog" ColumnName="REPinTweetBlog" />
-                <ScalarProperty Name="ContactFriends" ColumnName="ContactFriends" />
-                <ScalarProperty Name="ContactMassage" ColumnName="ContactMassage" />
-                <ScalarProperty Name="Unfollow" ColumnName="Unfollow" />
-                <ScalarProperty Name="Follow" ColumnName="Follow" />
-                <ScalarProperty Name="Unjoiner" ColumnName="Unjoiner" />
-                <ScalarProperty Name="Joiner" ColumnName="Joiner" />
-                <ScalarProperty Name="FollowingsRatio" ColumnName="FollowingsRatio" />
-                <ScalarProperty Name="Followings" ColumnName="Followings" />
-                <ScalarProperty Name="Followers" ColumnName="Followers" />
-                <ScalarProperty Name="FollowersGain" ColumnName="FollowersGain" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
-                <ScalarProperty Name="SocialStatisticsId" ColumnName="SocialStatisticsId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="SocialGrowth2Entities.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
@@ -3153,6 +3138,45 @@
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="SystemUserId" ColumnName="SystemUserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SocialProfile_Statistics">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile_Statistics">
+              <MappingFragment StoreEntitySet="SocialProfile_Statistics">
+                <ScalarProperty Name="StoryViewsTotal" ColumnName="StoryViewsTotal" />
+                <ScalarProperty Name="FollowTotal" ColumnName="FollowTotal" />
+                <ScalarProperty Name="PostsTotal" ColumnName="PostsTotal" />
+                <ScalarProperty Name="StoryViews" ColumnName="StoryViews" />
+                <ScalarProperty Name="Posts" ColumnName="Posts" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="BlockedFollowers" ColumnName="BlockedFollowers" />
+                <ScalarProperty Name="StoryViewer" ColumnName="StoryViewer" />
+                <ScalarProperty Name="LikeComments" ColumnName="LikeComments" />
+                <ScalarProperty Name="Repost" ColumnName="Repost" />
+                <ScalarProperty Name="Engagement" ColumnName="Engagement" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="LikeTotal" ColumnName="LikeTotal" />
+                <ScalarProperty Name="Like" ColumnName="Like" />
+                <ScalarProperty Name="Bump" ColumnName="Bump" />
+                <ScalarProperty Name="REPinTweetBlog" ColumnName="REPinTweetBlog" />
+                <ScalarProperty Name="ContactFriends" ColumnName="ContactFriends" />
+                <ScalarProperty Name="ContactMassage" ColumnName="ContactMassage" />
+                <ScalarProperty Name="UnfollowTotal" ColumnName="UnfollowTotal" />
+                <ScalarProperty Name="Unfollow" ColumnName="Unfollow" />
+                <ScalarProperty Name="Follow" ColumnName="Follow" />
+                <ScalarProperty Name="Unjoiner" ColumnName="Unjoiner" />
+                <ScalarProperty Name="Joiner" ColumnName="Joiner" />
+                <ScalarProperty Name="FollowingsTotal" ColumnName="FollowingsTotal" />
+                <ScalarProperty Name="Followings" ColumnName="Followings" />
+                <ScalarProperty Name="FollowersTotal" ColumnName="FollowersTotal" />
+                <ScalarProperty Name="Followers" ColumnName="Followers" />
+                <ScalarProperty Name="FollowersGain" ColumnName="FollowersGain" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
+                <ScalarProperty Name="SocialStatisticsId" ColumnName="SocialStatisticsId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

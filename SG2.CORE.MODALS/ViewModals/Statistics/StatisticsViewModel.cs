@@ -10,15 +10,28 @@ namespace SG2.CORE.MODAL.ViewModals.Statistics
     public class StatisticsViewModel
     {
 
-        public IEnumerable<StatisticsDTO> StatisticsListing { get; set; }
+        public IEnumerable<SocialProfile_Statistics> StatisticsListing { get; set; }
 
-        public Int64? TotalFollowers { get; set; }
-        public Int64? TotalFollowersGain { get; set; }
-        public Int64? TotalFollowings { get; set; }
-        public Int64? TotalFollowingsRatio { get; set; }
-        public Int64? TotalLike { get; set; }
-        public Int64? TotalLikeComment { get; set; }
-		public Int64? TotalComment { get; set; }
-        public Int64?  TotalEngagement { get; set; }
+        public Int64? PostsTotal { get; set; }
+        public Int64? PostsInitial { get; set; }
+
+        public Int64? FollowersTotal { get; set; }
+        public Int64? FollowersInitial { get; set; }
+
+        public Int64? FollowingsTotal { get; set; }
+        public Int64? FollowingsInitial { get; set; }
+
+        public Int64? FollowsTotal { get; set; }
+        public Int64? FollowsRecent { get; set; }
+
+        public Int64? LikesTotal { get; set; }
+        public Int64? LikesRecent { get; set; }
+
+        public Int64? UnFollowTotal { get; set; }
+        public Int64? UnFollowRecent { get; set; }
+
+        public Int64? StoryViewsTotal { get; set; }
+        public Int64? StoryViewsRecent { get; set; }
+
     }
 }

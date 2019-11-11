@@ -20,17 +20,20 @@ namespace SG2.CORE.MODAL
         public System.DateTime Date { get; set; }
         public Nullable<long> FollowersGain { get; set; }
         public Nullable<long> Followers { get; set; }
+        public Nullable<long> FollowersTotal { get; set; }
         public Nullable<long> Followings { get; set; }
-        public Nullable<decimal> FollowingsRatio { get; set; }
+        public Nullable<long> FollowingsTotal { get; set; }
         public Nullable<long> Joiner { get; set; }
         public Nullable<long> Unjoiner { get; set; }
         public Nullable<long> Follow { get; set; }
         public Nullable<long> Unfollow { get; set; }
+        public Nullable<long> UnfollowTotal { get; set; }
         public Nullable<long> ContactMassage { get; set; }
         public Nullable<long> ContactFriends { get; set; }
         public Nullable<long> REPinTweetBlog { get; set; }
         public Nullable<long> Bump { get; set; }
         public Nullable<long> Like { get; set; }
+        public Nullable<long> LikeTotal { get; set; }
         public Nullable<long> Comment { get; set; }
         public Nullable<long> Engagement { get; set; }
         public Nullable<long> Repost { get; set; }
@@ -39,6 +42,11 @@ namespace SG2.CORE.MODAL
         public Nullable<long> BlockedFollowers { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
+        public Nullable<long> Posts { get; set; }
+        public Nullable<long> StoryViews { get; set; }
+        public Nullable<long> PostsTotal { get; set; }
+        public Nullable<long> FollowTotal { get; set; }
+        public Nullable<long> StoryViewsTotal { get; set; }
     
         public virtual SocialProfile SocialProfile { get; set; }
     }
