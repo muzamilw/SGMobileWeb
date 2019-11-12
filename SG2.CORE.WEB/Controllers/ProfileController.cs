@@ -172,6 +172,11 @@ namespace SG2.CORE.WEB.Controllers
 
         }
 
+
+		[HttpPost]
+		public ActionResult Target(SocialProfileDTO request) {
+			return RedirectToAction("Target");
+		}
         public ActionResult Stats(int socialProfileId)
         {
 
