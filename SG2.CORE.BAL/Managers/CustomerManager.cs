@@ -396,7 +396,7 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public async Task<SubscriptionDTO> InsertSubscription(SubscriptionDTO sG2_Subscription)
+        public async Task<SocialProfile_PaymentsDTO> InsertSubscription(SocialProfile_PaymentsDTO sG2_Subscription)
         {
             try
             {
@@ -409,7 +409,7 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public void UpdateSubscription(SubscriptionDTO sG2_Subscription)
+        public void UpdateSubscription(SocialProfile_PaymentsDTO sG2_Subscription)
         {
             try
             {
@@ -435,11 +435,11 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public SubscriptionDTO GetSubscription(int SocialProfileId)
+        public SocialProfile_PaymentsDTO GetSubscription(int SocialProfileId)
         {
             try
             {
-                SubscriptionDTO subscriptionDTO = _customerRepository.GetSubscription(SocialProfileId);
+                SocialProfile_PaymentsDTO subscriptionDTO = _customerRepository.GetSubscription(SocialProfileId);
 
                 return subscriptionDTO;
 
@@ -515,7 +515,7 @@ namespace SG2.CORE.BAL.Managers
 
 
 
-        public SubscriptionDTO GetLastCancelledSubscription(int profileId, DateTime dateTime)
+        public SocialProfile_PaymentsDTO GetLastCancelledSubscription(int profileId, DateTime dateTime)
         {
             try
             {

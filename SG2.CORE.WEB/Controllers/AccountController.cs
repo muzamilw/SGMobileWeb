@@ -321,7 +321,7 @@ namespace SG2.CORE.WEB.Controllers
                     this.CDT.StripePlanId = stripeDefaultPlan.StripePlanId;
                     _sessionManager.Set(SessionConstants.Customer, this.CDT);
 
-                    SubscriptionDTO subDTO = new SubscriptionDTO();
+                    SocialProfile_PaymentsDTO subDTO = new SocialProfile_PaymentsDTO();
                     subDTO.CustomerId = this.CDT.CustomerId;
                     subDTO.StripeSubscriptionId = stripeSubscription.Id;
                     subDTO.Description = stripeSubscription.Plan.Nickname;

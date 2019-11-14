@@ -3569,6 +3569,7 @@
     <Content Include="Views\Profile\Partial\_PartialContactDetail.cshtml" />
     <Content Include="Views\Profile\Partial\_PartialMatchFilter.cshtml" />
     <Content Include="Views\Profile\Target - Copy.cshtml" />
+    <Content Include="Views\Profile\history.cshtml" />
     <None Include="Views\Shared\Partial\_PartialForgetPasswordPopup.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialSignupPopup.cshtml" />
     <Content Include="Views\User\Home.cshtml" />

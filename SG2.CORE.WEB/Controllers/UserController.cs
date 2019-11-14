@@ -172,7 +172,7 @@ namespace SG2.CORE.WEB.Controllers
             {
                 var curCust = (CustomerDTO)_sessionManager.Get(SessionConstants.Customer);
 
-                SubscriptionDTO subscriptionDTO = _customerManager.GetSubscription(SocialProfileId);
+                SocialProfile_PaymentsDTO subscriptionDTO = _customerManager.GetSubscription(SocialProfileId);
 
                 var history = _customerManager.GetCustomerOrderHistory("50", 1, this.CDT.CustomerId, SocialProfileId);
 
@@ -421,7 +421,7 @@ namespace SG2.CORE.WEB.Controllers
 
                 StripeConfiguration.SetApiKey(_stripeApiKey);
                 Subscription subscription = new Subscription();
-                SubscriptionDTO subscriptionDTO = new SubscriptionDTO();
+                SocialProfile_PaymentsDTO subscriptionDTO = new SocialProfile_PaymentsDTO();
                 var subscriptionService = new SubscriptionService();
 
                 if (this.CDT.StripeCustomerId != null)
@@ -548,7 +548,7 @@ namespace SG2.CORE.WEB.Controllers
                 }
 
 
-                SubscriptionDTO subDTO = new SubscriptionDTO();
+                SocialProfile_PaymentsDTO subDTO = new SocialProfile_PaymentsDTO();
                 subDTO.CustomerId = this.CDT.CustomerId;
                 subDTO.StripeSubscriptionId = subscription.Id;
                 subDTO.Description = subscription.Plan.Nickname;
@@ -634,7 +634,7 @@ namespace SG2.CORE.WEB.Controllers
 
                 StripeConfiguration.SetApiKey(_stripeApiKey);
                 Subscription subscription = new Subscription();
-                SubscriptionDTO subscriptionDTO = new SubscriptionDTO();
+                SocialProfile_PaymentsDTO subscriptionDTO = new SocialProfile_PaymentsDTO();
                 var subscriptionService = new SubscriptionService();
 
                 if (this.CDT.StripeCustomerId != null)
@@ -737,7 +737,7 @@ namespace SG2.CORE.WEB.Controllers
                 }
 
                 //--TODO: Check subscription status here
-                SubscriptionDTO subDTO = new SubscriptionDTO();
+                SocialProfile_PaymentsDTO subDTO = new SocialProfile_PaymentsDTO();
                 subDTO.CustomerId = this.CDT.CustomerId;
                 subDTO.StripeSubscriptionId = subscription.Id;
                 subDTO.Description = subscription.Plan.Nickname;
@@ -790,7 +790,7 @@ namespace SG2.CORE.WEB.Controllers
                 var subscription = service.Cancel(this.CDT.StripeSubscriptionId, null);
 
                 //--TODO: Check subscription status here
-                SubscriptionDTO subDTO = new SubscriptionDTO();
+                SocialProfile_PaymentsDTO subDTO = new SocialProfile_PaymentsDTO();
                 subDTO.CustomerId = this.CDT.CustomerId;
                 subDTO.StripeSubscriptionId = subscription.Id;
                 subDTO.Description = subscription.Plan.Nickname;
