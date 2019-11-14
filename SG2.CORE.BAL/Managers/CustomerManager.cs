@@ -302,8 +302,27 @@ namespace SG2.CORE.BAL.Managers
 				
 			}
 		}
+		public bool UpdateTargetProfile(SocialProfileDTO model)
+		{
+			try
+			{
+				var socialprofile = _socialRepository.UpdateTargetProfile(model);
+				if (socialprofile)
+				{
+					_sessionManager.Set(SessionConstants.SocialProfile, socialprofile);
+				}
+				return socialprofile;
 
-        public CustomerDTO UpdateCustomerProfile(CustomerDTO model)
+			}
+			catch (Exception)
+			{
+
+				throw;
+
+			}
+		}
+
+		public CustomerDTO UpdateCustomerProfile(CustomerDTO model)
         {
             try
             {
