@@ -33,7 +33,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             var cities = CommonManager.GetCities();
             var model = new ActionBoardViewModel()
             {
-                //JVStatuses = JVStatusesData,
+                JVStatuses = _customerManager.GetTrelloStatuses(),
                 //MPBoxList = _customerManager.GetMPBoxes(),
                 //Countries = countries,
                 Cities = cities

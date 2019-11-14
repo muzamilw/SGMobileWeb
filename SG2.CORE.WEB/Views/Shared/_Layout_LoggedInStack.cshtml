@@ -95,6 +95,8 @@
                     <a class="dropdown-toggle nav-link" href="~/user/home"><i class="ft-home"></i><span>Home</span></a>
 
                 </li>
+                @if ( ViewBag.socialProfileId != null)
+                {
                 <li class="dropdown nav-item" data-menu="dropdown">
                     <a class="nav-link" href="~/Profile/stats?socialProfileId=@custDto.DefaultSocialProfileId"><i class="ft-monitor"></i><span>Stats</span></a>
 
@@ -119,6 +121,7 @@
                     <a class="nav-link" href="~/Profile/history?socialProfileId=@custDto.DefaultSocialProfileId"><i class="ft-briefcase"></i><span>Order History</span></a>
 
                 </li>
+                }
 
             </ul>
         </div>

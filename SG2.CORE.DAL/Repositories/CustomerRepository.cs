@@ -1253,6 +1253,38 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
+
+        public List<ActionBoardJVSData> GetTrelloStatuses()
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    var actionJVStatus = _db.EnumerationValues.Where(g => g.EnumerationId == 3 && g.IsVisible == true).ToList();
+                    if (actionJVStatus != null)
+                    {
+                        List<ActionBoardJVSData> actionBoardJVSDatas = new List<ActionBoardJVSData>();
+                        foreach (var item in actionJVStatus)
+                        {
+                            ActionBoardJVSData actionBoardJVSData = new ActionBoardJVSData();
+                            actionBoardJVSData.JVBStatusId = item.EnumerationId;
+                            actionBoardJVSData.JVBStatusName = item.Name;
+                            actionBoardJVSData.JVBStatusDesc = item.Description;
+                            actionBoardJVSData.SequenceNo = item.SequenceNo;
+                            actionBoardJVSDatas.Add(actionBoardJVSData);
+                        }
+                        return actionBoardJVSDatas;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
         //public async Task<bool> SetSocialProfileJVStatus(int profileId, int jvStatusId, string updatedBy)
         //{
         //    try

@@ -547,7 +547,14 @@ namespace SG2.CORE.BAL.Managers
             }
 
         }
-        
+
+        public List<ActionBoardJVSData> GetTrelloStatuses()
+        {
+            var Model = _customerRepository.GetTrelloStatuses();
+
+            return Model;
+        }
+
 
 
         //public async Task<bool> SetTargetPreferenceQueueStatus(int profileId, short queueStatus, string updatedBy)

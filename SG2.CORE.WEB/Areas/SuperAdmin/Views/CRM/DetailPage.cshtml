@@ -2,7 +2,7 @@
 @model SG2.CORE.MODAL.ViewModals.Backend.CustomerDetailViewModel
 @{
     ViewBag.Title = "Customer Detail";
-    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout_LoggedIn.cshtml";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
     var BaseURl = ViewBag.BaseUrl;
 
     List<SelectListItem> Sources = new List<SelectListItem>();
@@ -21,18 +21,7 @@
     Sou2.Value = "3";
     Sources.Add(Sou2);
 
-    List<SelectListItem> countries = new List<SelectListItem>();
-
-    foreach (var item in Model.Countries)
-    {
-        countries.Add(new SelectListItem { Text = item.Name, Value = item.CountryId.ToString() });
-    }
-
-    List<SelectListItem> cities = new List<SelectListItem>();
-    foreach (var item in Model.cities)
-    {
-        cities.Add(new SelectListItem { Text = item.Name, Value = item.CityId.ToString() });
-    }
+   
 
     List<SelectListItem> UsrListItems = new List<SelectListItem>();
     foreach (var item in Model.usersList)
@@ -54,8 +43,7 @@
     }
     var cStatus = Model.statusDTOs.Where(m => m.StatusId.ToString() == Model.CustomerStatus).FirstOrDefault();
     var source = "";
-    var country = Model.Countries.Where(m => m.CountryId.ToString() == Model.Country).FirstOrDefault();
-    var city = Model.cities.Where(m => m.CityId.ToString() == Model.City).FirstOrDefault();
+  
     var title = Model.CustomerTitles.Where(m => m.TitleId.ToString() == Model.Title).FirstOrDefault();
     var SelectRspUsr = Model.usersList.Where(m => m.UserId == Model.ResTeamMember).FirstOrDefault();
     var src = Sources.SingleOrDefault(m => m.Value == Model.Source);
@@ -178,27 +166,7 @@
                                 </div>
                             </div>
 
-                            <div class="user-inner">
-                                <label>Country</label>
-                                <div class="displayBlock" id="Country-textBlock">
-                                    <h2 class="displayText">
-                                        @if (country != null)
-                                        {
-                                            @country.Name
-                                        }
-                                        else
-                                        {
-                                            @("--")
-                                        }
-                                    </h2>
-                                    <a href="#" text-block="Country-textBlock" edit-Block="Country-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
-                                </div>
-                                <div class="editBlock" id="Country-editBlock" style="display:none">
-                                    @Html.DropDownListFor(m => m.Country, countries, "-- Select Country --", new { @id = "input_Country", @class = "slct" })
-                                    <a href="#" text-block="Country-textBlock" edit-Block="Country-editBlock" control-id="input_Country" class="btn_savedata"><i class="fa fa-save"></i> |</a>
-                                    <a href="#" text-block="Country-textBlock" edit-Block="Country-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
-                                </div>
-                            </div>
+                            
 
 
                         </div>
@@ -216,27 +184,7 @@
                                 </div>
                             </div>
 
-                            <div class="user-inner">
-                                <label>Town / City</label>
-                                <div class="displayBlock" id="City-textBlock">
-                                    <h2 class="displayText">
-                                        @if (city != null)
-                                        {
-                                            @city.Name
-                                        }
-                                        else
-                                        {
-                                            @("--")
-                                        }
-                                    </h2>
-                                    <a href="#" text-block="City-textBlock" edit-Block="City-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
-                                </div>
-                                <div class="editBlock" id="City-editBlock" style="display:none">
-                                    @Html.DropDownListFor(m => m.Town, cities, "-- Select City --", new { @id = "input_City", @class = "slct" })
-                                    <a href="#" text-block="City-textBlock" edit-Block="City-editBlock" control-id="input_City" class="btn_savedata"><i class="fa fa-save"></i> |</a>
-                                    <a href="#" text-block="City-textBlock" edit-Block="City-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
-                                </div>
-                            </div>
+                           
 
                             @*<a href=""><img src="~/Content/ThemeAssets/Images/lock-img.png" /></a>
                                 <span>

@@ -59,6 +59,7 @@ namespace SG2.CORE.WEB.Controllers
         public ActionResult Basic(int socialProfileId)
         {
             ViewBag.CurrentUser = this.CDT;
+            ViewBag.socialProfileId = socialProfileId;
             var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
 
             return View(SocailProfile);
@@ -67,7 +68,7 @@ namespace SG2.CORE.WEB.Controllers
 
         public ActionResult Target(int socialProfileId)
         {
-
+            ViewBag.socialProfileId = socialProfileId;
             ViewBag.CurrentUser = this.CDT;
             var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
 
@@ -180,7 +181,7 @@ namespace SG2.CORE.WEB.Controllers
 		}
         public ActionResult Stats(int socialProfileId)
         {
-
+            ViewBag.socialProfileId = socialProfileId;
             ViewBag.CurrentUser = this.CDT;
             ViewBag.socialProfile = this._cm.GetSocialProfileById(socialProfileId);
 
@@ -1077,7 +1078,7 @@ namespace SG2.CORE.WEB.Controllers
 
         public ActionResult Lists(int socialProfileId)
         {
-            
+            ViewBag.socialProfileId = socialProfileId;
             ViewBag.CurrentUser = this.CDT;
             var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
                           
