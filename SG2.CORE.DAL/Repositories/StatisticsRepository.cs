@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SG2.CORE.MODAL;
+using SG2.CORE.MODAL.MobileViewModels;
 
 namespace SG2.CORE.DAL.Repositories
 {
@@ -25,6 +26,45 @@ namespace SG2.CORE.DAL.Repositories
             {
                 throw ex;
             }
+        }
+
+        public bool SaveInitialStatistics(MobileIniitalStatsRequest model)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    //only save initial stats if old one does not exists. skip if any older stats exists.
+                    if (_db.SocialProfile_Statistics.Where(g => g.SocialProfileId == model.SocialProfileId && g.Date <= DateTime.Today).Count() == 0)
+                    {
+
+                        var stats = new SocialProfile_Statistics();
+                        stats.SocialProfileId = model.SocialProfileId;
+                        stats.Posts = model.InitialPosts;
+                        stats.PostsTotal = model.InitialPosts;
+
+                        stats.Followers = model.InitialFollowers;
+                        stats.FollowersTotal = model.InitialFollowers;
+
+                        stats.Followings = model.InitialFollowings;
+                        stats.FollowingsTotal = model.InitialFollowings;
+
+                        stats.Date = DateTime.Today;
+                        stats.CreatedDate = DateTime.Now;
+                        stats.UpdateDate = DateTime.Now;
+
+                        _db.SocialProfile_Statistics.Add(stats);
+                        _db.SaveChanges();
+                    }
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return true;
         }
 
         public IList<SocialProfile_Statistics>  GetProfileTrends(int socialProfileId, DateTime fromDate, DateTime ToDate)

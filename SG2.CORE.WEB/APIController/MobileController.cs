@@ -2,7 +2,7 @@
 using System;
 using System.Web.Http;
 using System.Collections.Generic;
-
+using System.Linq;
 using SG2.CORE.BAL.Managers;
 using System.Web;
 using System.Net;
@@ -17,10 +17,12 @@ namespace SG2.CORE.WEB.APIController
     {
 
         protected readonly CustomerManager _customerManager;
+        protected readonly StatisticsManager _statsManager;
 
         public MobileController()
         {
             _customerManager = new CustomerManager();
+            _statsManager = new StatisticsManager();
         }
 
         [Route("Login")]
@@ -52,7 +54,7 @@ namespace SG2.CORE.WEB.APIController
                     {
                         MobileLoginJsonRootObject = new MobileLoginResponse
                         {
-                            StatusCode = 2,
+                            StatusCode = res.ErrorCode,
                             StatusMessage = res.Message
                         }
 
@@ -68,6 +70,7 @@ namespace SG2.CORE.WEB.APIController
         }
 
         [Route("GetManifest")]
+        [HttpPost]
         public IHttpActionResult GetManifest(MobileManifestRequest model)
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<SocialProfile, MobileSocialProfile>()
@@ -77,7 +80,7 @@ namespace SG2.CORE.WEB.APIController
            );
 
 
-            var config3 = new MapperConfiguration(cfg => cfg.CreateMap<List<SocialProfile_FollowedAccounts>, List<MobileSocialProfile_FollowedAccounts>>()
+            var config3 = new MapperConfiguration(cfg => cfg.CreateMap<SocialProfile_FollowedAccounts, MobileSocialProfile_FollowedAccounts>()
            );
             var mapper = new Mapper(config);
             var mapper2 = new Mapper(config2);
@@ -85,6 +88,9 @@ namespace SG2.CORE.WEB.APIController
 
             if (ModelState.IsValid)
             {
+
+              
+                DateTime commentCutOffDate = DateTime.Today.AddDays(-1);
 
                 var profile = _customerManager.GetSocialProfileById(model.SocialProfileId);
 
@@ -95,9 +101,12 @@ namespace SG2.CORE.WEB.APIController
                     StatusMessage = "",
                     Profile = mapper.Map<MobileSocialProfile>(profile.SocialProfile),
                     TargetInformation = mapper2.Map<MobileSocialProfile_Instagram_TargetingInformation>(profile.SocialProfile_Instagram_TargetingInformation),
-                    ExistingFollowers = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts)
+                    FollowersToUnFollow = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime < commentCutOffDate).ToList()),
+                    FollowersToComment = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime >= commentCutOffDate).ToList())
 
                 };
+
+                
 
                 manifest.Profile.Status = ((GeneralStatus)profile.SocialProfile.StatusId).ToString();
 
@@ -130,6 +139,67 @@ namespace SG2.CORE.WEB.APIController
                         return Ok();
                     else
                         return Content(HttpStatusCode.BadRequest, "action could not be saved");
+
+                }
+                catch (Exception e)
+                {
+                    return Content(HttpStatusCode.BadRequest, e.ToString());
+                }
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, "Input params missing");
+            }
+        }
+
+        [Route("AppActionBulk")]
+        [HttpPost]
+        public IHttpActionResult AppActionBulk(List<MobileActionRequest> model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+
+                    int successCount = 0;
+
+                    foreach (var item in model)
+                    {
+                        if (_customerManager.SaveMobileAppAction(item))
+                            successCount++;
+                       
+                    }
+                    if ( successCount == model.Count)
+                        return Ok();
+                    else
+                        return Content(HttpStatusCode.BadRequest, "One or more actions could not be saved");
+                }
+                catch (Exception e)
+                {
+                    return Content(HttpStatusCode.BadRequest, e.ToString());
+                }
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, "Input params missing");
+            }
+
+           
+        }
+
+
+        [Route("InitialStats")]
+        [HttpPost]
+        public IHttpActionResult InitialStats(MobileIniitalStatsRequest model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (_statsManager.SaveInitialStatistics(model))
+                        return Ok();
+                    else
+                        return Content(HttpStatusCode.BadRequest, "Stats could not be saved");
 
                 }
                 catch (Exception e)

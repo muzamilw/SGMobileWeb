@@ -761,7 +761,7 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
-        public (bool, string, int, bool) PerformMobileLogin(string SocialUserName, string Pin, string DeviceIMEI, bool ForceSwitchDevice)
+        public (bool, string, int, bool, int ErrorCode) PerformMobileLogin(string SocialUserName, string Pin, string DeviceIMEI, bool ForceSwitchDevice)
         {
 
             using (var _db = new SocialGrowth2Connection())
@@ -775,7 +775,7 @@ namespace SG2.CORE.DAL.Repositories
                         profile.DeviceStatus = (int)DeviceStatus.Connected;
                         profile.LastConnectedDateTime = DateTime.Now;
                         _db.SaveChanges();
-                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty( profile.SocialPassword) );
+                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty( profile.SocialPassword),1 );
                     }
                     else if (profile.DeviceIMEI == DeviceIMEI)
                     {
@@ -783,11 +783,11 @@ namespace SG2.CORE.DAL.Repositories
                         profile.DeviceStatus = (int)DeviceStatus.Connected;
                         profile.LastConnectedDateTime = DateTime.Now;
                         _db.SaveChanges();
-                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty(profile.SocialPassword));
+                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty(profile.SocialPassword),1);
                     }
                     else if (profile.DeviceIMEI != DeviceIMEI && ForceSwitchDevice == false)
                     {
-                        return (false, "Device IMEI does not match", profile.SocialProfileId,false);
+                        return (false, "Device IMEI does not match", profile.SocialProfileId,false,2);
                     }
                     else if (profile.DeviceIMEI != DeviceIMEI && ForceSwitchDevice == true)
                     {
@@ -795,18 +795,18 @@ namespace SG2.CORE.DAL.Repositories
                         profile.DeviceStatus = (int)DeviceStatus.Connected;
                         profile.LastConnectedDateTime = DateTime.Now;
                         _db.SaveChanges();
-                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty(profile.SocialPassword));
+                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty(profile.SocialPassword),1);
                     }
                     else
                     {
-                        return (false, "Device IMEI does not match", profile.SocialProfileId, false);
+                        return (false, "Device IMEI does not match", profile.SocialProfileId, false,2);
                     }
 
 
                 }
                 else
                 {
-                    return (false, "Invalid username or Pin", 0,false);
+                    return (false, "Invalid username or Pin", 0,false,3);
                 }
 
             }
@@ -947,7 +947,7 @@ namespace SG2.CORE.DAL.Repositories
                     , subscriptionDTO.PaymentPlanId, subscriptionDTO.StripeInvoiceId).ToList());
                     if (result != null)
                     {
-                        subscriptionDTO.SubscriptionId = result.FirstOrDefault().SubscriptionId;
+                        subscriptionDTO.StripeSubscriptionId = result.FirstOrDefault().SubscriptionId.ToString();
                         return subscriptionDTO;
                     }
                     return null;
@@ -971,13 +971,13 @@ namespace SG2.CORE.DAL.Repositories
 
                 var query =
                from sub in _db.SocialProfile_Payments
-               where sub.PaymentId == subscriptionDTO.SubscriptionId
+               where sub.PaymentId == subscriptionDTO.PaymentId
                select sub;
 
                 subscription = query.FirstOrDefault();
                 // Execute the query, and change the column values
                 // you want to change.
-                subscription.PaymentId = subscriptionDTO.SubscriptionId;
+                subscription.PaymentId = subscriptionDTO.PaymentId;
                 subscription.Description = subscriptionDTO.Description;
                 subscription.Name = subscriptionDTO.Description;
                 subscription.Price = subscriptionDTO.Price;
@@ -1160,6 +1160,8 @@ namespace SG2.CORE.DAL.Repositories
 
 
                
+               
+               
             }
            
         }
@@ -1190,6 +1192,8 @@ namespace SG2.CORE.DAL.Repositories
             }
             return true;
         }
+
+        
 
         public SocialProfileDTO GetSocialProfilesById(int profileId)
         {

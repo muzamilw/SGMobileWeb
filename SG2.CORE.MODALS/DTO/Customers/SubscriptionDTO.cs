@@ -31,4 +31,4 @@ namespace SG2.CORE.MODAL.DTO.Customers
         public string Status { get; set; }
     }
 }
-}
+
