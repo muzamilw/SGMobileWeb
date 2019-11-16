@@ -176,7 +176,8 @@ namespace SG2.CORE.WEB.Controllers
 
 		[HttpPost]
 		public ActionResult Target(SocialProfileDTO request) {
-			return RedirectToAction("Target");
+				 this._cm.UpdateTargetProfile(request);
+			return RedirectToAction("Target", "Profile", new { socialProfileId = request.SocialProfile_Instagram_TargetingInformation.SocialProfileId });
 		}
         public ActionResult Stats(int socialProfileId)
         {

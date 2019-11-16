@@ -47,5 +47,32 @@ namespace SG2.CORE.DAL.Repositories
 			}
 
 		}
+
+		public bool UpdateTargetProfile(SocialProfileDTO request)
+		{
+			try
+			{
+				using (var _db = new SocialGrowth2Connection())
+				{
+
+					var profile = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.TargetingInformationId == request.SocialProfile_Instagram_TargetingInformation.TargetingInformationId).SingleOrDefault();
+					if (profile != null)
+					{
+						profile = request.SocialProfile_Instagram_TargetingInformation;
+
+					}
+					_db.SaveChanges();
+
+					return true;
+				}
+
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
+
+		}
 	}
 }
