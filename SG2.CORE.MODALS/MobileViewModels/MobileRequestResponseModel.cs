@@ -32,6 +32,14 @@ namespace SG2.CORE.MODAL.MobileViewModels
     }
 
 
+    public class MobileActionResponse
+    {
+        public int StatusCode { get; set; }
+        public string StatusMessage { get; set; }
+
+    }
+
+
     public class MobileManifestResponse
     {
         public int CustomerId { get; set; }
@@ -45,6 +53,8 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public List<MobileSocialProfile_FollowedAccounts> FollowersToUnFollow { get; set; }
 
         public List<MobileSocialProfile_FollowedAccounts> FollowersToComment { get; set; }
+
+        public List<MobileSocialProfile_FollowedAccounts> LikeyList { get; set; }
     }
 
 

@@ -500,11 +500,23 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
+
+        // Follow  with username    actionid = 60
+        // UnFollow  with username  actionid = 61
+        // Like with username       actionid = 62
+        // Comment with username    actionid = 63
+        // StoryView with username  actionid = 64
+        // FollowerCount with username  and count in msg actionid = 65
         public bool SaveMobileAppAction(MobileActionRequest model)
         {
             try
             {
-                return _customerRepository.SaveMobileAppActions(model);
+                var result = _customerRepository.SaveMobileAppActions(model);
+                
+
+
+
+                return result;
             }
             catch (Exception ex)
             {

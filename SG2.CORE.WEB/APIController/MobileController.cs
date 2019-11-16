@@ -104,6 +104,9 @@ namespace SG2.CORE.WEB.APIController
                     FollowersToUnFollow = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime < commentCutOffDate).ToList()),
                     FollowersToComment = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime >= commentCutOffDate).ToList())
 
+
+                    //20 count Follow list is all paid instagram profile usernames which are already not in follower list.  and follow exchange checkbox true
+                    //10 count Like list is all paid instagram profile usernames which are already not in follower list.  and like exchange checkbox true
                 };
 
                 
@@ -126,31 +129,45 @@ namespace SG2.CORE.WEB.APIController
         }
 
 
+        // Follow  with username    actionid = 60
+        // UnFollow  with username  actionid = 61
+        // Like with username       actionid = 62
+        // Comment with username    actionid = 63
+        // StoryView with username  actionid = 64
+        
 
-        [Route("AppAction")]
-        [HttpPost]
-        public IHttpActionResult AppAction(MobileActionRequest model)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    if (_customerManager.SaveMobileAppAction(model))
-                        return Ok();
-                    else
-                        return Content(HttpStatusCode.BadRequest, "action could not be saved");
 
-                }
-                catch (Exception e)
-                {
-                    return Content(HttpStatusCode.BadRequest, e.ToString());
-                }
-            }
-            else
-            {
-                return Content(HttpStatusCode.BadRequest, "Input params missing");
-            }
-        }
+        //[Route("AppAction")]
+        //[HttpPost]
+        //public IHttpActionResult AppAction(MobileActionRequest model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            if (_customerManager.SaveMobileAppAction(model))
+        //                return Ok(new MobileActionResponse { StatusCode=1, StatusMessage="Success" });
+        //            else
+        //                return Content(HttpStatusCode.BadRequest, "action could not be saved");
+
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            return Content(HttpStatusCode.BadRequest, e.ToString());
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return Content(HttpStatusCode.BadRequest, "Input params missing");
+        //    }
+        //}
+
+        // Follow  with username    actionid = 60
+        // UnFollow  with username  actionid = 61
+        // Like with username       actionid = 62
+        // Comment with username    actionid = 63
+        // StoryView with username  actionid = 64
+        // FollowerCount with username  and count in msg actionid = 65
 
         [Route("AppActionBulk")]
         [HttpPost]
@@ -169,8 +186,55 @@ namespace SG2.CORE.WEB.APIController
                             successCount++;
                        
                     }
+
+
+                    //follow
+                    var FollowingCount = model.Where(g => g.ActionId == 60).Count();
+
+                    var FollowingCountDecrease = model.Where(g => g.ActionId == 61).Count();
+
+                    var FollowingCountNet = FollowingCount - FollowingCountDecrease;
+
+                    var LikeCount = model.Where(g => g.ActionId == 62).Count();
+
+                    var CommentCount = model.Where(g => g.ActionId == 63).Count();
+
+                    var StoryCount = model.Where(g => g.ActionId == 64).Count();
+
+                    var FollowingEvent = model.Where(g => g.ActionId == 65).FirstOrDefault();
+                    var FollowCount = 0;
+                    if ( FollowingEvent != null)
+                    {
+                        FollowCount = Convert.ToInt32(FollowingEvent.Message);
+                        //take diff with previous no and then update.
+                    }
+
+
+
+                    //if (model.ActionId == 60)
+                    //{
+
+                    //}
+                    //else if (model.ActionId == 60)
+                    //{
+
+                    //}
+                    //else if (model.ActionId == 60)
+                    //{
+
+                    //}
+                    //else if (model.ActionId == 60)
+                    //{
+
+                    //}
+                    //else if (model.ActionId == 60)
+                    //{
+
+                    //}
+
+
                     if ( successCount == model.Count)
-                        return Ok();
+                        return Ok(new MobileActionResponse { StatusCode = 1, StatusMessage = "Success" });
                     else
                         return Content(HttpStatusCode.BadRequest, "One or more actions could not be saved");
                 }
