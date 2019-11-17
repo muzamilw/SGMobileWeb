@@ -28,14 +28,14 @@ namespace SG2.CORE.MODAL
         public string DirectCompetitors { get; set; }
         public Nullable<int> GenderEngagmentPref { get; set; }
         public Nullable<bool> IncludeBusinessAccounts { get; set; }
-        public Nullable<bool> MonOper { get; set; }
-        public Nullable<bool> TueOper { get; set; }
-        public Nullable<bool> WedOper { get; set; }
-        public Nullable<bool> ThuOper { get; set; }
-        public Nullable<bool> FriOper { get; set; }
-        public Nullable<bool> SatOper { get; set; }
-        public Nullable<bool> SunOper { get; set; }
-        public string ExecutionIntervals { get; set; }
+		public Nullable<bool> MonOper { get; set; } = false;
+        public Nullable<bool> TueOper { get; set; } = false;
+		public Nullable<bool> WedOper { get; set; } = false;
+		public Nullable<bool> ThuOper { get; set; } = false;
+		public Nullable<bool> FriOper { get; set; } = false;
+		public Nullable<bool> SatOper { get; set; } = false;
+		public Nullable<bool> SunOper { get; set; } = false;
+		public string ExecutionIntervals { get; set; }
         public Nullable<bool> RandomizeIntervalsDaily { get; set; }
         public System.DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }

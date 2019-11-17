@@ -21,6 +21,8 @@ using SG2.CORE.MODAL.DTO.QueueLogger;
 using Newtonsoft.Json;
 using SG2.CORE.MODAL.DTO.Notification;
 using System.Threading.Tasks;
+//using SG2.CORE.MODAL;
+using System.Reflection;
 
 namespace SG2.CORE.WEB.Controllers
 {
@@ -175,8 +177,10 @@ namespace SG2.CORE.WEB.Controllers
 
 
 		[HttpPost]
-		public ActionResult Target(SocialProfileDTO request) {
-				 this._cm.UpdateTargetProfile(request);
+		public ActionResult Target(SocialProfileDTO request)
+		{
+			
+			this._cm.UpdateTargetProfile(request);
 			return RedirectToAction("Target", "Profile", new { socialProfileId = request.SocialProfile_Instagram_TargetingInformation.SocialProfileId });
 		}
         public ActionResult Stats(int socialProfileId)

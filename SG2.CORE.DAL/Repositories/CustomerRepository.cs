@@ -141,7 +141,8 @@ namespace SG2.CORE.DAL.Repositories
                 using (var _db = new SocialGrowth2Connection())
                 {
                     var usr = _db.Customers.FirstOrDefault(x => x.CustomerId == entity.CustomerId);
-                    if (usr != null)
+				
+					if (usr != null)
                     {
                         usr.IsOptedEducationalEmailSeries = entity.IsOptedEducationalEmailSeries;
                         usr.IsOptedMarketingEmail = entity.IsOptedMarketingEmail;

@@ -58,10 +58,29 @@ namespace SG2.CORE.DAL.Repositories
 					var profile = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.TargetingInformationId == request.SocialProfile_Instagram_TargetingInformation.TargetingInformationId).SingleOrDefault();
 					if (profile != null)
 					{
-						profile = request.SocialProfile_Instagram_TargetingInformation;
+						var parentProperties = request.SocialProfile_Instagram_TargetingInformation.GetType().GetProperties();
+						var childProperties = profile.GetType().GetProperties();
 
+						foreach (var parentProperty in parentProperties)
+						{
+							foreach (var childProperty in childProperties)
+							{
+								if (parentProperty.Name != "CreatedBy" && parentProperty.Name != "CreatedOn")
+								{
+									if (parentProperty.Name == childProperty.Name && parentProperty.PropertyType == childProperty.PropertyType)
+									{
+										childProperty.SetValue(profile, parentProperty.GetValue(request.SocialProfile_Instagram_TargetingInformation));
+										break;
+									}
+								}
+							}
+						}
+						profile.UpdatedOn = DateTime.Now;
+
+						_db.SaveChanges();
 					}
-					_db.SaveChanges();
+
+				
 
 					return true;
 				}
