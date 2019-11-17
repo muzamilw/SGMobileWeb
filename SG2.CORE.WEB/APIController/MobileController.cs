@@ -184,15 +184,13 @@ namespace SG2.CORE.WEB.APIController
                     {
                         if (_customerManager.SaveMobileAppAction(item))
                             successCount++;
-                       
                     }
 
-
-                    //follow
+                    
                     var FollowingCount = model.Where(g => g.ActionId == 60).Count();
 
                     var FollowingCountDecrease = model.Where(g => g.ActionId == 61).Count();
-
+                    //follow
                     var FollowingCountNet = FollowingCount - FollowingCountDecrease;
 
                     var LikeCount = model.Where(g => g.ActionId == 62).Count();
@@ -209,29 +207,7 @@ namespace SG2.CORE.WEB.APIController
                         //take diff with previous no and then update.
                     }
 
-
-
-                    //if (model.ActionId == 60)
-                    //{
-
-                    //}
-                    //else if (model.ActionId == 60)
-                    //{
-
-                    //}
-                    //else if (model.ActionId == 60)
-                    //{
-
-                    //}
-                    //else if (model.ActionId == 60)
-                    //{
-
-                    //}
-                    //else if (model.ActionId == 60)
-                    //{
-
-                    //}
-
+                    _statsManager.UpdateStatistics(model.First().SocialProfileId, FollowingCountNet, LikeCount, CommentCount, StoryCount, FollowCount);
 
                     if ( successCount == model.Count)
                         return Ok(new MobileActionResponse { StatusCode = 1, StatusMessage = "Success" });

@@ -64,6 +64,55 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
+        public bool UpdateStatistics(int socialProfileId, int FollowingCount, int LikeCount, int CommentCount, int StoryCount, int FollowCount)
+        {
+            try
+            {
+                var prevStats =  _statistics.GetLatestStatistics(socialProfileId);
+                if ( prevStats != null)
+                {
+
+                    prevStats.Followings = FollowingCount;
+                    prevStats.FollowingsTotal = prevStats.FollowingsTotal + FollowingCount;
+
+                    prevStats.Like = LikeCount;
+                    prevStats.LikeTotal += LikeCount;
+
+                    prevStats.Comment = CommentCount;
+
+
+                    prevStats.StoryViews = StoryCount;
+                    prevStats.StoryViewsTotal += StoryCount;
+
+                    prevStats.Follow = Math.Abs(prevStats.Follow.Value - FollowCount);
+                    prevStats.FollowTotal = Math.Abs(prevStats.FollowTotal.Value - FollowCount);
+
+                    if ( prevStats.Date == DateTime.Today)
+                    {
+                        
+                        _statistics.UpdateStatistics(prevStats);
+                    }
+                    else
+                    {
+                        _statistics.InsertStatistics(prevStats);
+                    }
+
+
+                }
+
+
+
+                return true;
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+
+
+        }
+
 
 
             public StatisticsViewModel GetStatistics(int socialProfileId)

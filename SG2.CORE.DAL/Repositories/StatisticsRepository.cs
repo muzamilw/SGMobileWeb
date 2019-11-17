@@ -67,6 +67,94 @@ namespace SG2.CORE.DAL.Repositories
             return true;
         }
 
+
+        public bool UpdateStatistics(SocialProfile_Statistics model)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+
+                    var stats = _db.SocialProfile_Statistics.Where(g => g.SocialProfileId == model.SocialProfileId).FirstOrDefault();
+                    //only save initial stats if old one does not exists. skip if any older stats exists.
+                    if (stats != null)
+                    {
+
+                        stats.Followings = model.Followings;
+                        stats.FollowingsTotal = model.FollowingsTotal;
+
+                        stats.Like = model.Like;
+                        stats.LikeTotal = model.LikeTotal;
+
+                        stats.Comment = model.Comment;
+                        stats.StoryViews = model.StoryViews;
+                        stats.StoryViewsTotal = model.StoryViewsTotal;
+
+                        stats.Follow = model.Follow;
+                        stats.FollowTotal = model.FollowTotal;
+
+                        stats.UpdateDate = DateTime.Now;
+
+                        _db.SaveChanges();
+                    }
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return true;
+        }
+
+
+        public bool InsertStatistics(SocialProfile_Statistics model)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+
+                    var stats = new SocialProfile_Statistics();
+                    //only save initial stats if old one does not exists. skip if any older stats exists.
+                    if (stats != null)
+                    {
+
+                        stats.Followings = model.Followings;
+                        stats.FollowingsTotal = model.FollowingsTotal;
+
+                        stats.Like = model.Like;
+                        stats.LikeTotal = model.LikeTotal;
+
+                        stats.Comment = model.Comment;
+                        stats.StoryViews = model.StoryViews;
+                        stats.StoryViewsTotal = model.StoryViewsTotal;
+
+                        stats.Follow = model.Follow;
+                        stats.FollowTotal = model.FollowTotal;
+
+                        stats.Date = DateTime.Today;
+                        stats.CreatedDate = DateTime.Now;
+                        stats.UpdateDate = DateTime.Now;
+
+                        stats.SocialProfileId = model.SocialProfileId;
+
+                        _db.SocialProfile_Statistics.Add(stats);
+
+                        _db.SaveChanges();
+                    }
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return true;
+        }
+
         public IList<SocialProfile_Statistics>  GetProfileTrends(int socialProfileId, DateTime fromDate, DateTime ToDate)
         {
             try
@@ -76,6 +164,26 @@ namespace SG2.CORE.DAL.Repositories
                    
                     var statsData = _db.SocialProfile_Statistics.Where (g=> g.SocialProfileId ==  socialProfileId && g.Date >= fromDate && g.Date <= ToDate).ToList();
                     
+                    return statsData;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public SocialProfile_Statistics GetLatestStatistics(int socialProfileId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+
+                    var statsData = _db.SocialProfile_Statistics.Where(g => g.SocialProfileId == socialProfileId).OrderByDescending( g=> g.Date).FirstOrDefault();
+
                     return statsData;
 
                 }
