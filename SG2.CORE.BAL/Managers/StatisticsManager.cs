@@ -1,6 +1,7 @@
 ﻿using SG2.CORE.DAL.Repositories;
 using SG2.CORE.MODAL;
 using SG2.CORE.MODAL.DTO.Statistics;
+using SG2.CORE.MODAL.MobileViewModels;
 using SG2.CORE.MODAL.ViewModals.Statistics;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,21 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public IList<SocialProfile_Statistics> GetProfileTrends(int socialProfileId, DateTime fromDate, DateTime ToDate)
+        public bool SaveInitialStatistics(MobileIniitalStatsRequest model)
+        {
+            try
+            {
+                return _statistics.SaveInitialStatistics(model);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+            public IList<SocialProfile_Statistics> GetProfileTrends(int socialProfileId, DateTime fromDate, DateTime ToDate)
         {
             try
             {

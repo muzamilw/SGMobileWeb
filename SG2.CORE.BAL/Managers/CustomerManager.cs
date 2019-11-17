@@ -82,7 +82,7 @@ namespace SG2.CORE.BAL.Managers
 
         }
 
-        public (bool LoginSuccessful, string Message, int SocialProfileId, bool PasswordNeeded) PerformMobileLogin(string SocialUserName, string Pin, string DeviceIMEI, bool ForceSwitchDevice)
+        public (bool LoginSuccessful, string Message, int SocialProfileId, bool PasswordNeeded, int ErrorCode) PerformMobileLogin(string SocialUserName, string Pin, string DeviceIMEI, bool ForceSwitchDevice)
         {
             return _customerRepository.PerformMobileLogin(SocialUserName, Pin, DeviceIMEI, ForceSwitchDevice);
         }
@@ -415,7 +415,7 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public async Task<SubscriptionDTO> InsertSubscription(SubscriptionDTO sG2_Subscription)
+        public async Task<SocialProfile_PaymentsDTO> InsertSubscription(SocialProfile_PaymentsDTO sG2_Subscription)
         {
             try
             {
@@ -428,7 +428,7 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public void UpdateSubscription(SubscriptionDTO sG2_Subscription)
+        public void UpdateSubscription(SocialProfile_PaymentsDTO sG2_Subscription)
         {
             try
             {
@@ -454,11 +454,11 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public SubscriptionDTO GetSubscription(int SocialProfileId)
+        public SocialProfile_PaymentsDTO GetSubscription(int SocialProfileId)
         {
             try
             {
-                SubscriptionDTO subscriptionDTO = _customerRepository.GetSubscription(SocialProfileId);
+                SocialProfile_PaymentsDTO subscriptionDTO = _customerRepository.GetSubscription(SocialProfileId);
 
                 return subscriptionDTO;
 
@@ -519,11 +519,23 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
+
+        // Follow  with username    actionid = 60
+        // UnFollow  with username  actionid = 61
+        // Like with username       actionid = 62
+        // Comment with username    actionid = 63
+        // StoryView with username  actionid = 64
+        // FollowerCount with username  and count in msg actionid = 65
         public bool SaveMobileAppAction(MobileActionRequest model)
         {
             try
             {
-                return _customerRepository.SaveMobileAppActions(model);
+                var result = _customerRepository.SaveMobileAppActions(model);
+                
+
+
+
+                return result;
             }
             catch (Exception ex)
             {
@@ -534,7 +546,7 @@ namespace SG2.CORE.BAL.Managers
 
 
 
-        public SubscriptionDTO GetLastCancelledSubscription(int profileId, DateTime dateTime)
+        public SocialProfile_PaymentsDTO GetLastCancelledSubscription(int profileId, DateTime dateTime)
         {
             try
             {

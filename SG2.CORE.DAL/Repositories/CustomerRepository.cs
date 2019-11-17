@@ -762,7 +762,7 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
-        public (bool, string, int, bool) PerformMobileLogin(string SocialUserName, string Pin, string DeviceIMEI, bool ForceSwitchDevice)
+        public (bool, string, int, bool, int ErrorCode) PerformMobileLogin(string SocialUserName, string Pin, string DeviceIMEI, bool ForceSwitchDevice)
         {
 
             using (var _db = new SocialGrowth2Connection())
@@ -776,7 +776,7 @@ namespace SG2.CORE.DAL.Repositories
                         profile.DeviceStatus = (int)DeviceStatus.Connected;
                         profile.LastConnectedDateTime = DateTime.Now;
                         _db.SaveChanges();
-                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty( profile.SocialPassword) );
+                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty( profile.SocialPassword),1 );
                     }
                     else if (profile.DeviceIMEI == DeviceIMEI)
                     {
@@ -784,11 +784,11 @@ namespace SG2.CORE.DAL.Repositories
                         profile.DeviceStatus = (int)DeviceStatus.Connected;
                         profile.LastConnectedDateTime = DateTime.Now;
                         _db.SaveChanges();
-                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty(profile.SocialPassword));
+                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty(profile.SocialPassword),1);
                     }
                     else if (profile.DeviceIMEI != DeviceIMEI && ForceSwitchDevice == false)
                     {
-                        return (false, "Device IMEI does not match", profile.SocialProfileId,false);
+                        return (false, "Device IMEI does not match", profile.SocialProfileId,false,2);
                     }
                     else if (profile.DeviceIMEI != DeviceIMEI && ForceSwitchDevice == true)
                     {
@@ -796,18 +796,18 @@ namespace SG2.CORE.DAL.Repositories
                         profile.DeviceStatus = (int)DeviceStatus.Connected;
                         profile.LastConnectedDateTime = DateTime.Now;
                         _db.SaveChanges();
-                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty(profile.SocialPassword));
+                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty(profile.SocialPassword),1);
                     }
                     else
                     {
-                        return (false, "Device IMEI does not match", profile.SocialProfileId, false);
+                        return (false, "Device IMEI does not match", profile.SocialProfileId, false,2);
                     }
 
 
                 }
                 else
                 {
-                    return (false, "Invalid username or Pin", 0,false);
+                    return (false, "Invalid username or Pin", 0,false,3);
                 }
 
             }
@@ -937,7 +937,7 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
-        public async Task<SubscriptionDTO> InsertSubscription(SubscriptionDTO subscriptionDTO)
+        public async Task<SocialProfile_PaymentsDTO> InsertSubscription(SocialProfile_PaymentsDTO subscriptionDTO)
         {
             using (var _db = new SocialGrowth2Connection())
             {
@@ -948,7 +948,7 @@ namespace SG2.CORE.DAL.Repositories
                     , subscriptionDTO.PaymentPlanId, subscriptionDTO.StripeInvoiceId).ToList());
                     if (result != null)
                     {
-                        subscriptionDTO.SubscriptionId = result.FirstOrDefault().SubscriptionId;
+                        subscriptionDTO.StripeSubscriptionId = result.FirstOrDefault().SubscriptionId.ToString();
                         return subscriptionDTO;
                     }
                     return null;
@@ -963,7 +963,7 @@ namespace SG2.CORE.DAL.Repositories
         }
 
         //TODO: Not usable
-        public void UpdateSubscription(SubscriptionDTO subscriptionDTO)
+        public void UpdateSubscription(SocialProfile_PaymentsDTO subscriptionDTO)
         {
             using (var _db = new SocialGrowth2Connection())
             {
@@ -972,13 +972,13 @@ namespace SG2.CORE.DAL.Repositories
 
                 var query =
                from sub in _db.SocialProfile_Payments
-               where sub.PaymentId == subscriptionDTO.SubscriptionId
+               where sub.PaymentId == subscriptionDTO.PaymentId
                select sub;
 
                 subscription = query.FirstOrDefault();
                 // Execute the query, and change the column values
                 // you want to change.
-                subscription.PaymentId = subscriptionDTO.SubscriptionId;
+                subscription.PaymentId = subscriptionDTO.PaymentId;
                 subscription.Description = subscriptionDTO.Description;
                 subscription.Name = subscriptionDTO.Description;
                 subscription.Price = subscriptionDTO.Price;
@@ -1034,7 +1034,7 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
-        public SubscriptionDTO GetSubscription(int SocialProfileId)
+        public SocialProfile_PaymentsDTO GetSubscription(int SocialProfileId)
         {
             try
             {
@@ -1042,29 +1042,14 @@ namespace SG2.CORE.DAL.Repositories
                 using (var _db = new SocialGrowth2Connection())
                 {
 
-                    var query =
-                   from subscription in _db.SocialProfile_Payments
-                   where subscription.SocialProfileId == SocialProfileId
-                   && subscription.StatusId == 25 // Active Subscription 
-                   select subscription;
-                    sub = query.FirstOrDefault();
+                    return (from m in _db.SocialProfile_Payments
+                                                                      join r in _db.PaymentPlans on m.PaymentPlanId equals r.PaymentPlanId
+                                                                      join ps in _db.EnumerationValues on m.StatusId equals ps.EnumerationValueId
+                                                                      select new SocialProfile_PaymentsDTO { Description = m.Description, EndDate = m.EndDate, PaymentPlanId = m.PaymentPlanId, Name = m.Name, PaymentDateTime = m.PaymentDateTime, PaymentId = m.PaymentId, PaymentPlanName = r.PlanName, Price = m.Price, SocialProfileId = m.SocialProfileId, StartDate = m.StartDate, Status = ps.Name, StatusId = m.StatusId, StripeInvoiceId = m.StripeInvoiceId, StripePlanId = m.StripePlanId, StripeSubscriptionId = m.StripeSubscriptionId, SubscriptionType = m.SubscriptionType }).ToList()
+                                                                      .Where( g=> g.SocialProfileId == SocialProfileId && g.StatusId == 25).SingleOrDefault();
+
                 }
-                SubscriptionDTO subscriptionDTO = new SubscriptionDTO();
-                if (sub != null)
-                {
-                    subscriptionDTO.CustomerId  //TODO Ass Social Profileid
-                        = sub.SocialProfileId;
-                    subscriptionDTO.SubscriptionId = sub.PaymentId;
-                    subscriptionDTO.StripeSubscriptionId = sub.StripeSubscriptionId;
-                    subscriptionDTO.Description = sub.Description;
-                    subscriptionDTO.Name = sub.Description;
-                    subscriptionDTO.Price = (long)(sub.Price.Value);
-                    subscriptionDTO.StripePlanId = sub.StripePlanId;
-                    subscriptionDTO.SubscriptionType = sub.SubscriptionType;
-                    subscriptionDTO.StartDate = sub.StartDate;
-                    subscriptionDTO.EndDate = sub.EndDate;
-                }
-                return subscriptionDTO;
+              
 
             }
             catch (Exception ex)
@@ -1161,38 +1146,23 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
-        public SubscriptionDTO GetLastCancelledSubscription(int profileId,  DateTime dateTime)
+        public SocialProfile_PaymentsDTO GetLastCancelledSubscription(int profileId,  DateTime dateTime)
         {
             SocialProfile_Payments sub = new SocialProfile_Payments();
           
             using (var _db = new SocialGrowth2Connection())
             {
-                
-                var query =
-               from subscription in _db.SocialProfile_Payments
-               where subscription.SocialProfileId == profileId
-                     && subscription.StatusId == (int)GlobalEnums.PlanSubscription.canceled
-               select subscription;
 
-                sub = query.FirstOrDefault();
+                return (from m in _db.SocialProfile_Payments
+                        join r in _db.PaymentPlans on m.PaymentPlanId equals r.PaymentPlanId
+                        join ps in _db.EnumerationValues on m.StatusId equals ps.EnumerationValueId
+                        select new SocialProfile_PaymentsDTO { Description = m.Description, EndDate = m.EndDate, PaymentPlanId = m.PaymentPlanId, Name = m.Name, PaymentDateTime = m.PaymentDateTime, PaymentId = m.PaymentId, PaymentPlanName = r.PlanName, Price = m.Price, SocialProfileId = m.SocialProfileId, StartDate = m.StartDate, Status = ps.Name, StatusId = m.StatusId, StripeInvoiceId = m.StripeInvoiceId, StripePlanId = m.StripePlanId, StripeSubscriptionId = m.StripeSubscriptionId, SubscriptionType = m.SubscriptionType }).ToList()
+                                                  .Where(g => g.SocialProfileId == profileId && g.StatusId == 26).SingleOrDefault();
 
-                SubscriptionDTO subscriptionDTO = new SubscriptionDTO();
-                if (sub != null)
-                {
-                    subscriptionDTO.CustomerId  //TODO Ass Social Profileid
-                        = sub.SocialProfileId;
-                    subscriptionDTO.SubscriptionId = sub.PaymentId;
-                    subscriptionDTO.StripeSubscriptionId = sub.StripeSubscriptionId;
-                    subscriptionDTO.Description = sub.Description;
-                    subscriptionDTO.Name = sub.Description;
-                    subscriptionDTO.Price = (long)(sub.Price.Value);
-                    subscriptionDTO.StripePlanId = sub.StripePlanId;
-                    subscriptionDTO.SubscriptionType = sub.SubscriptionType;
-                    subscriptionDTO.StartDate = sub.StartDate;
-                    subscriptionDTO.EndDate = sub.EndDate;
-                    subscriptionDTO.StripeInvoiceId = sub.StripeInvoiceId;
-                }
-                return subscriptionDTO;
+
+               
+               
+               
             }
            
         }
@@ -1224,6 +1194,8 @@ namespace SG2.CORE.DAL.Repositories
             return true;
         }
 
+        
+
         public SocialProfileDTO GetSocialProfilesById(int profileId)
         {
 
@@ -1242,7 +1214,11 @@ namespace SG2.CORE.DAL.Repositories
                     profile.SocialProfile = _db.SocialProfiles.Where(g => g.SocialProfileId == profileId).SingleOrDefault();
                     profile.SocialProfile_Instagram_TargetingInformation = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.SocialProfileId == profileId).SingleOrDefault();
                     profile.CurrentPaymentPlan = _db.PaymentPlans.Where(g => g.PaymentPlanId == profile.SocialProfile.PaymentPlanId).SingleOrDefault();
-                    profile.LastSocialProfile_Payments = _db.SocialProfile_Payments.Where(g => g.SocialProfileId == profileId).OrderByDescending(g => g.PaymentDateTime).ToList();
+                    profile.LastSocialProfile_Payments = (from m in _db.SocialProfile_Payments
+                                                          join r in _db.PaymentPlans on m.PaymentPlanId equals r.PaymentPlanId
+                                                          join ps in _db.EnumerationValues on m.StatusId equals ps.EnumerationValueId
+                                                          select new SocialProfile_PaymentsDTO { Description = m.Description, EndDate = m.EndDate, PaymentPlanId = m.PaymentPlanId, Name = m.Name, PaymentDateTime = m.PaymentDateTime, PaymentId = m.PaymentId, PaymentPlanName = r.PlanName, Price = m.Price, SocialProfileId = m.SocialProfileId, StartDate = m.StartDate, Status = ps.Name, StatusId = m.StatusId, StripeInvoiceId = m.StripeInvoiceId, StripePlanId = m.StripePlanId, StripeSubscriptionId = m.StripeSubscriptionId, SubscriptionType = m.SubscriptionType }).ToList();
+                                                          
                     profile.SocialProfile_FollowedAccounts = _db.SocialProfile_FollowedAccounts.Where(g => g.SocialProfileId == profileId).OrderByDescending(g => g.FollowedDateTime).ToList();
 					profile.socialcustomer = _db.Customers.Where(g => g.CustomerId == profile.SocialProfile.CustomerId).SingleOrDefault();
                 }
@@ -1253,7 +1229,7 @@ namespace SG2.CORE.DAL.Repositories
                 throw ex;
             }
         }
-
+        //_db.SocialProfile_Payments.Where(g => g.SocialProfileId == profileId).OrderByDescending(g => g.PaymentDateTime).ToList();
 
         public List<ActionBoardJVSData> GetTrelloStatuses()
         {

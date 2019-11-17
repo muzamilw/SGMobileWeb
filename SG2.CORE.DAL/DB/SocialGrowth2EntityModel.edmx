@@ -324,7 +324,7 @@
           </Key>
           <Property Name="SocialStatisticsId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SocialProfileId" Type="int" Nullable="false" />
-          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" />
           <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="FollowersGain" Type="bigint" />
           <Property Name="Followers" Type="bigint" />
@@ -2035,7 +2035,7 @@
           </Key>
           <Property Name="SocialStatisticsId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SocialProfileId" Type="Int32" Nullable="false" />
-          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="FollowersGain" Type="Int64" />
           <Property Name="Followers" Type="Int64" />
@@ -2065,8 +2065,8 @@
           <Property Name="StoryViews" Type="Int64" />
           <Property Name="PostsTotal" Type="Int64" />
           <Property Name="FollowTotal" Type="Int64" />
-          <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" FromRole="SocialProfile_Statistics" ToRole="SocialProfile" />
           <Property Name="StoryViewsTotal" Type="Int64" />
+          <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" FromRole="SocialProfile_Statistics" ToRole="SocialProfile" />
         </EntityType>
         <Association Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
           <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="1" />

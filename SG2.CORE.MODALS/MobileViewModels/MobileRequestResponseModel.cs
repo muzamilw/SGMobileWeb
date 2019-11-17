@@ -32,6 +32,14 @@ namespace SG2.CORE.MODAL.MobileViewModels
     }
 
 
+    public class MobileActionResponse
+    {
+        public int StatusCode { get; set; }
+        public string StatusMessage { get; set; }
+
+    }
+
+
     public class MobileManifestResponse
     {
         public int CustomerId { get; set; }
@@ -42,7 +50,11 @@ namespace SG2.CORE.MODAL.MobileViewModels
 
         public MobileSocialProfile_Instagram_TargetingInformation TargetInformation { get; set; }
 
-        public List<MobileSocialProfile_FollowedAccounts> ExistingFollowers { get; set; }
+        public List<MobileSocialProfile_FollowedAccounts> FollowersToUnFollow { get; set; }
+
+        public List<MobileSocialProfile_FollowedAccounts> FollowersToComment { get; set; }
+
+        public List<MobileSocialProfile_FollowedAccounts> LikeyList { get; set; }
     }
 
 
@@ -52,6 +64,22 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public int SocialProfileId { get; set; }
         
         public string SocialPassword { get; set; }
+
+
+      
+
+    }
+
+    public class MobileIniitalStatsRequest
+    {
+        [Required]
+        public int SocialProfileId { get; set; }
+        [Required]
+        public int InitialFollowings { get; set; }
+        [Required]
+        public int InitialFollowers { get; set; }
+        [Required]
+        public int InitialPosts { get; set; }
 
     }
 

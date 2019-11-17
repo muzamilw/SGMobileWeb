@@ -2,7 +2,7 @@
 using System;
 using System.Web.Http;
 using System.Collections.Generic;
-
+using System.Linq;
 using SG2.CORE.BAL.Managers;
 using System.Web;
 using System.Net;
@@ -17,10 +17,12 @@ namespace SG2.CORE.WEB.APIController
     {
 
         protected readonly CustomerManager _customerManager;
+        protected readonly StatisticsManager _statsManager;
 
         public MobileController()
         {
             _customerManager = new CustomerManager();
+            _statsManager = new StatisticsManager();
         }
 
         [Route("Login")]
@@ -52,7 +54,7 @@ namespace SG2.CORE.WEB.APIController
                     {
                         MobileLoginJsonRootObject = new MobileLoginResponse
                         {
-                            StatusCode = 2,
+                            StatusCode = res.ErrorCode,
                             StatusMessage = res.Message
                         }
 
@@ -68,6 +70,7 @@ namespace SG2.CORE.WEB.APIController
         }
 
         [Route("GetManifest")]
+        [HttpPost]
         public IHttpActionResult GetManifest(MobileManifestRequest model)
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<SocialProfile, MobileSocialProfile>()
@@ -77,7 +80,7 @@ namespace SG2.CORE.WEB.APIController
            );
 
 
-            var config3 = new MapperConfiguration(cfg => cfg.CreateMap<List<SocialProfile_FollowedAccounts>, List<MobileSocialProfile_FollowedAccounts>>()
+            var config3 = new MapperConfiguration(cfg => cfg.CreateMap<SocialProfile_FollowedAccounts, MobileSocialProfile_FollowedAccounts>()
            );
             var mapper = new Mapper(config);
             var mapper2 = new Mapper(config2);
@@ -85,6 +88,9 @@ namespace SG2.CORE.WEB.APIController
 
             if (ModelState.IsValid)
             {
+
+              
+                DateTime commentCutOffDate = DateTime.Today.AddDays(-1);
 
                 var profile = _customerManager.GetSocialProfileById(model.SocialProfileId);
 
@@ -95,9 +101,15 @@ namespace SG2.CORE.WEB.APIController
                     StatusMessage = "",
                     Profile = mapper.Map<MobileSocialProfile>(profile.SocialProfile),
                     TargetInformation = mapper2.Map<MobileSocialProfile_Instagram_TargetingInformation>(profile.SocialProfile_Instagram_TargetingInformation),
-                    ExistingFollowers = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts)
+                    FollowersToUnFollow = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime < commentCutOffDate).ToList()),
+                    FollowersToComment = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime >= commentCutOffDate).ToList())
 
+
+                    //20 count Follow list is all paid instagram profile usernames which are already not in follower list.  and follow exchange checkbox true
+                    //10 count Like list is all paid instagram profile usernames which are already not in follower list.  and like exchange checkbox true
                 };
+
+                
 
                 manifest.Profile.Status = ((GeneralStatus)profile.SocialProfile.StatusId).ToString();
 
@@ -117,19 +129,141 @@ namespace SG2.CORE.WEB.APIController
         }
 
 
+        // Follow  with username    actionid = 60
+        // UnFollow  with username  actionid = 61
+        // Like with username       actionid = 62
+        // Comment with username    actionid = 63
+        // StoryView with username  actionid = 64
+        
 
-        [Route("AppAction")]
+
+        //[Route("AppAction")]
+        //[HttpPost]
+        //public IHttpActionResult AppAction(MobileActionRequest model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            if (_customerManager.SaveMobileAppAction(model))
+        //                return Ok(new MobileActionResponse { StatusCode=1, StatusMessage="Success" });
+        //            else
+        //                return Content(HttpStatusCode.BadRequest, "action could not be saved");
+
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            return Content(HttpStatusCode.BadRequest, e.ToString());
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return Content(HttpStatusCode.BadRequest, "Input params missing");
+        //    }
+        //}
+
+        // Follow  with username    actionid = 60
+        // UnFollow  with username  actionid = 61
+        // Like with username       actionid = 62
+        // Comment with username    actionid = 63
+        // StoryView with username  actionid = 64
+        // FollowerCount with username  and count in msg actionid = 65
+
+        [Route("AppActionBulk")]
         [HttpPost]
-        public IHttpActionResult AppAction(MobileActionRequest model)
+        public IHttpActionResult AppActionBulk(List<MobileActionRequest> model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    if (_customerManager.SaveMobileAppAction(model))
+
+                    int successCount = 0;
+
+                    foreach (var item in model)
+                    {
+                        if (_customerManager.SaveMobileAppAction(item))
+                            successCount++;
+                       
+                    }
+
+
+                    //follow
+                    var FollowingCount = model.Where(g => g.ActionId == 60).Count();
+
+                    var FollowingCountDecrease = model.Where(g => g.ActionId == 61).Count();
+
+                    var FollowingCountNet = FollowingCount - FollowingCountDecrease;
+
+                    var LikeCount = model.Where(g => g.ActionId == 62).Count();
+
+                    var CommentCount = model.Where(g => g.ActionId == 63).Count();
+
+                    var StoryCount = model.Where(g => g.ActionId == 64).Count();
+
+                    var FollowingEvent = model.Where(g => g.ActionId == 65).FirstOrDefault();
+                    var FollowCount = 0;
+                    if ( FollowingEvent != null)
+                    {
+                        FollowCount = Convert.ToInt32(FollowingEvent.Message);
+                        //take diff with previous no and then update.
+                    }
+
+
+
+                    //if (model.ActionId == 60)
+                    //{
+
+                    //}
+                    //else if (model.ActionId == 60)
+                    //{
+
+                    //}
+                    //else if (model.ActionId == 60)
+                    //{
+
+                    //}
+                    //else if (model.ActionId == 60)
+                    //{
+
+                    //}
+                    //else if (model.ActionId == 60)
+                    //{
+
+                    //}
+
+
+                    if ( successCount == model.Count)
+                        return Ok(new MobileActionResponse { StatusCode = 1, StatusMessage = "Success" });
+                    else
+                        return Content(HttpStatusCode.BadRequest, "One or more actions could not be saved");
+                }
+                catch (Exception e)
+                {
+                    return Content(HttpStatusCode.BadRequest, e.ToString());
+                }
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, "Input params missing");
+            }
+
+           
+        }
+
+
+        [Route("InitialStats")]
+        [HttpPost]
+        public IHttpActionResult InitialStats(MobileIniitalStatsRequest model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (_statsManager.SaveInitialStatistics(model))
                         return Ok();
                     else
-                        return Content(HttpStatusCode.BadRequest, "action could not be saved");
+                        return Content(HttpStatusCode.BadRequest, "Stats could not be saved");
 
                 }
                 catch (Exception e)

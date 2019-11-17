@@ -1,0 +1,135 @@
+﻿@using SG2.CORE.MODAL.DTO.Customers;
+@model SG2.CORE.MODAL.DTO.Customers.SocialProfileDTO
+@{
+
+    ViewBag.Title = "Payment History";
+    Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
+    var custDto = (CustomerDTO)ViewBag.CustomerDTO;
+
+    var currentUser = (CustomerDTO)ViewBag.CurrentUser;
+
+}
+
+
+@section styles{
+
+    <link href="~/Content/app-assets/vendors/css/forms/tags/tagging.css" rel="stylesheet" />
+    <link href="~/Content/app-assets/css/pincode.css" rel="stylesheet" />
+}
+
+
+
+
+<!-- BEGIN: Content-->
+<div class="app-content container center-layout mt-2">
+    <div class="content-wrapper">
+        <div class="content-header row">
+            <div class="content-header-left col-md-6 col-12 mb-2">
+
+                <div class="media">
+                    <a class="media-left align-self-center" href="#">
+                        <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" alt="Generic placeholder image" style="width: 64px;height: 64px;" />
+                    </a>
+                    <div class="media-body mt-2">
+                        <h3 class="media-heading">@Model.SocialProfile.SocialUsername</h3>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="content-header-right col-md-6 col-12">
+                <div class="media width-250 float-right">
+                    <div class="media-body media-right text-right">
+                        <h3 class="m-0">Active</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-body">
+            <!-- Basic form layout section start -->
+            <section id="horizontal-form-layouts">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title" id="horz-layout-basic">Payment History & Refunds</h4>
+                                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                <div class="heading-elements">
+                                    <ul class="list-inline mb-0">
+                                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-content collpase show">
+                               
+                                <div class="table-responsive">
+                                    <table class="table table-xl mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Payment Date/Time</th>
+                                                <th>Plan</th>
+                                                <th>Price</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.LastSocialProfile_Payments)
+                                            {
+                                            <tr>
+                                                <td scope="row">
+                                                    @item.PaymentDateTime
+                                                </td>
+                                                
+
+                                                <td>
+                                                    @item.PaymentPlanName
+                                                </td>
+                                                <td>
+                                                    @item.Price
+                                                </td>
+                                                <td>
+                                                    <div class="badge badge-primary label-square">
+                                                        <i class="fa fa-paperclip font-medium-2"></i>
+                                                        <span>@item.StatusId</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+       
+        </section>
+        <!-- // Basic form layout section end -->
+    </div>
+</div>
+</div>
+<!-- END: Content-->
+
+
+
+@section Scripts{
+    <script src="~/Content/app-assets/js/scripts/bootstrap-pincode-input.js"></script>
+    <script src="~/Content/app-assets/vendors/js/forms/tags/tagging.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            /*******************************
+            *       Simple Options         *
+            *******************************/
+            $(".edit-on-delete").tagging({
+                "edit-on-delete": false,
+            });
+
+
+            $('#pincode').pincodeInput({ hidedigits: false, inputs: 8 });
+
+        });
+    </script>
+
+}

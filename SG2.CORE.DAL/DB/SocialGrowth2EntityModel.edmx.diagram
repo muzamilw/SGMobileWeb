@@ -34,7 +34,7 @@
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SocialProfile_FollowedAccounts_SocialProfile" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SystemUsers_SG2_SystemRoles" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Statistics" Width="1.5" PointX="8.25" PointY="11.25" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Statistics" Width="1.5" PointX="8.25" PointY="11.125" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" />
       </Diagram>
     </edmx:Diagrams>

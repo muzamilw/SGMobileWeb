@@ -594,7 +594,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                                 }
                                 else
                                 {
-                                    SubscriptionDTO cancelledSub = new SubscriptionDTO();
+                                    SocialProfile_PaymentsDTO cancelledSub = new SocialProfile_PaymentsDTO();
                                     cancelledSub = _customerManager.GetLastCancelledSubscription(profileDTO.SocialProfile .SocialProfileId, DateTime.Now);
                                     profileDTO.SocialProfile.StripeSubscriptionId = cancelledSub.StripeSubscriptionId;
                                     //profileDTO.StripeInvoiceId = cancelledSub.StripeInvoiceId;
