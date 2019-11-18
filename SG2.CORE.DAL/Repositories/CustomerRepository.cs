@@ -15,6 +15,7 @@ using SG2.CORE.MODAL.ViewModals.Backend;
 using SG2.CORE.MODAL.ViewModals.Backend.ActionBoard;
 using static SG2.CORE.COMMON.GlobalEnums;
 using SG2.CORE.MODAL.MobileViewModels;
+using System.Text.RegularExpressions;
 
 namespace SG2.CORE.DAL.Repositories
 {
@@ -1264,6 +1265,10 @@ namespace SG2.CORE.DAL.Repositories
                     profile.SocialProfile_FollowedAccounts = _db.SocialProfile_FollowedAccounts.Where(g => g.SocialProfileId == profileId).OrderByDescending(g => g.FollowedDateTime).ToList();
 					profile.socialcustomer = _db.Customers.Where(g => g.CustomerId == profile.SocialProfile.CustomerId).SingleOrDefault();
                 }
+
+                if (profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals != null)
+                   profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals = Regex.Unescape(Regex.Replace(profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals, @"\t|\n|\r", "")).Replace("\\",@"");
+
                 return profile;
             }
             catch (Exception ex)

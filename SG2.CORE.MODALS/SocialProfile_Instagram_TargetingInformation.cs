@@ -27,7 +27,7 @@ namespace SG2.CORE.MODAL
         public string LocationsToEngage { get; set; }
         public string DirectCompetitors { get; set; }
         public Nullable<int> GenderEngagmentPref { get; set; }
-        public Nullable<bool> IncludeBusinessAccounts { get; set; }
+        public Nullable<int> IncludeBusinessAccounts { get; set; }
         public Nullable<bool> MonOper { get; set; }
         public Nullable<bool> TueOper { get; set; }
         public Nullable<bool> WedOper { get; set; }
@@ -95,7 +95,7 @@ namespace SG2.CORE.MODAL
         public Nullable<bool> StorVwOnlyPostXMin { get; set; }
         public Nullable<int> StorVwOnlyPostXMinVal { get; set; }
         public Nullable<bool> StorVwAfterReply { get; set; }
-        public Nullable<int> StorVwAfterLikeSendDM { get; set; }
+        public Nullable<bool> StorVwAfterLikeSendDM { get; set; }
         public Nullable<bool> CommUsrRecentPosts { get; set; }
         public Nullable<int> CommUsrRecentPostsVal { get; set; }
         public Nullable<int> CommUsrRecentPostsTypes { get; set; }
@@ -119,7 +119,7 @@ namespace SG2.CORE.MODAL
         public Nullable<bool> LEXPostedWithinLastXDays { get; set; }
         public Nullable<int> LEXPostedWithinLastXDaysVal { get; set; }
         public Nullable<bool> LEXPostActionEmpty { get; set; }
-        public string LEXDonotLikePvtUsers { get; set; }
+        public Nullable<bool> LEXDonotLikePvtUsers { get; set; }
         public Nullable<bool> LEXSkipBizAccount { get; set; }
         public string WhistListManualUsers { get; set; }
         public string WhilstListImportedUsers { get; set; }
