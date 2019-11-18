@@ -838,7 +838,7 @@ namespace SG2.CORE.DAL.Repositories
                             IsOptedEducationalEmailSeries = Convert.ToBoolean(usr.IsOptedEducationalEmailSeries),
                             IsOptedMarketingEmail = Convert.ToBoolean(usr.IsOptedMarketingEmail),
                             StatusId = usr.StatusId,
-                            StripeSubscriptionId = usr.PaymentId.Value.ToString(),
+                            StripeSubscriptionId = usr.PaymentId.HasValue ? usr.PaymentId.Value.ToString() : null,
                             DefaultSocialProfileId = usr.DefaultSocialProfileId.Value
                         };
                         return cst;
@@ -901,6 +901,9 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
+
+
+
         public CustomerDTO GetCustomerByCustomerId(int CustomerId)
         {
             try
@@ -930,6 +933,45 @@ namespace SG2.CORE.DAL.Repositories
                     }
                     return null;
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public List<CustomerSocialProfileDTO> GetSocialProfilesWithoutExistingFollowers(int socialProfileId)
+        {
+            try
+            {
+                List<CustomerSocialProfileDTO> profiles = null;
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    var profs = (from m in _db.SocialProfiles
+                                 join r in _db.SocialProfile_FollowedAccounts on socialProfileId equals r.SocialProfileId
+                                 where m.SocialUsername != r.FollowedSocialUsername && m.StatusId == 25 && m.SocialUsername != null
+                                 select m)
+                                 .OrderBy(x => Guid.NewGuid()).Take(20).ToList();
+
+                    if (profs != null)
+                    {
+                        profiles = profs.Select(p => new CustomerSocialProfileDTO()
+                        {
+                            CustomerId = p.CustomerId,
+
+                            ProfileName = p.SocialProfileName,
+                            SocialPassword = p.SocialPassword,
+                            SocialProfileId = p.SocialProfileId,
+                            SocialProfileTypeId = p.SocialProfileTypeId,
+                            SocialProfileTypeName = p.SocialProfileTypeId == 30 ? "Instagram" : "Other",
+                            SocialUsername = p.SocialUsername,
+                            StatusId = p.StatusId,
+                       
+                        }).ToList();
+                    }
+                }
+                return profiles;
             }
             catch (Exception ex)
             {

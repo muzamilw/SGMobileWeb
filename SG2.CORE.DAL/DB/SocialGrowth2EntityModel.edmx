@@ -105,7 +105,7 @@
           <Property Name="DisplayPrice" Type="float" />
           <Property Name="PlanName" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="PlanShortDescription" Type="nvarchar" MaxLength="250" Nullable="false" />
-          <Property Name="IsParentPlan" Type="bit" />
+          <Property Name="IsBrokerPlan" Type="bit" />
           <Property Name="StripePlanId" Type="nvarchar" MaxLength="50" />
           <Property Name="StripePlanPrice" Type="float" />
           <Property Name="NoOfLikesDuration" Type="int" />
@@ -161,7 +161,7 @@
           <Key>
             <PropertyRef Name="SocialProfileFollowedAccountId" />
           </Key>
-          <Property Name="SocialProfileFollowedAccountId" Type="bigint" Nullable="false" />
+          <Property Name="SocialProfileFollowedAccountId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SocialProfileId" Type="int" />
           <Property Name="FollowedSocialUsername" Type="nvarchar" MaxLength="50" />
           <Property Name="FollowedDateTime" Type="datetime" />
@@ -754,16 +754,6 @@
             <Parameter Name="riPageSize" Mode="In" Type="String" />
             <Parameter Name="riStatusId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="SG2_usp_Customer_SignUp" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Customer_SignUp_Result)">
-            <Parameter Name="rvcFirstName" Mode="In" Type="String" />
-            <Parameter Name="rvcSurName" Mode="In" Type="String" />
-            <Parameter Name="rvcEmailAddress" Mode="In" Type="String" />
-            <Parameter Name="rvcPassword" Mode="In" Type="String" />
-            <Parameter Name="rvcCreatedBy" Mode="In" Type="String" />
-            <Parameter Name="rvcGUID" Mode="In" Type="String" />
-            <Parameter Name="rvcLastLoginIP" Mode="In" Type="String" />
-            <Parameter Name="rvcStatusId" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="SG2_usp_Customer_ProfileUpdate" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Customer_ProfileUpdate_Result)">
             <Parameter Name="iCustomerId" Mode="In" Type="Int32" />
             <Parameter Name="rvcUserName" Mode="In" Type="String" />
@@ -876,7 +866,6 @@
           <EntitySet Name="Enumerations" EntityType="SocialGrowth2Entities.Enumeration" />
           <EntitySet Name="EnumerationValues" EntityType="SocialGrowth2Entities.EnumerationValue" />
           <EntitySet Name="LikeyAccounts" EntityType="SocialGrowth2Entities.LikeyAccount" />
-          <EntitySet Name="PaymentPlans" EntityType="SocialGrowth2Entities.PaymentPlan" />
           <EntitySet Name="SocialProfiles" EntityType="SocialGrowth2Entities.SocialProfile" />
           <EntitySet Name="SocialProfile_Actions" EntityType="SocialGrowth2Entities.SocialProfile_Actions" />
           <EntitySet Name="SocialProfile_FollowedAccounts" EntityType="SocialGrowth2Entities.SocialProfile_FollowedAccounts" />
@@ -897,14 +886,6 @@
           <AssociationSet Name="FK_SG2_SocialProfile_SG2_Customer" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="SocialProfile" EntitySet="SocialProfiles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SocialProfile_PaymentPlan" Association="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan">
-            <End Role="PaymentPlan" EntitySet="PaymentPlans" />
-            <End Role="SocialProfile" EntitySet="SocialProfiles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" Association="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan">
-            <End Role="PaymentPlan" EntitySet="PaymentPlans" />
-            <End Role="SocialProfile_Payments" EntitySet="SocialProfile_Payments" />
           </AssociationSet>
           <AssociationSet Name="FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile">
             <End Role="SocialProfile" EntitySet="SocialProfiles" />
@@ -931,6 +912,25 @@
             <End Role="SocialProfile" EntitySet="SocialProfiles" />
             <End Role="SocialProfile_Statistics" EntitySet="SocialProfile_Statistics" />
           </AssociationSet>
+          <FunctionImport Name="SG2_usp_Customer_SignUp" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Customer_SignUp_Result)">
+            <Parameter Name="rvcFirstName" Mode="In" Type="String" />
+            <Parameter Name="rvcSurName" Mode="In" Type="String" />
+            <Parameter Name="rvcEmailAddress" Mode="In" Type="String" />
+            <Parameter Name="rvcPassword" Mode="In" Type="String" />
+            <Parameter Name="rvcCreatedBy" Mode="In" Type="String" />
+            <Parameter Name="rvcGUID" Mode="In" Type="String" />
+            <Parameter Name="rvcLastLoginIP" Mode="In" Type="String" />
+            <Parameter Name="rvcStatusId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="PaymentPlans" EntityType="SocialGrowth2Entities.PaymentPlan" />
+          <AssociationSet Name="FK_SocialProfile_PaymentPlan" Association="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan">
+            <End Role="PaymentPlan" EntitySet="PaymentPlans" />
+            <End Role="SocialProfile" EntitySet="SocialProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" Association="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan">
+            <End Role="PaymentPlan" EntitySet="PaymentPlans" />
+            <End Role="SocialProfile_Payments" EntitySet="SocialProfile_Payments" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="SG2_usp_Get_AllUser1_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
@@ -943,46 +943,6 @@
           <Property Type="String" Name="ConfigValue1" Nullable="false" MaxLength="250" />
           <Property Type="String" Name="ConfigValue2" Nullable="true" MaxLength="250" />
           <Property Type="Int32" Name="TotalRecord" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="SG2_usp_Customer_SignUp_Result">
-          <Property Type="Int32" Name="CustomerId" Nullable="false" />
-          <Property Type="String" Name="GUID" Nullable="false" MaxLength="36" />
-          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="SurName" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="EmailAddress" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Password" Nullable="false" MaxLength="64" />
-          <Property Type="DateTime" Name="CreatedOn" Nullable="false" Precision="23" />
-          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="UpdatedOn" Nullable="false" Precision="23" />
-          <Property Type="String" Name="UpdatedBy" Nullable="false" MaxLength="50" />
-          <Property Type="Int16" Name="StatusId" Nullable="false" />
-          <Property Type="DateTime" Name="LastLoginDate" Nullable="false" Precision="23" />
-          <Property Type="Byte" Name="LoginAttempts" Nullable="false" />
-          <Property Type="String" Name="LastLoginIP" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="Tocken" Nullable="false" MaxLength="128" />
-          <Property Type="String" Name="StripeCustomerId" Nullable="true" />
-          <Property Type="String" Name="UserName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Source" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Register" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="ResponsibleTeamMemberId" Nullable="true" />
-          <Property Type="Boolean" Name="AvailableToEveryOne" Nullable="true" />
-          <Property Type="String" Name="Comment" Nullable="true" />
-          <Property Type="DateTime" Name="CancelledDate" Nullable="true" Precision="23" />
-          <Property Type="Boolean" Name="IsOptedEducationalEmailSeries" Nullable="true" />
-          <Property Type="Boolean" Name="IsOptedMarketingEmail" Nullable="true" />
-          <Property Type="Int32" Name="ContactDetailsId" Nullable="true" />
-          <Property Type="String" Name="JobTitle" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="MobileNumber" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="PhoneNumber" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="AddressLine1" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="AddressLine2" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="City" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Sate" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Country" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="PostalCode" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="PhoneCode" Nullable="true" MaxLength="5" />
-          <Property Type="String" Name="StripeSubscriptionId" Nullable="true" MaxLength="255" />
-          <Property Type="Int32" Name="DefaultSocialProfileId" Nullable="true" />
         </ComplexType>
         <ComplexType Name="SG2_usp_Customer_ProfileUpdate_Result">
           <Property Type="Int32" Name="CustomerId" Nullable="false" />
@@ -1599,30 +1559,6 @@
           <Property Name="HashTag" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="StatusId" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="PaymentPlan">
-          <Key>
-            <PropertyRef Name="PaymentPlanId" />
-          </Key>
-          <Property Name="PaymentPlanId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NoOfLikes" Type="Int32" />
-          <Property Name="DisplayPrice" Type="Double" />
-          <Property Name="PlanName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="PlanShortDescription" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="IsParentPlan" Type="Boolean" />
-          <Property Name="StripePlanId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StripePlanPrice" Type="Double" />
-          <Property Name="NoOfLikesDuration" Type="Int32" />
-          <Property Name="StatusId" Type="Int32" />
-          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
-          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SortOrder" Type="Int16" />
-          <Property Name="SocialPlatform" Type="Int32" />
-          <Property Name="IsDefault" Type="Boolean" />
-          <NavigationProperty Name="SocialProfiles" Relationship="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan" FromRole="PaymentPlan" ToRole="SocialProfile" />
-          <NavigationProperty Name="SocialProfile_Payments" Relationship="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" FromRole="PaymentPlan" ToRole="SocialProfile_Payments" />
-        </EntityType>
         <EntityType Name="SocialProfile">
           <Key>
             <PropertyRef Name="SocialProfileId" />
@@ -1649,7 +1585,6 @@
           <Property Name="PinCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Customer" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer" FromRole="SocialProfile" ToRole="Customer" />
-          <NavigationProperty Name="PaymentPlan" Relationship="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan" FromRole="SocialProfile" ToRole="PaymentPlan" />
           <NavigationProperty Name="SocialProfile_Actions" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Actions" />
           <NavigationProperty Name="SocialProfile_Payments" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Payments" />
           <NavigationProperty Name="SocialProfile_Instagram_TargetingInformation" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Instagram_TargetingInformation" />
@@ -1657,6 +1592,7 @@
           <Property Name="LastConnectedDateTime" Type="DateTime" Precision="3" />
           <Property Name="DeviceBinLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="SocialProfile_Statistics" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Statistics" />
+          <NavigationProperty Name="PaymentPlan" Relationship="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan" FromRole="SocialProfile" ToRole="PaymentPlan" />
         </EntityType>
         <EntityType Name="SocialProfile_Actions">
           <Key>
@@ -1832,8 +1768,8 @@
           <Property Name="StripePlanId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="PaymentPlanId" Type="Int32" />
           <Property Name="StripeInvoiceId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="PaymentPlan" Relationship="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" FromRole="SocialProfile_Payments" ToRole="PaymentPlan" />
           <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" FromRole="SocialProfile_Payments" ToRole="SocialProfile" />
+          <NavigationProperty Name="PaymentPlan" Relationship="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" FromRole="SocialProfile_Payments" ToRole="PaymentPlan" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -1942,30 +1878,6 @@
             </Principal>
             <Dependent Role="SocialProfile">
               <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SocialProfile_PaymentPlan">
-          <End Type="SocialGrowth2Entities.PaymentPlan" Role="PaymentPlan" Multiplicity="0..1" />
-          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PaymentPlan">
-              <PropertyRef Name="PaymentPlanId" />
-            </Principal>
-            <Dependent Role="SocialProfile">
-              <PropertyRef Name="PaymentPlanId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SocialProfile_Subscription_SocialProfile_PaymentPlan">
-          <End Type="SocialGrowth2Entities.PaymentPlan" Role="PaymentPlan" Multiplicity="0..1" />
-          <End Type="SocialGrowth2Entities.SocialProfile_Payments" Role="SocialProfile_Payments" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PaymentPlan">
-              <PropertyRef Name="PaymentPlanId" />
-            </Principal>
-            <Dependent Role="SocialProfile_Payments">
-              <PropertyRef Name="PaymentPlanId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2080,6 +1992,94 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="SG2_usp_Customer_SignUp_Result">
+          <Property Type="Int32" Name="CustomerId" Nullable="false" />
+          <Property Type="String" Name="GUID" Nullable="false" MaxLength="36" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="SurName" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="EmailAddress" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="64" />
+          <Property Type="DateTime" Name="CreatedOn" Nullable="false" Precision="23" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="UpdatedOn" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UpdatedBy" Nullable="false" MaxLength="50" />
+          <Property Type="Int16" Name="StatusId" Nullable="false" />
+          <Property Type="DateTime" Name="LastLoginDate" Nullable="false" Precision="23" />
+          <Property Type="Byte" Name="LoginAttempts" Nullable="false" />
+          <Property Type="String" Name="LastLoginIP" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Tocken" Nullable="false" MaxLength="128" />
+          <Property Type="String" Name="StripeCustomerId" Nullable="true" />
+          <Property Type="String" Name="UserName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Source" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Register" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ResponsibleTeamMemberId" Nullable="true" />
+          <Property Type="Boolean" Name="AvailableToEveryOne" Nullable="true" />
+          <Property Type="String" Name="Comment" Nullable="true" />
+          <Property Type="DateTime" Name="CancelledDate" Nullable="true" Precision="23" />
+          <Property Type="Boolean" Name="IsOptedEducationalEmailSeries" Nullable="true" />
+          <Property Type="Boolean" Name="IsOptedMarketingEmail" Nullable="true" />
+          <Property Type="Int32" Name="ContactDetailsId" Nullable="true" />
+          <Property Type="String" Name="JobTitle" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="MobileNumber" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PhoneNumber" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AddressLine1" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="AddressLine2" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="City" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Sate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Country" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PostalCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PhoneCode" Nullable="true" MaxLength="5" />
+          <Property Type="Int32" Name="PaymentId" Nullable="true" />
+          <Property Type="Int32" Name="DefaultSocialProfileId" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="PaymentPlan">
+          <Key>
+            <PropertyRef Name="PaymentPlanId" />
+          </Key>
+          <Property Name="PaymentPlanId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NoOfLikes" Type="Int32" />
+          <Property Name="DisplayPrice" Type="Double" />
+          <Property Name="PlanName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="PlanShortDescription" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IsBrokerPlan" Type="Boolean" />
+          <Property Name="StripePlanId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StripePlanPrice" Type="Double" />
+          <Property Name="NoOfLikesDuration" Type="Int32" />
+          <Property Name="StatusId" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SortOrder" Type="Int16" />
+          <Property Name="SocialPlatform" Type="Int32" />
+          <Property Name="IsDefault" Type="Boolean" />
+          <NavigationProperty Name="SocialProfiles" Relationship="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan" FromRole="PaymentPlan" ToRole="SocialProfile" />
+          <NavigationProperty Name="SocialProfile_Payments" Relationship="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" FromRole="PaymentPlan" ToRole="SocialProfile_Payments" />
+        </EntityType>
+        <Association Name="FK_SocialProfile_PaymentPlan">
+          <End Type="SocialGrowth2Entities.PaymentPlan" Role="PaymentPlan" Multiplicity="0..1" />
+          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentPlan">
+              <PropertyRef Name="PaymentPlanId" />
+            </Principal>
+            <Dependent Role="SocialProfile">
+              <PropertyRef Name="PaymentPlanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SocialProfile_Subscription_SocialProfile_PaymentPlan">
+          <End Type="SocialGrowth2Entities.PaymentPlan" Role="PaymentPlan" Multiplicity="0..1" />
+          <End Type="SocialGrowth2Entities.SocialProfile_Payments" Role="SocialProfile_Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentPlan">
+              <PropertyRef Name="PaymentPlanId" />
+            </Principal>
+            <Dependent Role="SocialProfile_Payments">
+              <PropertyRef Name="PaymentPlanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2106,50 +2106,6 @@
                 <ScalarProperty Name="StatusName" ColumnName="StatusName" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="TotalRecord" ColumnName="TotalRecord" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SG2_usp_Customer_SignUp" FunctionName="SocialGrowth2Entities.Store.SG2_usp_Customer_SignUp" >
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_Customer_SignUp_Result">
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="GUID" ColumnName="GUID" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="SurName" ColumnName="SurName" />
-                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
-                <ScalarProperty Name="LoginAttempts" ColumnName="LoginAttempts" />
-                <ScalarProperty Name="LastLoginIP" ColumnName="LastLoginIP" />
-                <ScalarProperty Name="Tocken" ColumnName="Tocken" />
-                <ScalarProperty Name="StripeCustomerId" ColumnName="StripeCustomerId" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="Source" ColumnName="Source" />
-                <ScalarProperty Name="Register" ColumnName="Register" />
-                <ScalarProperty Name="ResponsibleTeamMemberId" ColumnName="ResponsibleTeamMemberId" />
-                <ScalarProperty Name="AvailableToEveryOne" ColumnName="AvailableToEveryOne" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="CancelledDate" ColumnName="CancelledDate" />
-                <ScalarProperty Name="IsOptedEducationalEmailSeries" ColumnName="IsOptedEducationalEmailSeries" />
-                <ScalarProperty Name="IsOptedMarketingEmail" ColumnName="IsOptedMarketingEmail" />
-                <ScalarProperty Name="ContactDetailsId" ColumnName="ContactDetailsId" />
-                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
-                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
-                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="Sate" ColumnName="Sate" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-                <ScalarProperty Name="PhoneCode" ColumnName="PhoneCode" />
-                <ScalarProperty Name="StripeSubscriptionId" ColumnName="StripeSubscriptionId" />
-                <ScalarProperty Name="DefaultSocialProfileId" ColumnName="DefaultSocialProfileId" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -2821,29 +2777,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PaymentPlans">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.PaymentPlan">
-              <MappingFragment StoreEntitySet="PaymentPlan">
-                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
-                <ScalarProperty Name="SocialPlatform" ColumnName="SocialPlatform" />
-                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="NoOfLikesDuration" ColumnName="NoOfLikesDuration" />
-                <ScalarProperty Name="StripePlanPrice" ColumnName="StripePlanPrice" />
-                <ScalarProperty Name="StripePlanId" ColumnName="StripePlanId" />
-                <ScalarProperty Name="IsParentPlan" ColumnName="IsParentPlan" />
-                <ScalarProperty Name="PlanShortDescription" ColumnName="PlanShortDescription" />
-                <ScalarProperty Name="PlanName" ColumnName="PlanName" />
-                <ScalarProperty Name="DisplayPrice" ColumnName="DisplayPrice" />
-                <ScalarProperty Name="NoOfLikes" ColumnName="NoOfLikes" />
-                <ScalarProperty Name="PaymentPlanId" ColumnName="PaymentPlanId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SocialProfiles">
             <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile">
               <MappingFragment StoreEntitySet="SocialProfile">
@@ -3177,6 +3110,73 @@
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
                 <ScalarProperty Name="SocialStatisticsId" ColumnName="SocialStatisticsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SG2_usp_Customer_SignUp" FunctionName="SocialGrowth2Entities.Store.SG2_usp_Customer_SignUp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_Customer_SignUp_Result">
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="SurName" ColumnName="SurName" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+                <ScalarProperty Name="LoginAttempts" ColumnName="LoginAttempts" />
+                <ScalarProperty Name="LastLoginIP" ColumnName="LastLoginIP" />
+                <ScalarProperty Name="Tocken" ColumnName="Tocken" />
+                <ScalarProperty Name="StripeCustomerId" ColumnName="StripeCustomerId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="ResponsibleTeamMemberId" ColumnName="ResponsibleTeamMemberId" />
+                <ScalarProperty Name="AvailableToEveryOne" ColumnName="AvailableToEveryOne" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="CancelledDate" ColumnName="CancelledDate" />
+                <ScalarProperty Name="IsOptedEducationalEmailSeries" ColumnName="IsOptedEducationalEmailSeries" />
+                <ScalarProperty Name="IsOptedMarketingEmail" ColumnName="IsOptedMarketingEmail" />
+                <ScalarProperty Name="ContactDetailsId" ColumnName="ContactDetailsId" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Sate" ColumnName="Sate" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="PhoneCode" ColumnName="PhoneCode" />
+                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
+                <ScalarProperty Name="DefaultSocialProfileId" ColumnName="DefaultSocialProfileId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="PaymentPlans">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.PaymentPlan">
+              <MappingFragment StoreEntitySet="PaymentPlan">
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+                <ScalarProperty Name="SocialPlatform" ColumnName="SocialPlatform" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="NoOfLikesDuration" ColumnName="NoOfLikesDuration" />
+                <ScalarProperty Name="StripePlanPrice" ColumnName="StripePlanPrice" />
+                <ScalarProperty Name="StripePlanId" ColumnName="StripePlanId" />
+                <ScalarProperty Name="IsBrokerPlan" ColumnName="IsBrokerPlan" />
+                <ScalarProperty Name="PlanShortDescription" ColumnName="PlanShortDescription" />
+                <ScalarProperty Name="PlanName" ColumnName="PlanName" />
+                <ScalarProperty Name="DisplayPrice" ColumnName="DisplayPrice" />
+                <ScalarProperty Name="NoOfLikes" ColumnName="NoOfLikes" />
+                <ScalarProperty Name="PaymentPlanId" ColumnName="PaymentPlanId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

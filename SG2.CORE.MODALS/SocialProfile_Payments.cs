@@ -29,7 +29,7 @@ namespace SG2.CORE.MODAL
         public Nullable<int> PaymentPlanId { get; set; }
         public string StripeInvoiceId { get; set; }
     
-        public virtual PaymentPlan PaymentPlan { get; set; }
         public virtual SocialProfile SocialProfile { get; set; }
+        public virtual PaymentPlan PaymentPlan { get; set; }
     }
 }

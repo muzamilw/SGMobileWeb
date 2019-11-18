@@ -74,6 +74,8 @@ namespace SG2.CORE.WEB.Controllers
             ViewBag.CurrentUser = this.CDT;
             var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
 
+            ViewBag.Plans = _planManager.GetAllSocialGrowthPlans();
+
             return View(SocailProfile);
 
             ////if (!string.IsNullOrEmpty((string)TempData["Success"]))

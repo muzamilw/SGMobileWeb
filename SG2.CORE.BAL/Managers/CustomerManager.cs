@@ -415,6 +415,19 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
+        public List<CustomerSocialProfileDTO> GetFollowList(int socialProfileId)
+        {
+            try
+            {
+                return _customerRepository.GetSocialProfilesWithoutExistingFollowers(socialProfileId);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public async Task<SocialProfile_PaymentsDTO> InsertSubscription(SocialProfile_PaymentsDTO sG2_Subscription)
         {
             try

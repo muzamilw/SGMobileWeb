@@ -84,8 +84,8 @@ namespace SG2.CORE.BAL.Managers
                     prevStats.StoryViews = StoryCount;
                     prevStats.StoryViewsTotal += StoryCount;
 
-                    prevStats.Follow = Math.Abs(prevStats.Follow.Value - FollowCount);
-                    prevStats.FollowTotal = Math.Abs(prevStats.FollowTotal.Value - FollowCount);
+                    prevStats.Follow = Math.Abs((prevStats.Follow.HasValue ? prevStats.Follow.Value : 0) - FollowCount);
+                    prevStats.FollowTotal = Math.Abs((prevStats.FollowTotal.HasValue ? prevStats.FollowTotal.Value:0) - FollowCount);
 
                     if ( prevStats.Date == DateTime.Today)
                     {

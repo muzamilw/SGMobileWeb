@@ -65,7 +65,7 @@ namespace SG2.CORE.DAL.Repositories
                     {
                         plan.PlanName = entity.PlanName;
                         plan.PlanShortDescription = entity.PlanDescription;
-                        plan.IsParentPlan = entity.IsParentPlan;
+                        plan.IsBrokerPlan = entity.IsBrokerPlan;
                         plan.NoOfLikes = entity.Likes;
                         plan.DisplayPrice = entity.DisplayPrice;
                         plan.NoOfLikesDuration = entity.NoOfLikesDuration;
@@ -83,7 +83,7 @@ namespace SG2.CORE.DAL.Repositories
                         plan = new PaymentPlan();
                         plan.PlanName = entity.PlanName;
                         plan.PlanShortDescription = entity.PlanDescription;
-                        plan.IsParentPlan = entity.IsParentPlan;
+                        plan.IsBrokerPlan = entity.IsBrokerPlan;
                         plan.NoOfLikes = entity.Likes;
                         plan.DisplayPrice = entity.DisplayPrice;
                         plan.NoOfLikesDuration = entity.NoOfLikesDuration;
@@ -110,34 +110,34 @@ namespace SG2.CORE.DAL.Repositories
         }
 
         
-        public IList<PlanInformationDTO> GetAllSocialGrowthPlans()
+        public IList<PlanInformationDTO> GetallIntagramPlans()
         {
             try
             {
                 using (var _db=new SocialGrowth2Connection())
                 {
-                    var pros = _db.SG2_usp_Get_SocialProfile_PaymentPlan().ToList();
+                    var pros = _db.PaymentPlans.Where( g=> g.SocialPlatform == 30 && g.IsBrokerPlan != true).ToList();
                     if (pros != null)
                     {
                         List<PlanInformationDTO> planInformationDTOs = new List<PlanInformationDTO>();
                         foreach (var pro in pros)
                         {
                             PlanInformationDTO plnInfo = new PlanInformationDTO();
-                            plnInfo.PlanId = pro.paymentPlanId;
-                            plnInfo.PlanDescription = pro.PlanDescription;
+                            plnInfo.PlanId = pro.PaymentPlanId;
+                            plnInfo.PlanDescription = pro.PlanShortDescription;
                             plnInfo.PlanName = pro.PlanName;
-                            plnInfo.IsParentPlan = pro.isparentplan.Value;
-                            plnInfo.Likes = pro.Likes;
-                            plnInfo.PlanPrice = (pro.PlanPrice);
+                            plnInfo.IsBrokerPlan = pro.IsBrokerPlan.Value;
+                            plnInfo.Likes = pro.NoOfLikes;
+                            plnInfo.PlanPrice = (pro.StripePlanPrice);
                             plnInfo.DisplayPrice = pro.DisplayPrice;
                             plnInfo.StripePlanId = pro.StripePlanId;
-                            plnInfo.NoOfLikesDuration = pro.NoOfLikesDuration;
+                            plnInfo.NoOfLikesDuration = pro.NoOfLikesDuration.Value;
                             plnInfo.StatusId = pro.StatusId??0;
                             plnInfo.SortOrder = pro.SortOrder;
                             plnInfo.IsDefault = pro.IsDefault??false;
                             //plnInfo.PlantypeName = pro.PlanType;
-                            plnInfo.StatusName = pro.StatusName;
-                            plnInfo.SocialPlatform = pro.socialplatform;
+                            plnInfo.StatusName = pro.StatusId.Value == 19 ? "Active": "Inactive";
+                            plnInfo.SocialPlatform = pro.SocialPlatform;
                             planInformationDTOs.Add(plnInfo);
                             }
                         return planInformationDTOs;
@@ -166,7 +166,7 @@ namespace SG2.CORE.DAL.Repositories
                             PlanId = pro.PaymentPlanId,
                             PlanDescription = pro.PlanShortDescription,
                             PlanName = pro.PlanName,
-                            IsParentPlan = pro.IsParentPlan.Value,
+                            IsBrokerPlan = pro.IsBrokerPlan.Value,
                             Likes = pro.NoOfLikes,
                             PlanPrice = pro.StripePlanPrice,
                             DisplayPrice=pro.DisplayPrice,

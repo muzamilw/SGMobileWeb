@@ -54,7 +54,9 @@ namespace SG2.CORE.MODAL.MobileViewModels
 
         public List<MobileSocialProfile_FollowedAccounts> FollowersToComment { get; set; }
 
-        public List<MobileSocialProfile_FollowedAccounts> LikeyList { get; set; }
+        public List<MobileSocialProfile_FollowedAccounts> FollowList { get; set; }
+
+        public List<MobileSocialProfile_FollowedAccounts> LikeList { get; set; }
     }
 
 

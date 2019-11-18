@@ -26,7 +26,7 @@ namespace SG2.CORE.MODAL
         public Nullable<double> DisplayPrice { get; set; }
         public string PlanName { get; set; }
         public string PlanShortDescription { get; set; }
-        public Nullable<bool> IsParentPlan { get; set; }
+        public Nullable<bool> IsBrokerPlan { get; set; }
         public string StripePlanId { get; set; }
         public Nullable<double> StripePlanPrice { get; set; }
         public Nullable<int> NoOfLikesDuration { get; set; }

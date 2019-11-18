@@ -15,7 +15,7 @@ namespace SG2.CORE.MODAL.DTO.PlanInformation
         public string PlanName { get; set; }
         public string StripePlanId { get; set; }
         public string PlanDescription { get; set; }
-        public bool IsParentPlan { get; set; }
+        public bool IsBrokerPlan { get; set; }
         public int? StatusId { get; set; }
         public string PlantypeName { get; set; }
         public string StatusName { get; set; }

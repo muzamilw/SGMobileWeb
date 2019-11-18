@@ -44,7 +44,7 @@ namespace SG2.CORE.BAL.Managers
         {
             try
             {
-                var PlanInfor = _planInformationRepository.GetAllSocialGrowthPlans();
+                var PlanInfor = _planInformationRepository.GetallIntagramPlans();
                 return PlanInfor;
             }
             catch (Exception ex)

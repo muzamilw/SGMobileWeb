@@ -1,4 +1,5 @@
 ﻿@using SG2.CORE.MODAL.DTO.Customers;
+@using SG2.CORE.COMMON;
 @model SG2.CORE.MODAL.DTO.Customers.SocialProfileDTO
 @{
 
@@ -7,6 +8,24 @@
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
 
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
+
+    var ProfileStatus = "";
+    if (Model.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
+    {
+        ProfileStatus = "Active (Free)";
+    }
+    else if (Model.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.ActivePlan)
+    {
+        ProfileStatus = "Active (Plan)";
+    }
+    else if (Model.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.canceled)
+    {
+        ProfileStatus = "Cancelled";
+    }
+    else if (Model.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Unsubscribe)
+    {
+        ProfileStatus = "Unsubscribed";
+    }
 
 }
 
@@ -40,7 +59,7 @@
             <div class="content-header-right col-md-6 col-12">
                 <div class="media width-250 float-right">
                     <div class="media-body media-right text-right">
-                        <h3 class="m-0">Active</h3>
+                        <h3 class="m-0">@ProfileStatus</h3>
                     </div>
                 </div>
             </div>
@@ -62,7 +81,7 @@
                                 </div>
                             </div>
                             <div class="card-content collpase show">
-                               
+
                                 <div class="table-responsive">
                                     <table class="table table-xl mb-0">
                                         <thead>
@@ -76,25 +95,25 @@
                                         <tbody>
                                             @foreach (var item in Model.LastSocialProfile_Payments)
                                             {
-                                            <tr>
-                                                <td scope="row">
-                                                    @item.PaymentDateTime
-                                                </td>
-                                                
+                                                <tr>
+                                                    <td scope="row">
+                                                        @item.PaymentDateTime
+                                                    </td>
 
-                                                <td>
-                                                    @item.PaymentPlanName
-                                                </td>
-                                                <td>
-                                                    @item.Price
-                                                </td>
-                                                <td>
-                                                    <div class="badge badge-primary label-square">
-                                                        <i class="fa fa-paperclip font-medium-2"></i>
-                                                        <span>@item.StatusId</span>
-                                                    </div>
-                                                </td>
-                                            </tr>
+
+                                                    <td>
+                                                        @item.PaymentPlanName
+                                                    </td>
+                                                    <td>
+                                                        @item.Price
+                                                    </td>
+                                                    <td>
+                                                        <div class="badge badge-primary label-square">
+                                                            <i class="fa fa-paperclip font-medium-2"></i>
+                                                            <span>@item.StatusId</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             }
                                         </tbody>
                                     </table>
@@ -104,11 +123,11 @@
                         </div>
                     </div>
                 </div>
-       
-        </section>
-        <!-- // Basic form layout section end -->
+
+            </section>
+            <!-- // Basic form layout section end -->
+        </div>
     </div>
-</div>
 </div>
 <!-- END: Content-->
 

@@ -102,12 +102,13 @@ namespace SG2.CORE.WEB.APIController
                     Profile = mapper.Map<MobileSocialProfile>(profile.SocialProfile),
                     TargetInformation = mapper2.Map<MobileSocialProfile_Instagram_TargetingInformation>(profile.SocialProfile_Instagram_TargetingInformation),
                     FollowersToUnFollow = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime < commentCutOffDate).ToList()),
-                    FollowersToComment = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime >= commentCutOffDate).ToList())
+                    FollowersToComment = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime >= commentCutOffDate).ToList()),
+                    FollowList = _customerManager.GetFollowList(model.SocialProfileId).Select( g=> new MobileSocialProfile_FollowedAccounts { FollowedSocialUsername = g.SocialUsername, FollowedDateTime = DateTime.Now }).Take(30).ToList(),
+                    LikeList = _customerManager.GetFollowList(model.SocialProfileId).Select(g => new MobileSocialProfile_FollowedAccounts { FollowedSocialUsername = g.SocialUsername }).Take(30).ToList()
 
-
-                    //20 count Follow list is all paid instagram profile usernames which are already not in follower list.  and follow exchange checkbox true
-                    //10 count Like list is all paid instagram profile usernames which are already not in follower list.  and like exchange checkbox true
-                };
+                //20 count Follow list is all paid instagram profile usernames which are already not in follower list.  and follow exchange checkbox true
+                //10 count Like list is all paid instagram profile usernames which are already not in follower list.  and like exchange checkbox true
+            };
 
                 
 

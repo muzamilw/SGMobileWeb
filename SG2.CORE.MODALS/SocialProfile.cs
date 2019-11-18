@@ -49,7 +49,6 @@ namespace SG2.CORE.MODAL
         public string DeviceBinLocation { get; set; }
     
         public virtual Customer Customer { get; set; }
-        public virtual PaymentPlan PaymentPlan { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SocialProfile_Actions> SocialProfile_Actions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -60,5 +59,6 @@ namespace SG2.CORE.MODAL
         public virtual ICollection<SocialProfile_FollowedAccounts> SocialProfile_FollowedAccounts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SocialProfile_Statistics> SocialProfile_Statistics { get; set; }
+        public virtual PaymentPlan PaymentPlan { get; set; }
     }
 }

@@ -34,7 +34,6 @@ namespace SG2.CORE.DAL.DB
         public virtual DbSet<Enumeration> Enumerations { get; set; }
         public virtual DbSet<EnumerationValue> EnumerationValues { get; set; }
         public virtual DbSet<LikeyAccount> LikeyAccounts { get; set; }
-        public virtual DbSet<PaymentPlan> PaymentPlans { get; set; }
         public virtual DbSet<SocialProfile> SocialProfiles { get; set; }
         public virtual DbSet<SocialProfile_Actions> SocialProfile_Actions { get; set; }
         public virtual DbSet<SocialProfile_FollowedAccounts> SocialProfile_FollowedAccounts { get; set; }
@@ -49,6 +48,7 @@ namespace SG2.CORE.DAL.DB
         public virtual DbSet<SystemState> SystemStates { get; set; }
         public virtual DbSet<SystemUser> SystemUsers { get; set; }
         public virtual DbSet<SocialProfile_Statistics> SocialProfile_Statistics { get; set; }
+        public virtual DbSet<PaymentPlan> PaymentPlans { get; set; }
     
         public virtual ObjectResult<SG2_usp_SystemConfig_GetAll_Result> SG2_usp_SystemConfig_GetAll(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId)
         {
@@ -90,43 +90,6 @@ namespace SG2.CORE.DAL.DB
                 new ObjectParameter("riStatusId", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_SystemUser_GetAll_Result>("SG2_usp_SystemUser_GetAll", rsSearchCriteParameter, riPageNumberParameter, riPageSizeParameter, riStatusIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_Customer_SignUp_Result> SG2_usp_Customer_SignUp(string rvcFirstName, string rvcSurName, string rvcEmailAddress, string rvcPassword, string rvcCreatedBy, string rvcGUID, string rvcLastLoginIP, Nullable<int> rvcStatusId)
-        {
-            var rvcFirstNameParameter = rvcFirstName != null ?
-                new ObjectParameter("rvcFirstName", rvcFirstName) :
-                new ObjectParameter("rvcFirstName", typeof(string));
-    
-            var rvcSurNameParameter = rvcSurName != null ?
-                new ObjectParameter("rvcSurName", rvcSurName) :
-                new ObjectParameter("rvcSurName", typeof(string));
-    
-            var rvcEmailAddressParameter = rvcEmailAddress != null ?
-                new ObjectParameter("rvcEmailAddress", rvcEmailAddress) :
-                new ObjectParameter("rvcEmailAddress", typeof(string));
-    
-            var rvcPasswordParameter = rvcPassword != null ?
-                new ObjectParameter("rvcPassword", rvcPassword) :
-                new ObjectParameter("rvcPassword", typeof(string));
-    
-            var rvcCreatedByParameter = rvcCreatedBy != null ?
-                new ObjectParameter("rvcCreatedBy", rvcCreatedBy) :
-                new ObjectParameter("rvcCreatedBy", typeof(string));
-    
-            var rvcGUIDParameter = rvcGUID != null ?
-                new ObjectParameter("rvcGUID", rvcGUID) :
-                new ObjectParameter("rvcGUID", typeof(string));
-    
-            var rvcLastLoginIPParameter = rvcLastLoginIP != null ?
-                new ObjectParameter("rvcLastLoginIP", rvcLastLoginIP) :
-                new ObjectParameter("rvcLastLoginIP", typeof(string));
-    
-            var rvcStatusIdParameter = rvcStatusId.HasValue ?
-                new ObjectParameter("rvcStatusId", rvcStatusId) :
-                new ObjectParameter("rvcStatusId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_SignUp_Result>("SG2_usp_Customer_SignUp", rvcFirstNameParameter, rvcSurNameParameter, rvcEmailAddressParameter, rvcPasswordParameter, rvcCreatedByParameter, rvcGUIDParameter, rvcLastLoginIPParameter, rvcStatusIdParameter);
         }
     
         public virtual ObjectResult<SG2_usp_Customer_ProfileUpdate_Result> SG2_usp_Customer_ProfileUpdate(Nullable<int> iCustomerId, string rvcUserName, string rvcFirstName, string rvcSurName, string rvcPhoneNumber, string rvcPhoneCode)
@@ -503,6 +466,43 @@ namespace SG2.CORE.DAL.DB
                 new ObjectParameter("riSocialProfileId", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_GetSocialProfileById_Result>("SG2_usp_Customer_GetSocialProfileById", riSocialProfileIdParameter);
+        }
+    
+        public virtual ObjectResult<SG2_usp_Customer_SignUp_Result> SG2_usp_Customer_SignUp(string rvcFirstName, string rvcSurName, string rvcEmailAddress, string rvcPassword, string rvcCreatedBy, string rvcGUID, string rvcLastLoginIP, Nullable<int> rvcStatusId)
+        {
+            var rvcFirstNameParameter = rvcFirstName != null ?
+                new ObjectParameter("rvcFirstName", rvcFirstName) :
+                new ObjectParameter("rvcFirstName", typeof(string));
+    
+            var rvcSurNameParameter = rvcSurName != null ?
+                new ObjectParameter("rvcSurName", rvcSurName) :
+                new ObjectParameter("rvcSurName", typeof(string));
+    
+            var rvcEmailAddressParameter = rvcEmailAddress != null ?
+                new ObjectParameter("rvcEmailAddress", rvcEmailAddress) :
+                new ObjectParameter("rvcEmailAddress", typeof(string));
+    
+            var rvcPasswordParameter = rvcPassword != null ?
+                new ObjectParameter("rvcPassword", rvcPassword) :
+                new ObjectParameter("rvcPassword", typeof(string));
+    
+            var rvcCreatedByParameter = rvcCreatedBy != null ?
+                new ObjectParameter("rvcCreatedBy", rvcCreatedBy) :
+                new ObjectParameter("rvcCreatedBy", typeof(string));
+    
+            var rvcGUIDParameter = rvcGUID != null ?
+                new ObjectParameter("rvcGUID", rvcGUID) :
+                new ObjectParameter("rvcGUID", typeof(string));
+    
+            var rvcLastLoginIPParameter = rvcLastLoginIP != null ?
+                new ObjectParameter("rvcLastLoginIP", rvcLastLoginIP) :
+                new ObjectParameter("rvcLastLoginIP", typeof(string));
+    
+            var rvcStatusIdParameter = rvcStatusId.HasValue ?
+                new ObjectParameter("rvcStatusId", rvcStatusId) :
+                new ObjectParameter("rvcStatusId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_SignUp_Result>("SG2_usp_Customer_SignUp", rvcFirstNameParameter, rvcSurNameParameter, rvcEmailAddressParameter, rvcPasswordParameter, rvcCreatedByParameter, rvcGUIDParameter, rvcLastLoginIPParameter, rvcStatusIdParameter);
         }
     }
 }
