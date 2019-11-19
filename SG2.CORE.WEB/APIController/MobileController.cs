@@ -82,9 +82,14 @@ namespace SG2.CORE.WEB.APIController
 
             var config3 = new MapperConfiguration(cfg => cfg.CreateMap<SocialProfile_FollowedAccounts, MobileSocialProfile_FollowedAccounts>()
            );
+
+            var config4 = new MapperConfiguration(cfg => cfg.CreateMap<PaymentPlan, MobilePaymentPlan>()
+           );
+
             var mapper = new Mapper(config);
             var mapper2 = new Mapper(config2);
             var mapper3 = new Mapper(config3);
+            var mapper4 = new Mapper(config4);
 
             if (ModelState.IsValid)
             {
@@ -100,6 +105,7 @@ namespace SG2.CORE.WEB.APIController
                     StatusCode = 1,
                     StatusMessage = "",
                     Profile = mapper.Map<MobileSocialProfile>(profile.SocialProfile),
+                    CurrentPlan = mapper4.Map<MobilePaymentPlan>(  profile.CurrentPaymentPlan),
                     TargetInformation = mapper2.Map<MobileSocialProfile_Instagram_TargetingInformation>(profile.SocialProfile_Instagram_TargetingInformation),
                     FollowersToUnFollow = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime < commentCutOffDate).ToList()),
                     FollowersToComment = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime >= commentCutOffDate).ToList()),

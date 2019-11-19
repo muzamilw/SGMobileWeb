@@ -284,10 +284,10 @@ namespace SG2.CORE.BAL.Managers
                 throw ex;
             }
         }
-		public bool UpdateSocialProfile(SocialProfileDTO model) {
+		public bool UpdateBasicSocialProfile(SocialProfileDTO model) {
 			try
 			{
-				var socialprofile = _socialRepository.UpdateSocialProfile(model.SocialProfile.DeviceBinLocation,model.SocialProfile.SocialProfileName,model.SocialProfile.SocialProfileId);
+				var socialprofile = _socialRepository.UpdateSocialProfile(model.SocialProfile.DeviceBinLocation,model.SocialProfile.SocialUsername,model.SocialProfile.SocialProfileId);
 				if (socialprofile)
 				{
 					_sessionManager.Set(SessionConstants.SocialProfile, socialprofile);
@@ -295,10 +295,10 @@ namespace SG2.CORE.BAL.Managers
 				return socialprofile;
 
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
 
-				throw;
+				throw e;
 				
 			}
 		}
@@ -314,15 +314,35 @@ namespace SG2.CORE.BAL.Managers
 				return socialprofile;
 
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
 
-				throw;
+				throw e;
 
 			}
 		}
 
-		public CustomerDTO UpdateCustomerProfile(CustomerDTO model)
+        public bool UpdateTargetProfileLists(SocialProfileDTO model)
+        {
+            try
+            {
+                var socialprofile = _socialRepository.UpdateTargetProfileLists(model);
+                if (socialprofile)
+                {
+                    _sessionManager.Set(SessionConstants.SocialProfile, socialprofile);
+                }
+                return socialprofile;
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+
+            }
+        }
+
+        public CustomerDTO UpdateCustomerProfile(CustomerDTO model)
         {
             try
             {
@@ -554,6 +574,20 @@ namespace SG2.CORE.BAL.Managers
             {
 
                 throw ex;
+            }
+        }
+
+
+        public List<SocialProfile_Actions> ReturnLastActions(int socialProfileId, int NoOfActions)
+        {
+            try
+            {
+                return _customerRepository.ReturnLastActions(socialProfileId, NoOfActions);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
             }
         }
 

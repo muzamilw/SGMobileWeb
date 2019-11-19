@@ -1237,7 +1237,27 @@ namespace SG2.CORE.DAL.Repositories
             return true;
         }
 
-        
+
+        public List<SocialProfile_Actions> ReturnLastActions(int socialProfileId, int NoOfActions)
+
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                   return  _db.SocialProfile_Actions.Where(g => g.SocialProfileId == socialProfileId).OrderByDescending(g => g.ActionDateTime).Take(NoOfActions).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+           
+        }
+
+
+
 
         public SocialProfileDTO GetSocialProfilesById(int profileId)
         {
@@ -1260,6 +1280,7 @@ namespace SG2.CORE.DAL.Repositories
                     profile.LastSocialProfile_Payments = (from m in _db.SocialProfile_Payments
                                                           join r in _db.PaymentPlans on m.PaymentPlanId equals r.PaymentPlanId
                                                           join ps in _db.EnumerationValues on m.StatusId equals ps.EnumerationValueId
+                                                          where m.SocialProfileId == profileId
                                                           select new SocialProfile_PaymentsDTO { Description = m.Description, EndDate = m.EndDate, PaymentPlanId = m.PaymentPlanId, Name = m.Name, PaymentDateTime = m.PaymentDateTime, PaymentId = m.PaymentId, PaymentPlanName = r.PlanName, Price = m.Price, SocialProfileId = m.SocialProfileId, StartDate = m.StartDate, Status = ps.Name, StatusId = m.StatusId, StripeInvoiceId = m.StripeInvoiceId, StripePlanId = m.StripePlanId, StripeSubscriptionId = m.StripeSubscriptionId, SubscriptionType = m.SubscriptionType }).ToList();
                                                           
                     profile.SocialProfile_FollowedAccounts = _db.SocialProfile_FollowedAccounts.Where(g => g.SocialProfileId == profileId).OrderByDescending(g => g.FollowedDateTime).ToList();

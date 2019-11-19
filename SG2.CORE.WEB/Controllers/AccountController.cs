@@ -70,7 +70,7 @@ namespace SG2.CORE.WEB.Controllers
                     {
                         CustomerId = model.CustomerId,
                         FirstName = model.FirstName,
-                        SurName = model.SurName,
+                        SurName = model.UserName,
                         EmailAddress = model.EmailAddress,
                         StatusId = (int)CustomersStatus.Active,
                         GUID = Guid.NewGuid().ToString(),

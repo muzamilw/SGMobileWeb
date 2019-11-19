@@ -35,11 +35,12 @@
     <link href="~/Content/app-assets/vendors/css/forms/tags/tagging.css" rel="stylesheet" />
     <link href="~/Content/app-assets/css/pincode.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/plugins/forms/checkboxes-radios.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/plugins/forms/validation/form-validation.css">
 
 }
 
 
-<form class="form" id="formtarget" method="post" action="Target">
+<form class="form" id="formtarget" method="post" action="Target" novalidate>
 
 
     <!-- BEGIN: Content-->
@@ -129,57 +130,57 @@
                                             </div>
 
                                             <div class="row">
-                                                
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label>Do you want to engage with males and females are Both</label><br />
-                                                            <fieldset class="radio">
-                                                                <label class="form-radio" col-md-3>
-                                                                    
-                                                                    @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.GenderEngagmentPref, "1")
 
-                                                                    <span class="checkmark">Males</span>
-                                                                </label><br />
-                                                                <label class="form-radio" col-md-3>
-                                                                    
-                                                                    @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.GenderEngagmentPref, "2")
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Do you want to engage with males and females are Both</label><br />
+                                                        <fieldset class="radio">
+                                                            <label class="form-radio" col-md-3>
 
-                                                                    <span class="checkmark">Females</span>
-                                                                </label><br />
-                                                                <label class="form-radio" col-md-3>
-                                                                    
-                                                                    @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.GenderEngagmentPref, "3")
+                                                                @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.GenderEngagmentPref, "1")
 
-                                                                    <span class="checkmark">Both</span>
-                                                                </label>
-                                                            </fieldset>
-                                                        </div>
+                                                                <span class="checkmark">Males</span>
+                                                            </label><br />
+                                                            <label class="form-radio" col-md-3>
+
+                                                                @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.GenderEngagmentPref, "2")
+
+                                                                <span class="checkmark">Females</span>
+                                                            </label><br />
+                                                            <label class="form-radio" col-md-3>
+
+                                                                @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.GenderEngagmentPref, "3")
+
+                                                                <span class="checkmark">Both</span>
+                                                            </label>
+                                                        </fieldset>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                </div>
+                                                <div class="col-md-6">
 
-                                                        <div class="form-group">
-                                                            <label>Do you want to only follow</label><br />
-                                                            <fieldset class="radio">
-                                                                <label class="form-radio" col-md-3>
-                                                                    
-                                                                    @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.IncludeBusinessAccounts, "1")
+                                                    <div class="form-group">
+                                                        <label>Do you want to only follow</label><br />
+                                                        <fieldset class="radio">
+                                                            <label class="form-radio" col-md-3>
 
-                                                                    <span class="checkmark">Business Account</span>
-                                                                </label><br />
-                                                                <label class="form-radio" col-md-3>
-                                                                    
-                                                                    @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.IncludeBusinessAccounts, "2")
-                                                                    <span class="checkmark">Private Account(Private Accounts can't be linked or commented to)</span>
-                                                                </label><br />
-                                                                <label class="form-radio" col-md-3>
-                                                                    
-                                                                    @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.IncludeBusinessAccounts, "3")
-                                                                    <span class="checkmark">Both</span>
-                                                                </label>
-                                                                </fieldset>
-                                                        </div>
+                                                                @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.IncludeBusinessAccounts, "1")
+
+                                                                <span class="checkmark">Business Account</span>
+                                                            </label><br />
+                                                            <label class="form-radio" col-md-3>
+
+                                                                @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.IncludeBusinessAccounts, "2")
+                                                                <span class="checkmark">Private Account(Private Accounts can't be linked or commented to)</span>
+                                                            </label><br />
+                                                            <label class="form-radio" col-md-3>
+
+                                                                @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.IncludeBusinessAccounts, "3")
+                                                                <span class="checkmark">Both</span>
+                                                            </label>
+                                                        </fieldset>
                                                     </div>
-                                               
+                                                </div>
+
                                             </div>
 
                                         </div>
@@ -219,8 +220,8 @@
                                                         </button>
                                                     </div>
                                                 </div>
-                                               
-                                                <div class="row"    >
+
+                                                <div class="row">
                                                     <div class="col-md-12 mt-2">
                                                         @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.RandomizeIntervalsDaily.HasValue)
                                                         @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.RandomizeIntervalsDaily)
@@ -296,7 +297,7 @@
                                                             }
                                                             else
                                                             {
-                                                                <a href="#" class="btn btn-primary text-center disabled">Select</a>
+                                                                <button  class="btn btn-primary text-center planSelect">Select</button>
                                                             }
                                                         </div>
                                                     </div>
@@ -318,7 +319,7 @@
                                                     <label class=" mgt-8">Follow new accounts by Search tags</label>
                                                 </div>
                                                 <div class="col-md-3 pd-0  float-left">
-                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollNewPerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollNewPerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
                                                 </div>
                                                 <div class="col-md-2  pd-0  float-left p-0 m-0">
                                                     <label class="mgt-8">per Days</label>
@@ -332,7 +333,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-4 pd-0  float-left">
-                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;" } })
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
                                                 </div>
 
                                             </div>
@@ -343,7 +344,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-4 pd-0  float-left">
-                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
                                                 </div>
                                             </div>
                                         </div>
@@ -355,7 +356,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-3 pd-0  float-left">
-                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollNewPerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollNewPerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
                                                 </div>
                                                 <div class="col-md-2  pd-0  float-left p-0 m-0">
                                                     <label class="mgt-8">per Days</label>
@@ -368,7 +369,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-4 pd-0  float-left" ">
-                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;" } })
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
                                                 </div>
 
                                             </div>
@@ -379,7 +380,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-4 pd-0   float-left">
-                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
                                                 </div>
 
                                             </div>
@@ -392,7 +393,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-3 pd-0  float-left">
-                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.LikePerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.LikePerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
                                                 </div>
                                                 <div class="col-md-2  pd-0  float-left p-0 m-0">
                                                     <label class="mgt-8">per Days</label>
@@ -405,7 +406,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-4 pd-0  float-left">
-                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.LikeDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;" } })
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.LikeDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
@@ -415,7 +416,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-4 pd-0  float-left">
-                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.LikeMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.LikeMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
                                                 </div>
 
                                             </div>
@@ -429,7 +430,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-3 pd-0  float-left">
-                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.ViewStoriesPerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.ViewStoriesPerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
                                                 </div>
                                                 <div class="col-md-2  pd-0  float-left p-0 m-0">
                                                     <label class="mgt-8">per Days</label>
@@ -442,7 +443,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-4 pd-0  float-left">
-                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.ViewStoriesDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;" } })
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.ViewStoriesDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
                                                 </div>
 
                                             </div>
@@ -453,7 +454,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-4 pd-0  float-left">
-                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.ViewStoriesMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.ViewStoriesMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
                                                 </div>
 
                                             </div>
@@ -467,7 +468,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-3 pd-0  float-left">
-                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.CommentPerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.CommentPerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
                                                 </div>
                                                 <div class="col-md-2  pd-0  float-left p-0 m-0">
                                                     <label class="mgt-8">per Days</label>
@@ -480,7 +481,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-4 pd-0  float-left">
-                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.CommentDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;" } })
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.CommentDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
                                                 </div>
 
                                             </div>
@@ -491,7 +492,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-4 pd-0  float-left">
-                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.CommentMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.CommentMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
                                                 </div>
 
                                             </div>
@@ -505,7 +506,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-3 pd-0  float-left">
-                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.DMPerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.DMPerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
                                                 </div>
                                                 <div class="col-md-2  pd-0  float-left p-0 m-0">
                                                     <label class="mgt-8">per Days</label>
@@ -518,7 +519,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-4 pd-0  float-left">
-                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.DMDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;" } })
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.DMDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
                                                 </div>
 
                                             </div>
@@ -529,7 +530,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-4 pd-0  float-left">
-                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.DMMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;" } })
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.DMMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
                                                 </div>
 
                                             </div>
@@ -785,7 +786,7 @@
                                 <div class="card-content collpase show">
                                     <div class="card-body">
                                         <h4 class="form-section"><i class="ft-user"></i>STORY VIEWS</h4>
-                                        
+
                                         <div class="col-md-12">
                                             <fieldset>
                                                 <input type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.StoryViewerOn">
@@ -842,7 +843,7 @@
                                 <div class="card-content collpase show">
                                     <div class="card-body">
                                         <h4 class="form-section"><i class="ft-user"></i>COMMENTS</h4>
-                                        
+
                                         <div class="col-md-12">
                                             <fieldset>
                                                 <input type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.ContactMembersOn">
@@ -979,7 +980,7 @@
                                 <div class="card-content collpase show">
                                     <div class="card-body">
                                         <h4 class="form-section"><i class="ft-user"></i>LIKE EXCHANGE Participation</h4>
-                                        
+
 
                                         <div class="col-md-12">
                                             <input type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.LikeOn">
@@ -1049,9 +1050,18 @@
                                                 </div>
                                             </fieldset>
                                         </div>
+
+                                        <div class="form-actions text-center">
+
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fa fa-check-square-o"></i> Save
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
                 </section>
@@ -1060,14 +1070,7 @@
 
 
 
-                <div class="form-actions">
-                    <button type="button" class="btn btn-warning mr-1">
-                        <i class="ft-x"></i> Cancel
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fa fa-check-square-o"></i> Save
-                    </button>
-                </div>
+
                 <!-- // Basic form layout section end -->
             </div>
         </div>
@@ -1081,6 +1084,141 @@
 </style>
 
 
+<div id="Modal_ConfirmPaymentPlan" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <!--       <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h3 class="modal-title color-crimson">Confirm &amp; Pay</h3>
+                    </div>
+                -->
+                <div class="modal-body">
+                    <div class="row">
+                        <br />
+                        <div class="col-xs-12 col-sm-12 col-md-5 hide">
+                            <div class="mainMonthly" style="text-align:center">
+                                <br />
+                                <h3>Monthly Charge</h3>
+                                <hr />
+                                <h4>$99 Growth Engine</h4>
+                                <h4>+</h4>
+                                <h4 class="seletedDisplayPlanPrice"></h4>
+                                <br /><br />
+                                <img src="/Content/ThemeAssets/Images/social-growth-footer-logo.jpg" alt="">
+                            </div>
+                        </div>
+                        <div class="col-xs-12" id="shoppingcardPD">
+
+                            <h4 class="pc_Heading" id="monthlyChargeh4">
+                                Get up to 200 followers a day
+                                <span class="pc_HeadingPlan">
+                                    <br>  <span class="plussymbol paymenyplus text-center" style="font-size:15pt"> + </span><br>
+
+                                    <span class="pc_HeadingPlanLikes color-crimson redcolor"></span> likes per post
+                                </span>
+                            </h4>
+
+                            <div class="paymentCard">
+                                @using (Html.BeginForm("NewCardPayment", "TargetPreferences", FormMethod.Post, new { @class = "form-horizontal", @id = "From_UpdatePlan", role = "form" }))
+                                {
+                                    <h3 class="monthlyChargeh3">
+                                        Monthly Charges
+                                        <span class="pull-right color-crimson redcolor">$<span class="ModalplanPrice"></span></span>
+                                    </h3>
+
+                                    <p>Autopay on @DateTime.Now.AddMonths(1).ToString("yyyy-MM-dd")</p>
+                                    <hr />
+
+                                    if (Model.PaymentCards != null)
+                                    {
+                                        <div id="div_previousCard">
+                                            @foreach (var item in Model.PaymentCards)
+                                            {
+                                                <p>
+                                                    Card ending in <b>@item.Last4</b>
+                                                    @*<img class="pull-right" src="~/Content/Images/visa-icon.png" />*@
+                                                </p>
+
+                                                <p>Expiry <b>@item.ExpMonth/@item.ExpYear</b></p>
+                                            }
+                                            <br />
+                                            <a href="#" class="btn_displayNewCard">[Edit]</a>
+                                            <br />
+                                        </div>
+                                    }
+                                }
+
+                                @using (Html.BeginForm("NewCardPayment", "TargetPreferences", FormMethod.Post, new { @class = "form-horizontal", @id = "From_NewCard", role = "form" }))
+                                {
+
+                                    <div id="div_newCard" @(Model.PaymentCards != null ? "style=display:none" : "")>
+
+                                        <input type="hidden" name="StripePlanId" id="field_newCardPlanId" value="" />
+                                        <div class="form-row">
+                                            <label for="card-element">
+                                                Credit or debit card
+                                            </label>
+                                            <div id="card-element">
+                                            </div>
+                                            <div id="card-errors" role="alert"></div>
+                                        </div>
+
+                                        <br />
+
+                                        @if (Model.PaymentCards != null)
+                                        {
+                                            <a href="#" class="btn_displayPrevCard">[Cancel]</a>
+                                        }
+                                    </div>
+
+                                    <hr />
+
+                                    <button type="button" class="btn btn-block btn-primary btn_ConfirmAndPay" value="Confirm">
+                                        Confirm    <span id="ConfirmPaySpinner" hidden><i class="fa fa-spinner fa-spin"></i></span>
+                                    </button>
+                                    <br />
+                                    <br />
+                                    <em>You are currently billed in $ US Dollar.</em>
+                                }
+                            </div>
+                            <div class="text-center pd-t2" style="height:20px;">
+                                <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:transparent; color:#ccc">Close</button>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="Modal_SuccessActivePlan" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                -->
+            <div class="div_ModalBody">
+                <div class="div_successActivePlan">
+                    <h3 class="color-crimson popupHeading">Congratulations, Your subscription has been activated.</h3>
+                    <br />
+                    <p>
+                        <span class="note">Note:</span> <br />
+                        Reports will be avaiable after 5 days of activity
+                    </p>
+                    <br />
+                    <button type="button" class="btn btn-default btnnewheight" data-dismiss="modal">Ok, Got it</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 @section Scripts{
     <script src="~/Content/app-assets/js/scripts/bootstrap-pincode-input.js"></script>
@@ -1090,23 +1228,27 @@
     <script src="~/Content/app-assets/js/scripts/forms/form-repeater.js"></script>
 
     <script src="~/Content/app-assets/vendors/js/forms/icheck/icheck.min.js"></script>
+    <script src="~/Content/app-assets/vendors/js/forms/validation/jqBootstrapValidation.js"></script>
+    <script src="~/Content/app-assets/vendors/js/extensions/sweetalert.min.js"></script>
+    <script src="~/Content/app-assets/js/scripts/extensions/sweet-alerts.js"></script>
+
     <!-- END: Page Vendor JS-->
     <script type="text/javascript">
         $('#formtarget').submit(function (e) {
             var strhashtagsengage = $("#hashtagsengage .tag").clone().find('span').remove().end().find('a').remove().end().text();
-            strhashtagsengage = strhashtagsengage.match(/[^ ,]+/g).join(',');
+            strhashtagsengage = strhashtagsengage.match(/[^ ,]+/g).join(', ');
             document.getElementById("SocialProfile_Instagram_TargetingInformation_HashTagsToEngage").value = strhashtagsengage;
 
             var strhashtagsnotengage = $("#hashtagsnotengage .tag").clone().find('span').remove().end().find('a').remove().end().text();
-            strhashtagsnotengage = strhashtagsnotengage.match(/[^ ,]+/g).join(',');
+            strhashtagsnotengage = strhashtagsnotengage.match(/[^ ,]+/g).join(', ');
             document.getElementById("SocialProfile_Instagram_TargetingInformation_HashTagsToNotEngage").value = strhashtagsnotengage;
 
             var strlocationengage = $("#locationengage .tag").clone().find('span').remove().end().find('a').remove().end().text();
-            strlocationengage = strlocationengage.match(/[^ ,]+/g).join(',');
+            strlocationengage = strlocationengage.match(/[^ ,]+/g).join(', ');
             document.getElementById("SocialProfile_Instagram_TargetingInformation_LocationsToEngage").value = strlocationengage;
 
             var strDirectCompetitors = $("#DirectCompetitors .tag").clone().find('span').remove().end().find('a').remove().end().text();
-            strDirectCompetitors = strDirectCompetitors.match(/[^ ,]+/g).join(',');
+            strDirectCompetitors = strDirectCompetitors.match(/[^ ,]+/g).join(', ');
             document.getElementById("SocialProfile_Instagram_TargetingInformation_LocationsToEngage").value = strDirectCompetitors;
             debugger;
             $('input[type="checkbox"]').each(function () {
@@ -1135,6 +1277,11 @@
             });
 
 
+            @if (ViewBag.success == 1) {
+                @:swal("Success!", "You have successfully updated the target filtering information. It will be available for mobile app in next execution!", "success");
+            }
+
+
             $('#pincode').pincodeInput({ hidedigits: false, inputs: 8 });
 
             // Custom Show / Hide Configurations
@@ -1154,6 +1301,18 @@
                 checkboxClass: 'icheckbox_square-red',
                 radioClass: 'iradio_square-red',
             });
+
+            $(".planSelect").on("click", function () {
+                $(".seletedDisplayPlanPrice").text("$" + $(".range-labels li.active").attr("data-price") + " for " + $(".range-labels li.active").text() + " Likes");
+                $("span.ModalplanPrice").text($(".range-labels li.active").attr("data-stripe-price"));
+                $("#field_newCardPlanId").val($(".range-labels li.active").attr("data-strap-Planid"));
+                if ($(".range-labels li.active").index() == 0) {
+                    $(".pc_HeadingPlan").addClass("hide");
+                } else {
+                    $(".pc_HeadingPlan").removeClass("hide");
+                }
+                $("#Modal_ConfirmPaymentPlan").modal("show");
+            })
 
         });
     </script>

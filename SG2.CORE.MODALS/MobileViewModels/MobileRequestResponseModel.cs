@@ -48,6 +48,8 @@ namespace SG2.CORE.MODAL.MobileViewModels
 
         public MobileSocialProfile Profile { get; set; }
 
+        public MobilePaymentPlan CurrentPlan { get; set; }
+
         public MobileSocialProfile_Instagram_TargetingInformation TargetInformation { get; set; }
 
         public List<MobileSocialProfile_FollowedAccounts> FollowersToUnFollow { get; set; }
@@ -229,6 +231,26 @@ namespace SG2.CORE.MODAL.MobileViewModels
         
     }
 
+
+    public partial class MobilePaymentPlan
+    {
+        
+       
+
+        public int PaymentPlanId { get; set; }
+        public Nullable<int> NoOfLikes { get; set; }
+        public Nullable<double> DisplayPrice { get; set; }
+        public string PlanName { get; set; }
+       
+        public Nullable<bool> IsBrokerPlan { get; set; }
+       
+        public Nullable<int> NoOfLikesDuration { get; set; }
+      
+        public Nullable<int> SocialPlatform { get; set; }
+
+
+       
+    }
 
     public partial class MobileSocialProfile_FollowedAccounts
     {

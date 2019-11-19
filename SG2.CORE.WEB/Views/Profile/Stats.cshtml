@@ -1,5 +1,6 @@
 ﻿@using SG2.CORE.MODAL.DTO.Customers;
 @using SG2.CORE.COMMON;
+@using SG2.CORE.MODAL;
 @model SG2.CORE.MODAL.ViewModals.Statistics.StatisticsViewModel
 @{
 
@@ -428,6 +429,41 @@
                                                 </div>
                                             </td>
                                         </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <h4 class="card-title mt-2">Actions History</h4>
+                            <div class="table-responsive mt-4">
+                                <table class="table table-xl mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>action Date/Time</th>
+                                            <th>Action</th>
+                                            <th>Social User Name</th>
+                                            <th>Message</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in (List<SocialProfile_Actions>)ViewBag.actions)
+                                        {
+                                            <tr>
+                                                <td scope="row">
+                                                    @item.ActionDateTime
+                                                </td>
+
+
+                                                <td>
+                                                    @item.ActionID
+                                                </td>
+                                                <td>
+                                                    @item.TargetProfile
+                                                </td>
+                                                <td>
+                                                    @item.Message
+                                                </td>
+
+                                            </tr>
+                                        }
                                     </tbody>
                                 </table>
                             </div>

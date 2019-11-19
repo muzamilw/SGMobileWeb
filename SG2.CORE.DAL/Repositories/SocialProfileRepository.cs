@@ -33,6 +33,9 @@ namespace SG2.CORE.DAL.Repositories
 
 					}
 					profile.SocialProfileName = SocialProfileName;
+                    profile.SocialUsername = SocialProfileName;
+                    profile.UpdatedBy = "User";
+                    profile.UpdatedOn = DateTime.Now;
 
 					_db.SaveChanges();
 
@@ -48,7 +51,44 @@ namespace SG2.CORE.DAL.Repositories
 
 		}
 
-		public bool UpdateTargetProfile(SocialProfileDTO request)
+
+        public bool UpdateTargetProfileLists(SocialProfileDTO request)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+
+                    var target = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.TargetingInformationId == request.SocialProfile_Instagram_TargetingInformation.TargetingInformationId).SingleOrDefault();
+
+                    if ( target != null)
+                    {
+                        target.WhistListManualUsers = request.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers;
+                        target.WhilstListImportedUsers = request.SocialProfile_Instagram_TargetingInformation.WhilstListImportedUsers;
+                        target.BlackListUsers = request.SocialProfile_Instagram_TargetingInformation.BlackListUsers;
+                        target.BlackListLocations = request.SocialProfile_Instagram_TargetingInformation.BlackListLocations;
+                        target.BlackListHashtags = request.SocialProfile_Instagram_TargetingInformation.BlackListHashtags;
+                        target.BlackListWordsManual = request.SocialProfile_Instagram_TargetingInformation.BlackListWordsManual;
+
+
+                        target.UpdatedBy = "User";
+                        target.UpdatedOn = DateTime.Now;
+                        _db.SaveChanges();
+                    }
+
+                    return true;
+                }
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+
+        }
+
+        public bool UpdateTargetProfile(SocialProfileDTO request)
 		{
 			try
 			{

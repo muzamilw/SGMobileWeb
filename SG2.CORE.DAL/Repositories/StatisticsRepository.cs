@@ -163,7 +163,8 @@ namespace SG2.CORE.DAL.Repositories
                 {
                    
                     var statsData = _db.SocialProfile_Statistics.Where (g=> g.SocialProfileId ==  socialProfileId && g.Date >= fromDate && g.Date <= ToDate).ToList();
-                    
+
+                  
                     return statsData;
 
                 }
