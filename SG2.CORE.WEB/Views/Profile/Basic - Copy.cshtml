@@ -397,19 +397,19 @@
                                             <ul class="range-labels">
                                                 @{
 
-                                                    foreach (var plan in Model.Plans.Where(x => x.IsParentPlan == true))
+                                                    foreach (var plan in Model.Plans)
                                                     {
                                                         if (plan.SortOrder < planSq)
                                                         {
-                                                            <li class="selected" data-price="@plan.DisplayPrice" data-strap-Planid="@plan.StripePlanId" data-stripe-price="@plan.PlanPrice">@plan.Likes.ToString().Replace("0000", "0k").Replace("000", "k")</li>
+                                                            <li class="selected" data-price="@plan.DisplayPrice" data-strap-Planid="@plan.StripePlanId" data-stripe-price="@plan.PlanPrice">@plan.NoOfFollow.ToString().Replace("0000", "0k").Replace("000", "k")</li>
                                                         }
                                                         else if (plan.SortOrder == planSq)
                                                         {
-                                                            <li class="active selected" data-price="@plan.DisplayPrice" data-strap-Planid="@plan.StripePlanId" data-stripe-price="@plan.PlanPrice">@plan.Likes.ToString().Replace("0000", "0k").Replace("000", "k")</li>
+                                                            <li class="active selected" data-price="@plan.DisplayPrice" data-strap-Planid="@plan.StripePlanId" data-stripe-price="@plan.PlanPrice">@plan.NoOfFollow.ToString().Replace("0000", "0k").Replace("000", "k")</li>
                                                         }
                                                         else
                                                         {
-                                                            <li class="" data-price="@plan.DisplayPrice" data-strap-Planid="@plan.StripePlanId" data-stripe-price="@plan.PlanPrice">@plan.Likes.ToString().Replace("0000", "0k").Replace("000", "k")</li>
+                                                            <li class="" data-price="@plan.DisplayPrice" data-strap-Planid="@plan.StripePlanId" data-stripe-price="@plan.PlanPrice">@plan.NoOfFollow.ToString().Replace("0000", "0k").Replace("000", "k")</li>
                                                         }
 
                                                     }
@@ -1653,7 +1653,7 @@
             });
 
             $(".btn_ConfirmAndPay").on("click", function () {
-                
+
                 $("#ConfirmPaySpinner").show();
                 $(".btn_ConfirmAndPay").attr("disabled", true);
                 if (glb_paymentCardType == "UpdatePlan") {
@@ -1694,7 +1694,7 @@
                     });
                 } else {
                     stripe.createToken(card).then(function (result) {
-                       // $("#ConfirmPaySpinner").hide();
+                        // $("#ConfirmPaySpinner").hide();
                         if (result.error) {
                             // Inform the user if there was an error.
                             var errorElement = document.getElementById('card-errors');

@@ -23,6 +23,7 @@ using SG2.CORE.MODAL.DTO.Notification;
 using System.Threading.Tasks;
 //using SG2.CORE.MODAL;
 using System.Reflection;
+using System.Web.Configuration;
 
 namespace SG2.CORE.WEB.Controllers
 {
@@ -37,6 +38,7 @@ namespace SG2.CORE.WEB.Controllers
         protected readonly CustomerManager _customerManager;
         protected readonly List<SystemSettingsDTO> SystemConfigs;
         protected readonly NotificationManager _notManager;
+        private readonly string _stripeApiKey = string.Empty;
         //protected readonly QueueLoggerManager _queueLoggerManager;
         //protected readonly ProxyManager _proxyManager;
         //private readonly JVBoxManager _jVBoxManager;
@@ -45,8 +47,9 @@ namespace SG2.CORE.WEB.Controllers
 
         public ProfileController()
         {
-            //_targetPreferenceManager = new TargetPreferencesManager();
-            _cm = new CustomerManager();
+             
+        //_targetPreferenceManager = new TargetPreferencesManager();
+        _cm = new CustomerManager();
             _planManager = new PlanInformationManager();
             _statisticsManager = new StatisticsManager();
             _commonManager = new CommonManager();
@@ -56,6 +59,17 @@ namespace SG2.CORE.WEB.Controllers
             _notManager = new NotificationManager();
             //_proxyManager = new ProxyManager();
             //_jVBoxManager = new JVBoxManager();
+
+            //Setting Stripe api key
+            if (WebConfigurationManager.AppSettings["IsDebug"] == "1")
+            {
+                _stripeApiKey = WebConfigurationManager.AppSettings["StripeTestApiKey"];
+            }
+            else
+            {
+                _stripeApiKey = WebConfigurationManager.AppSettings["StripeLiveApiKey"];
+            }
+            
         }
 
         public ActionResult Basic(int socialProfileId, int? success)
@@ -101,7 +115,7 @@ namespace SG2.CORE.WEB.Controllers
         public ActionResult Lists(SocialProfileDTO request)
         {
             this._cm.UpdateTargetProfileLists(request);
-            return RedirectToAction("Lists", "Profile", new { socialProfileId = request.SocialProfile.SocialProfileId, success = 1 });
+            return RedirectToAction("Lists", "Profile", new { socialProfileId = request.SocialProfile_Instagram_TargetingInformation.SocialProfileId, success = 1 });
         }
 
         public ActionResult Target(int socialProfileId, int? success)
@@ -117,6 +131,41 @@ namespace SG2.CORE.WEB.Controllers
                 ViewBag.success = 1;
             }
 
+            var _stripeApiKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
+            var _stripePublishKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue2;
+
+            ViewBag.stripeApiKey = _stripeApiKey;
+            ViewBag.stripePublishKey = _stripePublishKey;
+            StripeConfiguration.SetApiKey(_stripeApiKey);
+            var planService = new PlanService();
+            var cardService = new CardService();
+            var cardOptions = new CardListOptions
+            {
+                Limit = 3,
+            };
+            List<CustomerPaymentCardsViewModel> payCards = null;
+            if (SocailProfile.SocialProfile.StripeCustomerId != null)
+            {
+                var striptCards = cardService.List(SocailProfile.SocialProfile.StripeCustomerId, cardOptions);
+                if (striptCards != null)
+                {
+                    payCards = new List<CustomerPaymentCardsViewModel>();
+                    foreach (var item in striptCards)
+                    {
+                        var card = new CustomerPaymentCardsViewModel();
+                        card.Last4 = item.Last4;
+                        card.ExpMonth = item.ExpMonth;
+                        card.ExpYear = item.ExpYear;
+                        card.Brand = item.Brand;
+                        card.Funding = item.Funding;
+                        payCards.Add(card);
+                    }
+                }
+            }
+
+            ViewBag.paycards = payCards;
+           
+
             return View(SocailProfile);
 
             ////if (!string.IsNullOrEmpty((string)TempData["Success"]))
@@ -128,8 +177,7 @@ namespace SG2.CORE.WEB.Controllers
             //ViewBag.CurrentUser = this.CDT;
             //ViewBag.SocailProfiles = this._cm.GetSocialProfilesByCustomerid(this.CDT.CustomerId);
             //var history = _customerManager.GetCustomerOrderHistory("50", 1, this.CDT.CustomerId, SocialProfileId);
-            //var _stripeApiKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
-            //var _stripePublishKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue2;
+           
             //StripeConfiguration.SetApiKey(_stripeApiKey);
 
             //SocialProfileDTO profileDTO = new SocialProfileDTO();
@@ -362,6 +410,173 @@ namespace SG2.CORE.WEB.Controllers
             return View(SocailProfile);
 
         }
+
+       
+
+        public ActionResult ConfirmAndPay(CustomerPaymentPlansViewModel model)
+        {
+            try
+            {
+                StripeConfiguration.SetApiKey(_stripeApiKey);
+                var planService = new PlanService();
+                var selPlan = planService.Get(model.PlanId);
+
+                CustomerPaymentPlansViewModel payPlan = new CustomerPaymentPlansViewModel();
+                if (selPlan != null)
+                {
+                    payPlan.PlanId = selPlan.Id;
+                    payPlan.PlanName = selPlan.Nickname;
+                    payPlan.PlanStatus = selPlan.Active;
+                    payPlan.Amount = selPlan.Amount.Value;
+                    payPlan.BillingScheme = selPlan.BillingScheme;
+                    payPlan.Currency = selPlan.Currency;
+                    payPlan.Interval = selPlan.Interval;
+                    payPlan.IntervalCount = selPlan.IntervalCount;
+                    payPlan.ProductCode = selPlan.ProductId;
+                }
+
+                //var paymentMethodService = new PaymentMethodService();
+                //var paymentMethodListOptions = new PaymentMethodListOptions
+                //{
+                //    CustomerId = this.CDT.StripeCustomerId,
+                //    Limit = 3,
+                //    Type = "card",
+                //};
+                //var paymentmethods = paymentMethodService.List(paymentMethodListOptions);
+
+
+                var service = new CardService();
+                List<CustomerPaymentCardsViewModel> payCards = new List<CustomerPaymentCardsViewModel>();
+                if (this.CDT.StripeCustomerId != null)
+                {
+                    var options = new CardListOptions
+                    {
+                        Limit = 3,
+                    };
+                    var striptCards = service.List(this.CDT.StripeCustomerId, options);
+
+
+                    foreach (var item in striptCards)
+                    {
+                        var card = new CustomerPaymentCardsViewModel();
+                        card.Last4 = item.Last4;
+                        card.ExpMonth = item.ExpMonth;
+                        card.ExpYear = item.ExpYear;
+                        card.Brand = item.Brand;
+                        card.Funding = item.Funding;
+                        payCards.Add(card);
+                    }
+                }
+                else
+                {
+
+                    var card = new CustomerPaymentCardsViewModel();
+                    card.Last4 = "";
+                    card.ExpMonth = 0;
+                    card.ExpYear = 0;
+                    card.Brand = "Visa";
+                    card.Funding = "Card";
+                    payCards.Add(card);
+
+                }
+                var cusPayAadConfirmVM = new CustomerPayAndConfirmViewModel();
+                cusPayAadConfirmVM.CardDetails = payCards;
+                cusPayAadConfirmVM.PaymentPlan = payPlan;
+
+
+                return View(cusPayAadConfirmVM);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            // customerSubscriptionViewModal.CustomerPaymentDetailsVM = payPlan;
+            // return View(payPlan);            
+            //_customerManager.UpdateStripeCustomerId(curCust.EmailAddress, "cus_EwmdhsPhDc2zOV");            
+            //var subscriptionService = new SubscriptionService();
+            //var subscription = subscriptionService.Get("sub_EwmdchSHry5R0d");
+            //SubscriptionDTO subscriptionDTO = new SubscriptionDTO();            
+            //subscriptionDTO.CustomerId = curCust.CustomerId;
+            //subscriptionDTO.StripeSubscriptionId = subscription.Id;
+            //subscriptionDTO.Description = subscription.Items.FirstOrDefault().Plan.Nickname;
+            //subscriptionDTO.InstaUsrName = subscription.Plan.Nickname;
+            //subscriptionDTO.Price = subscription.Plan.Amount;
+            //subscriptionDTO.StripePlanId = subscription.Plan.Id;
+            //subscriptionDTO.SubscriptionType = subscription.Plan.Interval;
+            //subscriptionDTO.StartDate = subscription.Start;
+            //subscriptionDTO.EndDate = subscription.EndedAt;
+
+            //_customerManager.InsertSubscription(subscriptionDTO);
+            //string StripeCustomerId =  _customerManager.GetStripeCustomerId(curCust.EmailAddress);
+            //if (StripeCustomerId == null)
+            //{            
+            //    var paymentMethodService = new PaymentMethodService();
+            //    var paymentMethodListOptions = new PaymentMethodListOptions
+            //    {
+            //        CustomerId = StripeCustomerId,
+            //        Limit = 3,
+            //    };
+            //    var paymentMethodList = paymentMethodService.List(paymentMethodListOptions);
+
+            //    if (paymentMethodList == null)
+            //    {
+
+            //        var paymentMethodCreateOptions = new PaymentMethodCreateOptions
+            //        {
+            //            Type = "card",
+            //            Card = new PaymentMethodCardCreateOptions
+            //            {
+            //                Number = "4242424242424242",
+            //                ExpMonth = 4,
+            //                ExpYear = 2020,
+            //                Cvc = "123",
+            //            },
+            //        };
+
+            //        var newPaymentMethod = paymentMethodService.Create(paymentMethodCreateOptions);
+
+            //        var customerCreateOptions = new CustomerCreateOptions
+            //        {
+            //            Description = "Customer for SG2@example.com",
+            //            SourceToken = "tok_visa",
+            //            Address = new AddressOptions
+            //            {
+            //                City = "Lahore",
+            //                Country = "Pakistan",
+            //                PostalCode = "54000",
+            //                Line1 = "Abc street",
+            //                Line2 = "PIA road",
+            //                State = "Punjab"
+            //            },
+
+            //            InstaUsrName = "Raza",
+            //            Email = "ssaqibshirazi@gmail.com",
+            //            PaymentMethodId = newPaymentMethod.Id
+
+            //        };
+
+            //        var customerService = new CustomerService();
+            //        Customer customer = customerService.Create(customerCreateOptions);
+
+            //        _customerManager.UpdateStripeCustomerId(curCust.EmailAddress, customer.Id);
+
+            //    }
+            //    else
+            //    {
+
+
+            //    }
+
+            //}
+
+
+
+        }
+
+
+
+
         //[HttpPost]
         //public ActionResult ModifyTargetPreferences(TargetPreferencesViewModel model)
         //{
@@ -1144,7 +1359,7 @@ namespace SG2.CORE.WEB.Controllers
         //}
 
 
-        
+
 
         public ActionResult Confirmdelete(int SocialProfileId)
         {

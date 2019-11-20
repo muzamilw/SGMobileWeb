@@ -12,7 +12,12 @@ namespace SG2.CORE.MODAL.ViewModals.Backend.PlanInformation
    public class PlanInformationUpdateViewModel
     {
         public int PlanId { get; set; }
-        public int? Likes { get; set; }
+        public Nullable<int> NoOfFollow { get; set; }
+        [Required]
+        public Nullable<int> NoOfStoryView { get; set; }
+        [Required]
+        public Nullable<int> NoOfComments { get; set; }
+
 
         [Required]
         public double? PlanPrice { get; set; }

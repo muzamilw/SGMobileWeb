@@ -9,7 +9,9 @@ namespace SG2.CORE.MODAL.DTO.PlanInformation
     public class PlanInformationDTO
     {
         public int PlanId { get; set; }
-        public int? Likes { get; set; }
+        public Nullable<int> NoOfFollow { get; set; }
+        public Nullable<int> NoOfStoryView { get; set; }
+        public Nullable<int> NoOfComments { get; set; }
         public double? PlanPrice { get; set; }
         public double? DisplayPrice { get; set; }
         public string PlanName { get; set; }

@@ -5,36 +5,36 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="df00b011ec754cca9cabdee95accfe9a" Name="Diagram1">
-        <EntityTypeShape EntityType="SocialGrowth2Entities.Customer" Width="1.5" PointX="0.75" PointY="22.5" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.Customer_ContactDetail" Width="1.5" PointX="3" PointY="23.625" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.Customer_Title" Width="1.5" PointX="5.75" PointY="0.75" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.Enumeration" Width="1.5" PointX="0.75" PointY="5.75" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.EnumerationValue" Width="1.5" PointX="2.75" PointY="5.75" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.LikeyAccount" Width="1.5" PointX="5.75" PointY="3.75" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile" Width="1.5" PointX="6" PointY="22.5" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Actions" Width="3.375" PointX="8.25" PointY="43.25" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_FollowedAccounts" Width="3" PointX="8.25" PointY="46.125" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Notification" Width="1.5" PointX="7.75" PointY="0.75" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Payments" Width="3" PointX="11.25" PointY="23.625" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.sysdiagram" Width="1.5" PointX="7.75" PointY="4.75" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.SystemCity" Width="1.5" PointX="4.75" PointY="7.75" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.SystemConfig" Width="1.5" PointX="9.75" PointY="0.75" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.SystemCountry" Width="1.5" PointX="0.75" PointY="9.75" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.SystemRole" Width="1.5" PointX="0.75" PointY="1.625" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.SystemState" Width="1.5" PointX="9.75" PointY="4.75" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.SystemUser" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.Customer" Width="1.5" PointX="0.75" PointY="14" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.Customer_ContactDetail" Width="1.5" PointX="3" PointY="15.125" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.Customer_Title" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.Enumeration" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.EnumerationValue" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.LikeyAccount" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Actions" Width="3.375" PointX="5.25" PointY="18.5" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_FollowedAccounts" Width="3" PointX="5.25" PointY="21.625" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Notification" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Payments" Width="3" PointX="8.25" PointY="25.125" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.sysdiagram" Width="1.5" PointX="7.75" PointY="5.75" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.SystemCity" Width="1.5" PointX="7.75" PointY="8.75" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.SystemConfig" Width="1.5" PointX="9.75" PointY="5.75" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.SystemCountry" Width="1.5" PointX="9.75" PointY="9.75" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.SystemRole" Width="1.5" PointX="7.75" PointY="1.625" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.SystemState" Width="1.5" PointX="11.75" PointY="5.75" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.SystemUser" Width="1.5" PointX="10" PointY="1" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_ContactDetails_SG2_Customer" />
+        <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SystemUsers_SG2_SystemRoles" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Statistics" Width="1.5" PointX="5.25" PointY="5.375" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile" Width="1.5" PointX="3" PointY="20.875" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer" />
+        <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SocialProfile_FollowedAccounts_SocialProfile" />
-        <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SystemUsers_SG2_SystemRoles" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Statistics" Width="1.5" PointX="8.25" PointY="11.125" />
-        <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.PaymentPlan" Width="1.5" PointX="3.375" PointY="11" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.PaymentPlan" Width="1.5" PointX="0.75" PointY="21.625" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Instagram_TargetingInformation" Width="1.5" PointX="8.25" PointY="49.375" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Instagram_TargetingInformation" Width="1.5" PointX="5.25" PointY="25.5" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" />
       </Diagram>
     </edmx:Diagrams>

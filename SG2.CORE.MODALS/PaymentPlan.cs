@@ -22,7 +22,9 @@ namespace SG2.CORE.MODAL
         }
     
         public int PaymentPlanId { get; set; }
-        public Nullable<int> NoOfLikes { get; set; }
+        public Nullable<int> NoOfFollow { get; set; }
+        public Nullable<int> NoOfStoryView { get; set; }
+        public Nullable<int> NoOfComments { get; set; }
         public Nullable<double> DisplayPrice { get; set; }
         public string PlanName { get; set; }
         public string PlanShortDescription { get; set; }

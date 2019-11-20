@@ -61,8 +61,10 @@ namespace SG2.CORE.MODAL
         public Nullable<int> DMDailyIncreaseLim { get; set; }
         public Nullable<int> DMMaxPerDayLim { get; set; }
         public Nullable<bool> FollUserProfileImage { get; set; }
-        public Nullable<int> FollUserMinPosts { get; set; }
-        public Nullable<int> FollUserPostsLastXDays { get; set; }
+        public Nullable<bool> FollUserMinPosts { get; set; }
+        public Nullable<int> FollUserMinPostsVal { get; set; }
+        public Nullable<bool> FollUserPostsLastXDays { get; set; }
+        public Nullable<int> FollUserPostsLastXDaysVal { get; set; }
         public Nullable<bool> FollUseBlackList { get; set; }
         public Nullable<bool> FollCheckPostsCapBlackList { get; set; }
         public Nullable<bool> FollDoNotFollowUsernamewithdigits { get; set; }
@@ -80,7 +82,8 @@ namespace SG2.CORE.MODAL
         public Nullable<bool> AfterFollViewUserStory { get; set; }
         public Nullable<bool> AfterFollMuteUser { get; set; }
         public Nullable<bool> FollEngageDaily { get; set; }
-        public Nullable<int> FollEngageDailyfollCountFrmUnFollowList { get; set; }
+        public Nullable<bool> FollEngageDailyfollCountFrmUnFollowList { get; set; }
+        public Nullable<int> FollEngageDailyfollCountFrmUnFollowListVal { get; set; }
         public Nullable<bool> FollEngageLikeRecentPost { get; set; }
         public Nullable<bool> FollEngageEnableLikeCommAfterPostLike { get; set; }
         public Nullable<bool> FollEngageSendDMAfterLike { get; set; }

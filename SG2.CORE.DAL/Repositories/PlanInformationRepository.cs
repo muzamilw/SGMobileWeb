@@ -66,7 +66,9 @@ namespace SG2.CORE.DAL.Repositories
                         plan.PlanName = entity.PlanName;
                         plan.PlanShortDescription = entity.PlanDescription;
                         plan.IsBrokerPlan = entity.IsBrokerPlan;
-                        plan.NoOfLikes = entity.Likes;
+                        plan.NoOfFollow = entity.NoOfFollow;
+                        plan.NoOfStoryView = entity.NoOfStoryView;
+                        plan.NoOfComments = entity.NoOfComments;
                         plan.DisplayPrice = entity.DisplayPrice;
                         plan.NoOfLikesDuration = entity.NoOfLikesDuration;
                         plan.StatusId = entity.StatusId;
@@ -84,7 +86,9 @@ namespace SG2.CORE.DAL.Repositories
                         plan.PlanName = entity.PlanName;
                         plan.PlanShortDescription = entity.PlanDescription;
                         plan.IsBrokerPlan = entity.IsBrokerPlan;
-                        plan.NoOfLikes = entity.Likes;
+                        plan.NoOfFollow = entity.NoOfFollow;
+                        plan.NoOfStoryView = entity.NoOfStoryView;
+                        plan.NoOfComments = entity.NoOfComments;
                         plan.DisplayPrice = entity.DisplayPrice;
                         plan.NoOfLikesDuration = entity.NoOfLikesDuration;
                         plan.StatusId = entity.StatusId;
@@ -127,7 +131,9 @@ namespace SG2.CORE.DAL.Repositories
                             plnInfo.PlanDescription = pro.PlanShortDescription;
                             plnInfo.PlanName = pro.PlanName;
                             plnInfo.IsBrokerPlan = pro.IsBrokerPlan.Value;
-                            plnInfo.Likes = pro.NoOfLikes;
+                            plnInfo.NoOfFollow = pro.NoOfFollow;
+                            plnInfo.NoOfStoryView = pro.NoOfStoryView;
+                            plnInfo.NoOfComments = pro.NoOfComments;
                             plnInfo.PlanPrice = (pro.StripePlanPrice);
                             plnInfo.DisplayPrice = pro.DisplayPrice;
                             plnInfo.StripePlanId = pro.StripePlanId;
@@ -167,7 +173,9 @@ namespace SG2.CORE.DAL.Repositories
                             PlanDescription = pro.PlanShortDescription,
                             PlanName = pro.PlanName,
                             IsBrokerPlan = pro.IsBrokerPlan.Value,
-                            Likes = pro.NoOfLikes,
+                            NoOfFollow = pro.NoOfFollow,
+                            NoOfComments = pro.NoOfComments,
+                            NoOfStoryView = pro.NoOfStoryView,
                             PlanPrice = pro.StripePlanPrice,
                             DisplayPrice=pro.DisplayPrice,
                             StripePlanId=pro.StripePlanId,

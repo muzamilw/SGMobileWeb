@@ -101,7 +101,9 @@
             <PropertyRef Name="PaymentPlanId" />
           </Key>
           <Property Name="PaymentPlanId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NoOfLikes" Type="int" />
+          <Property Name="NoOfFollow" Type="int" />
+          <Property Name="NoOfStoryView" Type="int" />
+          <Property Name="NoOfComments" Type="int" />
           <Property Name="DisplayPrice" Type="float" />
           <Property Name="PlanName" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="PlanShortDescription" Type="nvarchar" MaxLength="250" Nullable="false" />
@@ -127,7 +129,7 @@
           <Property Name="SocialProfileTypeId" Type="int" />
           <Property Name="StatusId" Type="int" />
           <Property Name="StripeSubscriptionId" Type="nvarchar" MaxLength="255" />
-          <Property Name="StripeCustomerId" Type="int" />
+          <Property Name="StripeCustomerId" Type="nvarchar" MaxLength="255" />
           <Property Name="PaymentPlanId" Type="int" />
           <Property Name="SocialUsername" Type="nvarchar" MaxLength="50" />
           <Property Name="SocialPassword" Type="nvarchar" MaxLength="50" />
@@ -218,8 +220,10 @@
           <Property Name="DMDailyIncreaseLim" Type="int" />
           <Property Name="DMMaxPerDayLim" Type="int" />
           <Property Name="FollUserProfileImage" Type="bit" />
-          <Property Name="FollUserMinPosts" Type="int" />
-          <Property Name="FollUserPostsLastXDays" Type="int" />
+          <Property Name="FollUserMinPosts" Type="bit" />
+          <Property Name="FollUserMinPostsVal" Type="int" />
+          <Property Name="FollUserPostsLastXDays" Type="bit" />
+          <Property Name="FollUserPostsLastXDaysVal" Type="int" />
           <Property Name="FollUseBlackList" Type="bit" />
           <Property Name="FollCheckPostsCapBlackList" Type="bit" />
           <Property Name="FollDoNotFollowUsernamewithdigits" Type="bit" />
@@ -237,7 +241,8 @@
           <Property Name="AfterFollViewUserStory" Type="bit" />
           <Property Name="AfterFollMuteUser" Type="bit" />
           <Property Name="FollEngageDaily" Type="bit" />
-          <Property Name="FollEngageDailyfollCountFrmUnFollowList" Type="int" />
+          <Property Name="FollEngageDailyfollCountFrmUnFollowList" Type="bit" />
+          <Property Name="FollEngageDailyfollCountFrmUnFollowListVal" Type="int" />
           <Property Name="FollEngageLikeRecentPost" Type="bit" />
           <Property Name="FollEngageEnableLikeCommAfterPostLike" Type="bit" />
           <Property Name="FollEngageSendDMAfterLike" Type="bit" />
@@ -866,7 +871,6 @@
           <EntitySet Name="Enumerations" EntityType="SocialGrowth2Entities.Enumeration" />
           <EntitySet Name="EnumerationValues" EntityType="SocialGrowth2Entities.EnumerationValue" />
           <EntitySet Name="LikeyAccounts" EntityType="SocialGrowth2Entities.LikeyAccount" />
-          <EntitySet Name="SocialProfiles" EntityType="SocialGrowth2Entities.SocialProfile" />
           <EntitySet Name="SocialProfile_Actions" EntityType="SocialGrowth2Entities.SocialProfile_Actions" />
           <EntitySet Name="SocialProfile_FollowedAccounts" EntityType="SocialGrowth2Entities.SocialProfile_FollowedAccounts" />
           <EntitySet Name="SocialProfile_Notification" EntityType="SocialGrowth2Entities.SocialProfile_Notification" />
@@ -882,9 +886,29 @@
             <End Role="Customer" EntitySet="Customers" />
             <End Role="Customer_ContactDetail" EntitySet="Customer_ContactDetail" />
           </AssociationSet>
+          <AssociationSet Name="FK_SG2_SystemUsers_SG2_SystemRoles" Association="SocialGrowth2Entities.FK_SG2_SystemUsers_SG2_SystemRoles">
+            <End Role="SystemRole" EntitySet="SystemRoles" />
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+          </AssociationSet>
+          <EntitySet Name="SocialProfile_Statistics" EntityType="SocialGrowth2Entities.SocialProfile_Statistics" />
+          <FunctionImport Name="SG2_usp_Customer_SignUp" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Customer_SignUp_Result)">
+            <Parameter Name="rvcFirstName" Mode="In" Type="String" />
+            <Parameter Name="rvcSurName" Mode="In" Type="String" />
+            <Parameter Name="rvcEmailAddress" Mode="In" Type="String" />
+            <Parameter Name="rvcPassword" Mode="In" Type="String" />
+            <Parameter Name="rvcCreatedBy" Mode="In" Type="String" />
+            <Parameter Name="rvcGUID" Mode="In" Type="String" />
+            <Parameter Name="rvcLastLoginIP" Mode="In" Type="String" />
+            <Parameter Name="rvcStatusId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="SocialProfiles" EntityType="SocialGrowth2Entities.SocialProfile" />
           <AssociationSet Name="FK_SG2_SocialProfile_SG2_Customer" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="SocialProfile" EntitySet="SocialProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
+            <End Role="SocialProfile" EntitySet="SocialProfiles" />
+            <End Role="SocialProfile_Statistics" EntitySet="SocialProfile_Statistics" />
           </AssociationSet>
           <AssociationSet Name="FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile">
             <End Role="SocialProfile" EntitySet="SocialProfiles" />
@@ -898,25 +922,6 @@
             <End Role="SocialProfile" EntitySet="SocialProfiles" />
             <End Role="SocialProfile_FollowedAccounts" EntitySet="SocialProfile_FollowedAccounts" />
           </AssociationSet>
-          <AssociationSet Name="FK_SG2_SystemUsers_SG2_SystemRoles" Association="SocialGrowth2Entities.FK_SG2_SystemUsers_SG2_SystemRoles">
-            <End Role="SystemRole" EntitySet="SystemRoles" />
-            <End Role="SystemUser" EntitySet="SystemUsers" />
-          </AssociationSet>
-          <EntitySet Name="SocialProfile_Statistics" EntityType="SocialGrowth2Entities.SocialProfile_Statistics" />
-          <AssociationSet Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
-            <End Role="SocialProfile" EntitySet="SocialProfiles" />
-            <End Role="SocialProfile_Statistics" EntitySet="SocialProfile_Statistics" />
-          </AssociationSet>
-          <FunctionImport Name="SG2_usp_Customer_SignUp" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Customer_SignUp_Result)">
-            <Parameter Name="rvcFirstName" Mode="In" Type="String" />
-            <Parameter Name="rvcSurName" Mode="In" Type="String" />
-            <Parameter Name="rvcEmailAddress" Mode="In" Type="String" />
-            <Parameter Name="rvcPassword" Mode="In" Type="String" />
-            <Parameter Name="rvcCreatedBy" Mode="In" Type="String" />
-            <Parameter Name="rvcGUID" Mode="In" Type="String" />
-            <Parameter Name="rvcLastLoginIP" Mode="In" Type="String" />
-            <Parameter Name="rvcStatusId" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="PaymentPlans" EntityType="SocialGrowth2Entities.PaymentPlan" />
           <AssociationSet Name="FK_SocialProfile_PaymentPlan" Association="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan">
             <End Role="PaymentPlan" EntitySet="PaymentPlans" />
@@ -1559,41 +1564,6 @@
           <Property Name="HashTag" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="StatusId" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="SocialProfile">
-          <Key>
-            <PropertyRef Name="SocialProfileId" />
-          </Key>
-          <Property Name="SocialProfileId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CustomerId" Type="Int32" />
-          <Property Name="SocialProfileTypeId" Type="Int32" />
-          <Property Name="StatusId" Type="Int32" />
-          <Property Name="StripeSubscriptionId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="StripeCustomerId" Type="Int32" />
-          <Property Name="PaymentPlanId" Type="Int32" />
-          <Property Name="SocialUsername" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SocialPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SocialProfileName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="verificationCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IsArchived" Type="Boolean" />
-          <Property Name="IMSI" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DeviceIMEI" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="DeviceStatus" Type="Int32" />
-          <Property Name="PinCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Customer" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer" FromRole="SocialProfile" ToRole="Customer" />
-          <NavigationProperty Name="SocialProfile_Actions" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Actions" />
-          <NavigationProperty Name="SocialProfile_Payments" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Payments" />
-          <NavigationProperty Name="SocialProfile_FollowedAccounts" Relationship="SocialGrowth2Entities.FK_SocialProfile_FollowedAccounts_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_FollowedAccounts" />
-          <Property Name="LastConnectedDateTime" Type="DateTime" Precision="3" />
-          <Property Name="DeviceBinLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="SocialProfile_Statistics" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Statistics" />
-          <NavigationProperty Name="PaymentPlan" Relationship="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan" FromRole="SocialProfile" ToRole="PaymentPlan" />
-          <NavigationProperty Name="SocialProfile_Instagram_TargetingInformation" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Instagram_TargetingInformation" />
-        </EntityType>
         <EntityType Name="SocialProfile_Actions">
           <Key>
             <PropertyRef Name="SPSHId" />
@@ -1603,8 +1573,8 @@
           <Property Name="ActionID" Type="Int32" />
           <Property Name="TargetProfile" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="ActionDateTime" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile" FromRole="SocialProfile_Actions" ToRole="SocialProfile" />
           <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile" FromRole="SocialProfile_Actions" ToRole="SocialProfile" />
         </EntityType>
         <EntityType Name="SocialProfile_FollowedAccounts">
           <Key>
@@ -1750,54 +1720,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_SG2_SocialProfile_SG2_Customer">
-          <End Type="SocialGrowth2Entities.Customer" Role="Customer" Multiplicity="0..1" />
-          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="CustomerId" />
-            </Principal>
-            <Dependent Role="SocialProfile">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile">
-          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="0..1" />
-          <End Type="SocialGrowth2Entities.SocialProfile_Actions" Role="SocialProfile_Actions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SocialProfile">
-              <PropertyRef Name="SocialProfileId" />
-            </Principal>
-            <Dependent Role="SocialProfile_Actions">
-              <PropertyRef Name="SocialProfileId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SG2_SocialProfile_Subscription_SG2_SocialProfile">
-          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="1" />
-          <End Type="SocialGrowth2Entities.SocialProfile_Payments" Role="SocialProfile_Payments" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SocialProfile">
-              <PropertyRef Name="SocialProfileId" />
-            </Principal>
-            <Dependent Role="SocialProfile_Payments">
-              <PropertyRef Name="SocialProfileId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SocialProfile_FollowedAccounts_SocialProfile">
-          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="0..1" />
-          <End Type="SocialGrowth2Entities.SocialProfile_FollowedAccounts" Role="SocialProfile_FollowedAccounts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SocialProfile">
-              <PropertyRef Name="SocialProfileId" />
-            </Principal>
-            <Dependent Role="SocialProfile_FollowedAccounts">
-              <PropertyRef Name="SocialProfileId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_SG2_SystemUsers_SG2_SystemRoles">
           <End Type="SocialGrowth2Entities.SystemRole" Role="SystemRole" Multiplicity="1" />
           <End Type="SocialGrowth2Entities.SystemUser" Role="SystemUser" Multiplicity="*" />
@@ -1849,18 +1771,6 @@
           <Property Name="StoryViewsTotal" Type="Int64" />
           <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" FromRole="SocialProfile_Statistics" ToRole="SocialProfile" />
         </EntityType>
-        <Association Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
-          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="1" />
-          <End Type="SocialGrowth2Entities.SocialProfile_Statistics" Role="SocialProfile_Statistics" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SocialProfile">
-              <PropertyRef Name="SocialProfileId" />
-            </Principal>
-            <Dependent Role="SocialProfile_Statistics">
-              <PropertyRef Name="SocialProfileId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="SG2_usp_Customer_SignUp_Result">
           <Property Type="Int32" Name="CustomerId" Nullable="false" />
           <Property Type="String" Name="GUID" Nullable="false" MaxLength="36" />
@@ -1901,12 +1811,109 @@
           <Property Type="Int32" Name="PaymentId" Nullable="true" />
           <Property Type="Int32" Name="DefaultSocialProfileId" Nullable="true" />
         </ComplexType>
+        <EntityType Name="SocialProfile">
+          <Key>
+            <PropertyRef Name="SocialProfileId" />
+          </Key>
+          <Property Name="SocialProfileId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="SocialProfileTypeId" Type="Int32" />
+          <Property Name="StatusId" Type="Int32" />
+          <Property Name="StripeSubscriptionId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="StripeCustomerId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentPlanId" Type="Int32" />
+          <Property Name="SocialUsername" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SocialPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SocialProfileName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="verificationCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsArchived" Type="Boolean" />
+          <Property Name="IMSI" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DeviceIMEI" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DeviceStatus" Type="Int32" />
+          <Property Name="PinCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastConnectedDateTime" Type="DateTime" Precision="3" />
+          <Property Name="DeviceBinLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Customer" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer" FromRole="SocialProfile" ToRole="Customer" />
+          <NavigationProperty Name="SocialProfile_Statistics" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Statistics" />
+          <NavigationProperty Name="SocialProfile_Actions" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Actions" />
+          <NavigationProperty Name="SocialProfile_Payments" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Payments" />
+          <NavigationProperty Name="SocialProfile_FollowedAccounts" Relationship="SocialGrowth2Entities.FK_SocialProfile_FollowedAccounts_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_FollowedAccounts" />
+          <NavigationProperty Name="PaymentPlan" Relationship="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan" FromRole="SocialProfile" ToRole="PaymentPlan" />
+          <NavigationProperty Name="SocialProfile_Instagram_TargetingInformation" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Instagram_TargetingInformation" />
+        </EntityType>
+        <Association Name="FK_SG2_SocialProfile_SG2_Customer">
+          <End Type="SocialGrowth2Entities.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="SocialProfile">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
+          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="1" />
+          <End Type="SocialGrowth2Entities.SocialProfile_Statistics" Role="SocialProfile_Statistics" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SocialProfile">
+              <PropertyRef Name="SocialProfileId" />
+            </Principal>
+            <Dependent Role="SocialProfile_Statistics">
+              <PropertyRef Name="SocialProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SG2_SocialProfile_StatusHistory_SG2_SocialProfile">
+          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="0..1" />
+          <End Type="SocialGrowth2Entities.SocialProfile_Actions" Role="SocialProfile_Actions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SocialProfile">
+              <PropertyRef Name="SocialProfileId" />
+            </Principal>
+            <Dependent Role="SocialProfile_Actions">
+              <PropertyRef Name="SocialProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SG2_SocialProfile_Subscription_SG2_SocialProfile">
+          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="1" />
+          <End Type="SocialGrowth2Entities.SocialProfile_Payments" Role="SocialProfile_Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SocialProfile">
+              <PropertyRef Name="SocialProfileId" />
+            </Principal>
+            <Dependent Role="SocialProfile_Payments">
+              <PropertyRef Name="SocialProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SocialProfile_FollowedAccounts_SocialProfile">
+          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="0..1" />
+          <End Type="SocialGrowth2Entities.SocialProfile_FollowedAccounts" Role="SocialProfile_FollowedAccounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SocialProfile">
+              <PropertyRef Name="SocialProfileId" />
+            </Principal>
+            <Dependent Role="SocialProfile_FollowedAccounts">
+              <PropertyRef Name="SocialProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="PaymentPlan">
           <Key>
             <PropertyRef Name="PaymentPlanId" />
           </Key>
           <Property Name="PaymentPlanId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NoOfLikes" Type="Int32" />
+          <Property Name="NoOfFollow" Type="Int32" />
+          <Property Name="NoOfStoryView" Type="Int32" />
+          <Property Name="NoOfComments" Type="Int32" />
           <Property Name="DisplayPrice" Type="Double" />
           <Property Name="PlanName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="PlanShortDescription" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
@@ -2000,8 +2007,10 @@
           <Property Name="DMDailyIncreaseLim" Type="Int32" />
           <Property Name="DMMaxPerDayLim" Type="Int32" />
           <Property Name="FollUserProfileImage" Type="Boolean" />
-          <Property Name="FollUserMinPosts" Type="Int32" />
-          <Property Name="FollUserPostsLastXDays" Type="Int32" />
+          <Property Name="FollUserMinPosts" Type="Boolean" />
+          <Property Name="FollUserMinPostsVal" Type="Int32" />
+          <Property Name="FollUserPostsLastXDays" Type="Boolean" />
+          <Property Name="FollUserPostsLastXDaysVal" Type="Int32" />
           <Property Name="FollUseBlackList" Type="Boolean" />
           <Property Name="FollCheckPostsCapBlackList" Type="Boolean" />
           <Property Name="FollDoNotFollowUsernamewithdigits" Type="Boolean" />
@@ -2019,7 +2028,8 @@
           <Property Name="AfterFollViewUserStory" Type="Boolean" />
           <Property Name="AfterFollMuteUser" Type="Boolean" />
           <Property Name="FollEngageDaily" Type="Boolean" />
-          <Property Name="FollEngageDailyfollCountFrmUnFollowList" Type="Int32" />
+          <Property Name="FollEngageDailyfollCountFrmUnFollowList" Type="Boolean" />
+          <Property Name="FollEngageDailyfollCountFrmUnFollowListVal" Type="Int32" />
           <Property Name="FollEngageLikeRecentPost" Type="Boolean" />
           <Property Name="FollEngageEnableLikeCommAfterPostLike" Type="Boolean" />
           <Property Name="FollEngageSendDMAfterLike" Type="Boolean" />
@@ -2777,35 +2787,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SocialProfiles">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile">
-              <MappingFragment StoreEntitySet="SocialProfile">
-                <ScalarProperty Name="DeviceBinLocation" ColumnName="DeviceBinLocation" />
-                <ScalarProperty Name="LastConnectedDateTime" ColumnName="LastConnectedDateTime" />
-                <ScalarProperty Name="Comments" ColumnName="Comments" />
-                <ScalarProperty Name="PinCode" ColumnName="PinCode" />
-                <ScalarProperty Name="DeviceStatus" ColumnName="DeviceStatus" />
-                <ScalarProperty Name="DeviceIMEI" ColumnName="DeviceIMEI" />
-                <ScalarProperty Name="IMSI" ColumnName="IMSI" />
-                <ScalarProperty Name="IsArchived" ColumnName="IsArchived" />
-                <ScalarProperty Name="verificationCode" ColumnName="verificationCode" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="SocialProfileName" ColumnName="SocialProfileName" />
-                <ScalarProperty Name="SocialPassword" ColumnName="SocialPassword" />
-                <ScalarProperty Name="SocialUsername" ColumnName="SocialUsername" />
-                <ScalarProperty Name="PaymentPlanId" ColumnName="PaymentPlanId" />
-                <ScalarProperty Name="StripeCustomerId" ColumnName="StripeCustomerId" />
-                <ScalarProperty Name="StripeSubscriptionId" ColumnName="StripeSubscriptionId" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="SocialProfileTypeId" ColumnName="SocialProfileTypeId" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SocialProfile_Actions">
             <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile_Actions">
               <MappingFragment StoreEntitySet="SocialProfile_Actions">
@@ -3038,6 +3019,35 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="SocialProfiles">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile">
+              <MappingFragment StoreEntitySet="SocialProfile">
+                <ScalarProperty Name="DeviceBinLocation" ColumnName="DeviceBinLocation" />
+                <ScalarProperty Name="LastConnectedDateTime" ColumnName="LastConnectedDateTime" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="PinCode" ColumnName="PinCode" />
+                <ScalarProperty Name="DeviceStatus" ColumnName="DeviceStatus" />
+                <ScalarProperty Name="DeviceIMEI" ColumnName="DeviceIMEI" />
+                <ScalarProperty Name="IMSI" ColumnName="IMSI" />
+                <ScalarProperty Name="IsArchived" ColumnName="IsArchived" />
+                <ScalarProperty Name="verificationCode" ColumnName="verificationCode" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="SocialProfileName" ColumnName="SocialProfileName" />
+                <ScalarProperty Name="SocialPassword" ColumnName="SocialPassword" />
+                <ScalarProperty Name="SocialUsername" ColumnName="SocialUsername" />
+                <ScalarProperty Name="PaymentPlanId" ColumnName="PaymentPlanId" />
+                <ScalarProperty Name="StripeCustomerId" ColumnName="StripeCustomerId" />
+                <ScalarProperty Name="StripeSubscriptionId" ColumnName="StripeSubscriptionId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="SocialProfileTypeId" ColumnName="SocialProfileTypeId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="PaymentPlans">
             <EntityTypeMapping TypeName="SocialGrowth2Entities.PaymentPlan">
               <MappingFragment StoreEntitySet="PaymentPlan">
@@ -3056,7 +3066,9 @@
                 <ScalarProperty Name="PlanShortDescription" ColumnName="PlanShortDescription" />
                 <ScalarProperty Name="PlanName" ColumnName="PlanName" />
                 <ScalarProperty Name="DisplayPrice" ColumnName="DisplayPrice" />
-                <ScalarProperty Name="NoOfLikes" ColumnName="NoOfLikes" />
+                <ScalarProperty Name="NoOfComments" ColumnName="NoOfComments" />
+                <ScalarProperty Name="NoOfStoryView" ColumnName="NoOfStoryView" />
+                <ScalarProperty Name="NoOfFollow" ColumnName="NoOfFollow" />
                 <ScalarProperty Name="PaymentPlanId" ColumnName="PaymentPlanId" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -3110,6 +3122,7 @@
                 <ScalarProperty Name="FollEngageSendDMAfterLike" ColumnName="FollEngageSendDMAfterLike" />
                 <ScalarProperty Name="FollEngageEnableLikeCommAfterPostLike" ColumnName="FollEngageEnableLikeCommAfterPostLike" />
                 <ScalarProperty Name="FollEngageLikeRecentPost" ColumnName="FollEngageLikeRecentPost" />
+                <ScalarProperty Name="FollEngageDailyfollCountFrmUnFollowListVal" ColumnName="FollEngageDailyfollCountFrmUnFollowListVal" />
                 <ScalarProperty Name="FollEngageDailyfollCountFrmUnFollowList" ColumnName="FollEngageDailyfollCountFrmUnFollowList" />
                 <ScalarProperty Name="FollEngageDaily" ColumnName="FollEngageDaily" />
                 <ScalarProperty Name="AfterFollMuteUser" ColumnName="AfterFollMuteUser" />
@@ -3128,7 +3141,9 @@
                 <ScalarProperty Name="FollDoNotFollowUsernamewithdigits" ColumnName="FollDoNotFollowUsernamewithdigits" />
                 <ScalarProperty Name="FollCheckPostsCapBlackList" ColumnName="FollCheckPostsCapBlackList" />
                 <ScalarProperty Name="FollUseBlackList" ColumnName="FollUseBlackList" />
+                <ScalarProperty Name="FollUserPostsLastXDaysVal" ColumnName="FollUserPostsLastXDaysVal" />
                 <ScalarProperty Name="FollUserPostsLastXDays" ColumnName="FollUserPostsLastXDays" />
+                <ScalarProperty Name="FollUserMinPostsVal" ColumnName="FollUserMinPostsVal" />
                 <ScalarProperty Name="FollUserMinPosts" ColumnName="FollUserMinPosts" />
                 <ScalarProperty Name="FollUserProfileImage" ColumnName="FollUserProfileImage" />
                 <ScalarProperty Name="DMMaxPerDayLim" ColumnName="DMMaxPerDayLim" />

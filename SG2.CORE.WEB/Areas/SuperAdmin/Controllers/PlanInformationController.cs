@@ -100,7 +100,9 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                     {
                         PlanId = model.PlanId,
                         PlanName = model.PlanName,
-                        Likes = model.Likes,
+                        NoOfFollow = model.NoOfFollow,
+                        NoOfComments = model.NoOfComments,
+                        NoOfStoryView = model.NoOfStoryView,
                         PlantypeName = model.PlanType,
                         PlanPrice = model.PlanPrice,
                         DisplayPrice=model.DisplayPrice,
@@ -154,7 +156,9 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                 model.PlanType = planInformationDTO.PlantypeName;
                 model.PlanPrice = planInformationDTO.PlanPrice;
                 model.DisplayPrice = planInformationDTO.DisplayPrice;
-                model.Likes = planInformationDTO.Likes;
+                model.NoOfFollow = planInformationDTO.NoOfFollow;
+                model.NoOfComments = planInformationDTO.NoOfComments;
+                model.NoOfStoryView = planInformationDTO.NoOfStoryView;
                 model.StripePlanId = planInformationDTO.StripePlanId;
                 model.NoOfLikesDuration = planInformationDTO.NoOfLikesDuration;
                 model.PlanDescription = planInformationDTO.PlanDescription;
@@ -205,7 +209,9 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                     {
                         PlanId = model.PlanId,
                         PlanName = model.PlanName,
-                        Likes = model.Likes,
+                        NoOfFollow = model.NoOfFollow,
+                        NoOfComments = model.NoOfComments,
+                        NoOfStoryView = model.NoOfStoryView,
                         PlantypeName = model.PlanType,
                         PlanPrice = model.PlanPrice,
                         DisplayPrice = model.DisplayPrice,
