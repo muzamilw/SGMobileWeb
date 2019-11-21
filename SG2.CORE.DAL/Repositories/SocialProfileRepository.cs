@@ -106,8 +106,8 @@ namespace SG2.CORE.DAL.Repositories
 						{
 							foreach (var childProperty in childProperties)
 							{
-								if (parentProperty.Name != "CreatedBy" && parentProperty.Name != "CreatedOn")
-								{
+								if (parentProperty.Name != "CreatedBy" && parentProperty.Name != "CreatedOn"  && parentProperty.Name != "WhistListManualUsers" && parentProperty.Name != "WhilstListImportedUsers" && parentProperty.Name != "BlackListUsers" && parentProperty.Name != "BlackListLocations" && parentProperty.Name != "BlackListHashtags" && parentProperty.Name != "BlackListWordsManual")
+                                {
 									if (parentProperty.Name == childProperty.Name && parentProperty.PropertyType == childProperty.PropertyType)
 									{
 										childProperty.SetValue(profile, parentProperty.GetValue(request.SocialProfile_Instagram_TargetingInformation));

@@ -120,7 +120,9 @@ namespace SG2.CORE.MODAL.MobileViewModels
 
     public class MobileSocialProfile_Instagram_TargetingInformation
     {
+        public int TargetingInformationId { get; set; }
         public Nullable<int> SocialProfileId { get; set; }
+        
         public Nullable<bool> FollowOn { get; set; }
         public Nullable<bool> LikeOn { get; set; }
         public Nullable<bool> UnFollowOn { get; set; }
@@ -131,7 +133,7 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public string LocationsToEngage { get; set; }
         public string DirectCompetitors { get; set; }
         public Nullable<int> GenderEngagmentPref { get; set; }
-        public Nullable<bool> IncludeBusinessAccounts { get; set; }
+        public Nullable<int> IncludeBusinessAccounts { get; set; }
         public Nullable<bool> MonOper { get; set; }
         public Nullable<bool> TueOper { get; set; }
         public Nullable<bool> WedOper { get; set; }
@@ -141,7 +143,7 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public Nullable<bool> SunOper { get; set; }
         public string ExecutionIntervals { get; set; }
         public Nullable<bool> RandomizeIntervalsDaily { get; set; }
-      
+       
         public Nullable<int> SocialAccAs { get; set; }
         public Nullable<int> FollNewPerDayLim { get; set; }
         public Nullable<int> FollDailyIncreaseLim { get; set; }
@@ -162,8 +164,10 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public Nullable<int> DMDailyIncreaseLim { get; set; }
         public Nullable<int> DMMaxPerDayLim { get; set; }
         public Nullable<bool> FollUserProfileImage { get; set; }
-        public Nullable<int> FollUserMinPosts { get; set; }
-        public Nullable<int> FollUserPostsLastXDays { get; set; }
+        public Nullable<bool> FollUserMinPosts { get; set; }
+        public Nullable<int> FollUserMinPostsVal { get; set; }
+        public Nullable<bool> FollUserPostsLastXDays { get; set; }
+        public Nullable<int> FollUserPostsLastXDaysVal { get; set; }
         public Nullable<bool> FollUseBlackList { get; set; }
         public Nullable<bool> FollCheckPostsCapBlackList { get; set; }
         public Nullable<bool> FollDoNotFollowUsernamewithdigits { get; set; }
@@ -181,7 +185,8 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public Nullable<bool> AfterFollViewUserStory { get; set; }
         public Nullable<bool> AfterFollMuteUser { get; set; }
         public Nullable<bool> FollEngageDaily { get; set; }
-        public Nullable<int> FollEngageDailyfollCountFrmUnFollowList { get; set; }
+        public Nullable<bool> FollEngageDailyfollCountFrmUnFollowList { get; set; }
+        public Nullable<int> FollEngageDailyfollCountFrmUnFollowListVal { get; set; }
         public Nullable<bool> FollEngageLikeRecentPost { get; set; }
         public Nullable<bool> FollEngageEnableLikeCommAfterPostLike { get; set; }
         public Nullable<bool> FollEngageSendDMAfterLike { get; set; }
@@ -196,7 +201,7 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public Nullable<bool> StorVwOnlyPostXMin { get; set; }
         public Nullable<int> StorVwOnlyPostXMinVal { get; set; }
         public Nullable<bool> StorVwAfterReply { get; set; }
-        public Nullable<int> StorVwAfterLikeSendDM { get; set; }
+        public Nullable<bool> StorVwAfterLikeSendDM { get; set; }
         public Nullable<bool> CommUsrRecentPosts { get; set; }
         public Nullable<int> CommUsrRecentPostsVal { get; set; }
         public Nullable<int> CommUsrRecentPostsTypes { get; set; }
@@ -220,7 +225,7 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public Nullable<bool> LEXPostedWithinLastXDays { get; set; }
         public Nullable<int> LEXPostedWithinLastXDaysVal { get; set; }
         public Nullable<bool> LEXPostActionEmpty { get; set; }
-        public string LEXDonotLikePvtUsers { get; set; }
+        public Nullable<bool> LEXDonotLikePvtUsers { get; set; }
         public Nullable<bool> LEXSkipBizAccount { get; set; }
         public string WhistListManualUsers { get; set; }
         public string WhilstListImportedUsers { get; set; }
@@ -228,7 +233,7 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public string BlackListLocations { get; set; }
         public string BlackListHashtags { get; set; }
         public string BlackListWordsManual { get; set; }
-        
+
     }
 
 
