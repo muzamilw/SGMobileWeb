@@ -2582,6 +2582,7 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\ThemeAssets\Images\afilliate.jpg" />
     <Content Include="theme-horizontal-menu-template-pages\app-chat.html" />
     <Content Include="theme-horizontal-menu-template-pages\app-contacts.html" />
     <Content Include="theme-horizontal-menu-template-pages\app-email.html" />
@@ -3203,6 +3204,7 @@
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Views\Profile\Stats.cshtml" />
     <Content Include="Views\Shared\_Layout_LoggedInStack.cshtml" />
+    <Content Include="Views\Shared\Partial\_PartialProfileHeader.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\animate.css" />

@@ -278,7 +278,7 @@ namespace SG2.CORE.WEB.Controllers
         {
             ViewBag.socialProfileId = socialProfileId;
             ViewBag.CurrentUser = this.CDT;
-            ViewBag.socialProfile = this._cm.GetSocialProfileById(socialProfileId);
+            ViewBag.socialProfile = this._cm.GetSocialProfileById(socialProfileId).SocialProfile;
 
             ViewBag.actions = this._cm.ReturnLastActions(socialProfileId, 100);
             

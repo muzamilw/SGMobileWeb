@@ -7,53 +7,19 @@
     ViewBag.Title = "Insights & Statistics";
     Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
-    var socialProfile = (SocialProfileDTO)ViewBag.socialProfile;
+    var socialProfile = (SocialProfile)ViewBag.socialProfile;
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
-
-    var ProfileStatus = "";
-    if (socialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
-    {
-        ProfileStatus = "Active (Free)";
-    }
-    else if (socialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.ActivePlan)
-    {
-        ProfileStatus = "Active (Plan)";
-    }
-    else if (socialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.canceled)
-    {
-        ProfileStatus = "Cancelled";
-    }
-    else if (socialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Unsubscribe)
-    {
-        ProfileStatus = "Unsubscribed";
-    }
 
 }
 
+@section profileheader{
+    @Html.Partial("Partial/_PartialProfileHeader",null)
+}
+
+
 <div class="app-content container center-layout mt-2">
     <div class="content-wrapper">
-        <div class="content-header row">
-            <div class="content-header-left col-md-6 col-12 mb-2">
 
-                <div class="media">
-                    <a class="media-left align-self-center" href="#">
-                        <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" alt="Generic placeholder image" style="width: 64px;height: 64px;" />
-                    </a>
-                    <div class="media-body mt-2">
-                        <h3 class="media-heading">@socialProfile.SocialProfile.SocialUsername</h3>
-
-                    </div>
-                </div>
-
-            </div>
-            <div class="content-header-right col-md-6 col-12">
-                <div class="media width-250 float-right">
-                    <div class="media-body media-right text-right">
-                        <h3 class="m-0">@ProfileStatus</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
         <section class="content-body">
             <!-- Analytics spakline & chartjs  -->
             <div class="row">
@@ -504,7 +470,7 @@
         function LoadCharts(mode) {
             $.ajax({
                 type: "GET",
-                url: "/Profile/Trends?socialProfileId=@socialProfile.SocialProfile.SocialProfileId&mode=" + mode,
+                url: "/Profile/Trends?socialProfileId=@socialProfile.SocialProfileId&mode=" + mode,
                 dataType: "json",
                 success: function (Response) {
 

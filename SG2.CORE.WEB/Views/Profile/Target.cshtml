@@ -7,7 +7,7 @@
 
     ViewBag.Title = "Match Filter";
     Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
-
+    ViewBag.socialProfile = Model.SocialProfile;
     var ProfileStatus = "";
     if (Model.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
     {
@@ -39,39 +39,26 @@
     <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/plugins/forms/checkboxes-radios.css">
     <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/plugins/forms/validation/form-validation.css">
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+    <style type="text/css">
+        .weekDays-selector1 {
+            margin-top:10px;
+        }
+    </style>
+}
+
+@section profileheader{
+    @Html.Partial("Partial/_PartialProfileHeader", Model)
 }
 
 
 <form class="form" id="formtarget" method="post" action="Target" novalidate>
-
+    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.SocialProfileId)
+    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.TargetingInformationId)
 
     <!-- BEGIN: Content-->
     <div class="app-content container center-layout mt-2">
         <div class="content-wrapper">
-            <div class="content-header row">
-                <div class="content-header-left col-md-6 col-12 mb-2">
 
-                    <div class="media">
-                        <a class="media-left align-self-center" href="#">
-                            <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" alt="Generic placeholder image" style="width: 64px;height: 64px;" />
-                        </a>
-                        <div class="media-body mt-2">
-                            <h3 class="media-heading">@Model.SocialProfile.SocialUsername</h3>
-                            @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.SocialProfileId)
-                            @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.TargetingInformationId)
-
-                        </div>
-                    </div>
-
-                </div>
-                <div class="content-header-right col-md-6 col-12">
-                    <div class="media width-250 float-right">
-                        <div class="media-body media-right text-right">
-                            <h3 class="m-0">@ProfileStatus</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
 
             <div class="content-body">
@@ -85,7 +72,7 @@
                                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                                     <div class="heading-elements">
                                         <ul class="list-inline mb-0">
-                                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                            <li></li>
 
                                         </ul>
                                     </div>
@@ -95,7 +82,7 @@
 
 
                                         <div class="form-body">
-                                            <h4 class="form-section"><i class="ft-user"></i> </h4>
+                                            <h4 class="form-section"><i class="ft-user"></i>Engagement Rules</h4>
 
 
                                             <div class="form-group">
@@ -107,14 +94,13 @@
                                                 @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.HashTagsToEngage)
 
                                             </div>
-                                            <div class="form-group">
-                                                @*@Html.LabelFor(m => m.SocialProfile_Instagram_TargetingInformation.Preference1, new { @class = "" })*@
-                                                @*<span style="display:block"> Please use this format for hashtags: #hashtag,#hashtag,#hashtag</span>*@
-                                                <label>Choose the hashtags you DO NOT want to engage (Optional):</label>
-                                                <div id="hashtagsnotengage" class="edit-on-delete form-control" data-tags-input-name="wlextracted">@Model.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage</div>
-                                                @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage)
+                                            @*<div class="form-group">
 
-                                            </div>
+                            <label>Choose the hashtags you DO NOT want to engage (Optional):</label>
+                            <div id="hashtagsnotengage" class="edit-on-delete form-control" data-tags-input-name="wlextracted">@Model.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage</div>
+                            @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage)
+
+                        </div>*@
                                             <div class="form-group">
                                                 @*<span style="display:block"> Please use this format for hashtags: #hashtag,#hashtag,#hashtag</span>*@
                                                 <label>Choose up to 8 locations 10 focus on. Cities work best (optional):</label>
@@ -191,87 +177,268 @@
                                 </div>
                             </div>
 
-                            <div class="card">
 
+
+                            <div class="row">
+                                <div class="col-12 mt-1 mb-1">
+                                    <h4 class="text-uppercase">Select a Plan</h4>
+                                </div>
+                            </div>
+                            <div class="row match-height">
+                                @foreach (var plan in plans)
+                                {
+                                    <div class="col-xl-4 col-md-6 col-sm-12">
+                                        <div class="card">
+                                            <div class="card-content">
+                                                <img class="card-img-top img-fluid" src="~/content/app-assets/images/carousel/05.jpg" alt="Card image cap">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">@plan.PlanName</h4>
+                                                    <p class="card-text">
+                                                        @Html.Raw(plan.PlanDescription.Replace("\n", "<br>"))
+                                                    </p>@if (Model.SocialProfile.PaymentPlanId == plan.PlanId)
+                                                    {
+                                                        <a href="#" class="btn btn-outline-primary disabled">Current Plan</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="#" class="btn btn-outline-pink planSelect">Subscribe</a>
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                }
+                            </div>
+
+                            <div class="card">
                                 <div class="card-content collpase show">
                                     <div class="card-body">
-                                        <h4 class="form-section"><i class="ft-user"></i>Run Timer for APP daily operations</h4>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <span>Execute Between</span>
-                                                <div class="row">
-
-
-                                                    <div class="form-group col-12 mb-2 interval-repeater">
-                                                        <div data-repeater-list="group-a">
-                                                            <div data-repeater-item>
-                                                                <div class="row">
-                                                                    <input type="hidden" name="starttime" value="" />
-                                                                    <input type="hidden" name="endtime" value="" />
-                                                                    <div class="col-md-5"><input type="time" class="form-control" name="sc" onchange="schandler(event);" /></div>
-                                                                    <div class="col-md-5"><input type="time" class="form-control" name="ec" onchange="echandler(event);"/></div>
-                                                                    <div class="col-md-2">
-                                                                        <a data-repeater-delete value="" class="btn btn-icon btn-danger mr-1 mb-1">
-                                                                            <i class="fa fa-remove"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                        <button type="button" data-repeater-create class="btn btn-primary">
-                                                            <i class="icon-plus4"></i> Add Interval
-                                                        </button>
-                                                    </div>
-
-                                                    @Html.HiddenFor(m=> m.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals)
+                                        <h4 class="form-section"><i class="ft-user"></i>User limits for daily operations</h4>
+                                        <div class="row mb-1">
+                                            <div class="col-md-6">
+                                                <div class="col-md-7 pd-0 float-left">
+                                                    <label class=" mgt-8">Follow new accounts by Search tags</label>
                                                 </div>
-
-                                                <div class="row">
-                                                    <div class="col-md-12 mt-2">
-                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.RandomizeIntervalsDaily.Value)
-                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.RandomizeIntervalsDaily)
-                                                        <label for="weekday-mon">Randomly internal daily</label>
-                                                    </div>
-
+                                                <div class="col-md-3 pd-0  float-left">
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollNewPerDayLim, new { htmlAttributes = new { style = "width:65px;", required = "required" } })
+                                                </div>
+                                                <div class="col-md-2  pd-0  float-left p-0 m-0">
+                                                    <label class="mgt-8">per Days</label>
                                                 </div>
 
                                             </div>
-                                            <div class="col-md-8">
-                                                <div class="col-md-12">
-                                                    <span>Days of the week when to operate</span>
+                                            <div class="col-md-3">
+                                                <div class="col-md-8 pd-0  float-left">
+                                                    <label class=" mgt-8">
+                                                        Increase daily with
+                                                    </label>
                                                 </div>
-                                                <div class="col-md-12">
-                                                    <div class="weekDays-selector">
-                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.MonOper.Value, new { @class = "weekday" })
-                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.MonOper)
-
-                                                        <label for="weekday-mon">Monday</label>
-
-                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.TueOper.Value, new { @class = "weekday" })
-                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.TueOper)
-
-                                                        <label for="weekday-tue">Tueday</label>
-
-                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.WedOper.Value, new { @class = "weekday" })
-                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.WedOper)
-
-                                                        <label for="weekday-wed">Wednesday</label>
-                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.ThuOper.Value, new { @class = "weekday" })
-                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.ThuOper)
-                                                        <label for="weekday-thu">Tursday</label>
-                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FriOper.Value, new { @class = "weekday" })
-                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FriOper)
-                                                        <label for="weekday-fri">Friday</label>
-                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.SatOper.Value, new { @class = "weekday" })
-                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.SatOper)
-                                                        <label for="weekday-sat">Saturday</label>
-                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.SunOper.Value, new { @class = "weekday" })
-                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.SunOper)
-                                                        <label for="weekday-sun">Sunday</label>
-                                                    </div>
+                                                <div class="col-md-4 pd-0  float-left">
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollDailyIncreaseLim, new { htmlAttributes = new { style = "width:65px;", required = "required" } })
                                                 </div>
 
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="col-md-8 pd-0  float-left">
+                                                    <label class=" mgt-8">
+                                                        untill it reaches
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-4 pd-0  float-left">
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollMaxPerDayLim, new { htmlAttributes = new { style = "width:65px;", required = "required" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <div class="col-md-6">
+                                                <div class="col-md-7 pd-0  float-left">
+                                                    <label class=" mgt-8">
+                                                        Un-Follow after 16 days of engaging
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3 pd-0  float-left">
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollNewPerDayLim, new { htmlAttributes = new { style = "width:65px;", required = "required" } })
+                                                </div>
+                                                <div class="col-md-2  pd-0  float-left p-0 m-0">
+                                                    <label class="mgt-8">per Days</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="col-md-8 pd-0  float-left">
+                                                    <label class=" mgt-8">
+                                                        Increase daily with
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-4 pd-0  float-left" ">
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDailyIncreaseLim, new { htmlAttributes = new { style = "width:65px;", required = "required" } })
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="col-md-8 pd-0  float-left">
+                                                    <label class=" mgt-8">
+                                                        untill it reaches
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-4 pd-0   float-left">
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollMaxPerDayLim, new { htmlAttributes = new { style = "width:65px;", required = "required" } })
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <div class="col-md-6">
+                                                <div class="col-md-7 pd-0   float-left">
+                                                    <label class=" mgt-8">
+                                                        Like on Followings Posts
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3 pd-0  float-left">
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.LikePerDayLim, new { htmlAttributes = new { style = "width:65px;", required = "required" } })
+                                                </div>
+                                                <div class="col-md-2  pd-0  float-left p-0 m-0">
+                                                    <label class="mgt-8">per Days</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="col-md-8 pd-0  float-left">
+                                                    <label class=" mgt-8">
+                                                        Increase daily with
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-4 pd-0  float-left">
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.LikeDailyIncreaseLim, new { htmlAttributes = new { style = "width:65px;", required = "required" } })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="col-md-8 pd-0  float-left">
+                                                    <label class=" mgt-8">
+                                                        untill it reaches
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-4 pd-0  float-left">
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.LikeMaxPerDayLim, new { htmlAttributes = new { style = "width:65px;", required = "required" } })
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-1">
+                                            <div class="col-md-6">
+                                                <div class="col-md-7 pd-0  float-left">
+                                                    <label class=" mgt-8">
+                                                        View stories by Followings
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3 pd-0  float-left">
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.ViewStoriesPerDayLim, new { htmlAttributes = new { style = "width:65px;", required = "required" } })
+                                                </div>
+                                                <div class="col-md-2  pd-0  float-left p-0 m-0">
+                                                    <label class="mgt-8">per Days</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="col-md-8 pd-0  float-left">
+                                                    <label class=" mgt-8">
+                                                        Increase daily with
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-4 pd-0  float-left">
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.ViewStoriesDailyIncreaseLim, new { htmlAttributes = new { style = "width:65px;", required = "required" } })
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="col-md-8 pd-0  float-left">
+                                                    <label class=" mgt-8">
+                                                        untill it reaches
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-4 pd-0  float-left">
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.ViewStoriesMaxPerDayLim, new { htmlAttributes = new { style = "width:65px;", required = "required" } })
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-1">
+                                            <div class="col-md-6">
+                                                <div class="col-md-7 pd-0  float-left">
+                                                    <label class=" mgt-8">
+                                                        Comment on Following POSTS
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3 pd-0  float-left">
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.CommentPerDayLim, new { htmlAttributes = new { style = "width:65px;", required = "required" } })
+                                                </div>
+                                                <div class="col-md-2  pd-0  float-left p-0 m-0">
+                                                    <label class="mgt-8">per Days</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="col-md-8 pd-0  float-left">
+                                                    <label class=" mgt-8">
+                                                        Increase daily with
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-4 pd-0  float-left">
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.CommentDailyIncreaseLim, new { htmlAttributes = new { style = "width:65px;", required = "required" } })
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="col-md-8 pd-0  float-left">
+                                                    <label class=" mgt-8">
+                                                        untill it reaches
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-4 pd-0  float-left">
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.CommentMaxPerDayLim, new { htmlAttributes = new { style = "width:65px;", required = "required" } })
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-1">
+                                            <div class="col-md-6">
+                                                <div class="col-md-7 pd-0  float-left">
+                                                    <label class=" mgt-8">
+                                                        Direct Messaging
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3 pd-0  float-left">
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.DMPerDayLim, new { htmlAttributes = new { style = "width:65px;", required = "required" } })
+                                                </div>
+                                                <div class="col-md-2  pd-0  float-left p-0 m-0">
+                                                    <label class="mgt-8">per Days</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="col-md-8 pd-0  float-left">
+                                                    <label class=" mgt-8">
+                                                        Increase daily with
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-4 pd-0  float-left">
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.DMDailyIncreaseLim, new { htmlAttributes = new { style = "width:65px;", required = "required" } })
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="col-md-8 pd-0  float-left">
+                                                    <label class=" mgt-8">
+                                                        untill it reaches
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-4 pd-0  float-left">
+                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.DMMaxPerDayLim, new { htmlAttributes = new { style = "width:65px;", required = "required" } })
+                                                </div>
 
                                             </div>
                                         </div>
@@ -280,315 +447,56 @@
                                 </div>
                             </div>
                             <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title form-section">Follow</h4>
+                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><input id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.FollowOn"></li>
+                                        </ul>
+                                    </div>
+                                </div>
                                 <div class="card-content collpase show">
                                     <div class="card-body">
-                                        <h4 class="form-section"><i class="ft-user"></i>2.select Plan</h4>
-
-                                        @foreach (var plan in plans)
-                                        {
+                                        <div class="col-md-12">
+                                            <fieldset>
 
 
+                                                @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowOn)
 
-                                            <div class="col-xl-4 col-md-6 col-sm-12 float-left">
-                                                <div class="setboxshadow card" style="box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05) !important;">
-                                                    <div class="card-content">
-                                                        <div class="card-body text-center">
-                                                @*<img class="card-img img-fluid mb-1" src="../../../app-assets/images/carousel/08.jpg" alt="Card image cap">*@
-                                                                                                            <h4 class="card-title text-center">@plan.PlanName</h4>
-                                                                                                            <p class="card-text text-center">@Html.Raw(plan.PlanDescription.Replace("\n", "<br>"))</p>
+                                                <div class="col-md-12">
+                                                    <div class="weekDays-selector1">
+                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserProfileImage.Value, new { @class = "weekday" })
+                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserProfileImage)
+                                                        <label for="weekday-mon">User has profile image</label>
+                                                    </div>
 
-                                                                                                            @if(Model.SocialProfile.PaymentPlanId == plan.PlanId)
-                                                                                                            { 
-                                                                                                                <a href = "#" class="btn btn-primary text-center disabled">Current Plan</a>
-                                                                                                            }
-                                                                                                            else
-                                                                                                            {
-                                                                                                                <a class="btn btn-primary text-center planSelect">Select</a>
-                                                                                                            }
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-
-
-                                                                                        }
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="card">
-                                                                                <div class="card-content collpase show">
-                                                                                    <div class="card-body">
-                                                                                        <h4 class="form-section"><i class="ft-user"></i>User limits for daily operations</h4>
-                                                                                        <div class="row mb-1">
-                                                                                            <div class="col-md-6">
-                                                                                                <div class="col-md-7 pd-0 float-left">
-                                                                                                    <label class=" mgt-8">Follow new accounts by Search tags</label>
-                                                                                                </div>
-                                                                                                <div class="col-md-3 pd-0  float-left">
-                                                                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollNewPerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
-                                                                                                </div>
-                                                                                                <div class="col-md-2  pd-0  float-left p-0 m-0">
-                                                                                                    <label class="mgt-8">per Days</label>
-                                                                                                </div>
-
-                                                                                            </div>
-                                                                                            <div class="col-md-3">
-                                                                                                <div class="col-md-8 pd-0  float-left">
-                                                                                                    <label class=" mgt-8">
-                                                                                                        Increase daily with
-                                                                                                    </label>
-                                                                                                </div>
-                                                                                                <div class="col-md-4 pd-0  float-left">
-                                                                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
-                                                                                                </div>
-
-                                                                                            </div>
-                                                                                            <div class="col-md-3">
-                                                                                                <div class="col-md-8 pd-0  float-left">
-                                                                                                    <label class=" mgt-8">
-                                                                                                        untill it reaches
-                                                                                                    </label>
-                                                                                                </div>
-                                                                                                <div class="col-md-4 pd-0  float-left">
-                                                                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="row mb-1">
-                                                                                            <div class="col-md-6">
-                                                                                                <div class="col-md-7 pd-0  float-left">
-                                                                                                    <label class=" mgt-8">
-                                                                                                        Un-Follow after 16 days of engaging
-                                                                                                    </label>
-                                                                                                </div>
-                                                                                                <div class="col-md-3 pd-0  float-left">
-                                                                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollNewPerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
-                                                                                                </div>
-                                                                                                <div class="col-md-2  pd-0  float-left p-0 m-0">
-                                                                                                    <label class="mgt-8">per Days</label>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="col-md-3">
-                                                                                                <div class="col-md-8 pd-0  float-left">
-                                                                                                    <label class=" mgt-8">
-                                                                                                        Increase daily with
-                                                                                                    </label>
-                                                                                                </div>
-                                                                                                <div class="col-md-4 pd-0  float-left" ">
-                                                                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
-                                                                                                </div>
-
-                                                                                            </div>
-                                                                                            <div class="col-md-3">
-                                                                                                <div class="col-md-8 pd-0  float-left">
-                                                                                                    <label class=" mgt-8">
-                                                                                                        untill it reaches
-                                                                                                    </label>
-                                                                                                </div>
-                                                                                                <div class="col-md-4 pd-0   float-left">
-                                                                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
-                                                                                                </div>
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="row mb-1">
-                                                                                            <div class="col-md-6">
-                                                                                                <div class="col-md-7 pd-0   float-left">
-                                                                                                    <label class=" mgt-8">
-                                                                                                        Like on Followings Posts
-                                                                                                    </label>
-                                                                                                </div>
-                                                                                                <div class="col-md-3 pd-0  float-left">
-                                                                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.LikePerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
-                                                                                                </div>
-                                                                                                <div class="col-md-2  pd-0  float-left p-0 m-0">
-                                                                                                    <label class="mgt-8">per Days</label>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="col-md-3">
-                                                                                                <div class="col-md-8 pd-0  float-left">
-                                                                                                    <label class=" mgt-8">
-                                                                                                        Increase daily with
-                                                                                                    </label>
-                                                                                                </div>
-                                                                                                <div class="col-md-4 pd-0  float-left">
-                                                                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.LikeDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="col-md-3">
-                                                                                                <div class="col-md-8 pd-0  float-left">
-                                                                                                    <label class=" mgt-8">
-                                                                                                        untill it reaches
-                                                                                                    </label>
-                                                                                                </div>
-                                                                                                <div class="col-md-4 pd-0  float-left">
-                                                                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.LikeMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
-                                                                                                </div>
-
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div class="row mb-1">
-                                                                                            <div class="col-md-6">
-                                                                                                <div class="col-md-7 pd-0  float-left">
-                                                                                                    <label class=" mgt-8">
-                                                                                                        View stories by Followings
-                                                                                                    </label>
-                                                                                                </div>
-                                                                                                <div class="col-md-3 pd-0  float-left">
-                                                                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.ViewStoriesPerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
-                                                                                                </div>
-                                                                                                <div class="col-md-2  pd-0  float-left p-0 m-0">
-                                                                                                    <label class="mgt-8">per Days</label>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="col-md-3">
-                                                                                                <div class="col-md-8 pd-0  float-left">
-                                                                                                    <label class=" mgt-8">
-                                                                                                        Increase daily with
-                                                                                                    </label>
-                                                                                                </div>
-                                                                                                <div class="col-md-4 pd-0  float-left">
-                                                                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.ViewStoriesDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
-                                                                                                </div>
-
-                                                                                            </div>
-                                                                                            <div class="col-md-3">
-                                                                                                <div class="col-md-8 pd-0  float-left">
-                                                                                                    <label class=" mgt-8">
-                                                                                                        untill it reaches
-                                                                                                    </label>
-                                                                                                </div>
-                                                                                                <div class="col-md-4 pd-0  float-left">
-                                                                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.ViewStoriesMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
-                                                                                                </div>
-
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div class="row mb-1">
-                                                                                            <div class="col-md-6">
-                                                                                                <div class="col-md-7 pd-0  float-left">
-                                                                                                    <label class=" mgt-8">
-                                                                                                        Comment on Following POSTS
-                                                                                                    </label>
-                                                                                                </div>
-                                                                                                <div class="col-md-3 pd-0  float-left">
-                                                                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.CommentPerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
-                                                                                                </div>
-                                                                                                <div class="col-md-2  pd-0  float-left p-0 m-0">
-                                                                                                    <label class="mgt-8">per Days</label>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="col-md-3">
-                                                                                                <div class="col-md-8 pd-0  float-left">
-                                                                                                    <label class=" mgt-8">
-                                                                                                        Increase daily with
-                                                                                                    </label>
-                                                                                                </div>
-                                                                                                <div class="col-md-4 pd-0  float-left">
-                                                                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.CommentDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
-                                                                                                </div>
-
-                                                                                            </div>
-                                                                                            <div class="col-md-3">
-                                                                                                <div class="col-md-8 pd-0  float-left">
-                                                                                                    <label class=" mgt-8">
-                                                                                                        untill it reaches
-                                                                                                    </label>
-                                                                                                </div>
-                                                                                                <div class="col-md-4 pd-0  float-left">
-                                                                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.CommentMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
-                                                                                                </div>
-
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div class="row mb-1">
-                                                                                            <div class="col-md-6">
-                                                                                                <div class="col-md-7 pd-0  float-left">
-                                                                                                    <label class=" mgt-8">
-                                                                                                        Direct Messaging
-                                                                                                    </label>
-                                                                                                </div>
-                                                                                                <div class="col-md-3 pd-0  float-left">
-                                                                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.DMPerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
-                                                                                                </div>
-                                                                                                <div class="col-md-2  pd-0  float-left p-0 m-0">
-                                                                                                    <label class="mgt-8">per Days</label>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="col-md-3">
-                                                                                                <div class="col-md-8 pd-0  float-left">
-                                                                                                    <label class=" mgt-8">
-                                                                                                        Increase daily with
-                                                                                                    </label>
-                                                                                                </div>
-                                                                                                <div class="col-md-4 pd-0  float-left">
-                                                                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.DMDailyIncreaseLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
-                                                                                                </div>
-
-                                                                                            </div>
-                                                                                            <div class="col-md-3">
-                                                                                                <div class="col-md-8 pd-0  float-left">
-                                                                                                    <label class=" mgt-8">
-                                                                                                        untill it reaches
-                                                                                                    </label>
-                                                                                                </div>
-                                                                                                <div class="col-md-4 pd-0  float-left">
-                                                                                                    @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.DMMaxPerDayLim, new { htmlAttributes = new { style = "width:95%;", required = "required" } })
-                                                                                                </div>
-
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="card">
-                                                                                <div class="card-content collpase show">
-                                                                                    <div class="card-body">
-                                                                                        <h4 class="form-section"><i class="ft-user"></i>FOLLOW</h4>
-
-                                                                                        <div class="col-md-12">
-                                                                                            <fieldset>
-                                                                                                <input id = "FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.FollowOn">
-
-                                                                                                @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowOn)
-                                                                                                <h4 class="form-section">SELECTION FOLLOW FILTERS:</h4>
-                                                                                                <div class="col-md-12">
-                                                                                                    <div class="weekDays-selector1">
-                                                                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserProfileImage.Value, new { @class = "weekday" })
-                                                                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserProfileImage)
-                                                                                                        <label for="weekday-mon">User has profile image</label>
-                                                                                                    </div>
-
-                                                                                                </div>
-                                                                                                <div class="col-md-12">
-                                                                                                    <div class="weekDays-selector1">
-                                                                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserMinPosts.Value, new { @class = "weekday" })
-                                                                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserMinPosts)
-                                                                                                        <label for="weekday-mon">User has a minimum number of posts</label>
-                                                                                                        @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserMinPostsVal, new { type = "number" })
-                                                @*@Html.EditorFor(m=>m.FollUserMinPosts)*@
-                                                                                                    </div>
-
-                                                                                                </div>
-                                                                                                <div class="col-md-12">
-                                                                                                    <div class="weekDays-selector1">
-                                                                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserPostsLastXDays.Value, new { @class = "weekday" })
-                                                                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserPostsLastXDays)
-                                                                                                        <label for="weekday-mon">User posted within the last X days</label>
-                                                                                                        @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserPostsLastXDaysVal, new { type = "number" })
-                                                                                                    </div>
-
-                                                                                                </div>
-                                                                                                <div class="col-md-12">
-                                                                                                    <div class="weekDays-selector1">
-                                                                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUseBlackList.Value, new { @class = "weekday" })
-                                                                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUseBlackList)
-                                                                                                        <label for="weekday-mon">Use blacklist skip specified users)</label>
                                                 </div>
+                                                <div class="col-md-12">
+                                                    <div class="weekDays-selector1">
+                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserMinPosts.Value, new { @class = "weekday" })
+                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserMinPosts)
+                                                        <label for="weekday-mon">User has a minimum number of posts</label>
+                                                        @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserMinPostsVal, new { type = "number", style = "width:65px;" })
+                                                        @*@Html.EditorFor(m=>m.FollUserMinPosts)*@
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="weekDays-selector1">
+                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserPostsLastXDays.Value, new { @class = "weekday" })
+                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserPostsLastXDays)
+                                                        <label for="weekday-mon">User posted within the last X days</label>
+                                                        @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserPostsLastXDaysVal, new { type = "number", style = "width:65px;" })
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="weekDays-selector1">
+                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUseBlackList.Value, new { @class = "weekday" })
+                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUseBlackList)
+                                                        <label for="weekday-mon">Use blacklist skip specified users)</label>
+                                                    </div>
 
                                                 </div>
                                                 <div class="col-md-12">
@@ -604,21 +512,14 @@
 
                                                         @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollDoNotFollowUsernamewithdigits.Value, new { @class = "weekday" })
                                                         @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollDoNotFollowUsernamewithdigits)
-                                                        <label for="weekday-mon">Do not follow accounts with more then</label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollDoNotFollowUsernamewithdigitsVal, new { type = "number" })<label>digits in their usrname</label>
+                                                        <label for="weekday-mon">Do not follow accounts with more then</label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollDoNotFollowUsernamewithdigitsVal, new { type = "number", style = "width:65px;" })<label>digits in their usrname</label>
                                                     </div>
 
                                                 </div>
-                                                <div class="col-md-12">
-                                                    <div class="weekDays-selector1">
-                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserLangs.Value, new { @class = "weekday" })
-                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserLangs)
-                                                        <label for="weekday-mon"><b>Follow users ONLY in these Languages</b></label><select><option></option></select>
-                                                    </div>
 
-                                                </div>
                                                 <div class="col-md-12">
                                                     <div class="weekDays-selector1">
-                                                        <label for="weekday-mon">Wait between</label> @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowWaitBetweenActionsVal2) second before each<b>action e.g follow, comments and view</b>
+                                                        <label for="weekday-mon">Wait between</label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowWaitBetweenActionsVal2, new { style = "width:65px;", type = "number" }) second before each<b>action e.g follow, comments and view</b>
                                                     </div>
 
                                                 </div>
@@ -628,7 +529,7 @@
 
                                                         @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowCompetitorsFollowers.Value, new { @class = "weekday" })
                                                         @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowCompetitorsFollowers)
-                                                        <label for="weekday-mon">Follow COMPETITORS followers Select & Aacute; follow</label> @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowCompetitorsFollowersVal)<label> random competitors followers daily</label>
+                                                        <label for="weekday-mon">Follow COMPETITORS followers Select & Aacute; follow</label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowCompetitorsFollowersVal, new { style = "width:65px;", type = "number" })<label> random competitors followers daily</label>
                                                     </div>
 
                                                 </div>
@@ -637,7 +538,15 @@
                                                     <div class="weekDays-selector1">
                                                         @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowUsersfromHashtagResults.Value, new { @class = "weekday" })
                                                         @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowUsersfromHashtagResults)
-                                                        <label for="weekday-mon">Follower Users from HASHTAG search results Select any random post from top</label> @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowUsersfromHashtagResultsVal) <label> posts result</label>
+                                                        <label for="weekday-mon">Follower Users from HASHTAG search results Select any random post from top</label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowUsersfromHashtagResultsVal, new { style = "width:65px;", type = "number" }) <label> posts result</label>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="weekDays-selector1">
+                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserLangs.Value, new { @class = "weekday" })
+                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserLangs)
+                                                        <label for="weekday-mon"><b>Follow users ONLY in these Languages</b></label><select><option>English</option></select>
                                                     </div>
 
                                                 </div>
@@ -691,7 +600,7 @@
 
                                                         @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollEngageDailyfollCountFrmUnFollowList.Value, new { @class = "weekday" })
                                                         @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollEngageDailyfollCountFrmUnFollowList)
-                                                        <label for="weekday-mon"><b>Engage every day with</b></label>@Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollEngageDailyfollCountFrmUnFollowListVal)<label><b>new followings from UN FOLLOWER LIST</b></label>
+                                                        <label for="weekday-mon"><b>Engage every day with</b></label>@Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollEngageDailyfollCountFrmUnFollowListVal, new { style = "width:65px;" })<label><b>new followings from UN FOLLOWER LIST</b></label>
                                                     </div>
 
                                                 </div>
@@ -737,27 +646,31 @@
 
 
                             <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title form-section">UN-FOLLOW</h4>
+                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><input id="unFollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.UnFollowOn"></li>
+                                        </ul>
+                                    </div>
+                                </div>
                                 <div class="card-content collpase show">
                                     <div class="card-body">
-                                        <h4 class="form-section"><i class="ft-user"></i>UN-FOLLOW</h4>
-
 
                                         <div class="col-md-12">
                                             <fieldset>
 
-                                                <input id="unFollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.UnFollowOn">
+
                                                 @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollowOn)
-                                                <h4 class="form-section">SUSER FILTERS:</h4>
 
 
-
-                                                <h4></h4>
                                                 <div class="col-md-12">
                                                     <div class="weekDays-selector1">
 
                                                         @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays.Value, new { @class = "weekday" })
                                                         @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays)
-                                                        <label for="weekday-mon">Unfollow followers afteer a minimum of</label>@Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDaysVal) <label>days</label>
+                                                        <label for="weekday-mon">Unfollow followers after a minimum of</label>@Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDaysVal, new { style = "width:65px;", type = "number" }) <label>days</label>
                                                     </div>
 
                                                 </div>
@@ -765,7 +678,7 @@
                                                     <div class="weekDays-selector1">
                                                         @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowLikersOfPosts.Value, new { @class = "weekday" })
                                                         @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowLikersOfPosts)
-                                                        <label for="weekday-mon">Do not unfollow likers that liked any</label>@Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowLikersOfPostsCount)<label>posts</label>
+                                                        <label for="weekday-mon">Do not unfollow likers that liked any</label>@Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowLikersOfPostsCount, new { style = "width:65px;", type = "number" })<label>posts</label>
                                                     </div>
 
                                                 </div>
@@ -774,7 +687,7 @@
                                                         @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowCommThatCommented.Value, new { @class = "weekday" })
                                                         @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowCommThatCommented)
 
-                                                        <label for="weekday-mon">Do not unfollow commenters that commented on any</label> @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowCommThatCommentedCount)<label>posts</label>
+                                                        <label for="weekday-mon">Do not unfollow commenters that commented on any</label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowCommThatCommentedCount, new { style = "width:65px;", type = "number" })<label>posts</label>
                                                     </div>
 
                                                 </div>
@@ -795,16 +708,23 @@
                             </div>
 
                             <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title form-section">STORY VIEWS</h4>
+                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><input id="StoryViewerOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.StoryViewerOn"></li>
+                                        </ul>
+                                    </div>
+                                </div>
                                 <div class="card-content collpase show">
                                     <div class="card-body">
-                                        <h4 class="form-section"><i class="ft-user"></i>STORY VIEWS</h4>
+
 
                                         <div class="col-md-12">
                                             <fieldset>
-                                                <input id="StoryViewerOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.StoryViewerOn">
-                                                @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.StoryViewerOn)
-                                                <h4 class="form-section">USER FILTERS:</h4>
 
+                                                @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.StoryViewerOn)
 
                                                 <div class="col-md-12">
                                                     <div class="weekDays-selector1">
@@ -852,21 +772,29 @@
                             </div>
 
                             <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title form-section">COMMENTS</h4>
+                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><input id="ContactMembersOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.ContactMembersOn"></li>
+                                        </ul>
+                                    </div>
+                                </div>
                                 <div class="card-content collpase show">
                                     <div class="card-body">
-                                        <h4 class="form-section"><i class="ft-user"></i>COMMENTS</h4>
+
 
                                         <div class="col-md-12">
                                             <fieldset>
-                                                <input id="ContactMembersOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.ContactMembersOn">
+
                                                 @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.ContactMembersOn)
-                                                <h4 class="form-section">POST FILTERS:</h4>
 
                                                 <div class="col-md-12">
                                                     <div class="weekDays-selector1">
                                                         @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.CommUsrRecentPosts.Value, new { @class = "weekday" })
                                                         @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.CommUsrRecentPosts)
-                                                        <label for="weekday-mon">Comment users most posts </label>@Html.EditorFor(x => x.SocialProfile_Instagram_TargetingInformation.CommUsrRecentPostsVal)<label>most recent posts</label>
+                                                        <label for="weekday-mon">Comment users most posts </label>@Html.TextBoxFor(x => x.SocialProfile_Instagram_TargetingInformation.CommUsrRecentPostsVal, new { style = "width:65px;", type = "number" })<label>most recent posts</label>
                                                     </div>
 
                                                 </div>
@@ -906,7 +834,7 @@
                                                         @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.CommFltrPostsByLike.Value, new { @class = "weekday" })
                                                         @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.CommFltrPostsByLike)
 
-                                                        <label for="weekday-mon">Filter posts by number of likes</label> @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.CommFltrPostsByLikeCount) <label>Like</label>
+                                                        <label for="weekday-mon">Filter posts by number of likes</label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.CommFltrPostsByLikeCount, new { style = "width:65px;", type = "number" }) <label>Like</label>
 
 
                                                     </div>
@@ -915,7 +843,7 @@
                                                     <div class="weekDays-selector1">
                                                         @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.CommDelCommAfterXDays.Value, new { @class = "weekday" })
                                                         @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.CommDelCommAfterXDays)
-                                                        <label for="weekday-mon">Delete comment after</label>@Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.CommDelCommAfterXDaysCount) <label>days</label>
+                                                        <label for="weekday-mon">Delete comment after</label>@Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.CommDelCommAfterXDaysCount, new { style = "width:65px;", type = "number" }) <label>days</label>
                                                     </div>
 
                                                 </div>
@@ -990,15 +918,22 @@
 
 
                             <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title form-section">LIKE EXCHANGE Participation</h4>
+                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><input id="LikeOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.LikeOn"></li>
+                                        </ul>
+                                    </div>
+                                </div>
                                 <div class="card-content collpase show">
                                     <div class="card-body">
-                                        <h4 class="form-section"><i class="ft-user"></i>LIKE EXCHANGE Participation</h4>
-
 
                                         <div class="col-md-12">
-                                            <input id="LikeOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.LikeOn">
+
                                             @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.LikeOn)
-                                            <h4 class="form-section">USER FILTERS:</h4>
+
                                             <fieldset>
                                                 <div class="col-md-12">
                                                     <div class="weekDays-selector1">
@@ -1006,7 +941,7 @@
 
                                                         @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.LEXLikeUsrMostRecentPosts.Value, new { @class = "weekday" })
                                                         @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.LEXLikeUsrMostRecentPosts)
-                                                        <label for="weekday-mon">Like users most recent posts</label>@Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.LEXLikeUsrMostRecentPostsCount) <label>most recent posts</label>
+                                                        <label for="weekday-mon">Like users most recent posts</label>@Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.LEXLikeUsrMostRecentPostsCount, new { style = "width:65px;", type = "number" }) <label>most recent posts</label>
                                                     </div>
 
                                                 </div>
@@ -1033,7 +968,7 @@
                                                     <div class="weekDays-selector1">
                                                         @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.LEXPostedWithinLastXDays.Value, new { @class = "weekday" })
                                                         @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.LEXPostedWithinLastXDays)
-                                                        <label for="weekday-mon">Posted within the Last X days</label>@Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.LEXPostedWithinLastXDaysVal)
+                                                        <label for="weekday-mon">Posted within the Last X days</label>@Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.LEXPostedWithinLastXDaysVal, new { style = "width:65px;", Type = "number" })
                                                     </div>
 
                                                 </div>
@@ -1064,17 +999,113 @@
                                             </fieldset>
                                         </div>
 
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title form-section">Run Timer for APP daily operations</h4>
+                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-content collpase show">
+                                    <div class="card-body">
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <span>Execute Between</span>
+                                                <div class="row">
+
+
+                                                    <div class="form-group col-12 mb-2 interval-repeater">
+                                                        <div data-repeater-list="group-a">
+                                                            <div data-repeater-item>
+                                                                <div class="row">
+                                                                    <input type="hidden" name="starttime" value="" />
+                                                                    <input type="hidden" name="endtime" value="" />
+                                                                    <div class="col-md-5"><input type="time" class="form-control" name="sc" onchange="schandler(event);" /></div>
+                                                                    <div class="col-md-5"><input type="time" class="form-control" name="ec" onchange="echandler(event);" /></div>
+                                                                    <div class="col-md-2">
+                                                                        <a data-repeater-delete value="" class="btn btn-icon btn-danger mr-1 mb-1">
+                                                                            <i class="fa fa-remove"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <button type="button" data-repeater-create class="btn btn-primary">
+                                                            <i class="icon-plus4"></i> Add Interval
+                                                        </button>
+                                                    </div>
+
+                                                    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals)
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-12 mt-2">
+                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.RandomizeIntervalsDaily.Value)
+                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.RandomizeIntervalsDaily)
+                                                        <label for="weekday-mon">Randomly internal daily</label>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="col-md-12">
+                                                    <span>Days of the week when to operate</span>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="weekDays-selector">
+                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.MonOper.Value, new { @class = "weekday" })
+                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.MonOper)
+
+                                                        <label for="weekday-mon">Monday</label>
+
+                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.TueOper.Value, new { @class = "weekday" })
+                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.TueOper)
+
+                                                        <label for="weekday-tue">Tueday</label>
+
+                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.WedOper.Value, new { @class = "weekday" })
+                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.WedOper)
+
+                                                        <label for="weekday-wed">Wednesday</label>
+                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.ThuOper.Value, new { @class = "weekday" })
+                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.ThuOper)
+                                                        <label for="weekday-thu">Tursday</label>
+                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FriOper.Value, new { @class = "weekday" })
+                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FriOper)
+                                                        <label for="weekday-fri">Friday</label>
+                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.SatOper.Value, new { @class = "weekday" })
+                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.SatOper)
+                                                        <label for="weekday-sat">Saturday</label>
+                                                        @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.SunOper.Value, new { @class = "weekday" })
+                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.SunOper)
+                                                        <label for="weekday-sun">Sunday</label>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
                                         <div class="form-actions text-center">
 
                                             <button type="submit" class="btn btn-primary">
                                                 <i class="fa fa-check-square-o"></i> Save
                                             </button>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                 </section>
@@ -1251,7 +1282,7 @@
         $('#formtarget').submit(function (e) {
             document.getElementById("SocialProfile_Instagram_TargetingInformation_HashTagsToEngage").value = hashtagsengagebox.tagging("getTags").join(', ');
 
-            document.getElementById("SocialProfile_Instagram_TargetingInformation_HashTagsToNotEngage").value = hashtagsnotengagebox.tagging("getTags").join(', ');
+            //document.getElementById("SocialProfile_Instagram_TargetingInformation_HashTagsToNotEngage").value = hashtagsnotengagebox.tagging("getTags").join(', ');
 
             document.getElementById("SocialProfile_Instagram_TargetingInformation_LocationsToEngage").value = locationengagebox.tagging("getTags").join(', ');
 
@@ -1267,7 +1298,7 @@
             //return false;
 
             $('input[type="checkbox"]').each(function () {
-                
+
                 var id = $(this).attr("id");
                 var name = $(this).attr("name");
 
@@ -1277,7 +1308,7 @@
                     $("input[name='" + name + "']").val("0");
                 }
             });
-            
+
 
 
         });
@@ -1319,12 +1350,12 @@
             });
             hashtagsengagebox = hashtagsengage[0];
 
-            hashtagsnotengage = $("#hashtagsnotengage").tagging({
-                "edit-on-delete": false,
-                "no-spacebar": true,
-                "tag-char": ''
-            });
-            hashtagsnotengagebox = hashtagsnotengage[0];
+            //hashtagsnotengage = $("#hashtagsnotengage").tagging({
+            //    "edit-on-delete": false,
+            //    "no-spacebar": true,
+            //    "tag-char": ''
+            //});
+            //hashtagsnotengagebox = hashtagsnotengage[0];
 
             locationengage = $("#locationengage").tagging({
                 "edit-on-delete": false,
@@ -1371,7 +1402,7 @@
                 $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.LikeOn)').val($(this).prop('checked'));
             });
 
-            
+
 
 
 
@@ -1384,11 +1415,11 @@
 
             // Custom Show / Hide Configurations
             repeater = $('.file-repeater, .interval-repeater').repeater({
-               
-               
+
+
                 show: function () {
                     $(this).slideDown();
-                    
+
                     $(this).find("input[name*='sc']").val($(this).find("input[name*='starttime']").val());
                     $(this).find("input[name*='ec']").val($(this).find("input[name*='endtime']").val());
                 },
@@ -1404,7 +1435,7 @@
             if ( intvlist !== undefined)
                 repeater.setList(intvlist);
 
-                   
+
 
             $(".planSelect").on("click", function () {
                 $(".seletedDisplayPlanPrice").text("$" + $(".range-labels li.active").attr("data-price") + " for " + $(".range-labels li.active").text() + " Likes");
@@ -1421,7 +1452,7 @@
         });
 
 
-        
+
 
 
         // Create a Stripe client.
@@ -1450,7 +1481,7 @@
 
         // Create an instance of the card Element.
         var card = elements.create('card', { style: style });
-        
+
         // Add an instance of the card Element into the `card-element` <div>.
         card.mount('#card-element');
 

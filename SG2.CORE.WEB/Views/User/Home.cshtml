@@ -15,104 +15,141 @@
 
 }
 
-<!-- BEGIN: Content-->
-<div class="app-content container center-layout mt-2">
-    <div class="content-wrapper">
-        <div class="content-header row">
-            <div class="content-header-left col-md-6 col-12 mb-2">
-                <h3 class="content-header-title mb-0">Select a growth engine you want to tweak and boost</h3>
-               
-            </div>
-            <div class="content-header-right col-md-6 col-12">
-                <div class="media width-250 float-right">
-                    <div class="media-right text-right">
-                        <div id="sp-bar-total-sales"></div>
+@section styles{
+    <style>
+        .table-hover tbody tr {
+            cursor: pointer;
+        }
+
+        .table-hover > tbody > tr > td {
+            vertical-align: middle;
+        }
+
+    </style>
+
+}
+
+
+    <!-- BEGIN: Content-->
+    <div class="app-content container center-layout mt-2">
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-md-6 col-12 mb-2">
+                    <h3 class="content-header-title mb-0">Click on a profile to set your growth engine preferences</h3>
+
+                </div>
+                <div class="content-header-right col-md-6 col-12">
+                    <div class="media width-250 float-right">
+                        <div class="media-right text-right">
+                            @*<div id="sp-bar-total-sales"></div>*@
+                        </div>
+
                     </div>
-                    
                 </div>
             </div>
-        </div>
-        <div class="content-body">
-            <!-- Extra large table start -->
-            <div class="row match-height">
-                <div class="col-9">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Social media profiles (CRM)</h4>
-                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                            <div class="heading-elements">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-blue"><i class="fa fa-plus"></i> Social Media Profile</button>
+            <div class="content-body">
+                <!-- Extra large table start -->
+                <div class="row match-height">
+                    <div class="col-9">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Social media profiles</h4>
+                                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                <div class="heading-elements">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-blue"><i class="fa fa-plus"></i> Social Media Profile</button>
 
 
+                                    </div>
+                                    <div class=" clearfix"></div>
+                                    <div class="btn-group">
+                                        Max 5 social profiles
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-content collapse show">
+                                <div class="card-body card-dashboard">
+                                    <p class="card-text"></p>
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="ResponsiveTable" class="table table-xl mb-0 table-hover">
+
+                                        <tbody>
+                                            @foreach (var item in socailProfiles)
+                                            {
+                                                <tr class='clickable-row' data-href='/Profile/Basic?socialProfileId=@item.SocialProfileId'>
+
+                                                    <td scope="row" class="align-middle">
+                                                        @if (item.SocialProfileTypeId == 30)
+                                                        {
+                                                            <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="49"  />
+                                                        }
+                                                        <a style="display:inline-block" href="/Profile/Basic?socialProfileId=@item.SocialProfileId"><h4>@item.SocialUsername</h4></a>
+                                                    </td>
+                                                    <td  > 
+
+                                                        
+                                                        <div class="btn btn-success mr-1 mb-1 display-inline">
+                                                            <i class="fa fa-paperclip font-medium-2"></i>
+                                                            <span>Active</span>
+                                                        </div>
+                                                    </td>
+
+                                                    <td  class="align-middle">
+                                                        @if (@socailProfiles.FirstOrDefault().SubscriptionName != null)
+                                                        {
+                                                            <div class="btn btn-success mr-1 mb-1 display-inline">Plan: @item.SubscriptionName</div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="btn btn-success mr-1 mb-1 display-inline">Free Plan</div>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-content collapse show">
-                            <div class="card-body card-dashboard">
-                                <p class="card-text">Max 5 social profiles permitted.<br />Upgrade to afilliate and manage more profiles with greater features and discounts.</p>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table table-xl mb-0">
+                    </div>
 
-                                    <tbody>
-                                        @foreach (var item in socailProfiles)
-                                        {
-                                            <tr>
-                                                <th scope="row">
-                                                    @if (item.SocialProfileTypeId == 30)
-                                                    {
-                                                        <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="49" class="float-left" />
-                                                    }
-                                                    <a href="/Profile/Basic?socialProfileId=@item.SocialProfileId"><h4>@item.SocialUsername</h4></a>
-                                                </th>
-                                                <td>
-                                                    <div class="badge badge-primary label-square">
-                                                        <i class="fa fa-paperclip font-medium-2"></i>
-                                                        <span>Active</span>
-                                                    </div>
-                                                </td>
-
-                                                <td>
-                                                    @if (@socailProfiles.FirstOrDefault().SubscriptionName != null)
-                                                    {
-                                                        <div class="badge badge-success label-square">Plan: @item.SubscriptionName</div>
-                                                    }
-                                                    else
-                                                    {
-                                                        <b>Free Plan</b>
-                                                    }
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
+                    <div class="col-xl-3 col-md-6 col-sm-12">
+                        <div class="card">
+                            <div class="card-content">
+                                <img class="card-img-top img-fluid" src="~/Content/ThemeAssets/Images/afilliate.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h4 class="card-title">Become an Afilliate</h4>
+                                    <p class="card-text">
+                                        Select a growth engine you want to tweak and boost
+                                        .
+                                    </p>
+                                    <a href="#" class="btn btn-success">Become an Afilliate</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-xl-3 col-md-6 col-sm-12">
-                    <div class="card">
-                        <div class="card-content">
-                            <img class="card-img-top img-fluid" src="~/Content/app-assets/images/carousel/06.jpg" alt="Card image cap">
-                            <div class="card-body">
-                                <h4 class="card-title">Become an Afilliate</h4>
-                                <p class="card-text">
-                                    Select a growth engine you want to tweak and boost
-                                    .
-                                </p>
-                                <a href="#" class="btn btn-success">GBecome an Afilliate</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Extra large table end -->
             </div>
-            <!-- Extra large table end -->
         </div>
     </div>
-</div>
-<!-- END: Content-->
+    <!-- END: Content-->
+    @section Scripts{
+        <script src="~/Content/app-assets/js/core/libraries/bootstrap.min.js"></script>
+        <script>
+
+            $('#ResponsiveTable > tbody > tr').click(function (element) {
+                window.location = element.target.parentElement.getAttribute("data-href");
+            });
+
+            $("#ResponsiveTable").on('click-row.bs.table', function (e, row, $element) {
+                window.location = $element.data('href');
+            });
+        </script>
+    }
 
 
 

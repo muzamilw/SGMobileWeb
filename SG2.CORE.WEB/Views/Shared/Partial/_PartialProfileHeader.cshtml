@@ -1,0 +1,58 @@
+﻿@using SG2.CORE.MODAL.DTO.Customers;
+@using SG2.CORE.COMMON;
+@using SG2.CORE.MODAL;
+
+@{
+
+    SocialProfile socialProfile = null;
+   
+    socialProfile = (SocialProfile)ViewBag.socialProfile;
+    
+
+    var ProfileStatus = "";
+    if (socialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
+    {
+        ProfileStatus = "Active (Free)";
+    }
+    else if (socialProfile.StatusId == (int)GlobalEnums.PlanSubscription.ActivePlan)
+    {
+        ProfileStatus = "Active (Plan)";
+    }
+    else if (socialProfile.StatusId == (int)GlobalEnums.PlanSubscription.canceled)
+    {
+        ProfileStatus = "Cancelled";
+    }
+    else if (socialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Unsubscribe)
+    {
+        ProfileStatus = "Unsubscribed";
+    }
+}
+<div class="app-content container center-layout mt-2">
+    <div class="content-wrapper">
+        <div class="content-header row">
+            <div class="content-header-left col-md-6 col-12 mb-2">
+
+                <div class="media">
+                    <a class="media-left align-self-center" href="#">
+                        <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" alt="Generic placeholder image" style="width: 64px;height: 64px;" />
+                    </a>
+                    <div class="media-body mt-2">
+                        <h3 class="media-heading">@socialProfile.SocialUsername</h3>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="content-header-right col-md-6 col-12 align-middle text-right" style="height:100%">
+                <div class="btn-group" style="margin-top:12px;">
+                    <button class="btn btn-round btn-primary" type="button"><i class="ft-activity pr-1"></i> @ProfileStatus</button>
+
+                </div>
+                
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
