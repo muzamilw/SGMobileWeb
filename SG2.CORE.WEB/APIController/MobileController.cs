@@ -116,7 +116,33 @@ namespace SG2.CORE.WEB.APIController
                 //10 count Like list is all paid instagram profile usernames which are already not in follower list.  and like exchange checkbox true
             };
 
-                
+                var daysSinceRegistration = DateTime.Today - profile.SocialProfile.CreatedOn;
+                //  
+                manifest.TargetInformation.FollMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.FollDailyIncreaseLim.Value * daysSinceRegistration.Days) + profile.SocialProfile_Instagram_TargetingInformation.FollNewPerDayLim.Value - manifest.FollowList.Count;
+                if (manifest.TargetInformation.FollMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.FollMaxPerDayLim)
+                    manifest.TargetInformation.FollMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.FollMaxPerDayLim;
+
+                manifest.TargetInformation.UnFollMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.UnFollDailyIncreaseLim.Value * daysSinceRegistration.Days) + profile.SocialProfile_Instagram_TargetingInformation.UnFollNewPerDayLim.Value;
+                if (manifest.TargetInformation.UnFollMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.UnFollMaxPerDayLim)
+                    manifest.TargetInformation.UnFollMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.UnFollMaxPerDayLim;
+
+                manifest.TargetInformation.LikeMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.LikeDailyIncreaseLim.Value * daysSinceRegistration.Days )+ profile.SocialProfile_Instagram_TargetingInformation.LikePerDayLim - manifest.LikeList.Count;
+                if (manifest.TargetInformation.LikeMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.LikeMaxPerDayLim)
+                    manifest.TargetInformation.LikeMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.LikeMaxPerDayLim;
+
+                manifest.TargetInformation.ViewStoriesMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesDailyIncreaseLim.Value * daysSinceRegistration.Days )+ profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesPerDayLim;
+                if (manifest.TargetInformation.ViewStoriesMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesMaxPerDayLim)
+                    manifest.TargetInformation.ViewStoriesMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesMaxPerDayLim;
+
+                manifest.TargetInformation.CommentMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.CommentDailyIncreaseLim.Value * daysSinceRegistration.Days )+ profile.SocialProfile_Instagram_TargetingInformation.CommentPerDayLim;
+                if (manifest.TargetInformation.CommentMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.CommentMaxPerDayLim)
+                    manifest.TargetInformation.CommentMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.CommentMaxPerDayLim;
+
+                manifest.TargetInformation.DMMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.DMDailyIncreaseLim.Value * daysSinceRegistration.Days )+ profile.SocialProfile_Instagram_TargetingInformation.DMPerDayLim;
+                if (manifest.TargetInformation.DMMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.DMMaxPerDayLim)
+                    manifest.TargetInformation.DMMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.DMMaxPerDayLim;
+
+
 
                 manifest.Profile.Status = ((GeneralStatus)profile.SocialProfile.StatusId).ToString();
 
@@ -244,7 +270,7 @@ namespace SG2.CORE.WEB.APIController
                 try
                 {
                     if (_statsManager.SaveInitialStatistics(model))
-                        return Ok();
+                        return Ok(new MobileActionResponse { StatusCode = 1, StatusMessage = "Success" });
                     else
                         return Content(HttpStatusCode.BadRequest, "Stats could not be saved");
 

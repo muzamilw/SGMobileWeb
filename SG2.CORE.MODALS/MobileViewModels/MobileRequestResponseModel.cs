@@ -145,24 +145,20 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public Nullable<bool> RandomizeIntervalsDaily { get; set; }
        
         public Nullable<int> SocialAccAs { get; set; }
-        public Nullable<int> FollNewPerDayLim { get; set; }
-        public Nullable<int> FollDailyIncreaseLim { get; set; }
+      
         public Nullable<int> FollMaxPerDayLim { get; set; }
-        public Nullable<int> UnFollNewPerDayLim { get; set; }
-        public Nullable<int> UnFollDailyIncreaseLim { get; set; }
+   
         public Nullable<int> UnFollMaxPerDayLim { get; set; }
-        public Nullable<int> LikePerDayLim { get; set; }
-        public Nullable<int> LikeDailyIncreaseLim { get; set; }
+     
         public Nullable<int> LikeMaxPerDayLim { get; set; }
-        public Nullable<int> ViewStoriesPerDayLim { get; set; }
-        public Nullable<int> ViewStoriesDailyIncreaseLim { get; set; }
+       
         public Nullable<int> ViewStoriesMaxPerDayLim { get; set; }
-        public Nullable<int> CommentPerDayLim { get; set; }
-        public Nullable<int> CommentDailyIncreaseLim { get; set; }
+       
         public Nullable<int> CommentMaxPerDayLim { get; set; }
-        public Nullable<int> DMPerDayLim { get; set; }
-        public Nullable<int> DMDailyIncreaseLim { get; set; }
+      
         public Nullable<int> DMMaxPerDayLim { get; set; }
+
+
         public Nullable<bool> FollUserProfileImage { get; set; }
         public Nullable<bool> FollUserMinPosts { get; set; }
         public Nullable<int> FollUserMinPostsVal { get; set; }
