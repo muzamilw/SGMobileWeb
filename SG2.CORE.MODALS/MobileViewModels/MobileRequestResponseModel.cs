@@ -129,6 +129,14 @@ namespace SG2.CORE.MODAL.MobileViewModels
        
       
         public Nullable<System.DateTime> LastConnectedDateTime { get; set; }
+
+
+        public Int64? StatsFollowersIncrease { get; set; }
+
+        public Int64? StatsFollowingsIncrease { get; set; }
+        
+
+
     }
 
 
@@ -170,7 +178,7 @@ namespace SG2.CORE.MODAL.MobileViewModels
        
         public Nullable<int> CommentMaxPerDayLim { get; set; }
       
-        public Nullable<int> DMMaxPerDayLim { get; set; }
+        //public Nullable<int> DMMaxPerDayLim { get; set; }
 
 
         public Nullable<bool> FollUserProfileImage { get; set; }

@@ -124,26 +124,26 @@ namespace SG2.CORE.BAL.Managers
                 var model = _statistics.GetStatisticsFirstAndRecent(socialProfileId);
                 if (model != null && model.Count == 2)
                 {
-                    followersStatisticsViewModel.FollowersInitial = model[0].Followers;
-                    followersStatisticsViewModel.FollowersTotal = model[1].FollowersTotal;
+                    followersStatisticsViewModel.FollowersInitial = model[0].Followers.HasValue ? model[0].Followers.Value : 0;
+                    followersStatisticsViewModel.FollowersTotal = model[1].FollowersTotal.HasValue ? model[1].FollowersTotal.Value :0;
 
                     followersStatisticsViewModel.FollowingsInitial = model[0].Followings;
-                    followersStatisticsViewModel.FollowingsTotal = model[1].FollowingsTotal;
+                    followersStatisticsViewModel.FollowingsTotal = model[1].FollowingsTotal.HasValue ? model[1].FollowingsTotal.Value : 0;
 
-                    followersStatisticsViewModel.PostsInitial = model[0].Posts;
-                    followersStatisticsViewModel.PostsTotal = model[1].PostsTotal;
+                    followersStatisticsViewModel.PostsInitial = model[0].Posts.HasValue ? model[0].Posts.Value:0;
+                    followersStatisticsViewModel.PostsTotal = model[1].PostsTotal.HasValue ? model[1].PostsTotal.Value : 0;
 
-                    followersStatisticsViewModel.FollowsRecent = model[1].Follow;
-                    followersStatisticsViewModel.FollowsTotal = model[1].FollowTotal;
+                    followersStatisticsViewModel.FollowsRecent = model[1].Follow.HasValue ? model[1].Follow.Value : 0;
+                    followersStatisticsViewModel.FollowsTotal = model[1].FollowTotal.HasValue ? model[1].FollowTotal.Value : 0;
 
-                    followersStatisticsViewModel.LikesRecent = model[1].Like;
-                    followersStatisticsViewModel.LikesTotal = model[1].LikeTotal;
+                    followersStatisticsViewModel.LikesRecent = model[1].Like.HasValue ? model[1].Like.Value : 0;
+                    followersStatisticsViewModel.LikesTotal = model[1].LikeTotal.HasValue ? model[1].LikeTotal.Value : 0;
 
-                    followersStatisticsViewModel.UnFollowRecent = model[1].Unfollow;
-                    followersStatisticsViewModel.UnFollowTotal = model[1].UnfollowTotal;
+                    followersStatisticsViewModel.UnFollowRecent = model[1].Unfollow.HasValue ? model[1].Unfollow.Value : 0;
+                    followersStatisticsViewModel.UnFollowTotal = model[1].UnfollowTotal.HasValue ? model[1].UnfollowTotal.Value : 0;
 
-                    followersStatisticsViewModel.StoryViewsRecent = model[1].StoryViews;
-                    followersStatisticsViewModel.StoryViewsTotal = model[1].StoryViewsTotal;
+                    followersStatisticsViewModel.StoryViewsRecent = model[1].StoryViews.HasValue ? model[1].StoryViews.Value : 0;
+                    followersStatisticsViewModel.StoryViewsTotal = model[1].StoryViewsTotal.HasValue ? model[1].StoryViewsTotal.Value :0;
 
                 }
                 else

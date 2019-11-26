@@ -119,10 +119,12 @@ namespace SG2.CORE.WEB.APIController
                 DateTime commentCutOffDate = DateTime.Today.AddDays(-1);
 
                 var profile = _customerManager.GetSocialProfileById(model.SocialProfileId);
-
+                var stats = this._statsManager.GetStatistics(profile.SocialProfile.SocialProfileId);
 
                 var whitelist = profile.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers;
-                var whilelistArray = whitelist.Split(',').ToList();
+                var whilelistArray = new List<string>();
+                if (!string.IsNullOrEmpty( whitelist) )
+                    whilelistArray = whitelist.Split(',').ToList();
 
                 var manifest = new MobileManifestResponse
                 {
@@ -141,7 +143,10 @@ namespace SG2.CORE.WEB.APIController
 
                 //20 count Follow list is all paid instagram profile usernames which are already not in follower list.  and follow exchange checkbox true
                 //10 count Like list is all paid instagram profile usernames which are already not in follower list.  and like exchange checkbox true
-            };
+                };
+
+                manifest.Profile.StatsFollowersIncrease = stats.FollowersTotal - stats.FollowersInitial;
+                manifest.Profile.StatsFollowingsIncrease = stats.FollowingsTotal - stats.FollowingsInitial;
 
                 var daysSinceRegistration = DateTime.Today - profile.SocialProfile.CreatedOn;
                 //  
@@ -165,10 +170,7 @@ namespace SG2.CORE.WEB.APIController
                 if (manifest.TargetInformation.CommentMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.CommentMaxPerDayLim)
                     manifest.TargetInformation.CommentMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.CommentMaxPerDayLim;
 
-                manifest.TargetInformation.DMMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.DMDailyIncreaseLim.Value * daysSinceRegistration.Days )+ profile.SocialProfile_Instagram_TargetingInformation.DMPerDayLim;
-                if (manifest.TargetInformation.DMMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.DMMaxPerDayLim)
-                    manifest.TargetInformation.DMMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.DMMaxPerDayLim;
-
+              
 
 
                 manifest.Profile.Status = ((GeneralStatus)profile.SocialProfile.StatusId).ToString();
