@@ -188,7 +188,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                 KlaviyoAPI klaviyoAPI = new KlaviyoAPI();
                 KlaviyoProfile klaviyoProfile = new KlaviyoProfile();
                 int customerId = model.CustomerId; // Convert.ToInt32(CryptoEngine.Decrypt(model.));
-                var customer = _customerManager.GetCustomerByCustomerId(customerId);
+                var customer = _customerManager.GetCustomerDTOByCustomerId(customerId);
                 var encryptData = CryptoEngine.Encrypt(customerId + "#" + System.DateTime.Now.Date);
                 string URL = HttpContext.Request.Url.Scheme.ToString() + "://" + HttpContext.Request.Url.Authority.ToString() + "/Home/VerifyEmail?token=" + Url.Encode(encryptData);
 

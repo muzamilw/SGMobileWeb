@@ -54,147 +54,158 @@
     <link href="~/Content/app-assets/vendors/css/forms/tags/tagging.css" rel="stylesheet" />
     <link href="~/Content/app-assets/css/pincode.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/plugins/forms/validation/form-validation.css">
+    <style>
+        .pincode-input-text {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
 }
 
 @section profileheader{
     @Html.Partial("Partial/_PartialProfileHeader", Model)
 }
 
-<form class="form" id="formbasic" method="post" action="Basic" novalidate>
+    <form class="form" id="formbasic" method="post" action="Basic" novalidate>
 
-    <!-- BEGIN: Content-->
-    <div class="app-content container center-layout mt-2">
-        <div class="content-wrapper">
-            
-            <div class="content-body">
-                <!-- Basic form layout section start -->
-                <section id="horizontal-form-layouts">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title" id="horz-layout-basic">Contect Details</h4>
-                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                                    <div class="heading-elements">
-                                        <ul class="list-inline mb-0">
-                                            <li></li>
+        @Html.HiddenFor(m => m.SocialProfile.SocialProfileId)
+        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.TargetingInformationId)
 
-                                        </ul>
+        <!-- BEGIN: Content-->
+        <div class="app-content container center-layout mt-2">
+            <div class="content-wrapper">
+
+                <div class="content-body">
+                    <!-- Basic form layout section start -->
+                    <section id="horizontal-form-layouts">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title" id="horz-layout-basic">Contact Details</h4>
+                                        <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                        <div class="heading-elements">
+                                            <ul class="list-inline mb-0">
+                                                <li></li>
+
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="card-content collpase show">
-                                    <div class="card-body">
+                                    <div class="card-content collpase show">
+                                        <div class="card-body">
 
 
-                                        <div class="form-body">
-                                            <h4 class="form-section"><i class="ft-user"></i> Status</h4>
+                                            <div class="form-body">
+                                                <h4 class="form-section"><i class="ft-user"></i> Status</h4>
 
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="label-control" for="projectinput1">App Connection Status</label>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="label-control" for="projectinput1">App Connection Status</label>
 
-                                                        <input type="text" class="form-control" value="@DeviceStatus" readonly="readonly" id="appstatus">
+                                                            <input type="text" class="form-control" value="@DeviceStatus" readonly="readonly" id="appstatus">
 
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="label-control" for="projectinput2">Profile Account Status</label>
+
+                                                            <input type="text" class="form-control" readonly="readonly" id="acctstatus" value="@ProfileStatus">
+
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="label-control" for="projectinput2">Profile Account Status</label>
 
-                                                        <input type="text" class="form-control" readonly="readonly" id="acctstatus" value="@ProfileStatus">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="label-control" for="projectinput1">Device IMEI #</label>
 
+                                                            <input type="text" class="form-control" readonly="readonly" id="firstName1" value="@DeviceIMEI">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="label-control" for="projectinput2">Device Bin Location</label>
+
+                                                            @Html.EditorFor(m => m.SocialProfile.DeviceBinLocation, new { htmlAttributes = new { @class = "form-control", placeholder="Enter in where your mobile device is usually located when in operation" } })
+
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="label-control" for="projectinput1">Device IMEI #</label>
+                                                <h4 class="form-section"><i class="ft-user"></i> Social Profile Details</h4>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="label-control" for="projectinput1">Your Intagram Username</label>
 
-                                                        <input type="text" class="form-control" readonly="readonly" id="firstName1" value="@DeviceIMEI">
 
+                                                            @Html.EditorFor(m => m.SocialProfile.SocialUsername, new { htmlAttributes = new { @class = "form-control", required = "required", data_validation_required_message = "This field is required" } })
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="label-control" for="projectinput2">Instagram Password</label>
+
+                                                            <input type="text" class="form-control" id="firstName1" readonly="readonly" value="@Model.SocialProfile.SocialPassword">
+
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="label-control" for="projectinput2">Device Bin Location</label>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="label-control" for="projectinput1">Pin Code</label>
 
-                                                        @Html.EditorFor(m => m.SocialProfile.DeviceBinLocation, new { htmlAttributes = new { @class = "form-control" } })
+                                                            <input readonly type="text" class="form-control" id="pincode" value="@Model.SocialProfile.PinCode">
 
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="label-control" for="projectinput2">Profile Created On</label>
+
+                                                            <input type="text" class="form-control" id="firstName1" readonly="readonly" value="@Model.SocialProfile.CreatedOn">
+
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-
-                                            <h4 class="form-section"><i class="ft-user"></i> Social Profile Details</h4>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="label-control" for="projectinput1">Your Intagram Username</label>
-
-
-                                                        @Html.EditorFor(m => m.SocialProfile.SocialUsername, new { htmlAttributes = new { @class = "form-control", required = "required", data_validation_required_message = "This field is required" } })
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="label-control" for="projectinput2">Instagram Password</label>
-
-                                                        <input type="text" class="form-control" id="firstName1" readonly="readonly" value="@Model.SocialProfile.SocialPassword">
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="label-control" for="projectinput1">Pin Code</label>
-
-                                                        <input readonly type="text" class="form-control" id="pincode" value="@Model.SocialProfile.PinCode">
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="label-control" for="projectinput2">Profile Created On</label>
-
-                                                        <input type="text" class="form-control" id="firstName1" readonly="readonly" value="@Model.SocialProfile.CreatedOn">
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12 text-center">
-                                                    <div class="form-actions">
-                                                        @*<button type="button" class="btn btn-warning mr-1">
+                                                <div class="row">
+                                                    <div class="col-md-12 text-center">
+                                                        <div class="form-actions">
+                                                            @*<button type="button" class="btn btn-warning mr-1">
                                                                 <i class="ft-x"></i> Cancel
                                                             </button>*@
-                                                        <button type="submit" class="btn btn-primary">
-                                                            <i class="fa fa-check-square-o"></i> Save
-                                                        </button>
+                                                            <button type="submit" class="btn btn-primary">
+                                                                <i class="fa fa-check-square-o"></i> Save
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
+
                                             </div>
 
                                         </div>
 
+
                                     </div>
-
-
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                </section>
-                <!-- // Basic form layout section end -->
+                    </section>
+                    <!-- // Basic form layout section end -->
+                </div>
             </div>
         </div>
-    </div>
-    <!-- END: Content-->
-</form>
+        <!-- END: Content-->
+    </form>
 
 
 @section Scripts{

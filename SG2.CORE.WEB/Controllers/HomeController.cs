@@ -18,6 +18,7 @@ using System.Drawing.Imaging;
 using System.Windows.Forms;
 using SG2.CORE.MODAL.DTO.QueueLogger;
 using SG2.CORE.MODAL.DTO.SystemSettings;
+using System.Globalization;
 
 namespace SG2.CORE.WEB.Controllers
 {
@@ -95,7 +96,7 @@ namespace SG2.CORE.WEB.Controllers
                     var totalHours = (currentDate - sessionDateTime).TotalHours;
                     if (totalHours <= 24)
                     {
-                        var customer = _customerManager.GetCustomerByCustomerId(customerId);
+                        var customer = _customerManager.GetCustomerDTOByCustomerId(customerId);
 
                         if (customer != null)
                         {
@@ -174,7 +175,7 @@ namespace SG2.CORE.WEB.Controllers
                 KlaviyoEvent ev = new KlaviyoEvent();
 
                 int customerId = model.CustomerId; // Convert.ToInt32(CryptoEngine.Decrypt(model.));
-                var customer = _customerManager.GetCustomerByCustomerId(customerId);
+                var customer = _customerManager.GetCustomerDTOByCustomerId(customerId);
                 var encryptData = CryptoEngine.Encrypt(customerId + "#" + System.DateTime.Now.Date);
                 string URL = HttpContext.Request.Url.Scheme.ToString() + "://" + HttpContext.Request.Url.Authority.ToString() + "/Home/VerifyEmail?token=" + Url.Encode(encryptData);
                 List<NotRequiredProperty> list = new List<NotRequiredProperty>() {
@@ -209,7 +210,7 @@ namespace SG2.CORE.WEB.Controllers
 
         public ActionResult ResetPassword(string token)
         {
-
+            
 
             ResetUserPasswordViewModel model = new ResetUserPasswordViewModel();
             try
@@ -219,22 +220,26 @@ namespace SG2.CORE.WEB.Controllers
                     var decryptData = CryptoEngine.Decrypt(token);
                     var splitdata = decryptData.Split('#');
                     int customerId = Convert.ToInt32(splitdata[0]);
-                    DateTime sessionDateTime = Convert.ToDateTime(splitdata[1]);
-                    DateTime currentDate = DateTime.Now;
-                    var totalHours = (currentDate - sessionDateTime).TotalHours;
-                    if (totalHours <= 2)
-                    {
 
-                        var customer = _customerManager.GetCustomerByCustomerId(customerId);
+
+                    
+                    //DateTime sessionDateTime = DateTime.ParseExact(splitdata[1], "MM/dd/yyyy hh:mm:ss", CultureInfo.InvariantCulture); // Convert.ToDateTime(splitdata[1]);
+                    //DateTime currentDate = DateTime.Now;
+                    //var totalHours = (currentDate - sessionDateTime).TotalHours;
+                    //if (totalHours <= 2)
+                    //{
+
+                        var customer = _customerManager.GetCustomerDTOByCustomerId(customerId);
+                        ViewBag.CustomerDTO = customer;
                         model.CustomerId = customer.CustomerId;
 
-                        if (!string.IsNullOrEmpty((string)TempData["Success"]))
-                        {
+                    //    if (!string.IsNullOrEmpty((string)TempData["Success"]))
+                    //    {
                             ViewBag.Success = (string)TempData["Success"];
                             ViewBag.Message = TempData["Message"];
-                        }
-                        // model.Password = customer;
-                    }
+                    //    }
+                    //    // model.Password = customer;
+                    //}
                    
                 }
             }

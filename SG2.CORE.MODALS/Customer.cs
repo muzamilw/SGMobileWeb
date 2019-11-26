@@ -47,7 +47,20 @@ namespace SG2.CORE.MODAL
         public Nullable<bool> IsOptedEducationalEmailSeries { get; set; }
         public Nullable<bool> IsOptedMarketingEmail { get; set; }
         public string Title { get; set; }
+        public Nullable<bool> IsBroker { get; set; }
+        public Nullable<int> BrokerPaymentPlanID { get; set; }
+        public string BrokerLogo { get; set; }
+        public string BrokerAppName { get; set; }
+        public string BrokerStrapLine { get; set; }
+        public string BrokerAspectColor { get; set; }
+        public string BrokerTrainingLink { get; set; }
+        public string BrokerTermsOfUse { get; set; }
+        public string BrokerPrivacyPolicy { get; set; }
+        public string BrokerFeedbackPage { get; set; }
+        public string BrokerHomePage { get; set; }
+        public string BrokerTrustPilotCode { get; set; }
     
+        public virtual PaymentPlan PaymentPlan { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Customer_ContactDetail> Customer_ContactDetail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

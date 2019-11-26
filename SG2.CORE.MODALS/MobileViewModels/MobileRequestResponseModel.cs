@@ -29,6 +29,20 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public string StatusMessage { get; set; }
 
         public bool SocialPasswordNeeded { get; set; }
+
+        public bool IsBroker { get; set; }
+
+        public Nullable<int> BrokerPaymentPlanID { get; set; }
+        public string BrokerLogo { get; set; }
+        public string BrokerAppName { get; set; }
+        public string BrokerStrapLine { get; set; }
+        public string BrokerAspectColor { get; set; }
+        public string BrokerTrainingLink { get; set; }
+        public string BrokerTermsOfUse { get; set; }
+        public string BrokerPrivacyPolicy { get; set; }
+        public string BrokerFeedbackPage { get; set; }
+        public string BrokerHomePage { get; set; }
+        public string BrokerTrustPilotCode { get; set; }
     }
 
 

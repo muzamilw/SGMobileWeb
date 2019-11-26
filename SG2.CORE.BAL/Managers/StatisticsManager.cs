@@ -122,7 +122,7 @@ namespace SG2.CORE.BAL.Managers
                 StatisticsViewModel followersStatisticsViewModel = new StatisticsViewModel();
                 //followersStatisticsViewModel.StatisticsListing = _statistics.GetStatistics(socialProfileId, fromDate, ToDate).ToList();
                 var model = _statistics.GetStatisticsFirstAndRecent(socialProfileId);
-                if (model != null)
+                if (model != null && model.Count == 2)
                 {
                     followersStatisticsViewModel.FollowersInitial = model[0].Followers;
                     followersStatisticsViewModel.FollowersTotal = model[1].FollowersTotal;
@@ -145,6 +145,29 @@ namespace SG2.CORE.BAL.Managers
                     followersStatisticsViewModel.StoryViewsRecent = model[1].StoryViews;
                     followersStatisticsViewModel.StoryViewsTotal = model[1].StoryViewsTotal;
 
+                }
+                else
+                {
+                    followersStatisticsViewModel.FollowersInitial = 0;
+                    followersStatisticsViewModel.FollowersTotal = 0;
+
+                    followersStatisticsViewModel.FollowingsInitial =0;
+                    followersStatisticsViewModel.FollowingsTotal = 0;
+
+                    followersStatisticsViewModel.PostsInitial =0;
+                    followersStatisticsViewModel.PostsTotal = 0;
+
+                    followersStatisticsViewModel.FollowsRecent = 0;
+                    followersStatisticsViewModel.FollowsTotal = 0;
+
+                    followersStatisticsViewModel.LikesRecent = 0;
+                    followersStatisticsViewModel.LikesTotal = 0;
+
+                    followersStatisticsViewModel.UnFollowRecent = 0;
+                    followersStatisticsViewModel.UnFollowTotal = 0;
+
+                    followersStatisticsViewModel.StoryViewsRecent = 0;
+                    followersStatisticsViewModel.StoryViewsTotal = 0;
                 }
                 return followersStatisticsViewModel;
 

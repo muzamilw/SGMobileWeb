@@ -202,8 +202,13 @@ namespace SG2.CORE.DAL.Repositories
                 using (var _db = new SocialGrowth2Connection())
                 {
                     List<SocialProfile_Statistics> lstStatisticsDTO = new List<SocialProfile_Statistics>();
-                    lstStatisticsDTO.Add(_db.SocialProfile_Statistics.Where(g => g.SocialProfileId == socialProfileId).OrderBy(g => g.Date).FirstOrDefault()); ///very first record
-                    lstStatisticsDTO.Add(_db.SocialProfile_Statistics.Where(g => g.SocialProfileId == socialProfileId).OrderByDescending(g => g.Date).FirstOrDefault()); ///recent record
+                    var first = _db.SocialProfile_Statistics.Where(g => g.SocialProfileId == socialProfileId).OrderBy(g => g.Date).FirstOrDefault();
+                    if (first != null) ;
+                        lstStatisticsDTO.Add(first); ///very first record
+
+                    var recent = _db.SocialProfile_Statistics.Where(g => g.SocialProfileId == socialProfileId).OrderByDescending(g => g.Date).FirstOrDefault();
+                    if ( recent!= null )
+                        lstStatisticsDTO.Add(recent); ///recent record
                     return lstStatisticsDTO;
                 }
             }

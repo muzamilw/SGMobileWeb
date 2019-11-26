@@ -13,7 +13,7 @@
 }
 
 @section profileheader{
-    @Html.Partial("Partial/_PartialProfileHeader",null)
+    @Html.Partial("Partial/_PartialProfileHeader", null)
 }
 
 
@@ -83,7 +83,7 @@
                                     </div>
                                 </div>
                                 <div class="progress progress-sm mt-1 mb-0">
-                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="@(Model.FollowsTotal == 0 ? 0 : (Model.FollowsRecent / Model.FollowsTotal * 100))" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
@@ -103,7 +103,7 @@
                                     </div>
                                 </div>
                                 <div class="progress progress-sm mt-1 mb-0">
-                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 40%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 40%" aria-valuenow="@(Model.LikesTotal == 0 ? 0 : (Model.LikesRecent / Model.LikesTotal * 100))" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
@@ -123,7 +123,7 @@
                                     </div>
                                 </div>
                                 <div class="progress progress-sm mt-1 mb-0">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="@(Model.UnFollowTotal == 0 ? 0 : (Model.UnFollowRecent / Model.UnFollowTotal * 100))" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
@@ -143,7 +143,7 @@
                                     </div>
                                 </div>
                                 <div class="progress progress-sm mt-1 mb-0">
-                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 35%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 35%" aria-valuenow="@(Model.StoryViewsTotal == 0 ? 0 : (Model.StoryViewsRecent / Model.StoryViewsTotal * 100))" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>

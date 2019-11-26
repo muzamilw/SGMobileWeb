@@ -28,7 +28,6 @@ namespace SG2.CORE.DAL.DB
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Customer_ContactDetail> Customer_ContactDetail { get; set; }
         public virtual DbSet<Customer_Title> Customer_Title { get; set; }
         public virtual DbSet<Enumeration> Enumerations { get; set; }
@@ -49,6 +48,7 @@ namespace SG2.CORE.DAL.DB
         public virtual DbSet<SocialProfile> SocialProfiles { get; set; }
         public virtual DbSet<PaymentPlan> PaymentPlans { get; set; }
         public virtual DbSet<SocialProfile_Instagram_TargetingInformation> SocialProfile_Instagram_TargetingInformation { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
     
         public virtual ObjectResult<SG2_usp_SystemConfig_GetAll_Result> SG2_usp_SystemConfig_GetAll(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId)
         {
@@ -233,15 +233,6 @@ namespace SG2.CORE.DAL.DB
                 new ObjectParameter("rvcStatusId", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Login_Customers_Result>("SG2_usp_Login_Customers", rvcEmailAddressParameter, rvcPasswordParameter, rvcCreatedByParameter, rvcLastLoginIPParameter, rvcStatusIdParameter);
-        }
-    
-        public virtual ObjectResult<SG2_usp_Customers_Get_Result> SG2_usp_Customers_Get(Nullable<int> id)
-        {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("Id", id) :
-                new ObjectParameter("Id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customers_Get_Result>("SG2_usp_Customers_Get", idParameter);
         }
     
         public virtual ObjectResult<SG2_usp_SocialProfile_Payments_Save_Result> SG2_usp_SocialProfile_Payments_Save(Nullable<int> riSocialProfileId, string riStripeSubscriptionId, string rvcDescription, string rvcName, Nullable<decimal> riPrice, string riStripePlanId, string rvcSubscriptionType, Nullable<System.DateTime> rdtStartDate, Nullable<System.DateTime> rdtEndDate, Nullable<int> riStatusId, Nullable<int> riPaymentPlanId, string rvcStripeInvoiceId)
@@ -503,6 +494,15 @@ namespace SG2.CORE.DAL.DB
                 new ObjectParameter("rvcStatusId", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_SignUp_Result>("SG2_usp_Customer_SignUp", rvcFirstNameParameter, rvcSurNameParameter, rvcEmailAddressParameter, rvcPasswordParameter, rvcCreatedByParameter, rvcGUIDParameter, rvcLastLoginIPParameter, rvcStatusIdParameter);
+        }
+    
+        public virtual ObjectResult<SG2_usp_Customers_Get_Result> SG2_usp_Customers_Get(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customers_Get_Result>("SG2_usp_Customers_Get", idParameter);
         }
     }
 }

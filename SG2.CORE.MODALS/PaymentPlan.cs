@@ -19,6 +19,7 @@ namespace SG2.CORE.MODAL
         {
             this.SocialProfiles = new HashSet<SocialProfile>();
             this.SocialProfile_Payments = new HashSet<SocialProfile_Payments>();
+            this.Customers = new HashSet<Customer>();
         }
     
         public int PaymentPlanId { get; set; }
@@ -45,5 +46,7 @@ namespace SG2.CORE.MODAL
         public virtual ICollection<SocialProfile> SocialProfiles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SocialProfile_Payments> SocialProfile_Payments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Customer> Customers { get; set; }
     }
 }

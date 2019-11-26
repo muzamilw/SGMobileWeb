@@ -48,7 +48,6 @@ namespace SG2.CORE.MODAL
         public Nullable<System.DateTime> LastConnectedDateTime { get; set; }
         public string DeviceBinLocation { get; set; }
     
-        public virtual Customer Customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SocialProfile_Statistics> SocialProfile_Statistics { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -60,5 +59,6 @@ namespace SG2.CORE.MODAL
         public virtual PaymentPlan PaymentPlan { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SocialProfile_Instagram_TargetingInformation> SocialProfile_Instagram_TargetingInformation { get; set; }
+        public virtual Customer Customer { get; set; }
     }
 }

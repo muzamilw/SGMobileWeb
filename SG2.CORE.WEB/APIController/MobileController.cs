@@ -35,7 +35,8 @@ namespace SG2.CORE.WEB.APIController
                 var res = _customerManager.PerformMobileLogin(model.Email, model.Pin, model.IMEI, model.ForceSwitchDevice);
                 if (res.LoginSuccessful)
                 {
-                    return Ok(new
+
+                    var resp = new
                     {
                         MobileLoginJsonRootObject = new MobileLoginResponse
                         {
@@ -43,10 +44,30 @@ namespace SG2.CORE.WEB.APIController
                             StatusMessage = "Success",
                             SocialProfileId = res.SocialProfileId,
                             SocialPasswordNeeded = res.PasswordNeeded
-
                         }
 
-                    });
+                    };
+
+                    Customer cust = null;
+                    if (res.IsBroker)
+                    {
+                        cust = _customerManager.GetCustomerByCustomerId(res.CustomerId);
+                        resp.MobileLoginJsonRootObject.IsBroker = res.IsBroker;
+                        resp.MobileLoginJsonRootObject.BrokerAppName = cust.BrokerAppName;
+                        resp.MobileLoginJsonRootObject.BrokerAspectColor = cust.BrokerAspectColor;
+                        resp.MobileLoginJsonRootObject.BrokerFeedbackPage = cust.BrokerFeedbackPage;
+                        resp.MobileLoginJsonRootObject.BrokerHomePage = cust.BrokerHomePage;
+                        resp.MobileLoginJsonRootObject.BrokerLogo = cust.BrokerLogo;
+                        resp.MobileLoginJsonRootObject.BrokerPaymentPlanID = cust.BrokerPaymentPlanID;
+                        resp.MobileLoginJsonRootObject.BrokerPrivacyPolicy = cust.BrokerPrivacyPolicy;
+                        resp.MobileLoginJsonRootObject.BrokerStrapLine = cust.BrokerStrapLine;
+                        resp.MobileLoginJsonRootObject.BrokerTermsOfUse = cust.BrokerTermsOfUse;
+                        resp.MobileLoginJsonRootObject.BrokerTrainingLink = cust.BrokerTrainingLink;
+                        resp.MobileLoginJsonRootObject.BrokerTrustPilotCode = cust.BrokerTrustPilotCode;
+                    }
+
+                            
+                    return Ok(resp);
                 }
                 else
                 {
@@ -99,6 +120,10 @@ namespace SG2.CORE.WEB.APIController
 
                 var profile = _customerManager.GetSocialProfileById(model.SocialProfileId);
 
+
+                var whitelist = profile.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers;
+                var whilelistArray = whitelist.Split(',').ToList();
+
                 var manifest = new MobileManifestResponse
                 {
                     CustomerId = profile.SocialProfile.CustomerId.Value,
@@ -107,8 +132,10 @@ namespace SG2.CORE.WEB.APIController
                     Profile = mapper.Map<MobileSocialProfile>(profile.SocialProfile),
                     CurrentPlan = mapper4.Map<MobilePaymentPlan>(  profile.CurrentPaymentPlan),
                     TargetInformation = mapper2.Map<MobileSocialProfile_Instagram_TargetingInformation>(profile.SocialProfile_Instagram_TargetingInformation),
-                    FollowersToUnFollow = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime < commentCutOffDate).ToList()),
-                    FollowersToComment = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime >= commentCutOffDate).ToList()),
+                    // filter the unfollow list by the white list of users which is manually entered.
+                    FollowersToUnFollow = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime < commentCutOffDate && !whilelistArray.Contains(g.FollowedSocialUsername)).ToList()),
+                    //randomize the followers to comment list and only send 50
+                    FollowersToComment = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime >= commentCutOffDate).OrderBy(x => Guid.NewGuid()).Take(50).ToList()),
                     FollowList = _customerManager.GetFollowList(model.SocialProfileId).Select( g=> new MobileSocialProfile_FollowedAccounts { FollowedSocialUsername = g.SocialUsername, FollowedDateTime = DateTime.Now }).Take(30).ToList(),
                     LikeList = _customerManager.GetFollowList(model.SocialProfileId).Select(g => new MobileSocialProfile_FollowedAccounts { FollowedSocialUsername = g.SocialUsername }).Take(30).ToList()
 
