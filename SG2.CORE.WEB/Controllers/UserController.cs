@@ -59,6 +59,35 @@ namespace SG2.CORE.WEB.Controllers
             return View();
         }
 
+
+        [HttpPost]
+        public ActionResult CreateNewProfile(CustomerAddProfileRequest model)
+        {
+            var jr = new JsonResult();
+            try
+            {
+                
+                var result = _customerManager.AddInstagramSocialProfile(model.IntagramUserName, model.CustomerId);
+
+                if ( result.Succcess == true)
+                {
+                    jr.Data = new { ResultType = "Success", message = result.Message };
+                }
+                else
+                {
+                    jr.Data = new { ResultType = "Error", message = result.Message };
+                }
+               
+
+            }
+            catch (Exception exp)
+            {
+                throw exp;
+            }
+
+            return Json(jr, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult UserProfile()
         {
             if (!string.IsNullOrEmpty((string)TempData["Success"]))

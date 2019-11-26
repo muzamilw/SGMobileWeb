@@ -24,132 +24,205 @@
         .table-hover > tbody > tr > td {
             vertical-align: middle;
         }
-
     </style>
 
 }
 
 
-    <!-- BEGIN: Content-->
-    <div class="app-content container center-layout mt-2">
-        <div class="content-wrapper">
-            <div class="content-header row">
-                <div class="content-header-left col-md-6 col-12 mb-2">
-                    <h3 class="content-header-title mb-0">Click on a profile to set growth engine preferences</h3>
+<!-- BEGIN: Content-->
+<div class="app-content container center-layout mt-2">
+    <div class="content-wrapper">
+        <div class="content-header row">
+            <div class="content-header-left col-md-6 col-12 mb-2">
+                <h3 class="content-header-title mb-0">Click on a profile to set growth engine preferences</h3>
 
-                </div>
-                <div class="content-header-right col-md-6 col-12">
-                    <div class="media width-250 float-right">
-                        <div class="media-right text-right">
-                            @*<div id="sp-bar-total-sales"></div>*@
-                        </div>
-
-                    </div>
-                </div>
             </div>
-            <div class="content-body">
-                <!-- Extra large table start -->
-                <div class="row match-height">
-                    <div class="col-9">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Social media profiles</h4>
-                                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                                <div class="heading-elements">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-blue"><i class="fa fa-plus"></i> Social Media Profile</button>
-
-
-                                    </div>
-                                    <div class=" clearfix"></div>
-                                    <div class="btn-group">
-                                        Max 5 social profiles
-
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-content collapse show">
-                                <div class="card-body card-dashboard">
-                                    <p class="card-text"></p>
-                                </div>
-                                <div class="table-responsive">
-                                    <table id="ResponsiveTable" class="table table-xl mb-0 table-hover">
-
-                                        <tbody>
-                                            @foreach (var item in socailProfiles)
-                                            {
-                                                <tr class='clickable-row' data-href='/Profile/Basic?socialProfileId=@item.SocialProfileId'>
-
-                                                    <td scope="row" class="align-middle">
-                                                        @if (item.SocialProfileTypeId == 30)
-                                                        {
-                                                            <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="49"  />
-                                                        }
-                                                        <a style="display:inline-block" href="/Profile/Basic?socialProfileId=@item.SocialProfileId"><h4>@item.SocialUsername</h4></a>
-                                                    </td>
-                                                    <td  > 
-
-                                                        
-                                                        <div class="btn btn-success mr-1 mb-1 display-inline">
-                                                            <i class="fa fa-paperclip font-medium-2"></i>
-                                                            <span>Active</span>
-                                                        </div>
-                                                    </td>
-
-                                                    <td  class="align-middle">
-                                                        @if (@socailProfiles.FirstOrDefault().SubscriptionName != null)
-                                                        {
-                                                            <div class="btn btn-success mr-1 mb-1 display-inline">Plan: @item.SubscriptionName</div>
-                                                        }
-                                                        else
-                                                        {
-                                                            <div class="btn btn-success mr-1 mb-1 display-inline">Free Plan</div>
-                                                        }
-                                                    </td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+            <div class="content-header-right col-md-6 col-12">
+                <div class="media width-250 float-right">
+                    <div class="media-right text-right">
+                        @*<div id="sp-bar-total-sales"></div>*@
                     </div>
 
-                    <div class="col-xl-3 col-md-6 col-sm-12">
-                        <div class="card">
-                            <div class="card-content">
-                                <img class="card-img-top img-fluid" src="~/Content/ThemeAssets/Images/afilliate.jpg" alt="Card image cap">
-                                <div class="card-body">
-                                    <h4 class="card-title">Become an Afilliate</h4>
-                                    <p class="card-text">
-                                        Join the Social Growth Affiliates Program and start earning money today.
-                                        .
-                                    </p>
-                                    <a href="#" class="btn btn-success">Become an Afilliate</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                <!-- Extra large table end -->
             </div>
         </div>
-    </div>
-    <!-- END: Content-->
-    @section Scripts{
-        <script src="~/Content/app-assets/js/core/libraries/bootstrap.min.js"></script>
-        <script>
+        <div class="content-body">
+            <!-- Extra large table start -->
+            <div class="row match-height">
+                <div class="col-9">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Social media profiles</h4>
+                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-blue" data-toggle="modal" data-target="#newProfile"><i class="fa fa-plus"></i> Social Profile</button>
 
-            $('#ResponsiveTable > tbody > tr').click(function (element) {
-                window.location = element.target.parentElement.getAttribute("data-href");
+
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body card-dashboard">
+                                <p class="card-text"></p>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="ResponsiveTable" class="table table-xl mb-0 table-hover">
+
+                                    <tbody>
+                                        @foreach (var item in socailProfiles)
+                                        {
+                                            <tr class='clickable-row' data-href='/Profile/Basic?socialProfileId=@item.SocialProfileId'>
+
+                                                <td scope="row" class="align-middle">
+                                                    @if (item.SocialProfileTypeId == 30)
+                                                    {
+                                                        <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="49" />
+                                                    }
+                                                    <a style="display:inline-block" href="/Profile/Basic?socialProfileId=@item.SocialProfileId"><h4>@item.SocialUsername</h4></a>
+                                                </td>
+                                                <td>
+
+
+                                                    <div class="btn btn-success mr-1 mb-1 display-inline">
+                                                        <i class="fa fa-paperclip font-medium-2"></i>
+                                                        <span>Active</span>
+                                                    </div>
+                                                </td>
+
+                                                <td class="align-middle">
+                                                    @if (@socailProfiles.FirstOrDefault().SubscriptionName != null)
+                                                    {
+                                                        <div class="btn btn-success mr-1 mb-1 display-inline">Plan: @item.SubscriptionName</div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="btn btn-success mr-1 mb-1 display-inline">Free Plan</div>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 col-sm-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <img class="card-img-top img-fluid" src="~/Content/ThemeAssets/Images/afilliate.jpg" alt="Card image cap">
+                            <div class="card-body">
+                                <h4 class="card-title">Become an Afilliate</h4>
+                                <p class="card-text">
+                                    Join the Social Growth Affiliates Program and start earning money today.
+                                    
+                                </p>
+                                <a href="#" class="btn btn-success">Become an Afilliate</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Extra large table end -->
+        </div>
+    </div>
+</div>
+<div class="modal fade text-left" id="newProfile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel34" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="myModalLabel34">Create a new Social Profile</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="newprofileForm">
+                <input type="hidden" name="CustomerId" value="@currentUser.CustomerId" />
+                <div class="modal-body">
+                    <label>Instagram Username </label>
+                    <div class="form-group position-relative has-icon-left">
+                        <input type="text" placeholder="Intagram Username" class="form-control" name="IntagramUserName" required>
+                        <div class="form-control-position">
+                            <i class="fa fa-envelope font-medium-5 line-height-1 text-muted icon-align"></i>
+                        </div>
+                       
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="close">
+                    <input type="submit" class="btn btn-outline-primary btn-lg" value="Create New Profile">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- END: Content-->
+@section Scripts{
+    <script src="~/Content/app-assets/js/core/libraries/bootstrap.min.js"></script>
+    <script src="~/Content/app-assets/vendors/js/extensions/sweetalert.min.js"></script>
+    <script src="~/Content/app-assets/js/scripts/extensions/sweet-alerts.js"></script>
+
+    <script>
+
+        $('#ResponsiveTable > tbody > tr').click(function (element) {
+            window.location = element.target.parentElement.getAttribute("data-href");
+        });
+
+
+        $("document").ready(function () {
+
+
+            $("#newprofileForm").on("submit", function () {
+                debugger;
+
+                //if ($("#Form_UpdatePassword").valid()) {
+
+                var data = $("#newprofileForm").serializeArray();
+                $.ajax({
+                    type: "POST",
+                    url: "/User/CreateNewProfile",
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        if (!$.isEmptyObject(data)) {
+                            if (data.Data.ResultType == "Success") {
+                                //$("#Modal_MessageBoxTitle").text("Message");
+                                //$("#Modal_MessageBoxBody").text(data.message);
+                                //$("#Modal_Messagebox").modal("show");
+                                //$('#default').modal('show');
+                                swal("Success!", "You have successfully created a social profile. Please activate the payment plan to start using it with your mobile device!", "success")
+                                    .then((value) => {
+                                        window.location.reload(false); 
+                                    });
+                                //$(location).attr('href', "/Home/PasswordUpdated");
+                            } else {
+                                //$("#Modal_MessageBoxTitle").text("Message");
+                                //$("#Modal_MessageBoxBody").text(data.message);
+                                //$("#Modal_Messagebox").modal("show");
+                                //$('#default').modal('show');
+                                swal("Error!", data.Data.message, "error");
+                                //$('#ErrorMessage').text(data.message);
+
+                            }
+
+                        }
+                    },
+                    failure: function (errMsg) {
+
+                    }
+                });
+                return false;
+                //}
+
             });
 
-            //$("#ResponsiveTable").on('click-row.bs.table', function (e, row, $element) {
-            //    window.location = $element.data('href');
-            //});
-        </script>
-    }
+        });
+    </script>
+}
 
 
 

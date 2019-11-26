@@ -14,4 +14,12 @@ namespace SG2.CORE.MODAL.ViewModals.Customers
         public bool IsOptedMarketingEmail { get; set; }
 
     }
+
+    public class CustomerAddProfileRequest
+    {
+        public String IntagramUserName { get; set; }
+        public int CustomerId { get; set; }
+      
+
+    }
 }

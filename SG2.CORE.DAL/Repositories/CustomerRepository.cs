@@ -1318,6 +1318,50 @@ namespace SG2.CORE.DAL.Repositories
         }
         //_db.SocialProfile_Payments.Where(g => g.SocialProfileId == profileId).OrderByDescending(g => g.PaymentDateTime).ToList();
 
+
+        public (bool Succcess, string Message) AddIntagramSocialProfile(string InstagramSocialUsername, int CustomerId)
+        {
+            try
+            {
+                
+                using (var _db = new SocialGrowth2Connection())
+                {
+
+                    var count =_db.SocialProfiles.Where(g => g.SocialUsername == InstagramSocialUsername && g.CustomerId == CustomerId && g.SocialProfileTypeId == 30).Count();
+                    if (count == 0)
+                    {
+                        Random generator = new Random();
+                        String r = generator.Next(0, 999999).ToString("D6");
+                        var PaymentPlan = _db.PaymentPlans.Where(g => g.IsDefault == true && g.IsBrokerPlan == false).Single();
+                        var defaultTargetProfile = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.IsSystem == true).Single();
+
+                        var newProfile = new SocialProfile { CreatedBy = "User", SocialProfileTypeId = 30, SocialUsername = InstagramSocialUsername, CreatedOn = DateTime.Now, UpdatedBy="User", UpdatedOn = DateTime.Now, IsArchived = false, CustomerId = CustomerId, PaymentPlanId = PaymentPlan.PaymentPlanId, PinCode = r, StatusId = 25 };
+
+                        newProfile = _db.SocialProfiles.Add(newProfile);
+                        _db.SaveChanges();
+
+                        defaultTargetProfile.SocialProfileId = newProfile.SocialProfileId;
+                        defaultTargetProfile.IsSystem = false;
+
+                        _db.SocialProfile_Instagram_TargetingInformation.Add(defaultTargetProfile);
+                        _db.SaveChanges();
+
+
+                        return (true, "Profile Created Successfully");
+                    }
+                    else
+                    {
+                        return (false, "Profile with Username already exists");
+                    }
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<ActionBoardJVSData> GetTrelloStatuses()
         {
             try

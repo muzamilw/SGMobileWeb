@@ -565,6 +565,19 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
+        public (bool Succcess, string Message) AddInstagramSocialProfile(string InstagramSocialUsername, int CustomerId)
+        {
+            try
+            {
+                return _customerRepository.AddIntagramSocialProfile(InstagramSocialUsername,CustomerId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
 
         // Follow  with username    actionid = 60
         // UnFollow  with username  actionid = 61
