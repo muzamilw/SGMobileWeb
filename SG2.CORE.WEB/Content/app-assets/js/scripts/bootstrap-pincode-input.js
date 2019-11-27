@@ -115,7 +115,8 @@
                     'type': this.settings.inputtype,
 					'pattern': this.settings.pattern,
 					'inputmode': this.settings.inputmode,
-					'id': 'preventautofill',
+                    'id': 'preventautofill',
+                    
 					'autocomplete': 'off'
 				}).addClass('pincode-input-text-masked').appendTo(this._pwcontainer);
 			}
@@ -166,7 +167,8 @@
 					var input = $('<input>').attr({
 						'type': 'text',
 						'maxlength': "1",
-						'autocomplete': 'off',
+                        'autocomplete': 'off',
+                        'readonly': 'readonly',
 						'placeholder': (placeholders[i] ? placeholders[i] : undefined)
 					}).addClass('form-control pincode-input-text').appendTo(this._container);
 					if (this.settings.hidedigits) {
