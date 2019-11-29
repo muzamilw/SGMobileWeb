@@ -882,17 +882,18 @@ namespace SG2.CORE.DAL.Repositories
 
         }
 
-        public async Task<bool> UpdateStripeCustomerId(int CustomerId, string StripCustomerId)
+        public bool UpdateSocialProfileStripeCustomerId(int SocialProfileId, string StripCustomerId, string StripeSubscriptionId)
         {
             try
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    var cus = _db.Customers.FirstOrDefault(x => x.CustomerId == CustomerId);
+                    var cus = _db.SocialProfiles.FirstOrDefault(x => x.SocialProfileId == SocialProfileId);
                     if (cus != null)
                     {
                         cus.StripeCustomerId = StripCustomerId;
-                        await _db.SaveChangesAsync();
+                        cus.StripeSubscriptionId = StripeSubscriptionId;
+                        _db.SaveChanges();
                         return true;
                     }
                     return false;
@@ -999,21 +1000,20 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
-        public async Task<SocialProfile_PaymentsDTO> InsertSubscription(SocialProfile_PaymentsDTO subscriptionDTO)
+        public async Task<SocialProfile_PaymentsDTO> InsertSocialProfilePaymentRecord(SocialProfile_PaymentsDTO model)
         {
             using (var _db = new SocialGrowth2Connection())
             {
                 try
                 {
-                    var result = await Task.Run(() => _db.SG2_usp_SocialProfile_Payments_Save(subscriptionDTO.SocialProfileId, subscriptionDTO.StripeSubscriptionId, subscriptionDTO.Description, subscriptionDTO.Description,
-                    subscriptionDTO.Price, subscriptionDTO.StripePlanId, subscriptionDTO.SubscriptionType, subscriptionDTO.StartDate, subscriptionDTO.EndDate, subscriptionDTO.StatusId
-                    , subscriptionDTO.PaymentPlanId, subscriptionDTO.StripeInvoiceId).ToList());
-                    if (result != null)
-                    {
-                        subscriptionDTO.StripeSubscriptionId = result.FirstOrDefault().SubscriptionId.ToString();
-                        return subscriptionDTO;
-                    }
-                    return null;
+                    SocialProfile_Payments payrec = new SocialProfile_Payments { Description  = model.Description, StripeSubscriptionId = model.StripeSubscriptionId, SocialProfileId = model.SocialProfileId , EndDate = model.EndDate, Name = model.Name, PaymentDateTime = model.PaymentDateTime, PaymentPlanId = model.PaymentPlanId, Price = model.Price, StartDate = model.StartDate, StatusId = 1, StripeInvoiceId = model.StripeInvoiceId, StripePlanId = model.StripePlanId, SubscriptionType = "month" };
+                    _db.SocialProfile_Payments.Add(payrec);
+                    _db.SaveChanges();
+
+                    model.PaymentId = payrec.PaymentId;
+
+                    return model;
+                 
                 }
                 catch (Exception ex)
                 {

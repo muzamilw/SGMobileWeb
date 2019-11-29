@@ -442,171 +442,171 @@ namespace SG2.CORE.WEB.Controllers
 
         }
 
-        [HttpPost]
-        public ActionResult ConfirmPayment(CustomerPayAndConfirmViewModel model)
-        {
-            try
-            {
+        //[HttpPost]
+        //public ActionResult ConfirmPayment(CustomerPayAndConfirmViewModel model)
+        //{
+        //    try
+        //    {
 
-                StripeConfiguration.SetApiKey(_stripeApiKey);
-                Subscription subscription = new Subscription();
-                SocialProfile_PaymentsDTO subscriptionDTO = new SocialProfile_PaymentsDTO();
-                var subscriptionService = new SubscriptionService();
+        //        StripeConfiguration.SetApiKey(_stripeApiKey);
+        //        Subscription subscription = new Subscription();
+        //        SocialProfile_PaymentsDTO subscriptionDTO = new SocialProfile_PaymentsDTO();
+        //        var subscriptionService = new SubscriptionService();
 
-                if (this.CDT.StripeCustomerId != null)
-                {
-                    subscriptionDTO = _customerManager.GetSubscription(this.CDT.CustomerId);
-                    DateTime prorationDate = DateTime.Now;
-                    if (subscriptionDTO.StripeSubscriptionId != null)
-                    {
-                        Subscription subscriptionItemUpdate = subscriptionService.Get(subscriptionDTO.StripeSubscriptionId);
+        //        if (this.CDT.StripeCustomerId != null)
+        //        {
+        //            subscriptionDTO = _customerManager.GetSubscription(this.CDT.CustomerId);
+        //            DateTime prorationDate = DateTime.Now;
+        //            if (subscriptionDTO.StripeSubscriptionId != null)
+        //            {
+        //                Subscription subscriptionItemUpdate = subscriptionService.Get(subscriptionDTO.StripeSubscriptionId);
 
-                        var items = new List<SubscriptionItemUpdateOption> {
-                                        new SubscriptionItemUpdateOption {
-                                        Id= subscriptionItemUpdate.Items.Data[0].Id,
-                                        Plan = model.PlanId,
-                                        Quantity= 1,
-                                        },
-                                    };
-                        var subscriptionUpdateoptions = new SubscriptionUpdateOptions
-                        {
-                            Items = items,
-                           // Billing = Billing.ChargeAutomatically,
-                            //  billingcycleanchor = datetime.now,
-                            BillingThresholds = { },
-                            Prorate = true,
-                            // cancelat = datetime.now.adddays(30),
-                            //  daysuntildue = 5,
-                            // DefaultPaymentMethodId = paymentmethod.id,
-                           // BillingCycleAnchorNow = true,
-                            //BillingCycleAnchorUnchanged = true,
-                            ProrationDate = prorationDate,
-                        };
-                        subscription = subscriptionService.Update(subscriptionDTO.StripeSubscriptionId, subscriptionUpdateoptions);
-                    }
-                    else
-                    {
-                        var items = new List<SubscriptionItemOption> {
-                                      new SubscriptionItemOption {
-                                        Plan = model.PlanId,
-                                        Quantity= 1
-                                      }
-                                    };
+        //                var items = new List<SubscriptionItemUpdateOption> {
+        //                                new SubscriptionItemUpdateOption {
+        //                                Id= subscriptionItemUpdate.Items.Data[0].Id,
+        //                                Plan = model.PlanId,
+        //                                Quantity= 1,
+        //                                },
+        //                            };
+        //                var subscriptionUpdateoptions = new SubscriptionUpdateOptions
+        //                {
+        //                    Items = items,
+        //                   // Billing = Billing.ChargeAutomatically,
+        //                    //  billingcycleanchor = datetime.now,
+        //                    BillingThresholds = { },
+        //                    Prorate = true,
+        //                    // cancelat = datetime.now.adddays(30),
+        //                    //  daysuntildue = 5,
+        //                    // DefaultPaymentMethodId = paymentmethod.id,
+        //                   // BillingCycleAnchorNow = true,
+        //                    //BillingCycleAnchorUnchanged = true,
+        //                    ProrationDate = prorationDate,
+        //                };
+        //                subscription = subscriptionService.Update(subscriptionDTO.StripeSubscriptionId, subscriptionUpdateoptions);
+        //            }
+        //            else
+        //            {
+        //                var items = new List<SubscriptionItemOption> {
+        //                              new SubscriptionItemOption {
+        //                                Plan = model.PlanId,
+        //                                Quantity= 1
+        //                              }
+        //                            };
 
-                        var subscriptionCreateoptions = new SubscriptionCreateOptions
-                        {
-                            Customer = this.CDT.StripeCustomerId,
-                            Items = items,
-                            //Billing = Billing.ChargeAutomatically,
-                            //  billingcycleanchor = datetime.now,
-                            BillingThresholds = { },
-                            // cancelat = datetime.now.adddays(30),
-                            //  daysuntildue = 5,
-                            // DefaultPaymentMethodId = paymentmethod.id,
-                        };
-                        subscription = subscriptionService.Create(subscriptionCreateoptions);
-                    }
+        //                var subscriptionCreateoptions = new SubscriptionCreateOptions
+        //                {
+        //                    Customer = this.CDT.StripeCustomerId,
+        //                    Items = items,
+        //                    //Billing = Billing.ChargeAutomatically,
+        //                    //  billingcycleanchor = datetime.now,
+        //                    BillingThresholds = { },
+        //                    // cancelat = datetime.now.adddays(30),
+        //                    //  daysuntildue = 5,
+        //                    // DefaultPaymentMethodId = paymentmethod.id,
+        //                };
+        //                subscription = subscriptionService.Create(subscriptionCreateoptions);
+        //            }
 
-                }
-                else
-                {
-
-
-                    var paymentMethodCreateOptions = new PaymentMethodCreateOptions
-                    {
-                        Type = "card",
-                        Card = new PaymentMethodCardCreateOptions
-                        {
-                            Number = "4242424242424242",
-                            ExpMonth = 4,
-                            ExpYear = 2020,
-                            Cvc = "123",
-                        },
-                    };
-
-                    var paymentMethodService = new PaymentMethodService();
-                    var paymentMethod = paymentMethodService.Create(paymentMethodCreateOptions);
-
-                    var customerCreateOptions = new CustomerCreateOptions
-                    {
-                        Description = " Customer for Social Growth" + this.CDT.EmailAddress,
-                        //SourceToken = "tok_visa",
-                        Address = new AddressOptions
-                        {
-                            City = "Lahore",
-                            Country = "Pakistan",
-                            PostalCode = "54000",
-                            Line1 = "Abc street",
-                            Line2 = "PIA road",
-                            State = "Punjab"
-                        },
-
-                        Name = this.CDT.FirstName + " " + this.CDT.UserName,
-                        Email = this.CDT.EmailAddress,
-                        PaymentMethod = paymentMethod.Id
-                    };
-
-                    var customerService = new CustomerService();
-                    Customer stripeCustomer = customerService.Create(customerCreateOptions);
-
-                    _customerManager.UpdateStripeCustomerId(this.CDT.CustomerId, stripeCustomer.Id);
+        //        }
+        //        else
+        //        {
 
 
-                    var items = new List<SubscriptionItemOption> {
-                      new SubscriptionItemOption {
-                        Plan = model.PlanId,
-                        Quantity= 1
-                      }
-                    };
+        //            var paymentMethodCreateOptions = new PaymentMethodCreateOptions
+        //            {
+        //                Type = "card",
+        //                Card = new PaymentMethodCardCreateOptions
+        //                {
+        //                    Number = "4242424242424242",
+        //                    ExpMonth = 4,
+        //                    ExpYear = 2020,
+        //                    Cvc = "123",
+        //                },
+        //            };
 
-                    var subscriptionCreateOptions = new SubscriptionCreateOptions
-                    {
-                        Customer = stripeCustomer.Id,
-                        Items = items,
-                        //Billing = Billing.ChargeAutomatically,
-                        //  BillingCycleAnchor = DateTime.Now,
-                        BillingThresholds = { },
-                        // CancelAt = DateTime.Now.AddDays(30),
-                        //  DaysUntilDue = 5,
-                        DefaultPaymentMethod = paymentMethod.Id,
-                    };
+        //            var paymentMethodService = new PaymentMethodService();
+        //            var paymentMethod = paymentMethodService.Create(paymentMethodCreateOptions);
+
+        //            var customerCreateOptions = new CustomerCreateOptions
+        //            {
+        //                Description = " Customer for Social Growth" + this.CDT.EmailAddress,
+        //                //SourceToken = "tok_visa",
+        //                Address = new AddressOptions
+        //                {
+        //                    City = "Lahore",
+        //                    Country = "Pakistan",
+        //                    PostalCode = "54000",
+        //                    Line1 = "Abc street",
+        //                    Line2 = "PIA road",
+        //                    State = "Punjab"
+        //                },
+
+        //                Name = this.CDT.FirstName + " " + this.CDT.UserName,
+        //                Email = this.CDT.EmailAddress,
+        //                PaymentMethod = paymentMethod.Id
+        //            };
+
+        //            var customerService = new CustomerService();
+        //            Customer stripeCustomer = customerService.Create(customerCreateOptions);
+
+        //            _customerManager.UpdateSocialProfileStripeCustomer(this.CDT.CustomerId, stripeCustomer.Id);
 
 
-                    subscription = subscriptionService.Create(subscriptionCreateOptions);
+        //            var items = new List<SubscriptionItemOption> {
+        //              new SubscriptionItemOption {
+        //                Plan = model.PlanId,
+        //                Quantity= 1
+        //              }
+        //            };
 
-                }
+        //            var subscriptionCreateOptions = new SubscriptionCreateOptions
+        //            {
+        //                Customer = stripeCustomer.Id,
+        //                Items = items,
+        //                //Billing = Billing.ChargeAutomatically,
+        //                //  BillingCycleAnchor = DateTime.Now,
+        //                BillingThresholds = { },
+        //                // CancelAt = DateTime.Now.AddDays(30),
+        //                //  DaysUntilDue = 5,
+        //                DefaultPaymentMethod = paymentMethod.Id,
+        //            };
 
 
-                //SocialProfile_PaymentsDTO subDTO = new SocialProfile_PaymentsDTO();
-                //subDTO.CustomerId = this.CDT.CustomerId;
-                //subDTO.StripeSubscriptionId = subscription.Id;
-                //subDTO.Description = subscription.Plan.Nickname;
-                //subDTO.Name = subscription.Plan.Nickname;
-                //subDTO.Price = subscription.Plan.Amount;
-                //subDTO.StripePlanId = subscription.Plan.Id;
-                //subDTO.SubscriptionType = subscription.Plan.Interval;
-                //subDTO.StartDate = subscription.StartDate ?? DateTime.Now;
-                //subDTO.EndDate = subscription.EndedAt ?? DateTime.Now.AddMonths(1);
+        //            subscription = subscriptionService.Create(subscriptionCreateOptions);
 
-                //if (subscriptionDTO.SubscriptionId != 0)
-                //{
-                //    subDTO.SubscriptionId = subscriptionDTO.SubscriptionId;
-                //    _customerManager.UpdateSubscription(subDTO);
-                //}
-                //else
-                //{
-                //    _customerManager.InsertSubscription(subDTO);
-                //}
+        //        }
 
-            }
-            catch (Exception ex)
-            {
-                throw ex;
 
-            }
+        //        //SocialProfile_PaymentsDTO subDTO = new SocialProfile_PaymentsDTO();
+        //        //subDTO.CustomerId = this.CDT.CustomerId;
+        //        //subDTO.StripeSubscriptionId = subscription.Id;
+        //        //subDTO.Description = subscription.Plan.Nickname;
+        //        //subDTO.Name = subscription.Plan.Nickname;
+        //        //subDTO.Price = subscription.Plan.Amount;
+        //        //subDTO.StripePlanId = subscription.Plan.Id;
+        //        //subDTO.SubscriptionType = subscription.Plan.Interval;
+        //        //subDTO.StartDate = subscription.StartDate ?? DateTime.Now;
+        //        //subDTO.EndDate = subscription.EndedAt ?? DateTime.Now.AddMonths(1);
 
-            return View();
-        }
+        //        //if (subscriptionDTO.SubscriptionId != 0)
+        //        //{
+        //        //    subDTO.SubscriptionId = subscriptionDTO.SubscriptionId;
+        //        //    _customerManager.UpdateSubscription(subDTO);
+        //        //}
+        //        //else
+        //        //{
+        //        //    _customerManager.InsertSubscription(subDTO);
+        //        //}
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+
+        //    }
+
+        //    return View();
+        //}
 
         public JsonResult CheckCurrentPassword(string CurrentPassword)
         {
@@ -651,162 +651,7 @@ namespace SG2.CORE.WEB.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult NewCardPayment(CustomerCardDetailViewModel model)
-        {
-            try
-            {
-                var _googleApiKey = SystemConfigs.First(x => x.ConfigKey == "GoogleMapApiKey").ConfigValue;
-
-                int socialProfileId = 1;//TODO: Social Profile Id
-                var jr = new JsonResult();
-
-                StripeConfiguration.SetApiKey(_stripeApiKey);
-                Subscription subscription = new Subscription();
-                SocialProfile_PaymentsDTO subscriptionDTO = new SocialProfile_PaymentsDTO();
-                var subscriptionService = new SubscriptionService();
-
-                if (this.CDT.StripeCustomerId != null)
-                {
-                    subscriptionDTO = _customerManager.GetSubscription(this.CDT.CustomerId);
-                    DateTime prorationDate = DateTime.Now;
-                    if (subscriptionDTO.StripeSubscriptionId != null)
-                    {
-
-                        if (model.stripeToken != null)
-                        {
-                            var options = new CustomerUpdateOptions
-                            {
-                                //SourceToken = model.stripeToken,
-                            };
-                            var service = new CustomerService();
-                            Customer customer = service.Update(this.CDT.StripeCustomerId, options);
-                        }
-                        Subscription subscriptionItemUpdate = subscriptionService.Get(subscriptionDTO.StripeSubscriptionId);
-
-                        var items = new List<SubscriptionItemUpdateOption> {
-                                        new SubscriptionItemUpdateOption {
-                                        Id= subscriptionItemUpdate.Items.Data[0].Id,
-                                        Plan = model.StripePlanId,
-                                        Quantity= 1,
-                                        },
-                                    };
-                        var subscriptionUpdateoptions = new SubscriptionUpdateOptions
-                        {
-                            Items = items,
-                            //Billing = Billing.ChargeAutomatically,
-                            //  billingcycleanchor = datetime.now,
-                            BillingThresholds = { },
-                            Prorate = true,
-                            // cancelat = datetime.now.adddays(30),
-                            //  daysuntildue = 5,
-                            // DefaultPaymentMethodId = paymentmethod.id,
-                            //BillingCycleAnchorNow = true,
-                            //BillingCycleAnchorUnchanged = true,
-                            ProrationDate = prorationDate,
-                        };
-                        subscription = subscriptionService.Update(subscriptionDTO.StripeSubscriptionId, subscriptionUpdateoptions);
-                    }
-                    else
-                    {
-                        var items = new List<SubscriptionItemOption> {
-                                      new SubscriptionItemOption {
-                                        Plan = model.StripePlanId,
-                                        Quantity= 1
-                                      }
-                                    };
-
-                        var subscriptionCreateoptions = new SubscriptionCreateOptions
-                        {
-                            Customer = this.CDT.StripeCustomerId,
-                            Items = items,
-                            //Billing = Billing.ChargeAutomatically,
-                            //  billingcycleanchor = datetime.now,
-                            BillingThresholds = { },
-                            // cancelat = datetime.now.adddays(30),
-                            //  daysuntildue = 5,
-                            // DefaultPaymentMethodId = paymentmethod.id,
-                        };
-                        subscription = subscriptionService.Create(subscriptionCreateoptions);
-                    }
-
-                }
-                else
-                {
-
-                    var customerCreateOptions = new CustomerCreateOptions
-                    {
-                        Description = " Customer for Social Growth" + this.CDT.EmailAddress,
-                        //SourceToken = model.stripeToken,
-                        Name = this.CDT.FirstName + " " + this.CDT.UserName,
-                        Email = this.CDT.EmailAddress,
-
-                    };
-
-                    var customerService = new CustomerService();
-                    Customer stripeCustomer = customerService.Create(customerCreateOptions);
-                    _customerManager.UpdateStripeCustomerId(this.CDT.CustomerId, stripeCustomer.Id);
-                    var items = new List<SubscriptionItemOption> {
-                      new SubscriptionItemOption {
-                        Plan = model.StripePlanId,
-                        Quantity= 1
-                      }
-                    };
-
-                    var subscriptionCreateOptions = new SubscriptionCreateOptions
-                    {
-                        Customer = stripeCustomer.Id,
-                        Items = items,
-                        //Billing = Billing.ChargeAutomatically,
-                        //  BillingCycleAnchor = DateTime.Now,
-                        BillingThresholds = { }
-                    };
-                    subscription = subscriptionService.Create(subscriptionCreateOptions);
-
-                }
-
-                ////--TODO: Check subscription status here
-                //SocialProfile_PaymentsDTO subDTO = new SocialProfile_PaymentsDTO();
-                //subDTO.CustomerId = this.CDT.CustomerId;
-                //subDTO.StripeSubscriptionId = subscription.Id;
-                //subDTO.Description = subscription.Plan.Nickname;
-                //subDTO.Name = subscription.Plan.Nickname;
-                //subDTO.Price = subscription.Plan.Amount;
-                //subDTO.StripePlanId = subscription.Plan.Id;
-                //subDTO.SubscriptionType = subscription.Plan.Interval;
-                //subDTO.StartDate = subscription.StartDate ?? DateTime.Now;
-                //subDTO.EndDate = ((DateTime)subscription.StartDate).AddMonths(1);
-                //subDTO.StatusId = 25; // Active Subscription
-
-                //subDTO.SubscriptionId = subscriptionDTO.SubscriptionId;
-                //// Create new Subscription
-                //_customerManager.InsertSubscription(subDTO);
-
-                //// Update existing Subscitpion Status
-                //subDTO.StatusId = 27; // Unsubscribe Subscription
-                //_customerManager.UpdateSubscriptionStatus(subDTO.SubscriptionId, subDTO.StatusId);
-
-
-                //////_customerManager.AssignJVBoxToCustomer(this.CDT.CustomerId, socialProfileId);
-                //////var cityId = _customerManager.GetTargetedCityIdByCustomerId(this.CDT.CustomerId, socialProfileId);
-                //////if (cityId > 0)
-                //////{
-                //////    var city = CommonManager.GetCityAndCountryData(cityId).FirstOrDefault();
-                //////    if (city != null)
-                //////    {
-                //////        _commonManager.AssignedNearestProxyIP(this.CDT.CustomerId, city.CountyCityName.Replace(",", ""), socialProfileId, _googleApiKey);
-                //////    }
-                //////}
-
-
-                jr.Data = new { ResultType = "Success", message = "Plan has successfully updated." };
-                return jr;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+      
 
         public ActionResult Confirmdelete()
         {

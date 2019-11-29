@@ -411,7 +411,210 @@ namespace SG2.CORE.WEB.Controllers
 
         }
 
-       
+        [HttpPost]
+        public ActionResult CreateStripeCustomerSubscription(NewSubscriptionRequestModel model)
+        {
+
+            KlaviyoAPI klaviyoAPI = new KlaviyoAPI();
+            KlaviyoProfile klaviyoProfile = new KlaviyoProfile();
+            var jr = new JsonResult();
+            try
+            {
+                int socialProfileId = model.socialProfileId;//TODO: Social Profile Id
+
+                var _stripeApiKey = SystemConfig.GetConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
+                StripeConfiguration.SetApiKey(_stripeApiKey);
+
+                var socialProfile = _customerManager.GetSocialProfileById(model.socialProfileId);
+                var newPlan = _planManager.GetPlanInformationById(model.selectedPlanId);
+
+
+                var subscriptionService = new SubscriptionService();
+                Subscription stripeSubscription = null;
+
+                if (socialProfile.SocialProfile.StripeCustomerId != null)
+                {
+                    //if (socialProfile.SocialProfile.StripeSubscriptionId != null)
+                    //{
+                    //    if (model.stripeToken != null)
+                    //    {
+                    //        var options = new CustomerUpdateOptions
+                    //        {
+                    //            SourceToken = model.stripeToken,
+                    //        };
+                    //        var service = new CustomerService();
+                    //        Customer customer = service.Update(this.CDT.StripeCustomerId, options);
+                    //    }
+                    //    Subscription subscriptionItemUpdate = subscriptionService.Get(profileDTO.StripeSubscriptionId);
+
+                    //    var items = new List<SubscriptionItemUpdateOption> {
+                    //                    new SubscriptionItemUpdateOption {
+                    //                    Id= subscriptionItemUpdate.Items.Data[0].Id,
+                    //                    PlanId = model.StripePlanId,
+                    //                    Quantity= 1,
+                    //                    },
+                    //                };
+
+                    //    var subscriptionUpdateoptions = new SubscriptionUpdateOptions
+                    //    {
+                    //        Items = items,
+                    //        Billing = Billing.ChargeAutomatically,
+                    //        BillingThresholds = { },
+                    //        Prorate = true,
+                    //        BillingCycleAnchorNow = true,
+                    //        BillingCycleAnchorUnchanged = true,
+                    //        //ProrationDate = DateTime.Now,
+
+                    //    };
+
+                    //    stripeSubscription = subscriptionService.Update(profileDTO.StripeSubscriptionId, subscriptionUpdateoptions);
+                    //}
+                    //else
+                    //{
+                    //    var stripeItems = new List<SubscriptionItemOption> {
+                    //                  new SubscriptionItemOption {
+                    //                    Plan = newPlan.StripePlanId,
+                    //                    Quantity= 1
+                    //                  }
+                    //                };
+                    //    var stripeSubscriptionCreateoptions = new SubscriptionCreateOptions
+                    //    {
+                    //        CustomerId = this.CDT.StripeCustomerId,
+                    //        Items = stripeItems,
+                    //        Billing = Billing.ChargeAutomatically,
+                    //        BillingThresholds = { }
+                    //    };
+                    //    stripeSubscription = subscriptionService.Create(stripeSubscriptionCreateoptions);
+                    //}
+
+                }
+                else
+                {
+                    var stripeCustomerCreateOptions = new CustomerCreateOptions
+                    {
+                        Description = " Customer for Social Growth Labs" + this.CDT.EmailAddress + " with profile id " + model.socialProfileId,
+                        PaymentMethod = model.payment_method,
+                        Name = this.CDT.FirstName + " " + this.CDT.SurName,
+                        Email = this.CDT.EmailAddress,
+                        InvoiceSettings = new CustomerInvoiceSettingsOptions
+                        {
+                            DefaultPaymentMethod = model.payment_method,
+                        },
+                    };
+                    var stripeCustomerService = new CustomerService();
+                    Customer stripeCustomer = stripeCustomerService.Create(stripeCustomerCreateOptions);
+
+                   
+
+                    
+                    var stripeItems = new List<SubscriptionItemOption> {
+                      new SubscriptionItemOption {
+                        Plan = newPlan.StripePlanId,
+                        Quantity= 1
+                      }
+                    };
+                    var stripeSubscriptionCreateOptions = new SubscriptionCreateOptions
+                    {
+                        Customer = stripeCustomer.Id,
+                        Items = stripeItems,
+                        //BillingCycleAnchor = Billing.ChargeAutomatically,
+                        //  BillingCycleAnchor = DateTime.Now,
+                        //BillingThresholds = {  }
+                    };
+                    stripeSubscription = subscriptionService.Create(stripeSubscriptionCreateOptions);
+
+                    //-- Update customer stripe id async call not to wait.
+                    _cm.UpdateSocialProfileStripeCustomer(model.socialProfileId, stripeCustomer.Id, stripeSubscription.Id);
+                }
+
+                //--TODO: Check subscription status here
+
+                if (stripeSubscription != null)
+                {
+                   
+                   
+
+                    PlanService service = new PlanService();
+                    //-- Subscription Description
+                    if (stripeSubscription.Plan == null)
+                    {
+                        var selectedPlan = service.Get(this.CDT.StripePlanId);
+                        stripeSubscription.Plan = selectedPlan;
+                    }
+
+                    SocialProfile_PaymentsDTO paymentRec = new SocialProfile_PaymentsDTO();
+                    paymentRec.SocialProfileId = model.socialProfileId;
+                    paymentRec.StripeSubscriptionId = stripeSubscription.Id;
+                    paymentRec.Description = stripeSubscription.Plan.Nickname;
+                    paymentRec.Name = stripeSubscription.Plan.Nickname;
+                    paymentRec.Price = stripeSubscription.Plan.Amount;
+                    //-- subDTO.Price = stripeSubscription.Plan.Amount;
+                    paymentRec.StripePlanId = newPlan.StripePlanId;
+                    paymentRec.SubscriptionType = stripeSubscription.Plan.Interval;
+
+                    paymentRec.StartDate = stripeSubscription.CurrentPeriodStart.Value;
+                    paymentRec.EndDate = stripeSubscription.CurrentPeriodEnd.Value;
+                    paymentRec.StatusId = (int)GlobalEnums.PlanSubscription.Active;
+                    paymentRec.PaymentPlanId = newPlan.PlanId;
+                    paymentRec.StripeInvoiceId = stripeSubscription.LatestInvoiceId;
+                    _cm.InsertSocialProfilePayment(paymentRec);
+
+                    var nt = new NotificationDTO()
+                    {
+                        Notification = string.Format(NotificationMessages[(int)NotificationMessagesIndexes.PlanSubscribe], stripeSubscription.Plan.Nickname),
+                        CreatedBy = model.socialProfileId.ToString(),
+                        CreatedOn = System.DateTime.Now,
+                        Updatedby = model.socialProfileId.ToString(),
+                        UpdateOn = DateTime.Now,
+                        SocialProfileId = model.socialProfileId,
+                        StatusId = (int)GeneralStatus.Unread,
+                        Mode = severMode
+                    };
+                    _notManager.AddNotification(nt);
+
+
+                    //--TODO: Update Klaviyo Web API Key
+                    var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
+                    var _klavio_PayingSubscribeList = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_PayingSubscribeList").ToLower()).ConfigValue;
+                    var _klavio_NonPayingSubscribeList = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_NonPayingSubscribeList").ToLower()).ConfigValue;
+                    klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_NonPayingSubscribeList);
+
+                    List<NotRequiredProperty> list = new List<NotRequiredProperty>()  {
+                        new NotRequiredProperty("$email", this.CDT.EmailAddress),
+                        new NotRequiredProperty("$first_name ", this.CDT.FirstName),
+                        new NotRequiredProperty("$last_name ", this.CDT.SurName),
+                        //new NotRequiredProperty("URL", URL),
+                        new NotRequiredProperty("InvoiceDate",paymentRec.StartDate.ToString("dd MMMM yyyy") ),
+                        new NotRequiredProperty("PlanName", paymentRec.Name),
+                        new NotRequiredProperty("Price",  "$" + paymentRec.Price/100),
+                        new NotRequiredProperty("Card", ""),
+                        new NotRequiredProperty("Address","")
+                    };
+                    klaviyoProfile.email = this.CDT.EmailAddress;
+
+
+
+                    klaviyoAPI.PeopleAPI(list, _klaviyoPublishKey);
+                    var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_PayingSubscribeList);
+
+
+
+                    jr.Data = new { ResultType = "Success", Message = "success" };
+
+                }
+                else
+                {
+                    jr.Data = new { ResultType = "Error", message = "Some error occurred. Please contact administrator." };
+                }
+
+                return jr;
+            }
+            catch (Exception ex)
+            {
+                jr.Data = new { ResultType = "Error", message = "Something Went Wrong.", ExceptionError = ex.InnerException != null ? ex.InnerException.Message : ex.Message };
+                return jr;
+            }
+        }
 
         public ActionResult ConfirmAndPay(CustomerPaymentPlansViewModel model)
         {
@@ -577,52 +780,7 @@ namespace SG2.CORE.WEB.Controllers
 
 
 
-        //[HttpPost]
-        //public ActionResult ModifyTargetPreferences(TargetPreferencesViewModel model)
-        //{
-        //    try
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            var user = (CustomerDTO)_sessionManager.Get(SessionConstants.Customer);
-        //            var dl = _targetPreferenceManager.SaveTargetPreferences(new TargetPreferencesDTO()
-        //            {
-        //                Preference1 = model.Preference1,
-        //                Preference2 = model.Preference2,
-        //                Preference3 = model.Preference3,
-        //                Preference4 = model.Preference4,
-        //                Preference5 = model.Preference5,
-        //                Preference6 = model.Preference6,
-        //                Preference7 = model.Preference7,
-        //                Preference8 = model.Preference8,
-        //                Preference9 = model.Preference9,
-        //                Preference10 = model.Preference10,
-        //                Country = model.Country,
-        //                City = model.City,
-        //                InstaUser = model.InstaUser,
-        //                InstaPassword = model.InstaPassword,
-        //                Id = user.CustomerId,
-        //                SocialProfileId = model.SocialProfileId,
-        //                ProfileName = model.ProfileName,
-        //                CustomerId = this.CDT.CustomerId,
-        //                SocialAccAs = model.SocialAccAS
-        //            });
 
-
-        //            TempData["Success"] = "Yes";
-        //            TempData["Message"] = "Prefrences updated successfully.";
-        //            return RedirectToAction("Target", "TargetPreferences");
-        //        }
-        //        else
-        //        {
-        //            return View(model);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
 
         //[HttpPost]
         //public ActionResult SaveTargetPreferencesOnly(TargetPreferencesViewModel model)
@@ -935,375 +1093,11 @@ namespace SG2.CORE.WEB.Controllers
 
         //}
 
-        //[HttpPost]
-        //public ActionResult NewCardPayment(CustomerCardDetailViewModel model)
-        //{
-
-        //    KlaviyoAPI klaviyoAPI = new KlaviyoAPI();
-        //    KlaviyoProfile klaviyoProfile = new KlaviyoProfile();
-        //    var jr = new JsonResult();
-        //    try
-        //    {
-        //        int socialProfileId = model.SocialProfileId;//TODO: Social Profile Id
-
-        //        var _stripeApiKey = SystemConfig.GetConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
-        //        StripeConfiguration.SetApiKey(_stripeApiKey);
-
-        //        CustomerTargetProfileDTO profileDTO = null;
-        //        if (model.SocialProfileId > 0)
-        //        {
-        //            profileDTO = _cm.GetSocialProfilesById(model.SocialProfileId);
-        //        }
-
-        //        if (!profileDTO.IsJVServerRunning)
-        //        {
-        //            severMode = "Manual";
-        //        }
-
-        //        var subscriptionService = new SubscriptionService();
-        //        Subscription stripeSubscription = null;
-
-        //        if (this.CDT.StripeCustomerId != null)
-        //        {
-        //            if (profileDTO.StripeSubscriptionId != null)
-        //            {
-        //                if (model.stripeToken != null)
-        //                {
-        //                    var options = new CustomerUpdateOptions
-        //                    {
-        //                        SourceToken = model.stripeToken,
-        //                    };
-        //                    var service = new CustomerService();
-        //                    Customer customer = service.Update(this.CDT.StripeCustomerId, options);
-        //                }
-        //                Subscription subscriptionItemUpdate = subscriptionService.Get(profileDTO.StripeSubscriptionId);
-
-        //                var items = new List<SubscriptionItemUpdateOption> {
-        //                                new SubscriptionItemUpdateOption {
-        //                                Id= subscriptionItemUpdate.Items.Data[0].Id,
-        //                                PlanId = model.StripePlanId,
-        //                                Quantity= 1,
-        //                                },
-        //                            };
-
-        //                var subscriptionUpdateoptions = new SubscriptionUpdateOptions
-        //                {
-        //                    Items = items,
-        //                    Billing = Billing.ChargeAutomatically,
-        //                    BillingThresholds = { },
-        //                    Prorate = true,
-        //                    BillingCycleAnchorNow = true,
-        //                    BillingCycleAnchorUnchanged = true,
-        //                    //ProrationDate = DateTime.Now,
-
-        //                };
-
-        //                stripeSubscription = subscriptionService.Update(profileDTO.StripeSubscriptionId, subscriptionUpdateoptions);
-        //            }
-        //            else
-        //            {
-        //                var stripeItems = new List<SubscriptionItemOption> {
-        //                              new SubscriptionItemOption {
-        //                                PlanId = model.StripePlanId,
-        //                                Quantity= 1
-        //                              }
-        //                            };
-        //                var stripeSubscriptionCreateoptions = new SubscriptionCreateOptions
-        //                {
-        //                    CustomerId = this.CDT.StripeCustomerId,
-        //                    Items = stripeItems,
-        //                    Billing = Billing.ChargeAutomatically,
-        //                    BillingThresholds = { }
-        //                };
-        //                stripeSubscription = subscriptionService.Create(stripeSubscriptionCreateoptions);
-        //            }
-
-        //        }
-        //        else
-        //        {
-        //            var stripeCustomerCreateOptions = new CustomerCreateOptions
-        //            {
-        //                Description = " Customer for Social Growth" + this.CDT.EmailAddress,
-        //                SourceToken = model.stripeToken,
-        //                Name = this.CDT.FirstName + " " + this.CDT.SurName,
-        //                Email = this.CDT.EmailAddress
-        //            };
-        //            var stripeCustomerService = new CustomerService();
-        //            Customer stripeCustomer = stripeCustomerService.Create(stripeCustomerCreateOptions);
-
-        //            //-- Update customer stripe id async call not to wait.
-        //            _cm.UpdateStripeCustomerId(this.CDT.CustomerId, stripeCustomer.Id);
-
-        //            this.CDT.StripeCustomerId = stripeCustomer.Id;
-        //            _sessionManager.Set(SessionConstants.Customer, this.CDT);
-
-        //            var stripeItems = new List<SubscriptionItemOption> {
-        //              new SubscriptionItemOption {
-        //                PlanId = model.StripePlanId,
-        //                Quantity= 1
-        //              }
-        //            };
-        //            var stripeSubscriptionCreateOptions = new SubscriptionCreateOptions
-        //            {
-        //                CustomerId = stripeCustomer.Id,
-        //                Items = stripeItems,
-        //                Billing = Billing.ChargeAutomatically,
-        //                //  BillingCycleAnchor = DateTime.Now,
-        //                BillingThresholds = { }
-        //            };
-        //            stripeSubscription = subscriptionService.Create(stripeSubscriptionCreateOptions);
-        //        }
-
-        //        //--TODO: Check subscription status here
-
-        //        if (stripeSubscription != null)
-        //        {
-        //            this.CDT.StripePlanId = model.StripePlanId;
-        //            _sessionManager.Set(SessionConstants.Customer, this.CDT);
-
-        //            PlanService service = new PlanService();
-        //            //-- Subscription Description
-        //            if (stripeSubscription.Plan == null)
-        //            {
-        //                var selectedPlan = service.Get(this.CDT.StripePlanId);
-        //                stripeSubscription.Plan = selectedPlan;
-        //            }
-
-        //            SubscriptionDTO subDTO = new SubscriptionDTO();
-        //            subDTO.CustomerId = this.CDT.CustomerId;
-        //            subDTO.StripeSubscriptionId = stripeSubscription.Id;
-        //            subDTO.Description = stripeSubscription.Plan.Nickname;
-        //            subDTO.Name = stripeSubscription.Plan.Nickname;
-        //            subDTO.Price = stripeSubscription.Plan.Amount;
-        //            //-- subDTO.Price = stripeSubscription.Plan.Amount;
-        //            subDTO.StripePlanId = model.StripePlanId;
-        //            subDTO.SubscriptionType = stripeSubscription.Plan.Interval;
-
-        //            subDTO.StartDate = stripeSubscription.Start ?? DateTime.Now;
-        //            subDTO.EndDate = ((DateTime)stripeSubscription.Start).AddMonths(1);
-        //            subDTO.StatusId = (int)GlobalEnums.PlanSubscription.Active;
-        //            subDTO.PaymentPlanId = 0;
-        //            subDTO.SocialProfileId = model.SocialProfileId;
-        //            subDTO.StripeInvoiceId = stripeSubscription.LatestInvoiceId;
-        //            _cm.InsertSubscription(subDTO);
-
-        //            var nt = new NotificationDTO()
-        //            {
-        //                Notification = string.Format(NotificationMessages[(int)NotificationMessagesIndexes.PlanSubscribe], stripeSubscription.Plan.Nickname),
-        //                CreatedBy = profileDTO.SocialProfileId.ToString(),
-        //                CreatedOn = System.DateTime.Now,
-        //                Updatedby = profileDTO.SocialProfileId.ToString(),
-        //                UpdateOn = DateTime.Now,
-        //                SocialProfileId = profileDTO.SocialProfileId,
-        //                StatusId = (int)GeneralStatus.Unread,
-        //                Mode = severMode
-        //            };
-        //            _notManager.AddNotification(nt);
-
-        //            var message = "";
-
-        //            int? jvStatusId = profileDTO.JVStatusId;
-        //            if (profileDTO.JVStatusId == null)
-        //            {
-
-        //                _cm.SetSocialProfileJVStatus(model.SocialProfileId, (int)GlobalEnums.JVStatus.ProfileNotSetup, this.CDT.EmailAddress);
-        //                jvStatusId = (int)GlobalEnums.JVStatus.ProfileNotSetup;
-
-        //                message = "Thankyou! Plan has succesfully update. Please set up your profile.";
-
-        //            }
-        //            else if(profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.Deleted || profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.ProfileRequiresCancelling)
-        //            {
-        //                _cm.SetSocialProfileJVStatus(model.SocialProfileId, (int)GlobalEnums.JVStatus.ProfileNotSetup, this.CDT.EmailAddress);
-        //                jvStatusId = (int)GlobalEnums.JVStatus.ProfileNotSetup;
-
-        //                message = "Thankyou! Plan has succesfully update. Please set up your profile.";
-        //            }
-        //            object ResultData = new
-        //            {
-        //                JVStatusId = jvStatusId,
-        //                JVStatusName = "Accounts to be loaded",
-        //                ActivePlanId = model.StripePlanId
-        //            };
-
-        //            //_cm.AssignJVBoxToCustomer(this.CDT.CustomerId, socialProfileId);
-        //            //var cityId = _cm.GetTargetedCityIdByCustomerId(this.CDT.CustomerId, socialProfileId);
-        //            //if (cityId > 0)
-        //            //{
-        //            //    var city = CommonManager.GetCityAndCountryData(cityId).FirstOrDefault();
-        //            //    if (city != null)
-        //            //    {
-        //            //        _commonManager.AssignedNearestProxyIP(this.CDT.CustomerId, city.CountyCityName.Replace(",", ""), socialProfileId);
-        //            //    }
-        //            //}
-
-        //            //eventAPI();
-
-        //            //--TODO: Update Klaviyo Web API Key
-        //            var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
-        //            var _klavio_PayingSubscribeList = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_PayingSubscribeList").ToLower()).ConfigValue;
-        //            var _klavio_NonPayingSubscribeList = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_NonPayingSubscribeList").ToLower()).ConfigValue;
-        //            klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_NonPayingSubscribeList);
-
-        //            List<NotRequiredProperty> list = new List<NotRequiredProperty>()  {
-        //                new NotRequiredProperty("$email", this.CDT.EmailAddress),
-        //                new NotRequiredProperty("$first_name ", this.CDT.FirstName),
-        //                new NotRequiredProperty("$last_name ", this.CDT.SurName),
-        //                //new NotRequiredProperty("URL", URL),
-        //                new NotRequiredProperty("InvoiceDate",subDTO.StartDate.ToString("dd MMMM yyyy") ),
-        //                new NotRequiredProperty("PlanName", subDTO.Name),
-        //                new NotRequiredProperty("Price",  "$" + subDTO.Price/100),
-        //                new NotRequiredProperty("Card", ""),
-        //                new NotRequiredProperty("Address","")
-        //            };
-        //            klaviyoProfile.email = this.CDT.EmailAddress;
 
 
 
-        //            klaviyoAPI.PeopleAPI(list, _klaviyoPublishKey);
-        //            var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_PayingSubscribeList);
 
 
-
-        //            jr.Data = new { ResultType = "Success", Message = message, ResultData };
-
-        //        }
-        //        else
-        //        {
-        //            jr.Data = new { ResultType = "Error", message = "Some error occurred. Please contact administrator." };
-        //        }
-
-        //        return jr;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        jr.Data = new { ResultType = "Error", message = "Something Went Wrong.", ExceptionError = ex.InnerException != null ? ex.InnerException.Message : ex.Message };
-        //        return jr;
-        //    }
-        //}
-
-        //private JsonResult JarveeUpdateProfile(string actionType)
-        //{
-        //    var jr = new JsonResult();
-
-        //    var ExchangeName = "SG2Bot_Rpc"; //ConfigurationManager.AppSettings["RabbitMQ:Exchange"];
-        //    string rpcSessionId = Guid.NewGuid().ToString();
-        //    using (IRemoteProcedureClient rpcClient = new RemoteProcedureClient())
-        //    {
-
-        //        //1. Session satart modal
-        //        var rpcSessionStart = new RpcSessionStartModel()
-        //        {
-        //            SessionId = rpcSessionId,
-        //            CreatedOn = System.DateTime.Now
-        //        };
-        //        var rpcCovMessage = new RpcConvMessage()
-        //        {
-        //            ActionType = (int)RpcMessageActionTypes.StartSession,
-        //            Data = rpcSessionStart
-        //        };
-        //        var rpcRunSessionStart = rpcClient.ExecuteRemoteCommand<SessionStartResponse, RpcConvMessage>(ExchangeName, rpcCovMessage);
-        //        _sessionManager.Set("JVRPC", rpcSessionId);
-
-        //        //2. Add and verification profile
-        //        var instagramProfile = new InstagramProfile()
-        //        {
-        //            Username = InstaUserName,
-        //            Password = InstaPasseord,
-        //            AccountName = CDT.FirstName + CDT.SurName
-        //            //ProxyIPAndPort= "210.16.120.118:3177",
-        //            //ProxyUsername = "Baysocial1",
-        //            //ProxyPassword = "69np2nxxm7jb"
-        //        };
-
-        //        //Adding JV Statuses
-        //        _cm.SetSocialProfileJVStatus(this.CDT.SocialProfileId, (int)GlobalEnums.JVStatus.ProfileAdding, this.CDT.EmailAddress);
-
-        //        var rpcInstaConvMessage = new RpcConvMessage()
-        //        {
-        //            ActionType = (int)RpcMessageActionTypes.AddAndVerifyAccount,
-        //            Data = instagramProfile
-        //        };
-        //        var rpcRunVerifyAccount = rpcClient.ExecuteRemoteCommand<AddAndVerifyInstagramProfileResponse, RpcConvMessage>(ExchangeName, rpcInstaConvMessage);
-        //        if (rpcRunVerifyAccount.JvVerificationStatus == (int)JvProfileVerificationStatus.Valid)
-        //        {
-        //            _cm.SetSocialProfileJVStatus(this.CDT.SocialProfileId, (int)GlobalEnums.JVStatus.ValidAndNotSetup, this.CDT.EmailAddress);
-
-        //            jr.Data = new { ResultType = "Success", message = "", data = new { JVStaus = "Valid" } };
-        //            //4. End Session            
-        //            var rpcEssionEndCovMessage = new RpcConvMessage()
-        //            {
-        //                ActionType = (int)RpcMessageActionTypes.EndSession,
-        //                Data = null
-        //            };
-        //            var rpcEndRes = rpcClient.ExecuteRemoteCommand<SessionEndResponse, RpcConvMessage>(ExchangeName, rpcEssionEndCovMessage);
-        //        }
-        //        else if (rpcRunVerifyAccount.JvVerificationStatus == (int)JvProfileVerificationStatus.InvalidCredentials)
-        //        {
-        //            _cm.SetSocialProfileJVStatus(this.CDT.SocialProfileId, (int)GlobalEnums.JVStatus.InvalidCredentials, this.CDT.EmailAddress);
-
-        //            jr.Data = new { ResultType = "Success", message = "", data = new { JVStaus = "InvalidCredentials", JVRPCSessionId = rpcSessionId } };
-        //        }
-        //        else if (rpcRunVerifyAccount.JvVerificationStatus == (int)JvProfileVerificationStatus.EmailConfirmationRequired)
-        //        {
-        //            _cm.SetSocialProfileJVStatus(this.CDT.SocialProfileId, (int)GlobalEnums.JVStatus.EmailVerificationRequired, this.CDT.EmailAddress);
-
-        //            var chooseVerificationOptionResponse = rpcClient.ExecuteRemoteCommand<ChooseVerificationOptionResponse, RpcConvMessage>(ExchangeName, new RpcConvMessage
-        //            {
-        //                ActionType = Convert.ToInt32(RpcMessageActionTypes.ChooseVerificationMethod),
-        //                Data = new VerificationOptionModel
-        //                {
-        //                    VerificationOption = "EMAIL"
-        //                }
-        //            });
-        //            jr.Data = new { ResultType = "Success", message = "", data = new { JVStaus = "EmailConfirmationRequired", JVRPCSessionId = rpcSessionId } };
-        //        }
-        //        else if (rpcRunVerifyAccount.JvVerificationStatus == (int)JvProfileVerificationStatus.TwoFaRequired)
-        //        {
-        //            _cm.SetSocialProfileJVStatus(this.CDT.SocialProfileId, (int)GlobalEnums.JVStatus.TwoFactor, this.CDT.EmailAddress);
-
-        //            jr.Data = new { ResultType = "Success", message = "", data = new { JVStaus = "TwoFaRequired", JVRPCSessionId = rpcSessionId } };
-        //        }
-        //        else if (rpcRunVerifyAccount.JvVerificationStatus == (int)JvProfileVerificationStatus.ApiBlocked)
-        //        {
-        //            _cm.SetSocialProfileJVStatus(this.CDT.SocialProfileId, (int)GlobalEnums.JVStatus.APIBlock, this.CDT.EmailAddress);
-
-        //            jr.Data = new { ResultType = "Success", message = "", data = new { JVStaus = "ApiBlocked", JVRPCSessionId = rpcSessionId } };
-        //            var rpcEssionEndCovMessage = new RpcConvMessage()
-        //            {
-        //                ActionType = (int)RpcMessageActionTypes.EndSession,
-        //                Data = null
-        //            };
-        //            var rpcEndRes = rpcClient.ExecuteRemoteCommand<SessionEndResponse, RpcConvMessage>(ExchangeName, rpcEssionEndCovMessage);
-        //        }
-        //        else if (rpcRunVerifyAccount.JvVerificationStatus == (int)JvProfileVerificationStatus.ValidationPending)
-        //        {
-        //            _cm.SetSocialProfileJVStatus(this.CDT.SocialProfileId, (int)GlobalEnums.JVStatus.ValidAndNotSetup, this.CDT.EmailAddress);
-
-        //            jr.Data = new { ResultType = "Success", message = "", data = new { JVStaus = "ValidationPending", JVRPCSessionId = rpcSessionId } };
-        //            var rpcEssionEndCovMessage = new RpcConvMessage()
-        //            {
-        //                ActionType = (int)RpcMessageActionTypes.EndSession,
-        //                Data = null
-        //            };
-        //            var rpcEndRes = rpcClient.ExecuteRemoteCommand<SessionEndResponse, RpcConvMessage>(ExchangeName, rpcEssionEndCovMessage);
-        //        }
-
-        //    }
-        //    return jr;
-        //}
-
-        //public JsonResult IsSocialUserNameExist(string InstaUser, int SocialProfileId = 0)
-        //{
-        //    try
-        //    {
-        //        return _targetPreferenceManager.IsSocialUserNameExist(InstaUser, SocialProfileId) ? Json(true, JsonRequestBehavior.AllowGet) : Json(false, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
 
         //public ActionResult GetStats(int socialProfileId)
         //{

@@ -408,11 +408,11 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public async Task<bool> UpdateStripeCustomerId(int CustomerId, string StripCustomerId)
+        public bool UpdateSocialProfileStripeCustomer(int SocialProfileId, string StripCustomerId, string StripeSubscriptionId)
         {
             try
             {
-                return await _customerRepository.UpdateStripeCustomerId(CustomerId, StripCustomerId);
+                return  _customerRepository.UpdateSocialProfileStripeCustomerId(SocialProfileId, StripCustomerId, StripeSubscriptionId);
             }
             catch (Exception ex)
             {
@@ -461,11 +461,11 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public async Task<SocialProfile_PaymentsDTO> InsertSubscription(SocialProfile_PaymentsDTO sG2_Subscription)
+        public async Task<SocialProfile_PaymentsDTO> InsertSocialProfilePayment(SocialProfile_PaymentsDTO sG2_Subscription)
         {
             try
             {
-                var sb = await _customerRepository.InsertSubscription(sG2_Subscription);
+                var sb = await _customerRepository.InsertSocialProfilePaymentRecord(sG2_Subscription);
                 return sb;
             }
             catch (Exception ex)
@@ -666,6 +666,9 @@ namespace SG2.CORE.BAL.Managers
         //    }
         //}
 
-
+        public bool AddRemoveFollowAccounts(List<MobileActionRequest> list)
+        {
+            return _socialRepository.AddRemoveFollowAccounts(list);
+        }
     }
 }

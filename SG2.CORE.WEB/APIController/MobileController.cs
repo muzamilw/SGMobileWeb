@@ -251,6 +251,9 @@ namespace SG2.CORE.WEB.APIController
                             successCount++;
                     }
 
+                    //add the newly followed accounts 
+                    _customerManager.AddRemoveFollowAccounts(model.Where(g => g.ActionId == 60 || g.ActionId == 61).ToList());
+
                     
                     var FollowingCount = model.Where(g => g.ActionId == 60).Count();
 

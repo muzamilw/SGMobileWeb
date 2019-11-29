@@ -40,152 +40,45 @@
     <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/plugins/forms/validation/form-validation.css">
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
     <style type="text/css">
-        .weekDays-selector1 {
-            margin-top:10px;
-        }
+               .weekDays-selector1 {
+                   margin-top: 10px;
+               }
 
-        .example.example3 {
-            background-color: #525f7f;
-        }
+               /**
+        * The CSS shown here will not be introduced in the Quickstart guide, but shows
+        * how you can use CSS to style your Element's container.
+        */
+               .StripeElement {
+                   box-sizing: border-box;
+                   height: 40px;
+                   padding: 10px 12px;
+                   border: 1px solid transparent;
+                   border-radius: 4px;
+                   background-color: white;
+                   box-shadow: 0 1px 3px 0 #e6ebf1;
+                   -webkit-transition: box-shadow 150ms ease;
+                   transition: box-shadow 150ms ease;
+                   width:500px;
+               }
 
-            .example.example3 * {
-                font-family: Quicksand, Open Sans, Segoe UI, sans-serif;
-                font-size: 16px;
-                font-weight: 600;
-            }
+               .StripeElement--focus {
+                   box-shadow: 0 1px 3px 0 #cfd7df;
+               }
 
-            .example.example3 .fieldset {
-                margin: 0 15px 30px;
-                padding: 0;
-                border-style: none;
-                display: -ms-flexbox;
-                display: flex;
-                -ms-flex-flow: row wrap;
-                flex-flow: row wrap;
-                -ms-flex-pack: justify;
-                justify-content: space-between;
-            }
+               .StripeElement--invalid {
+                   border-color: #fa755a;
+               }
 
-            .example.example3 .field {
-                padding: 10px 20px 11px;
-                background-color: #7488aa;
-                border-radius: 20px;
-                width: 100%;
-            }
+               .StripeElement--webkit-autofill {
+                   background-color: #fefde5 !important;
+               }
 
-                .example.example3 .field.half-width {
-                    width: calc(50% - (5px / 2));
-                }
-
-                .example.example3 .field.third-width {
-                    width: calc(33% - (5px / 3));
-                }
-
-                .example.example3 .field + .field {
-                    margin-top: 6px;
-                }
-
-                .example.example3 .field.focus,
-                .example.example3 .field:focus {
-                    color: #424770;
-                    background-color: #f6f9fc;
-                }
-
-                .example.example3 .field.invalid {
-                    background-color: #fa755a;
-                }
-
-                    .example.example3 .field.invalid.focus {
-                        background-color: #f6f9fc;
-                    }
-
-                .example.example3 .field.focus::-webkit-input-placeholder,
-                .example.example3 .field:focus::-webkit-input-placeholder {
-                    color: #cfd7df;
-                }
-
-                .example.example3 .field.focus::-moz-placeholder,
-                .example.example3 .field:focus::-moz-placeholder {
-                    color: #cfd7df;
-                }
-
-                .example.example3 .field.focus:-ms-input-placeholder,
-                .example.example3 .field:focus:-ms-input-placeholder {
-                    color: #cfd7df;
-                }
-
-            .example.example3 input, .example.example3 button {
-                -webkit-appearance: none;
-                -moz-appearance: none;
-                appearance: none;
-                outline: none;
-                border-style: none;
-            }
-
-            .example.example3 input {
-                color: #fff;
-            }
-
-                .example.example3 input::-webkit-input-placeholder {
-                    color: #9bacc8;
-                }
-
-                .example.example3 input::-moz-placeholder {
-                    color: #9bacc8;
-                }
-
-                .example.example3 input:-ms-input-placeholder {
-                    color: #9bacc8;
-                }
-
-            .example.example3 button {
-                display: block;
-                width: calc(100% - 30px);
-                height: 40px;
-                margin: 0 15px;
-                background-color: #fcd669;
-                border-radius: 20px;
-                color: #525f7f;
-                font-weight: 600;
-                text-transform: uppercase;
-                cursor: pointer;
-            }
-
-                .example.example3 button:active {
-                    background-color: #f5be58;
-                }
-
-            .example.example3 .error svg .base {
-                fill: #fa755a;
-            }
-
-            .example.example3 .error svg .glyph {
-                fill: #fff;
-            }
-
-            .example.example3 .error .message {
-                color: #fff;
-            }
-
-            .example.example3 .success .icon .border {
-                stroke: #fcd669;
-            }
-
-            .example.example3 .success .icon .checkmark {
-                stroke: #fff;
-            }
-
-            .example.example3 .success .title {
-                color: #fff;
-            }
-
-            .example.example3 .success .message {
-                color: #9cabc8;
-            }
-
-            .example.example3 .success .reset path {
-                fill: #fff;
-            }
+               /* Can't see what I type without this */
+               #card-number.form-control,
+               #card-cvc.form-control,
+               #card-exp.form-control {
+                   display: inline-block;
+               }
     </style>
 }
 
@@ -193,6 +86,54 @@
     @Html.Partial("Partial/_PartialProfileHeader", Model)
 }
 
+
+<button type="button" class="btn btn-outline-primary block btn-lg" data-toggle="modal" data-target="#planSubscriptionModal">
+    Launch Modal
+</button>
+<!-- Modal -->
+<div class="modal fade text-left" id="planSubscriptionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel1">Subscribe to a plan</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/charge" method="post" id="payment-form">
+                    <div class="form-row">
+                        <div class="selectedPlanName"></div>
+                        <div class="selectedPlanPrice"></div>
+                        <input type="hidden" id="selectedPlanId" />
+                    
+                    </div>
+                    <div class="form-row">
+                        <label for="card-element">
+                            Credit or debit card
+                        </label>
+                        <input type="text" id="email" placeholder="Email" autocomplete="cardholder" class="sr-input">
+                        <div id="card-element">
+                            <!-- A Stripe Element will be inserted here. -->
+                        </div>
+
+                        <!-- Used to display form errors. -->
+                        <div class="sr-field-error" id="card-errors" role="alert"></div>
+                    </div>
+
+                    <button id="submit">
+                        <div id="spinner" class="hidden"></div>
+                        <span id="button-text">Subscribe</span>
+                    </button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <form class="form" id="formtarget" method="post" action="Target" novalidate>
     @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.SocialProfileId)
@@ -208,17 +149,6 @@
                 <!-- Basic form layout section start -->
                 <section id="horizontal-form-layouts">
 
-                    <div class="row">
-                        <!-- Use the CSS tab above to style your Element's container. -->
-                        <div id="card-element" class="MyCardElement">
-                            <!-- Elements will create input elements here -->
-                        </div>
-
-                        <!-- We'll put the error messages in this element -->
-                        <div id="card-errors" role="alert"></div>
-
-                        <button id="submit">Pay</button>
-                    </div>
 
                     <div class="row">
                         <div class="col-md-12">
@@ -252,11 +182,11 @@
                                             </div>
                                             @*<div class="form-group">
 
-                                    <label>Choose the hashtags you DO NOT want to engage (Optional):</label>
-                                    <div id="hashtagsnotengage" class="edit-on-delete form-control" data-tags-input-name="wlextracted">@Model.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage</div>
-                                    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage)
+                                                    <label>Choose the hashtags you DO NOT want to engage (Optional):</label>
+                                                    <div id="hashtagsnotengage" class="edit-on-delete form-control" data-tags-input-name="wlextracted">@Model.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage</div>
+                                                    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage)
 
-                                </div>*@
+                                                </div>*@
                                             <div class="form-group">
                                                 @*<span style="display:block"> Please use this format for hashtags: #hashtag,#hashtag,#hashtag</span>*@
                                                 <label>Choose towns, cities and countries that are best suited for your account (cities work best):</label>
@@ -361,7 +291,7 @@
                                                     }
                                                     else
                                                     {
-                                                        <a href="#" class="btn btn-outline-pink planSelect">Subscribe</a>
+                                                        <a href="#" class="btn btn-outline-pink planSelect" data-planId="@plan.PlanId" data-planname="@plan.PlanName" data-planprice="@plan.PlanPrice" >Subscribe</a>
                                                     }
 
                                                 </div>
@@ -617,13 +547,13 @@
                                                 </div>
 
                                                 @*<div class="col-md-12">
-                                        <div class="weekDays-selector1">
-                                            @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollCheckPostsCapBlackList.Value, new { @class = "weekday" })
-                                            @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollCheckPostsCapBlackList)
-                                            <label for="weekday-mon">Check most recent posts caption for Black list words</label>
-                                        </div>
+                                                        <div class="weekDays-selector1">
+                                                            @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollCheckPostsCapBlackList.Value, new { @class = "weekday" })
+                                                            @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollCheckPostsCapBlackList)
+                                                            <label for="weekday-mon">Check most recent posts caption for Black list words</label>
+                                                        </div>
 
-                                    </div>*@
+                                                    </div>*@
                                                 <div class="col-md-12">
                                                     <div class="weekDays-selector1">
 
@@ -635,30 +565,30 @@
                                                 </div>
 
                                                 @*<div class="col-md-12">
-                                        <div class="weekDays-selector1">
-                                            <label for="weekday-mon">Wait between</label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowWaitBetweenActionsVal2, new { style = "width:65px;", type = "number" })  seconds before each action e.g follow, comments and view
-                                        </div>
+                                                        <div class="weekDays-selector1">
+                                                            <label for="weekday-mon">Wait between</label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowWaitBetweenActionsVal2, new { style = "width:65px;", type = "number" })  seconds before each action e.g follow, comments and view
+                                                        </div>
 
-                                    </div>*@
+                                                    </div>*@
                                                 @*<div class="col-md-12">
 
-                                        <div class="weekDays-selector1">
+                                                        <div class="weekDays-selector1">
 
-                                            @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowCompetitorsFollowers.Value, new { @class = "weekday" })
-                                            @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowCompetitorsFollowers)
-                                            <label for="weekday-mon">Follow COMPETITORS followers Select </label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowCompetitorsFollowersVal, new { style = "width:65px;", type = "number" })<label>  random competitors followers daily</label>
-                                        </div>
+                                                            @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowCompetitorsFollowers.Value, new { @class = "weekday" })
+                                                            @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowCompetitorsFollowers)
+                                                            <label for="weekday-mon">Follow COMPETITORS followers Select </label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowCompetitorsFollowersVal, new { style = "width:65px;", type = "number" })<label>  random competitors followers daily</label>
+                                                        </div>
 
-                                    </div>*@
+                                                    </div>*@
                                                 @*<div class="col-md-12">
 
-                                        <div class="weekDays-selector1">
-                                            @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowUsersfromHashtagResults.Value, new { @class = "weekday" })
-                                            @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowUsersfromHashtagResults)
-                                            <label for="weekday-mon">Follower Users from HASHTAG search results. Select any random post from top</label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowUsersfromHashtagResultsVal, new { style = "width:65px;", type = "number" }) <label> posts result</label>
-                                        </div>
+                                                        <div class="weekDays-selector1">
+                                                            @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowUsersfromHashtagResults.Value, new { @class = "weekday" })
+                                                            @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowUsersfromHashtagResults)
+                                                            <label for="weekday-mon">Follower Users from HASHTAG search results. Select any random post from top</label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowUsersfromHashtagResultsVal, new { style = "width:65px;", type = "number" }) <label> posts result</label>
+                                                        </div>
 
-                                    </div>*@
+                                                    </div>*@
 
                                             </fieldset>
                                         </div>
@@ -979,13 +909,13 @@
                                                 </div>
 
                                                 @*<div class="row">
-                                        <div class="col-md-12 mt-2">
-                                            @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.RandomizeIntervalsDaily.Value)
-                                            @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.RandomizeIntervalsDaily)
-                                            <label for="weekday-mon">Randomly internal daily</label>
-                                        </div>
+                                                        <div class="col-md-12 mt-2">
+                                                            @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.RandomizeIntervalsDaily.Value)
+                                                            @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.RandomizeIntervalsDaily)
+                                                            <label for="weekday-mon">Randomly internal daily</label>
+                                                        </div>
 
-                                    </div>*@
+                                                    </div>*@
 
                                             </div>
                                             <div class="col-md-8">
@@ -1070,7 +1000,8 @@
                     </div>
                 -->
                 <div class="modal-body">
-                    
+
+
                 </div>
             </div>
         </div>
@@ -1276,96 +1207,192 @@
 
 
             $(".planSelect").on("click", function () {
-                $(".seletedDisplayPlanPrice").text("$" + $(".range-labels li.active").attr("data-price") + " for " + $(".range-labels li.active").text() + " Likes");
-                $("span.ModalplanPrice").text($(".range-labels li.active").attr("data-stripe-price"));
-                $("#field_newCardPlanId").val($(".range-labels li.active").attr("data-strap-Planid"));
-                if ($(".range-labels li.active").index() == 0) {
-                    $(".pc_HeadingPlan").addClass("hide");
-                } else {
-                    $(".pc_HeadingPlan").removeClass("hide");
-                }
-                $("#Modal_ConfirmPaymentPlan").modal("show");
+                $(".selectedPlanName").text("$" + $(this).attr("data-planname"));
+                $(".selectedPlanprice").text("$" + $(this).attr("data-planprice"));
+                $("#selectedPlanId").val("$" + $(this).attr("data-planId"));
+               
+               
+                $("#planSubscriptionModal").modal("show");
             });
 
 
-            // Create a Stripe client.
-            var stripe = Stripe('@ViewBag.stripePublishKey');
+          
 
-            // Create an instance of Elements.
-            var elements = stripe.elements();
+            var stripe;
 
-            (function () {
-                'use strict';
+            var stripeElements = function (publicKey) {
+                stripe = Stripe(publicKey);
+                var elements = stripe.elements();
 
-                var elements = stripe.elements({
-                    fonts: [
-                        {
-                            cssSrc: 'https://fonts.googleapis.com/css?family=Quicksand',
-                        },
-                    ],
-                    // Stripe's examples are localized to specific languages, but if
-                    // you wish to have Elements automatically detect your user's locale,
-                    // use `locale: 'auto'` instead.
-                    locale: window.__exampleLocale,
-                });
-
-                var elementStyles = {
+                // Element styles
+                var style = {
                     base: {
-                        color: '#fff',
-                        fontWeight: 600,
-                        fontFamily: 'Quicksand, Open Sans, Segoe UI, sans-serif',
                         fontSize: '16px',
+                        color: '#32325d',
+                        fontFamily:
+                            '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif',
                         fontSmoothing: 'antialiased',
-
-                        ':focus': {
-                            color: '#424770',
-                        },
-
                         '::placeholder': {
-                            color: '#9BACC8',
-                        },
-
-                        ':focus::placeholder': {
-                            color: '#CFD7DF',
-                        },
-                    },
-                    invalid: {
-                        color: '#fff',
-                        ':focus': {
-                            color: '#FA755A',
-                        },
-                        '::placeholder': {
-                            color: '#FFCCA5',
-                        },
-                    },
+                            color: 'rgba(0,0,0,0.4)'
+                        }
+                    }
                 };
 
-                var elementClasses = {
-                    focus: 'focus',
-                    empty: 'empty',
-                    invalid: 'invalid',
-                };
+                var card = elements.create('card', { style: style });
 
-                var cardNumber = elements.create('cardNumber', {
-                    style: elementStyles,
-                    classes: elementClasses,
+                card.mount('#card-element');
+
+                // Element focus ring
+                card.on('focus', function () {
+                    var el = document.getElementById('card-element');
+                    el.classList.add('focused');
                 });
-                cardNumber.mount('#card-element');
 
-                //var cardExpiry = elements.create('cardExpiry', {
-                //    style: elementStyles,
-                //    classes: elementClasses,
+                card.on('blur', function () {
+                    var el = document.getElementById('card-element');
+                    el.classList.remove('focused');
+                });
+
+                document.querySelector('#submit').addEventListener('click', function (evt) {
+                    evt.preventDefault();
+                    changeLoadingState(true);
+                    // Initiate payment
+                    createPaymentMethodAndCustomer(stripe, card);
+                });
+            };
+
+            function showCardError(error) {
+                changeLoadingState(false);
+                // The card was declined (i.e. insufficient funds, card has expired, etc)
+                var errorMsg = document.querySelector('.sr-field-error');
+                errorMsg.textContent = error.message;
+                setTimeout(function () {
+                    errorMsg.textContent = '';
+                }, 8000);
+            }
+
+            var createPaymentMethodAndCustomer = function (stripe, card) {
+                var cardholderEmail = document.querySelector('#email').value;
+                var socialProfileId = @Model.SocialProfile.SocialProfileId;
+                var customerid = @Model.SocialProfile.CustomerId;
+                var selectedPlanId = $('#selectedPlanId').val();
+
+                stripe.createPaymentMethod('card', card, {
+                        billing_details: {
+                            email: cardholderEmail,
+                            name:'@Model.SocialProfile.SocialUsername'
+                        }
+                    })
+                    .then(function (result) {
+                        if (result.error) {
+                            showCardError(result.error);
+                        } else {
+                            createCustomer(result.paymentMethod.id, cardholderEmail, selectedPlanId, customerid, socialProfileId);
+                        }
+                    });
+            };
+
+            async function createCustomer(paymentMethod, cardholderEmail, selectedPlanId, customerid, socialProfileId) {
+                return fetch('/CreateStripeCustomerSubscription', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: cardholderEmail,
+                        payment_method: paymentMethod,
+                        selectedPlanId: selectedPlanId,
+                        customerid = customerid,
+                        socialProfileId = socialProfileId
+
+                    })
+                })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(subscription => {
+                        handleSubscription(subscription);
+                    });
+            }
+
+            function handleSubscription(subscription) {
+                const { latest_invoice } = subscription;
+                const { payment_intent } = latest_invoice;
+
+                if (payment_intent) {
+                    const { client_secret, status } = payment_intent;
+
+                    if (status === 'requires_action' || status === 'requires_payment_method') {
+                        stripe.confirmCardPayment(client_secret).then(function (result) {
+                            if (result.error) {
+                                // Display error message in your UI.
+                                // The card was declined (i.e. insufficient funds, card has expired, etc)
+                                changeLoadingState(false);
+                                showCardError(result.error);
+                            } else {
+                                // Show a success message to your customer
+                                confirmSubscription(subscription.id);
+                            }
+                        });
+                    } else {
+                        // No additional information was needed
+                        // Show a success message to your customer
+                        orderComplete(subscription);
+                    }
+                } else {
+                    orderComplete(subscription);
+                }
+            }
+
+            function confirmSubscription(subscriptionId) {
+                return fetch('/subscription', {
+                    method: 'post',
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        subscriptionId: subscriptionId
+                    })
+                })
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(function (subscription) {
+                        orderComplete(subscription);
+                    });
+            }
+
+            stripeElements('@ViewBag.stripePublishKey');
+            /* ------- Post-payment helpers ------- */
+
+            /* Shows a success / error message when the payment is complete */
+            var orderComplete = function (subscription) {
+                changeLoadingState(false);
+                var subscriptionJson = JSON.stringify(subscription, null, 2);
+                alert(subscriptionJson);
+                //document.querySelectorAll('.payment-view').forEach(function (view) {
+                //    view.classList.add('hidden');
                 //});
-                //cardExpiry.mount('#card-expiry');
-
-                //var cardCvc = elements.create('cardCvc', {
-                //    style: elementStyles,
-                //    classes: elementClasses,
+                //document.querySelectorAll('.completed-view').forEach(function (view) {
+                //    view.classList.remove('hidden');
                 //});
-                //cardCvc.mount('#card-cvc');
+                //document.querySelector('.order-status').textContent = subscription.status;
+                //document.querySelector('code').textContent = subscriptionJson;
+            };
 
-                //registerElements([cardNumber, cardExpiry, cardCvc], 'example3');
-            })();
+            // Show a spinner on subscription submission
+            var changeLoadingState = function (isLoading) {
+                if (isLoading) {
+                    document.querySelector('#spinner').classList.add('loading');
+                    document.querySelector('button').disabled = true;
+
+                    document.querySelector('#button-text').classList.add('hidden');
+                } else {
+                    document.querySelector('button').disabled = false;
+                    document.querySelector('#spinner').classList.remove('loading');
+                    document.querySelector('#button-text').classList.remove('hidden');
+                }
+            };
 
         });
 
@@ -1373,9 +1400,9 @@
 
 
 
-        
 
-       
+
+
 
         // Handle form submission.
         //var form = document.getElementById('From_NewCard');
@@ -1395,62 +1422,62 @@
         //});
 
         // Submit the form with the token ID.
-        function stripeTokenHandler(token) {
-            // Insert the token ID into the form so it gets submitted to the server
-            var form = document.getElementById('From_NewCard');
-            var hiddenInput = document.createElement('input');
-            hiddenInput.setAttribute('type', 'hidden');
-            hiddenInput.setAttribute('name', 'stripeToken');
-            hiddenInput.setAttribute('value', token.id);
+        //function stripeTokenHandler(token) {
+        //    // Insert the token ID into the form so it gets submitted to the server
+        //    var form = document.getElementById('From_NewCard');
+        //    var hiddenInput = document.createElement('input');
+        //    hiddenInput.setAttribute('type', 'hidden');
+        //    hiddenInput.setAttribute('name', 'stripeToken');
+        //    hiddenInput.setAttribute('value', token.id);
 
-            var inpProfileId = document.createElement("input");
-            inpProfileId.setAttribute('type', 'hidden');
-            inpProfileId.setAttribute('name', 'SocialProfileId');
-            inpProfileId.setAttribute('value', $("#SocialProfileId").val());
+        //    var inpProfileId = document.createElement("input");
+        //    inpProfileId.setAttribute('type', 'hidden');
+        //    inpProfileId.setAttribute('name', 'SocialProfileId');
+        //    inpProfileId.setAttribute('value', $("#SocialProfileId").val());
 
-            form.appendChild(inpProfileId);
-            form.appendChild(hiddenInput);
+        //    form.appendChild(inpProfileId);
+        //    form.appendChild(hiddenInput);
 
-            if ($("#From_NewCard").valid()) {
-                var data = $("#From_NewCard").serialize();
-                $.ajax({
-                    type: "POST",
-                    url: "/targetpreferences/newcardpayment",
-                    data: data,
-                    dataType: "json",
-                    success: function (data) {
-                        if (!$.isEmptyObject(data)) {
-                            if (data.ResultType == "Success") {
-                                $("#Modal_ConfirmPaymentPlan").modal("hide");
-                                $("#Modal_SuccessActivePlan").modal("show");
-                                glb_profileJVStatusId = data.ResultData.JVStatusId;
-                                $("#btn_updateSocialProfile").removeClass("hide");
-                                $(".span_jvStatusName").text(data.ResultData.JVStatusName);
-                                glb_activePlan = data.ResultData.ActivePlanId;
-                                EnableDisableProfileSection();
-                            } else {
-                                $("#Modal_ConfirmPaymentPlan").modal("hide");
-                                $("#Modal_MessageBoxErrorTitle").text("Oops!");
-                                $("#Modal_MessageBoxErrorBody").text(data.message);
-                                $("#Modal_MessageBoxFotter").text("Please Try Again");
-                                $("#Modal_ErrorMessagebox").modal("show");
-                            }
-                        }
-                        $("#ConfirmPaySpinner").hide();
-                    },
-                    failure: function (errMsg) {
-                        $("#Modal_ConfirmPaymentPlan").modal("hide");
-                        $("#Modal_MessageBoxErrorTitle").text("Oops!");
-                        $("#Modal_MessageBoxErrorBody").text(data.message);
-                        $("#Modal_MessageBoxFotter").text("Please Try Again");
-                        $("#Modal_ErrorMessagebox").modal("show");
-                        $("#ConfirmPaySpinner").hide();
-                    }
-                });
-            }
+        //    if ($("#From_NewCard").valid()) {
+        //        var data = $("#From_NewCard").serialize();
+        //        $.ajax({
+        //            type: "POST",
+        //            url: "/targetpreferences/newcardpayment",
+        //            data: data,
+        //            dataType: "json",
+        //            success: function (data) {
+        //                if (!$.isEmptyObject(data)) {
+        //                    if (data.ResultType == "Success") {
+        //                        $("#Modal_ConfirmPaymentPlan").modal("hide");
+        //                        $("#Modal_SuccessActivePlan").modal("show");
+        //                        glb_profileJVStatusId = data.ResultData.JVStatusId;
+        //                        $("#btn_updateSocialProfile").removeClass("hide");
+        //                        $(".span_jvStatusName").text(data.ResultData.JVStatusName);
+        //                        glb_activePlan = data.ResultData.ActivePlanId;
+        //                        EnableDisableProfileSection();
+        //                    } else {
+        //                        $("#Modal_ConfirmPaymentPlan").modal("hide");
+        //                        $("#Modal_MessageBoxErrorTitle").text("Oops!");
+        //                        $("#Modal_MessageBoxErrorBody").text(data.message);
+        //                        $("#Modal_MessageBoxFotter").text("Please Try Again");
+        //                        $("#Modal_ErrorMessagebox").modal("show");
+        //                    }
+        //                }
+        //                $("#ConfirmPaySpinner").hide();
+        //            },
+        //            failure: function (errMsg) {
+        //                $("#Modal_ConfirmPaymentPlan").modal("hide");
+        //                $("#Modal_MessageBoxErrorTitle").text("Oops!");
+        //                $("#Modal_MessageBoxErrorBody").text(data.message);
+        //                $("#Modal_MessageBoxFotter").text("Please Try Again");
+        //                $("#Modal_ErrorMessagebox").modal("show");
+        //                $("#ConfirmPaySpinner").hide();
+        //            }
+        //        });
+        //    }
 
-            //form.submit();
-        }
+        //    //form.submit();
+        //}
         /* for shift section after click on button*/
     </script>
 

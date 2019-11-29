@@ -224,5 +224,39 @@ namespace SG2.CORE.DAL.Repositories
 			}
 
 		}
+
+
+        public bool AddRemoveFollowAccounts(List<MobileActionRequest> list)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    foreach (var item in list)
+                    {
+                        if (item.ActionId == 60)
+                        {
+                            _db.SocialProfile_FollowedAccounts.Add(new SocialProfile_FollowedAccounts { FollowedDateTime = DateTime.Now, FollowedSocialUsername = item.TargetSocialUserName, SocialProfileId = item.SocialProfileId, StatusId = 1 });
+                        }
+                        else
+                        {
+                            var delrec = _db.SocialProfile_FollowedAccounts.Where(g => g.FollowedSocialUsername == item.TargetSocialUserName).SingleOrDefault();
+                            if (delrec != null)
+                                _db.SocialProfile_FollowedAccounts.Remove(delrec);
+                        }
+                    }
+
+                    _db.SaveChanges();
+
+                    return true;
+                }
+
+                }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
 	}
 }

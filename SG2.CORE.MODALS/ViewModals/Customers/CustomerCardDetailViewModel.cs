@@ -18,4 +18,14 @@ namespace SG2.CORE.MODAL.ViewModals.Customers
         public string stripeToken { get; set; }
         public int SocialProfileId { get; set; }
     }
+
+    public class NewSubscriptionRequestModel
+    {
+        public string email { get; set; }
+        public string payment_method { get; set; }
+        public int selectedPlanId { get; set; }
+        public int customerid { get; set; }
+        public int socialProfileId { get; set; }
+     
+    }
 }
