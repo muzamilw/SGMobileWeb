@@ -73,7 +73,7 @@
                                     <tbody>
                                         @foreach (var item in socailProfiles)
                                         {
-                                            <tr class='clickable-row' data-href='/Profile/Basic?socialProfileId=@item.SocialProfileId'>
+                                            <tr class='clickable-row' data-href='/Profile/Basic?socialProfileId=@item.SocialProfileId' data-hrefstats='/Profile/stats?socialProfileId=@item.SocialProfileId'>
 
                                                 <td scope="row" class="align-middle">
                                                     @if (item.SocialProfileTypeId == 30)
@@ -85,10 +85,10 @@
                                                 <td>
 
 
-                                                    <div class="btn btn-success mr-1 mb-1 display-inline">
+                                                    <span class="btn btn-success mr-1 mb-1 display-inline">
                                                         <i class="fa fa-paperclip font-medium-2"></i>
                                                         <span>Active</span>
-                                                    </div>
+                                                    </span>
                                                 </td>
 
                                                 <td class="align-middle">
@@ -169,7 +169,11 @@
     <script>
 
         $('#ResponsiveTable > tbody > tr').click(function (element) {
-            window.location = element.target.parentElement.getAttribute("data-href");
+            
+            if (element.target.parentElement.nodeName.toLowerCase() === 'tr')
+                window.location = element.target.parentElement.getAttribute("data-href");
+            else if (element.target.parentElement.parentElement.nodeName.toLowerCase() === 'tr')
+                window.location = element.target.parentElement.parentElement.getAttribute("data-hrefstats");
         });
 
 

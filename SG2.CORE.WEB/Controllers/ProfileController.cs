@@ -434,71 +434,72 @@ namespace SG2.CORE.WEB.Controllers
 
                 if (socialProfile.SocialProfile.StripeCustomerId != null)
                 {
-                    //if (socialProfile.SocialProfile.StripeSubscriptionId != null)
-                    //{
-                    //    if (model.stripeToken != null)
-                    //    {
-                    //        var options = new CustomerUpdateOptions
-                    //        {
-                    //            SourceToken = model.stripeToken,
-                    //        };
-                    //        var service = new CustomerService();
-                    //        Customer customer = service.Update(this.CDT.StripeCustomerId, options);
-                    //    }
-                    //    Subscription subscriptionItemUpdate = subscriptionService.Get(profileDTO.StripeSubscriptionId);
+                    if (socialProfile.SocialProfile.StripeSubscriptionId != null)
+                    {
+                        //if (model.paymentmethod != null)
+                        //{
+                        //    var options = new CustomerUpdateOptions
+                        //    {
+                        //        PaymentMethod = model.paymentmethod,
+                        //    };
+                        //    var service = new CustomerService();
+                        //    Customer customer = service.Update(this.CDT.StripeCustomerId, options);
+                        //}
+                        Subscription subscriptionItemUpdate = subscriptionService.Get(socialProfile.SocialProfile.StripeSubscriptionId);
 
-                    //    var items = new List<SubscriptionItemUpdateOption> {
-                    //                    new SubscriptionItemUpdateOption {
-                    //                    Id= subscriptionItemUpdate.Items.Data[0].Id,
-                    //                    PlanId = model.StripePlanId,
-                    //                    Quantity= 1,
-                    //                    },
-                    //                };
+                        var items = new List<SubscriptionItemUpdateOption> {
+                                        new SubscriptionItemUpdateOption {
+                                        Id= subscriptionItemUpdate.Items.Data[0].Id,
+                                        Plan = newPlan.StripePlanId,
+                                        Quantity= 1,
+                                        },
+                                    };
 
-                    //    var subscriptionUpdateoptions = new SubscriptionUpdateOptions
-                    //    {
-                    //        Items = items,
-                    //        Billing = Billing.ChargeAutomatically,
-                    //        BillingThresholds = { },
-                    //        Prorate = true,
-                    //        BillingCycleAnchorNow = true,
-                    //        BillingCycleAnchorUnchanged = true,
-                    //        //ProrationDate = DateTime.Now,
+                        var subscriptionUpdateoptions = new SubscriptionUpdateOptions
+                        {
+                            Items = items,
 
-                    //    };
+                            Prorate = true,
+                            ProrationDate = DateTime.Now,
+                            //ProrationDate = DateTime.Now,
 
-                    //    stripeSubscription = subscriptionService.Update(profileDTO.StripeSubscriptionId, subscriptionUpdateoptions);
-                    //}
-                    //else
-                    //{
-                    //    var stripeItems = new List<SubscriptionItemOption> {
-                    //                  new SubscriptionItemOption {
-                    //                    Plan = newPlan.StripePlanId,
-                    //                    Quantity= 1
-                    //                  }
-                    //                };
-                    //    var stripeSubscriptionCreateoptions = new SubscriptionCreateOptions
-                    //    {
-                    //        CustomerId = this.CDT.StripeCustomerId,
-                    //        Items = stripeItems,
-                    //        Billing = Billing.ChargeAutomatically,
-                    //        BillingThresholds = { }
-                    //    };
-                    //    stripeSubscription = subscriptionService.Create(stripeSubscriptionCreateoptions);
-                    //}
+                        };
+                        subscriptionUpdateoptions.AddExpand("latest_invoice.payment_intent");
+                        stripeSubscription = subscriptionService.Update(socialProfile.SocialProfile.StripeSubscriptionId, subscriptionUpdateoptions);
+                    }
+                    else
+                    {
+                        var stripeItems = new List<SubscriptionItemOption> {
+                                      new SubscriptionItemOption {
+                                        Plan = newPlan.StripePlanId,
+                                        Quantity= 1
+                                      }
+                                    };
+                        var stripeSubscriptionCreateoptions = new SubscriptionCreateOptions
+                        {
+                            Customer = socialProfile.SocialProfile.StripeCustomerId,
+                            Items = stripeItems,
+                          
+                        };
+                        stripeSubscriptionCreateoptions.AddExpand("latest_invoice.payment_intent");
+                        stripeSubscription = subscriptionService.Create(stripeSubscriptionCreateoptions);
+                    }
+
+                    _cm.UpdateSocialProfileStripeCustomer(model.socialProfileId, socialProfile.SocialProfile.StripeCustomerId, stripeSubscription.Id, newPlan.PlanId);
 
                 }
+                ////////////////// new scenario
                 else
                 {
                     var stripeCustomerCreateOptions = new CustomerCreateOptions
                     {
                         Description = " Customer for Social Growth Labs" + this.CDT.EmailAddress + " with profile id " + model.socialProfileId,
-                        PaymentMethod = model.payment_method,
+                        PaymentMethod = model.paymentmethod,
                         Name = this.CDT.FirstName + " " + this.CDT.SurName,
                         Email = this.CDT.EmailAddress,
                         InvoiceSettings = new CustomerInvoiceSettingsOptions
                         {
-                            DefaultPaymentMethod = model.payment_method,
+                            DefaultPaymentMethod = model.paymentmethod,
                         },
                     };
                     var stripeCustomerService = new CustomerService();
@@ -517,14 +518,16 @@ namespace SG2.CORE.WEB.Controllers
                     {
                         Customer = stripeCustomer.Id,
                         Items = stripeItems,
-                        //BillingCycleAnchor = Billing.ChargeAutomatically,
+                        //BillingCycleAnchor = DateTimeOffset.FromUnixTimeSeconds(1576486590).UtcDateTime
                         //  BillingCycleAnchor = DateTime.Now,
                         //BillingThresholds = {  }
                     };
+                    stripeSubscriptionCreateOptions.AddExpand("latest_invoice.payment_intent"); 
                     stripeSubscription = subscriptionService.Create(stripeSubscriptionCreateOptions);
 
                     //-- Update customer stripe id async call not to wait.
-                    _cm.UpdateSocialProfileStripeCustomer(model.socialProfileId, stripeCustomer.Id, stripeSubscription.Id);
+                    _cm.UpdateSocialProfileStripeCustomer(model.socialProfileId, stripeCustomer.Id, stripeSubscription.Id, newPlan.PlanId);
+
                 }
 
                 //--TODO: Check subscription status here
@@ -547,7 +550,7 @@ namespace SG2.CORE.WEB.Controllers
                     paymentRec.StripeSubscriptionId = stripeSubscription.Id;
                     paymentRec.Description = stripeSubscription.Plan.Nickname;
                     paymentRec.Name = stripeSubscription.Plan.Nickname;
-                    paymentRec.Price = stripeSubscription.Plan.Amount;
+                    paymentRec.Price = stripeSubscription.Plan.Amount/100;
                     //-- subDTO.Price = stripeSubscription.Plan.Amount;
                     paymentRec.StripePlanId = newPlan.StripePlanId;
                     paymentRec.SubscriptionType = stripeSubscription.Plan.Interval;
@@ -557,7 +560,10 @@ namespace SG2.CORE.WEB.Controllers
                     paymentRec.StatusId = (int)GlobalEnums.PlanSubscription.Active;
                     paymentRec.PaymentPlanId = newPlan.PlanId;
                     paymentRec.StripeInvoiceId = stripeSubscription.LatestInvoiceId;
+                    paymentRec.PaymentDateTime = DateTime.Now;
+
                     _cm.InsertSocialProfilePayment(paymentRec);
+                   
 
                     var nt = new NotificationDTO()
                     {
@@ -598,21 +604,20 @@ namespace SG2.CORE.WEB.Controllers
                     var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_PayingSubscribeList);
 
 
-
-                    jr.Data = new { ResultType = "Success", Message = "success" };
+                    return this.Content(stripeSubscription.ToJson(), "application/json"); 
+                    //jr.Data = new { ResultType = "Success", Message = "success" };
 
                 }
                 else
                 {
-                    jr.Data = new { ResultType = "Error", message = "Some error occurred. Please contact administrator." };
+                    return this.Content("subscription error, object not found.");
                 }
 
-                return jr;
+               
             }
             catch (Exception ex)
             {
-                jr.Data = new { ResultType = "Error", message = "Something Went Wrong.", ExceptionError = ex.InnerException != null ? ex.InnerException.Message : ex.Message };
-                return jr;
+                return this.Content(ex.ToString());
             }
         }
 

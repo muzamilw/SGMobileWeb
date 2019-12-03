@@ -1,10 +1,6 @@
 ﻿@model SG2.CORE.MODAL.ViewModals.Customers.CustomerProfileUpdateViewModel
 @{ 
-    List<SelectListItem> countries = new List<SelectListItem>();
-    foreach (var item in Model.Countries)
-    {
-        countries.Add(new SelectListItem { Text = item.PhoneCode, Value = item.PhoneCode.ToString() });
-    }
+   
 }
 
 
@@ -39,7 +35,7 @@
             @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
         </div>
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(m => m.PhoneNumber, new { @class = "" })
             <div class="col-md-12">
                 @Html.DropDownListFor(m=>m.PhoneCode, countries, new {@class="slct" } )                
@@ -47,7 +43,7 @@
                 @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
             </div>
             
-        </div>
+        </div>*@
 
         <div class="form-group">
             <button type="button" id="btn_UpdateUserProfile" class="btn btn-lg btn-primary">Update &nbsp; 

@@ -568,6 +568,7 @@
     <Content Include="Content\app-assets\css\plugins\pickers\daterange\daterange.min.css" />
     <Content Include="Content\app-assets\css\plugins\ui\coming-soon.css" />
     <Content Include="Content\app-assets\css\plugins\ui\coming-soon.min.css" />
+    <Content Include="Content\app-assets\css\stripe.css" />
     <Content Include="Content\app-assets\data\datatables\ajax-child-rows.txt" />
     <Content Include="Content\app-assets\data\fullcalendar\php\get-events.php" />
     <Content Include="Content\app-assets\data\fullcalendar\php\get-timezones.php" />

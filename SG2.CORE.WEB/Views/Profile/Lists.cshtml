@@ -166,7 +166,7 @@
     <script src="~/Content/app-assets/vendors/js/extensions/sweetalert.min.js"></script>
     <script src="~/Content/app-assets/js/scripts/extensions/sweet-alerts.js"></script>
     <script>
-
+        var somethingChanged = false;
         var wltyped, wltypedbox, wlextracted, wlextractedbox, blUsernames, blUsernamesbox, blLocations, blLocationsbox, blHashtags, blHashtagsbox, bWordsManual, bWordsManualbox;
         $(document).ready(function () {
             /*******************************
@@ -180,14 +180,16 @@
             wltyped = $("#wltyped").tagging({
                 "edit-on-delete": false,
                 "no-spacebar": true,
-                "tag-char": ''
+                "tag-char": '',
+                'forbidden-chars': [",", "?"]
             });
             wltypedbox = wltyped[0];
 
             wlextracted = $("#wlextracted").tagging({
                 "edit-on-delete": false,
                 "no-spacebar": true,
-                "tag-char": ''
+                "tag-char": '',
+                'forbidden-chars': [",", "?"]
             });
             wlextractedbox = wlextracted[0];
 
@@ -195,14 +197,16 @@
             blUsernames = $("#blUsernames").tagging({
                 "edit-on-delete": false,
                 "no-spacebar": true,
-                "tag-char": ''
+                "tag-char": '',
+                'forbidden-chars': [",", "?"]
             });
             blUsernamesbox = blUsernames[0];
 
             blLocations = $("#blLocations").tagging({
                 "edit-on-delete": false,
                 "no-spacebar": true,
-                "tag-char": ''
+                "tag-char": '',
+                'forbidden-chars': [",", "?"]
             });
             blLocationsbox = blLocations[0];
 
@@ -210,14 +214,16 @@
             blHashtags = $("#blHashtags").tagging({
                 "edit-on-delete": false,
                 "no-spacebar": true,
-                "tag-char": ''
+                "tag-char": '',
+                'forbidden-chars': [",", "?"]
             });
             blHashtagsbox = blHashtags[0];
 
             bWordsManual = $("#bWordsManual").tagging({
                 "edit-on-delete": false,
                 "no-spacebar": true,
-                "tag-char": ''
+                "tag-char": '',
+                'forbidden-chars': [",", "?"]
             });
             bWordsManualbox = bWordsManual[0];
 
@@ -230,20 +236,32 @@
             //    "tag-char" : ''
             //});
 
+           
+            $(document).ready(function () {
+                $('input').change(function () {
+                    somethingChanged = true;
+                });
+            });
+
+            window.onbeforeunload = function () {
+                if (somethingChanged)
+                    return 'Targeting information has changed, Are you sure you want to navigate away without saving the changes ?';
+            };
+
         });
 
         $('#formlists').submit(function (e) {
-
+            somethingChanged = false;
             document.getElementById("SocialProfile_Instagram_TargetingInformation_WhistListManualUsers").value = wltypedbox.tagging("getTags").join(', ');
 
 
-             //document.getElementById("SocialProfile_Instagram_TargetingInformation_WhilstListImportedUsers").value = wlextractedbox.tagging("getTags").join(', ');
+            //document.getElementById("SocialProfile_Instagram_TargetingInformation_WhilstListImportedUsers").value = wlextractedbox.tagging("getTags").join(', ');
 
-           document.getElementById("SocialProfile_Instagram_TargetingInformation_BlackListUsers").value = blUsernamesbox.tagging("getTags").join(', ');
+            document.getElementById("SocialProfile_Instagram_TargetingInformation_BlackListUsers").value = blUsernamesbox.tagging("getTags").join(', ');
 
-           document.getElementById("SocialProfile_Instagram_TargetingInformation_BlackListLocations").value = blLocationsbox.tagging("getTags").join(', ');
+            document.getElementById("SocialProfile_Instagram_TargetingInformation_BlackListLocations").value = blLocationsbox.tagging("getTags").join(', ');
 
-           document.getElementById("SocialProfile_Instagram_TargetingInformation_BlackListHashtags").value = blHashtagsbox.tagging("getTags").join(', ');
+            document.getElementById("SocialProfile_Instagram_TargetingInformation_BlackListHashtags").value = blHashtagsbox.tagging("getTags").join(', ');
 
             document.getElementById("SocialProfile_Instagram_TargetingInformation_BlackListWordsManual").value = bWordsManualbox.tagging("getTags").join(', ');
 

@@ -1257,14 +1257,14 @@
           <Property Type="Int32" Name="CustomerId" Nullable="true" />
           <Property Type="Int32" Name="SocialProfileTypeId" Nullable="true" />
           <Property Type="Int32" Name="StatusId" Nullable="true" />
-          <Property Type="Int32" Name="StripeCustomerId" Nullable="true" />
+          <Property Type="String" Name="StripeCustomerId" Nullable="true" MaxLength="255" />
           <Property Type="String" Name="SocialUsername" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="SocialPassword" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="ProfileName" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="StatusName" Nullable="false" MaxLength="255" />
           <Property Type="String" Name="SocialProfileTypeName" Nullable="true" MaxLength="255" />
           <Property Type="String" Name="SubscriptionStatus" Nullable="false" MaxLength="7" />
-          <Property Type="String" Name="SubscriptionName" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="SubscriptionName" Nullable="true" MaxLength="250" />
         </ComplexType>
         <ComplexType Name="SG2_usp_LikeyAccount_GetAll_Result">
           <Property Type="Int32" Name="LikeyAccountId" Nullable="false" />

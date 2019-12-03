@@ -17,7 +17,7 @@ namespace SG2.CORE.MODAL
         public Nullable<int> CustomerId { get; set; }
         public Nullable<int> SocialProfileTypeId { get; set; }
         public Nullable<int> StatusId { get; set; }
-        public Nullable<int> StripeCustomerId { get; set; }
+        public string StripeCustomerId { get; set; }
         public string SocialUsername { get; set; }
         public string SocialPassword { get; set; }
         public string ProfileName { get; set; }

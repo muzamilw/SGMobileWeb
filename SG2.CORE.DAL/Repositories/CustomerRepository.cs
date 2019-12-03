@@ -882,7 +882,7 @@ namespace SG2.CORE.DAL.Repositories
 
         }
 
-        public bool UpdateSocialProfileStripeCustomerId(int SocialProfileId, string StripCustomerId, string StripeSubscriptionId)
+        public bool UpdateSocialProfileStripeCustomerId(int SocialProfileId, string StripCustomerId, string StripeSubscriptionId, int PaymentPlanId)
         {
             try
             {
@@ -893,6 +893,8 @@ namespace SG2.CORE.DAL.Repositories
                     {
                         cus.StripeCustomerId = StripCustomerId;
                         cus.StripeSubscriptionId = StripeSubscriptionId;
+                        cus.PaymentPlanId = PaymentPlanId;
+                        cus.StatusId = 24;
                         _db.SaveChanges();
                         return true;
                     }

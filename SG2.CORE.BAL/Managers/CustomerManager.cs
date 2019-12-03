@@ -408,11 +408,11 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public bool UpdateSocialProfileStripeCustomer(int SocialProfileId, string StripCustomerId, string StripeSubscriptionId)
+        public bool UpdateSocialProfileStripeCustomer(int SocialProfileId, string StripCustomerId, string StripeSubscriptionId, int PaymentPlanId)
         {
             try
             {
-                return  _customerRepository.UpdateSocialProfileStripeCustomerId(SocialProfileId, StripCustomerId, StripeSubscriptionId);
+                return  _customerRepository.UpdateSocialProfileStripeCustomerId(SocialProfileId, StripCustomerId, StripeSubscriptionId, PaymentPlanId);
             }
             catch (Exception ex)
             {

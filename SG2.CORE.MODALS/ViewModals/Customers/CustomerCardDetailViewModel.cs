@@ -22,7 +22,7 @@ namespace SG2.CORE.MODAL.ViewModals.Customers
     public class NewSubscriptionRequestModel
     {
         public string email { get; set; }
-        public string payment_method { get; set; }
+        public string paymentmethod { get; set; }
         public int selectedPlanId { get; set; }
         public int customerid { get; set; }
         public int socialProfileId { get; set; }

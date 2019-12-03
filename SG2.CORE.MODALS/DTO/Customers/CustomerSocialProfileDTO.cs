@@ -10,7 +10,7 @@ namespace SG2.CORE.MODAL.DTO.Customers
         public Nullable<int> JVBoxId { get; set; }
         public Nullable<int> JVBoxStatusId { get; set; }
         public Nullable<int> StatusId { get; set; }
-        public Nullable<int> StripeCustomerId { get; set; }
+        public string StripeCustomerId { get; set; }
         public string SocialUsername { get; set; }
         public string SocialPassword { get; set; }
         public string ProfileName { get; set; }
