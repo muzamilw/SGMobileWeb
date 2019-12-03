@@ -125,7 +125,25 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    var item = _db.SG2_usp_Customer_ProfileUpdate(entity.CustomerId, entity.UserName, entity.FirstName, entity.SurName, entity.PhoneNumber, entity.PhoneCode);
+                    var customer = _db.Customers.Where(g => g.CustomerId == entity.CustomerId).SingleOrDefault();
+                    if (customer != null)
+                    {
+                        customer.FirstName = entity.FirstName;
+                        customer.SurName = entity.SurName;
+                        _db.SaveChanges();
+
+
+                        //update contact
+
+                        var contact = _db.Customer_ContactDetail.Where(g => g.CustomerId == entity.CustomerId).SingleOrDefault();
+                        if ( contact != null)
+                        {
+                            contact.PhoneNumber = entity.PhoneNumber;
+                            contact.PhoneCode = entity.PhoneCode;
+                            _db.SaveChanges();
+                        }
+
+                    }
                     return entity;
                 }
             }

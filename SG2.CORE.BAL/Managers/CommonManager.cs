@@ -28,11 +28,11 @@ namespace SG2.CORE.BAL.Managers
         }
 
 
-        //public static IList<CountryDTO> GetCountries()
-        //{
-        //    var Model = CommonRepository.GetCountries();
-        //    return Model;
-        //}
+        public static IList<CountryDTO> GetCountries()
+        {
+            var Model = CommonRepository.GetCountries();
+            return Model;
+        }
 
         //public static IList<CitiesAndCountriesDTO> GetCityAndCountryData(int? CityId)
         //{

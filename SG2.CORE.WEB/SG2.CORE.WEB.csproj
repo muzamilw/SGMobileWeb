@@ -439,6 +439,8 @@
     <Content Include="Content\app-assets\css\core\mixins\main-menu-mixin.min.css" />
     <Content Include="Content\app-assets\css\core\mixins\transitions.css" />
     <Content Include="Content\app-assets\css\core\mixins\transitions.min.css" />
+    <Content Include="Content\app-assets\css\demo.css" />
+    <Content Include="Content\app-assets\css\intlTelInput.min.css" />
     <Content Include="Content\app-assets\css\pages\app-chat.css" />
     <Content Include="Content\app-assets\css\pages\app-chat.min.css" />
     <Content Include="Content\app-assets\css\pages\app-contacts.css" />
@@ -1447,6 +1449,8 @@
     <Content Include="Content\app-assets\images\elements\12.png" />
     <Content Include="Content\app-assets\images\elements\13.png" />
     <Content Include="Content\app-assets\images\elements\14.png" />
+    <Content Include="Content\app-assets\images\flags%402x.png" />
+    <Content Include="Content\app-assets\images\flags.png" />
     <Content Include="Content\app-assets\images\flags\ak.png" />
     <Content Include="Content\app-assets\images\flags\al.png" />
     <Content Include="Content\app-assets\images\flags\ar.png" />
@@ -2048,6 +2052,7 @@
     <Content Include="Content\app-assets\js\scripts\forms\wizard-steps.min.js" />
     <Content Include="Content\app-assets\js\scripts\gallery\photo-swipe\photoswipe-script.js" />
     <Content Include="Content\app-assets\js\scripts\gallery\photo-swipe\photoswipe-script.min.js" />
+    <Content Include="Content\app-assets\js\scripts\intlTelInput.min.js" />
     <Content Include="Content\app-assets\js\scripts\modal\components-modal.js" />
     <Content Include="Content\app-assets\js\scripts\modal\components-modal.min.js" />
     <Content Include="Content\app-assets\js\scripts\navs\navs.js" />
@@ -2142,6 +2147,7 @@
     <Content Include="Content\app-assets\js\scripts\ui\compact-menu.min.js" />
     <Content Include="Content\app-assets\js\scripts\ui\scrollable.js" />
     <Content Include="Content\app-assets\js\scripts\ui\scrollable.min.js" />
+    <Content Include="Content\app-assets\js\scripts\utils.js" />
     <Content Include="Content\app-assets\vendors\css\animate\animate.css" />
     <Content Include="Content\app-assets\vendors\css\calendars\fullcalendar.min.css" />
     <Content Include="Content\app-assets\vendors\css\calendars\fullcalendar.print.css" />

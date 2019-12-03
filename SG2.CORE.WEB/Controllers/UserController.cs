@@ -102,10 +102,10 @@ namespace SG2.CORE.WEB.Controllers
                 FirstName = user.FirstName,
                 SurName = user.SurName,
                 EmailAddress = user.EmailAddress,
-                PhoneCode = user.PhoneCode,
-                PhoneNumber = user.PhoneNumber,
+               
+                PhoneNumber = "+"+user.PhoneCode + user.PhoneNumber,
                 UserName = user.UserName,
-                //Countries = CommonManager.GetCountries()
+                Countries = CommonManager.GetCountries()
             };
 
             var model = new CustomerProfileViewModel();

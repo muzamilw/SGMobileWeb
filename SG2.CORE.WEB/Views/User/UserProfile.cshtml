@@ -6,6 +6,114 @@
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
 }
 
+@section styles{
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/plugins/forms/validation/form-validation.css">
+    <link href="~/Content/app-assets/css/intlTelInput.min.css" rel="stylesheet" />
+
+
+   
+
+
+    <style type="text/css">
+        .iti {
+            width: 100%;
+        }
+        #error-msg {
+            color: red;
+        }
+
+        #valid-msg {
+            color: #00C900;
+        }
+
+        input.error {
+            border: 1px solid #FF7C7C;
+        }
+
+        .hide {
+            display: none;
+        }
+
+
+        .information-form-inner {
+            padding: 30px;
+        }
+
+            .information-form-inner input[type=submit] {
+                text-align: left;
+                margin: 0;
+            }
+
+        .form-Checkbox {
+            display: block;
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 1.6rem;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+            /* Hide the browser's default checkbox */
+            .form-Checkbox input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+                height: 0;
+                width: 0;
+            }
+
+        /* Create a custom checkbox */
+        .chkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 20px;
+            width: 20px;
+            background-color: #fff;
+            border: 1px solid #6ab8ee
+        }
+
+        /* On mouse-over, add a grey background color */
+        .form-Checkbox:hover input ~ .chkmark {
+            background-color: #6ab8ee;
+        }
+
+        /* When the checkbox is checked, add a blue background */
+        .form-Checkbox input:checked ~ .chkmark {
+            background-color: #2196F3;
+        }
+
+        /* Create the checkmark/indicator (hidden when not checked) */
+        .chkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        /* Show the checkmark when checked */
+        .form-Checkbox input:checked ~ .chkmark:after {
+            display: block;
+        }
+
+        /* Style the checkmark/indicator */
+        .form-Checkbox .chkmark:after {
+            left: 6px;
+            top: 3px;
+            width: 6px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+    </style>
+}
+
 
 <!-- BEGIN: Content-->
 <div class="app-content container center-layout mt-2">
@@ -29,7 +137,7 @@
             <div class="row match-height">
                 <div class="col-12">
                     <div class="card">
-                        
+
                         <div class="card-content collapse show">
                             <div class="card-body card-dashboard">
                                 <p class="card-text"></p>
@@ -82,7 +190,7 @@
                     </div>
                 </div>
 
-               
+
             </div>
             <!-- Extra large table end -->
         </div>
@@ -93,91 +201,55 @@
 
 
 
-<style type="text/css">
-    .information-form-inner {
-        padding: 30px;
-    }
-
-        .information-form-inner input[type=submit] {
-            text-align: left;
-            margin: 0;
-        }
-
-    .form-Checkbox {
-        display: block;
-        position: relative;
-        padding-left: 30px;
-        margin-bottom: 12px;
-        cursor: pointer;
-        font-size: 1.6rem;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
-
-        /* Hide the browser's default checkbox */
-        .form-Checkbox input {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-            height: 0;
-            width: 0;
-        }
-
-    /* Create a custom checkbox */
-    .chkmark {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 20px;
-        width: 20px;
-        background-color: #fff;
-        border: 1px solid #6ab8ee
-    }
-
-    /* On mouse-over, add a grey background color */
-    .form-Checkbox:hover input ~ .chkmark {
-        background-color: #6ab8ee;
-    }
-
-    /* When the checkbox is checked, add a blue background */
-    .form-Checkbox input:checked ~ .chkmark {
-        background-color: #2196F3;
-    }
-
-    /* Create the checkmark/indicator (hidden when not checked) */
-    .chkmark:after {
-        content: "";
-        position: absolute;
-        display: none;
-    }
-
-    /* Show the checkmark when checked */
-    .form-Checkbox input:checked ~ .chkmark:after {
-        display: block;
-    }
-
-    /* Style the checkmark/indicator */
-    .form-Checkbox .chkmark:after {
-        left: 6px;
-        top: 3px;
-        width: 6px;
-        height: 10px;
-        border: solid white;
-        border-width: 0 3px 3px 0;
-        -webkit-transform: rotate(45deg);
-        -ms-transform: rotate(45deg);
-        transform: rotate(45deg);
-    }
-</style>
-
 @section scripts{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Content/app-assets/js/scripts/intlTelInput.min.js"></script>
     <script type="text/javascript">
         $("document").ready(function () {
+            var input = document.querySelector(".phoneNumber"),
+                errorMsg = document.querySelector("#error-msg"),
+                validMsg = document.querySelector("#valid-msg");
+
+            // here, the index maps to the error code returned from getValidationError - see readme
+            var errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+
+            var iti = window.intlTelInput(input, {
+                "separateDialCode": true,
+                utilsScript: "../Content/app-assets/js/scripts/utils.js?1562189064761"
+            });
+
+            var reset = function () {
+                input.classList.remove("error");
+                errorMsg.innerHTML = "";
+                errorMsg.classList.add("hide");
+                validMsg.classList.add("hide");
+            };
+
+            // on blur: validate
+            input.addEventListener('blur', function () {
+                reset();
+                if (input.value.trim()) {
+                    if (iti.isValidNumber()) {
+                        validMsg.classList.remove("hide");
+                    } else {
+                        input.classList.add("error");
+                        var errorCode = iti.getValidationError();
+                        errorMsg.innerHTML = errorMap[errorCode];
+                        errorMsg.classList.remove("hide");
+                    }
+                }
+            });
+
+            // on keyup / change flag: reset
+            input.addEventListener('change', reset);
+            input.addEventListener('keyup', reset);
 
             $("#btn_UpdateUserProfile").on("click", function () {
-                if ($("#form_UpdateUserProfile").valid()) {
+                var isValid = iti.isValidNumber();
+                if ($("#form_UpdateUserProfile").valid() && isValid) {
+                    var countryData = iti.getSelectedCountryData();
+                    $("#PhoneCode").val(countryData.dialCode);
                     $("#spn_updateUserProfile").show();
                     var data = $("#form_UpdateUserProfile").serialize();
                     $.ajax({

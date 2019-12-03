@@ -130,6 +130,34 @@ namespace SG2.CORE.DAL.Repositories
 
         }
 
+        public static IList<CountryDTO> GetCountries()
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    var countires = _db.SystemCountries.ToList();
+                    if (countires != null)
+                    {
+                        return countires.Select(c => new CountryDTO()
+                        {
+                            CountryId = c.CountryId,
+                            Name = c.Name,
+                            Code = c.Code,
+                            PhoneCode = c.PhoneCode,
+                            StatusId = c.StatusId
+                        }).ToList();
+                    }
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
         public static IList<CityDTO> GetCities()
         {
             try
