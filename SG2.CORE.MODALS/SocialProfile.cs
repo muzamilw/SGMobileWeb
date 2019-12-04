@@ -47,6 +47,8 @@ namespace SG2.CORE.MODAL
         public string Comments { get; set; }
         public Nullable<System.DateTime> LastConnectedDateTime { get; set; }
         public string DeviceBinLocation { get; set; }
+        public Nullable<int> BlockedStatus { get; set; }
+        public Nullable<System.DateTime> BockedSinceDateTime { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SocialProfile_Statistics> SocialProfile_Statistics { get; set; }

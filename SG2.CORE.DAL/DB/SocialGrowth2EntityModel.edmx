@@ -118,7 +118,7 @@
           <Property Name="NoOfComments" Type="int" />
           <Property Name="DisplayPrice" Type="float" />
           <Property Name="PlanName" Type="nvarchar" MaxLength="250" Nullable="false" />
-          <Property Name="PlanShortDescription" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="PlanShortDescription" Type="nvarchar" MaxLength="550" Nullable="false" />
           <Property Name="IsBrokerPlan" Type="bit" />
           <Property Name="StripePlanId" Type="nvarchar" MaxLength="50" />
           <Property Name="StripePlanPrice" Type="float" />
@@ -159,6 +159,8 @@
           <Property Name="Comments" Type="nvarchar(max)" />
           <Property Name="LastConnectedDateTime" Type="datetime" />
           <Property Name="DeviceBinLocation" Type="nvarchar" MaxLength="500" />
+          <Property Name="BlockedStatus" Type="int" />
+          <Property Name="BockedSinceDateTime" Type="datetime" />
         </EntityType>
         <EntityType Name="SocialProfile_Actions">
           <Key>
@@ -1792,6 +1794,8 @@
           <NavigationProperty Name="PaymentPlan" Relationship="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan" FromRole="SocialProfile" ToRole="PaymentPlan" />
           <NavigationProperty Name="SocialProfile_Instagram_TargetingInformation" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Instagram_TargetingInformation" />
           <NavigationProperty Name="Customer" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer" FromRole="SocialProfile" ToRole="Customer" />
+          <Property Name="BlockedStatus" Type="Int32" />
+          <Property Name="BockedSinceDateTime" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
           <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="1" />
@@ -1851,7 +1855,7 @@
           <Property Name="NoOfComments" Type="Int32" />
           <Property Name="DisplayPrice" Type="Double" />
           <Property Name="PlanName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="PlanShortDescription" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="PlanShortDescription" Type="String" Nullable="false" MaxLength="550" FixedLength="false" Unicode="true" />
           <Property Name="IsBrokerPlan" Type="Boolean" />
           <Property Name="StripePlanId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="StripePlanPrice" Type="Double" />
@@ -3004,6 +3008,8 @@
           <EntitySetMapping Name="SocialProfiles">
             <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile">
               <MappingFragment StoreEntitySet="SocialProfile">
+                <ScalarProperty Name="BockedSinceDateTime" ColumnName="BockedSinceDateTime" />
+                <ScalarProperty Name="BlockedStatus" ColumnName="BlockedStatus" />
                 <ScalarProperty Name="DeviceBinLocation" ColumnName="DeviceBinLocation" />
                 <ScalarProperty Name="LastConnectedDateTime" ColumnName="LastConnectedDateTime" />
                 <ScalarProperty Name="Comments" ColumnName="Comments" />

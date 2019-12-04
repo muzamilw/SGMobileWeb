@@ -302,7 +302,23 @@ namespace SG2.CORE.BAL.Managers
 				
 			}
 		}
-		public bool UpdateTargetProfile(SocialProfileDTO model)
+
+        public bool UpdateBasicSocialProfileBlock(BlockStatus blockStatus, int SocialProfileId)
+        {
+            try
+            {
+                var socialprofile = _socialRepository.UpdateSocialProfileBlocks(blockStatus, SocialProfileId);
+                return socialprofile;
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+
+            }
+        }
+        public bool UpdateTargetProfile(SocialProfileDTO model)
 		{
 			try
 			{

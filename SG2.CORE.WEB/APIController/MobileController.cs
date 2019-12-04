@@ -251,6 +251,14 @@ namespace SG2.CORE.WEB.APIController
                             successCount++;
                     }
 
+                    int[] BlockedStatuses = new int[] { 66, 67, 68, 69 };
+
+                    var BlockedActions = model.Where(g => BlockedStatuses.Contains(g.ActionId)).ToList();
+                    if (BlockedActions != null &&  BlockedActions.Count>0)
+                    {
+                        _customerManager.UpdateBasicSocialProfileBlock( (BlockStatus )BlockedActions.First().ActionId, BlockedActions.First().SocialProfileId);
+                    }
+
                     //add the newly followed accounts 
                     _customerManager.AddRemoveFollowAccounts(model.Where(g => g.ActionId == 60 || g.ActionId == 61).ToList());
 

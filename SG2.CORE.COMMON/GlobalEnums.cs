@@ -134,6 +134,15 @@
         }
 
 
+        public enum BlockStatus
+        {
+            UnBlocked = 0,
+            Block1 = 66,
+            Block2 = 67,
+            Block3 = 68,
+            Block4 = 69
+        }
+
     }
 }
 

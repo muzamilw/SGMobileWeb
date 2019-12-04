@@ -787,7 +787,7 @@ namespace SG2.CORE.DAL.Repositories
             using (var _db = new SocialGrowth2Connection())
             {
                 var profile = _db.SocialProfiles.Where(g => g.SocialUsername == SocialUserName && g.PinCode == Pin && g.PinCode == Pin).SingleOrDefault();
-                if (profile != null)
+                if (profile != null && (profile.BlockedStatus == null || profile.BlockedStatus == 0))
                 {
                     var Customer = _db.Customers.Where(g => g.CustomerId == profile.CustomerId).Single();
 
@@ -825,6 +825,10 @@ namespace SG2.CORE.DAL.Repositories
                     }
 
 
+                }
+                else if(profile.BlockedStatus != 0)
+                {
+                    return (false, "Profile Blocked", 0, false, (int)profile.BlockedStatus, 0, false);
                 }
                 else
                 {

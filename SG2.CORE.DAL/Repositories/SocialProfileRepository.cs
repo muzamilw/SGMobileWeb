@@ -51,6 +51,33 @@ namespace SG2.CORE.DAL.Repositories
 
 		}
 
+        public bool UpdateSocialProfileBlocks(BlockStatus blockStatus, int SocialProfileId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+
+                    var profile = _db.SocialProfiles.Where(g => g.SocialProfileId == SocialProfileId).SingleOrDefault();
+                    profile.BlockedStatus = (int)blockStatus;
+                    profile.BockedSinceDateTime = DateTime.Now;
+                    profile.UpdatedBy = "User";
+                    profile.UpdatedOn = DateTime.Now;
+
+                    _db.SaveChanges();
+
+                    return true;
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
 
         public bool UpdateTargetProfileLists(SocialProfileDTO request)
         {
