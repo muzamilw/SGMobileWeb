@@ -57,7 +57,7 @@
                             <div class="heading-elements">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-blue" data-toggle="modal" data-target="#newProfile"><i class="fa fa-plus"></i> Social Profile</button>
-
+                                    
 
                                 </div>
                                 
@@ -65,11 +65,41 @@
                         </div>
                         <div class="card-content collapse show">
                             <div class="card-body card-dashboard">
-                                <p class="card-text"></p>
+                                <div class="form-row">
+                                    <div class="col-3"> <input type="text" class="form-control mb-1" id="iconLeft11" placeholder="Search profiles"></div>
+                                    <div class="col-3">
+                                        <select class="custom-select block" id="customSelect">
+                                            <option selected="">Select Type (All)</option>
+                                            <option value="1">Instagram</option>
+                                            <option value="2">LinkedIn</option>
+                                            <option value="3">Facebook</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-3">
+                                        <select class="custom-select block" id="customSelect">
+                                            <option selected="">Select Block Type (All)</option>
+                                            <option value="1">Valid</option>
+                                            <option value="2">Action Block</option>
+                                            <option value="3">Hard Block</option>
+                                            <option value="3">Passsword Block</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-3">
+                                        <select class="custom-select block" id="customSelect">
+                                            <option selected="">Plans (All)</option>
+                                            <option value="1">Free Forever</option>
+                                            <option value="2">$59 per month</option>
+                                            <option value="3">$99 per month</option>
+                                            <option value="3">$39 Afilliate Plan</option>
+                                        </select>
+                                    </div>
+                                  
+                                   
+                                </div>
                             </div>
                             <div class="table-responsive">
                                 <table id="ResponsiveTable" class="table table-xl mb-0 table-hover">
-
+                                    
                                     <tbody>
                                         @foreach (var item in socailProfiles)
                                         {
@@ -83,22 +113,34 @@
                                                     <a style="display:inline-block" href="/Profile/Basic?socialProfileId=@item.SocialProfileId"><h4>@item.SocialUsername</h4></a>
                                                 </td>
                                                 <td>
+                                                    @{ 
+                                                        var statusclass = "";
+                                                        switch (item.BlockedStatus)
+                                                        {
+                                                            case "Valid": statusclass = "badge-primary"; break;
+                                                            case "Action Blocked": statusclass = "badge-danger"; break;
+                                                            case "Hard Blocked": statusclass = "badge-danger"; break;
+                                                            case "Password Blocked": statusclass = "badge-danger"; break;
+                                                            default:
+                                                                statusclass = "badge-primary";
+                                                                break;
+                                                        }
+                                                    }
 
+                                                    <span class="badge @statusclass label-square mr-1 mb-1 display-inline">
 
-                                                    <span class="btn btn-success mr-1 mb-1 display-inline">
-                                                        <i class="fa fa-paperclip font-medium-2"></i>
-                                                        <span>Active</span>
+                                                        <span>@item.BlockedStatus</span>
                                                     </span>
                                                 </td>
 
                                                 <td class="align-middle">
                                                     @if (@socailProfiles.FirstOrDefault().SubscriptionName != null)
                                                     {
-                                                        <div class="btn btn-success mr-1 mb-1 display-inline">Plan: @item.SubscriptionName</div>
+                                                        <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: @item.SubscriptionName</div>
                                                     }
                                                     else
                                                     {
-                                                        <div class="btn btn-success mr-1 mb-1 display-inline">Free Plan</div>
+                                                        <div class="badge badge-success label-square mr-1 mb-1 display-inline">Free Plan</div>
                                                     }
                                                 </td>
                                             </tr>

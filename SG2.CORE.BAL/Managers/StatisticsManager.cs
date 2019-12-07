@@ -76,13 +76,13 @@ namespace SG2.CORE.BAL.Managers
                     prevStats.FollowingsTotal = prevStats.FollowingsTotal + FollowingCount;
 
                     prevStats.Like = LikeCount;
-                    prevStats.LikeTotal += LikeCount;
+                    prevStats.LikeTotal = prevStats.LikeTotal + LikeCount;
 
                     prevStats.Comment = CommentCount;
 
 
                     prevStats.StoryViews = StoryCount;
-                    prevStats.StoryViewsTotal += StoryCount;
+                    prevStats.StoryViewsTotal = prevStats.StoryViewsTotal + StoryCount;
 
                     prevStats.Follow = Math.Abs((prevStats.Follow.HasValue ? prevStats.Follow.Value : 0) - FollowCount);
                     prevStats.FollowTotal = Math.Abs((prevStats.FollowTotal.HasValue ? prevStats.FollowTotal.Value:0) - FollowCount);

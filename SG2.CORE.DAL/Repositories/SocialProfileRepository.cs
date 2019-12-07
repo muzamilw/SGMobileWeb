@@ -59,8 +59,17 @@ namespace SG2.CORE.DAL.Repositories
                 {
 
                     var profile = _db.SocialProfiles.Where(g => g.SocialProfileId == SocialProfileId).SingleOrDefault();
-                    profile.BlockedStatus = (int)blockStatus;
-                    profile.BockedSinceDateTime = DateTime.Now;
+                    if (blockStatus == BlockStatus.Clear)
+                    {
+                        profile.BlockedStatus = 0;
+                        profile.BockedSinceDateTime = DateTime.Now;
+                    }
+                    else
+                    {
+                        profile.BlockedStatus = (int)blockStatus;
+                        profile.BockedSinceDateTime = DateTime.Now;
+                    }
+                    
                     profile.UpdatedBy = "User";
                     profile.UpdatedOn = DateTime.Now;
 

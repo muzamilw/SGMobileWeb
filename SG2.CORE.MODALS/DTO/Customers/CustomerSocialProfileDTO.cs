@@ -19,7 +19,7 @@ namespace SG2.CORE.MODAL.DTO.Customers
         public string StatusName { get; set; }
         public string JVBoxStatusName { get; set; }
         public string SocialProfileTypeName { get; set; }
-        public string JVBoxName { get; set; }
+        public string BlockedStatus { get; set; }
 
         public string SubscriptionName { get; set; }
         public string SubScriptionStatus { get; set; }

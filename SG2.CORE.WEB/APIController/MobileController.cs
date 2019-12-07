@@ -44,7 +44,9 @@ namespace SG2.CORE.WEB.APIController
                             StatusCode = 1,
                             StatusMessage = "Success",
                             SocialProfileId = res.SocialProfileId,
-                            SocialPasswordNeeded = res.PasswordNeeded
+                            SocialPasswordNeeded = res.PasswordNeeded,
+                            BlockCode = res.BlockCode,
+                            BlockDateTimeUTC = res.BlockDateTimeUTC
                         }
 
                     };
@@ -256,6 +258,7 @@ namespace SG2.CORE.WEB.APIController
                     var BlockedActions = model.Where(g => BlockedStatuses.Contains(g.ActionId)).ToList();
                     if (BlockedActions != null &&  BlockedActions.Count>0)
                     {
+
                         _customerManager.UpdateBasicSocialProfileBlock( (BlockStatus )BlockedActions.First().ActionId, BlockedActions.First().SocialProfileId);
                     }
 
@@ -283,7 +286,9 @@ namespace SG2.CORE.WEB.APIController
                         //take diff with previous no and then update.
                     }
 
-                    _statsManager.UpdateStatistics(model.First().SocialProfileId, FollowingCountNet, LikeCount, CommentCount, StoryCount, FollowCount);
+                    //omny update stats if anything changes.
+                    if ( FollowCount > 0 || LikeCount >0 || CommentCount > 0 || StoryCount > 0 || FollowCount > 0 )
+                        _statsManager.UpdateStatistics(model.First().SocialProfileId, FollowingCountNet, LikeCount, CommentCount, StoryCount, FollowCount);
 
                     if ( successCount == model.Count)
                         return Ok(new MobileActionResponse { StatusCode = 1, StatusMessage = "Success" });

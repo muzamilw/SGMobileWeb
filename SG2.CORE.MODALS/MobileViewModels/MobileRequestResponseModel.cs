@@ -28,6 +28,10 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public int StatusCode { get; set; }
         public string StatusMessage { get; set; }
 
+        public int BlockCode { get; set; }
+
+        public DateTime BlockDateTimeUTC { get; set; }
+
         public bool SocialPasswordNeeded { get; set; }
 
         public bool IsBroker { get; set; }

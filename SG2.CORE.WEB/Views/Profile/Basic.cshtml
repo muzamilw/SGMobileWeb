@@ -110,33 +110,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="label-control" for="projectinput2">Blocks</label>
-                                                            @{ 
-                                                                var BlockedStatus = "";
-                                                                if (Model.SocialProfile.BlockedStatus == 66)
-                                                                {
-                                                                    BlockedStatus = "Block 1 since" + Model.SocialProfile.BockedSinceDateTime.ToString();
-                                                                }
-                                                                else if (Model.SocialProfile.BlockedStatus == 67)
-                                                                {
-                                                                    BlockedStatus = "Block 2 since" + Model.SocialProfile.BockedSinceDateTime.ToString();
-                                                                }
-                                                                else if (Model.SocialProfile.BlockedStatus == 68)
-                                                                {
-                                                                    BlockedStatus = "Block 3 since" + Model.SocialProfile.BockedSinceDateTime.ToString();
-                                                                }
-                                                                else if (Model.SocialProfile.BlockedStatus == 69)
-                                                                {
-                                                                    BlockedStatus = "Block 4 since" + Model.SocialProfile.BockedSinceDateTime.ToString();
-                                                                }
-                                                            }
-
-                                                            <div class="form-control">@BlockedStatus</div>
-
-                                                        </div>
-                                                    </div>
+                                                  
 
                                                     <div class="col-md-6">
                                                         <div class="form-group">

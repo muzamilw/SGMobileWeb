@@ -781,13 +781,13 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
-        public (bool, string, int, bool, int ErrorCode, int CustomerId, bool IsBroker) PerformMobileLogin(string SocialUserName, string Pin, string DeviceIMEI, bool ForceSwitchDevice)
+        public (bool, string, int, bool, int ErrorCode, int CustomerId, bool IsBroker, int BlockCode, DateTime BlockDateTimeUTC) PerformMobileLogin(string SocialUserName, string Pin, string DeviceIMEI, bool ForceSwitchDevice)
         {
 
             using (var _db = new SocialGrowth2Connection())
             {
                 var profile = _db.SocialProfiles.Where(g => g.SocialUsername == SocialUserName && g.PinCode == Pin && g.PinCode == Pin).SingleOrDefault();
-                if (profile != null && (profile.BlockedStatus == null || profile.BlockedStatus == 0))
+                if (profile != null)
                 {
                     var Customer = _db.Customers.Where(g => g.CustomerId == profile.CustomerId).Single();
 
@@ -797,7 +797,7 @@ namespace SG2.CORE.DAL.Repositories
                         profile.DeviceStatus = (int)DeviceStatus.Connected;
                         profile.LastConnectedDateTime = DateTime.Now;
                         _db.SaveChanges();
-                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty( profile.SocialPassword),1, profile.CustomerId.Value, Customer.IsBroker.HasValue ? Customer.IsBroker.Value:false );
+                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty( profile.SocialPassword),1, profile.CustomerId.Value, Customer.IsBroker.HasValue ? Customer.IsBroker.Value:false, profile.BlockedStatus??0, profile.BockedSinceDateTime.HasValue ? profile.BockedSinceDateTime.Value.ToUniversalTime():DateTime.MinValue );
                     }
                     else if (profile.DeviceIMEI == DeviceIMEI)
                     {
@@ -805,11 +805,11 @@ namespace SG2.CORE.DAL.Repositories
                         profile.DeviceStatus = (int)DeviceStatus.Connected;
                         profile.LastConnectedDateTime = DateTime.Now;
                         _db.SaveChanges();
-                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty(profile.SocialPassword),1, profile.CustomerId.Value, Customer.IsBroker.HasValue ? Customer.IsBroker.Value : false);
+                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty(profile.SocialPassword),1, profile.CustomerId.Value, Customer.IsBroker.HasValue ? Customer.IsBroker.Value : false, profile.BlockedStatus ?? 0, profile.BockedSinceDateTime.HasValue ? profile.BockedSinceDateTime.Value.ToUniversalTime() : DateTime.MinValue);
                     }
                     else if (profile.DeviceIMEI != DeviceIMEI && ForceSwitchDevice == false)
                     {
-                        return (false, "Device IMEI does not match", profile.SocialProfileId,false,2,0,false);
+                        return (false, "Device IMEI does not match", profile.SocialProfileId,false,2,0,false,0,DateTime.MinValue);
                     }
                     else if (profile.DeviceIMEI != DeviceIMEI && ForceSwitchDevice == true)
                     {
@@ -817,22 +817,22 @@ namespace SG2.CORE.DAL.Repositories
                         profile.DeviceStatus = (int)DeviceStatus.Connected;
                         profile.LastConnectedDateTime = DateTime.Now;
                         _db.SaveChanges();
-                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty(profile.SocialPassword),1, profile.CustomerId.Value, Customer.IsBroker.HasValue ? Customer.IsBroker.Value : false);
+                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty(profile.SocialPassword),1, profile.CustomerId.Value, Customer.IsBroker.HasValue ? Customer.IsBroker.Value : false, profile.BlockedStatus ?? 0, profile.BockedSinceDateTime.HasValue ? profile.BockedSinceDateTime.Value.ToUniversalTime() : DateTime.MinValue);
                     }
                     else
                     {
-                        return (false, "Device IMEI does not match", profile.SocialProfileId, false,2,0,false);
+                        return (false, "Device IMEI does not match", profile.SocialProfileId, false,2,0,false,0,DateTime.MinValue);
                     }
 
 
                 }
-                else if(profile.BlockedStatus != 0)
-                {
-                    return (false, "Profile Blocked", 0, false, (int)profile.BlockedStatus, 0, false);
-                }
+                //else if(profile.BlockedStatus != 0)
+                //{
+                //    return (false, "Profile Blocked", 0, false, (int)profile.BlockedStatus, 0, false);
+                //}
                 else
                 {
-                    return (false, "Invalid username or Pin", 0,false,3,0,false);
+                    return (false, "Invalid username or Pin", 0,false,3,0,false,0,DateTime.MinValue);
                 }
 
             }
@@ -1220,7 +1220,9 @@ namespace SG2.CORE.DAL.Repositories
                             StatusName = p.StatusName,
                             StripeCustomerId = p.StripeCustomerId,
                             SubScriptionStatus = p.SubscriptionStatus,
-                            SubscriptionName = p.SubscriptionName
+                            SubscriptionName = p.SubscriptionName,
+                            BlockedStatus =  p.BlockedStatus.HasValue == false || (p.BlockedStatus.HasValue && p.BlockedStatus.Value == 0) ? "Valid" : p.BlockedStatus.Value == 66 ? "Action Blocked": p.BlockedStatus.Value == 67 ?"Hard Blocked" : p.BlockedStatus.Value == 68?"Password Blocked":"Valid" 
+                            
                         }).ToList();
                     }
                 }

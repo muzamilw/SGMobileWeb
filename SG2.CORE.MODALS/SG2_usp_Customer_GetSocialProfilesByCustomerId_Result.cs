@@ -25,5 +25,6 @@ namespace SG2.CORE.MODAL
         public string SocialProfileTypeName { get; set; }
         public string SubscriptionStatus { get; set; }
         public string SubscriptionName { get; set; }
+        public Nullable<int> BlockedStatus { get; set; }
     }
 }

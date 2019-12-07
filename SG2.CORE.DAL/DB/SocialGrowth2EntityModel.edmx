@@ -1267,6 +1267,7 @@
           <Property Type="String" Name="SocialProfileTypeName" Nullable="true" MaxLength="255" />
           <Property Type="String" Name="SubscriptionStatus" Nullable="false" MaxLength="7" />
           <Property Type="String" Name="SubscriptionName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="BlockedStatus" Nullable="true" />
         </ComplexType>
         <ComplexType Name="SG2_usp_LikeyAccount_GetAll_Result">
           <Property Type="Int32" Name="LikeyAccountId" Nullable="false" />
@@ -2485,6 +2486,7 @@
                 <ScalarProperty Name="SocialProfileTypeName" ColumnName="SocialProfileTypeName" />
                 <ScalarProperty Name="SubscriptionStatus" ColumnName="SubscriptionStatus" />
                 <ScalarProperty Name="SubscriptionName" ColumnName="SubscriptionName" />
+                <ScalarProperty Name="BlockedStatus" ColumnName="BlockedStatus" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

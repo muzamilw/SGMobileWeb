@@ -344,9 +344,9 @@ namespace SG2.CORE.WEB.Controllers
 
                 foreach (var item in trends)
                 {
-                    item.Followers  = item.Followers.HasValue ?  item.Followers: 0;
-                    item.Followings = item.Followings.HasValue ? item.Followings : 0;
-                    item.Like = item.Like.HasValue ? item.Like : 0;
+                    item.FollowersTotal  = item.FollowersTotal.HasValue ?  item.FollowersTotal: 0;
+                    item.FollowingsTotal = item.FollowingsTotal.HasValue ? item.FollowingsTotal : 0;
+                    item.LikeTotal = item.LikeTotal.HasValue ? item.LikeTotal : 0;
                     item.Engagement = item.Engagement.HasValue ? item.Engagement : 0;
                 }
 
@@ -360,9 +360,9 @@ namespace SG2.CORE.WEB.Controllers
                         ResultData = new
                         {
                             Date = trends.Select(x => x.Date.ToString("dd-MMM-yyyy")).ToArray(),
-                            Followers = trends.Select(x => x.Followers.ToString()).ToArray(),
+                            Followers = trends.Select(x => x.FollowersTotal.ToString()).ToArray(),
                             //FollowersGainData = statisticsViewModel.StatisticsListing.Select(x => x.FollowersGain.ToString()).ToArray(),
-                            FollowingsData = trends.Select(x => x.Followings.ToString()).ToArray(),
+                            FollowingsData = trends.Select(x => x.FollowingsTotal.ToString()).ToArray(),
                             //FollowingsRatioData = statisticsViewModel.StatisticsListing.Select(x => x.FollowingsRatio.ToString()).ToArray(),
                             //AVGFollowersData = statisticsViewModel.StatisticsListing.Select(x => x.AVGFollowers.ToString()).ToArray(),
 
@@ -372,7 +372,7 @@ namespace SG2.CORE.WEB.Controllers
                             //LikeCommentData = statisticsViewModel.StatisticsListing.Select(x => x.LikeComments.ToString()).ToArray(),
                             Engagement = trends.Select(x => x.Engagement.ToString()).ToArray(),
 
-                            AvgLikes = trends.Select(x => x.Like.ToString()).ToArray()
+                            AvgLikes = trends.Select(x => x.LikeTotal.ToString()).ToArray()
 
 
                             //TotalComment = statisticsViewModel.TotalComment.ToString(),
