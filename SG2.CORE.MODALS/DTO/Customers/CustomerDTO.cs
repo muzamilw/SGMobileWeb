@@ -35,6 +35,8 @@ namespace SG2.CORE.MODAL.DTO.Customers
         public string StripeSubscriptionId { get; set; }
         public string StripePlanId { get; set; }
         public string ActivePlanId { get; set; }
+        public Nullable<bool> IsBroker { get; set; }
+        public Nullable<int> BrokerPaymentPlanID { get; set; }
 
     }
 }

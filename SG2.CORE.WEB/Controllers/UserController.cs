@@ -25,12 +25,14 @@ namespace SG2.CORE.WEB.Controllers
         protected readonly StatisticsManager _statisticsManager;
         private readonly string _stripeApiKey = string.Empty;
         protected readonly List<SystemSettingsDTO> SystemConfigs;
+        protected readonly PlanInformationManager _planInformationManager;
 
         public UserController()
         {
             _customerManager = new CustomerManager();
             _commonManager = new CommonManager();
             _statisticsManager = new StatisticsManager();
+            _planInformationManager = new PlanInformationManager();
             //Setting Stripe api key
             if (WebConfigurationManager.AppSettings["IsDebug"] == "1")
             {
@@ -201,8 +203,8 @@ namespace SG2.CORE.WEB.Controllers
             {
                 var curCust = (CustomerDTO)_sessionManager.Get(SessionConstants.Customer);
 
-                SocialProfile_PaymentsDTO subscriptionDTO = _customerManager.GetSubscription(SocialProfileId);
-
+                //SocialProfile_PaymentsDTO subscriptionDTO = _customerManager.GetSubscription(SocialProfileId);
+                var profile = _customerManager.GetSocialProfileById(SocialProfileId);
                 var history = _customerManager.GetCustomerOrderHistory("50", 1, this.CDT.CustomerId, SocialProfileId);
 
                 StripeConfiguration.SetApiKey(_stripeApiKey);
@@ -211,7 +213,7 @@ namespace SG2.CORE.WEB.Controllers
                 {
                     Limit = 4,
                 };
-                var plans = planService.List(planOptions);
+                var plans = _planInformationManager.GetallIntagramPaymentPlans(false);
 
                 List<CustomerPaymentPlansViewModel> payPlan = null;
                 if (plans != null)
@@ -221,7 +223,7 @@ namespace SG2.CORE.WEB.Controllers
                     {
                         CustomerPaymentPlansViewModel paymentPlansViewModel = new CustomerPaymentPlansViewModel();
 
-                        if (subscriptionDTO.StripePlanId == plan.Id)
+                        if (profile.SocialProfile.PaymentPlanId == plan.PlanId)
                         {
                             paymentPlansViewModel.currentPlan = true;
                         }
@@ -230,15 +232,15 @@ namespace SG2.CORE.WEB.Controllers
                             paymentPlansViewModel.currentPlan = false;
                         }
 
-                        paymentPlansViewModel.PlanId = plan.Id;
-                        paymentPlansViewModel.PlanName = plan.Nickname;
-                        paymentPlansViewModel.PlanStatus = plan.Active;
-                        paymentPlansViewModel.Amount = plan.Amount.Value;
-                        paymentPlansViewModel.BillingScheme = plan.BillingScheme;
-                        paymentPlansViewModel.Currency = plan.Currency;
-                        paymentPlansViewModel.Interval = plan.Interval;
-                        paymentPlansViewModel.IntervalCount = plan.IntervalCount;
-                        paymentPlansViewModel.ProductCode = plan.ProductId;
+                        paymentPlansViewModel.PlanId = plan.PlanId.ToString();
+                        paymentPlansViewModel.PlanName = plan.PlanName;
+                        paymentPlansViewModel.PlanStatus = true;
+                        paymentPlansViewModel.Amount = Convert.ToInt64( plan.PlanPrice);
+                        //paymentPlansViewModel.BillingScheme = plan.b;
+                        paymentPlansViewModel.Currency = "USD";
+                        paymentPlansViewModel.Interval = "per month";
+                        //paymentPlansViewModel.IntervalCount = plan.IntervalCount;
+                        //paymentPlansViewModel.ProductCode = plan.ProductId;
                         payPlan.Add(paymentPlansViewModel);
                     }
                 }

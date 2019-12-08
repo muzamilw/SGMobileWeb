@@ -112,7 +112,7 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public int SocialProfileId { get; set; }
         [Required]
         public int ActionId { get; set; }
-        [Required]
+        
         public string TargetSocialUserName { get; set; }
         
         public string Message { get; set; }

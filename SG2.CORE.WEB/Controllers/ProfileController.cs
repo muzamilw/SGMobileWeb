@@ -124,7 +124,8 @@ namespace SG2.CORE.WEB.Controllers
             ViewBag.CurrentUser = this.CDT;
             var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
 
-            ViewBag.Plans = _planManager.GetAllSocialGrowthPlans();
+            
+            ViewBag.Plans = _planManager.GetallIntagramPaymentPlans(this.CDT.IsBroker.HasValue? this.CDT.IsBroker.Value:false);
 
             if (success.HasValue && success.Value == 1)
             {
@@ -144,26 +145,27 @@ namespace SG2.CORE.WEB.Controllers
                 Limit = 3,
             };
             List<CustomerPaymentCardsViewModel> payCards = null;
-            if (SocailProfile.SocialProfile.StripeCustomerId != null)
-            {
-                var striptCards = cardService.List(SocailProfile.SocialProfile.StripeCustomerId, cardOptions);
-                if (striptCards != null)
-                {
-                    payCards = new List<CustomerPaymentCardsViewModel>();
-                    foreach (var item in striptCards)
-                    {
-                        var card = new CustomerPaymentCardsViewModel();
-                        card.Last4 = item.Last4;
-                        card.ExpMonth = item.ExpMonth;
-                        card.ExpYear = item.ExpYear;
-                        card.Brand = item.Brand;
-                        card.Funding = item.Funding;
-                        payCards.Add(card);
-                    }
-                }
-            }
+            //if (SocailProfile.SocialProfile.StripeCustomerId != null)
+            //{
+            //    var striptCards = cardService.List(SocailProfile.SocialProfile.StripeCustomerId, cardOptions);
+                
+            //    if (striptCards != null)
+            //    {
+            //        payCards = new List<CustomerPaymentCardsViewModel>();
+            //        foreach (var item in striptCards)
+            //        {
+            //            var card = new CustomerPaymentCardsViewModel();
+            //            card.Last4 = item.Last4;
+            //            card.ExpMonth = item.ExpMonth;
+            //            card.ExpYear = item.ExpYear;
+            //            card.Brand = item.Brand;
+            //            card.Funding = item.Funding;
+            //            payCards.Add(card);
+            //        }
+            //    }
+            //}
 
-            ViewBag.paycards = payCards;
+            //ViewBag.paycards = payCards;
            
 
             return View(SocailProfile);
@@ -1159,7 +1161,7 @@ namespace SG2.CORE.WEB.Controllers
 
 
 
-
+        [HttpPost]
         public ActionResult Confirmdelete(int SocialProfileId)
         {
             var jr = new JsonResult();
@@ -1180,8 +1182,8 @@ namespace SG2.CORE.WEB.Controllers
                 var _stripeApiKey = SystemConfig.GetConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
                 if (profileDTO != null)
                 {
-                   
-                    if (profileDTO.SocialProfile .StatusId != 18)
+
+                    if (profileDTO.SocialProfile.StatusId != 18)
                     {
                         if (!string.IsNullOrEmpty(profileDTO.SocialProfile.StripeSubscriptionId))
                         {
@@ -1192,7 +1194,7 @@ namespace SG2.CORE.WEB.Controllers
                             if (subscription != null)
                             {
                                 //_cm.UpdateJVStatus(SocialProfileId, (int)GlobalEnums.JVStatus.ProfileRequiresCancelling);
-                                _customerManager.UpdateSubscriptionStatus(Convert.ToInt32( profileDTO.SocialProfile.StripeSubscriptionId), (int)GlobalEnums.PlanSubscription.canceled);
+                                _customerManager.UpdateSubscriptionStatus(Convert.ToInt32(profileDTO.SocialProfile.StripeSubscriptionId), (int)GlobalEnums.PlanSubscription.canceled);
                             }
 
 
@@ -1269,22 +1271,9 @@ namespace SG2.CORE.WEB.Controllers
                 //_customerManager.InsertSubscription(subDTO);
 
                 //int socialProfileId = 1;//TODO: Social Profile Id
-                //if (_customerManager.DeleteCustomer(this.CDT.CustomerId, SocialProfileId))
-              //  {
+                if (_customerManager.DeleteProfile(this.CDT.CustomerId, SocialProfileId))
+                {
 
-                    // Delete Profile from jarvee
-
-                    //InstagramProfile deleteInstagramProfile = new InstagramProfile();
-                    //QueuePublisher<RegularMessage> queue = new QueuePublisher<RegularMessage>(exchangeNames[0]);
-                    //deleteInstagramProfile.AccountName = profileDTO.SocialUsername;
-                    //queue.EnqueueMessage(new RegularMessage
-                    //{
-                    //    ActionType = 3,
-                    //    Profile = deleteInstagramProfile
-                    //});
-
-
-                    // klaviyo delete user 
 
 
                     //--TODO: Update Klaviyo Web API Key
@@ -1299,14 +1288,15 @@ namespace SG2.CORE.WEB.Controllers
                     //klaviyoProfile.email = this.CDT.EmailAddress;
                     //klaviyoAPI.PeopleAPI(list);
                     //var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "u45Z4H");
-                    
 
-                    
-               //// }
-               // //else
-               // {
-               //     jr.Data = new { ResultType = "Error", message = "User has successfully deleted." };
-               // }
+
+
+                    // }
+                    //else
+                    {
+                        jr.Data = new { ResultType = "Error", message = "User has successfully deleted." };
+                    }
+                }
             }
             catch (Exception exp)
             {

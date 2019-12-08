@@ -82,6 +82,20 @@ namespace SG2.CORE.BAL.Managers
 
         }
 
+        public bool DeleteProfile(int customerId, int SocialProfileId)
+        {
+            try
+            {
+                return _customerRepository.DeleteProfile(customerId, SocialProfileId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
         public (bool LoginSuccessful, string Message, int SocialProfileId, bool PasswordNeeded, int ErrorCode, int CustomerId, bool IsBroker, int BlockCode, DateTime BlockDateTimeUTC) PerformMobileLogin(string SocialUserName, string Pin, string DeviceIMEI, bool ForceSwitchDevice)
         {
             return _customerRepository.PerformMobileLogin(SocialUserName, Pin, DeviceIMEI, ForceSwitchDevice);

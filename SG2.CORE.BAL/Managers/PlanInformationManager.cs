@@ -40,11 +40,11 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-       public IList<PlanInformationDTO> GetAllSocialGrowthPlans()
+       public IList<PlanInformationDTO> GetallIntagramPaymentPlans(bool IsBroker)
         {
             try
             {
-                var PlanInfor = _planInformationRepository.GetallIntagramPlans();
+                var PlanInfor = _planInformationRepository.GetallIntagramPlans(IsBroker);
                 return PlanInfor;
             }
             catch (Exception ex)

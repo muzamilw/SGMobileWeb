@@ -21,6 +21,7 @@ namespace SG2.CORE.MODAL.ViewModals.Customers
 
     public class NewSubscriptionRequestModel
     {
+        public bool NewSubs { get; set; }
         public string email { get; set; }
         public string paymentmethod { get; set; }
         public int selectedPlanId { get; set; }

@@ -504,5 +504,14 @@ namespace SG2.CORE.DAL.DB
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customers_Get_Result>("SG2_usp_Customers_Get", idParameter);
         }
+    
+        public virtual int usp_Delete_Profile(Nullable<int> socialprofileId)
+        {
+            var socialprofileIdParameter = socialprofileId.HasValue ?
+                new ObjectParameter("SocialprofileId", socialprofileId) :
+                new ObjectParameter("SocialprofileId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_Delete_Profile", socialprofileIdParameter);
+        }
     }
 }

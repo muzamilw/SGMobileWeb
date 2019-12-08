@@ -114,13 +114,13 @@ namespace SG2.CORE.DAL.Repositories
         }
 
         
-        public IList<PlanInformationDTO> GetallIntagramPlans()
+        public IList<PlanInformationDTO> GetallIntagramPlans(bool IsBroker)
         {
             try
             {
                 using (var _db=new SocialGrowth2Connection())
                 {
-                    var pros = _db.PaymentPlans.Where( g=> g.SocialPlatform == 30 && g.IsBrokerPlan != true).ToList();
+                    var pros = _db.PaymentPlans.Where( g=> g.SocialPlatform == 30 && g.IsBrokerPlan == IsBroker).ToList();
                     if (pros != null)
                     {
                         List<PlanInformationDTO> planInformationDTOs = new List<PlanInformationDTO>();

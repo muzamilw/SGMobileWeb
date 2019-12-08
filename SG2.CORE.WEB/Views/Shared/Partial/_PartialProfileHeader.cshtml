@@ -1,7 +1,7 @@
 ﻿@using SG2.CORE.MODAL.DTO.Customers;
 @using SG2.CORE.COMMON;
 @using SG2.CORE.MODAL;
-@model SG2.CORE.MODAL.DTO.Customers.SocialProfileDTO
+
 @{
 
     SocialProfile socialProfile = null;
@@ -12,9 +12,9 @@
     var ProfileStatus = "";
     var statusclass = "btn-primary";
 
-    switch (Model.SocialProfile.BlockedStatus)
+    switch (socialProfile.BlockedStatus)
     {
-        case null: ProfileStatus = "Valid"; statusclass=""; break;
+        case null: ProfileStatus = "Valid"; statusclass= "btn-primary"; break;
         case 0: ProfileStatus = "Valid"; statusclass = "btn-primary"; break;
         case 66: ProfileStatus = "Action Blocked"; statusclass = "btn-danger"; break;
         case 67: ProfileStatus = "Hard Blocked"; statusclass = "btn-danger"; break;

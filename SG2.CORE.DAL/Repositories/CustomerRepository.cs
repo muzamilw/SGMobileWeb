@@ -401,7 +401,30 @@ namespace SG2.CORE.DAL.Repositories
             }
 
         }
-        
+
+        public bool DeleteProfile(int customerId, int SocialProfileId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    var actiondata = _db.usp_Delete_Profile(SocialProfileId);
+
+                    return true;
+
+
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
         public bool UpdateCustomerPassword(string password, int customerId)
         {
             try
@@ -864,8 +887,16 @@ namespace SG2.CORE.DAL.Repositories
                             IsOptedMarketingEmail = Convert.ToBoolean(usr.IsOptedMarketingEmail),
                             StatusId = usr.StatusId,
                             StripeSubscriptionId = usr.PaymentId.HasValue ? usr.PaymentId.Value.ToString() : null,
-                            DefaultSocialProfileId = usr.DefaultSocialProfileId.Value
+                            DefaultSocialProfileId = usr.DefaultSocialProfileId.Value,
+                            
                         };
+
+                        var cust = _db.Customers.Where(g => g.CustomerId == usr.CustomerId).SingleOrDefault();
+                        if (cust != null)
+                        {
+                            cst.IsBroker = cust.IsBroker;
+                            cst.BrokerPaymentPlanID = cust.BrokerPaymentPlanID;
+                        }
                         return cst;
                     }
                     return null;
@@ -1133,8 +1164,9 @@ namespace SG2.CORE.DAL.Repositories
                                                                       join ps in _db.EnumerationValues on m.StatusId equals ps.EnumerationValueId
                                                                       select new SocialProfile_PaymentsDTO { Description = m.Description, EndDate = m.EndDate, PaymentPlanId = m.PaymentPlanId, Name = m.Name, PaymentDateTime = m.PaymentDateTime, PaymentId = m.PaymentId, PaymentPlanName = r.PlanName, Price = m.Price, SocialProfileId = m.SocialProfileId, StartDate = m.StartDate, Status = ps.Name, StatusId = m.StatusId, StripeInvoiceId = m.StripeInvoiceId, StripePlanId = m.StripePlanId, StripeSubscriptionId = m.StripeSubscriptionId, SubscriptionType = m.SubscriptionType }).ToList()
                                                                       .Where( g=> g.SocialProfileId == SocialProfileId && g.StatusId == 25).SingleOrDefault();
-
                 }
+
+
               
 
             }
@@ -1143,6 +1175,9 @@ namespace SG2.CORE.DAL.Repositories
                 throw ex;
             }
         }
+
+
+        
 
         public CustomerDTO SignupCustomerProfileAndPreference(CustomerAndPreferenceDTO entity)
         {

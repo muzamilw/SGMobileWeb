@@ -705,6 +705,9 @@
           <Parameter Name="rvcEmailAddress" Type="nvarchar" Mode="In" />
           <Parameter Name="rvcPassword" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="usp_Delete_Profile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SocialprofileId" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="SocialGrowth2EntitiesStoreContainer">
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer_ContactDetail" EntityType="Self.Customer_ContactDetail" Schema="dbo" store:Type="Tables" />
@@ -970,6 +973,9 @@
             <End Role="Customer" EntitySet="Customers" />
             <End Role="SocialProfile" EntitySet="SocialProfiles" />
           </AssociationSet>
+          <FunctionImport Name="usp_Delete_Profile">
+            <Parameter Name="SocialprofileId" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="SG2_usp_Get_AllUser1_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
@@ -3273,6 +3279,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_Delete_Profile" FunctionName="SocialGrowth2Entities.Store.usp_Delete_Profile" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

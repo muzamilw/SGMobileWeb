@@ -214,6 +214,9 @@
                                 <h1 class="text-center selectedPlanName"></h1>
                                 <h1 class="text-center selectedPlanPrice"></h1>
                                 <input type="hidden" id="selectedPlanId" />
+                                <input type="hidden" id="existingStripeCustomerId" value="@Model.SocialProfile.StripeCustomerId" />
+                                <input type="hidden" id="existingStripeSubscriptionId" value="@Model.SocialProfile.StripeSubscriptionId" />
+                                <input type="hidden" id="existingPlanId" value="@Model.SocialProfile.PaymentPlanId" />
 
                             </div>
                         </fieldset>
@@ -245,6 +248,25 @@
                                     </svg>
                                     <span class="message"></span>
                                 </div>
+                            </div>
+                            <div>
+                                @if (ViewBag.paycards != null)
+                                {
+                                <div id="div_previousCard">
+                                    @foreach (var item in ViewBag.paycards)
+                                    {
+                                        <p>
+                                            Card ending in <b>@item.Last4</b>
+                                            @*<img class="pull-right" src="~/Content/Images/visa-icon.png" />*@
+                                        </p>
+
+                                        <p>Expiry <b>@item.ExpMonth/@item.ExpYear</b></p>
+                                    }
+                                    <br />
+                                    <a href="#" class="btn_displayNewCard">[Edit]</a>
+                                    <br />
+                                </div>
+                                }
                             </div>
 
                         </fieldset>
@@ -1097,14 +1119,19 @@
 
                                             </div>
                                         </div>
-                                        <div class="form-actions text-center">
+                                        <div class="row">
+                                            <div class="col-md-12 text-right">
+                                                <button class="btn btn-danger" id="btnDeleteSubscription">Delete Subscription</button>
+                                                </div>
+                                            </div>
+                                            <div class="form-actions text-center">
 
-                                            <button type="submit" class="btn btn-primary">
-                                                <i class="fa fa-check-square-o"></i> Save
-                                            </button>
+                                                <button type="submit" class="btn btn-primary" >
+                                                    <i class="fa fa-check-square-o"></i> Save
+                                                </button>
+                                            </div>
+
                                         </div>
-
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1188,6 +1215,11 @@
     <!-- END: Page Vendor JS-->
     <script type="text/javascript">
         var somethingChanged = false;
+        var socialProfileId = '@Model.SocialProfile.SocialProfileId';
+        var selectedPlanName = '';
+        var selectedPlanprice = '';
+
+        var customerid = '@Model.SocialProfile.CustomerId';
 
         $('#formtarget').submit(function (e) {
             somethingChanged = false;
@@ -1316,7 +1348,171 @@
                 $(".selectedPlanName").text($(this).attr("data-planname"));
                 $(".selectedPlanprice").text($(this).attr("data-planprice"));
                 $("#selectedPlanId").val($(this).attr("data-planId"));
-                $("#planSubscriptionModal").modal("show");
+
+                selectedPlanName = $(".selectedPlanName").text();
+                selectedPlanprice = $(".selectedPlanprice").text();
+
+                var ChangeType = "";
+                var ChangeMsg = "";
+                var ChangeBtn = "";
+                var newplan = $("#selectedPlanId").val();
+                var existingPlan = $("#existingPlanId").val();
+                var existingStripeSubscriptionId = $("#existingStripeSubscriptionId").val();
+
+                if (newplan == 1) {
+                    var ChangeType = "Downgrade to Free Plan";
+                    var ChangeMsg = "Are you sure you want to downgrade to Free Plan? Free plan does not let the app connect and grow!";
+                    var ChangeBtn = "Yes, Let's Downgrade to Free";
+                } else if (existingPlan != undefined && newplan < existingPlan )  {
+                    var ChangeType = "Downgrade to "+ selectedPlanName +" Plan!";
+                    var ChangeMsg = "Are you sure you want to downgrade your plan ?";
+                    var ChangeBtn = "Yes, Let's Downgrade";
+                }
+                else
+                {
+                    var ChangeType = "Upgrade to " + selectedPlanName +" Plan";
+                var ChangeMsg = "Are you sure you want to upgrade your plan ?";
+                var ChangeBtn = "Yes, Let's Upgrade";
+                 }
+
+                swal({
+                    title: ChangeType,
+                    text: ChangeMsg,
+                    icon: "info",
+                    showLoaderOnConfirm: true,
+                    closeOnClickOutside:false,
+                    buttons: {
+                        cancel: {
+                            text: "No, cancel please",
+                            value: null,
+                            visible: true,
+                            className: "",
+                            closeModal: true,
+                        },
+                        confirm: {
+                            text: ChangeBtn,
+                            value: true,
+                            visible: true,
+                            className: "",
+                            closeModal: false
+                        }
+                    },
+                    //preConfirm: (login) => {
+                    //    return fetch('//api.github.com/users/muzamilw')
+                    //        .then(response => {
+                    //            if (!response.ok) {
+                    //                throw new Error(response.statusText)
+                    //            }
+                    //            return response.json()
+                    //        })
+                    //        .catch(error => {
+                    //            Swal.showValidationMessage(
+                    //                'Request failed: ${error}'
+                    //            )
+                    //        })
+                    //},
+                }).then(isConfirm => {
+                    if (isConfirm && existingStripeSubscriptionId == null) {
+                        swal.close();
+                        $("#planSubscriptionModal").modal("show");
+                    }
+                    else if (isConfirm && existingStripeSubscriptionId != null) {
+                        //swal.enableLoading();
+                        //swal("OK", "It's safe.", "error");
+                        debugger;
+                        fetch('/profile/CreateStripeCustomerSubscription', {
+                            method: 'post',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                NewSubs: false,
+                                email: '',
+                                paymentmethod: '',
+                                selectedPlanId: newplan,
+                                customerid: customerid,
+                                socialProfileId: socialProfileId
+
+                            })
+                        })
+                            .then(response => {
+                                return response.json();
+                            })
+                            .then(subscription => {
+                                //handleSubscription(subscription);.
+                                swal.close();
+                                swal("Success!", "Your subscription has been successfully updated;", "success")
+                                    .then(function () {
+                                        window.location = "/User/Home/";
+                                    });;
+                            });
+                    }
+                    else {
+                        //swal("OK", "It's safe.", "error");
+                    }
+                });
+
+               
+            });
+
+            $("#btnDeleteSubscription").on("click", function (e) {
+              
+                e.preventDefault();
+                e.stopPropagation();
+             
+
+                
+                swal({
+                    title: "Delete subscription!",
+                    text: "Are you sure you want to delete your profile and subscription ? This action is not reversible!",
+                    icon: "error",
+                    showLoaderOnConfirm: true,
+                    closeOnClickOutside: false,
+                    buttons: {
+                        cancel: {
+                            text: "No, cancel please",
+                            value: null,
+                            visible: true,
+                            className: "",
+                            closeModal: true,
+                        },
+                        confirm: {
+                            text: "Go ahead, delete subscription & profile",
+                            value: true,
+                            visible: true,
+                            className: "btn-warning",
+                            closeModal: false
+                        }
+                    },
+                   
+                }).then(isConfirm => {
+                    if (isConfirm) {
+
+                        
+                        fetch('/profile/Confirmdelete', {
+                            method: 'post',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                socialProfileId: socialProfileId
+                            })
+                        })
+                            .then(subscription => {
+                                //handleSubscription(subscription);.
+                                swal.close();
+                                swal("Success!", "Your subscription & profile has been deleted successfully;", "success")
+                                    .then(function () {
+                                        window.location = "/User/Home/";
+                                    });;
+                            });
+                    }
+                    else {
+                        //swal("OK", "It's safe.", "error");
+                    }
+                });
+
+
             });
 
             ///////////////////////////////////////////////////////////////////////////////////striepe////////////////////////
@@ -1494,8 +1690,7 @@
 
             function createPaymentMethodAndCustomer(stripe, card, name, email, phone) {
                debugger;
-                var socialProfileId = '@Model.SocialProfile.SocialProfileId';
-                var customerid = '@Model.SocialProfile.CustomerId';
+                
                 var selectedPlanId = $('#selectedPlanId').val();
 
                 stripe.createPaymentMethod('card', card, {
@@ -1521,6 +1716,7 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
+                        NewSubs : true,
                         email: cardholderEmail,
                         paymentmethod: paymentMethod,
                         selectedPlanId: selectedPlanId,
