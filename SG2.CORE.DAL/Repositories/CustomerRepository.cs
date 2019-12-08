@@ -16,6 +16,7 @@ using SG2.CORE.MODAL.ViewModals.Backend.ActionBoard;
 using static SG2.CORE.COMMON.GlobalEnums;
 using SG2.CORE.MODAL.MobileViewModels;
 using System.Text.RegularExpressions;
+using SG2.CORE.MODAL.ViewModals.Customers;
 
 namespace SG2.CORE.DAL.Repositories
 {
@@ -1231,14 +1232,14 @@ namespace SG2.CORE.DAL.Repositories
         //    }
         //}
 
-        public List<CustomerSocialProfileDTO> GetSocialProfilesByCustomerid(int customerId)
+        public List<CustomerSocialProfileDTO> GetSocialProfilesByCustomerid(int customerId, ProfilesSearchRequest model)
         {
             try
             {
                 List<CustomerSocialProfileDTO> profiles = null;
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    var profs = _db.SG2_usp_Customer_GetSocialProfilesByCustomerId(customerId).ToList();
+                    var profs = _db.SG2_usp_Customer_GetSocialProfilesByCustomerId(customerId,model.searchString,model.Plan,model.SocialType,model.Block).ToList();
                     if (profs != null)
                     {
                         profiles = profs.Select(p => new CustomerSocialProfileDTO()

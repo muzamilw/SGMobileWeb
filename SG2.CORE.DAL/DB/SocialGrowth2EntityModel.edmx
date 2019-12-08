@@ -600,6 +600,10 @@
         </Function>
         <Function Name="SG2_usp_Customer_GetSocialProfilesByCustomerId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CustomerId" Type="int" Mode="In" />
+          <Parameter Name="searchString" Type="nvarchar" Mode="In" />
+          <Parameter Name="Plan" Type="int" Mode="In" />
+          <Parameter Name="socialtype" Type="int" Mode="In" />
+          <Parameter Name="block" Type="int" Mode="In" />
         </Function>
         <Function Name="SG2_usp_Customer_ProfileUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="iCustomerId" Type="int" Mode="In" />
@@ -866,6 +870,10 @@
           <FunctionImport Name="SG2_usp_Get_AllUser" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Get_AllUser_Result)" />
           <FunctionImport Name="SG2_usp_Customer_GetSocialProfilesByCustomerId" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Customer_GetSocialProfilesByCustomerId_Result)">
           <Parameter Name="CustomerId" Mode="In" Type="Int32" />
+            <Parameter Name="searchString" Mode="In" Type="String" />
+            <Parameter Name="Plan" Mode="In" Type="Int32" />
+            <Parameter Name="socialtype" Mode="In" Type="Int32" />
+            <Parameter Name="block" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SG2_usp_LikeyAccount_GetAll" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_LikeyAccount_GetAll_Result)">
             <Parameter Name="rsSearchCrite" Mode="In" Type="String" />
@@ -974,7 +982,7 @@
             <End Role="SocialProfile" EntitySet="SocialProfiles" />
           </AssociationSet>
           <FunctionImport Name="usp_Delete_Profile">
-            <Parameter Name="SocialprofileId" Mode="In" Type="Int32" />
+          <Parameter Name="SocialprofileId" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="SG2_usp_Get_AllUser1_Result">

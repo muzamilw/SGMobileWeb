@@ -11,6 +11,7 @@ using SG2.CORE.MODAL.DTO.TargetPreferences;
 using SG2.CORE.MODAL.DTO.Common;
 using SG2.CORE.MODAL;
 using SG2.CORE.MODAL.MobileViewModels;
+using SG2.CORE.MODAL.ViewModals.Customers;
 
 namespace SG2.CORE.BAL.Managers
 {
@@ -569,11 +570,11 @@ namespace SG2.CORE.BAL.Managers
         }
 
 
-        public List<CustomerSocialProfileDTO> GetSocialProfilesByCustomerid(int customerId)
+        public List<CustomerSocialProfileDTO> GetSocialProfilesByCustomerid(int customerId, ProfilesSearchRequest model)
         {
             try
             {
-                return _customerRepository.GetSocialProfilesByCustomerid(customerId);
+                return _customerRepository.GetSocialProfilesByCustomerid(customerId,model);
             }
             catch (Exception ex)
             {

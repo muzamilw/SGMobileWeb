@@ -22,4 +22,17 @@ namespace SG2.CORE.MODAL.ViewModals.Customers
       
 
     }
+
+
+    public class ProfilesSearchRequest
+    {
+        public String searchString { get; set; }
+        public int SocialType { get; set; }
+
+        public int Block { get; set; }
+
+        public int Plan { get; set; }
+
+
+    }
 }

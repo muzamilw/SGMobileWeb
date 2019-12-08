@@ -61,14 +61,14 @@ namespace SG2.CORE.WEB.Controllers
             //_jVBoxManager = new JVBoxManager();
 
             //Setting Stripe api key
-            if (WebConfigurationManager.AppSettings["IsDebug"] == "1")
-            {
-                _stripeApiKey = WebConfigurationManager.AppSettings["StripeTestApiKey"];
-            }
-            else
-            {
-                _stripeApiKey = WebConfigurationManager.AppSettings["StripeLiveApiKey"];
-            }
+            //if (WebConfigurationManager.AppSettings["IsDebug"] == "1")
+            //{
+            //    _stripeApiKey = WebConfigurationManager.AppSettings["StripeTestApiKey"];
+            //}
+            //else
+            //{
+            //    _stripeApiKey = WebConfigurationManager.AppSettings["StripeLiveApiKey"];
+            //}
             
         }
 
@@ -1189,13 +1189,15 @@ namespace SG2.CORE.WEB.Controllers
                         {
                             StripeConfiguration.SetApiKey(_stripeApiKey);
                             var service = new SubscriptionService();
-                            var subscription = service.Cancel(profileDTO.SocialProfile.StripeSubscriptionId, null);
+                            var sub = service.Get(profileDTO.SocialProfile.StripeSubscriptionId);
 
-                            if (subscription != null)
-                            {
-                                //_cm.UpdateJVStatus(SocialProfileId, (int)GlobalEnums.JVStatus.ProfileRequiresCancelling);
-                                _customerManager.UpdateSubscriptionStatus(Convert.ToInt32(profileDTO.SocialProfile.StripeSubscriptionId), (int)GlobalEnums.PlanSubscription.canceled);
-                            }
+                            var subscription = service.Cancel(sub.Id,null);
+
+                            //if (subscription != null)
+                            //{
+                            //    //_cm.UpdateJVStatus(SocialProfileId, (int)GlobalEnums.JVStatus.ProfileRequiresCancelling);
+                            //    _customerManager.UpdateSubscriptionStatus(Convert.ToInt32(profileDTO.SocialProfile.SocialProfileId), (int)GlobalEnums.PlanSubscription.canceled);
+                            //}
 
 
 

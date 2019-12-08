@@ -354,13 +354,29 @@ namespace SG2.CORE.DAL.DB
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Get_AllUser_Result>("SG2_usp_Get_AllUser");
         }
     
-        public virtual ObjectResult<SG2_usp_Customer_GetSocialProfilesByCustomerId_Result> SG2_usp_Customer_GetSocialProfilesByCustomerId(Nullable<int> customerId)
+        public virtual ObjectResult<SG2_usp_Customer_GetSocialProfilesByCustomerId_Result> SG2_usp_Customer_GetSocialProfilesByCustomerId(Nullable<int> customerId, string searchString, Nullable<int> plan, Nullable<int> socialtype, Nullable<int> block)
         {
             var customerIdParameter = customerId.HasValue ?
                 new ObjectParameter("CustomerId", customerId) :
                 new ObjectParameter("CustomerId", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_GetSocialProfilesByCustomerId_Result>("SG2_usp_Customer_GetSocialProfilesByCustomerId", customerIdParameter);
+            var searchStringParameter = searchString != null ?
+                new ObjectParameter("searchString", searchString) :
+                new ObjectParameter("searchString", typeof(string));
+    
+            var planParameter = plan.HasValue ?
+                new ObjectParameter("Plan", plan) :
+                new ObjectParameter("Plan", typeof(int));
+    
+            var socialtypeParameter = socialtype.HasValue ?
+                new ObjectParameter("socialtype", socialtype) :
+                new ObjectParameter("socialtype", typeof(int));
+    
+            var blockParameter = block.HasValue ?
+                new ObjectParameter("block", block) :
+                new ObjectParameter("block", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_GetSocialProfilesByCustomerId_Result>("SG2_usp_Customer_GetSocialProfilesByCustomerId", customerIdParameter, searchStringParameter, planParameter, socialtypeParameter, blockParameter);
         }
     
         public virtual ObjectResult<SG2_usp_LikeyAccount_GetAll_Result> SG2_usp_LikeyAccount_GetAll(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId)

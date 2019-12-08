@@ -48,17 +48,22 @@ namespace SG2.CORE.WEB.Controllers
 
         public ActionResult Home()
         {
+            ProfilesSearchRequest model = new ProfilesSearchRequest { Block = 99, Plan = 0, searchString= "", SocialType = 0 };
             ViewBag.CurrentUser = this.CDT;
-            ViewBag.SocailProfiles = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId);
-            //StatisticsDTO statisticsDTO = _statisticsManager.GetFollersStatistics(1, DateTime.Now.AddDays(-7), DateTime.Now.AddDays(+5), "Weeekly");
-            //FollowersStatisticsViewModel model = new FollowersStatisticsViewModel();
-            //model.SocialProfileId = statisticsDTO.SocialProfileId;
-            //model.Followers = statisticsDTO.Followers;
-            //model.FollowersGain = statisticsDTO.FollowersGain;
-            //model.Followings = statisticsDTO.Followings;
-            //model.WeekDays = statisticsDTO.WeekDays;
+            ViewBag.SocailProfiles = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId,model);
 
-            return View();
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult Home(ProfilesSearchRequest model)
+        {
+            if (model.searchString == null)
+                model.searchString = "";
+
+            ViewBag.CurrentUser = this.CDT;
+            ViewBag.SocailProfiles = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId,model);
+
+            return View(model);
         }
 
 

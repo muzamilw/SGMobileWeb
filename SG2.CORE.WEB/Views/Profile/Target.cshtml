@@ -1412,11 +1412,11 @@
                     //        })
                     //},
                 }).then(isConfirm => {
-                    if (isConfirm && existingStripeSubscriptionId == null) {
+                    if (isConfirm && existingStripeSubscriptionId == "") {
                         swal.close();
                         $("#planSubscriptionModal").modal("show");
                     }
-                    else if (isConfirm && existingStripeSubscriptionId != null) {
+                    else if (isConfirm && existingStripeSubscriptionId != "") {
                         //swal.enableLoading();
                         //swal("OK", "It's safe.", "error");
                         debugger;
