@@ -2583,6 +2583,13 @@
     <Content Include="Content\app-assets\vendors\js\ui\screenfull.min.js" />
     <Content Include="Content\app-assets\vendors\js\ui\unison.min.js" />
     <Content Include="Content\app-assets\vendors\js\vendors.min.js" />
+    <Content Include="Content\bootstrap-colorpicker\css\bootstrap-colorpicker.css" />
+    <Content Include="Content\bootstrap-colorpicker\css\bootstrap-colorpicker.min.css" />
+    <Content Include="Content\bootstrap-colorpicker\img\alpha-horizontal.png" />
+    <Content Include="Content\bootstrap-colorpicker\img\alpha.png" />
+    <Content Include="Content\bootstrap-colorpicker\img\hue-horizontal.png" />
+    <Content Include="Content\bootstrap-colorpicker\img\hue.png" />
+    <Content Include="Content\bootstrap-colorpicker\img\saturation.png" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -2590,6 +2597,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\ThemeAssets\Images\afilliate.jpg" />
+    <Content Include="Scripts\bootstrap-colorpicker.js" />
+    <Content Include="Scripts\bootstrap-colorpicker.min.js" />
     <Content Include="theme-horizontal-menu-template-pages\app-chat.html" />
     <Content Include="theme-horizontal-menu-template-pages\app-contacts.html" />
     <Content Include="theme-horizontal-menu-template-pages\app-email.html" />
@@ -3193,6 +3202,7 @@
     <Content Include="Content\app-assets\vendors\css\extensions\raty\fonts\raty.eot" />
     <Content Include="Content\app-assets\vendors\css\extensions\raty\fonts\raty.ttf" />
     <Content Include="Content\app-assets\vendors\css\extensions\raty\fonts\raty.woff" />
+    <Content Include="libman.json" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

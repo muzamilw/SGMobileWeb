@@ -17,6 +17,7 @@ namespace SG2.CORE.MODAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Customer()
         {
+            this.Customer_Payments = new HashSet<Customer_Payments>();
             this.Customer_ContactDetail = new HashSet<Customer_ContactDetail>();
             this.SocialProfiles = new HashSet<SocialProfile>();
         }
@@ -37,6 +38,7 @@ namespace SG2.CORE.MODAL
         public string LastLoginIP { get; set; }
         public string Tocken { get; set; }
         public string StripeCustomerId { get; set; }
+        public string StripeSubscriptionId { get; set; }
         public string UserName { get; set; }
         public string Source { get; set; }
         public string Register { get; set; }
@@ -61,6 +63,8 @@ namespace SG2.CORE.MODAL
         public string BrokerTrustPilotCode { get; set; }
     
         public virtual PaymentPlan PaymentPlan { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Customer_Payments> Customer_Payments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Customer_ContactDetail> Customer_ContactDetail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

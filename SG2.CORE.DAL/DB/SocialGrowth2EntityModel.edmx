@@ -24,7 +24,8 @@
           <Property Name="LoginAttempts" Type="tinyint" Nullable="false" />
           <Property Name="LastLoginIP" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Tocken" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="StripeCustomerId" Type="nvarchar(max)" />
+          <Property Name="StripeCustomerId" Type="nvarchar" MaxLength="150" />
+          <Property Name="StripeSubscriptionId" Type="nvarchar" MaxLength="150" />
           <Property Name="UserName" Type="nvarchar" MaxLength="50" />
           <Property Name="Source" Type="nvarchar" MaxLength="50" />
           <Property Name="Register" Type="nvarchar" MaxLength="50" />
@@ -67,6 +68,32 @@
           <Property Name="PhoneCode" Type="nvarchar" MaxLength="5" />
           <Property Name="ScheduleCallDate" Type="datetime" />
           <Property Name="Notes" Type="nvarchar(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Customer_Payments">
+          <Key>
+            <PropertyRef Name="PaymentId" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="StartDate" />
+            <PropertyRef Name="EndDate" />
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="PaymentId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="SubscriptionType" Type="nvarchar" MaxLength="255" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PaymentDateTime" Type="datetime" />
+          <Property Name="StartDate" Type="datetime" Nullable="false" />
+          <Property Name="EndDate" Type="datetime" Nullable="false" />
+          <Property Name="CustomerId" Type="int" Nullable="false" />
+          <Property Name="StripeSubscriptionId" Type="nvarchar" MaxLength="255" />
+          <Property Name="StatusId" Type="int" />
+          <Property Name="StripePlanId" Type="nvarchar" MaxLength="255" />
+          <Property Name="PaymentPlanId" Type="int" />
+          <Property Name="StripeInvoiceId" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="Customer_Title">
           <Key>
@@ -471,6 +498,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Customer_Payments_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Customer_Payments" Type="Self.Customer_Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="Customer_Payments">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SG2_ContactDetails_SG2_Customer">
           <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
           <End Role="Customer_ContactDetail" Type="Self.Customer_ContactDetail" Multiplicity="*" />
@@ -734,9 +773,31 @@
           <EntitySet Name="SystemRole" EntityType="Self.SystemRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemState" EntityType="Self.SystemState" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemUser" EntityType="Self.SystemUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer_Payments" EntityType="Self.Customer_Payments" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Customer_Payments].[PaymentId] AS [PaymentId], 
+    [Customer_Payments].[Name] AS [Name], 
+    [Customer_Payments].[Description] AS [Description], 
+    [Customer_Payments].[SubscriptionType] AS [SubscriptionType], 
+    [Customer_Payments].[Price] AS [Price], 
+    [Customer_Payments].[PaymentDateTime] AS [PaymentDateTime], 
+    [Customer_Payments].[StartDate] AS [StartDate], 
+    [Customer_Payments].[EndDate] AS [EndDate], 
+    [Customer_Payments].[CustomerId] AS [CustomerId], 
+    [Customer_Payments].[StripeSubscriptionId] AS [StripeSubscriptionId], 
+    [Customer_Payments].[StatusId] AS [StatusId], 
+    [Customer_Payments].[StripePlanId] AS [StripePlanId], 
+    [Customer_Payments].[PaymentPlanId] AS [PaymentPlanId], 
+    [Customer_Payments].[StripeInvoiceId] AS [StripeInvoiceId]
+    FROM [dbo].[Customer_Payments] AS [Customer_Payments]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Customer_PaymentPlan" Association="Self.FK_Customer_PaymentPlan">
             <End Role="PaymentPlan" EntitySet="PaymentPlan" />
             <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_Payments_Customer" Association="Self.FK_Customer_Payments_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Customer_Payments" EntitySet="Customer_Payments" />
           </AssociationSet>
           <AssociationSet Name="FK_SG2_ContactDetails_SG2_Customer" Association="Self.FK_SG2_ContactDetails_SG2_Customer">
             <End Role="Customer" EntitySet="Customer" />
@@ -869,7 +930,7 @@
           </FunctionImport>
           <FunctionImport Name="SG2_usp_Get_AllUser" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Get_AllUser_Result)" />
           <FunctionImport Name="SG2_usp_Customer_GetSocialProfilesByCustomerId" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Customer_GetSocialProfilesByCustomerId_Result)">
-          <Parameter Name="CustomerId" Mode="In" Type="Int32" />
+            <Parameter Name="CustomerId" Mode="In" Type="Int32" />
             <Parameter Name="searchString" Mode="In" Type="String" />
             <Parameter Name="Plan" Mode="In" Type="Int32" />
             <Parameter Name="socialtype" Mode="In" Type="Int32" />
@@ -968,10 +1029,18 @@
           <FunctionImport Name="SG2_usp_Customers_Get" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Customers_Get_Result)">
           <Parameter Name="Id" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="usp_Delete_Profile">
+          <Parameter Name="SocialprofileId" Mode="In" Type="Int32" />
+          </FunctionImport>
           <EntitySet Name="Customers" EntityType="SocialGrowth2Entities.Customer" />
+          <EntitySet Name="Customer_Payments" EntityType="SocialGrowth2Entities.Customer_Payments" />
           <AssociationSet Name="FK_Customer_PaymentPlan" Association="SocialGrowth2Entities.FK_Customer_PaymentPlan">
             <End Role="PaymentPlan" EntitySet="PaymentPlans" />
             <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_Payments_Customer" Association="SocialGrowth2Entities.FK_Customer_Payments_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Customer_Payments" EntitySet="Customer_Payments" />
           </AssociationSet>
           <AssociationSet Name="FK_SG2_ContactDetails_SG2_Customer" Association="SocialGrowth2Entities.FK_SG2_ContactDetails_SG2_Customer">
             <End Role="Customer" EntitySet="Customers" />
@@ -981,9 +1050,6 @@
             <End Role="Customer" EntitySet="Customers" />
             <End Role="SocialProfile" EntitySet="SocialProfiles" />
           </AssociationSet>
-          <FunctionImport Name="usp_Delete_Profile">
-          <Parameter Name="SocialprofileId" Mode="In" Type="Int32" />
-          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="SG2_usp_Get_AllUser1_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
@@ -1808,9 +1874,9 @@
           <NavigationProperty Name="SocialProfile_FollowedAccounts" Relationship="SocialGrowth2Entities.FK_SocialProfile_FollowedAccounts_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_FollowedAccounts" />
           <NavigationProperty Name="PaymentPlan" Relationship="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan" FromRole="SocialProfile" ToRole="PaymentPlan" />
           <NavigationProperty Name="SocialProfile_Instagram_TargetingInformation" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Instagram_TargetingInformation" />
-          <NavigationProperty Name="Customer" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer" FromRole="SocialProfile" ToRole="Customer" />
           <Property Name="BlockedStatus" Type="Int32" />
           <Property Name="BockedSinceDateTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Customer" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer" FromRole="SocialProfile" ToRole="Customer" />
         </EntityType>
         <Association Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
           <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="1" />
@@ -2104,7 +2170,8 @@
           <Property Name="LoginAttempts" Type="Byte" Nullable="false" />
           <Property Name="LastLoginIP" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Tocken" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="StripeCustomerId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StripeCustomerId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="StripeSubscriptionId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Source" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2128,8 +2195,34 @@
           <Property Name="BrokerHomePage" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="BrokerTrustPilotCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="PaymentPlan" Relationship="SocialGrowth2Entities.FK_Customer_PaymentPlan" FromRole="Customer" ToRole="PaymentPlan" />
+          <NavigationProperty Name="Customer_Payments" Relationship="SocialGrowth2Entities.FK_Customer_Payments_Customer" FromRole="Customer" ToRole="Customer_Payments" />
           <NavigationProperty Name="Customer_ContactDetail" Relationship="SocialGrowth2Entities.FK_SG2_ContactDetails_SG2_Customer" FromRole="Customer" ToRole="Customer_ContactDetail" />
           <NavigationProperty Name="SocialProfiles" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer" FromRole="Customer" ToRole="SocialProfile" />
+        </EntityType>
+        <EntityType Name="Customer_Payments">
+          <Key>
+            <PropertyRef Name="PaymentId" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="StartDate" />
+            <PropertyRef Name="EndDate" />
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="PaymentId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="SubscriptionType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PaymentDateTime" Type="DateTime" Precision="3" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="StripeSubscriptionId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int32" />
+          <Property Name="StripePlanId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentPlanId" Type="Int32" />
+          <Property Name="StripeInvoiceId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Customer" Relationship="SocialGrowth2Entities.FK_Customer_Payments_Customer" FromRole="Customer_Payments" ToRole="Customer" />
         </EntityType>
         <Association Name="FK_Customer_PaymentPlan">
           <End Type="SocialGrowth2Entities.PaymentPlan" Role="PaymentPlan" Multiplicity="0..1" />
@@ -2140,6 +2233,18 @@
             </Principal>
             <Dependent Role="Customer">
               <PropertyRef Name="BrokerPaymentPlanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_Payments_Customer">
+          <End Type="SocialGrowth2Entities.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="SocialGrowth2Entities.Customer_Payments" Role="Customer_Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="Customer_Payments">
+              <PropertyRef Name="CustomerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3243,6 +3348,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_Delete_Profile" FunctionName="SocialGrowth2Entities.Store.usp_Delete_Profile" />
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="SocialGrowth2Entities.Customer">
               <MappingFragment StoreEntitySet="Customer">
@@ -3268,6 +3374,7 @@
                 <ScalarProperty Name="Register" ColumnName="Register" />
                 <ScalarProperty Name="Source" ColumnName="Source" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="StripeSubscriptionId" ColumnName="StripeSubscriptionId" />
                 <ScalarProperty Name="StripeCustomerId" ColumnName="StripeCustomerId" />
                 <ScalarProperty Name="Tocken" ColumnName="Tocken" />
                 <ScalarProperty Name="LastLoginIP" ColumnName="LastLoginIP" />
@@ -3287,7 +3394,26 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="usp_Delete_Profile" FunctionName="SocialGrowth2Entities.Store.usp_Delete_Profile" />
+          <EntitySetMapping Name="Customer_Payments">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.Customer_Payments">
+              <MappingFragment StoreEntitySet="Customer_Payments">
+                <ScalarProperty Name="StripeInvoiceId" ColumnName="StripeInvoiceId" />
+                <ScalarProperty Name="PaymentPlanId" ColumnName="PaymentPlanId" />
+                <ScalarProperty Name="StripePlanId" ColumnName="StripePlanId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="StripeSubscriptionId" ColumnName="StripeSubscriptionId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="PaymentDateTime" ColumnName="PaymentDateTime" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="SubscriptionType" ColumnName="SubscriptionType" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

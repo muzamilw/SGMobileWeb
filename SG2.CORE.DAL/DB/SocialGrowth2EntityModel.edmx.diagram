@@ -33,8 +33,10 @@
         <AssociationConnector Association="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Instagram_TargetingInformation" Width="1.5" PointX="5.25" PointY="25.5" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.Customer" Width="1.5" PointX="3" PointY="28.75" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.Customer" Width="1.5" PointX="3" PointY="50.625" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.Customer_Payments" Width="1.5" PointX="5.25" PointY="53.25" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_Customer_PaymentPlan" />
+        <AssociationConnector Association="SocialGrowth2Entities.FK_Customer_Payments_Customer" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_ContactDetails_SG2_Customer" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer" />
       </Diagram>
