@@ -18,7 +18,7 @@ namespace SG2.CORE.MODAL.ViewModals.Customers
     public class CustomerAddProfileRequest
     {
         public String IntagramUserName { get; set; }
-        public int CustomerId { get; set; }
+        public int customerId { get; set; }
       
 
     }

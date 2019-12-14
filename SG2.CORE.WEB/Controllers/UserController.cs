@@ -1,6 +1,9 @@
-﻿using SG2.Core.Web;
+﻿using klaviyo.net;
+using SG2.Core.Web;
 using SG2.CORE.BAL.Managers;
+using SG2.CORE.COMMON;
 using SG2.CORE.MODAL.DTO.Customers;
+using SG2.CORE.MODAL.DTO.Notification;
 using SG2.CORE.MODAL.DTO.Statistics;
 using SG2.CORE.MODAL.DTO.SystemSettings;
 using SG2.CORE.MODAL.klaviyo;
@@ -27,6 +30,7 @@ namespace SG2.CORE.WEB.Controllers
         private readonly string _stripeApiKey = string.Empty;
         protected readonly List<SystemSettingsDTO> SystemConfigs;
         protected readonly PlanInformationManager _planInformationManager;
+        protected readonly NotificationManager _notManager;
 
         public UserController()
         {
@@ -34,7 +38,7 @@ namespace SG2.CORE.WEB.Controllers
             _commonManager = new CommonManager();
             _statisticsManager = new StatisticsManager();
             _planInformationManager = new PlanInformationManager();
-           
+            _notManager = new NotificationManager();
             SystemConfigs = SystemConfig.GetConfigs;
 
         }
@@ -43,6 +47,7 @@ namespace SG2.CORE.WEB.Controllers
         {
             ProfilesSearchRequest model = new ProfilesSearchRequest { Block = 99, Plan = 0, searchString= "", SocialType = 0 };
             ViewBag.CurrentUser = this.CDT;
+            ViewBag.Customer = _customerManager.GetCustomerByCustomerId(this.CDT.CustomerId);
             ViewBag.SocailProfiles = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId,model);
 
             var _stripeApiKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
@@ -74,7 +79,7 @@ namespace SG2.CORE.WEB.Controllers
             try
             {
                 
-                var result = _customerManager.AddInstagramSocialProfile(model.IntagramUserName, model.CustomerId);
+                var result = _customerManager.AddInstagramSocialProfile(model.IntagramUserName, model.customerId);
 
                 if ( result.Succcess == true)
                 {
@@ -276,7 +281,7 @@ namespace SG2.CORE.WEB.Controllers
                         stripeSubscription = subscriptionService.Create(stripeSubscriptionCreateoptions);
                     }
 
-                    _cm.UpdateSocialProfileStripeCustomer(model.socialProfileId, customer.StripeCustomerId, stripeSubscription.Id, newPlan.PlanId);
+                    _customerManager.UpdateCustomerStripeCustomer(model.socialProfileId, customer.StripeCustomerId, stripeSubscription.Id, newPlan.PlanId);
 
                 }
                 ////////////////// new scenario
@@ -284,10 +289,11 @@ namespace SG2.CORE.WEB.Controllers
                 {
                     var stripeCustomerCreateOptions = new CustomerCreateOptions
                     {
-                        Description = " Customer for Social Growth Labs" + this.CDT.EmailAddress + " with profile id " + model.socialProfileId,
+                        Description = " Afilliate Customer for Social Growth Labs " + this.CDT.EmailAddress + " with Customer id " + model.socialProfileId,
                         PaymentMethod = model.paymentmethod,
                         Name = this.CDT.FirstName + " " + this.CDT.SurName,
                         Email = this.CDT.EmailAddress,
+                        Phone = this.CDT.PhoneCode + this.CDT.PhoneNumber,
                         InvoiceSettings = new CustomerInvoiceSettingsOptions
                         {
                             DefaultPaymentMethod = model.paymentmethod,
@@ -317,7 +323,7 @@ namespace SG2.CORE.WEB.Controllers
                     stripeSubscription = subscriptionService.Create(stripeSubscriptionCreateOptions);
 
                     //-- Update customer stripe id async call not to wait.
-                    _cm.UpdateSocialProfileStripeCustomer(model.socialProfileId, stripeCustomer.Id, stripeSubscription.Id, newPlan.PlanId);
+                    _customerManager.UpdateCustomerStripeCustomer(model.customerid, stripeCustomer.Id, stripeSubscription.Id, newPlan.PlanId);
 
                 }
 
@@ -337,7 +343,7 @@ namespace SG2.CORE.WEB.Controllers
                     }
 
                     SocialProfile_PaymentsDTO paymentRec = new SocialProfile_PaymentsDTO();
-                    paymentRec.SocialProfileId = model.socialProfileId;
+                    paymentRec.SocialProfileId = model.customerid;
                     paymentRec.StripeSubscriptionId = stripeSubscription.Id;
                     paymentRec.Description = stripeSubscription.Plan.Nickname;
                     paymentRec.Name = stripeSubscription.Plan.Nickname;
@@ -353,7 +359,7 @@ namespace SG2.CORE.WEB.Controllers
                     paymentRec.StripeInvoiceId = stripeSubscription.LatestInvoiceId;
                     paymentRec.PaymentDateTime = DateTime.Now;
 
-                    _cm.InsertSocialProfilePayment(paymentRec);
+                    _customerManager.InsertCustomerPayment(paymentRec);
 
 
                     var nt = new NotificationDTO()
@@ -365,7 +371,7 @@ namespace SG2.CORE.WEB.Controllers
                         UpdateOn = DateTime.Now,
                         SocialProfileId = model.socialProfileId,
                         StatusId = (int)GeneralStatus.Unread,
-                        Mode = severMode
+                       
                     };
                     _notManager.AddNotification(nt);
 

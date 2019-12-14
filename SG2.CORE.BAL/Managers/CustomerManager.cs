@@ -439,6 +439,18 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
+        public bool UpdateCustomerStripeCustomer(int CustomerId, string StripCustomerId, string StripeSubscriptionId, int PaymentPlanId)
+        {
+            try
+            {
+                return _customerRepository.UpdateCustomerStripeCustomerId(CustomerId, StripCustomerId, StripeSubscriptionId, PaymentPlanId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public bool UpdateSocialProfileStripeCustomer(int SocialProfileId, string StripCustomerId, string StripeSubscriptionId, int PaymentPlanId)
         {
             try
@@ -485,6 +497,19 @@ namespace SG2.CORE.BAL.Managers
             {
                 return _customerRepository.GetSocialProfilesWithoutExistingFollowers(socialProfileId);
 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<SocialProfile_PaymentsDTO> InsertCustomerPayment(SocialProfile_PaymentsDTO sG2_Subscription)
+        {
+            try
+            {
+                var sb = await _customerRepository.InsertCustomerPaymentRecord(sG2_Subscription);
+                return sb;
             }
             catch (Exception ex)
             {

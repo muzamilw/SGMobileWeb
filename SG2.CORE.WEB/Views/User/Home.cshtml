@@ -1,4 +1,5 @@
 ﻿@using SG2.CORE.MODAL.DTO.Customers
+@using SG2.CORE.MODAL
 @model SG2.CORE.MODAL.ViewModals.Customers.ProfilesSearchRequest
 @{
 
@@ -6,6 +7,7 @@
     Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
 
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
+    var Customer = (Customer)ViewBag.Customer;
     var socailProfiles = (List<CustomerSocialProfileDTO>)ViewBag.SocailProfiles;
 
     List<SelectListItem> profiles = new List<SelectListItem>();
@@ -297,19 +299,19 @@
                                                         }
                                                     </td>
                                                 </tr>
-                                                            }
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
-                                                            }
-                                                            else
-                                                            {
+                            }
+                            else
+                            {
 
                                 <p class="card-text text-center">
                                     Now profiles found matching your criteria. Please try again with different criteria.
                                 </p>
 
-                                                            }
+                            }
                         </div>
                     </div>
                 </div>
@@ -319,12 +321,28 @@
                         <div class="card-content">
                             <img class="card-img-top img-fluid" src="~/Content/ThemeAssets/Images/afilliate.jpg" alt="Card image cap">
                             <div class="card-body">
-                                <h4 class="card-title">Become an Afilliate</h4>
-                                <p class="card-text">
-                                    Join the Social Growth Affiliates Program and start earning money today.
+                                @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == false)
+                                {
+                                    <h4 class="card-title">Become an Afilliate</h4>
+                                    <p class="card-text">
+                                        Join the Social Growth Affiliates Program and start earning money today.
 
-                                </p>
-                                <a href="#" class="btn btn-success" id="btnAfilliate">Become an Afilliate</a>
+                                    </p>
+                                    <a href="#" class="btn btn-success" id="btnAfilliate">Become an Afilliate</a>
+                                }
+                                else
+                                {
+                                    <p class="card-text">
+                                        Affiliate Status : Active
+
+                                        <a href="#" class="btn btn-success" id="btnAfilliateProfile">Update Afilliate Profile</a>
+
+                                        <a href="#" class="btn btn-success" id="btnAfilliateBilling">View Billing History</a>
+
+                                        <a href="#" class="btn btn-danger" id="btnCancelAfilliate">Cancel Afilliate Plan</a>
+
+                                    </p>
+                                }
                             </div>
                         </div>
                     </div>
@@ -344,7 +362,7 @@
                 </button>
             </div>
             <form id="newprofileForm">
-                <input type="hidden" name="CustomerId" value="@currentUser.CustomerId" />
+                <input type="hidden" id="customerId" value="@currentUser.CustomerId" />
                 <div class="modal-body">
                     <label>Instagram Username </label>
                     <div class="form-group position-relative has-icon-left">
@@ -365,7 +383,7 @@
     </div>
 </div>
 
-<div class="modal fade text-left" id="Afilliate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel34" aria-hidden="true">
+<div class="modal fade text-left" id="AfilliateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel34" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -375,11 +393,11 @@
                 </button>
             </div>
             <form id="AfilliateForm">
-                <input type="hidden" name="CustomerId" value="@currentUser.CustomerId" />
+
                 <div class="modal-body">
                     <label>Complete the form below to signup as afilliate </label>
                     <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="App Name" class="form-control position-inside-maxlength" name="BrokerAppName" required maxlength="100">
+                        <input type="text" placeholder="App Name" class="form-control position-inside-maxlength" name="BrokerAppName" value="@Customer.BrokerAppName" required maxlength="100">
                         <div class="form-control-position">
                             <i class="fa fa-envelope font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -387,7 +405,7 @@
                     </div>
 
                     <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="Strap Line" class="form-control position-inside-maxlength" name="BrokerStrapLine" required maxlength="500">
+                        <input type="text" placeholder="Strap Line" class="form-control position-inside-maxlength" name="BrokerStrapLine" value="@Customer.BrokerStrapLine" required maxlength="500">
                         <div class="form-control-position">
                             <i class="fa fa-envelope font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -395,7 +413,7 @@
                     </div>
 
                     <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="App Aspect Color" class="form-control position-inside-maxlength" name="BrokerAspectColor" id="BrokerAspectColor" required maxlength="50">
+                        <input type="text" placeholder="App Aspect Color" class="form-control position-inside-maxlength" name="BrokerAspectColor" value="@Customer.BrokerAspectColor" id="BrokerAspectColor" required maxlength="50">
                         <div class="form-control-position">
                             <i class="fa fa-envelope font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -403,7 +421,7 @@
                     </div>
 
                     <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="Training Link" class="form-control position-inside-maxlength" name="BrokerTrainingLink" required maxlength="500">
+                        <input type="text" placeholder="Training Link" class="form-control position-inside-maxlength" name="BrokerTrainingLink" value="@Customer.BrokerTrainingLink" required maxlength="500">
                         <div class="form-control-position">
                             <i class="fa fa-envelope font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -411,7 +429,7 @@
                     </div>
 
                     <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="Terms Of Use Link" class="form-control position-inside-maxlength" name="BrokerTermsOfUse" required maxlength="500">
+                        <input type="text" placeholder="Terms Of Use Link" class="form-control position-inside-maxlength" name="BrokerTermsOfUse" value="@Customer.BrokerTermsOfUse" required maxlength="500">
                         <div class="form-control-position">
                             <i class="fa fa-envelope font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -419,7 +437,7 @@
                     </div>
 
                     <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="Privacy Policy Link" class="form-control position-inside-maxlength" name="BrokerPrivacyPolicy" required maxlength="500">
+                        <input type="text" placeholder="Privacy Policy Link" class="form-control position-inside-maxlength" name="BrokerPrivacyPolicy" value="@Customer.BrokerPrivacyPolicy" required maxlength="500">
                         <div class="form-control-position">
                             <i class="fa fa-envelope font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -427,7 +445,7 @@
                     </div>
 
                     <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="Feedback Page Link" class="form-control position-inside-maxlength" name="BrokerFeedbackPage" required maxlength="500">
+                        <input type="text" placeholder="Feedback Page Link" class="form-control position-inside-maxlength" name="BrokerFeedbackPage" value="@Customer.BrokerFeedbackPage" required maxlength="500">
                         <div class="form-control-position">
                             <i class="fa fa-envelope font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -435,7 +453,7 @@
                     </div>
 
                     <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="Home Page Link" class="form-control position-inside-maxlength" name="BrokerHomePage" required maxlength="500">
+                        <input type="text" placeholder="Home Page Link" class="form-control position-inside-maxlength" name="BrokerHomePage" value="@Customer.BrokerHomePage" required maxlength="500">
                         <div class="form-control-position">
                             <i class="fa fa-envelope font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -443,13 +461,16 @@
                     </div>
                     <label>Trust Pilot Code </label>
                     <div class="form-group position-relative has-icon-left">
-                        <textarea type="text" placeholder="Trust Pilot Code" class="form-control position-inside-maxlength" name="BrokerTrustPilotCode" required maxlength="5000">
-                        </textarea>
-
-
+                        <textarea type="text" placeholder="Trust Pilot Code" class="form-control position-inside-maxlength" name="BrokerTrustPilotCode" maxlength="5000">@Customer.BrokerTrustPilotCode</textarea>
                     </div>
                     <label>App Logo</label>
-                    <div class="form-group position-relative has-icon-left">
+                    @if (!string.IsNullOrEmpty(Customer.BrokerLogo))
+                    {
+                        <div class="form-group position-relative">
+                            <img src="@Customer.BrokerLogo" />
+                        </div>
+                    }
+                    <div class="form-group position-relative">
                         <input type="file" class="form-control-file" id="basicInputFile">
 
                     </div>
@@ -552,8 +573,8 @@
                             </svg>
                         </div>
                         <h3 class="title" data-tid="elements_examples.success.title">Success</h3>
-                        <p class="message"><span id="cmessage" data-tid="elements_examples.success.message">Subscription has been created successfully and payment has been processed. You can now connect the mobile app and start growing.</span></p>
-                        <a class="btn btn-success" href="~/User/Home/">Continue</a>
+                        <p class="message"><span id="cmessage" data-tid="elements_examples.success.message">Afilliate Subscription has been created successfully and payment has been processed. Complete the Afilliate profile and create social profiles.</span></p>
+                        <a class="btn btn-success" id="btnCompleteAfilliateProfile">Complete Afilliate Profile</a>
                     </div>
                 </div>
             </div>
@@ -651,6 +672,28 @@
 
             });
 
+            function OpenAfilliate(mode) {
+
+                if (mode == "new") {
+                    $("#planSubscriptionModal").modal("hide");
+                }
+
+                $("#AfilliateModal").modal({
+                    backdrop: "static"
+                }, "show");
+
+            }
+
+
+            $("#btnAfilliateProfile").on("click", function () {
+                OpenAfilliate("update");
+            });
+
+            $("#btnCompleteAfilliateProfile").on("click", function () {
+                OpenAfilliate("new");
+            });
+
+
             $("#btnAfilliate").on("click", function () {
                 $(".selectedPlanName").text('Monthly Afilliate Plan');
                 $("#selectedPlanprice").text('200');
@@ -720,7 +763,9 @@
                 }).then(isConfirm => {
                     if (isConfirm && existingStripeSubscriptionId == "") {
                         swal.close();
-                        $("#planSubscriptionModal").modal("show");
+                        $("#planSubscriptionModal").modal({
+                            backdrop: "static"
+                        },"show");
                     }
                     else if (isConfirm && existingStripeSubscriptionId != "") {
                         //swal.enableLoading();
@@ -936,8 +981,9 @@
 
             function createPaymentMethodAndCustomer(stripe, card, name, email, phone) {
                debugger;
-                
+
                 var selectedPlanId = $('#selectedPlanId').val();
+                var customerId = $('#customerId').val();
 
                 stripe.createPaymentMethod('card', card, {
                         billing_details: {
@@ -950,13 +996,13 @@
                         if (result.error) {
                             showCardError(result.error);
                         } else {
-                            createCustomer(result.paymentMethod.id, email, selectedPlanId, customerid, name,phone);
+                            createCustomer(result.paymentMethod.id, email, selectedPlanId, customerId, name,phone);
                         }
                     });
             }
 
             async function createCustomer(paymentMethod, cardholderEmail, selectedPlanId, customerid, name, phone) {
-                return fetch('/profile/CreateStripeCustomerSubscription', {
+                return fetch('/User/CreateStripeCustomerSubscription', {
                     method: 'post',
                     headers: {
                         'Content-Type': 'application/json'
@@ -1066,7 +1112,7 @@
                 // The card was declined (i.e. insufficient funds, card has expired, etc)
                 var errorMsg = document.querySelector('cmessage');
                 errorMsg.textContent = error.message;
-               
+
             }
 
             stripeElements('@ViewBag.stripePublishKey');

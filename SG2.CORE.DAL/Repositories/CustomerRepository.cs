@@ -936,6 +936,30 @@ namespace SG2.CORE.DAL.Repositories
 
         }
 
+        public bool UpdateCustomerStripeCustomerId(int CustomerId, string StripCustomerId, string StripeSubscriptionId, int PaymentPlanId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    var cus = _db.Customers.FirstOrDefault(x => x.CustomerId == CustomerId);
+                    if (cus != null)
+                    {
+                        cus.StripeCustomerId = StripCustomerId;
+                        cus.StripeSubscriptionId = StripeSubscriptionId;
+                        cus.BrokerPaymentPlanID = PaymentPlanId;
+                        cus.IsBroker = true;
+                        _db.SaveChanges();
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public bool UpdateSocialProfileStripeCustomerId(int SocialProfileId, string StripCustomerId, string StripeSubscriptionId, int PaymentPlanId)
         {
             try
@@ -987,6 +1011,7 @@ namespace SG2.CORE.DAL.Repositories
                             IsOptedEducationalEmailSeries = Convert.ToBoolean(usr.IsOptedEducationalEmailSeries),
                             IsOptedMarketingEmail = Convert.ToBoolean(usr.IsOptedMarketingEmail),
                             StatusId = usr.StatusId,
+                            
                             //StripeSubscriptionId = usr.StripeSubscriptionId
                         };
                         return cst;
@@ -1053,6 +1078,30 @@ namespace SG2.CORE.DAL.Repositories
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        public async Task<SocialProfile_PaymentsDTO> InsertCustomerPaymentRecord(SocialProfile_PaymentsDTO model)
+        {
+            using (var _db = new SocialGrowth2Connection())
+            {
+                try
+                {
+                    Customer_Payments payrec = new Customer_Payments { Description = model.Description, StripeSubscriptionId = model.StripeSubscriptionId, CustomerId = model.SocialProfileId, EndDate = model.EndDate, Name = model.Name, PaymentDateTime = model.PaymentDateTime, PaymentPlanId = model.PaymentPlanId, Price = model.Price, StartDate = model.StartDate, StatusId = 1, StripeInvoiceId = model.StripeInvoiceId, StripePlanId = model.StripePlanId, SubscriptionType = "month" };
+                    _db.Customer_Payments.Add(payrec);
+                    _db.SaveChanges();
+
+                    model.PaymentId = payrec.PaymentId;
+
+                    return model;
+
+                }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
+
             }
         }
 
