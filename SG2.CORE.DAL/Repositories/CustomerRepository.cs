@@ -936,6 +936,38 @@ namespace SG2.CORE.DAL.Repositories
 
         }
 
+        public bool UpdateCustomerBrokerProfile(CustomerBrokerProfileRequest model)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    var cus = _db.Customers.FirstOrDefault(x => x.CustomerId == model.cid);
+                    if (cus != null)
+                    {
+                        cus.BrokerAppName = model.BrokerAppName;
+                        cus.BrokerAspectColor = model.BrokerAspectColor;
+                        cus.BrokerFeedbackPage = model.BrokerFeedbackPage;
+                        cus.BrokerHomePage = model.BrokerHomePage;
+                        cus.BrokerLogo = model.BrokerLogo;
+                        cus.BrokerPrivacyPolicy = model.BrokerPrivacyPolicy;
+                        cus.BrokerStrapLine = model.BrokerStrapLine;
+                        cus.BrokerTermsOfUse = model.BrokerTermsOfUse;
+                        cus.BrokerTrainingLink = model.BrokerTrainingLink;
+                        cus.BrokerTrustPilotCode = model.BrokerTrustPilotCode;
+
+                        _db.SaveChanges();
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public bool UpdateCustomerStripeCustomerId(int CustomerId, string StripCustomerId, string StripeSubscriptionId, int PaymentPlanId)
         {
             try
@@ -947,9 +979,27 @@ namespace SG2.CORE.DAL.Repositories
                     {
                         cus.StripeCustomerId = StripCustomerId;
                         cus.StripeSubscriptionId = StripeSubscriptionId;
-                        cus.BrokerPaymentPlanID = PaymentPlanId;
-                        cus.IsBroker = true;
+                        cus.BrokerPaymentPlanID = PaymentPlanId == 0 ? (int?)null : PaymentPlanId;
+                        if (string.IsNullOrEmpty(StripCustomerId))
+                            cus.IsBroker = false;
+                        else
+                            cus.IsBroker = true;
                         _db.SaveChanges();
+
+
+                        //set all profiles to free if afilliate subscription is null 
+                        if (string.IsNullOrEmpty(StripCustomerId))
+                        {
+                            var profiles = _db.SocialProfiles.Where(g => g.CustomerId == CustomerId).ToList();
+                            foreach (var profile in profiles)
+                            {
+                                profile.PaymentPlanId = null;
+                                profile.StatusId = 25;
+                                profile.StripeSubscriptionId = null;
+                            }
+                            _db.SaveChanges();
+
+                        }
                         return true;
                     }
                     return false;
@@ -1429,6 +1479,30 @@ namespace SG2.CORE.DAL.Repositories
         }
         //_db.SocialProfile_Payments.Where(g => g.SocialProfileId == profileId).OrderByDescending(g => g.PaymentDateTime).ToList();
 
+
+
+
+        public List<SocialProfile_PaymentsDTO> GetCustomerBrokerPaymentHistory(int CustomerId)
+        {
+            try
+            {
+                SocialProfileDTO profile = new SocialProfileDTO();
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    var res = (from m in _db.Customer_Payments
+                               join r in _db.PaymentPlans on m.PaymentPlanId equals r.PaymentPlanId
+                               join ps in _db.EnumerationValues on m.StatusId equals ps.EnumerationValueId
+                               where m.CustomerId == CustomerId
+                               select new SocialProfile_PaymentsDTO { Description = m.Description, EndDate = m.EndDate, PaymentPlanId = m.PaymentPlanId, Name = m.Name, PaymentDateTime = m.PaymentDateTime, PaymentId = m.PaymentId, PaymentPlanName = r.PlanName, Price = m.Price, StartDate = m.StartDate, Status = ps.Name, StatusId = m.StatusId, StripeInvoiceId = m.StripeInvoiceId, StripePlanId = m.StripePlanId, StripeSubscriptionId = m.StripeSubscriptionId, SubscriptionType = m.SubscriptionType }).ToList();
+                    return res;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public (bool Succcess, string Message) AddIntagramSocialProfile(string InstagramSocialUsername, int CustomerId)
         {

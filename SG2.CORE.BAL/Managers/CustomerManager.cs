@@ -439,7 +439,32 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public bool UpdateCustomerStripeCustomer(int CustomerId, string StripCustomerId, string StripeSubscriptionId, int PaymentPlanId)
+        public bool UpdateCustomerBrokerProfile(CustomerBrokerProfileRequest model)
+        {
+            try
+            {
+                return _customerRepository.UpdateCustomerBrokerProfile(model);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<SocialProfile_PaymentsDTO> GetCustomerBrokerPaymentHistory(int CustomerId)
+        {
+            try
+            {
+                return _customerRepository.GetCustomerBrokerPaymentHistory(CustomerId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+            public bool UpdateCustomerStripeCustomer(int CustomerId, string StripCustomerId, string StripeSubscriptionId, int PaymentPlanId)
         {
             try
             {

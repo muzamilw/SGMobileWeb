@@ -335,12 +335,12 @@
                                     <p class="card-text">
                                         Affiliate Status : Active
 
-                                        <a href="#" class="btn btn-success" id="btnAfilliateProfile">Update Afilliate Profile</a>
+                                        <a href="#" class="btn btn-success btn-block" id="btnAfilliateProfile">Update Afilliate Profile</a>
 
-                                        <a href="#" class="btn btn-success" id="btnAfilliateBilling">View Billing History</a>
+                                        <a href="#" class="btn btn-success btn-block" id="btnAfilliateBilling" data-toggle="modal" data-target="#BillingHistoryModal">View Billing History</a>
 
-                                        <a href="#" class="btn btn-danger" id="btnCancelAfilliate">Cancel Afilliate Plan</a>
-
+                                        <a href="#" class="btn btn-danger btn-block" id="btnCancelAfilliate">Cancel Afilliate Plan</a>
+                                       
                                     </p>
                                 }
                             </div>
@@ -387,19 +387,19 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="myModalLabel34">Signup as an Afilliate</h3>
+                <h3 class="modal-title" id="myModalLabel34">Afilliate Profile</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="AfilliateForm">
-
+            <form id="AfilliateProfileForm">
+                <input type="hidden" name="cid" value="@Customer.CustomerId"/>
                 <div class="modal-body">
-                    <label>Complete the form below to signup as afilliate </label>
+                    <label>Following information will be used to white label the modile app for your profiles.</label>
                     <div class="form-group position-relative has-icon-left">
                         <input type="text" placeholder="App Name" class="form-control position-inside-maxlength" name="BrokerAppName" value="@Customer.BrokerAppName" required maxlength="100">
                         <div class="form-control-position">
-                            <i class="fa fa-envelope font-medium-5 line-height-1 text-muted icon-align"></i>
+                            <i class="fa fa-file font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
 
                     </div>
@@ -407,7 +407,7 @@
                     <div class="form-group position-relative has-icon-left">
                         <input type="text" placeholder="Strap Line" class="form-control position-inside-maxlength" name="BrokerStrapLine" value="@Customer.BrokerStrapLine" required maxlength="500">
                         <div class="form-control-position">
-                            <i class="fa fa-envelope font-medium-5 line-height-1 text-muted icon-align"></i>
+                            <i class="fa fa-file-text font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
 
                     </div>
@@ -415,7 +415,7 @@
                     <div class="form-group position-relative has-icon-left">
                         <input type="text" placeholder="App Aspect Color" class="form-control position-inside-maxlength" name="BrokerAspectColor" value="@Customer.BrokerAspectColor" id="BrokerAspectColor" required maxlength="50">
                         <div class="form-control-position">
-                            <i class="fa fa-envelope font-medium-5 line-height-1 text-muted icon-align"></i>
+                            <i class="fa fa-pencil font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
 
                     </div>
@@ -423,7 +423,7 @@
                     <div class="form-group position-relative has-icon-left">
                         <input type="text" placeholder="Training Link" class="form-control position-inside-maxlength" name="BrokerTrainingLink" value="@Customer.BrokerTrainingLink" required maxlength="500">
                         <div class="form-control-position">
-                            <i class="fa fa-envelope font-medium-5 line-height-1 text-muted icon-align"></i>
+                            <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
 
                     </div>
@@ -431,7 +431,7 @@
                     <div class="form-group position-relative has-icon-left">
                         <input type="text" placeholder="Terms Of Use Link" class="form-control position-inside-maxlength" name="BrokerTermsOfUse" value="@Customer.BrokerTermsOfUse" required maxlength="500">
                         <div class="form-control-position">
-                            <i class="fa fa-envelope font-medium-5 line-height-1 text-muted icon-align"></i>
+                            <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
 
                     </div>
@@ -439,7 +439,7 @@
                     <div class="form-group position-relative has-icon-left">
                         <input type="text" placeholder="Privacy Policy Link" class="form-control position-inside-maxlength" name="BrokerPrivacyPolicy" value="@Customer.BrokerPrivacyPolicy" required maxlength="500">
                         <div class="form-control-position">
-                            <i class="fa fa-envelope font-medium-5 line-height-1 text-muted icon-align"></i>
+                            <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
 
                     </div>
@@ -447,7 +447,7 @@
                     <div class="form-group position-relative has-icon-left">
                         <input type="text" placeholder="Feedback Page Link" class="form-control position-inside-maxlength" name="BrokerFeedbackPage" value="@Customer.BrokerFeedbackPage" required maxlength="500">
                         <div class="form-control-position">
-                            <i class="fa fa-envelope font-medium-5 line-height-1 text-muted icon-align"></i>
+                            <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
 
                     </div>
@@ -455,13 +455,16 @@
                     <div class="form-group position-relative has-icon-left">
                         <input type="text" placeholder="Home Page Link" class="form-control position-inside-maxlength" name="BrokerHomePage" value="@Customer.BrokerHomePage" required maxlength="500">
                         <div class="form-control-position">
-                            <i class="fa fa-envelope font-medium-5 line-height-1 text-muted icon-align"></i>
+                            <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
 
                     </div>
                     <label>Trust Pilot Code </label>
                     <div class="form-group position-relative has-icon-left">
                         <textarea type="text" placeholder="Trust Pilot Code" class="form-control position-inside-maxlength" name="BrokerTrustPilotCode" maxlength="5000">@Customer.BrokerTrustPilotCode</textarea>
+                        <div class="form-control-position">
+                            <i class="fa fa-file-text font-medium-5 line-height-1 text-muted icon-align"></i>
+                        </div>
                     </div>
                     <label>App Logo</label>
                     @if (!string.IsNullOrEmpty(Customer.BrokerLogo))
@@ -470,14 +473,17 @@
                             <img src="@Customer.BrokerLogo" />
                         </div>
                     }
-                    <div class="form-group position-relative">
-                        <input type="file" class="form-control-file" id="basicInputFile">
+                        <div class="form-group position-relative has-icon-left">
+                            <input type="text" placeholder="Home Page Link" class="form-control position-inside-maxlength" name="BrokerLogo" value="@Customer.BrokerLogo" required maxlength="500">
+                            <div class="form-control-position">
+                                <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
+                            </div>
 
-                    </div>
+                        </div>
                 </div>
                 <div class="modal-footer">
                     <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="close">
-                    <input type="submit" class="btn btn-outline-primary btn-lg" value="Create Afilliate Profile">
+                    <input type="submit" class="btn btn-outline-primary btn-lg" value="Update Afilliate Profile">
                 </div>
             </form>
         </div>
@@ -586,6 +592,66 @@
     </div>
 </div>
 
+<div class="modal fade text-left" id="BillingHistoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel34" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="myModalLabel34">Afilliate Order History</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+               
+            <div class="modal-body">
+                
+                <div class="table-responsive">
+                    <table class="table table-xl mb-0">
+                        <thead>
+                            <tr>
+                                <th>Payment Date/Time</th>
+                                <th>Plan</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.PaymentHistory)
+                            {
+                                <tr>
+                                    <td scope="row">
+                                        @item.PaymentDateTime
+                                    </td>
+
+
+                                    <td>
+                                        @item.PaymentPlanName
+                                    </td>
+                                    <td>
+                                        @item.Price
+                                    </td>
+                                    <td>
+                                        <div class="badge badge-primary label-square">
+                                            <i class="fa fa-paperclip font-medium-2"></i>
+                                            <span>@item.Status</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+                <div class="modal-footer">
+                    <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="close">
+                   
+                </div>
+           
+        </div>
+    </div>
+</div>
+
 <!-- END: Content-->
 @section Scripts{
     <script src="https://js.stripe.com/v3/"></script>
@@ -672,6 +738,50 @@
 
             });
 
+            $("#AfilliateProfileForm").on("submit", function () {
+                debugger;
+
+                //if ($("#Form_UpdatePassword").valid()) {
+
+                var data = $("#AfilliateProfileForm").serializeArray();
+                $.ajax({
+                    type: "POST",
+                    url: "/User/UpdateBrokerProfile",
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        if (!$.isEmptyObject(data)) {
+                            if (data.Data.ResultType == "Success") {
+                                //$("#Modal_MessageBoxTitle").text("Message");
+                                //$("#Modal_MessageBoxBody").text(data.message);
+                                //$("#Modal_Messagebox").modal("show");
+                                //$('#default').modal('show');
+                                swal("Success!", "You have successfully updated Afilliate profile.", "success")
+                                    .then((value) => {
+                                        window.location.reload(false);
+                                    });
+                                //$(location).attr('href', "/Home/PasswordUpdated");
+                            } else {
+                                //$("#Modal_MessageBoxTitle").text("Message");
+                                //$("#Modal_MessageBoxBody").text(data.message);
+                                //$("#Modal_Messagebox").modal("show");
+                                //$('#default').modal('show');
+                                swal("Error!", data.Data.message, "error");
+                                //$('#ErrorMessage').text(data.message);
+
+                            }
+
+                        }
+                    },
+                    failure: function (errMsg) {
+
+                    }
+                });
+                return false;
+                //}
+
+            });
+
             function OpenAfilliate(mode) {
 
                 if (mode == "new") {
@@ -691,6 +801,66 @@
 
             $("#btnCompleteAfilliateProfile").on("click", function () {
                 OpenAfilliate("new");
+            });
+
+            $("#btnCancelAfilliate").on("click", function (e) {
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                var customerId = '@Customer.CustomerId';
+
+                swal({
+                    title: "Cancel Afilliate Subscription!",
+                    text: "Are you sure you want to Cancel your Afilliate subscription ? This action will reset plans for all profiles to Free Plan!",
+                    icon: "error",
+                    showLoaderOnConfirm: true,
+                    closeOnClickOutside: false,
+                    buttons: {
+                        cancel: {
+                            text: "No, cancel please",
+                            value: null,
+                            visible: true,
+                            className: "",
+                            closeModal: true,
+                        },
+                        confirm: {
+                            text: "Go ahead, Cancel Afilliate subscription",
+                            value: true,
+                            visible: true,
+                            className: "btn-warning",
+                            closeModal: false
+                        }
+                    },
+
+                }).then(isConfirm => {
+                    if (isConfirm) {
+
+
+                        fetch('/User/ConfirmCancelAfilliateSubscription', {
+                            method: 'post',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                customerId: customerId
+                            })
+                        })
+                            .then(subscription => {
+                                //handleSubscription(subscription);.
+                                swal.close();
+                                swal("Success!", "Your Afilliate subscription & profiles have been cancelled successfully;", "success")
+                                    .then(function () {
+                                        window.location = "/User/Home/";
+                                    });;
+                            });
+                    }
+                    else {
+                        //swal("OK", "It's safe.", "error");
+                    }
+                });
+
+
             });
 
 

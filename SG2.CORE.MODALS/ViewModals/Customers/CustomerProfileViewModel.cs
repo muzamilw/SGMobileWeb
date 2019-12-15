@@ -23,6 +23,23 @@ namespace SG2.CORE.MODAL.ViewModals.Customers
 
     }
 
+    public class CustomerBrokerProfileRequest
+    {
+        public string BrokerLogo { get; set; }
+        public string BrokerAppName { get; set; }
+        public string BrokerStrapLine { get; set; }
+        public string BrokerAspectColor { get; set; }
+        public string BrokerTrainingLink { get; set; }
+        public string BrokerTermsOfUse { get; set; }
+        public string BrokerPrivacyPolicy { get; set; }
+        public string BrokerFeedbackPage { get; set; }
+        public string BrokerHomePage { get; set; }
+        public string BrokerTrustPilotCode { get; set; }
+        public int cid { get; set; }
+
+
+    }
+
 
     public class ProfilesSearchRequest
     {

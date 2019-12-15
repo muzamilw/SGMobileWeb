@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using static SG2.CORE.COMMON.GlobalEnums;
@@ -47,7 +48,12 @@ namespace SG2.CORE.WEB.Controllers
         {
             ProfilesSearchRequest model = new ProfilesSearchRequest { Block = 99, Plan = 0, searchString= "", SocialType = 0 };
             ViewBag.CurrentUser = this.CDT;
-            ViewBag.Customer = _customerManager.GetCustomerByCustomerId(this.CDT.CustomerId);
+            var Cust = _customerManager.GetCustomerByCustomerId(this.CDT.CustomerId);
+            ViewBag.Customer = Cust;
+            if (Cust.IsBroker.HasValue && Cust.IsBroker.Value)
+            {
+                ViewBag.PaymentHistory = _customerManager.GetCustomerBrokerPaymentHistory(Cust.CustomerId);
+            }
             ViewBag.SocailProfiles = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId,model);
 
             var _stripeApiKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
@@ -66,7 +72,18 @@ namespace SG2.CORE.WEB.Controllers
 
            
             ViewBag.CurrentUser = this.CDT;
+            var Cust = _customerManager.GetCustomerByCustomerId(this.CDT.CustomerId);
+            ViewBag.Customer = Cust;
+            if (Cust.IsBroker.HasValue && Cust.IsBroker.Value)
+            {
+                ViewBag.PaymentHistory = _customerManager.GetCustomerBrokerPaymentHistory(Cust.CustomerId);
+            }
             ViewBag.SocailProfiles = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId,model);
+            var _stripeApiKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
+            var _stripePublishKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue2;
+
+            ViewBag.stripeApiKey = _stripeApiKey;
+            ViewBag.stripePublishKey = _stripePublishKey;
 
             return View(model);
         }
@@ -90,6 +107,34 @@ namespace SG2.CORE.WEB.Controllers
                     jr.Data = new { ResultType = "Error", message = result.Message };
                 }
                
+
+            }
+            catch (Exception exp)
+            {
+                throw exp;
+            }
+
+            return Json(jr, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateBrokerProfile(CustomerBrokerProfileRequest model)
+        {
+            var jr = new JsonResult();
+            try
+            {
+
+                var result = _customerManager.UpdateCustomerBrokerProfile(model);
+
+                if (result == true)
+                {
+                    jr.Data = new { ResultType = "Success", message = "Updated successfully" };
+                }
+                else
+                {
+                    jr.Data = new { ResultType = "Error", message = "error updating" };
+                }
+
 
             }
             catch (Exception exp)
@@ -128,6 +173,147 @@ namespace SG2.CORE.WEB.Controllers
                 model.IsOptedMarketingEmail = CDT.IsOptedMarketingEmail;
             }
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult ConfirmCancelAfilliateSubscription(int customerId)
+        {
+            var jr = new JsonResult();
+            try
+            {
+
+                KlaviyoAPI klaviyoAPI = new KlaviyoAPI();
+                KlaviyoProfile klaviyoProfile = new KlaviyoProfile();
+                KlaviyoEvent ev = new KlaviyoEvent();
+
+                SG2.CORE.MODAL.Customer customer = _customerManager.GetCustomerByCustomerId(customerId);
+
+
+                //if (!profileDTO.IsJVServerRunning)
+                //{
+                //    severMode = "Manual";
+                //}
+                var _stripeApiKey = SystemConfig.GetConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
+                if (customer != null)
+                {
+
+                    if (customer.IsBroker.HasValue && customer.IsBroker.Value)
+                    {
+                        if (!string.IsNullOrEmpty(customer.StripeSubscriptionId))
+                        {
+                            StripeConfiguration.SetApiKey(_stripeApiKey);
+                            var service = new SubscriptionService();
+                            var sub = service.Get(customer.StripeSubscriptionId);
+
+                            var subscription = service.Cancel(sub.Id, null);
+
+                            //cancelling all social profile stripe subscriptions
+                            var profiles = _customerManager.GetSocialProfilesByCustomerid(customer.CustomerId, new ProfilesSearchRequest { Block = 99, Plan = 0, searchString = "", SocialType = 0 });
+                            foreach (var profile in profiles)
+                            {
+                                var dbprofile = _customerManager.GetSocialProfileById(profile.SocialProfileId);
+                                if (dbprofile.SocialProfile.StripeSubscriptionId != null)
+                                {
+                                    var subs = service.Get(dbprofile.SocialProfile.StripeSubscriptionId);
+                                    service.Cancel(subs.Id, null);
+                                }
+                            }
+
+                            //if (subscription != null)
+                            //{
+                            //    //_cm.UpdateJVStatus(SocialProfileId, (int)GlobalEnums.JVStatus.ProfileRequiresCancelling);
+                            //    _customerManager.UpdateSubscriptionStatus(Convert.ToInt32(profileDTO.SocialProfile.SocialProfileId), (int)GlobalEnums.PlanSubscription.canceled);
+                            //}
+
+
+
+                            Task.Run(() =>
+                            {
+
+                                var nt = new NotificationDTO()
+                                {
+                                    Notification = NotificationMessages[(int)NotificationMessagesIndexes.Unsubscribe],
+                                    CreatedBy = customer.CustomerId.ToString(),
+                                    CreatedOn = DateTime.Now,
+                                    Updatedby = customer.CustomerId.ToString(),
+                                    UpdateOn = DateTime.Now,
+                                    SocialProfileId = customer.CustomerId,
+                                    StatusId = (int)GeneralStatus.Unread,
+                                    Mode = "Auto"
+                                };
+                                _notManager.AddNotification(nt);
+
+
+                                List<NotRequiredProperty> list = new List<NotRequiredProperty>()
+                        {
+                            new NotRequiredProperty("$email", this.CDT.EmailAddress),
+                            new NotRequiredProperty("$first_name ", this.CDT.FirstName),
+                            new NotRequiredProperty("$last_name ", this.CDT.SurName)
+                        };
+                                ev.Event = "Afilliate Cancelled";
+                                ev.Properties.NotRequiredProperties = list;
+                                ev.CustomerProperties.Email = CDT.EmailAddress;
+                                ev.CustomerProperties.FirstName = CDT.FirstName;
+                                ev.CustomerProperties.LastName = CDT.EmailAddress;
+
+                                var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
+                                var _klavio_UnsubscribeList = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_UnsubscribeList").ToLower()).ConfigValue;
+                                var _klavio_PayingSubscribeList = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_PayingSubscribeList").ToLower()).ConfigValue;
+
+                                klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
+                                klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_PayingSubscribeList);
+                                var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_UnsubscribeList);
+                            });
+
+                            jr.Data = new { ResultType = "Success", message = "User has successfully Unsubscribe." };
+                        }
+                        else
+                        {
+                            jr.Data = new { ResultType = "Error", message = "No active subscription available." };
+
+                        }
+
+
+
+                    }
+                    else
+                    {
+                        jr.Data = new { ResultType = "Error", message = "No active subscription available." };
+
+                    }
+                }
+
+                           
+                if (_customerManager.UpdateCustomerStripeCustomer(customer.CustomerId,customer.StripeCustomerId, null,0))
+                {
+
+                    //--TODO: Update Klaviyo Web API Key
+
+                    // klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "H6fnAh");
+
+                    //List<NotRequiredProperty> list = new List<NotRequiredProperty>()  {
+                    //    new NotRequiredProperty("$email", this.CDT.EmailAddress),
+                    //    new NotRequiredProperty("$first_name ", this.CDT.FirstName),
+                    //    new NotRequiredProperty("$last_name ", this.CDT.SurName),
+                    //};
+                    //klaviyoProfile.email = this.CDT.EmailAddress;
+                    //klaviyoAPI.PeopleAPI(list);
+                    //var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "u45Z4H");
+
+
+
+                    // }
+                    //else
+                    {
+                        jr.Data = new { ResultType = "Success", message = "Afilliate subscription has been successfully Cancelled." };
+                    }
+                }
+            }
+            catch (Exception exp)
+            {
+                throw exp;
+            }
+            return Json(jr, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
