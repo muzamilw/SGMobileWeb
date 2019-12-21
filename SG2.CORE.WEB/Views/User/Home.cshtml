@@ -321,46 +321,48 @@
                         <div class="card-content">
                             <img class="card-img-top img-fluid" src="~/Content/ThemeAssets/Images/afilliate.jpg" alt="Card image cap">
                             <div class="card-body">
-                                @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == false)
-                                {
-                                    <h4 class="card-title">Become an Afilliate</h4>
-                                    <p class="card-text">
-                                        Join the Social Growth Affiliates Program and start earning money today.
 
-                                    </p>
-                                    <a href="#" class="btn btn-success" id="btnAfilliate">Become an Afilliate</a>
+                                
+                                @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true) 
+                                {
+                                                        <p class="card-text">
+                                                            Affiliate Status : Active
+
+                                                            <a href="#" class="btn btn-success btn-block" id="btnAfilliateProfile">Update Afilliate Profile</a>
+
+                                                            <a href = "#" class="btn btn-success btn-block" id="btnAfilliateBilling" data-toggle="modal" data-target="#BillingHistoryModal">View Billing History</a>
+
+                                                            <a href = "#" class="btn btn-danger btn-block" id="btnCancelAfilliate">Cancel Afilliate Plan</a>
+
+                                                        </p>
                                 }
                                 else
                                 {
-                                    <p class="card-text">
-                                        Affiliate Status : Active
+                                <h4 class="card-title">Become an Afilliate</h4>
+                                <p class="card-text">
+                                    Join the Social Growth Affiliates Program and start earning money today.
 
-                                        <a href="#" class="btn btn-success btn-block" id="btnAfilliateProfile">Update Afilliate Profile</a>
-
-                                        <a href="#" class="btn btn-success btn-block" id="btnAfilliateBilling" data-toggle="modal" data-target="#BillingHistoryModal">View Billing History</a>
-
-                                        <a href="#" class="btn btn-danger btn-block" id="btnCancelAfilliate">Cancel Afilliate Plan</a>
-                                       
-                                    </p>
+                                </p>
+                                <a href = "#" class="btn btn-success" id="btnAfilliate">Become an Afilliate</a>
                                 }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Extra large table end -->
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Extra large table end -->
-        </div>
-    </div>
 </div>
 <div class="modal fade text-left" id="newProfile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel34" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="myModalLabel34">Create a new Social Profile</h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title" id="myModalLabel34">Create a new Social Profile</h3>
+                                    <button type = "button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
             <form id="newprofileForm">
                 <input type="hidden" id="customerId" value="@currentUser.CustomerId" />
                 <div class="modal-body">
@@ -604,45 +606,46 @@
             
                
             <div class="modal-body">
-                
-                <div class="table-responsive">
-                    <table class="table table-xl mb-0">
-                        <thead>
-                            <tr>
-                                <th>Payment Date/Time</th>
-                                <th>Plan</th>
-                                <th>Price</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in ViewBag.PaymentHistory)
-                            {
+                @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true)
+                {
+                    <div class="table-responsive">
+                        <table class="table table-xl mb-0">
+                            <thead>
                                 <tr>
-                                    <td scope="row">
-                                        @item.PaymentDateTime
-                                    </td>
-
-
-                                    <td>
-                                        @item.PaymentPlanName
-                                    </td>
-                                    <td>
-                                        @item.Price
-                                    </td>
-                                    <td>
-                                        <div class="badge badge-primary label-square">
-                                            <i class="fa fa-paperclip font-medium-2"></i>
-                                            <span>@item.Status</span>
-                                        </div>
-                                    </td>
+                                    <th>Payment Date/Time</th>
+                                    <th>Plan</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.PaymentHistory)
+                                {
+                                    <tr>
+                                        <td scope="row">
+                                            @item.PaymentDateTime
+                                        </td>
 
-            </div>
+
+                                        <td>
+                                            @item.PaymentPlanName
+                                        </td>
+                                        <td>
+                                            @item.Price
+                                        </td>
+                                        <td>
+                                            <div class="badge badge-primary label-square">
+                                                <i class="fa fa-paperclip font-medium-2"></i>
+                                                <span>@item.Status</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                </div>
                 <div class="modal-footer">
                     <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="close">
                    
@@ -696,6 +699,7 @@
 
             $("#newprofileForm").on("submit", function () {
                 debugger;
+                var SocialProfileCount = @socailProfiles.Count();
 
                 //if ($("#Form_UpdatePassword").valid()) {
 
@@ -712,6 +716,13 @@
                                 //$("#Modal_MessageBoxBody").text(data.message);
                                 //$("#Modal_Messagebox").modal("show");
                                 //$('#default').modal('show');
+
+
+                                //fB pixel event
+                                if (SocialProfileCount > 0) {
+                                    fbq('track', 'MultipleAccount');
+                                }
+
                                 swal("Success!", "You have successfully created a social profile. Please activate the payment plan to start using it with your mobile device!", "success")
                                     .then((value) => {
                                         window.location.reload(false);
@@ -1004,6 +1015,7 @@
                 card.on('focus', function () {
                     var el = document.getElementById('card-element');
                     el.classList.add('focused');
+                    fbq('track', 'AddPaymentInfo');
                 });
 
                 card.on('blur', function () {
@@ -1251,6 +1263,13 @@
                 //var subscriptionJson = JSON.stringify(subscription, null, 2);
                 example.classList.remove('submitting');
                 example.classList.add('submitted');
+
+                fbq('track', 'Purchase', {
+                    value: 59,
+                    currency: 'USD',
+                });
+
+
                 //alert(subscriptionJson);
                 //document.querySelectorAll('.payment-view').forEach(function (view) {
                 //    view.classList.add('hidden');

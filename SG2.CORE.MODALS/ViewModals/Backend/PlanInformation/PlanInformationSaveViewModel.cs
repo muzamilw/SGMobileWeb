@@ -30,8 +30,7 @@ namespace SG2.CORE.MODAL.ViewModals.Backend.PlanInformation
         [Required]
         public string PlanDescription { get; set; }
 
-        [Required]
-        public string PlanType { get; set; }
+       
 
         [Required]
         public int StatusId { get; set; }

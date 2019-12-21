@@ -19,6 +19,8 @@ namespace SG2.CORE.MODAL.ViewModals.Backend.PlanInformation
         public Nullable<int> NoOfComments { get; set; }
 
 
+        public bool? IsBrokerPlan { get; set; }
+
         [Required]
         public double? PlanPrice { get; set; }
         [Required]
@@ -29,8 +31,7 @@ namespace SG2.CORE.MODAL.ViewModals.Backend.PlanInformation
         public string PlanName { get; set; }
         [Required]
         public string PlanDescription { get; set; }
-        [Required]
-        public string PlanType { get; set; }
+        
 
         public string StripePlanId { get; set; }
         [Range(1, 8, ErrorMessage = "No of session per day must be between 1 to 8")]

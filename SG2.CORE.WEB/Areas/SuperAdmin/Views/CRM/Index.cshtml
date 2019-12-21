@@ -136,9 +136,9 @@
                             <tr>
                                 <th scope="col" style="width:25%">Name</th>
                                 <th scope="col">Products</th>
-                                <th scope="col">IP/MPBox</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">MP Status</th>
+                               
+                                <th scope="col">Broker/Regular</th>
+                                <th scope="col">Plan Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -152,12 +152,13 @@
                                         @(string.IsNullOrEmpty(item.InstaUsrName) ? "--" : item.InstaUsrName) <br />
                                         <a href="@BaseURl/crm/detailpage?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))">@item.Name</a><br />
                                         @(string.IsNullOrEmpty(item.CustomerEmail) ? "--" : item.CustomerEmail) <br />
+                                        @(string.IsNullOrEmpty(item.CustomerEmail) ? "--" : item.CustomerEmail) <br />
                                     </td>
                                     <td data-label="Products" class="product">@(string.IsNullOrEmpty(item.Products) ? "--" : item.Products)</td>
 
-                                    <td data-label="Box">@(string.IsNullOrEmpty(item.Proxy) ? "--" : item.Proxy)<br />@(string.IsNullOrEmpty(item.Box) ? "--" : item.Box)</td>
+                                    <td data-label="Box">@(item.BrokerAccount ? "Broker" : "Regular")</td>
                                     <td data-label="Status" class="status">@item.Status</td>
-                                    <td data-label="JVBoxStatus" class="JVBoxStatus">@(string.IsNullOrEmpty(item.JVBoxStatus) ? "--" : item.JVBoxStatus)</td>
+                                    @*<td data-label="JVBoxStatus" class="JVBoxStatus">@(string.IsNullOrEmpty(item.JVBoxStatus) ? "--" : item.JVBoxStatus)</td>*@
                                     <td data-label="Action" class="status">
                                         <a href="@BaseURl/crm/TargettingInformation?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))"><i class="fa fa-edit"></i></a>
                                     </td>

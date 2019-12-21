@@ -112,10 +112,13 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                 ViewBag.Message = TempData["Message"];
             }
 
+
+
             //int custId = Convert.ToInt32(CryptoEngine.Decrypt(id));
             int custId1 = Convert.ToInt32(HttpUtility.UrlDecode(CryptoEngine.Decrypt(id)));
             int socialProfileId = Convert.ToInt32(HttpUtility.UrlDecode(CryptoEngine.Decrypt(SPId)));
             var model = _customerManager.GetSpecificUserData(custId1, socialProfileId);
+            ViewBag.SocailProfile = this._customerManager.GetSocialProfileById(socialProfileId);
             //model.Countries = CommonManager.GetCountries();
             if (!string.IsNullOrEmpty(model.Country))
             {
@@ -163,7 +166,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
         }
 
-        public ActionResult ScheduleCall(string customerId, DateTime schedule, string notes)
+        public ActionResult ScheduleCall(string customerId, string schedule, string notes)
         {
             try
             {
@@ -174,7 +177,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                     //int custId = Convert.ToInt32(CryptoEngine.Decrypt(customerId.ToString()));
                     int custId = Convert.ToInt32((CryptoEngine.Decrypt(Cus)));
 
-                    var User = _customerManager.ScheduleCall(custId, schedule, notes);
+                    var User = _customerManager.ScheduleCall(custId,Convert.ToDateTime(  schedule), notes);
                     if (User)
                     {
 
@@ -355,7 +358,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                 CustomerTargetPreferencesViewModel model1 = new CustomerTargetPreferencesViewModel();
                 model1.SPId = SocialPId.ToString();
                 model1.Id = custId.ToString();
-                //model1.Countries = CommonManager.GetCountries();
+                model1.Countries = CommonManager.GetCountries();
                 if (model1.Country != null)
                 {
                     model1.Cities = CommonManager.GetCities().Where(m => m.CountryId == Convert.ToInt16(model.Country)).ToList();
@@ -372,7 +375,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             }
             else
             {
-                //model.Countries = CommonManager.GetCountries();
+                model.Countries = CommonManager.GetCountries();
                 if (model.Country != null)
                 {
                     model.Cities = CommonManager.GetCities().Where(m => m.CountryId == Convert.ToInt16(model.Country)).ToList();

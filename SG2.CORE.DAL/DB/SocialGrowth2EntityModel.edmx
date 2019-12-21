@@ -1256,13 +1256,13 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does
           <Property Type="Int32" Name="CustomerId" Nullable="true" />
           <Property Type="String" Name="Products" Nullable="true" MaxLength="250" />
           <Property Type="String" Name="ProxyIPNumber" Nullable="true" MaxLength="15" />
-          <Property Type="String" Name="BoxName" Nullable="true" MaxLength="250" />
           <Property Type="String" Name="Status" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="JVBoxStatus" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="SocialProfileName" Nullable="true" MaxLength="250" />
           <Property Type="Int32" Name="SocialProfileId" Nullable="true" />
           <Property Type="String" Name="CustomerEmail" Nullable="true" MaxLength="250" />
           <Property Type="Int32" Name="TotalRecord" Nullable="true" />
+          <Property Type="Boolean" Name="IsBroker" Nullable="false" />
         </ComplexType>
         <ComplexType Name="SG2_usp_Login_Customers_Result">
           <Property Type="Int32" Name="CustomerId" Nullable="false" />
@@ -1357,12 +1357,9 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does
         </ComplexType>
         <ComplexType Name="SG2_usp_PlanInformation_GetAll_Result">
           <Property Type="Int32" Name="PlanId" Nullable="false" />
-          <Property Type="Int32" Name="Likes" Nullable="true" />
           <Property Type="Double" Name="DisplayPrice" Nullable="true" />
           <Property Type="String" Name="PlanName" Nullable="false" MaxLength="250" />
-          <Property Type="String" Name="PlanDescription" Nullable="false" MaxLength="250" />
-          <Property Type="Boolean" Name="PlanType" Nullable="true" />
-          <Property Type="Boolean" Name="PlanTypeId" Nullable="true" />
+          <Property Type="String" Name="PlanDescription" Nullable="false" MaxLength="550" />
           <Property Type="String" Name="StripePlanId" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="TotalRecord" Nullable="true" />
           <Property Type="Double" Name="PlanPrice" Nullable="true" />
@@ -1370,6 +1367,11 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does
           <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
           <Property Type="Int16" Name="SortOrder" Nullable="true" />
           <Property Type="String" Name="SocialPlanType" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="NoOfFollow" Nullable="true" />
+          <Property Type="Int32" Name="NoOfStoryView" Nullable="true" />
+          <Property Type="Boolean" Name="IsBrokerPlan" Nullable="true" />
+          <Property Type="Boolean" Name="IsDefault" Nullable="true" />
+          <Property Type="Int32" Name="NoOfComments" Nullable="true" />
         </ComplexType>
         <ComplexType Name="SG2_usp_Get_SocialProfile_PaymentPlan_Result">
           <Property Type="Int32" Name="paymentPlanId" Nullable="false" />
@@ -2513,13 +2515,13 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="Products" ColumnName="Products" />
                 <ScalarProperty Name="ProxyIPNumber" ColumnName="ProxyIPNumber" />
-                <ScalarProperty Name="BoxName" ColumnName="BoxName" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="JVBoxStatus" ColumnName="JVBoxStatus" />
                 <ScalarProperty Name="SocialProfileName" ColumnName="SocialProfileName" />
                 <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
                 <ScalarProperty Name="CustomerEmail" ColumnName="CustomerEmail" />
                 <ScalarProperty Name="TotalRecord" ColumnName="TotalRecord" />
+                <ScalarProperty Name="IsBroker" ColumnName="IsBroker" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -2623,12 +2625,9 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does
             <ResultMapping>
               <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_PlanInformation_GetAll_Result">
                 <ScalarProperty Name="PlanId" ColumnName="PlanId" />
-                <ScalarProperty Name="Likes" ColumnName="Likes" />
                 <ScalarProperty Name="DisplayPrice" ColumnName="DisplayPrice" />
                 <ScalarProperty Name="PlanName" ColumnName="PlanName" />
                 <ScalarProperty Name="PlanDescription" ColumnName="PlanDescription" />
-                <ScalarProperty Name="PlanType" ColumnName="PlanType" />
-                <ScalarProperty Name="PlanTypeId" ColumnName="PlanTypeId" />
                 <ScalarProperty Name="StripePlanId" ColumnName="StripePlanId" />
                 <ScalarProperty Name="TotalRecord" ColumnName="TotalRecord" />
                 <ScalarProperty Name="PlanPrice" ColumnName="PlanPrice" />
@@ -2636,6 +2635,11 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
                 <ScalarProperty Name="SocialPlanType" ColumnName="SocialPlanType" />
+                <ScalarProperty Name="NoOfFollow" ColumnName="NoOfFollow" />
+                <ScalarProperty Name="NoOfStoryView" ColumnName="NoOfStoryView" />
+                <ScalarProperty Name="IsBrokerPlan" ColumnName="IsBrokerPlan" />
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+                <ScalarProperty Name="NoOfComments" ColumnName="NoOfComments" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

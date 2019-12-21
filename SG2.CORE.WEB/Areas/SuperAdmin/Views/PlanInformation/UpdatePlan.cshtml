@@ -73,11 +73,19 @@
                                 @Html.ValidationMessageFor(model => model.PlanName, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <div class="product">
-                            <label>Profile Type</label>
+                        <div class="product" id="Default">
+                            <label>Is Broker Plan</label>
                             <div class="select">
-                                @Html.DropDownListFor(m => m.SocialPlanTypeId, SocialPlanType, "Select Profile Type", new { @id = "input_Status", @class = "slct", @name = "input_Status" })
-                                @Html.ValidationMessageFor(model => model.SocialPlanTypeId, "", new { @class = "text-danger" })
+                                <label class="form-radio">
+                                    Yes @Html.RadioButtonFor(model => model.IsBrokerPlan, "true")
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="form-radio">
+                                    No
+                                    @Html.RadioButtonFor(model => model.IsBrokerPlan, "false")
+                                    <span class="checkmark"></span>
+                                </label>
+                                @Html.ValidationMessageFor(model => model.IsBrokerPlan, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
@@ -90,14 +98,30 @@
                         </div>
 
                         <div class="product" id="Likes">
-                            <label>Likes per session</label>
+                            <label>Follow per session</label>
                             <div class="select">
-                                @Html.TextBoxFor(m => m.Likes, new { @id = "Likes" })
-                                @Html.ValidationMessageFor(model => model.Likes, "", new { @class = "text-danger" })
+                                @Html.TextBoxFor(m => m.NoOfFollow, new { @id = "Likes" })
+                                @Html.ValidationMessageFor(model => model.NoOfFollow, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
-                        <div class="product" >
+                        <div class="product" id="Likes">
+                            <label>Story Views per session</label>
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.NoOfStoryView, new { @id = "NoOfStoryView" })
+                                @Html.ValidationMessageFor(model => model.NoOfStoryView, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="product" id="Likes">
+                            <label>Comments per session</label>
+                            <div class="select">
+                                @Html.TextBoxFor(m => m.NoOfComments, new { @id = "NoOfComments" })
+                                @Html.ValidationMessageFor(model => model.NoOfComments, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="product">
                             <label>Sort Order</label>
                             <div class="select">
                                 @Html.TextBoxFor(m => m.SortOrder, new { @id = "SortOrder" })
@@ -123,13 +147,13 @@
                                 @Html.ValidationMessageFor(model => model.StripePlanId, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <div class="product">
+                        @*<div class="product">
                             <label>Plan Type</label>
                             <div class="select">
                                 @Html.DropDownListFor(m => m.PlanType, PlanTypes, "Select Plan", new { @id = "input_PlanType", @class = "slct", @name = "input_PlanType" })
                                 @Html.ValidationMessageFor(model => model.PlanType, "", new { @class = "text-danger" })
                             </div>
-                        </div>
+                        </div>*@
                         <div class="product">
                             <label>Slider bar uplift price</label>
                             <div class="select">

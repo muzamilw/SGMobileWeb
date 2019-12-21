@@ -19,7 +19,7 @@ namespace SG2.CORE.MODAL.DTO.PlanInformation
         public string PlanDescription { get; set; }
         public bool IsBrokerPlan { get; set; }
         public int? StatusId { get; set; }
-        public string PlantypeName { get; set; }
+      
         public string StatusName { get; set; }
         public short? SortOrder { get; set; }
         public int NoOfLikesDuration { get; set; }

@@ -21,21 +21,14 @@
         cities.Add(new SelectListItem { Text = item.Name, Value = item.CityId.ToString() });
     }
 
-    List<SelectListItem> proxyIps = new List<SelectListItem>();
-    foreach (var item in Model.ProxyIPs)
-    {
-        proxyIps.Add(new SelectListItem { Text = item.ProxyNumber, Value = item.ProxyId.ToString() });
-    }
 
-    foreach (var item in Model.JarveeStatuses.Where(x => x.StatusName == "JV"))
-    {
-        JVStatus.Add(new SelectListItem { Text = item.StatusValue, Value = item.StatusId.ToString() });
-    }
 
-    foreach (var item in Model.MPBoxList)
-    {
-        MPBoxes.Add(new SelectListItem { Text = item.BoxName, Value = item.JVBoxId.ToString() });
-    }
+    //foreach (var item in Model.JarveeStatuses.Where(x => x.StatusName == "JV"))
+    //{
+    //    JVStatus.Add(new SelectListItem { Text = item.StatusValue, Value = item.StatusId.ToString() });
+    //}
+
+
 
 }
 
@@ -483,8 +476,8 @@
 
                             <div class="col-md-6">
                                 <span style="display:block">Proxy IPs</span>
-                                @Html.DropDownListFor(model => model.ProxyIP, proxyIps, "-- Select Proxy IP --", new { @id = "input_Proxy", @class = "slct" })
-                                @Html.ValidationMessageFor(model => model.ProxyIP, "", new { @class = "text-danger" })
+                                @*@Html.DropDownListFor(model => model.ProxyIP, proxyIps, "-- Select Proxy IP --", new { @id = "input_Proxy", @class = "slct" })
+                                @Html.ValidationMessageFor(model => model.ProxyIP, "", new { @class = "text-danger" })*@
                             </div>
 
                             <div class="col-md-6">

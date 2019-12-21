@@ -602,12 +602,12 @@ main {
     will-change: transform;
 }
 
-footer {
+/*footer {
     position: relative;
     max-width: 750px;
     padding: 50px 20px;
     margin: 0 auto;
-}
+}*/
 
 .optionList {
     margin: 6px 0;

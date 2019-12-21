@@ -14,12 +14,9 @@ namespace SG2.CORE.MODAL
     public partial class SG2_usp_PlanInformation_GetAll_Result
     {
         public int PlanId { get; set; }
-        public Nullable<int> Likes { get; set; }
         public Nullable<double> DisplayPrice { get; set; }
         public string PlanName { get; set; }
         public string PlanDescription { get; set; }
-        public Nullable<bool> PlanType { get; set; }
-        public Nullable<bool> PlanTypeId { get; set; }
         public string StripePlanId { get; set; }
         public Nullable<int> TotalRecord { get; set; }
         public Nullable<double> PlanPrice { get; set; }
@@ -27,5 +24,10 @@ namespace SG2.CORE.MODAL
         public string Status { get; set; }
         public Nullable<short> SortOrder { get; set; }
         public string SocialPlanType { get; set; }
+        public Nullable<int> NoOfFollow { get; set; }
+        public Nullable<int> NoOfStoryView { get; set; }
+        public Nullable<bool> IsBrokerPlan { get; set; }
+        public Nullable<bool> IsDefault { get; set; }
+        public Nullable<int> NoOfComments { get; set; }
     }
 }

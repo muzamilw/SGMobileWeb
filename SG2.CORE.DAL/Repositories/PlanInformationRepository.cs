@@ -30,10 +30,12 @@ namespace SG2.CORE.DAL.Repositories
                         {
                             PlanInformationListingViewModel planInformationListingViewModel = new PlanInformationListingViewModel();
                             planInformationListingViewModel.PlanId = item.PlanId;
-                            planInformationListingViewModel.Likes = item.Likes;
+                            planInformationListingViewModel.NoOfFollow = item.NoOfFollow;
+                            planInformationListingViewModel.NoOfStoryView = item.NoOfStoryView;
+                            planInformationListingViewModel.NoOfComments = item.NoOfComments;
                             planInformationListingViewModel.PlanName = item.PlanName;
                             planInformationListingViewModel.TotatRecord = item.TotalRecord;
-                            planInformationListingViewModel.PlanType = Convert.ToString(item.PlanType); //item.PlanType;
+                            planInformationListingViewModel.IsBrokerPlan = Convert.ToString(item.IsBrokerPlan); //item.PlanType;
                             planInformationListingViewModel.PlanPrice = item.PlanPrice;
                             planInformationListingViewModel.DisplayPrice = item.DisplayPrice;
                             planInformationListingViewModel.StripPlanId = item.StripePlanId;
@@ -120,7 +122,13 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db=new SocialGrowth2Connection())
                 {
-                    var pros = _db.PaymentPlans.Where( g=> g.SocialPlatform == 30 && g.IsBrokerPlan == IsBroker).ToList();
+                    List<PaymentPlan> pros = null;
+                    
+                    if ( IsBroker == true)
+                        pros = _db.PaymentPlans.Where(g => g.SocialPlatform == 30 && g.IsBrokerPlan == IsBroker && g.IsDefault != true).ToList();
+                    else
+                        pros = _db.PaymentPlans.Where(g => g.SocialPlatform == 30 && g.IsBrokerPlan == IsBroker ).ToList();
+
                     if (pros != null)
                     {
                         List<PlanInformationDTO> planInformationDTOs = new List<PlanInformationDTO>();

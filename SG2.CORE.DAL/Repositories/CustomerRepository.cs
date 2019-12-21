@@ -541,16 +541,19 @@ namespace SG2.CORE.DAL.Repositories
         //-- TODO: Change Method and move to exact repository
         public CustomerTargetPreferencesViewModel GetSpecificUserTargettingInformation(int CustomerId, int SocialPId)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<SG2_usp_Get_Customer_Instagram_TargetingInformation_Result, CustomerTargetPreferencesViewModel>());
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<SocialProfile_Instagram_TargetingInformation, CustomerTargetPreferencesViewModel>());
             var mapper = new Mapper(config);
             try
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    var actiondata = _db.SG2_usp_Get_Customer_Instagram_TargetingInformation (SocialPId).FirstOrDefault();
+                    var actiondata = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.SocialProfileId == SocialPId).SingleOrDefault();
                     if (actiondata != null)
                     {
                         CustomerTargetPreferencesViewModel customerTargetPreferencesViewModel = mapper.Map<CustomerTargetPreferencesViewModel>(actiondata);
+
+                        customerTargetPreferencesViewModel.Id = actiondata.SocialProfileId.ToString();
+                        customerTargetPreferencesViewModel.SPId = actiondata.SocialProfileId.ToString();
 
                         //CustomerTargetPreferencesViewModel customerTargetPreferencesViewModel = new CustomerTargetPreferencesViewModel();
                         //customerTargetPreferencesViewModel.Preference1 = actiondata.Preference1;
@@ -780,14 +783,14 @@ namespace SG2.CORE.DAL.Repositories
                         foreach (var item in usrdata)
                         {
                             CustomerListingViewModel customerListingViewModel = new CustomerListingViewModel();
-                            customerListingViewModel.Proxy = item.ProxyIPNumber;
+                            //customerListingViewModel.Proxy = item.ProxyIPNumber;
                             customerListingViewModel.Products = item.Products;
                             customerListingViewModel.Status = item.Status;
                             customerListingViewModel.JVBoxStatus = item.JVBoxStatus;
                             customerListingViewModel.Name = item.UserName;
                             customerListingViewModel.InstaUsrName = item.InstaName;
                             customerListingViewModel.ID = Convert.ToString(item.CustomerId);
-                            customerListingViewModel.Box = item.BoxName;
+                            customerListingViewModel.BrokerAccount = item.IsBroker;
                             customerListingViewModel.TotalRecord = item.TotalRecord;
                             customerListingViewModel.SocialProfileId = Convert.ToString(item.SocialProfileId);
                             customerListingViewModel.SocialProfileName = item.SocialProfileName;

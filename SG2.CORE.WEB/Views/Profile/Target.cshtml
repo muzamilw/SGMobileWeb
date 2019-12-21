@@ -1543,6 +1543,7 @@
                 card.on('focus', function () {
                     var el = document.getElementById('card-element');
                     el.classList.add('focused');
+                    fbq('track', 'AddPaymentInfo');
                 });
 
                 card.on('blur', function () {
@@ -1789,6 +1790,12 @@
                 //var subscriptionJson = JSON.stringify(subscription, null, 2);
                 example.classList.remove('submitting');
                 example.classList.add('submitted');
+
+                fbq('track', 'Purchase', {
+                    value: 59,
+                    currency: 'USD',
+                });
+
                 //alert(subscriptionJson);
                 //document.querySelectorAll('.payment-view').forEach(function (view) {
                 //    view.classList.add('hidden');

@@ -103,7 +103,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                         NoOfFollow = model.NoOfFollow,
                         NoOfComments = model.NoOfComments,
                         NoOfStoryView = model.NoOfStoryView,
-                        PlantypeName = model.PlanType,
+                      
                         PlanPrice = model.PlanPrice,
                         DisplayPrice=model.DisplayPrice,
                         PlanDescription = model.PlanDescription,
@@ -153,7 +153,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             {
                 model.PlanId = planInformationDTO.PlanId;
                 model.PlanName = planInformationDTO.PlanName;
-                model.PlanType = planInformationDTO.PlantypeName;
+                model.IsBrokerPlan = planInformationDTO.IsBrokerPlan;
                 model.PlanPrice = planInformationDTO.PlanPrice;
                 model.DisplayPrice = planInformationDTO.DisplayPrice;
                 model.NoOfFollow = planInformationDTO.NoOfFollow;
@@ -212,7 +212,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                         NoOfFollow = model.NoOfFollow,
                         NoOfComments = model.NoOfComments,
                         NoOfStoryView = model.NoOfStoryView,
-                        PlantypeName = model.PlanType,
+                        
                         PlanPrice = model.PlanPrice,
                         DisplayPrice = model.DisplayPrice,
                         PlanDescription = model.PlanDescription,

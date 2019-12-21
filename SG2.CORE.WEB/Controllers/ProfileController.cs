@@ -123,9 +123,10 @@ namespace SG2.CORE.WEB.Controllers
             ViewBag.socialProfileId = socialProfileId;
             ViewBag.CurrentUser = this.CDT;
             var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
+            var customer =_customerManager.GetCustomerByCustomerId(this.CDT.CustomerId);
 
             
-            ViewBag.Plans = _planManager.GetallIntagramPaymentPlans(this.CDT.IsBroker.HasValue? this.CDT.IsBroker.Value:false);
+            ViewBag.Plans = _planManager.GetallIntagramPaymentPlans(customer.IsBroker.HasValue? customer.IsBroker.Value:false);
 
             if (success.HasValue && success.Value == 1)
             {

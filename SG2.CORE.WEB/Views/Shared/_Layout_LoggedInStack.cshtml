@@ -3,7 +3,7 @@
     /**/
 
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
-    
+
 }
 @{
     var _intercomPublishKey = SG2.CORE.WEB.Architecture.SystemConfig.GetConfigs.First(x => x.ConfigKey == "Intercom").ConfigValue;
@@ -43,6 +43,30 @@
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
     @RenderSection("styles", required: false)
+
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            }; if (!f._fbq) f._fbq = n;
+            n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
+        }(window,
+            document, 'script', '//connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1185819604852319');
+        fbq('init', '2899883190056318’);
+fbq('init', '722023768308766');
+        fbq('init', '433629843942100’);
+            fbq('track', 'PageView'); //tracks a PageView to both initialized pixels
+    </script>
+    <noscript>
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1185819604852319&ev=PageView&noscript=1" />
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2899883190056318&ev=PageView&noscript=1" />
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=722023768308766&ev=PageView&noscript=1" />
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=433629843942100&ev=PageView&noscript=1" />
+    </noscript>
+
     <!-- END: Custom CSS-->
 </head>
 <!-- END: Head-->
@@ -73,9 +97,10 @@
 
                         <li class="dropdown dropdown-user nav-item">
                             <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
-                            <span class="avatar avatar-online">
-                                @*<img src="~/Content/app-assets/images/portrait/small/avatar-s-1.png" alt="avatar">*@
-                                </span><i class="fa fa-user success"></i><span class="user-name">@custDto.FirstName</span></a>
+                                <span class="avatar avatar-online">
+                                    @*<img src="~/Content/app-assets/images/portrait/small/avatar-s-1.png" alt="avatar">*@
+                                </span><i class="fa fa-user success"></i><span class="user-name">@custDto.FirstName</span>
+                            </a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a class="dropdown-item" href="~/user/userprofile"><i class="ft-user"></i> Edit Profile</a>
 
@@ -117,9 +142,9 @@
 
                     </li>
                     @*<li class="dropdown nav-item" data-menu="dropdown">
-                <a class="nav-link" href="~/Profile/followings?socialProfileId=@custDto.DefaultSocialProfileId"><i class="ft-droplet"></i><span>New Followings</span></a>
+                            <a class="nav-link" href="~/Profile/followings?socialProfileId=@custDto.DefaultSocialProfileId"><i class="ft-droplet"></i><span>New Followings</span></a>
 
-            </li>*@
+                        </li>*@
                     <li class="dropdown nav-item" data-menu="dropdown">
                         <a class="nav-link" href="~/Profile/history?socialProfileId=@ViewBag.socialProfileId"><i class="ft-briefcase"></i><span>Order History</span></a>
 
@@ -129,7 +154,7 @@
                 </ul>
                 <span class="navbar-text">
                     <a class="nav-link" href="~/user/home"><i class="ft-arrow-left"></i>Back to Home</a>
-</span>
+                </span>
             </div>
             <!-- /horizontal menu content-->
         </div>

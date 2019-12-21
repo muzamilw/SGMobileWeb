@@ -105,7 +105,7 @@
             padding: 2% 0%;
             font-weight: 400;
             background-color: #e4943b;
-            display:inline
+            display: inline
         }
 
         #instagrampopup2 div button.btn-block {
@@ -222,23 +222,25 @@
         !function (f, b, e, v, n, t, s) {
             if (f.fbq) return; n = f.fbq = function () {
                 n.callMethod ?
-                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-            };
-            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
-            n.queue = []; t = b.createElement(e); t.async = !0;
-            t.src = v; s = b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t, s)
-        }(window, document, 'script',
-
-            'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '2367099293505687');
-        fbq('track', 'PageView');
+                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            }; if (!f._fbq) f._fbq = n;
+            n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
+        }(window,
+            document, 'script', '//connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1185819604852319');
+        fbq('init', '2899883190056318’);
+fbq('init', '722023768308766');
+        fbq('init', '433629843942100’);
+        fbq('track', 'PageView'); //tracks a PageView to both initialized pixels
     </script>
-
     <noscript>
-        <img height="1" width="1"
-             src="https://www.facebook.com/tr?id=488602938350195&ev=PageView&noscript=1" />
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1185819604852319&ev=PageView&noscript=1" />
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2899883190056318&ev=PageView&noscript=1" />
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=722023768308766&ev=PageView&noscript=1" />
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=433629843942100&ev=PageView&noscript=1" />
     </noscript>
+
 
 </head>
 

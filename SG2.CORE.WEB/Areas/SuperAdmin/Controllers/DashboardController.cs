@@ -78,33 +78,28 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                 }
 
 
-                //if (jvVBoxandProxyIPsData != null)
-                //{
-                //    jr.Data = new
-                //    {
-                //        ResultType = "Success",
-                //        message = "",
-                //        ResultData = new
-                //        {
+                
+                    jr.Data = new
+                    {
+                        ResultType = "Success",
+                        message = "",
+                        ResultData = new
+                        {
 
-                //            AllSlotsOnJVBox = jvVBoxandProxyIPsData.AllSlotsOnJVBox.ToString(),
-                //            UsedSlotsOnJVBox = jvVBoxandProxyIPsData.UsedSlotsOnJVBox.ToString(),
-                //            FreeSlotsOnJVServer = jvVBoxandProxyIPsData.FreeSlotsOnJVServer.ToString(),
-                //            TotalUsedIPs = jvVBoxandProxyIPsData.TotalUsedIPs.ToString(),
-                //            AllAvailableIPs = jvVBoxandProxyIPsData.AllAvailableIPs.ToString(),
-                //            RemainingProxyIPs = jvVBoxandProxyIPsData.RemainingProxyIPs.ToString(),
+                            AllSlotsOnJVBox = 1,//jvVBoxandProxyIPsData.AllSlotsOnJVBox.ToString(),
+                            UsedSlotsOnJVBox = 1,//jvVBoxandProxyIPsData.UsedSlotsOnJVBox.ToString(),
+                            FreeSlotsOnJVServer = 1,//jvVBoxandProxyIPsData.FreeSlotsOnJVServer.ToString(),
+                            TotalUsedIPs = 1,//jvVBoxandProxyIPsData.TotalUsedIPs.ToString(),
+                            AllAvailableIPs = 1,//jvVBoxandProxyIPsData.AllAvailableIPs.ToString(),
+                            RemainingProxyIPs = 1,//jvVBoxandProxyIPsData.RemainingProxyIPs.ToString(),
 
-                //            PlanNames = mostUsedProductData.Select(x => x.name).ToArray(),
-                //            PlanNamesWithUsages = mostUsedProductData,
-                //            NoOfAvailablePlans = noOfAvailablePlans
+                            PlanNames = mostUsedProductData.Select(x => x.name).ToArray(),
+                            PlanNamesWithUsages = mostUsedProductData,
+                            NoOfAvailablePlans = noOfAvailablePlans
 
-                //        }
-                //    };
-                //}
-                else
-                {
-                    jr.Data = new { ResultType = "Error", message = "" };
-                }
+                        }
+                    };
+               
 
             }
             catch (Exception exp)
