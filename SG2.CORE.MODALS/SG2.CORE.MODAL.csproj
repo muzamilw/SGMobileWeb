@@ -160,6 +160,9 @@
     <Compile Include="SG2_usp_Customer_SignUp_Result.cs">
       <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SG2_usp_GetProfilebyJVStatusId_Result.cs">
+      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SG2_usp_GetUserDetailsForbackOffice_Result.cs">
       <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
     </Compile>

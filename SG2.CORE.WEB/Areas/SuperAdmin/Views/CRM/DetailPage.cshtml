@@ -3,7 +3,7 @@
 @model SG2.CORE.MODAL.ViewModals.Backend.CustomerDetailViewModel
 @{
     ViewBag.Title = "Customer Detail";
-    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layoutnew.cshtml";
     var BaseURl = ViewBag.BaseUrl;
 
     List<SelectListItem> Sources = new List<SelectListItem>();
@@ -99,6 +99,10 @@
     }
 
 }
+@section styles{
+    <link href="~/Content/ThemeAssets/css/backendcss.css" rel="stylesheet" />
+    <link href="~/Content/ThemeAssets/css/style.css" rel="stylesheet" type="text/css">
+}
 
 @if (!string.IsNullOrEmpty(ViewBag.Success))
 {
@@ -130,9 +134,9 @@
             </div>
             <div class="col-md-6 col-xs-12 text-right">
                 <span class="right">Profile Status: <i>@Model.Status</i></span><br />
-               
-                    <span class="right">Status: <i>@ProfileStatus</i></span>
-              
+
+                <span class="right">Status: <i>@ProfileStatus</i></span>
+
             </div>
         </div>
     </div>
@@ -141,14 +145,14 @@
 <div class="detail-page-contact">
     <div class="container">
         <div class="row">
-            <div class="col-xs-12">
-                <ul>
-                    <li><a class="active" href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Contact Details</a></li>
-                    <li><a href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Order History</a></li>
-                    <li><a href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Target Form</a></li>
-                    <li class="right"><a class="" href="javascript:void(0);" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></li>
-                </ul>
+
+            <div class="col-6">
+                <a class="btn btn-primary active" href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Contact Details</a>
+                <a class="btn btn-primary" href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Order History</a>
+                <a class="btn btn-primary" href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Target Form</a>
             </div>
+            <div class="col-6"><a class=" btn btn-primary right" href="javascript:void(0);" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></div>
+
         </div>
     </div>
 </div>
@@ -159,7 +163,7 @@
                 <div class="col-md-4 col-xs-6">
                     <ul>
                         <li>App Connection Status <span class="JVboxName">@DeviceStatus</span></li>
-                       
+
                     </ul>
                 </div>
                 <div class="col-md-4 col-xs-6">
@@ -380,12 +384,18 @@
                         </div>
                     </div>
                     <div class="col-md-3">
+
+
+
                         <div class='input-group date' id='datetimepicker1'>
-                            <input type='text' value="@Model.AvaToEveryOne" class="form-control" />
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
+                            <input type='text' class="form-control" />
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <span class="fa fa-calendar"></span>
+                                </span>
+                            </div>
                         </div>
+
                     </div>
                     <div class="col-md-2">
                         <button type="button" id="btnSchedCall" class="btn btn-block btn-height47 transition">Schedule Call</button>
@@ -521,25 +531,25 @@
 
         <div class="delete-user">
             <div class="row">
-                <div class="col-xs-2">
-                    <a href="#" class="delete btn_ShowDeleteConfrimModal">Delete User Permanently</a>
+                <div class="col-2">
+                    <a href="#" class="delete btn_ShowDeleteConfrimModal">Delete profile Permanently</a>
                 </div>
-                <div class="col-xs-2">
+                <div class="col-2">
                     <a href="#" class="delete btn_ShowRefundConfirmModal" style="background-color:blueviolet">Refund First Month Charge</a>
                 </div>
 
-                <div class="col-xs-4">
+                <div class="col-4">
                     <a href="#" class="delete btn_ShowTwoWeekConfirmModal" style="background-color:blueviolet">Give 2 Week Free Service (Delay Next Billing by 14 days)</a>
                 </div>
 
-                <div class="col-xs-2">
+                <div class="col-2">
                     <a href="#" class="delete btn_ShowOneWeekConfirmModal" style="background-color:blueviolet">Give 7 Day Free Service</a>
                 </div>
 
-                <div class="col-xs-2">
+                <div class="col-2">
                     <a href="#" class="delete btn_ShowThreeDaysConfirmModal" style="background-color:blueviolet">Give 3 Day Free Service</a>
                 </div>
-                <div class="col-xs-12"><p>Warning ! : This will delete all CRM records, Release proxies IP & JV entry</p></div>
+                <div class="col-12"><p>Warning ! : This will delete all CRM records, Release proxies IP & JV entry</p></div>
             </div>
         </div>
     </div>
@@ -696,7 +706,9 @@
 </style>
 
 
-@section JavaScript{
+@section Scripts{
+
+    <script src="~/content/app-assets/vendors/js/pickers/dateTime/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript">
 
         var glb_CustomerId = "@Url.Encode(CryptoEngine.Encrypt(Model.Id))";
@@ -874,7 +886,7 @@
 
             $('#btnSchedCall').click(function (e){
                 e.preventDefault();
-                var Schedule = $("#datetimepicker1").find("input").val();
+                var Schedule = $("#datetimepicker1").data("DateTimePicker").date().format("m/d/YYYY hh:mm A");
                 var Notes = $("#TypeNotes").val();
                 if ((Schedule == null) || (Schedule == ''))
                  {
@@ -955,7 +967,7 @@
 
             $(function () {
                // $('#datetimepicker1').data("DateTimePicker").datetimepicker();
-                $('#datetimepicker1').datetimepicker({ minDate: new Date() });
+                $('#datetimepicker1').datetimepicker();
 
             });
 
@@ -1018,9 +1030,9 @@
                             $("#Modal_Messagebox").modal("show");
                             //TODO:Handle the status here
 
-                            setTimeout(function () {
-                                window.location.href = GLB_BASEURL+"/CRM/Index"
-                            }, 2000);
+                            
+                            window.location.href = GLB_BASEURL+"/CRM/Index"
+                           
                         } else {
                             $("#Modal_ConfirmDeletion").modal("hide");
                             $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);

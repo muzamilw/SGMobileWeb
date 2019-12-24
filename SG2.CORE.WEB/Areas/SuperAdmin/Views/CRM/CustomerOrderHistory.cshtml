@@ -5,9 +5,15 @@
 @model SG2.CORE.MODAL.ViewModals.Backend.CustomerOrderHistoryIndexViewModel
 @{
     ViewBag.Title = "Payment Histroy";
-    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layoutnew.cshtml";
     var BaseURl = ViewBag.BaseUrl;
 }
+
+@section styles{
+    <link href="~/Content/ThemeAssets/css/backendcss.css" rel="stylesheet" />
+    <link href="~/Content/ThemeAssets/css/style.css" rel="stylesheet" type="text/css">
+}
+
 
 <div class="information-wrap main">
     <div class="container">
@@ -37,14 +43,14 @@
 <div class="detail-page-contact">
     <div class="container">
         <div class="row">
-            <div class="col-xs-12">
-                <ul>
-                    <li><a href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Contact Details</a></li>
-                    <li><a class="active" href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Order History</a></li>
-                    <li><a href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Target Form</a></li>
-                    <li class="right"><a class="" href="javascript:void(0);" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></li>
-                </ul>
+
+            <div class="col-6">
+                <a class="btn btn-primary active" href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Contact Details</a>
+                <a class="btn btn-primary" href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Order History</a>
+                <a class="btn btn-primary" href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Target Form</a>
             </div>
+            <div class="col-6"><a class=" btn btn-primary right" href="javascript:void(0);" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></div>
+
         </div>
     </div>
 </div>
@@ -105,9 +111,10 @@
 </div>
 
 <style type="text/css">
-    br{
-        clear:both;
+    br {
+        clear: both;
     }
+
     .information-wrap span.right {
         float: none
     }

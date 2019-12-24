@@ -1,0 +1,246 @@
+﻿@using SG2.CORE.MODAL.DTO.Customers;
+@using SG2.CORE.MODAL.DTO.TeamMember;
+@using SG2.CORE.COMMON;
+@{
+    /**/
+
+    var custDto = (CustomerDTO)ViewBag.CustomerDTO;
+
+    var userDto = (SystemUserDTO)ViewBag.SystemUserDTO;
+
+}
+@{
+    var _intercomPublishKey = SG2.CORE.WEB.Architecture.SystemConfig.GetConfigs.First(x => x.ConfigKey == "Intercom").ConfigValue;
+}
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="Stack admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
+    <meta name="keywords" content="admin template, stack admin template, dashboard template, flat admin template, responsive admin template, web app">
+    <meta name="author" content="PIXINVENT">
+    <title>@ViewBag.Title - Social Growth</title>
+    <link rel="apple-touch-icon" href="~/Content/app-assets/images/ico/apple-icon-120.png">
+    <link rel="shortcut icon" type="image/x-icon" href="~/Content/app-assets/images/ico/favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i%7COpen+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+    <!-- BEGIN: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/charts/jquery-jvectormap-2.0.3.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/charts/morris.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/extensions/unslider.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/weather-icons/climacons.min.css">
+    <!-- END: Vendor CSS-->
+    <!-- BEGIN: Theme CSS-->
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/bootstrap-extended.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/colors.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/components.css">
+    <!-- END: Theme CSS-->
+    <!-- BEGIN: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/core/menu/menu-types/horizontal-menu.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/core/colors/palette-gradient.css">
+    <!-- link(rel='stylesheet', type='text/css', href=app_assets_path+'/css'+rtl+'/pages/users.css')-->
+    <!-- END: Page CSS-->
+    <!-- BEGIN: Custom CSS-->
+    @*<link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">*@
+    
+
+
+    @RenderSection("styles", required: false)
+
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            }; if (!f._fbq) f._fbq = n;
+            n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
+        }(window,
+            document, 'script', '//connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1185819604852319');
+        fbq('init', '2899883190056318');
+        fbq('init', '722023768308766');
+        fbq('init', '433629843942100');
+        fbq('track', 'PageView'); //tracks a PageView to both initialized pixels
+    </script>
+    <noscript>
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1185819604852319&ev=PageView&noscript=1" />
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2899883190056318&ev=PageView&noscript=1" />
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=722023768308766&ev=PageView&noscript=1" />
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=433629843942100&ev=PageView&noscript=1" />
+    </noscript>
+
+    <!-- END: Custom CSS-->
+</head>
+<!-- END: Head-->
+<!-- BEGIN: Body-->
+<body class="horizontal-layout horizontal-menu horizontal-menu-padding 2-columns  " data-open="click" data-menu="horizontal-menu" data-col="2-columns">
+    <!-- BEGIN: Header-->
+    <nav class="header-navbar navbar-expand-md navbar navbar-with-menu navbar-static-top navbar-light navbar-border navbar-brand-center">
+        <div class="navbar-wrapper">
+            <div class="navbar-header">
+                <ul class="nav navbar-nav flex-row">
+                    <li class="nav-item mobile-menu d-md-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu font-large-1"></i></a></li>
+                    <li class="nav-item">
+                        <a class="navbar-brand" href="~/sadmin">
+                            <img class="brand-logo" style="width:90px" alt="Social Growth Logo" src="~/Content/ThemeAssets/images/social-growth.png">
+
+                        </a>
+                    </li>
+                    <li class="nav-item d-md-none"><a class="nav-link open-navbar-container" data-toggle="collapse" data-target="#navbar-mobile"><i class="fa fa-ellipsis-v"></i></a></li>
+                </ul>
+            </div>
+            <div class="navbar-container container center-layout">
+                <div class="collapse navbar-collapse" id="navbar-mobile">
+                    <ul class="nav navbar-nav mr-auto float-left">
+                        @*<li class="nav-item d-none d-md-block"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu"></i></a></li>*@
+
+                    </ul>
+                    <ul class="nav navbar-nav float-right">
+
+
+                        @if (ViewBag.IsAuthentication != null)
+                        {
+
+
+                            if (userDto.UserRoleName == "Super Admin")
+                            {
+                                <li class="nav-item d-none d-md-block">
+                                    @Html.ActionLink("Dashboard", "Index", "Dashboard", null, htmlAttributes: new { @class = "dropdown-item nav-link" })
+                                </li>
+                                <li class="nav-item d-none d-md-block">
+                                    @Html.ActionLink("Trello", "Index", "ActionBoard", null, htmlAttributes: new { @class = "dropdown-item nav-link" })
+                                </li>
+                                <li class="nav-item d-none d-md-block">
+                                    @Html.ActionLink("CRM", "Index", "CRM", null, htmlAttributes: new { @class = "dropdown-item nav-link" })
+                                </li>
+                                <li class="nav-item d-none d-md-block">
+                                    @Html.ActionLink("Settings", "Index", "SystemSettings", null, htmlAttributes: new { @class = "dropdown-item nav-link" })
+                                </li>
+                                <li class="nav-item d-none d-md-block">
+                                    @Html.ActionLink("Global Targetting", "GlobalTarget", "CRM", null, htmlAttributes: new { @class = "dropdown-item nav-link" })
+                                </li>
+                            }
+                            else if (userDto.UserRoleName == "Manager")
+                            {
+                                <li class="nav-item d-none d-md-block">@Html.ActionLink("Dashboard", "Index", "Dashboard", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "Dashboard" ? "active" : "" })</li>
+                                <li class="nav-item d-none d-md-block">@Html.ActionLink("Trello", "Index", "ActionBoard", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "ActionBoard" ? "active" : "" })</li>
+                                <li class="nav-item d-none d-md-block">@Html.ActionLink("CRM", "Index", "CRM", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "CRM" ? "active" : "" })</li>
+                            }
+                            else if (userDto.UserRoleName == "Sales")
+                            {
+                                <li class="nav-item d-none d-md-block">@Html.ActionLink("CRM", "Index", "CRM", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "CRM" ? "active" : "" })</li>
+                                <li class="nav-item d-none d-md-block">@Html.ActionLink("Trello", "Index", "ActionBoard", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "ActionBoard" ? "active" : "" })</li>
+                            }
+
+                        }
+
+
+                        <li class="dropdown dropdown-user nav-item d-md-block">
+                            <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
+                                <span class="avatar avatar-online">
+                                    <img src="~/Content/app-assets/images/portrait/small/avatar-s-1.png" alt="avatar">
+                                </span><span class="user-name">@userDto.FirstName</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="@ViewBag.BaseUrl/UserProfile/updateuserprofile?id=@Url.Encode(CryptoEngine.Encrypt(userDto.SystemUserId.ToString()))"><i class="ft-user"></i> Edit Profile</a>
+
+
+                                <div class="dropdown-divider"></div>
+
+                                <a class="dropdown-item" href="~/Account/Logout"><i class="ft-power"></i> Logout</a>
+                            </div>
+                        </li>
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- END: Header-->
+    <!-- BEGIN: Content-->
+    @RenderBody()
+    <!-- END: Content-->
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+    <!-- BEGIN: Footer-->
+    <footer class="footer  footer-light navbar-shadow">
+        <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2 container center-layout"><span class="float-md-left d-block d-md-inline-block">Copyright &copy; 2019 <a class="text-bold-800 grey darken-2" href="https://wwww.socialgrowthlabs.com" target="_blank">Social Growth Labs Inc.</a></span></p>
+    </footer>
+    <div class="modal" id="Modal_Messagebox" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="Modal_MessageBoxTitle"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="Modal_MessageBoxBody"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END: Footer-->
+    <script type="text/javascript">
+        var GLB_BASEURL = "/sadmin"
+        var GLB_ADMINPASSWORD = "P@ssword1"
+    </script>
+    <!-- BEGIN: Vendor JS-->
+    <script src="~/Content/app-assets/vendors/js/vendors.min.js"></script>
+    <!-- BEGIN Vendor JS-->
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="~/Content/app-assets/vendors/js/ui/jquery.sticky.js"></script>
+    <script src="~/Content/app-assets/vendors/js/charts/jquery.sparkline.min.js"></script>
+    <script src="~/Content/app-assets/vendors/js/extensions/jquery.knob.min.js"></script>
+    <script src="~/Content/app-assets/js/scripts/extensions/knob.js"></script>
+    <script src="~/Content/app-assets/vendors/js/charts/raphael-min.js"></script>
+    <script src="~/Content/app-assets/vendors/js/charts/morris.min.js"></script>
+    <script src="~/Content/app-assets/vendors/js/charts/jvector/jquery-jvectormap-2.0.3.min.js"></script>
+    <script src="~/Content/app-assets/vendors/js/charts/jvector/jquery-jvectormap-world-mill.js"></script>
+    <script src="~/Content/app-assets/data/jvector/visitor-data.js"></script>
+    <script src="~/Content/app-assets/vendors/js/charts/chart.min.js"></script>
+    <script src="~/Content/app-assets/vendors/js/charts/jquery.sparkline.min.js"></script>
+    <script src="~/Content/app-assets/vendors/js/extensions/unslider-min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/core/colors/palette-climacon.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/fonts/simple-line-icons/style.min.css">
+
+    <!-- END: Page Vendor JS-->
+    <!-- BEGIN: Theme JS-->
+    <script src="~/Content/app-assets/js/core/app-menu.js"></script>
+    <script src="~/Content/app-assets/js/core/app.js"></script>
+    <!-- END: Theme JS-->
+    <!-- BEGIN: Page JS-->
+    <script src="~/Content/app-assets/js/scripts/ui/breadcrumbs-with-stats.js"></script>
+    <script src="~/Content/app-assets/js/scripts/pages/dashboard-analytics.js"></script>
+
+
+
+
+    <script src="~/Content/app-assets/js/core/libraries/bootstrap.min.js"></script>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <!-- Basic stylesheet -->
+    <!-- Include js plugin -->
+    <script src="~/Content/ThemeAssets/js/owl.carousel.min.js"></script>
+    <script src="~/Content/ThemeAssets/js/jquery-ui.min.js"></script>
+    <script src="~/Content/ThemeAssets/js/moment.js"></script>
+    <script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
+
+    <script src="~/Content/ThemeAssets/js/functions.js"></script>
+
+    @RenderSection("scripts", required: false)
+    <!-- END: Page JS-->
+</body>
+<!-- END: Body-->
+</html>

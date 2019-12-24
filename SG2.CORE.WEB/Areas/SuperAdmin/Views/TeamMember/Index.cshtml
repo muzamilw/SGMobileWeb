@@ -5,7 +5,7 @@
 @model SG2.CORE.MODAL.ViewModals.Backend.TeamMember.TeamMemberIndexViewModal
 @{
     ViewBag.Title = "Team Members Listing";
-    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layoutnew.cshtml";
     var BaseURl = ViewBag.BaseUrl;
     List<SelectListItem> appStatus = new List<SelectListItem>();
 
@@ -19,12 +19,14 @@
 <div class="information-wrap main accounts">
     <div class="container">
         <div class="row">
-            <div class="col-xs-12">
-                <div class="left-col">
-                    <h2>Team Members</h2>
-                </div>
-                <div class="right-col">
-                    <a class="btn" href="javascript:void(0);" style="background-color:#52d234; position:relative; top:9px;" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a>
+            <div class="col-12">
+                <div class="row">
+                    <div class="left-col col-6">
+                        <h2>Team members</h2>
+                    </div>
+                    <div class="right-col col-6 text-right">
+                        <a class="btn btn-primary d-inline-block" href="javascript:void(0);" style="background-color:#52d234; position:relative; top:9px;" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -34,16 +36,17 @@
 <div class="form-wrap">
     <div class="container">
         <div class="inner-colmn">
-            <div class="row">
-                @using (Html.BeginForm("Index", "TeamMember", FormMethod.Get, new { @id = "Form_SearchCriteria" }))
-                {
-                    <div class="col-md-3 col-sm-12 col-xs-12">
+
+            @using (Html.BeginForm("Index", "TeamMember", FormMethod.Get, new { @id = "Form_SearchCriteria" }))
+            {
+                <div class="row">
+                    <div class="col-3">
                         <div class="search-wrap">
                             @*<input type="search" placeholder="Search here">*@
                             @Html.TextBoxFor(model => model.SearchCriteria, htmlAttributes: new { @placeholder = "Search here", @type = "search" })
                         </div>
                     </div>
-                    <div class="col-md-3 col-xs-6">
+                    <div class="col-3">
                         <div class="product">
                             <label>Status</label>
                             <div class="select">
@@ -51,7 +54,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 col-xs-6">
+                    <div class="col-3">
                         <div class="product">
                             <label>&nbsp;</label>
                             <div class="select">
@@ -64,16 +67,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 col-sm-4 col-xs-12">
+                    <div class="col-3">
                         <div class="product right">
                             <label>&nbsp;</label>
                             <div class="select">
-                                <a href="@BaseURl/teammember/add" class="btn" style="padding-top:12px; height:47px;"><i class="fa fa-plus"></i> New Member</a>
+                                <a href="@BaseURl/teammember/add" class="btn  btn-primary" style="padding-top:12px; height:47px;"><i class="fa fa-plus"></i> New Member</a>
                             </div>
                         </div>
                     </div>
-                }
-            </div>
+                </div>
+            }
+
         </div>
     </div>
 </div>
@@ -95,14 +99,14 @@
                         <tbody>
                             @foreach (var item in Model.TeamMemberListing)
                             {
-                            <tr>
-                                <td data-label="ID">@item.FullName <br><a href="@BaseURl/teammember/update?id=@Url.Encode(CryptoEngine.Encrypt(item.SystemUserId.ToString()))">@item.Email</a></td>
-                                <td data-label="RoleName" class="status">@item.RoleName</td>
-                                <td data-label="Status" class="status">@item.Status</td>
-                                <td>
-                                    <a href="@BaseURl/teammember/update?id=@Url.Encode(CryptoEngine.Encrypt(item.SystemUserId.ToString()))"><i class="fa fa-edit"></i></a>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td data-label="ID">@item.FullName <br><a href="@BaseURl/teammember/update?id=@Url.Encode(CryptoEngine.Encrypt(item.SystemUserId.ToString()))">@item.Email</a></td>
+                                    <td data-label="RoleName" class="status">@item.RoleName</td>
+                                    <td data-label="Status" class="status">@item.Status</td>
+                                    <td>
+                                        <a href="@BaseURl/teammember/update?id=@Url.Encode(CryptoEngine.Encrypt(item.SystemUserId.ToString()))"><i class="fa fa-edit"></i></a>
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -116,25 +120,29 @@
     </div>
 </div>
 
-@section StyleSheet {
-    <style type="text/css">
 
-        .form-wrap .search-wrap input[type=search] {
-            font-size: 1.8rem;
-            line-height: 22px;
-            height: 47px;
-        }
+    @section styles {
+        <link href="~/Content/ThemeAssets/css/backendcss.css" rel="stylesheet" />
+        <link href="~/Content/ThemeAssets/css/style.css" rel="stylesheet" type="text/css">
 
-        input[type=search] {
-            border-bottom: 2px solid #eceffb;
-            font-style: normal;
-            padding: 0px 24px 10px;
-        }
+        <style type="text/css">
 
-        button.searchBtn {
-            height: 47px;
-        }
-    </style>
-}
+            .form-wrap .search-wrap input[type=search] {
+                font-size: 1.8rem;
+                line-height: 22px;
+                height: 47px;
+            }
+
+            input[type=search] {
+                border-bottom: 2px solid #eceffb;
+                font-style: normal;
+                padding: 0px 24px 10px;
+            }
+
+            button.searchBtn {
+                height: 47px;
+            }
+        </style>
+    }
 
 

@@ -14,6 +14,7 @@ using Stripe;
 using SG2.CORE.MODAL.DTO.Customers;
 using System.Collections.Generic;
 using SG2.CORE.MODAL.DTO.SystemSettings;
+using SG2.CORE.MODAL.ViewModals.Customers;
 
 namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 {
@@ -25,6 +26,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
         private readonly string _PageSize = string.Empty;
         //protected readonly TargetPreferencesManager _targetPreferenceManager;
         protected readonly List<SystemSettingsDTO> SystemConfigs;
+        protected readonly PlanInformationManager _planmanager;
 
 
         public CRMController()
@@ -35,6 +37,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             //_targetPreferenceManager = new TargetPreferencesManager();
             ViewBag.SetMenuActiveClass = "CRM";
             SystemConfigs = SystemConfig.GetConfigs;
+            _planmanager = new PlanInformationManager();
 
         }
 
@@ -275,36 +278,56 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
         public ActionResult DeleteCustomerProfile(string customerId, string profileId)
         {
             var jr = new JsonResult();
-            string messages = string.Empty;
             try
             {
 
-                if (!string.IsNullOrEmpty(customerId))
-                {
-                    var Cus = HttpUtility.UrlDecode(customerId);
-                    var SPId = HttpUtility.UrlDecode(profileId);
-                    //int custId = Convert.ToInt32(CryptoEngine.Decrypt(customerId.ToString()));
-                    int custId = Convert.ToInt32((CryptoEngine.Decrypt(Cus)));
-                    int socialProfileId = Convert.ToInt32((CryptoEngine.Decrypt(SPId)));
-                    var User = _customerManager.DeleteCustomerAll(custId, 0);
-                    if (User)
-                    {
-                        jr.Data = new { ResultType = "Success", message = "Customer deleted successfully.", User };
-                    }
+                var SPId = HttpUtility.UrlDecode(profileId);
+                int socialProfileId = Convert.ToInt32((CryptoEngine.Decrypt(SPId)));
 
+                SocialProfileDTO profileDTO = _customerManager.GetSocialProfileById(socialProfileId);
+           
+                var _stripeApiKey = SystemConfig.GetConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
+                if (profileDTO != null)
+                {
+
+                    if (profileDTO.SocialProfile.StatusId != 18)
+                    {
+                        if (!string.IsNullOrEmpty(profileDTO.SocialProfile.StripeSubscriptionId))
+                        {
+                            StripeConfiguration.SetApiKey(_stripeApiKey);
+                            var service = new SubscriptionService();
+                            var sub = service.Get(profileDTO.SocialProfile.StripeSubscriptionId);
+
+                            var subscription = service.Cancel(sub.Id, null);
+
+                          
+
+                            jr.Data = new { ResultType = "Success", message = "User has successfully Unsubscribe." };
+                        }
+                        else
+                        {
+                            jr.Data = new { ResultType = "Error", message = "No active subscription available." };
+
+                        }
+
+                    }
                     else
                     {
-                        messages = "Something went wrong";
-                        jr.Data = new { ResultType = "Error", message = messages };
+                        jr.Data = new { ResultType = "Error", message = "No active subscription available." };
+
                     }
-
                 }
-
+               
+                if (_customerManager.DeleteProfile(0, socialProfileId))
+                {
+                    {
+                        jr.Data = new { ResultType = "Error", message = "Profile has been successfully deleted." };
+                    }
+                }
             }
-            catch (Exception ex)
+            catch (Exception exp)
             {
-
-                messages = ex.Message;
+                throw exp;
             }
             return Json(jr, JsonRequestBehavior.AllowGet);
         }
@@ -346,7 +369,58 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             return Json(jr, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult TargettingInformation(string id, string SPId)
+        public ActionResult TargettingInformation(string id, string SPId, int? success)
+        {
+
+
+
+            int custId = Convert.ToInt32(CryptoEngine.Decrypt(id));
+            int socialProfileId = Convert.ToInt32(CryptoEngine.Decrypt(SPId));
+
+
+            ViewBag.socialProfileId = socialProfileId;
+            
+            var SocailProfile = this._customerManager.GetSocialProfileById(socialProfileId);
+            
+            var customer = _customerManager.GetCustomerByCustomerId(SocailProfile.SocialProfile.CustomerId.Value);
+            ViewBag.CurrentUser = customer;
+
+            ViewBag.Plans = _planmanager.GetallIntagramPaymentPlans(customer.IsBroker.HasValue ? customer.IsBroker.Value : false);
+
+            if (success.HasValue && success.Value == 1)
+            {
+                ViewBag.success = 1;
+            }
+
+            var _stripeApiKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
+            var _stripePublishKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue2;
+
+            ViewBag.stripeApiKey = _stripeApiKey;
+            ViewBag.stripePublishKey = _stripePublishKey;
+            StripeConfiguration.SetApiKey(_stripeApiKey);
+            var planService = new PlanService();
+            var cardService = new CardService();
+            var cardOptions = new CardListOptions
+            {
+                Limit = 3,
+            };
+            List<CustomerPaymentCardsViewModel> payCards = null;
+
+
+            return View(SocailProfile);
+
+        }
+
+
+        [HttpPost]
+        public ActionResult Target(SocialProfileDTO request)
+        {
+
+            this._customerManager.UpdateTargetProfile(request);
+            return RedirectToAction("Target", "Profile", new { socialProfileId = request.SocialProfile_Instagram_TargetingInformation.SocialProfileId, success = 1 });
+        }
+
+        public ActionResult TargettingInformationx(string id, string SPId)
         {
             int custId = Convert.ToInt32(CryptoEngine.Decrypt(id));
             int SocialPId = Convert.ToInt32(CryptoEngine.Decrypt(SPId));
@@ -484,6 +558,47 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
         }
 
+
+        public ActionResult GlobalTarget(int? success)
+        {
+
+
+            int socialProfileId = -999;
+
+
+            ViewBag.socialProfileId = socialProfileId;
+
+            var SocailProfile = this._customerManager.GetSocialProfileById(socialProfileId);
+
+            //var customer = _customerManager.GetCustomerByCustomerId(SocailProfile.SocialProfile.CustomerId.Value);
+            //ViewBag.CurrentUser = customer;
+
+            //ViewBag.Plans = _planmanager.GetallIntagramPaymentPlans(customer.IsBroker.HasValue ? customer.IsBroker.Value : false);
+
+            if (success.HasValue && success.Value == 1)
+            {
+                ViewBag.success = 1;
+            }
+
+            var _stripeApiKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
+            var _stripePublishKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue2;
+
+            ViewBag.stripeApiKey = _stripeApiKey;
+            ViewBag.stripePublishKey = _stripePublishKey;
+            
+
+
+            return View(SocailProfile);
+
+        }
+
+        [HttpPost]
+        public ActionResult GlobalTarget(SocialProfileDTO request)
+        {
+
+            this._customerManager.UpdateTargetProfile(request);
+            return RedirectToAction("GlobalTarget", "CRM", new {success = 1 });
+        }
 
         public ActionResult UserDetail()
         {

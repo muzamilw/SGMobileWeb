@@ -188,6 +188,7 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does
           <Property Name="DeviceBinLocation" Type="nvarchar" MaxLength="500" />
           <Property Name="BlockedStatus" Type="int" />
           <Property Name="BockedSinceDateTime" Type="datetime" />
+          <Property Name="TrelloStatusId" Type="int" />
         </EntityType>
         <EntityType Name="SocialProfile_Actions">
           <Key>
@@ -697,6 +698,9 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does
           <Parameter Name="riCustomerId" Type="int" Mode="In" />
           <Parameter Name="riProfileId" Type="int" Mode="In" />
         </Function>
+        <Function Name="SG2_usp_GetProfilebyJVStatusId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="riJVStatusId" Type="int" Mode="In" />
+        </Function>
         <Function Name="SG2_usp_GetUserDetailsForbackOffice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="rsSearchCrite" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="riPageNumber" Type="int" Mode="In" />
@@ -1050,6 +1054,9 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does
             <End Role="Customer" EntitySet="Customers" />
             <End Role="SocialProfile" EntitySet="SocialProfiles" />
           </AssociationSet>
+          <FunctionImport Name="SG2_usp_GetProfilebyJVStatusId" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_GetProfilebyJVStatusId_Result)">
+            <Parameter Name="riJVStatusId" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="SG2_usp_Get_AllUser1_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
@@ -1879,6 +1886,7 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does
           <Property Name="BlockedStatus" Type="Int32" />
           <Property Name="BockedSinceDateTime" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Customer" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer" FromRole="SocialProfile" ToRole="Customer" />
+          <Property Name="TrelloStatusId" Type="Int32" />
         </EntityType>
         <Association Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
           <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="1" />
@@ -2274,6 +2282,29 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="SG2_usp_GetProfilebyJVStatusId_Result">
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="41" />
+          <Property Type="Int32" Name="CustomerId" Nullable="false" />
+          <Property Type="Int32" Name="SPId" Nullable="false" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="JVStatusName" Nullable="true" MaxLength="50" />
+          <Property Type="Int16" Name="JVStatusId" Nullable="true" />
+          <Property Type="String" Name="InstaUsrName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="SocialProfileName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="HashTagEngaged" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="HashTagNotEngaged" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="LocationToFocus" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="LocationToSkip" Nullable="true" />
+          <Property Type="String" Name="EffectiveGrowthStrategy" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="GenderToEngage" Nullable="true" />
+          <Property Type="Int32" Name="IncludeBusinessAccount" Nullable="true" />
+          <Property Type="String" Name="UserDemographics" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="DirectCompetitors" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="SPCity" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="SPCountry" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Comment" Nullable="true" />
+          <Property Type="Boolean" Name="IsArchived" Nullable="false" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3133,6 +3164,7 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does
           <EntitySetMapping Name="SocialProfiles">
             <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile">
               <MappingFragment StoreEntitySet="SocialProfile">
+                <ScalarProperty Name="TrelloStatusId" ColumnName="TrelloStatusId" />
                 <ScalarProperty Name="BockedSinceDateTime" ColumnName="BockedSinceDateTime" />
                 <ScalarProperty Name="BlockedStatus" ColumnName="BlockedStatus" />
                 <ScalarProperty Name="DeviceBinLocation" ColumnName="DeviceBinLocation" />
@@ -3418,6 +3450,33 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SG2_usp_GetProfilebyJVStatusId" FunctionName="SocialGrowth2Entities.Store.SG2_usp_GetProfilebyJVStatusId" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_GetProfilebyJVStatusId_Result">
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="SPId" ColumnName="SPId" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="JVStatusName" ColumnName="JVStatusName" />
+                <ScalarProperty Name="JVStatusId" ColumnName="JVStatusId" />
+                <ScalarProperty Name="InstaUsrName" ColumnName="InstaUsrName" />
+                <ScalarProperty Name="SocialProfileName" ColumnName="SocialProfileName" />
+                <ScalarProperty Name="HashTagEngaged" ColumnName="HashTagEngaged" />
+                <ScalarProperty Name="HashTagNotEngaged" ColumnName="HashTagNotEngaged" />
+                <ScalarProperty Name="LocationToFocus" ColumnName="LocationToFocus" />
+                <ScalarProperty Name="LocationToSkip" ColumnName="LocationToSkip" />
+                <ScalarProperty Name="EffectiveGrowthStrategy" ColumnName="EffectiveGrowthStrategy" />
+                <ScalarProperty Name="GenderToEngage" ColumnName="GenderToEngage" />
+                <ScalarProperty Name="IncludeBusinessAccount" ColumnName="IncludeBusinessAccount" />
+                <ScalarProperty Name="UserDemographics" ColumnName="UserDemographics" />
+                <ScalarProperty Name="DirectCompetitors" ColumnName="DirectCompetitors" />
+                <ScalarProperty Name="SPCity" ColumnName="SPCity" />
+                <ScalarProperty Name="SPCountry" ColumnName="SPCountry" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="IsArchived" ColumnName="IsArchived" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

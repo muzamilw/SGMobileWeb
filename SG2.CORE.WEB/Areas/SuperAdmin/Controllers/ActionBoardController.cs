@@ -117,6 +117,29 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             }
         }
 
+        public async Task<ActionResult> SetSocialProfileJVStatus(int id, int? statusId = null)
+        {
+            var jr = new JsonResult();
+            try
+            {
+                var SocialProfileJVStatus = await _customerManager.SetSocialProfileJVStatus(id, statusId ?? 0, "Admin");
+                if (SocialProfileJVStatus)
+                {
+                    jr.Data = new { ResultType = "Success", message = "", ResultData = SocialProfileJVStatus };
+                }
+                else
+                {
+                    jr.Data = new { ResultType = "Error", message = "Error. Can not find the details." };
+                }
+
+                return Json(jr, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         [HttpPost]
         public ActionResult SaveUpdateUserDataIndividually(string value, string fieldName, string customerId, string SocialProfileId)
         {

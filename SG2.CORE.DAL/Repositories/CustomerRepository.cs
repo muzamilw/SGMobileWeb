@@ -187,7 +187,7 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    var result = _db.Customers.SqlQuery("SELECT * from SG2_Customer where CustomerId=@CustomerId "
+                    var result = _db.Customers.SqlQuery("SELECT * from Customer where CustomerId=@CustomerId "
                                                    , new SqlParameter("@CustomerId", CustomerId)
                                                ).FirstOrDefault();
                     if (result != null)
@@ -205,6 +205,47 @@ namespace SG2.CORE.DAL.Repositories
             }
 
 
+        }
+
+        public async Task<bool> SetSocialProfileJVStatus(int profileId, int jvStatusId, string updatedBy)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    var socialProfile = _db.SocialProfiles.FirstOrDefault(m => m.SocialProfileId == profileId);
+
+                    //int? JVBoxStatus = socialProfile.JVBoxStatusId;
+                    //int? JVBoxId = socialProfile.JVBoxId;
+
+                    if (socialProfile != null)
+                    {
+                        if (jvStatusId == 0)
+                            socialProfile.TrelloStatusId = null;
+                        else
+                            socialProfile.TrelloStatusId = jvStatusId;
+                        socialProfile.UpdatedBy = updatedBy;
+                        socialProfile.UpdatedOn = DateTime.Now;
+                        await _db.SaveChangesAsync();
+                        return true;
+                    }
+
+                    //if (JVBoxStatus != null)
+                    //{
+                    //    var SPH = _db.Set<SG2_SocialProfile_StatusHistory>();
+                    //    SPH.Add(new SG2_SocialProfile_StatusHistory { JVBoxStatusId = JVBoxStatus, JVBoxId = JVBoxId, CreatedDate = DateTime.Now, SocialProfileId = profileId });
+
+                    //    await _db.SaveChangesAsync();
+                    //    return true;
+                    //}
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public bool SaveUpdateUserDataIndividually(string value, string fieldName, int customerId, int socialProfileId)
@@ -501,42 +542,42 @@ namespace SG2.CORE.DAL.Repositories
         }
         
         //-- TODO: Change Method and move to exact repository
-        //public List<ActionBoardListingViewModel> GetActionBoardData(int? JVBoxStatusId)
-        //{
-        //    try
-        //    {
-        //        using (var _db = new SocialGrowth2Connection())
-        //        {
-        //            var actiondata = _db.SG2_usp_GetProfilebyJVStatusId(JVBoxStatusId).ToList();
-        //            if (actiondata != null)
-        //            {
-        //                List<ActionBoardListingViewModel> actionBoardViewModelList = new List<ActionBoardListingViewModel>();
+        public List<ActionBoardListingViewModel> GetActionBoardData(int? JVBoxStatusId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    var actiondata = _db.SG2_usp_GetProfilebyJVStatusId(JVBoxStatusId).ToList();
+                    if (actiondata != null)
+                    {
+                        List<ActionBoardListingViewModel> actionBoardViewModelList = new List<ActionBoardListingViewModel>();
 
-        //                foreach (var item in actiondata)
-        //                {
-        //                    ActionBoardListingViewModel actionBoardViewModel = new ActionBoardListingViewModel();
-        //                    actionBoardViewModel.InstaUsrName = item.InstaUsrName ?? "--";
-        //                    actionBoardViewModel.Status = item.JVStatusName;
-        //                    actionBoardViewModel.UserName = item.FullName ?? "--";
-        //                    actionBoardViewModel.CustomerId = HttpUtility.UrlEncode(CryptoEngine.Encrypt(item.CustomerId.ToString()));
-        //                    actionBoardViewModel.Email = item.Email;
-        //                    actionBoardViewModel.ProfileId = HttpUtility.UrlEncode(CryptoEngine.Encrypt(item.SPId.ToString()));
-        //                    actionBoardViewModel.EnumerationValueId = (short)item.JVStatusId;
-        //                    actionBoardViewModel.Comment = item.Comment ?? "--";
-        //                    actionBoardViewModel.IsArchived = item.IsArchived;
-        //                    actionBoardViewModelList.Add(actionBoardViewModel);
-        //                }
-        //                return actionBoardViewModelList;
-        //            }
-        //            return null;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
+                        foreach (var item in actiondata)
+                        {
+                            ActionBoardListingViewModel actionBoardViewModel = new ActionBoardListingViewModel();
+                            actionBoardViewModel.InstaUsrName = item.InstaUsrName ?? "--";
+                            actionBoardViewModel.Status = item.JVStatusName;
+                            actionBoardViewModel.UserName = item.FullName ?? "--";
+                            actionBoardViewModel.CustomerId = HttpUtility.UrlEncode(CryptoEngine.Encrypt(item.CustomerId.ToString()));
+                            actionBoardViewModel.Email = item.Email;
+                            actionBoardViewModel.ProfileId = HttpUtility.UrlEncode(CryptoEngine.Encrypt(item.SPId.ToString()));
+                            actionBoardViewModel.EnumerationValueId = (short)item.JVStatusId;
+                            actionBoardViewModel.Comment = item.Comment ?? "--";
+                            actionBoardViewModel.IsArchived = item.IsArchived;
+                            actionBoardViewModelList.Add(actionBoardViewModel);
+                        }
+                        return actionBoardViewModelList;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
 
-        //        throw ex;
-        //    }
-        //}
+                throw ex;
+            }
+        }
 
         //-- TODO: Change Method and move to exact repository
         public CustomerTargetPreferencesViewModel GetSpecificUserTargettingInformation(int CustomerId, int SocialPId)
@@ -548,6 +589,8 @@ namespace SG2.CORE.DAL.Repositories
                 using (var _db = new SocialGrowth2Connection())
                 {
                     var actiondata = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.SocialProfileId == SocialPId).SingleOrDefault();
+
+                    var profile = _db.SocialProfiles.Where(g => g.SocialProfileId == SocialPId).SingleOrDefault();
                     if (actiondata != null)
                     {
                         CustomerTargetPreferencesViewModel customerTargetPreferencesViewModel = mapper.Map<CustomerTargetPreferencesViewModel>(actiondata);
@@ -555,40 +598,14 @@ namespace SG2.CORE.DAL.Repositories
                         customerTargetPreferencesViewModel.Id = actiondata.SocialProfileId.ToString();
                         customerTargetPreferencesViewModel.SPId = actiondata.SocialProfileId.ToString();
 
-                        //CustomerTargetPreferencesViewModel customerTargetPreferencesViewModel = new CustomerTargetPreferencesViewModel();
-                        //customerTargetPreferencesViewModel.Preference1 = actiondata.Preference1;
-                        //customerTargetPreferencesViewModel.Preference2 = actiondata.Preference2;
-                        //customerTargetPreferencesViewModel.Preference3 = actiondata.Preference3;
-                        //customerTargetPreferencesViewModel.Preference4 = actiondata.Preference4;
-                        //customerTargetPreferencesViewModel.Preference5 = actiondata.Preference5;
-                        //customerTargetPreferencesViewModel.Preference6 = actiondata.Preference6;
-                        //customerTargetPreferencesViewModel.Preference7 = actiondata.Preference7;
-                        //customerTargetPreferencesViewModel.Preference8 = actiondata.Preference8;
-                        //customerTargetPreferencesViewModel.Preference9 = actiondata.Preference9;
-                        //customerTargetPreferencesViewModel.Preference10 = actiondata.Preference10;
-                        //customerTargetPreferencesViewModel.Country = actiondata.SocialPrefferedCountry;
-                        //customerTargetPreferencesViewModel.InstaUser = actiondata.SocialUsername;
-                        //customerTargetPreferencesViewModel.Id = Convert.ToString(actiondata.CustomerId);
-                        //customerTargetPreferencesViewModel.Status = actiondata.JVBoxStatus;
-                        //customerTargetPreferencesViewModel.UserName = actiondata.SocialUsername;
-                        //customerTargetPreferencesViewModel.InstaPassword = actiondata.SocialPassword;
-                        //customerTargetPreferencesViewModel.City = actiondata.City;
-                        //customerTargetPreferencesViewModel.SPId = actiondata.SocialProfileId.ToString();
-                        //customerTargetPreferencesViewModel.CustomerUserName = actiondata.UserName;
-                        //customerTargetPreferencesViewModel.Email = actiondata.Email;
-                        //customerTargetPreferencesViewModel.SocialProfileName = actiondata.SocialProfileName;
-                        //customerTargetPreferencesViewModel.SPStatus = actiondata.SPStatus;
-                        //customerTargetPreferencesViewModel.JVStatus = actiondata.JVBoxStatusName;
-                        //customerTargetPreferencesViewModel.NoOfProfile = actiondata.NoOfProfile;
-                        //customerTargetPreferencesViewModel.JVName = actiondata.BoxName;
-                        //customerTargetPreferencesViewModel.IP = actiondata.ProxyIPNumber;
-                        //customerTargetPreferencesViewModel.SocialAccAS = actiondata.SocialAccAs;
-                        //customerTargetPreferencesViewModel.VerificationCode = actiondata.VerificationCode;
-                        //customerTargetPreferencesViewModel.MPBox = actiondata.JVBoxId;
-                        //customerTargetPreferencesViewModel.Notes = actiondata.Comment;
-                        //customerTargetPreferencesViewModel.ProxyId = actiondata.ProxyId;
-                        //customerTargetPreferencesViewModel.ProxyPort = actiondata.ProxyPort;
-                        //customerTargetPreferencesViewModel.IsArchived = actiondata.IsArchived;
+                        var customer  = _db.Customers.Where(g => g.CustomerId == profile.CustomerId).SingleOrDefault();
+                        customerTargetPreferencesViewModel.Notes = customer.Comment;
+
+                        customerTargetPreferencesViewModel.InstaUser = profile.SocialUsername;
+                        customerTargetPreferencesViewModel.Email = customer.EmailAddress;
+
+
+                        
                         return customerTargetPreferencesViewModel;
                     }
                     return null;
@@ -1448,12 +1465,22 @@ namespace SG2.CORE.DAL.Repositories
             //var config = new MapperConfiguration(cfg => cfg.CreateMap<SG2_usp_Customer_GetSocialProfileById_Result, CustomerTargetProfileDTO>());
             //var mapper = new Mapper(config);
 
+            
+
 
             try
             {
                 SocialProfileDTO profile = new SocialProfileDTO();
                 using (var _db = new SocialGrowth2Connection())
                 {
+                    //global profile loading
+                    if (profileId == -999)
+                    {
+                        var gProfile = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.IsSystem == true && g.SocialProfileId == null).Single();
+                        profileId = gProfile.SocialProfileId.Value;
+                    }
+
+
                     _db.Configuration.LazyLoadingEnabled = false;
                     //var prof = _db.SG2_usp_Customer_GetSocialProfileById(profileId).FirstOrDefault();
                     //targetProfile = mapper.Map<SocialProfileDTO>(prof);
@@ -1483,6 +1510,37 @@ namespace SG2.CORE.DAL.Repositories
         //_db.SocialProfile_Payments.Where(g => g.SocialProfileId == profileId).OrderByDescending(g => g.PaymentDateTime).ToList();
 
 
+        public SocialProfileDTO GetGlobalSocialProfilesById(int profileId)
+        {
+
+            //var config = new MapperConfiguration(cfg => cfg.CreateMap<SG2_usp_Customer_GetSocialProfileById_Result, CustomerTargetProfileDTO>());
+            //var mapper = new Mapper(config);
+
+
+
+
+            try
+            {
+                SocialProfileDTO profile = new SocialProfileDTO();
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    //global profile loading
+
+                    _db.Configuration.LazyLoadingEnabled = false;
+                    profile.SocialProfile_Instagram_TargetingInformation = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.IsSystem == true && g.SocialProfileId == null).Single();
+
+                }
+
+                if (profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals != null)
+                    profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals = Regex.Unescape(Regex.Replace(profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals, @"\t|\n|\r", "")).Replace("\\", @"");
+
+                return profile;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
         public List<SocialProfile_PaymentsDTO> GetCustomerBrokerPaymentHistory(int CustomerId)
@@ -1563,7 +1621,7 @@ namespace SG2.CORE.DAL.Repositories
                         foreach (var item in actionJVStatus)
                         {
                             ActionBoardJVSData actionBoardJVSData = new ActionBoardJVSData();
-                            actionBoardJVSData.JVBStatusId = item.EnumerationId;
+                            actionBoardJVSData.JVBStatusId = item.EnumerationValueId;
                             actionBoardJVSData.JVBStatusName = item.Name;
                             actionBoardJVSData.JVBStatusDesc = item.Description;
                             actionBoardJVSData.SequenceNo = item.SequenceNo;

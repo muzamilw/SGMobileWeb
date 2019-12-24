@@ -69,6 +69,18 @@ namespace SG2.CORE.BAL.Managers
 
         }
 
+        public async Task<bool> SetSocialProfileJVStatus(int profileId, int jvStatusId, string updatedBy)
+        {
+            try
+            {
+                return await _customerRepository.SetSocialProfileJVStatus(profileId, jvStatusId, updatedBy);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public bool DeleteCustomer(int customerId, int SocialProfileId)
         {
             try
@@ -244,8 +256,8 @@ namespace SG2.CORE.BAL.Managers
 
         public List<ActionBoardListingViewModel> GetActionBoardData(int? JVBoxStatusId)
         {
-            //var Model = _customerRepository.GetActionBoardData(JVBoxStatusId);
-            return new List<ActionBoardListingViewModel>();
+            return _customerRepository.GetActionBoardData(JVBoxStatusId);
+            //return new List<ActionBoardListingViewModel>();
         }
 
       
@@ -637,7 +649,14 @@ namespace SG2.CORE.BAL.Managers
         {
             try
             {
-                return _customerRepository.GetSocialProfilesById(profileId);
+                if (profileId == -999)
+                {
+                    return _customerRepository.GetGlobalSocialProfilesById(profileId);
+                }
+                else
+                {
+                    return _customerRepository.GetSocialProfilesById(profileId);
+                }
             }
             catch (Exception ex)
             {

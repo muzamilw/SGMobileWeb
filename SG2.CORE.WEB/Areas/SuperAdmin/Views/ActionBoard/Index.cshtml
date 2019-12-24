@@ -1,13 +1,18 @@
 ﻿@model SG2.CORE.MODAL.ViewModals.Backend.ActionBoard.ActionBoardViewModel
 @using SG2.CORE.COMMON;
 @{
-                /**/
+    /**/
 
-                ViewBag.Title = "Action Board";
-                Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
-                var BaseURl = ViewBag.BaseUrl;
+    ViewBag.Title = "Action Board";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_LayoutNew.cshtml";
+    var BaseURl = ViewBag.BaseUrl;
 }
 
+
+@section styles{
+<link href="~/Content/ThemeAssets/css/backendcss.css" rel="stylesheet" />
+<link href="~/Content/ThemeAssets/css/style.css" rel="stylesheet" type="text/css">
+}
 
 <div class="main">
     <div class="container">
@@ -46,7 +51,7 @@
 
             <div class="clearfix"></div>
 
-            <div class="hide listHTML">
+            <div class="hidden listHTML">
                 <div class="white-sec" style="text-align:left">
                     <p style="color:red;font:bolder;font-size:large">{{InstaUsername}}</p>
                     <p style="font:bolder">{{Email}}</p>
@@ -102,18 +107,18 @@
                             }
                         </select> &nbsp; &nbsp;<i id="btn_StatusId" class="fa fa-save"></i>
 
-                        <label>MP Box: </label>
+                        @*<label>MP Box: </label>*@
                         @*<select name="" id="input_MPBox">
-                            <option>-- Select MP Box --</option>
-                            @foreach (var item in Model.MPBoxList)
-                            {
-                                <option value="@item.JVBoxId">@item.BoxName</option>
-                            }
-                        </select>*@
-                        &nbsp; &nbsp;<i id="btn_MPBox" class="fa fa-save"></i>
+                                <option>-- Select MP Box --</option>
+                                @foreach (var item in Model.MPBoxList)
+                                {
+                                    <option value="@item.JVBoxId">@item.BoxName</option>
+                                }
+                            </select>*@
+                        @*&nbsp; &nbsp;<i id="btn_MPBox" class="fa fa-save"></i>
 
-                        <label>IP:</label>
-                        <label id="IPText"></label>
+                            <label>IP:</label>
+                            <label id="IPText"></label>*@
 
                         &nbsp; &nbsp; &nbsp; &nbsp;
                         <button id="BlockIP" class="btn" style="padding:2px; visibility:hidden; background-color:crimson">
@@ -124,29 +129,29 @@
                             <div class="col-md-6">
                                 <label>Country</label>
                                 @*<select name="" id="cmb_Country">
-                                    @foreach (var item in Model.Countries)
-                                    {
-                                        <option value="@item.CountryId">@item.Name</option>
-                                    }
-                                </select>*@
+                                        @foreach (var item in Model.Countries)
+                                        {
+                                            <option value="@item.CountryId">@item.Name</option>
+                                        }
+                                    </select>*@
                             </div>
                             <div class="col-md-6">
                                 <label>City</label>
                                 @*<select name="" id="cmb_City">
-                                    @foreach (var item in Model.Cities.Distinct())
-                                    {
-                                        <option value="@item.CityId">@item.Name</option>
-                                    }
+                                        @foreach (var item in Model.Cities.Distinct())
+                                        {
+                                            <option value="@item.CityId">@item.Name</option>
+                                        }
 
-                                </select>*@
+                                    </select>*@
                             </div>
                             <div class="col-md-12">
                                 <label style="display:block">IP: </label>
                                 <select name="" id="cmb_IPSelect">
                                     @*@foreach (var item in Model.MPBoxList)
-                    {
-                        <option value="@item.JVBoxId">@item.BoxName</option>
-                    }*@
+                                        {
+                                            <option value="@item.JVBoxId">@item.BoxName</option>
+                                        }*@
                                     <option>-- Select Proxy IP --</option>
                                 </select>
                                 &nbsp;<i id="btn_IPSelect" class="fa fa-save"></i>
@@ -157,18 +162,18 @@
 
                     </div>
                     <div class="col-md-6">
-                            <div class="form-group">
+                        <div class="form-group">
 
-                                <div>
-                                    <select name="" id="cmb_StatusId">
-                                        @foreach (var item in Model.JVStatuses)
-                                        {
-                                            <option value="@item.JVBStatusId">@item.JVBStatusName</option>
-                                        }
-                                    </select>
-                                </div>
+                            <div>
+                                <select name="" id="cmb_StatusId">
+                                    @foreach (var item in Model.JVStatuses)
+                                    {
+                                        <option value="@item.JVBStatusId">@item.JVBStatusName</option>
+                                    }
+                                </select>
                             </div>
                         </div>
+                    </div>
 
                     @*<div class="col-md-6">
                             <div class="form-group">
@@ -374,11 +379,11 @@
     .action-board-grey {
         overflow-x: scroll;
         overflow-y: scroll;
-        height: 500px;
+        height: 600px;
     }
 
     .action-board-white {
-        min-height: 528px;
+        min-height: 628px;
         width: 4080px;
         height: auto;
     }
@@ -441,7 +446,7 @@
     }
 </style>
 
-@section JavaScript{
+@section Scripts{
 
     <script type="text/javascript">
 
@@ -910,7 +915,7 @@
                 var squery = $("#SearchCriteria").val();
                 console.log(squery)
                 if (squery == "") {
-                    $('.white-sec').removeClass("hide");
+                    $('.white-sec').removeClass("hidden");
                 } else {
                     $('.white-sec').each(function (i, val) {
                         var username = $(val).children(":eq(0)").html();
@@ -919,9 +924,9 @@
                             (username).toLowerCase().indexOf(squery) >= 0
                             || (email).toLowerCase().indexOf(squery) >= 0
                         ) {
-                            $(val).removeClass("hide");
+                            $(val).removeClass("hidden");
                         } else {
-                            $(val).addClass("hide");
+                            $(val).addClass("hidden");
                         }
                     });
                 }

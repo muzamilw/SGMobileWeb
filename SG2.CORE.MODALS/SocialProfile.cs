@@ -49,6 +49,7 @@ namespace SG2.CORE.MODAL
         public string DeviceBinLocation { get; set; }
         public Nullable<int> BlockedStatus { get; set; }
         public Nullable<System.DateTime> BockedSinceDateTime { get; set; }
+        public Nullable<int> TrelloStatusId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SocialProfile_Statistics> SocialProfile_Statistics { get; set; }

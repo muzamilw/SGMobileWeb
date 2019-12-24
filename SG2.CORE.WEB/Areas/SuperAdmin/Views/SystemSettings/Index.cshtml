@@ -4,11 +4,11 @@
 @using SG2.CORE.COMMON;
 @model SG2.CORE.MODAL.ViewModals.Backend.SystemSettings.SystemSettingsIndexViewModal
 @{
-                /**/
+    /**/
 
-                ViewBag.Title = "System Settings";
-                Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
-                var BaseURl = ViewBag.BaseUrl;
+    ViewBag.Title = "System Settings";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layoutnew.cshtml";
+    var BaseURl = ViewBag.BaseUrl;
 }
 <div class="main">
     <div class="container">
@@ -46,8 +46,8 @@
                             <label>&nbsp;</label>
                             <div class="select">
                                 <a href="@BaseURl/TeamMember/Index" class="btn  btn-primary" style="padding-top:12px; height:47px;"><i class="fa fa-plus"></i> Team</a>
-                                <a href="@BaseURl/PlanInformation/Index" class="btn  btn-primary" style="padding-top:12px; height:47px;"><i class="fa fa-plus"></i> Social Plans</a>
-                                
+                                @*<a href="@BaseURl/PlanInformation/Index" class="btn  btn-primary" style="padding-top:12px; height:47px;"><i class="fa fa-plus"></i> Social Plans</a>*@
+
                             </div>
                         </div>
                     </div>
@@ -93,7 +93,9 @@
         </div>
     </div>
 </div>
-@section StyleSheet {
+@section styles {
+    <link href="~/Content/ThemeAssets/css/backendcss.css" rel="stylesheet" />
+    <link href="~/Content/ThemeAssets/css/style.css" rel="stylesheet" type="text/css">
     <style type="text/css">
 
         .form-wrap .search-wrap input[type=search] {
