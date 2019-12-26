@@ -64,23 +64,23 @@
 
 
 
-    var ProfileStatus = "";
+    var PlanStatus = "";
     var SocialProfile = (SocialProfileDTO)ViewBag.SocailProfile;
     if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
     {
-        ProfileStatus = "Active (Free)";
+        PlanStatus = "Active (Free)";
     }
     else if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.ActivePlan)
     {
-        ProfileStatus = "Active (Plan)";
+        PlanStatus = "Active (Plan)";
     }
     else if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.canceled)
     {
-        ProfileStatus = "Cancelled";
+        PlanStatus = "Cancelled";
     }
     else if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Unsubscribe)
     {
-        ProfileStatus = "Unsubscribed";
+        PlanStatus = "Unsubscribed";
     }
 
 
@@ -96,6 +96,22 @@
             DeviceIMEI = SocialProfile.SocialProfile.DeviceIMEI;
 
         }
+    }
+
+
+    var ProfileStatus = "";
+    var statusclass = "btn-primary";
+
+    switch (SocialProfile.SocialProfile.BlockedStatus)
+    {
+        case null: ProfileStatus = "Valid"; statusclass = "btn-primary"; break;
+        case 0: ProfileStatus = "Valid"; statusclass = "btn-primary"; break;
+        case 66: ProfileStatus = "Action Blocked"; statusclass = "btn-danger"; break;
+        case 67: ProfileStatus = "Hard Blocked"; statusclass = "btn-danger"; break;
+        case 68: ProfileStatus = "Password Blocked"; statusclass = "btn-danger"; break;
+        default:
+            ProfileStatus = "Valid"; statusclass = "btn-primary";
+            break;
     }
 
 }
@@ -128,14 +144,14 @@
             <div class="col-md-6 col-xs-12">
                 <h3>
                     <img src="/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="36">
-                    @Model.SocialProfileName / @(Model.InstaUsrName ?? "--")
+                    @(Model.InstaUsrName ?? "--")
                 </h3>
 
             </div>
             <div class="col-md-6 col-xs-12 text-right">
-                <span class="right">Profile Status: <i>@Model.Status</i></span><br />
+                <span class="right">Block Status: <i>@ProfileStatus</i></span><br />
 
-                <span class="right">Status: <i>@ProfileStatus</i></span>
+                <span class="right">Plan Status: <i>@PlanStatus</i></span>
 
             </div>
         </div>
@@ -162,7 +178,7 @@
             <div class="row">
                 <div class="col-md-4 col-xs-6">
                     <ul>
-                        <li>App Connection Status <span class="JVboxName">@DeviceStatus</span></li>
+                        <li>Last Connected <span class="JVboxName">@DeviceStatus</span></li>
 
                     </ul>
                 </div>
@@ -179,33 +195,7 @@
             <div class="form-inner">
                 <div class="form-first">
                     <div class="row">
-                        <div class="col-md-4 col-sm-4 col-xs-12">
-                            <div class="user-inner">
-                                <label>Title</label>
-                                <div class="displayBlock" id="Title-textBlock">
-                                    <h2 class="displayText">
-                                        @if (title != null)
-                                        {
-                                            @title.TitleName;
-                                        }
-                                        else
-                                        {
-                                            @("--")
-                                        }
-                                    </h2>
-                                    <a href="#" text-block="Title-textBlock" edit-Block="Title-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
-                                </div>
-                                <div class="editBlock" id="Title-editBlock" style="display:none">
-                                    @Html.DropDownListFor(m => m.Title, Titles, "-- Select Title --", new { @id = "input_Title", @class = "slct" })
-                                    <a href="#" text-block="Title-textBlock" edit-Block="Title-editBlock" control-id="input_Title" class="btn_savedata"><i class="fa fa-save"></i> |</a>
-                                    <a href="#" text-block="Title-textBlock" edit-Block="Title-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
-                                </div>
-                            </div>
 
-
-
-
-                        </div>
                         <div class="col-md-4 col-sm-4 col-xs-12">
                             <div class="user-inner">
                                 <label>First name</label>
@@ -220,15 +210,6 @@
                                 </div>
                             </div>
 
-
-
-                            @*<a href=""><img src="~/Content/ThemeAssets/Images/lock-img.png" /></a>
-                                <span>
-                                    <a href="" id="AssignIpToPro">
-                                        Assign IP<br>
-                                        to City proxy
-                                    </a>
-                                </span>*@
 
                         </div>
                         <div class="col-md-4 col-sm-4 col-xs-12">
@@ -245,83 +226,31 @@
                                 </div>
                             </div>
 
+
+
+
+
+                        </div>
+
+                        <div class="col-md-4 col-sm-4 col-xs-12">
                             <div class="user-inner">
-                                <label>Mobile</label>
-                                <div class="displayBlock" id="Mobile-textBlock">
-                                    <h2 class="displayText">@(string.IsNullOrEmpty(Model.Mobile) ? "--" : Model.Mobile)</h2>
-                                    <a href="#" text-block="Mobile-textBlock" edit-Block="Mobile-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                <label>Social Password</label>
+                                <div class="displayBlock" id="LastName-textBlock">
+                                    <h2 class="displayText">@(string.IsNullOrEmpty(SocialProfile.SocialProfile.SocialPassword) ? "--" : SocialProfile.SocialProfile.SocialPassword)</h2>
+                                    
                                 </div>
-                                <div class="editBlock" id="Mobile-editBlock" style="display:none">
-                                    <input type="text" value="@Model.Mobile" id="input_Mobile" class="" name="Mobile" />
-                                    <a href="#" text-block="Mobile-textBlock" edit-Block="Mobile-editBlock" control-id="input_Mobile" class="btn_savedata"><i class="fa fa-save"></i> | </a>
-                                    <a href="#" text-block="Mobile-textBlock" edit-Block="Mobile-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
-                                </div>
+                             
                             </div>
 
 
 
-                            @*<a href=""><img src="~/Content/ThemeAssets/Images/lock-img.png" /></a>
-                                <span>
-                                    <a href="#" id="AssignJVTOProfile">
-                                        Assign<br>
-                                        JV Box
-                                    </a>
-                                </span>*@
+
 
                         </div>
                     </div>
                 </div>
 
-                @*<div class="users">
-                        <div class="row">
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <div class="user-inner">
-
-                                    <span>Instagram Username</span>
-                                    <div class="displayBlock" id="intauser-textBlock">
-                                        <h2 class="displayText">@(string.IsNullOrEmpty(Model.InstaUsrName)?"--":Model.InstaUsrName)</h2>
-                                        <a href="#" text-block="intauser-textBlock" edit-Block="intauser-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
-
-
-                                    </div>
-                                    <div class="editBlock" id="intauser-editBlock" style="display:none">
-                                        <input type="text" value="@Model.InstaUsrName" id="input_instaUsername" class="" name="InstaUsrName" />
-                                        <a href="#" text-block="intauser-textBlock" edit-Block="intauser-editBlock" control-id="input_instaUsername" class="btn_savedata"><i class="fa fa-save"></i> | </a>
-                                        <a href="#" text-block="intauser-textBlock" edit-Block="intauser-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
-                                    </div>
-
-                                </div>
-
-                                <div class="user-inner">
-                                    <span>Instagram Password</span>
-
-                                    <div class="displayBlock" id="intapass-textBlock">
-                                        <h2 class="displayText">@(string.IsNullOrEmpty(Model.InstaPassword) ? "--" : Model.InstaPassword)</h2>
-                                        <a href="#" text-block="intapass-textBlock" edit-Block="intapass-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
-                                    </div>
-                                    <div class="editBlock" id="intapass-editBlock" style="display:none">
-                                        <input type="text" value="@Model.InstaPassword" id="input_instaPassword" class="" name="InstaPassword" />
-                                        <a href="#" text-block="intapass-textBlock" edit-Block="intapass-editBlock" control-id="input_instaPassword" class="btn_savedata"><i class="fa fa-save"></i> |</a>
-                                        <a href="#" text-block="intapass-textBlock" edit-Block="intapass-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-8 col-sm-6 col-xs-12">
-                                <div class="user-btn">
-                                    <a href="">Update NOW on JV</a>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-md-8 col-sm-6 col-xs-12">
-                                <div class="user-inner date">
-                                    <span>Last Updated : @Html.DisplayFor(m => m.UpdatedOn) &nbsp;&nbsp; 23 : 34 : 56 &nbsp;&nbsp;@Html.DisplayFor(m => m.JVStatus)</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>*@
+              
 
 
             </div>
@@ -329,194 +258,20 @@
 
         <br />
 
-        <div class="information-form-inner detail">
-            <div class="form-inner">
-                <div class="form-first">
-                    <div class="row">
-                        <div class="col-sm-6 col-xs-12">
-                            <div class="user-inner">
-                                <label>Comment</label>
-                                <div class="displayBlock" id="Comment-textBlock">
-                                    @*<h2 class="displayText">@Html.DisplayFor(m => m.Comment)</h2>*@
-                                    <a href="#" text-block="Comment-textBlock" edit-Block="Comment-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
-                                </div>
-                                <div class="editBlock" id="Comment-editBlock" style="display:none">
-                                    @Html.TextBoxFor(m => m.Comment, new { @id = "input_Comment", @class = "", @name = "Comment" })
-                                    <a href="#" text-block="Comment-textBlock" edit-Block="Comment-editBlock" control-id="input_Comment" class="btn_savedata"><i class="fa fa-save"></i> |</a>
-                                    <a href="#" text-block="Comment-textBlock" edit-Block="Comment-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-xs-12">
-                            <div class="user-inner">
-                                <label>Customer Status</label>
-                                <div class="displayBlock" id="CStatus-textBlock">
-                                    <h2 class="displayText">
-                                        @if (cStatus != null)
-                                        {
-                                            @cStatus.StatusValue
-                                        }
-                                        else
-                                        {
-                                            @("--")
-                                        }
-                                    </h2>
-                                    <a href="#" text-block="CStatus-textBlock" edit-Block="CStatus-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
-                                </div>
-                                <div class="editBlock" id="CStatus-editBlock" style="display:none">
-                                    @Html.DropDownListFor(m => m.CustomerStatus, CustomerStatuses, "-- Select Status --", new { @id = "input_CStatus", @class = "slct" })
-                                    <a href="#" text-block="CStatus-textBlock" edit-Block="CStatus-editBlock" control-id="input_CStatus" class="btn_savedata"><i class="fa fa-save"></i> |</a>
-                                    <a href="#" text-block="CStatus-textBlock" edit-Block="CStatus-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="compaign-sec">
-            <div class="btn-search">
-                <div class="row">
-                    <div class="col-md-7">
-                        <div class="send-search-text">
-                            <input id="TypeNotes" type="text" placeholder="Type Notes / Reasons for call back here">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
 
 
-
-                        <div class='input-group date' id='datetimepicker1'>
-                            <input type='text' class="form-control" />
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <span class="fa fa-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col-md-2">
-                        <button type="button" id="btnSchedCall" class="btn btn-block btn-height47 transition">Schedule Call</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="compaign-sec">
-            <div class="row">
-                <div class="col-xs-12">
-                    <h2>Subscribed for the following Campaigns:</h2>
-                    <ul>
-                        <li>
-                            User has opted in to receive Educational Email Services
-
-                            @if (Model.OptedEdEmailSeries)
-                            {
-                                <span>
-                                    Yes
-                                </span>
-                            }
-                            else
-                            {
-                                <span>No</span>
-                            }
-
-                        </li>
-                        <li>
-                            User has opted in to receive Marketing Emails
-                            @if (Model.OptedMarkEmail)
-                            {
-                                <span>
-                                    Yes
-                                </span>
-                            }
-                            else
-                            {
-                                <span>
-                                    No
-                                </span>
-                            }
-
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
 
         <div class="source">
             <div class="row">
+                
                 <div class="col-md-4 col-sm-4 col-xs-6 inner-colm">
                     <div class="user-inner">
-                        <span>Source</span>
-                        <div class="displayBlock" id="Source-textBlock">
-                            <h2 class="displayText">@(source)</h2>
-                            <a href="#" text-block="Source-textBlock" edit-Block="Source-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
-                        </div>
-                        <div class="editBlock" id="Source-editBlock" style="display:none">
-                            @Html.DropDownListFor(m => m.Source, Sources, "Select Source", new { @id = "input_Source", @class = "slct", @name = "Source" })
-                            <a href="#" text-block="Source-textBlock" edit-Block="Source-editBlock" control-id="input_Source" class="btn_savedata"><i class="fa fa-save"></i> |</a>
-                            <a href="#" text-block="Source-textBlock" edit-Block="Source-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-4 col-xs-6 inner-colm">
-                    <div class="user-inner">
-                        <span>Register</span>
+                        <span>Registered</span>
                         <h2>@Html.DisplayFor(m => m.UpdatedOn)</h2>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-4 col-xs-6 inner-colm">
-                    <div class="user-inner">
-                        <span>Responsible Team member</span>
-                        <div class="displayBlock" id="RTMember-textBlock">
-                            <h2 class="displayText">@((SelectRspUsr == null) ? "--" : SelectRspUsr.UserName)</h2>
-                            <a href="#" text-block="RTMember-textBlock" edit-Block="RTMember-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
-                        </div>
-                        <div class="editBlock" id="RTMember-editBlock" style="display:none">
-                            @Html.DropDownListFor(m => m.ResTeamMember, UsrListItems, "Responsible Team member", new { @id = "input_ResTeamMember", @class = "slct", @name = "ResTeamMember" })
-                            <a href="#" text-block="RTMember-textBlock" edit-Block="RTMember-editBlock" control-id="input_ResTeamMember" class="btn_savedata"><i class="fa fa-save"></i> |</a>
-                            <a href="#" text-block="RTMember-textBlock" edit-Block="RTMember-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
-                        </div>
-                        <div class="displayBlock" id="RoleName-textBlock">
-                            <h2 class="displayText">@((RoleName == null) ? "--" : RoleName.RoleName)</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-4 col-xs-6 inner-colm">
-                    <div class="user-inner">
-                        <span>Available to everyone</span>
-
-                        <div class="displayBlock" id="AvaToEveryOne-textBlock">
-                            <h2 class="displayText">
-                                @if (Model.AvaToEveryOne)
-                                {
-                                    @("YES")
-                                }
-                                else
-                                {
-                                    @("NO")
-                                }
-                            </h2>
-                            <a href="#" text-block="AvaToEveryOne-textBlock" edit-Block="AvaToEveryOne-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
-                        </div>
-
-                        <div class="editBlock" id="AvaToEveryOne-editBlock" style="display:none">
-                            <label class="form-radio">
-                                Yes @Html.RadioButtonFor(model => model.AvaToEveryOne, "1")
-                                <span class="checkmark"></span>
-                            </label>
-                            <label class="form-radio">
-                                No
-                                @Html.RadioButtonFor(model => model.AvaToEveryOne, "0")
-                                <span class="checkmark"></span>
-                            </label>
-                            <a href="#" text-block="AvaToEveryOne-textBlock" edit-Block="AvaToEveryOne-editBlock" control-id="AvaToEveryOne" class="btn_savedata"><i class="fa fa-save"></i> |</a>
-                            <a href="#" text-block="AvaToEveryOne-textBlock" edit-Block="AvaToEveryOne-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
-                        </div>
-
-                    </div>
-                </div>
+                
+                
 
                 <div class="col-md-4 col-sm-4 col-xs-6 inner-colm">
                     <div class="user-inner" style="display:none">
@@ -549,7 +304,7 @@
                 <div class="col-2">
                     <a href="#" class="delete btn_ShowThreeDaysConfirmModal" style="background-color:blueviolet">Give 3 Day Free Service</a>
                 </div>
-                <div class="col-12"><p>Warning ! : This will delete all CRM records, Release proxies IP & JV entry</p></div>
+               
             </div>
         </div>
     </div>
@@ -561,8 +316,9 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title text-left">Delete Profile Confirmation!</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Confirmation!</h4>
+
             </div>
             <div class="modal-body">
                 <p>Are you sure you want to delete the item.</p>
@@ -584,14 +340,15 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title text-left">Refund Confirmation!</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Confirmation!</h4>
+
             </div>
             <div class="modal-body" style="padding:15px 30px">
                 @*<h3 style="color:red">Refund will be initiated </h3>*@
                 <br />
                 <br />
-                <label>Please Enter Password </label>
+                <label>Please Enter Password to proceed for Refund</label>
                 <input type="password" id="RefundPassword" value="" />
             </div>
             <div class="modal-footer">
@@ -609,13 +366,14 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title text-left">Add Free Days Confirmation!</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Confirmation!</h4>
+
             </div>
             <div class="modal-body" style="padding:15px 30px">
                 @*  <h3 style="color:red">Give 2 Week Free Service (Delay Next Billing by 14 days)</h3>*@
                 <br /><br />
-                <label>Please Enter Password </label>
+                <label>Please Enter Password to add Free Days </label>
                 <input type="password" id="AddFreeDays_Password" value="" />
             </div>
             <div class="modal-footer">
@@ -652,12 +410,12 @@
 
     .form-first .user-inner label {
         color: #555;
-        font-size: 1.8rem;
+        font-size: 1.2rem;
     }
 
     .form-first .user-inner h2 {
         color: #ff4a65;
-        font-size: 1.6rem
+        font-size: 1.0rem
     }
 
     .form-first .user-inner {
@@ -1030,9 +788,9 @@
                             $("#Modal_Messagebox").modal("show");
                             //TODO:Handle the status here
 
-                            
+
                             window.location.href = GLB_BASEURL+"/CRM/Index"
-                           
+
                         } else {
                             $("#Modal_ConfirmDeletion").modal("hide");
                             $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
