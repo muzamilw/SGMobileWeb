@@ -1,0 +1,272 @@
+﻿@using SG2.CORE.MODAL.DTO.Customers;
+@using SG2.CORE.COMMON;
+@model SG2.CORE.MODAL.DTO.Customers.SocialProfileDTO
+@{
+
+    ViewBag.Title = "White & Black Lists";
+    Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
+    var custDto = (CustomerDTO)ViewBag.CustomerDTO;
+
+    var currentUser = (CustomerDTO)ViewBag.CurrentUser;
+
+    ViewBag.socialProfile = Model.SocialProfile;
+
+    var ProfileStatus = "";
+    if (Model.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
+    {
+        ProfileStatus = "Active (Free)";
+    }
+    else if (Model.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.ActivePlan)
+    {
+        ProfileStatus = "Active (Plan)";
+    }
+    else if (Model.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.canceled)
+    {
+        ProfileStatus = "Cancelled";
+    }
+    else if (Model.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Unsubscribe)
+    {
+        ProfileStatus = "Unsubscribed";
+    }
+
+}
+
+
+@section styles{
+
+    <link href="~/Content/app-assets/vendors/css/forms/tags/tagging.css" rel="stylesheet" />
+}
+
+@section profileheader{
+    @Html.Partial("Partial/_PartialProfileHeader", Model)
+}
+
+    <form class="form" id="formlists" method="post" action="Lists" novalidate>
+        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.SocialProfileId)
+        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.TargetingInformationId)
+
+        <!-- BEGIN: Content-->
+        <div class="app-content container center-layout mt-2">
+            <div class="content-wrapper">
+
+                <div class="content-body">
+                    <!-- Basic form layout section start -->
+                    <section id="horizontal-form-layouts">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title" id="horz-layout-basic">White & Black Lists</h4>
+                                        <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                        <div class="heading-elements">
+                                            <ul class="list-inline mb-0">
+                                                <li></li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="card-content collpase show">
+                                        <div class="card-body">
+
+
+                                            <div class="form-body">
+                                                <h4 class="form-section"><i class="ft-user"></i> White Lists</h4>
+                                                <div class="form-group row">
+                                                    <label class="col-md-3 label-control" for="projectinput1">White List (User typed in )<br />
+                                                    <span style="color: lightgray;font-size: 12px;">Usernames you never want to unfollow</span></label>
+
+                                                    <div class="col-md-9">
+
+
+                                                        <div id="wltyped" class="edit-on-delet form-control" data-tags-input-name="@Html.NameFor(m => m.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers)">@Model.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers</div>
+
+                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers)
+                                                    </div>
+                                                    
+                                                    
+                                                </div>
+                                                @*<div class="form-group row">
+                                                    <label class="col-md-3 label-control" for="projectinput2">White List (Extracted from live account )</label>
+                                                    <div class="col-md-9">
+
+                                                        <div id="wlextracted" class="edit-on-delete form-control" data-tags-input-name="wlextracted">@Model.SocialProfile_Instagram_TargetingInformation.WhilstListImportedUsers</div>
+
+                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.WhilstListImportedUsers)
+                                                    </div>
+                                                </div>*@
+
+                                                <h4 class="form-section"><i class="ft-clipboard"></i> Black Lists</h4><p style="color:lightgray">
+                                                    User typed in Usernames, hashtags and locations to not follow
+                                                </p>
+                                                <div class="form-group row">
+                                                    <label class="col-md-3 label-control" for="projectinput5">Usernames</label>
+                                                    <div class="col-md-9">
+
+
+                                                        <div id="blUsernames" class="edit-on-delete form-control" data-tags-input-name="blUsernames">@Model.SocialProfile_Instagram_TargetingInformation.BlackListUsers</div>
+
+                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.BlackListUsers)
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-md-3 label-control" for="projectinput6">Locations</label>
+                                                    <div class="col-md-9">
+
+
+                                                        <div id="blLocations" class="edit-on-delete form-control" data-tags-input-name="blLocations">@Model.SocialProfile_Instagram_TargetingInformation.BlackListLocations</div>
+
+                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.BlackListLocations)
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-md-3 label-control" for="projectinput7">Hashtags</label>
+                                                    <div class="col-md-9">
+
+
+                                                        <div id="blHashtags" class="edit-on-delete form-control" data-tags-input-name="blHashtags">@Model.SocialProfile_Instagram_TargetingInformation.BlackListHashtags</div>
+
+                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.BlackListHashtags)
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-md-3 label-control">Black List Words</label>
+                                                    <div class="col-md-9">
+
+                                                        <div id="bWordsManual" class="edit-on-delete form-control" data-tags-input-name="bWordsManual">@Model.SocialProfile_Instagram_TargetingInformation.BlackListWordsManual</div>
+
+                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.BlackListWordsManual)
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-actions text-center">
+
+                                                <button type="submit" class="btn btn-primary">
+                                                    <i class="fa fa-check-square-o"></i> Save
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- // Basic form layout section end -->
+                </div>
+            </div>
+        </div>
+        <!-- END: Content-->
+    </form>
+
+
+@section Scripts{
+
+    <script src="~/Content/app-assets/vendors/js/forms/tags/tagging.min.js"></script>
+    <script src="~/Content/app-assets/vendors/js/extensions/sweetalert.min.js"></script>
+    <script src="~/Content/app-assets/js/scripts/extensions/sweet-alerts.js"></script>
+    <script>
+        var somethingChanged = false;
+        var wltyped, wltypedbox, wlextracted, wlextractedbox, blUsernames, blUsernamesbox, blLocations, blLocationsbox, blHashtags, blHashtagsbox, bWordsManual, bWordsManualbox;
+        $(document).ready(function () {
+            /*******************************
+            *       Simple Options         *
+            *******************************/
+              @if (ViewBag.success == 1) {
+                @:swal("Success!", "You have successfully updated the white & black lists. They will be reflected next time mobile app is executed!", "success");
+            }
+
+
+            wltyped = $("#wltyped").tagging({
+                "edit-on-delete": false,
+                "no-spacebar": true,
+                "tag-char": '',
+                'forbidden-chars': [",", "?"]
+            });
+            wltypedbox = wltyped[0];
+
+            wlextracted = $("#wlextracted").tagging({
+                "edit-on-delete": false,
+                "no-spacebar": true,
+                "tag-char": '',
+                'forbidden-chars': [",", "?"]
+            });
+            wlextractedbox = wlextracted[0];
+
+
+            blUsernames = $("#blUsernames").tagging({
+                "edit-on-delete": false,
+                "no-spacebar": true,
+                "tag-char": '',
+                'forbidden-chars': [",", "?"]
+            });
+            blUsernamesbox = blUsernames[0];
+
+            blLocations = $("#blLocations").tagging({
+                "edit-on-delete": false,
+                "no-spacebar": true,
+                "tag-char": '',
+                'forbidden-chars': [",", "?"]
+            });
+            blLocationsbox = blLocations[0];
+
+
+            blHashtags = $("#blHashtags").tagging({
+                "edit-on-delete": false,
+                "no-spacebar": true,
+                "tag-char": '',
+                'forbidden-chars': [",", "?"]
+            });
+            blHashtagsbox = blHashtags[0];
+
+            bWordsManual = $("#bWordsManual").tagging({
+                "edit-on-delete": false,
+                "no-spacebar": true,
+                "tag-char": '',
+                'forbidden-chars': [",", "?"]
+            });
+            bWordsManualbox = bWordsManual[0];
+
+
+
+            //// Edit / Delete tag on delete
+            //$(".edit-on-delete").tagging({
+            //    "edit-on-delete": false,
+            //    "no-spacebar": true,
+            //    "tag-char" : ''
+            //});
+
+           
+            $(document).ready(function () {
+                $('input').change(function () {
+                    somethingChanged = true;
+                });
+            });
+
+            window.onbeforeunload = function () {
+                if (somethingChanged)
+                    return 'Targeting information has changed, Are you sure you want to navigate away without saving the changes ?';
+            };
+
+        });
+
+        $('#formlists').submit(function (e) {
+            somethingChanged = false;
+            document.getElementById("SocialProfile_Instagram_TargetingInformation_WhistListManualUsers").value = wltypedbox.tagging("getTags").join(', ');
+
+
+            //document.getElementById("SocialProfile_Instagram_TargetingInformation_WhilstListImportedUsers").value = wlextractedbox.tagging("getTags").join(', ');
+
+            document.getElementById("SocialProfile_Instagram_TargetingInformation_BlackListUsers").value = blUsernamesbox.tagging("getTags").join(', ');
+
+            document.getElementById("SocialProfile_Instagram_TargetingInformation_BlackListLocations").value = blLocationsbox.tagging("getTags").join(', ');
+
+            document.getElementById("SocialProfile_Instagram_TargetingInformation_BlackListHashtags").value = blHashtagsbox.tagging("getTags").join(', ');
+
+            document.getElementById("SocialProfile_Instagram_TargetingInformation_BlackListWordsManual").value = bWordsManualbox.tagging("getTags").join(', ');
+
+
+        });
+    </script>
+
+}

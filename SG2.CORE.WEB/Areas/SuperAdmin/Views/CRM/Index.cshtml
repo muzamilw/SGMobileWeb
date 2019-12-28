@@ -7,7 +7,7 @@
     /**/
 
     ViewBag.Title = "User Listing";
-    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layoutnew.cshtml";
     var BaseURl = ViewBag.BaseUrl;
 
     List<SelectListItem> appStatus = new List<SelectListItem>();
@@ -39,181 +39,157 @@
         appStatus.Add(new SelectListItem { Text = dr.StatusValue, Value = dr.StatusId.ToString() });
     }
 }
+@section styles{
+    <link href="~/Content/ThemeAssets/css/backendcss.css" rel="stylesheet" />
+    <link href="~/Content/ThemeAssets/css/style.css" rel="stylesheet" type="text/css">
 
-<div class="main">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <h2>CRM</h2>
-            </div>
-        </div>
-    </div>
-</div>
+        <style type="text/css">
 
-<div class="form-wrap">
-    <div class="container">
-        <div class="inner-colmn">
-            @using (Html.BeginForm("Index", "CRM", FormMethod.Get, new { @id = "Form_SearchCriteria" }))
-            {
-            <div class="row">
-                <div class="col-md-3 col-sm-12">
-                    <div class="search-wrap clearfix">
-                        @Html.TextBoxFor(model => model.SearchCriteria, htmlAttributes: new { @placeholder = "Search here", @type = "search" })
-                    </div>
-                </div>
-                <div class="col-md-2 col-sm-12">
-                    <div class="product">
-                        <label>Product</label>
-                        <div class="select">
-                            @Html.DropDownListFor(model => model.ProductId, appProductIds, "Products (All)")
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2 col-sm-12">
-                    <div class="product">
-                        <label>MP Status</label>
-                        <div class="select">
-                            @Html.DropDownListFor(model => model.JVStatus, JarveeStatus, "MP Status (All)")
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-2 col-sm-12">
-                    <div class="product">
-                        <label>Subscription</label>
-                        <div class="select">
-                            @Html.DropDownListFor(model => model.Subscription, appSubscription, "Subscription (All)")
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-12">
-                    <div class="product">
-                        <label>SG Status</label>
-                        <div class="select">
-                            @Html.DropDownListFor(model => model.StatusId, appStatus, "Status (All)", new { @class = "slct" })
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-12">
-                    <div class="product">
-                        <label>&nbsp;</label>
-                        <button type="submit" class="btn btn-block btn-primary searchBtn" value="SearchCriteria">
-                            <i class="fa fa-search"></i> Search
-                        </button>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-12">
-                    <div class="">
-                        <label>&nbsp;</label>
-
-                        <a href="@BaseURl/crm" id="" class="btn btn-block btn-height47">
-                            <i class="fa fa-times-circle"></i> Reset
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-12">
-                    <div class="">
-                        <label>&nbsp;</label>
-
-                        <a href="@BaseURl/LikeAccts" id="" class="btn btn-block btn-height47">
-                            <i class="fa fa-list"></i>  likey Accounts
-                        </a>
-                    </div>
-                </div>
-            </div>
+            .form-wrap .search-wrap input[type=search] {
+                font-size: 1.2rem;
+                line-height: 22px;
+                height: 47px;
             }
-        </div>
-    </div>
-</div>
 
-<div class="product-listing-sec">
-    <div class="container">
-        <div class="product-list-inner">
+            input[type=search] {
+                border-bottom: 2px solid #eceffb;
+                font-style: normal;
+                padding: 0px 24px 10px;
+            }
+
+            button.searchBtn {
+                height: 47px;
+            }
+
+            button.width {
+                width: 60px;
+            }
+
+            .product-list-inner {
+                background-color: #fff;
+            }
+        </style>
+    }
+
+    <div class="main">
+        <div class="container">
             <div class="row">
-                <div class="col-xs-12">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th scope="col" style="width:25%">Name</th>
-                                <th scope="col">Products</th>
-                                <th scope="col">IP/MPBox</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">MP Status</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            @foreach (var item in Model.CustomerListing)
-                            {
-                                <tr>
-                                    <td data-label="ID">
-                                        <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="24">
-                                        @(string.IsNullOrEmpty(item.InstaUsrName) ? "--" : item.InstaUsrName) <br />
-                                        <a href="@BaseURl/crm/detailpage?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))">@item.Name</a><br />
-                                        @(string.IsNullOrEmpty(item.CustomerEmail) ? "--" : item.CustomerEmail) <br />
-                                    </td>
-                                    <td data-label="Products" class="product">@(string.IsNullOrEmpty(item.Products) ? "--" : item.Products)</td>
-
-                                    <td data-label="Box">@(string.IsNullOrEmpty(item.Proxy) ? "--" : item.Proxy)<br />@(string.IsNullOrEmpty(item.Box) ? "--" : item.Box)</td>
-                                    <td data-label="Status" class="status">@item.Status</td>
-                                    <td data-label="JVBoxStatus" class="JVBoxStatus">@(string.IsNullOrEmpty(item.JVBoxStatus) ? "--" : item.JVBoxStatus)</td>
-                                    <td data-label="Action" class="status">
-                                        <a href="@BaseURl/crm/TargettingInformation?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))"><i class="fa fa-edit"></i></a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                <div class="col-12">
+                    <h2>CRM</h2>
                 </div>
             </div>
         </div>
-        <div class="pagination-wrap">
-            Page @(Model.TotalRecord < Model.PageNumber ? 0 : Model.PageNumber)
-            of @Model.TotalRecord   @Html.PagedListPager((IPagedList<CustomerListingViewModel>)Model.CustomerListing, page => Url.Action("Index", new { page, Model.SearchCriteria, Model.StatusId, Model.ProductId }))
+    </div>
+
+    <div class="form-wrap">
+        <div class="container">
+            <div class="inner-colmn">
+                @using (Html.BeginForm("Index", "CRM", FormMethod.Get, new { @id = "Form_SearchCriteria" }))
+                {
+                    <div class="row">
+                        <div class="col-md-3 col-sm-12">
+                            <div class="search-wrap clearfix">
+                                @Html.TextBoxFor(model => model.SearchCriteria, htmlAttributes: new { @placeholder = "Search here", @type = "search" })
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <div class="product">
+                                <label>Product</label>
+                                <div class="select">
+                                    @Html.DropDownListFor(model => model.ProductId, appProductIds, "Products (All)")
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <div class="col-md-2 col-sm-12">
+                            <div class="product">
+                                <label>Subscription</label>
+                                <div class="select">
+                                    @Html.DropDownListFor(model => model.Subscription, appSubscription, "Subscription (All)")
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <div class="col-md-3 col-sm-12 ">
+                            <div class="product">
+                                <label class="d-block">&nbsp;</label>
+                                <button type="submit" class="btn btn-primary d-inline-block" value="SearchCriteria">
+                                    <i class="fa fa-search"></i> Search
+                                </button>
+
+                                <a href="@BaseURl/crm" id="" class="btn btn-secondary d-inline-block">
+                                    <i class="fa fa-times-circle"></i> Reset
+                                </a>
+                            </div>
+                        </div>
+                       
+                       
+                    </div>
+                }
+            </div>
         </div>
     </div>
-</div>
+
+    <div class="product-listing-sec">
+        <div class="container">
+            <div class="product-list-inner">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th scope="col" style="width:25%">Name</th>
+                                    <th scope="col">Products</th>
+                                    <th scope="col">Broker/Regular</th>
+                                    <th scope="col">Plan Status</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model.CustomerListing)
+                                {
+                                    <tr>
+                                        <td data-label="ID">
+                                            <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="24">
+                                            <a href="@BaseURl/crm/detailpage?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))">@(string.IsNullOrEmpty(item.InstaUsrName) ? "--" : item.InstaUsrName)</a><br />
+                                            @(string.IsNullOrEmpty(item.CustomerEmail) ? "--" : item.CustomerEmail) <br />
+
+                                        </td>
+                                        <td data-label="Products" class="product">@(string.IsNullOrEmpty(item.Products) ? "--" : item.Products)</td>
+
+                                        <td data-label="Box">@(item.BrokerAccount ? "Broker" : "Regular")</td>
+                                        <td data-label="Status" class="status">@item.Status</td>
+                                        @*<td data-label="JVBoxStatus" class="JVBoxStatus">@(string.IsNullOrEmpty(item.JVBoxStatus) ? "--" : item.JVBoxStatus)</td>*@
+                                        <td data-label="Action" class="status">
+                                            <a href="@BaseURl/crm/TargettingInformation?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))"><i class="fa fa-edit"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="pagination-wrap">
+                Page @(Model.TotalRecord < Model.PageNumber ? 0 : Model.PageNumber)
+                of @Model.TotalRecord   @Html.PagedListPager((IPagedList<CustomerListingViewModel>)Model.CustomerListing, page => Url.Action("Index", new { page, Model.SearchCriteria, Model.StatusId, Model.ProductId }))
+            </div>
+        </div>
+    </div>
 
 
-@section StyleSheet {
-    <style type="text/css">
 
-        .form-wrap .search-wrap input[type=search] {
-            font-size: 1.8rem;
-            line-height: 22px;
-            height: 47px;
-        }
 
-        input[type=search] {
-            border-bottom: 2px solid #eceffb;
-            font-style: normal;
-            padding: 0px 24px 10px;
-        }
+    @section scripts{
+        <script type="text/javascript">
 
-        button.searchBtn {
-            height: 47px;
-        }
+            $(document).ready(function () {
 
-        button.width {
-            width: 60px;
-        }
-
-        .product-list-inner{
-            background-color:#fff;
-        }
-    </style>
-}
-
-@section JavaScript{
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-
-        });
+            });
 
 
 
-    </script>
+        </script>
 
-}
+    }

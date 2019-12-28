@@ -9,19 +9,23 @@ using SG2.CORE.MODAL.ViewModals.Backend.ActionBoard;
 using System.Threading.Tasks;
 using SG2.CORE.MODAL.DTO.TargetPreferences;
 using SG2.CORE.MODAL.DTO.Common;
-using SG2.CORE.MODAL.DTO.JVBox;
+using SG2.CORE.MODAL;
+using SG2.CORE.MODAL.MobileViewModels;
+using SG2.CORE.MODAL.ViewModals.Customers;
 
 namespace SG2.CORE.BAL.Managers
 {
     public class CustomerManager
     {
         private readonly CustomerRepository _customerRepository;
+		private readonly SocialProfileRepository _socialRepository;
 
-        private readonly SessionManager _sessionManager;
+		private readonly SessionManager _sessionManager;
 
         public CustomerManager()
         {
             _customerRepository = new CustomerRepository();
+			_socialRepository = new SocialProfileRepository();
             _sessionManager = new SessionManager();
         }
 
@@ -65,6 +69,18 @@ namespace SG2.CORE.BAL.Managers
 
         }
 
+        public async Task<bool> SetSocialProfileJVStatus(int profileId, int jvStatusId, string updatedBy)
+        {
+            try
+            {
+                return await _customerRepository.SetSocialProfileJVStatus(profileId, jvStatusId, updatedBy);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public bool DeleteCustomer(int customerId, int SocialProfileId)
         {
             try
@@ -79,7 +95,26 @@ namespace SG2.CORE.BAL.Managers
 
         }
 
-        public bool LoginUser(string username, string password, ref string errorMessage)
+        public bool DeleteProfile(int customerId, int SocialProfileId)
+        {
+            try
+            {
+                return _customerRepository.DeleteProfile(customerId, SocialProfileId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        public (bool LoginSuccessful, string Message, int SocialProfileId, bool PasswordNeeded, int ErrorCode, int CustomerId, bool IsBroker, int BlockCode, DateTime BlockDateTimeUTC) PerformMobileLogin(string SocialUserName, string Pin, string DeviceIMEI, bool ForceSwitchDevice)
+        {
+            return _customerRepository.PerformMobileLogin(SocialUserName, Pin, DeviceIMEI, ForceSwitchDevice);
+        }
+
+            public (bool, int, string) LoginUser(string username, string password, ref string errorMessage)
         {
             try
             {
@@ -91,33 +126,35 @@ namespace SG2.CORE.BAL.Managers
                     if (cust.StatusId == 7)
                     {
                         errorMessage = "Email verification required.";
-                        return false;
+                        return (false,0,null) ;
                     }
                     else if (cust.StatusId == 6)
                     {
                         errorMessage = "Your account is inactive. Please contact adminstrator.";
-                        return false;
+                        return (false, 0,null);
                     }
                     else if (cust.StatusId == 4)
                     {
                         errorMessage = "Your account has been deleted.";
-                        return false;
+                        return (false, 0, null);
                     }
                     else if (cust.StatusId == 5 || cust.StatusId == 1)
                     {
                         _sessionManager.Set(SessionConstants.Customer, cust);
-                        return true;
+                        return (true, cust.CustomerId,cust.EmailAddress);
                     }
 
                 }
                 errorMessage = "Invalid email or password.";
-                return false;
+                return (false,0, null);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
+
+      
 
         public IList<CustomerListingViewModel> GetUserData(string SearchCriteria, string PageSize, int PageNumber, int? StatusId, string ProductId, string JVStatus, int? Subscription)
         {
@@ -219,16 +256,11 @@ namespace SG2.CORE.BAL.Managers
 
         public List<ActionBoardListingViewModel> GetActionBoardData(int? JVBoxStatusId)
         {
-            var Model = _customerRepository.GetActionBoardData(JVBoxStatusId);
-            return Model;
+            return _customerRepository.GetActionBoardData(JVBoxStatusId);
+            //return new List<ActionBoardListingViewModel>();
         }
 
-        public List<ActionBoardJVSData> GetJVStatuses()
-        {
-            var Model = _customerRepository.GetJVStatuses();
-
-            return Model;
-        }
+      
 
         //public bool UpdateSuccessfulLogin(CustomerIndexViewModel model)
         //{
@@ -279,6 +311,79 @@ namespace SG2.CORE.BAL.Managers
                 throw ex;
             }
         }
+		public bool UpdateBasicSocialProfile(SocialProfileDTO model) {
+			try
+			{
+				var socialprofile = _socialRepository.UpdateSocialProfile(model.SocialProfile.DeviceBinLocation,model.SocialProfile.SocialUsername,model.SocialProfile.SocialProfileId);
+				if (socialprofile)
+				{
+					_sessionManager.Set(SessionConstants.SocialProfile, socialprofile);
+				}
+				return socialprofile;
+
+			}
+			catch (Exception e)
+			{
+
+				throw e;
+				
+			}
+		}
+
+        public bool UpdateBasicSocialProfileBlock(BlockStatus blockStatus, int SocialProfileId)
+        {
+            try
+            {
+                var socialprofile = _socialRepository.UpdateSocialProfileBlocks(blockStatus, SocialProfileId);
+                return socialprofile;
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+
+            }
+        }
+        public bool UpdateTargetProfile(SocialProfileDTO model)
+		{
+			try
+			{
+				var socialprofile = _socialRepository.UpdateTargetProfile(model);
+				if (socialprofile)
+				{
+					_sessionManager.Set(SessionConstants.SocialProfile, socialprofile);
+				}
+				return socialprofile;
+
+			}
+			catch (Exception e)
+			{
+
+				throw e;
+
+			}
+		}
+
+        public bool UpdateTargetProfileLists(SocialProfileDTO model)
+        {
+            try
+            {
+                var socialprofile = _socialRepository.UpdateTargetProfileLists(model);
+                if (socialprofile)
+                {
+                    _sessionManager.Set(SessionConstants.SocialProfile, socialprofile);
+                }
+                return socialprofile;
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+
+            }
+        }
 
         public CustomerDTO UpdateCustomerProfile(CustomerDTO model)
         {
@@ -318,21 +423,6 @@ namespace SG2.CORE.BAL.Managers
 
         }
 
-        public JVBoxDTO AssignJVBoxToCustomer(int customerId, int socialProfileId)
-        {
-            try
-            {
-                var AssignJVBox = _customerRepository.AssignJVBox(customerId, socialProfileId);
-                return AssignJVBox;
-            }
-
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-
-        }
       
 
         public bool UpdateCustomerPassword(string password, int customerId)
@@ -361,11 +451,11 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public async Task<bool> UpdateStripeCustomerId(int CustomerId, string StripCustomerId)
+        public bool UpdateCustomerBrokerProfile(CustomerBrokerProfileRequest model)
         {
             try
             {
-                return await _customerRepository.UpdateStripeCustomerId(CustomerId, StripCustomerId);
+                return _customerRepository.UpdateCustomerBrokerProfile(model);
             }
             catch (Exception ex)
             {
@@ -373,90 +463,59 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public List<ProxyIPDTO> GetProxyIPs(int CountryId, int CityId)
+        public List<SocialProfile_PaymentsDTO> GetCustomerBrokerPaymentHistory(int CustomerId)
         {
             try
             {
-                return _customerRepository.GetProxyIPs(CountryId, CityId);
+                return _customerRepository.GetCustomerBrokerPaymentHistory(CustomerId);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
-
         }
 
-        public List<JVBoxDTO> GetMPBoxes()
+            public bool UpdateCustomerStripeCustomer(int CustomerId, string StripCustomerId, string StripeSubscriptionId, int PaymentPlanId)
         {
             try
             {
-                return _customerRepository.GetMPBoxes();
+                return _customerRepository.UpdateCustomerStripeCustomerId(CustomerId, StripCustomerId, StripeSubscriptionId, PaymentPlanId);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
         }
 
-        public bool UpdateJVStatus(int profileId, int? jvStatus = null)
+        public bool UpdateSocialProfileStripeCustomer(int SocialProfileId, string StripCustomerId, string StripeSubscriptionId, int PaymentPlanId)
         {
             try
             {
-                return _customerRepository.UpdateJVStatus(profileId, jvStatus);
+                return  _customerRepository.UpdateSocialProfileStripeCustomerId(SocialProfileId, StripCustomerId, StripeSubscriptionId, PaymentPlanId);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
-
         }
 
-        public bool UpdateMPBox(int profileId, int? MPBox)
+      
+
+        public CustomerDTO GetCustomerDTOByCustomerId(int CustomerId)
         {
             try
             {
-                return _customerRepository.UpdateMPBox(profileId, MPBox);
+                return _customerRepository.GetCustomerDTOByCustomerId(CustomerId);
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
-
         }
 
-        public string GetProxyIp(int profileId)
-        {
-            try
-            {
-                return _customerRepository.GetProxyIp(profileId);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-        }
-
-        public bool UpdateProxyIp(int profileId, int? proxyIp = null)
-        {
-            try
-            {
-                return _customerRepository.UpdateProxyIp(profileId, proxyIp);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-        }
-
-        public CustomerDTO GetCustomerByCustomerId(int CustomerId)
+        public Customer GetCustomerByCustomerId(int CustomerId)
         {
             try
             {
@@ -469,11 +528,24 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public async Task<SubscriptionDTO> InsertSubscription(SubscriptionDTO sG2_Subscription)
+        public List<CustomerSocialProfileDTO> GetFollowList(int socialProfileId)
         {
             try
             {
-                var sb = await _customerRepository.InsertSubscription(sG2_Subscription);
+                return _customerRepository.GetSocialProfilesWithoutExistingFollowers(socialProfileId);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<SocialProfile_PaymentsDTO> InsertCustomerPayment(SocialProfile_PaymentsDTO sG2_Subscription)
+        {
+            try
+            {
+                var sb = await _customerRepository.InsertCustomerPaymentRecord(sG2_Subscription);
                 return sb;
             }
             catch (Exception ex)
@@ -482,7 +554,20 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public void UpdateSubscription(SubscriptionDTO sG2_Subscription)
+        public async Task<SocialProfile_PaymentsDTO> InsertSocialProfilePayment(SocialProfile_PaymentsDTO sG2_Subscription)
+        {
+            try
+            {
+                var sb = await _customerRepository.InsertSocialProfilePaymentRecord(sG2_Subscription);
+                return sb;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void UpdateSubscription(SocialProfile_PaymentsDTO sG2_Subscription)
         {
             try
             {
@@ -508,11 +593,11 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public SubscriptionDTO GetSubscription(int SocialProfileId)
+        public SocialProfile_PaymentsDTO GetSubscription(int SocialProfileId)
         {
             try
             {
-                SubscriptionDTO subscriptionDTO = _customerRepository.GetSubscription(SocialProfileId);
+                SocialProfile_PaymentsDTO subscriptionDTO = _customerRepository.GetSubscription(SocialProfileId);
 
                 return subscriptionDTO;
 
@@ -546,11 +631,12 @@ namespace SG2.CORE.BAL.Managers
 
         }
 
-        public int? GetTargetedCityIdByCustomerId(int customerId, int socialProfileId)
+
+        public List<CustomerSocialProfileDTO> GetSocialProfilesByCustomerid(int customerId, ProfilesSearchRequest model)
         {
             try
             {
-                return _customerRepository.GetTargetedCityIdByCustomerId(customerId, socialProfileId);
+                return _customerRepository.GetSocialProfilesByCustomerid(customerId,model);
             }
             catch (Exception ex)
             {
@@ -558,37 +644,19 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public List<CustomerSocialProfileDTO> GetSocialProfilesByCustomerid(int customerId)
+
+        public SocialProfileDTO GetSocialProfileById(int profileId)
         {
             try
             {
-                return _customerRepository.GetSocialProfilesByCustomerid(customerId);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        //public  List<TargetPreferencesDTO> SetPendingTargetPreferenceIntoQueue()
-        //{
-        //    try
-        //    {
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        throw ex;
-        //    }
-
-        //}
-
-        public CustomerTargetProfileDTO GetSocialProfilesById(int profileId)
-        {
-            try
-            {
-                return _customerRepository.GetSocialProfilesById(profileId);
+                if (profileId == -999)
+                {
+                    return _customerRepository.GetGlobalSocialProfilesById(profileId);
+                }
+                else
+                {
+                    return _customerRepository.GetSocialProfilesById(profileId);
+                }
             }
             catch (Exception ex)
             {
@@ -597,7 +665,61 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public SubscriptionDTO GetLastCancelledSubscription(int profileId, DateTime dateTime)
+        public (bool Succcess, string Message) AddInstagramSocialProfile(string InstagramSocialUsername, int CustomerId)
+        {
+            try
+            {
+                return _customerRepository.AddIntagramSocialProfile(InstagramSocialUsername,CustomerId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+
+        // Follow  with username    actionid = 60
+        // UnFollow  with username  actionid = 61
+        // Like with username       actionid = 62
+        // Comment with username    actionid = 63
+        // StoryView with username  actionid = 64
+        // FollowerCount with username  and count in msg actionid = 65
+        public bool SaveMobileAppAction(MobileActionRequest model)
+        {
+            try
+            {
+                var result = _customerRepository.SaveMobileAppActions(model);
+                
+
+
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+
+        public List<SocialProfile_Actions> ReturnLastActions(int socialProfileId, int NoOfActions)
+        {
+            try
+            {
+                return _customerRepository.ReturnLastActions(socialProfileId, NoOfActions);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+
+
+
+        public SocialProfile_PaymentsDTO GetLastCancelledSubscription(int profileId, DateTime dateTime)
         {
             try
             {
@@ -610,80 +732,43 @@ namespace SG2.CORE.BAL.Managers
             }
 
         }
-          public async Task<bool> UpdateSPNoOfAttempt(int profileId, short NoOfAttempt, DateTime JVAttemptsBlockedTill)
+
+        public List<ActionBoardJVSData> GetTrelloStatuses()
         {
-            try
-            {
-                return await _customerRepository.UpdateSPNoOfAttempt(profileId, NoOfAttempt, JVAttemptsBlockedTill);
+            var Model = _customerRepository.GetTrelloStatuses();
 
-                ;
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
+            return Model;
         }
 
-        public async Task<bool> SetSocialProfileJVStatus(int profileId, int jvStatusId, string updatedBy)
-        {
-            try
-            {
-                return await _customerRepository.SetSocialProfileJVStatus(profileId, jvStatusId, updatedBy);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
 
-        public async Task<bool> SetTargetPreferenceQueueStatus(int profileId, short queueStatus, string updatedBy)
-        {
-            try
-            {
-                return await _customerRepository.SetTargetPreferenceQueueStatus(profileId, queueStatus, updatedBy);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
 
-        public async Task<bool> SetTargetPreferenceLikeyStatus(int profileId, short jvLikeyStatus, int JVNoOfLikes, string updatedBy)
-        {
-            try
-            {
-                return await _customerRepository.SetTargetPreferenceLikeyStatus(profileId, jvLikeyStatus, JVNoOfLikes, updatedBy);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+        //public async Task<bool> SetTargetPreferenceQueueStatus(int profileId, short queueStatus, string updatedBy)
+        //{
+        //    try
+        //    {
+        //        return await _customerRepository.SetTargetPreferenceQueueStatus(profileId, queueStatus, updatedBy);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
 
-        public bool UpdateNoOfAttempts(int profileId, int noOfAttempts)
-        {
-            try
-            {
-                return _customerRepository.UpdateNoOfAttempts(profileId, noOfAttempts);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //public async Task<bool> SetTargetPreferenceLikeyStatus(int profileId, short jvLikeyStatus, int JVNoOfLikes, string updatedBy)
+        //{
+        //    try
+        //    {
+        //        return await _customerRepository.SetTargetPreferenceLikeyStatus(profileId, jvLikeyStatus, JVNoOfLikes, updatedBy);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
 
-        public bool BlockProfile24Hrs(int profileId, int noOfAttempts)
+        public bool AddRemoveFollowAccounts(List<MobileActionRequest> list)
         {
-            try
-            {
-                return _customerRepository.BlockProfile24Hrs(profileId, noOfAttempts);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return _socialRepository.AddRemoveFollowAccounts(list);
         }
-
     }
 }

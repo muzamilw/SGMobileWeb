@@ -19,14 +19,15 @@ namespace SG2.CORE.WEB.App_Start
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
+                      "~/Scripts/bootstrap.min.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/bootstrap.min.css")
+                      );  //"~/Content/site.css")
 
             var fontAwsomCdn = "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
+
             bundles.Add(new StyleBundle("~/socialgrowthengine/css", fontAwsomCdn).Include(
                       "~/socialgrowthengine/assets/bootstrap7d04.css",
                       "~/socialgrowthengine/assets/kk-style7d04.css",
@@ -51,7 +52,7 @@ namespace SG2.CORE.WEB.App_Start
                       )
                      );
 
-            BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations = false;
         }
     }
 }

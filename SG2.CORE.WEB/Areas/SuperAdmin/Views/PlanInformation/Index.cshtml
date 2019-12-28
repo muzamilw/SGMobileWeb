@@ -101,10 +101,10 @@
                             {
                                 var PlanId = Url.Encode(CryptoEngine.Encrypt(item.PlanId.ToString()));
                                 <tr>
-                                    <td data-label="Likes" class="status">@item.Likes</td>
+                                    <td data-label="Likes" class="status">@item.NoOfFollow</td>
                                     <td data-label="Price" class="status"> $@item.PlanPrice</td>
                                     <td data-label="PlanName" class="status">@item.PlanName</td>
-                                    <td data-label="PlanType" class="status">@item.PlanType</td>
+                                    <td data-label="PlanType" class="status">@item.IsBrokerPlan</td>
 
                                     @*<td data-label="Status" class="status">@item.Status</td>*@
                                     <td>

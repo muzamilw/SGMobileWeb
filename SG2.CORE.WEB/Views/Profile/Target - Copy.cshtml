@@ -1,0 +1,3351 @@
+﻿@model SG2.CORE.MODAL.ViewModals.TargetPreferences.TargetPreferencesViewModel
+@using SG2.CORE.MODAL.DTO.Customers;
+@{
+    var custDto = (CustomerDTO)ViewBag.CustomerDTO;
+}
+@using SG2.CORE.COMMON;
+@{
+
+    var customerDTO = (CustomerDTO)ViewBag.CustomerDTO;
+
+    ViewBag.Title = "Target Preferences";
+    Layout = "~/Views/Shared/_Layout_LoggedIn.cshtml";
+
+    List<SelectListItem> countries = new List<SelectListItem>();
+
+    //foreach (var item in Model.Countries)
+    //{
+    //    countries.Add(new SelectListItem { Text = item.Name, Value = item.CountryId.ToString() });
+    //}
+
+    //List<SelectListItem> cities = new List<SelectListItem>();
+    //foreach (var item in Model.Cities)
+    //{
+    //    cities.Add(new SelectListItem { Text = item.Name, Value = item.CityId.ToString() });
+    //}
+
+    var currentUser = (CustomerDTO)ViewBag.CurrentUser;
+    var socailProfiles = (List<CustomerSocialProfileDTO>)ViewBag.SocailProfiles;
+
+    List<SelectListItem> profiles = new List<SelectListItem>();
+    foreach (var item in socailProfiles)
+    {
+        profiles.Add(new SelectListItem { Text = item.ProfileName, Value = item.SocialProfileId.ToString() });
+    }
+
+    var profileUpdateButtonClass = "hide";
+    
+
+    short? planSq = 1;
+    if (Model.ActivePlanId != null)
+    {
+        planSq = Model.Plans.First(x => x.PlanId == Model.ActivePlanId).SortOrder;
+    }
+
+}
+
+<div class="container">
+    @*@if (!string.IsNullOrEmpty(ViewBag.Success))
+        {
+            <br />
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="alert alert-block alert-success">
+                        <p>
+                            <strong>
+                                <i class="ace-icon fa fa-check"></i>
+                                Success!
+                            </strong>
+                            @ViewBag.Message
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }*@
+</div>
+
+<div class="main">
+    <div class="container">
+        <div class="row" id="SocialProfileBtn">
+
+            <div class="col-md-6 col-sm-6 col-xs-2">
+                <div class="sec-filename">
+                    <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="40" />
+                    <span class="displayBlock" id="ProfileName-textBlock">
+                        <b class="displayText">@socailProfiles.FirstOrDefault().ProfileName</b>
+                        @*<a href="#" text-block="ProfileName-textBlock" edit-Block="ProfileName-editBlock" class="editProfileButton"><i class="fa fa-pencil"></i></a>*@
+                    </span>
+                    <span class="editBlock" id="ProfileName-editBlock" style="display:none">
+                        <input type="text" value="@Model.ProfileName" id="input_ProfileName" class="SPName" name="firstName" />
+                        <a href="#" text-block="ProfileName-textBlock" edit-Block="ProfileName-editBlock" control-id="input_ProfileName" class="btn_saveProfileName"><i class="fa fa-save"></i></a> &nbsp; &nbsp;
+                        <a href="#" text-block="ProfileName-textBlock" edit-Block="ProfileName-editBlock" class="cancelProfileEditIcon"><i class="fa fa-times"></i></a>
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-6 col-xs-9 text-right">
+                <div class="sec-profileStatus">
+                    @*<h1 class="text-primary">@(Model.ActivePlanName ?? "Free Plan")</h1>*@
+                    <p class="color-crimson"><span class="span_jvStatusName">@(Model.JVStatus ?? "Not Activated")</span></p>
+                </div>
+            </div>
+
+
+            <div class="col-md-12 col-sm-12 col-xs-12 text-right">
+                <div class="sec-profileStatus">
+                    <ul>
+                        <li>
+                            <a href="/user/userprofile" class="personSetting" style="color:#666;">
+                                @custDto.FirstName  @(custDto.SurName == null ? string.Empty : @custDto.SurName.Substring(0, 1))  &nbsp; <i class="fa fa-gear" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+                       <div class="col-2">
+
+
+                <a href="#GoToSection1" class="btn btn-primary btn-block">
+                    <b class="circle"><span>1</span></b>
+                    Stats
+                </a>
+            </div>
+
+            <div class="col-2">
+                <a href="#GoToSection2" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
+                    <b class="circle"><span>2</span></b>
+                    Contact Details
+                </a>
+            </div>
+
+            <div class="col-2">
+                <a href="#GoToSection3" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
+                    <b class="circle"><span>3</span></b>
+                    Match Filters
+                </a>
+            </div>
+
+            <div class="col-2">
+                <a href="#GoToSection3" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
+                    <b class="circle"><span>3</span></b>
+                    White & Black Lists
+                </a>
+            </div>
+            <div class="col-2">
+                <a href="#GoToSection3" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
+                    <b class="circle"><span>3</span></b>
+                    New Followings
+                </a>
+            </div>
+            <div class="col-2">
+                <a href="#GoToSection3" class="btn btn-primary btn-block" style="background-color:#b0d9e8">
+                    <b class="circle"><span>3</span></b>
+                    Order History
+                </a>
+            </div>
+
+        </div>
+
+        @*<div class="row">
+            <div class="col-xs-12">
+                <h4>We recommended you tweak your targeting at least once a week. We review your preferences and run them thru our intelligent algorithms to maximum your exposure</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9">
+                <p>Complete the form below or run the Wizard instead ;)</p>
+            </div>
+            <div class="col-md-3"><input type="button" class="btn btn-height47 btn-block btn-primary btn_ShowPrefModal" value="5 Step Wizards" /></div>
+        </div>*@
+
+    </div>
+</div>
+
+<br />
+
+<section id="GoToSection1">
+    <div class="information-form">
+        <div class="container">
+            <div class="information-form-inner">
+                <div class="section_targetgrow">
+                    <div class="row" id="section1MG">
+                        <div class="col-xs-12">
+                            @Html.ValidationSummary()
+                            @using (Html.BeginForm("Target", "TargetPreferences", FormMethod.Post, new { @class = "", @id = "Form_TargetPreferences" }))
+                            {
+                                @*<div class="form-group">
+                                        @Html.LabelFor(m => m.ProfileName, new { @class = "" })
+                                        @Html.TextBoxFor(m => m.ProfileName, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.ProfileName, "", new { @class = "text-danger" })
+                                    </div>
+                                    <br />*@
+
+                                 <h1 class="color-crimson weight500" style="color:#587ae8;"><span class="CircleWithinLinkTag"><span style="color:white;font-size:16pt; margin:0px;">1</span></span> Target &amp; Grow </h1>
+                                <h4>We recommended you tweak your targeting at least once a week. We review your preferences and run them thru our intelligent algorithms to maximum your exposure</h4>
+                                <hr />
+
+                                @Html.AntiForgeryToken()
+
+                                @Html.HiddenFor(model => model.SocialProfileId)
+
+                                @Html.HiddenFor(model => model.ProfileName)
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.SocialAccAS, new { @class = "" })
+                                    <label class="form-radio" col-md-3>
+                                        A Business
+                                        @Html.RadioButtonFor(model => model.SocialAccAS, "1")
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="form-radio" col-md-3>
+                                        An Influencer
+                                        @Html.RadioButtonFor(model => model.SocialAccAS, "2")
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label style="display:block">Include your account when recommending similar accounts people might want to follow. <sup class="color-crimson smallfont" id="smallfontfornew">&nbsp;New</sup></label>
+                                    <label class="form-radio">
+                                        Yes
+                                        @Html.RadioButtonFor(model => model.Preference10, "1")
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="form-radio">
+                                        No
+                                        @Html.RadioButtonFor(model => model.Preference10, "2")
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.Preference10, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="form-group">
+                                    @*@Html.LabelFor(m => m.Preference1, new { @class = "" })*@
+                                    <label class="block">Hashtags you want to engage with:</label>
+                                    @*<span style="display:block"> Please use this format for hashtags: #hashtag,#hashtag,#hashtag</span>*@
+                                    @Html.TextBoxFor(m => m.Preference1, new { @class = "form-control", @data_role = "tagsinput" })
+                                    @Html.ValidationMessageFor(model => model.Preference1, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="form-group">
+                                    @*@Html.LabelFor(m => m.Preference2, new { @class = "" })*@
+                                    <label>Hashtags you <b class="color-crimson smallfont">DO NOT</b> want to engage with (optional):</label>
+                                    @*<span style="display:block"> Please use this format for hashtags: #hashtag,#hashtag,#hashtag</span>*@
+                                    @Html.TextBoxFor(m => m.Preference2, new { @class = "form-control", @data_role = "tagsinput" })
+                                    @Html.ValidationMessageFor(model => model.Preference2, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Preference3, new { @class = "" })
+                                    @Html.TextBoxFor(m => m.Preference3, new { @class = "form-control", @data_role = "tagsinput" })
+                                    @Html.ValidationMessageFor(model => model.Preference3, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="form-group" style="display:none">
+                                    @Html.LabelFor(m => m.Preference4, new { @class = "" })
+                                    @Html.TextBoxFor(m => m.Preference4, new { @class = "form-control", @data_role = "tagsinput" })
+                                    @Html.ValidationMessageFor(model => model.Preference4, "", new { @class = "text-danger" })
+                                </div>
+
+                                <br />
+
+                                <div class="form-group">
+                                    @*@Html.LabelFor(m => m.Preference5, new { @class = "" })*@
+                                    <label class="block">
+                                        A very effective growth strategy is to incorporate an amount of Follow & Unfollow activities on target accounts. <br /> <br />
+                                        Do you permit this activity?
+                                    </label>
+                                    <label class="form-radio">
+                                        Yes
+                                        @Html.RadioButtonFor(model => model.Preference5, "1")
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="form-radio">
+                                        No
+                                        @Html.RadioButtonFor(model => model.Preference5, "2")
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.Preference5, "", new { @class = "text-danger" })
+                                </div>
+
+                                <br />
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Preference6, new { @class = "block" })
+                                    <label class="form-radio">
+                                        Males
+                                        @Html.RadioButtonFor(model => model.Preference6, "1")
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="form-radio">
+                                        Females
+                                        @Html.RadioButtonFor(model => model.Preference6, "2")
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="form-radio">
+                                        Both
+                                        @Html.RadioButtonFor(model => model.Preference6, "3")
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.Preference6, "", new { @class = "text-danger" })
+                                </div>
+
+                                <br />
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Preference7, new { @class = "block" })
+                                    <label class="form-radio">
+                                        Yes
+                                        @Html.RadioButtonFor(model => model.Preference7, "1")
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="form-radio">
+                                        No
+                                        @Html.RadioButtonFor(model => model.Preference7, "2")
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.Preference7, "", new { @class = "text-danger" })
+                                </div>
+
+                                <br />
+
+                                <div class="form-group" style="display:none">
+                                    @Html.LabelFor(m => m.Preference8, new { @class = "" })
+                                    <span style="display:block">Age, education, industry, lifestyle, etc.</span>
+                                    @Html.TextBoxFor(m => m.Preference8, new { @class = "form-control", @data_role = "tagsinput" })
+                                    @Html.ValidationMessageFor(model => model.Preference8, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Preference9, new { @class = "" })
+                                    <span style="display:block">e.g. @@username</span>
+                                    @Html.TextBoxFor(m => m.Preference9, new { @class = "form-control", @data_role = "tagsinput" })
+                                    @Html.ValidationMessageFor(model => model.Preference9, "", new { @class = "text-danger" })
+                                </div>
+
+                                <br />
+
+                                <div class="form-group" style="text-align:center">
+                                    <button type="button" class="btn btn-primary savetargerBtn" id="btn_updateTargetPreference">
+                                        Save Target Preferences
+                                        <div id="SaveTargetPreferenceSpinner" class="hidden"><i class="fa fa-spinner fa-spin"></i></div>
+                                    </button>
+                                </div>
+
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<br />
+
+<section id="GoToSection2">
+    <div class="information-form">
+        <div class="container">
+            <div class="information-form-inner">
+                <div class="section_targetgrow">
+                    <div class="row" id="section2MG">
+                        <div class="col-xs-12">
+                            @Html.ValidationSummary()
+                            @using (Html.BeginForm("Target", "UpdatePlan", FormMethod.Post, new { @class = "", @id = "Form_UpdatePlan" }))
+                            {
+                                <h1 class="color-crimson weight500" style="color:#587ae8;">
+                                    <span class="CircleWithinLinkTag">
+                                        <span style="color:white;font-size:16pt; margin:0px;">2</span>
+                                    </span>
+                                    Select Plan
+                                    <a href="#" class="btn-showOrderHistory pull-right">Order History</a>
+                                </h1>
+
+                                <hr style="margin-bottom:0" />
+
+                                @*<h3>
+                                        Turn on my Instagram growth engine for more followers <br />
+                                        <b class="color-crimson">only $@Model.DefaultPaymentPlan.PlanPrice/pm </b> <small>normally $69/pm save $30pm</small>
+                                        <label class="switch planOnOff">
+                                            <input type="checkbox" id="chk_showLikeyPlanDiv" @(Model.ActivePlanId != null ? "checked=checked" : "")>
+                                            <span class="checkboxSlider round"></span>
+                                        </label>
+                                    </h3>*@
+
+                                <div class="divLikeyPlans">
+
+                                    <br />
+
+                                    <h4 class="text-center" id="getUp200">Get up to 200 new followers every day</h4>
+                                    <p class="plussymbol">+</p>
+                                    <div class="divLikeyPlansSlider">
+
+                                        <h2 class="mt-sm-0"><span class="planlikes">@(Model.ActivePlanLikes ?? 0)</span> Likes per Post (Max 3 Posts a day)</h2>
+
+                                        <div class="divPlanSlider">
+                                            <div class="range">
+                                                <input id="selectedPlan" type="range" min="1" max="@(Model.Plans.Count)" steps="1" value="1">
+                                            </div>
+
+                                            <ul class="range-labels">
+                                                @{
+
+                                                    foreach (var plan in Model.Plans.Where(x => x.IsParentPlan == true))
+                                                    {
+                                                        if (plan.SortOrder < planSq)
+                                                        {
+                                                            <li class="selected" data-price="@plan.DisplayPrice" data-strap-Planid="@plan.StripePlanId" data-stripe-price="@plan.PlanPrice">@plan.Likes.ToString().Replace("0000", "0k").Replace("000", "k")</li>
+                                                        }
+                                                        else if (plan.SortOrder == planSq)
+                                                        {
+                                                            <li class="active selected" data-price="@plan.DisplayPrice" data-strap-Planid="@plan.StripePlanId" data-stripe-price="@plan.PlanPrice">@plan.Likes.ToString().Replace("0000", "0k").Replace("000", "k")</li>
+                                                        }
+                                                        else
+                                                        {
+                                                            <li class="" data-price="@plan.DisplayPrice" data-strap-Planid="@plan.StripePlanId" data-stripe-price="@plan.PlanPrice">@plan.Likes.ToString().Replace("0000", "0k").Replace("000", "k")</li>
+                                                        }
+
+                                                    }
+                                                    @*<li class="@(Model.ActivePlanId == plan.PlanId || Model.DefaultPaymentPlan.PlanId == plan.PlanId ? "active selected" : "")" data-price="@plan.DisplayPrice" data-strap-Planid="@plan.StripePlanId" data-stripe-price="@plan.PlanPrice">@plan.Likes.ToString().Replace("0000", "0k").Replace("000", "k")</li>*@
+                                                }
+                                            </ul>
+                                        </div>
+
+                                        <div class="clearfix"></div>
+
+                                        <div class="div_planSliderDetail">
+                                            <h2 style="margin-bottom:0">
+                                                Growth Engine <b class="color-crimson">$@(Model.DefaultPaymentPlan.PlanPrice ?? 0)/pm </b> <small></small> +
+                                                <span class="planPrice">$@(Model.ActivePlanPrice ?? 0)</span> Monthly Bolt-On
+                                            </h2>
+
+                                            <h1 class="h1_totalPlanPrice">Total <span class="span_totalPlanPrice">$@(Model.ActivePlanPrice ?? (@Model.DefaultPaymentPlan.PlanPrice ?? 0))</span>/pm</h1>
+
+                                            <div class="clearfix"></div>
+
+                                            <br />
+
+                                            <input type="button" class="btn btn-primary btn-height64" value="Pay NOW" id="btn_PayNow" />
+
+                                            <br />
+
+                                            <div class="div_resetToCurrentplan">
+
+                                                <br />
+                                                <a href="#" class="color-crimson btn_resetToCurrentPlan">Reset to current plan</a>
+
+                                            </div>
+
+                                            <br />
+
+                                            <h4 class="center">We'll get you up and running within 24 hours upon receipt, usually sooner.</h4>
+
+
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <br />
+                                        
+
+
+                                    </div>
+                                  
+
+
+                                    <a class="center btn-block btn_showDeleteModal" href="#">Unsubscribe this social account profile</a>
+
+
+                                    <br />
+                                </div>
+                            }
+
+                            @using (Html.BeginForm("Target", "UpdateSocialProfile", FormMethod.Post, new { @class = "", @id = "Form_SocialProfile" }))
+                            {
+                                <input type="hidden" value="" name="SocialProfileId" id="From_SocialProfile_SocialProfileId" />
+                                <input type="hidden" value="" name="verificationCode" id="From_SocialProfile_VerificationCode" />
+                                <input type="hidden" value="" name="action" id="From_SocialProfile_Action" />
+                                <input type="hidden" value="" name="sessionId" id="From_SocialProfile_sessionId" />
+                                <input type="hidden" value="" name="invalidCredentialsAttempts" id="From_SocialProfile_invalidCredentialsAttempts" />
+
+                                <div class="row " style="background-color:#f7f7f7; padding:10px; border-radius:5px;">
+                                    <div class="div_blockInstaprofile">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <a href="#" class="link_importantNotice">Important notice?</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group text-right ">
+                                                @*<h3 class="color-crimson">Profile Status: <span class="span_jvStatusName">@(Model.JVStatus ?? "No Setup")</span></h3>*@
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <hr style="margin-top:0" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <img class="pull-right" src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="49" />
+                                                @Html.LabelFor(m => m.InstaUser, new { @class = "" })
+                                                <span style="display:block">Your Instagram @@username<br /><br /></span>
+                                                
+                                                    @Html.TextBoxFor(m => m.InstaUser, new { @class = "form-control required" })
+                                                
+                                                @Html.ValidationMessageFor(model => model.InstaUser, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.InstaPassword, new { @class = "" })
+                                                <span style="display:block">Please make sure you provide the correct password to avoid delay in getting started. (Your password is submitted over SSL 256Bit Encryption)</span>
+                                               
+                                                    @Html.PasswordFor(m => m.InstaPassword, new { @class = "form-control required" })
+                                                
+
+                                                @Html.ValidationMessageFor(model => model.InstaPassword, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                     
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group" style="text-align:center">
+                                            <br />
+                                         
+                                                @{var hideStr = "";
+                                                    if (Model.ActivePlanId == null)
+                                                    {
+                                                        hideStr = "hide";
+                                                    }
+                                                }
+                                                <button type="button" class="btn btn-primary btn-height47 @(hideStr)" id="btn_updateSocialProfile">Login into Intagram</button>
+                                            
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            }
+
+                           
+
+                            @*@if (profiles.Count > 1)
+                                {
+                                    <div class="col-md-12">
+                                        <h4>Select which growth engine you want to tweak and boost.</h4>
+                                    </div>
+
+                                    <div class="col-md-4 col-sm-12">
+
+                                        @Html.DropDownList("SocialProfile", profiles)
+                                    </div>
+                                }
+
+                                @if (socailProfiles != null && socailProfiles.Any(x => x.SubScriptionStatus == "Active"))
+                                {
+                                    <div class="col-xs-12 text-center">
+
+                                        <button type="button" class="btn btn-height47">
+                                            <i class="fa fa-plus"></i> Add another Social Account
+                                        </button>
+
+                                    </div>
+                                }*@
+
+                            <div class="center">
+                                <label class="form-Checkbox">
+                                    I want to learn more about the upcoming influencer market place
+                                    @Html.CheckBoxFor(model => model.IsOptedMarketingEmail)
+                                    <span class="chkmark"></span>
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<br />
+
+<section id="GoToSection3">
+    <div class="information-form">
+        <div class="container">
+            <div class="information-form-inner">
+                <div class="section_targetgrow">
+                    <div class="row">
+
+                        <div class="col-xs-12">
+                            <h1 class="color-crimson weight500" style="color:#587ae8;"><span class="CircleWithinLinkTag"><span style="color:white;font-size:16pt; margin:0px;">3</span></span>Insights &amp; Statistics</h1>
+                            <hr />
+                        </div>
+
+                        <div class="div_ChartsData hide text-center">
+                            <div class="col-md-6 col-sm-12">
+                                <h3>
+                                    Bar Chart: Followers
+                                </h3>
+                                <div id="FollowerBarChart" style="width:100%; height:400px"></div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <h3>
+                                    Line Chart: Followers
+                                </h3>
+                                <div id="FollowerLineChart" style="width:100%; height:400px"></div>
+                            </div>
+                            <div class="col-md-12">
+                                <hr />
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <h3>
+                                    Bar Chart: Likies
+                                </h3>
+                                <div id="LikeBarChart" style="width:100%; height:400px"></div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <h3>
+                                    Line Chart: Likies
+                                </h3>
+                                <div id="LikeLineChart" style="width:100%; height:400px"></div>
+                            </div>
+                        </div>
+
+                        <div class="div_NoChartsData hide">
+                            <div class="col-md-12 text-center">
+                                <img src="~/Content/ThemeAssets/Images/Simple_Social_Growth.png" />
+                                <br />
+                                <h3>Growth charts and analytics will be shown after few days.</h3>
+                                <br />
+                                @*<br />
+                                    <img src="~/Content/ThemeAssets/Images/comingsoon.png" />
+                                    <br />
+                                    <br />
+                                    <img src="~/Content/ThemeAssets/Images/givinglist.png" />*@
+                            </div>
+                        </div>
+
+                        <div class="div_LoadingData">
+
+                            <div class="col-md-12 text-center">
+
+                                <br />
+                                <h3>Loading data... <i class="fa fa-spin fa-spinner"></i></h3>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="footer-logo text-center">
+                    <img src="~/Content/ThemeAssets/Images/social-growth-footer-logo.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+@*@Html.Partial("~/Views/TargetPreferences/Partial/_PartialWizardPopup.cshtml", Model)*@
+
+<div id="Modal_ConfirmPaymentPlan" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <!--       <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h3 class="modal-title color-crimson">Confirm &amp; Pay</h3>
+                    </div>
+                -->
+                <div class="modal-body">
+                    <div class="row">
+                        <br />
+                        <div class="col-xs-12 col-sm-12 col-md-5 hide">
+                            <div class="mainMonthly" style="text-align:center">
+                                <br />
+                                <h3>Monthly Charge</h3>
+                                <hr />
+                                <h4>$@Model.DefaultPaymentPlan.PlanPrice Growth Engine</h4>
+                                <h4>+</h4>
+                                <h4 class="seletedDisplayPlanPrice"></h4>
+                                <br /><br />
+                                <img src="/Content/ThemeAssets/Images/social-growth-footer-logo.jpg" alt="">
+                            </div>
+                        </div>
+                        <div class="col-xs-12" id="shoppingcardPD">
+
+                            <h4 class="pc_Heading" id="monthlyChargeh4">
+                                Get up to 200 followers a day
+                                <span class="pc_HeadingPlan">
+                                    <br>  <span class="plussymbol paymenyplus text-center" style="font-size:15pt"> + </span><br>
+
+                                    <span class="pc_HeadingPlanLikes color-crimson redcolor"></span> likes per post
+                                </span>
+                            </h4>
+
+                            <div class="paymentCard">
+                                @using (Html.BeginForm("NewCardPayment", "TargetPreferences", FormMethod.Post, new { @class = "form-horizontal", @id = "From_UpdatePlan", role = "form" }))
+                                {
+                                    <h3 class="monthlyChargeh3">
+                                        Monthly Charges
+                                        <span class="pull-right color-crimson redcolor">$<span class="ModalplanPrice"></span></span>
+                                    </h3>
+
+                                    <p>Autopay on @DateTime.Now.AddMonths(1).ToString("yyyy-MM-dd")</p>
+                                    <hr />
+
+                                    if (Model.PaymentCards != null)
+                                    {
+                                        <div id="div_previousCard">
+                                            @foreach (var item in Model.PaymentCards)
+                                            {
+                                                <p>
+                                                    Card ending in <b>@item.Last4</b>
+                                                    @*<img class="pull-right" src="~/Content/Images/visa-icon.png" />*@
+                                                </p>
+
+                                                <p>Expiry <b>@item.ExpMonth/@item.ExpYear</b></p>
+                                            }
+                                            <br />
+                                            <a href="#" class="btn_displayNewCard">[Edit]</a>
+                                            <br />
+                                        </div>
+                                    }
+                                }
+
+                                @using (Html.BeginForm("NewCardPayment", "TargetPreferences", FormMethod.Post, new { @class = "form-horizontal", @id = "From_NewCard", role = "form" }))
+                                {
+
+                                    <div id="div_newCard" @(Model.PaymentCards != null ? "style=display:none" : "")>
+
+                                        <input type="hidden" name="StripePlanId" id="field_newCardPlanId" value="" />
+                                        <div class="form-row">
+                                            <label for="card-element">
+                                                Credit or debit card
+                                            </label>
+                                            <div id="card-element">
+                                            </div>
+                                            <div id="card-errors" role="alert"></div>
+                                        </div>
+
+                                        <br />
+
+                                        @if (Model.PaymentCards != null)
+                                        {
+                                            <a href="#" class="btn_displayPrevCard">[Cancel]</a>
+                                        }
+                                    </div>
+
+                                    <hr />
+
+                                    <button type="button" class="btn btn-block btn-primary btn_ConfirmAndPay" value="Confirm">
+                                        Confirm    <span id="ConfirmPaySpinner" hidden><i class="fa fa-spinner fa-spin"></i></span>
+                                    </button>
+                                    <br />
+                                    <br />
+                                    <em>You are currently billed in $ US Dollar.</em>
+                                }
+                            </div>
+                            <div class="text-center pd-t2" style="height:20px;">
+                                <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:transparent; color:#ccc">Close</button>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="Modal_SuccessActivePlan" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                -->
+            <div class="div_ModalBody">
+                <div class="div_successActivePlan">
+                    <h3 class="color-crimson popupHeading">Congratulations, Your subscription has been activated.</h3>
+                    <br />
+                    <p>
+                        <span class="note">Note:</span> <br />
+                        Reports will be avaiable after 5 days of activity
+                    </p>
+                    <br />
+                    <button type="button" class="btn btn-default btnnewheight" data-dismiss="modal">Ok, Got it</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="Modal_ConnectionSocialAccount" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="div_ModalBody">
+                <div class="div_connectionSocialAccount">
+                    <h3 class="color-crimson">Connection to Social Account</h3>
+                    <br />
+                    <p>
+                        Due to a high volume of activity, we will ask you
+                        to try again in 5 minutes.
+                    </p>
+                    <br />
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                    </div>
+                    <button type="button" class="btn btn-default btnnewheight" data-dismiss="modal">Ok, Got it</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="Modal_ExceptionSocialAccount" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="div_ModalBody">
+                <div class="div_connectionSocialAccount">
+                    <h3 class="color-crimson">Connection to Social Account</h3>
+                    <br />
+                    <p>
+                        Your account requires support to assist an unexpected issue occur while processing your profile, Or you can contact our support team.
+                    </p>
+                    <br />
+                    <button type="button" class="btn btn-default btnnewheight" data-dismiss="modal">Ok, Got it</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="Modal_APIBlockSocialAccount" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="div_ModalBody">
+                <div class="div_connectionSocialAccount">
+                    <h3 class="color-crimson">Connection to Social Account</h3>
+                    <br />
+                    <p>
+                        Your account requires support to assist. Or you can contact our support team.
+                    </p>
+                    <br />
+                    <button type="button" class="btn btn-default btnnewheight" data-dismiss="modal">Ok, Got it</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="Modal_ProxyAttemptBlockSocialAccount" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="div_ModalBody">
+                <div class="div_connectionSocialAccount">
+                    <h3 class="color-crimson">Connection to Social Account</h3>
+                    <br />
+                    <p>
+                        Due to internet or proxy issue, we will ask you to try again after 24 hours. Or you can contact our support team.
+                    </p>
+                    <br />
+                    <button type="button" class="btn btn-default btnnewheight" data-dismiss="modal">Ok, Got it</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="Modal_ServerBusySocialAccount" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="div_ModalBody">
+                <div class="div_connectionSocialAccount">
+                    <h3 class="color-crimson">Connection to Social Account</h3>
+                    <br />
+                    <p>
+                        All servers are busy at the moment, we have your request to fulfil. Our support team will look into this or you can contact our support team.
+                        <br />Sorry for inconvenience, Thankyou!
+                    </p>
+                    <br />
+                    <button type="button" class="btn btn-default btnnewheight" data-dismiss="modal">Ok, Got it</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="Modal_InvalidCredntialsBlockSocialAccount" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="div_ModalBody">
+                <div class="div_connectionSocialAccount">
+                    <h3 class="color-crimson">Connection to Social Account</h3>
+                    <br />
+                    <p>
+                        Invalid Credentials: your account has been blocked, we will ask you to try again after 24 hours. Or you can contact our support team.
+                    </p>
+                    <br />
+                    <button type="button" class="btn btn-default btnnewheight" data-dismiss="modal">Ok, Got it</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="Modal_ConnectionSocialAccountSave" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="div_ModalBody">
+                <div class="div_connectionSocialAccount">
+                    <h3 class="color-crimson">Social Account</h3>
+                    <br />
+                    <p>
+                        Your account has been saved successfully. It will take 24 hours to setup your profile.
+                    </p>
+                    <br />
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                    </div>
+                    <button type="button" class="btn btn-default btnnewheight" data-dismiss="modal">Ok, Got it</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="Modal_NoticeSocialAccount" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <!-- <button type="button" class="close" data-dismiss="modal">&times;</button>
+               -->
+            <div class="div_ModalBody">
+                <h3 class="color-crimson popupHeading" style="color:#fc0404;">Instagram Username <br /> &#38; Password</h3>
+                <div class="div_noticeSocialAccount text-left">
+
+                    <br />
+                    <p>
+                        We need continous access to your account so that we can regularly
+                        tweak your settings and maximize growth for you.
+                    </p>
+                    <br />
+                    <p>To help us get started and speed things up for you, please ...</p>
+                    <br />
+                    <p>
+                        <b class="color-crimson redcolor" style="font-size:12pt;font-weight:400;">1.</b> Make sure that your social account Username and Password are correct
+                    </p>
+                    <p>
+                        <b class="color-crimson redcolor" style="font-size:12pt;font-weight:400;">2.</b> If your credentials are wrong after 3 attempts, we will stop trying to
+                        connect and prompt you to retry after a 24 hour break
+                    </p>
+                    <p>
+                        <b class="color-crimson redcolor" style="font-size:12pt;font-weight:400;">3.</b> Temporarly turn-off email & mobile verification on your social app
+                    </p>
+                    <p>OR</p>
+                    <p>
+                        <b class="color-crimson redcolor" style="font-size:12pt;font-weight:400;">4.</b> If verifcation is turned-on, you have up to 5 minutes to enter in the
+                        6 digit access code, otherwise you will have to wait 30 minutes to
+                        resume the connection process again.
+                    </p>
+                    <br />
+                </div>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok, Got it</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@*<div id="Modal_NewsLetterPop" class="modal fade" data-backdrop="static" role="dialog">
+        <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+
+            <div class="modal-content">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="div_ModalBody">
+
+                    <div class="div_NewsPlannerStep1 div_ContentBody digit6h2">
+                        <div class="digit6img">
+                            <img src="~/Content/ThemeAssets/Images/InstagramLogo.png" style="width:60px;height:60px;margin-bottom:2%;"/>
+                        </div>
+
+                        <div class="row">
+                            <h2>Instragram marketing Planner</h2>
+                            <div class="inputfield6digit col-sm-12">
+                                <div class="row">
+                                    <p class="inputfield6digitPara">FREE marketing & growth tool tips sent straight to your inbox</p>
+                                    <input type="text" class="required" name="email" placeholder="Email" value="@custDto.EmailAddress" />
+                                    <button type="button" class="btn btn-block btn_sendPlanner">Yes! Send my FREE planner.</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn digit6back" data-dismiss="modal"><u>No Thanks</u></button>
+                    </div>
+
+                    <div class="div_NewsPlannerStep2 hide div_ContentBody digit6h2">
+                        <div class="digit6img">
+                            <img src="~/Content/ThemeAssets/Images/logo6digit.png" style="width:60px;height:60px;margin-bottom:2%;" />
+                        </div>
+
+                        <div class="row">
+                            <h2>Ready to sell more with <br>instagram ?</h2>
+                            <div class="inputfield6digit col-sm-12" id="instagrampopup2">
+                                <div class="row">
+                                    <p class="inputfield6digitPara">The Key to success is to grow & retain real, target & engaged followers</p>
+
+                                    <button type="button" class="btn btn-block btn_NewsPlannerStep2">Yes!<br>I want to grow on Instagram</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn digit6back" data-dismiss="modal"><u>No Thanks</u></button>
+                    </div>
+
+                    <div class="div_NewsPlannerStep3 hide div_ContentBody digit6h2">
+                        <div class="digit6img">
+                            <img src="~/Content/ThemeAssets/Images/logo6digit.png" style="width:60px;height:60px;margin-bottom:2%;" />
+                        </div>
+
+                        <div class="row">
+                            <h2>Kick customer growth into high gear</h2>
+                            <div class="inputfield6digit col-sm-12">
+                                <div class="row">
+                                    <p class="inputfield6digitPara">
+                                        Experience is powering a new age and growing and engaged and targeted following is a must to stay ahead of the game.
+                                    </p>
+                                    <p class="inputfield6digitPara">
+                                        Influencers are seeing their followers increase by 20% every month.
+                                    </p>
+
+                                    <button type="button" class="btn btn-block btn_NewsPlannerStep3 getfreebtn">Get Start - FREE</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn digit6back" data-dismiss="modal"><u>No Thanks</u></button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>*@
+
+<div id="Modal_SettingUpProfile" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="div_ModalBody">
+
+                <div class="div_stepWaitingProcess div_ContentBody">
+                    <h3>We are verifying your Instagram sign in</h3>
+                    <br />
+                    <div class="progress">
+                        <div class="verifyingProgress-bar progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 1%"></div>
+                    </div>
+                    <br />
+                    <div class="bxslider">
+                        <div>
+                            <img src="~/Content/ThemeAssets/Images/WaitingImg1.png" />
+                        </div>
+                        <div>
+                            <img src="~/Content/ThemeAssets/Images/WaitingImg2.png" />
+                        </div>
+                        <div>
+                            <img src="~/Content/ThemeAssets/Images/WaitingImg3.png" />
+                        </div>
+                        <div>
+                            <img src="~/Content/ThemeAssets/Images/WaitingImg4.png" />
+                        </div>
+                        <div>
+                            <img src="~/Content/ThemeAssets/Images/WaitingImg5.png" />
+                        </div>
+                        <div>
+                            <img src="~/Content/ThemeAssets/Images/WaitingImg6.png" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="div_stepInvalidCredentails hide div_ContentBody">
+                    <h2 class="color-crimson">Invalid Credentials</h2> <br />
+                    <p>
+                        Either your instagram username or password
+                        was keyed in incorrectly.
+                    </p> <br />
+
+                    <p>
+                        You have 2 more attempts left before we block
+                        you form trying again for another 24 hours.
+                    </p>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Got it</button>
+                </div>
+
+                <div class="div_stepEmailVerificationRequired hide div_ContentBody">
+                    <h2 class="color-crimson">Email Verification</h2>
+                    <br />
+                    <p>Your Email verification code from instagram has been inputted here.</p>
+                    <p>Enter the 6 digit code below..</p>
+                    <br />
+                    <input type="text" name="EmailVerificationCode" value="" id="input_emailVerificationCode" class="required" placeholder="000000" />
+                    <span class="error color-crimson hide">Invalid code please try again.</span>
+                    <a href="#" class="btn_resendCode">Resend Code.</a>
+                    <button type="button" class="btn btn-default btn_verifyEmailVerification">Verify Now</button>
+                </div>
+
+                <div class="div_stepEmailVerificationRequired_New6Digit hide div_ContentBody digit6h2">
+                    <h2>Enter the 6 digit code sent by instragram to your mobile</h2>
+                    <div class="inputfield6digit col-sm-12">
+                        <div class="digit6inputbody">
+                            <div class="row">
+                                <div class="digit6img">
+                                    <img src="~/Content/ThemeAssets/Images/InstagramLogo.png" style="width:60px;height:60px;margin-bottom:2%;" />
+                                </div>
+                                <input type="number" name="EmailVerificationCode" min="0" max="9" value="" id="input_emailVerificationCode" class="digit6box" placeholder="0" />
+                                <input type="number" name="EmailVerificationCode2" min="0" max="9" value="" id="input_emailVerificationCode2" class="digit6box" placeholder="0" />
+                                <input type="number" name="EmailVerificationCode3" min="0" max="9" value="" id="input_emailVerificationCode3" class="digit6box" placeholder="0" />
+                                <input type="number" class="digit6box" disabled id="digit6hide" />
+                                <input type="number" name="EmailVerificationCode5" min="0" max="9" value="" id="input_emailVerificationCode5" class="digit6box" placeholder="0" />
+                                <input type="number" name="EmailVerificationCode3" min="0" max="9" value="" id="input_emailVerificationCode3" class="digit6box" placeholder="0" />
+                                <input type="number" name="EmailVerificationCode6" min="0" max="9" value="" id="input_emailVerificationCode6" class="digit6box" placeholder="0" />
+                            </div>
+                            <hr style="border:1px solid lightgray;margin-bottom:1%" />
+                            <a href="#" class="btn_resendCode" style="float:left;margin-left:5px;">Resend Code.</a>
+                            <button type="button" class="btn btn-default btn_verifyEmailVerification digit6confirm">confirm</button>
+                        </div>
+                    </div>
+                    <span class="error color-crimson hide">Invalid code please try again.</span>
+
+                    <button type="button" class="btn digit6back" data-dismiss="modal"><u>back</u></button>
+
+                </div>
+
+                <div class="div_stepEmailVerificationRequired_011 hide div_ContentBody digit6h2">
+                    <h2>Enter the 6 digit code sent by instragram to your mobile</h2>
+                    <div class="inputfield6digit col-sm-12">
+                        <div class="digit6inputbody">
+                            <div class="row">
+                                <div class="digit6img">
+                                    <img src="~/Content/ThemeAssets/Images/InstagramLogo.png" style="width:60px;height:60px;margin-bottom:2%;" />
+                                </div>
+                                <h2 class="digithh2thankyou bluecolor"> Click on the link in the<br> email to confirm its us.<br><br /> Thank you</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn digit6back" data-dismiss="modal"><u>back</u></button>
+                </div>
+
+                <div class="div_step2FARequired hide div_ContentBody">
+                    <h2 class="color-crimson">2-Factor Verification</h2> <br />
+                    <p>Your 2-Factor verification code from instagram has been inputted here.</p>
+                    <p>Enter the 6 digit code below..</p>
+                    <br />
+                    <input type="text" name="2FVerification" value="" id="input_2FVerificationCode" class="required" placeholder="000000" />
+                    <span class="error color-crimson hide">Invalid code please try again.</span>
+                    <a href="#" class="btn_resendCode">Resend Code.</a>
+                    <button type="button" class="btn btn-default btn_2FVerification">Verify Now</button>
+                </div>
+
+                <div class="div_stepValid hide div_ContentBody">
+                    <h2 class="color-crimson">Connection Successful</h2> <br />
+                    <p>
+                        We have succesfully established a connection to your
+                        social account.
+                    </p>
+                    <p>
+                        We’ll get straight to work and start growing your
+                        profile with more followers and likes.
+                    </p>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Got it</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="Modal_DeleteProfile" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <!--
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            -->
+            <div class="div_ModalBody">
+
+                <div class="div_deleteStep1 div_ContentBody">
+                    <h2 class="color-crimson">Unsubscribe Growth Plan</h2>
+                    <br />
+                    <p>
+                        We will permanently Unsubscribe your targtting preferences,
+                        graphs, hashtags and stop our growth and liking techniques.
+                    </p>
+                    <br />
+                    <p>
+                        You will not be able to recover your profile settings.
+                    </p>
+                    <br />
+                    <button type="button" class="btn btn-primary bg_greencolor btnnewheight" data-dismiss="modal">Continue to grow</button>
+                    <button type="button" class="btn btn-height47 btn_deleteMoveToStep2 bg_redcolor btnnewheight">Stop my growth</button>
+                </div>
+
+                <div class="div_deleteStep2 hide div_ContentBody">
+                    <h2 class="color-crimson">Unsubscribe Growth Plan</h2>
+
+                    <p>
+                        OK, We’re sorry to see you go.
+                    </p>
+                    <br />
+                    <p>
+                        We will immediately stop our growth techniques and start
+                        removing our followers that haven’t yet chosen to follow you.
+
+                    </p>
+                    <br />
+                    <button type="button" class="btn btn-primary bg_greencolor btnnewheight btnnewheight" data-dismiss="modal">Continue to grow</button>
+                    <button type="button" class="btn btn-height47 btn_deleteMoveToStep3 bg_redcolor btnnewheight btnnewheight">Unsubscribe account</button>
+                </div>
+
+                <div class="div_deleteStep3 hide div_ContentBody">
+                    <h2 class="color-crimson">Confirmation</h2>
+                    <br />
+                    <p>Type <b class="color-crimson">UNSUBSCRIBE</b> to permanently unsubscribe your Social Growth account</p>
+                    <br />
+                    <input type="text" name="UNSUBSCRIBE" value="" id="input_deleteVerificationCode" class="required" placeholder="UNSUBSCRIBE" />
+                    <br />
+                    <button type="button" class="btn btn-primary bg_greencolor btnnewheight btnnewheight" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-height47 btn_DeleteNow  btn_deleteMoveToStep3 bg_redcolor btnnewheight btnnewheight">Permanently Unsubscribe</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="Modal_BillingHistory" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <!--
+                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+                 -->
+                <h4 class="modal-title">Billing History</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table class="table table-bordered table-striped table-hover table-condensed">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Package</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.OrderHistoryViewModels)
+                                {
+                                    <tr>
+                                        <td data-label="ID">
+                                            @item.StartDate.Value.ToShortDateString()
+                                        </td>
+                                        <td data-label="Products" class="product">@item.Name</td>
+                                        <td data-label="Proxy">$@(item.Price / 100)</td>
+                                        <td data-label="Box">@item.Status</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default newpadding" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section scripts {
+
+    <script src="~/Scripts/bootstrap-tagsinput.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script src="~/Scripts/ECharts/echarts.js"></script>
+    <script src="~/Scripts/ECharts/echarts-all.js"></script>
+    <script src="~/Scripts/ECharts/chart/bar.js"></script>
+    <script src="~/Scripts/ECharts/chart/line.js"></script>
+    <script src="~/Scripts/ECharts/chart/echarts-all-english-v2.js"></script>
+
+    <script type="text/javascript">
+
+        var glb_paymentCardType = "";
+        var glb_profileJVStatusId = @(Model.JVStatusId??0);
+        var glb_socialProfileId = @(Model.SocialProfileId);
+        var glb_socialProfileSessionId = "";
+        var glb_activePlan = "@(Model.ActivePlanId)";
+        var glb_planSq = @planSq;
+        var glb_bxSlider = "";
+        var glb_invalidCredentialAttempts = 0;
+
+        @if (Model.PaymentCards != null) {
+            @Html.Raw("glb_paymentCardType = \"UpdatePlan\"");
+        }
+
+        var sheet = document.createElement('style'),
+        $rangeInput = $('.range input'),
+        prefs = ['webkit-slider-runnable-track', 'moz-range-track', 'ms-track'];
+
+        document.body.appendChild(sheet);
+
+        var getTrackStyle = function (el) {
+            var curVal = el.value,
+                val = (curVal - 1) * 20,
+                style = '';
+
+            // Set active label
+            $('.range-labels li').removeClass('active selected');
+
+            var curLabel = $('.range-labels').find('li:nth-child(' + curVal + ')');
+            curLabel.addClass('active selected');
+            curLabel.prevAll().addClass('selected');
+            // Change background gradient
+            for (var i = 0; i < prefs.length; i++) {
+                style += '.range {background: linear-gradient(to right, #4584ff 0%, #4584ff ' + val + '%, #fff ' + val + '%, #fff 100%)}';
+                style += '.range input::-' + prefs[i] + '{background: linear-gradient(to right, #4584ff 0%, #4584ff ' + val + '%, #b2b2b2 ' + val + '%, #b2b2b2 100%)}';
+            }
+
+            $(".planPrice").text("$" + $(curLabel).attr("data-price"));
+            $(".planlikes").text($(curLabel).html());
+            $(".pc_HeadingPlanLikes").text($(curLabel).html());
+
+            $(".span_totalPlanPrice").text("$" + $(curLabel).attr("data-stripe-price"));
+            if (glb_activePlan != "" && curVal == glb_planSq) {
+                $(".div_planSliderDetail").addClass("hide");
+                $(".div_resetToCurrentplan").addClass("hide");
+            } else {
+                if (glb_activePlan != "") {
+                    $(".div_resetToCurrentplan").removeClass("hide");
+                } else {
+                    $(".div_resetToCurrentplan").addClass("hide");
+                }
+                $(".div_planSliderDetail").removeClass("hide");
+            }
+            return style;
+        }
+
+        $rangeInput.on('input', function () {
+            sheet.textContent = getTrackStyle(this);
+        });
+
+        // Change input value on label click
+        $('.range-labels li').on('click', function () {
+            var index = $(this).index();
+            $rangeInput.val(index + 1).trigger('input');
+            $(".planPrice").text("$" + $(this).attr("data-price"));
+            $(".planlikes").text($(this).html());
+            $(".pc_HeadingPlanLikes").text($(this).html());
+            $(".span_totalPlanPrice").text("$" + $(this).attr("data-stripe-price"));
+
+            if (glb_activePlan != "" && (index + 1) == glb_planSq) {
+                    $(".div_planSliderDetail").addClass("hide");
+                    $(".div_resetToCurrentplan").addClass("hide");
+                } else {
+                    if (glb_activePlan != "") {
+                        $(".div_resetToCurrentplan").removeClass("hide");
+                    } else {
+                        $(".div_resetToCurrentplan").addClass("hide");
+                    }
+                    $(".div_planSliderDetail").removeClass("hide");
+                }
+
+            });
+
+        //-------
+        //------- Document Ready
+        //-------
+
+        $(document).ready(function () {
+
+            onLoadSetting();
+
+
+            $('#SocialProfileBtn a[href*="#"]').on('click', function (e) {
+                e.preventDefault()
+                $('html, body').animate(
+                    {
+                        scrollTop: $($(this).attr('href')).offset().top,
+                    },
+                    500,
+                    'linear'
+                )
+            })
+
+            $(".btn_resetToCurrentPlan").on("click", function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                $("ul.range-labels li:nth-child(" + glb_planSq + ")").trigger("click");
+            })
+
+            $("#Form_SocialProfile").validate({
+                rules: {
+                    InstaUser: {
+                        required: true
+                    },
+                    InstaPassword: {
+                        required: true,
+                    },
+                    Country: {
+                        required: true,
+                    },
+                    City: {
+                        required: true,
+                    }
+                },
+                messages: {
+                    InstaUser: {
+                        required: "Instagram username required."
+                    },
+                    InstaPassword: {
+                        required: "Instagram password required."
+                    },
+                    City: {
+                        required: "Country required."
+                    },
+                    Country: {
+                        required: "City required."
+                    }
+                }
+            });
+
+            $(".link_importantNotice").on("click", function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                $("#Modal_NoticeSocialAccount").modal("show");
+            })
+
+            $(".btn_resendCode").on("click", function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+
+                $("#From_SocialProfile_Action").val("ResendVerificationCode");
+                UpdateSocialProfile(e);
+            });
+
+            $(".btn_verifyEmailVerification").on("click", function (e) {
+
+                UpdateSocialProfile(this)
+            });
+
+            $(".btn_2FVerification").on("click", function (e) {
+                UpdateSocialProfile(this)
+            });
+
+            $("#btn_updateSocialProfile").on("click", function (e) {
+                UpdateSocialProfile(this);
+            });
+
+            $(".checkboxSlider").on("click", function () {
+                if ($("#chk_showLikeyPlanDiv").attr("checked") == "checked") {
+                    $("#chk_showLikeyPlanDiv").removeAttr("checked");
+                    $(".divLikeyPlans").slideUp("slow");
+
+                } else {
+                    $("#chk_showLikeyPlanDiv").attr("checked", "checked");
+                    $(".divLikeyPlans").slideDown("slow");
+                }
+            })
+
+            $("#btn_PayNow").on("click", function () {
+                $(".seletedDisplayPlanPrice").text("$" + $(".range-labels li.active").attr("data-price") + " for " + $(".range-labels li.active").text() +" Likes" );
+                $("span.ModalplanPrice").text($(".range-labels li.active").attr("data-stripe-price"));
+                $("#field_newCardPlanId").val($(".range-labels li.active").attr("data-strap-Planid"));
+                if ($(".range-labels li.active").index() == 0) {
+                    $(".pc_HeadingPlan").addClass("hide");
+                } else {
+                    $(".pc_HeadingPlan").removeClass("hide");
+                }
+                $("#Modal_ConfirmPaymentPlan").modal("show");
+            })
+
+            $("#btn_updateTargetPreference").on("click", function () {
+                if ($("#Form_TargetPreferences").valid()) {
+                    //Todo: Ajax Call to Save The target preference and show success message.
+                    //Disable button while sending.because of double call and avoib double Queue
+                    $("#btn_updateTargetPreference").prop('disabled', true);
+                    $("#SaveTargetPreferenceSpinner").removeClass("hidden");
+                    var data = $("#Form_TargetPreferences").serialize();
+                    $.ajax({
+                        url: "/TargetPreferences/SaveTargetPreferencesOnly",
+                        type: "POST",
+                        data: data,
+                        dataType: "json",
+                        success: function (Res) {
+                            if (Res.Data.ResultType == "Success") {
+                               $("#Modal_MessageBoxTitle").text("Targeting has been updated.");
+
+                            /*  $("#Modal_MessageBoxBody").text("Your target preferences successfully received for setup. We'll get you up and running within 24 hours.");
+                              */  $("#Modal_Messagebox").modal("show");
+                                //$("#SocialProfileId").val = Res.Data.SPId;
+                            } else {
+                                $("#Modal_MessageBoxTitle").text(Res.Data.ResultType);
+                                $("#Modal_MessageBoxBody").text(Res.Data.message);
+                                $("#Modal_Messagebox").modal("show");
+                            }
+                            $("#SaveTargetPreferenceSpinner").addClass("hidden");
+                            $("#btn_updateTargetPreference").prop('disabled', false);
+                        },
+                        error: function () {
+                            alert("An error has occured!!!");
+                            $("#SaveTargetPreferenceSpinner").addClass("hidden");
+                            $("#btn_updateTargetPreference").prop('disabled', false);
+                        }
+                    });
+
+                }
+            });
+
+            $(".btn-showOrderHistory").on("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                $("#Modal_BillingHistory").modal("show");
+                return false;
+            });
+
+            $(".btn_ShowPrefModal").on("click", function () {
+                $("#Modal_WizardPopupPref .wizard_step2").addClass("hide");
+                $("#Modal_WizardPopupPref .wizard_step3").addClass("hide");
+                $("#Modal_WizardPopupPref .wizard_step4").addClass("hide");
+                $("#Modal_WizardPopupPref .wizard_step5").addClass("hide");
+                $("#Modal_WizardPopupPref .wizard_step1").removeClass("hide");
+
+                $("#Modal_WizardPopupPref").modal("show");
+            })
+
+            $(".btn_PrefStep1").on("click", function () {
+                $("#Modal_WizardPopupPref .wizard_step1").addClass("hide");
+                $("#Modal_WizardPopupPref .wizard_step2").removeClass("hide");
+
+            });
+
+            $(".btn_PrefStep2").on("click", function () {
+                $("#Modal_WizardPopupPref .wizard_step2").addClass("hide");
+                $("#Modal_WizardPopupPref .wizard_step3").removeClass("hide");
+
+            });
+
+            $(".btn_PrefStep3").on("click", function () {
+                $("#Modal_WizardPopupPref .wizard_step3").addClass("hide");
+                $("#Modal_WizardPopupPref .wizard_step4").removeClass("hide");
+
+            });
+
+            $(".btn_PrefStep4").on("click", function () {
+                $("#Modal_WizardPopupPref .wizard_step4").addClass("hide");
+                $("#Modal_WizardPopupPref .wizard_step5").removeClass("hide");
+
+            });
+
+            $(".btn_PrefStep5").on("click", function () {
+
+            });
+
+            $("#input_Country").on("change", function () {
+                GetCity($(this).val())
+            });
+
+            function GetCity(_countryId) {
+                var url = "/Common/GetCityByCountryId";
+                $("#input_City").html("");
+                $.ajax({
+                    url: url,
+                    data: { countryId: _countryId },
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        $('#input_City').append($("<option>-- Select City --</option>"));
+                        $.each(data, function (i, e) {
+
+                            $('#input_City').append($("<option></option>").val(e.CityId).html(e.Name));
+                        });
+                    },
+                    error: function (reponse) {
+                        alert("error : " + reponse);
+                    }
+                });
+            }
+
+            $(".btn_displayNewCard").on("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                glb_paymentCardType = "NewCardPlan"
+                $("#div_newCard").show();
+                $("#div_previousCard").hide();
+
+            });
+
+            $(".btn_displayPrevCard").on("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                glb_paymentCardType = "UpdatePlan"
+                $("#div_newCard").hide();
+                $("#div_previousCard").show();
+            });
+
+            $(".btn_ConfirmAndPay").on("click", function () {
+                
+                $("#ConfirmPaySpinner").show();
+                $(".btn_ConfirmAndPay").attr("disabled", true);
+                if (glb_paymentCardType == "UpdatePlan") {
+                    $.ajax({
+                        type: "POST",
+                        url: "/targetpreferences/newcardpayment",
+                        data: { StripePlanId: $(".range-labels li.active").attr("data-strap-Planid"), SocialProfileId: $("#SocialProfileId").val() },
+                        dataType: "json",
+                        success: function (data) {
+                            if (!$.isEmptyObject(data)) {
+                                if (data.ResultType == "Success") {
+                                    $("#Modal_ConfirmPaymentPlan").modal("hide");
+                                    $(".btn_ConfirmAndPay").attr("disabled", false);
+                                    $("#Modal_SuccessActivePlan").modal("show");
+                                    glb_profileJVStatusId = data.ResultData.JVStatusId;
+                                    glb_activePlan = data.ResultData.ActivePlanId;
+                                    EnableDisableProfileSection();
+                                    $(".span_jvStatusName").text(data.ResultData.JVStatusName);
+
+                                } else {
+                                    $("#Modal_ConfirmPaymentPlan").modal("hide");
+                                    $("#Modal_MessageBoxErrorTitle").text("Oops!");
+                                    $("#Modal_MessageBoxErrorBody").text(data.message);
+                                    $("#Modal_MessageBoxFotter").text("Please Try Again");
+                                    $("#Modal_ErrorMessagebox").modal("show");
+                                }
+                                $("#ConfirmPaySpinner").hide();
+                            }
+                        },
+                        failure: function (errMsg) {
+                            $("#Modal_ConfirmPaymentPlan").modal("hide");
+                            $("#ConfirmPaySpinner").hide();
+                            $("#Modal_MessageBoxErrorTitle").text("Oops!");
+                            $("#Modal_MessageBoxErrorBody").text(data.message);
+                            $("#Modal_MessageBoxFotter").text("Please Try Again");
+                            $("#Modal_ErrorMessagebox").modal("show");
+                        }
+                    });
+                } else {
+                    stripe.createToken(card).then(function (result) {
+                       // $("#ConfirmPaySpinner").hide();
+                        if (result.error) {
+                            // Inform the user if there was an error.
+                            var errorElement = document.getElementById('card-errors');
+                            errorElement.textContent = result.error.message;
+                        } else {
+                            // Send the token to your server.
+                            stripeTokenHandler(result.token);
+                        }
+                    });
+                }
+
+            });
+
+            $(".editProfileButton").on("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                var textBlockId = $(this).attr("text-block");
+                var editBlockId = $(this).attr("edit-block");
+                $("#" + textBlockId).hide();
+                $("#" + editBlockId).show();
+
+                return false;
+            });
+
+            $(".cancelProfileEditIcon").on("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                var textBlockId = $(this).attr("text-block");
+                var editBlockId = $(this).attr("edit-block");
+                $("#" + textBlockId).show();
+                $("#" + editBlockId).hide();
+
+                return false;
+            });
+
+            $(".btn_saveProfileName").on("click", function (e) {
+                var ControlId = $(this).attr("control-id");
+                var textBlockId = $(this).attr("text-block");
+                var editBlockId = $(this).attr("edit-block");
+
+                $("#" + textBlockId).show();
+                $("#" + editBlockId).hide();
+
+                //$("#" + ControlId)[0].tagName
+                //var fieldName = $("#" + ControlId).attr("name");
+
+                var textT = $("#" + ControlId).val();
+
+                $("#" + textBlockId + " > b").text(textT)
+                $("#ProfileName").val(textT);
+                return false;
+            });
+
+            $(".btn_showDeleteModal").on("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                $("#Modal_DeleteProfile .div_ModalBody div.div_ContentBody").each(function (i, iElem) {
+                    $(iElem).addClass("hide");
+                });
+                $(".div_deleteStep1").removeClass("hide");
+
+                $("#Modal_DeleteProfile").modal("show");
+
+            });
+
+            $(".btn_deleteMoveToStep2").on("click", function (e) {
+
+                $("#Modal_DeleteProfile .div_ModalBody div.div_ContentBody").each(function (i, iElem) {
+                    $(iElem).addClass("hide");
+                });
+
+                $(".div_deleteStep2").removeClass("hide");
+
+            });
+
+            $(".btn_deleteMoveToStep3").on("click", function (e) {
+
+                $("#Modal_DeleteProfile .div_ModalBody div.div_ContentBody").each(function (i, iElem) {
+                    $(iElem).addClass("hide");
+                });
+
+                $(".div_deleteStep3").removeClass("hide");
+
+            });
+
+            $(".btn_DeleteNow").on("click", function (e) {
+
+                $.ajax({
+
+                    url: "/TargetPreferences/Confirmdelete",
+                    type: "Get",
+                    data: { SocialProfileId: glb_socialProfileId },
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (Data) {
+
+                        if (Data.Data.ResultType == "Success") {
+                            $("#Modal_DeleteProfile").modal("hide");
+                            $("#Modal_MessageBoxTitle").text("Success!");
+                            $("#Modal_MessageBoxBody").text("You have successfully unsubscribed.");
+                            $("#Modal_Messagebox").modal("show");
+
+                            glb_activePlan = "";
+                            EnableDisableProfileSection();
+                            $(".btn_showDeleteModal").addClass("hide");
+                            //TODO:Handle the status here
+                            location.reload(true);
+                        } else {
+                            $(".div_deleteStep3").addClass("hide")
+                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
+                            $("#Modal_MessageBoxBody").text(Data.Data.message);
+                            $("#Modal_Messagebox").modal("show");
+                        }
+                    },
+                    error: function () {
+                        alert("An error has occured!!!");
+                    }
+                });
+            });
+
+            $(".btn_sendPlanner").on("click", function () {
+                $(".div_NewsPlannerStep1").addClass("hide");
+                $(".div_NewsPlannerStep2").removeClass("hide");
+            });
+
+            //$(".btn_NewsPlannerStep2").on("click", function () {
+            //    $(".div_NewsPlannerStep2").addClass("hide");
+            //    $(".div_NewsPlannerStep3").removeClass("hide");
+            //});
+
+            //$(".btn_NewsPlannerStep3").on("click", function () {
+            //    $("#Modal_NewsLetterPop").modal("hide");
+            //});
+
+        });
+
+        function onLoadSetting() {
+
+            glb_bxSlider = $(".bxslider").bxSlider({
+                auto: true,
+                pager: true,
+                controls: true,
+                onSlideAfter: function () {
+                    glb_bxSlider.startAuto();
+                }
+            });
+
+            setTimeout(ShowProfileStatusPopup, 3000);
+
+            //setTimeout(function () {
+            //    $("#Modal_NewsLetterPop .div_NewsPlannerStep1").removeClass("hide");
+            //    $("#Modal_NewsLetterPop").modal("show");
+            //}, 5000);
+
+            $("ul.range-labels li:nth-child(" + glb_planSq + ")").trigger("click");
+            if (glb_activePlan != "") {
+                $(".div_planSliderDetail").addClass("hide");
+                $(".btn_showDeleteModal").removeClass("hide");
+            } else {
+                $(".div_resetToCurrentplan").addClass("hide");
+                $(".btn_showDeleteModal").addClass("hide");
+            }
+
+            EnableDisableProfileSection();
+
+            LoadChartsData();
+        }
+
+        var vfpbInvterval=""
+        function StartVerifyingProgressBar() {
+            var percentage = 0;
+            vfpbInvterval = window.setInterval(function () {
+                percentage++;
+                $(".verifyingProgress-bar").css("width", percentage + "%");
+                $(".verifyingProgress-bar").attr("aria-valuenow", percentage);
+                $(".verifyingProgress-bar").text(percentage + "%");
+                if (percentage == 100) {
+                    clearInterval(vfpbInvterval);
+                }
+            }, 3000);
+        }
+
+
+        // Create a Stripe client.
+        var stripe = Stripe('@Model.StripePublishKey');
+
+        // Create an instance of Elements.
+        var elements = stripe.elements();
+
+        // Custom styling can be passed to options when creating an Element.
+        // (Note that this demo uses a wider set of styles than the guide below.)
+        var style = {
+            base: {
+                color: '#32325d',
+                fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                fontSmoothing: 'antialiased',
+                fontSize: '16px',
+                '::placeholder': {
+                    color: '#aab7c4'
+                }
+            },
+            invalid: {
+                color: '#fa755a',
+                iconColor: '#fa755a'
+            }
+        };
+
+        // Create an instance of the card Element.
+        var card = elements.create('card', { style: style });
+
+        // Add an instance of the card Element into the `card-element` <div>.
+        card.mount('#card-element');
+
+        // Handle real-time validation errors from the card Element.
+        card.addEventListener('change', function (event) {
+            var displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+
+        // Handle form submission.
+        var form = document.getElementById('From_NewCard');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            stripe.createToken(card).then(function (result) {
+                if (result.error) {
+                    // Inform the user if there was an error.
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                } else {
+                    // Send the token to your server.
+                    stripeTokenHandler(result.token);
+                }
+            });
+        });
+
+        // Submit the form with the token ID.
+        function stripeTokenHandler(token) {
+            // Insert the token ID into the form so it gets submitted to the server
+            var form = document.getElementById('From_NewCard');
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripeToken');
+            hiddenInput.setAttribute('value', token.id);
+
+            var inpProfileId = document.createElement("input");
+            inpProfileId.setAttribute('type', 'hidden');
+            inpProfileId.setAttribute('name', 'SocialProfileId');
+            inpProfileId.setAttribute('value', $("#SocialProfileId").val());
+
+            form.appendChild(inpProfileId);
+            form.appendChild(hiddenInput);
+
+            if ($("#From_NewCard").valid()) {
+                var data = $("#From_NewCard").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/targetpreferences/newcardpayment",
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        if (!$.isEmptyObject(data)) {
+                            if (data.ResultType == "Success") {
+                                $("#Modal_ConfirmPaymentPlan").modal("hide");
+                                $("#Modal_SuccessActivePlan").modal("show");
+                                glb_profileJVStatusId = data.ResultData.JVStatusId;
+                                $("#btn_updateSocialProfile").removeClass("hide");
+                                $(".span_jvStatusName").text(data.ResultData.JVStatusName);
+                                glb_activePlan = data.ResultData.ActivePlanId;
+                                EnableDisableProfileSection();
+                            } else {
+                                $("#Modal_ConfirmPaymentPlan").modal("hide");
+                                $("#Modal_MessageBoxErrorTitle").text("Oops!");
+                                $("#Modal_MessageBoxErrorBody").text(data.message);
+                                $("#Modal_MessageBoxFotter").text("Please Try Again");
+                                $("#Modal_ErrorMessagebox").modal("show");
+                            }
+                        }
+                        $("#ConfirmPaySpinner").hide();
+                    },
+                    failure: function (errMsg) {
+                        $("#Modal_ConfirmPaymentPlan").modal("hide");
+                        $("#Modal_MessageBoxErrorTitle").text("Oops!");
+                        $("#Modal_MessageBoxErrorBody").text(data.message);
+                        $("#Modal_MessageBoxFotter").text("Please Try Again");
+                        $("#Modal_ErrorMessagebox").modal("show");
+                        $("#ConfirmPaySpinner").hide();
+                    }
+                });
+            }
+
+            //form.submit();
+        }
+        /* for shift section after click on button*/
+
+        /** Charts For ajax **/
+
+        function LoadChartsData() {
+            $.ajax({
+                type: "GET",
+                url: "/TargetPreferences/GetFollowersStatistics?socialProfileId=" + glb_socialProfileId,
+                dataType: "json",
+                success: function (Response) {
+                    if (!$.isEmptyObject(Response)) {
+                        if (Response.Data.ResultType == "Success") {
+                            if ($.isEmptyObject(Response.Data.ResultData.Date)) {
+                                $(".div_NoChartsData").removeClass("hide");
+                                $(".div_ChartsData").addClass("hide");
+                                $(".div_LoadingData").addClass("hide");
+                            } else {
+                                $(".div_NoChartsData").addClass("hide");
+                                $(".div_ChartsData").removeClass("hide");
+                                $(".div_LoadingData").addClass("hide");
+                                LoadFollowersBarChart(Response.Data.ResultData);
+                                LoadFollowersLineChart(Response.Data.ResultData);
+                                LoadLikeBarChart(Response.Data.ResultData);
+                                LoadLikeLineChart(Response.Data.ResultData);
+                            }
+                        } else {
+
+                        }
+                    }
+                },
+                failure: function (errMsg) {
+
+                }
+            });
+        }
+
+        function LoadFollowersBarChart(ChartsData) {
+
+            var today = new Date();
+            var dd = today.getDate();
+
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+
+            today = dd + '/' + mm + '/' + yyyy;
+
+            var dom = document.getElementById("FollowerBarChart");
+            var myChart = echarts.init(dom);
+            var app = {};
+            option = null;
+
+                option = {
+                    title: {
+                        text: ''
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'cross',
+                            label: {
+                                backgroundColor: '#6a7985'
+                            }
+                        }
+                    },
+                    legend: {
+                        data: ['Followers', 'Followings']//, 'Followings Change Ratio']'Followers Change',
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                          //  magicType: { show: true, type: ['bar', 'line'] },
+                            restore: { show: true },
+                            saveAsImage: { show: true },
+
+                        }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            boundaryGap: true,
+                            data: ChartsData.Date// ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value'
+                        }
+                    ]
+                    ,
+                    series: [
+                        {
+                            name: 'Followers',
+                            type: 'bar',
+
+                            stack: ChartsData.TotalFollowers,
+                            areaStyle: {},
+                            data: ChartsData.FollowersData
+                        },
+                        //{
+                        //    name: 'Followers Change',
+                        //    type: 'bar',
+                        //    stack: ChartsData.TotalFollowersGain,
+                        //    areaStyle: {},
+                        //    data: ChartsData.FollowersGainData
+                        //},
+
+                        {
+                            name: 'Followings',
+                            type: 'bar',
+
+                            stack: ChartsData.TotalFollowings,
+                            areaStyle: { normal: {} },
+                            data: ChartsData.FollowingsData
+                        }
+                        //,
+                        //{
+                        //    name: 'Followings Change Ratio',
+                        //    type: 'line',
+                        //    stack: ChartsData.TotalFollowingsRatio,
+                        //    areaStyle: { normal: {} },
+                        //    label: {
+                        //        normal: {
+                        //            show: true,
+                        //            position: 'top'
+                        //        }
+                        //    },
+                        //    data: ChartsData.FollowingsRatioData
+                       // }
+                    ]
+                };
+                ;
+
+
+            myChart.setOption(option);
+            if (option && typeof option === "object") {
+                myChart.hideLoading();
+                myChart.setOption(option, true);
+            }
+
+        }
+
+        function LoadFollowersLineChart(ChartsData) {
+
+            var today = new Date();
+            var dd = today.getDate();
+
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+
+            today = dd + '/' + mm + '/' + yyyy;
+
+            var dom = document.getElementById("FollowerLineChart");
+            var myChart = echarts.init(dom);
+            var app = {};
+            option = null;
+
+            option = {
+                title: {
+                    text: ''
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
+                    }
+                },
+                legend: {
+                    data: ['Followers', 'Followings']//, 'Followings Change Ratio']'Followers Change',
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                       // magicType: { show: true, type: ['bar', 'line'] },
+                        restore: { show: true },
+                        saveAsImage: { show: true },
+
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: ChartsData.Date// ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value'
+                    }
+                ]
+                ,
+                series: [
+                    {
+                        name: 'Followers',
+                        type: 'line',
+
+                        stack: ChartsData.TotalFollowers,
+                        areaStyle: {},
+                        data: ChartsData.FollowersData
+                    },
+
+                    {
+                        name: 'Followings',
+                        type: 'line',
+
+                        stack: ChartsData.TotalFollowings,
+                        areaStyle: { normal: {} },
+                        data: ChartsData.FollowingsData
+                    }
+
+                ]
+            };
+            ;
+
+
+            myChart.setOption(option);
+            if (option && typeof option === "object") {
+                myChart.hideLoading();
+                myChart.setOption(option, true);
+            }
+
+        }
+
+        //function LoadFollowersPiChart(ChartsData) {
+
+
+        //    var dom = document.getElementById("FollowerPiChart");
+        //    var myChart = echarts.init(dom);
+        //    var app = {};
+        //    option = null;
+
+
+        //    option = {
+        //        title: {
+        //            text: '',
+        //            subtext: '',
+        //            x: 'center'
+        //        },
+        //        tooltip: {
+        //            trigger: 'item',
+        //            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        //        },
+        //        legend: {
+        //            orient: 'vertical',
+        //            left: 'left',
+        //            data: ['Followers', 'Followings']//, 'Followers Change', 'Followings Change Ratio']
+        //        },
+        //        series: [
+        //            {
+        //                name: 'Followers',
+        //                type: 'pie',
+        //                radius: '45%',
+        //                center: ['50%', '60%'],
+        //                data: [
+        //                    { value: ChartsData.TotalFollowers, name: 'Followers' },
+        //                    // { value: ChartsData.TotalFollowersGain, name: 'Followers Change' },
+        //                    //{ value: 234, name: 'Avg. Follower Change Per Day' },
+        //                    { value: ChartsData.TotalFollowings, name: 'Followings' }
+        //                    //,
+        //                    //{ value: ChartsData.TotalFollowingsRatio, name: 'Followings Change Ratio' }
+        //                ],
+        //                itemStyle: {
+
+        //                    emphasis: {
+        //                        shadowBlur: 10,
+        //                        shadowOffsetX: 0,
+        //                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+        //                    }
+        //                }
+        //            }
+        //        ]
+        //    };
+        //    ;
+
+
+        //    if (option && typeof option === "object") {
+        //        myChart.hideLoading();
+        //        myChart.setOption(option, true);
+        //    }
+        //}
+
+        function LoadLikeBarChart(ChartsData) {
+
+
+            var today = new Date();
+            var dd = today.getDate();
+
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+
+            today = dd + '/' + mm + '/' + yyyy;
+
+            var dom = document.getElementById("LikeBarChart");
+            var myChart = echarts.init(dom);
+            var app = {};
+            option = null;
+
+
+                option = {
+                    title: {
+                        text: ''
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'cross',
+                            label: {
+                                backgroundColor: '#6a7985'
+                            }
+                        }
+                    },
+                    legend: {
+                        data: ['Like', 'Engagement'] //'Comment', 'Like Comment',
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+
+
+                           // magicType: { show: true, type: ['line', 'bar'] },
+                            restore: { show: true },
+                            saveAsImage: { show: true }
+                        }
+                    },
+                    grid: {
+                        left: '0%',
+                        right: '0%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            boundaryGap: true,
+                            data: ChartsData.Date// ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value'
+                        }
+                    ]
+                    ,
+                    dataZoom: [
+                        {
+                            show: true,
+                            start: 94,
+                            end: 100
+                        },
+                        {
+                            type: 'inside',
+                            start: 94,
+                            end: 100
+                        },
+                        {
+                            show: true,
+                            yAxisIndex: 0,
+                            filterMode: 'empty',
+                            width: 30,
+                            height: '80%',
+                            showDataShadow: true,
+                            left: '93%'
+                        }
+                    ],
+                    series: [
+                        {
+                            name: 'Like',
+                            type: 'bar',
+                            stack: ChartsData.TotalLike,
+                            areaStyle: {},
+                            data: ChartsData.LikeData
+                        },
+                        //{
+                        //    name: 'Comment',
+                        //    type: 'line',
+                        //    stack: ChartsData.TotalComment,
+                        //    areaStyle: {},
+                        //    data: ChartsData.CommentData
+                        //},
+                        //{
+                        //    name: 'Like Comment',
+                        //    type: 'line',
+                        //    stack: ChartsData.TotalFollowings,
+                        //    areaStyle: {},
+                        //    data: ChartsData.LikeCommentData
+                        //},
+                        {
+                            name: 'Engagement',
+                            type: 'bar',
+                            stack: ChartsData.TotalEngagement,
+                            areaStyle: {},
+                            data: ChartsData.Engagement
+                        }
+                    ]
+                };
+                ;
+
+
+            myChart.setOption(option);
+            if (option && typeof option === "object") {
+                myChart.hideLoading();
+                myChart.setOption(option, true);
+            }
+
+        }
+
+        function LoadLikeLineChart(ChartsData) {
+
+
+            var today = new Date();
+            var dd = today.getDate();
+
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+
+            today = dd + '/' + mm + '/' + yyyy;
+
+            var dom = document.getElementById("LikeLineChart");
+            var myChart = echarts.init(dom);
+            var app = {};
+            option = null;
+
+            option = {
+                title: {
+                    text: ''
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
+                    }
+                },
+                legend: {
+                    data: ['Like', 'Engagement'] //'Comment', 'Like Comment',
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+
+
+                       // magicType: { show: true, type: ['line', 'bar'] },
+                        restore: { show: true },
+                        saveAsImage: { show: true }
+                    }
+                },
+                grid: {
+                    left: '0%',
+                    right: '0%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: ChartsData.Date// ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value'
+                    }
+                ]
+                ,
+                dataZoom: [
+                    {
+                        show: true,
+                        start: 94,
+                        end: 100
+                    },
+                    {
+                        type: 'inside',
+                        start: 94,
+                        end: 100
+                    },
+                    {
+                        show: true,
+                        yAxisIndex: 0,
+                        filterMode: 'empty',
+                        width: 30,
+                        height: '80%',
+                        showDataShadow: true,
+                        left: '93%'
+                    }
+                ],
+                series: [
+                    {
+                        name: 'Like',
+                        type: 'line',
+                        stack: ChartsData.TotalLike,
+                        areaStyle: {},
+                        data: ChartsData.LikeData
+                    },
+                    {
+                        name: 'Engagement',
+                        type: 'line',
+                        stack: ChartsData.TotalEngagement,
+                        areaStyle: {},
+                        data: ChartsData.Engagement
+                    }
+                ]
+            };
+
+            myChart.setOption(option);
+            if (option && typeof option === "object") {
+                myChart.hideLoading();
+                myChart.setOption(option, true);
+            }
+
+        }
+
+        //function LoadLikePiChart(ChartsData) {
+
+        //    var dom = document.getElementById("LikePiChart");
+        //    var myChart = echarts.init(dom);
+        //    var app = {};
+        //    option = null;
+
+
+        //        option = {
+        //            title: {
+        //                text: '',
+        //                subtext: '',
+        //                x: 'center'
+        //            },
+        //            tooltip: {
+        //                trigger: 'item',
+        //                formatter: "{a} <br/>{b} : {c} ({d}%)"
+        //            },
+        //            legend: {
+        //                orient: 'vertical',
+        //                left: 'left',
+        //                data: ['Like', 'Engagement'] //, 'Comment', 'Like Comment'
+        //            },
+
+        //            series: [
+        //                {
+        //                    name: 'Followers',
+        //                    type: 'pie',
+        //                    radius: '45%',
+        //                    center: ['50%', '60%'],
+        //                    data: [
+        //                        { value: ChartsData.TotalLike, name: 'Like' },
+        //                        //{ value: ChartsData.TotalComment, name: 'Comment' },
+        //                        //{ value: ChartsData.TotalLikeComment, name: 'Like Commen' },
+        //                        { value: ChartsData.TotalEngagement, name: 'Engagement' }
+        //                    ],
+        //                    itemStyle: {
+        //                        emphasis: {
+        //                            shadowBlur: 10,
+        //                            shadowOffsetX: 0,
+        //                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+        //                        }
+        //                    }
+        //                }
+        //            ]
+        //        };
+        //        ;
+
+        //    if (option && typeof option === "object") {
+        //        myChart.hideLoading();
+        //        myChart.setOption(option, true);
+        //    }
+        //}
+
+        /** Charts For ajax **/
+
+        function sectionfunction1() {
+          var x = document.getElementById("sec_1");
+          if (x.style.display === "none") {
+            x.style.display = "block";
+          } else {
+            x.style.display = "none";
+          }
+        }
+
+        function sectionfunction2() {
+            var x = document.getElementById("sec_2");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+
+        function sectionfunction3() {
+            var x = document.getElementById("sec_3");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+
+        /* ---------------- */
+
+    </script>
+
+}
+
+@section styles {
+    <link href="~/Content/ThemeAssets/css/bootstrap-tagsinput.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+    @*<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/css/bootstrap-slider.min.css" rel="stylesheet" />*@
+
+    <style type="text/css">
+        .bootstrap-tagsinput .tag [data-role="remove"] {
+            color: white;
+        }
+
+        .inputfield6digit div input[type=text] {
+            margin: 2% auto;
+            margin-top: 4%;
+            width: 90%;
+        }
+
+        .inputfield6digit div button.btn-block {
+            width: 90%;
+            min-height: 55px;
+            padding: 2% 0%;
+            font-weight: 400;
+            background-color: #e4943b;
+        }
+
+        #instagrampopup2 div button.btn-block {
+            min-height: 80px;
+        }
+
+        .inputfield6digit div button.getfreebtn {
+            min-height: 50px;
+            border-radius: 25px;
+            background-color: #4c54c4;
+            margin-top: 3%;
+        }
+
+        sup {
+            top: -.3em;
+            font-size: 12pt;
+        }
+
+        .div_ModalBody p.inputfield6digitPara {
+            font-size: 13pt;
+            margin: 7px 15px;
+            line-height: 17pt;
+            font-weight: 400;
+        }
+
+
+        .div_ModalBody button.btn.digit6confirm {
+            float: right;
+            height: 32px;
+            font-weight: 300;
+            padding: 2%;
+            font-size: 10pt;
+            margin-right: 5px;
+            background-color: #7278d0;
+        }
+
+        .div_ModalBody button.btn.digit6back {
+            margin: 0 auto;
+            display: block;
+            margin-top: 1%;
+            text-align: center;
+            min-height: 32px;
+            color: #666;
+            font-weight: 300;
+            padding: 6%;
+            font-size: 10pt;
+            background-color: transparent;
+        }
+
+
+        .div_ModalBody div .digithh2thankyou {
+            font-size: 16pt;
+            font-weight: bold;
+        }
+
+        /*    .modal-content {
+            position: absolute;
+        }
+
+        */
+        a .btn_resetToCurrentPlan {
+            display: block;
+            font-size: 12pt;
+            font-weight: 500;
+        }
+
+        .div_ChartsData h3 {
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ff652f;
+            display: inline-block;
+            color: #333
+        }
+
+        #Modal_ConfirmPaymentPlan h4.pc_Heading {
+            color: #5cb85c;
+            display: block;
+            text-align: center;
+            margin-bottom: 18px;
+            font-size: 15pt;
+            line-height: 22pt;
+        }
+
+        .progress-bar {
+            -webkit-transition: width 2.5s ease;
+            transition: width 2.5s ease;
+        }
+
+        a.link_importantNotice {
+            position: relative;
+            top: 5px;
+            text-decoration: underline;
+            color: darkorange;
+        }
+
+        button.close {
+            position: relative;
+            top: 10px;
+            right: 20px;
+            font-size: 20pt;
+            color: darkgray;
+            opacity: 0.7;
+        }
+
+        a.editProfileButton {
+            margin-left: 20px
+        }
+
+        #Form_SocialProfile .field-validation-error span {
+            color: crimson;
+            font-weight: 400;
+        }
+
+        .input-validation-error {
+            border: 1px solid crimson !important
+        }
+
+        #Form_SocialProfile .slct {
+            margin-bottom: 0;
+        }
+
+            #Form_SocialProfile .slct:disabled {
+                background-color: #eee
+            }
+
+        .editBlock {
+            display: inline-flex
+        }
+
+            .editBlock input {
+                display: inline-block;
+                margin-bottom: 0;
+            }
+
+            .editBlock a {
+                position: relative;
+                top: 21px;
+                left: 5px;
+            }
+
+        .sec-filename b {
+            font-size: 16pt;
+            color: #666;
+            position: relative;
+            top: 5px;
+            font-weight: 500;
+        }
+
+        /*Payment Model*/
+
+        .modal-body {
+            padding: 15px;
+        }
+
+        #Modal_ConfirmPaymentPlan .modal-body {
+            padding: 0px;
+        }
+
+        #Modal_ConfirmPaymentPlan .modal-content {
+            padding: 3%;
+        }
+
+
+        #Modal_ConfirmPaymentPlan h4 {
+            color: cornflowerblue;
+        }
+
+        #Modal_ConfirmPaymentPlan p {
+            margin: 0;
+        }
+
+        #Modal_ConfirmPaymentPlan .paymentCard h3 {
+            color: #587ae8;
+            font-size: 24pt;
+            font-weight: 400;
+        }
+
+        #Modal_ConfirmPaymentPlan .paymentCard {
+            padding: 15px 20px;
+            border-radius: 5px;
+            box-shadow: 0em 0.2em 1em 0.2em lightgrey;
+        }
+
+            #Modal_ConfirmPaymentPlan .paymentCard img {
+                width: 8%;
+                position: relative;
+                top: -6px;
+            }
+
+        #Modal_ConfirmPaymentPlan .mainMonthly {
+            background-color: #f7f7f7;
+            padding: 10px;
+            margin: 0 15px;
+            border-radius: 5px;
+            min-height: 270px;
+        }
+
+            #Modal_ConfirmPaymentPlan .mainMonthly h2 {
+                font-size: 3rem;
+            }
+
+        #Modal_ConfirmPaymentPlan .from-control {
+            margin-bottom: 10px !important
+        }
+
+        .StripeElement {
+            box-sizing: border-box;
+            height: 40px;
+            padding: 10px 12px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            background-color: white;
+            box-shadow: 0 1px 3px 0 #e6ebf1;
+            -webkit-transition: box-shadow 150ms ease;
+            transition: box-shadow 150ms ease;
+        }
+
+        .StripeElement--focus {
+            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+
+        .StripeElement--invalid {
+            border-color: #fa755a;
+        }
+
+        .StripeElement--webkit-autofill {
+            background-color: #fefde5 !important;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+        .form-Checkbox {
+            display: inline-block;
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 1.6rem;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+            /* Hide the browser's default checkbox */
+            .form-Checkbox input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+                height: 0;
+                width: 0;
+            }
+
+        /* Create a custom checkbox */
+        .chkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 20px;
+            width: 20px;
+            background-color: #fff;
+            border: 1px solid #6ab8ee
+        }
+
+        /* On mouse-over, add a grey background color */
+        .form-Checkbox:hover input ~ .chkmark {
+            background-color: #6ab8ee;
+        }
+
+        /* When the checkbox is checked, add a blue background */
+        .form-Checkbox input:checked ~ .chkmark {
+            background-color: #2196F3;
+        }
+
+        /* Create the checkmark/indicator (hidden when not checked) */
+        .chkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        /* Show the checkmark when checked */
+        .form-Checkbox input:checked ~ .chkmark:after {
+            display: block;
+        }
+
+        /* Style the checkmark/indicator */
+        .form-Checkbox .chkmark:after {
+            left: 6px;
+            top: 3px;
+            width: 6px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        .checkboxSlider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 15px;
+        }
+
+        .digit6h2 h2 {
+            color: #7278d0;
+            margin-top: 2%;
+            margin-bottom: 5%;
+            font-weight: 300;
+        }
+
+        .digit6inputbody {
+            width: 85%;
+            min-height: 220px;
+            margin: 0 auto;
+            padding: 5% 0;
+            background-color: #f8fcfc;
+            box-shadow: 2px 2px 5px 5px lightgrey;
+            border-radius: 5px;
+        }
+
+            .digit6inputbody .row img {
+                margin-bottom: 5%;
+            }
+
+            .digit6inputbody input[type=text], input[type=email], input[type=number] {
+                border: 1px solid #ccc;
+            }
+
+            .digit6inputbody div #digit6hide {
+                width: 10%;
+                border: transparent;
+                background: transparent;
+                background-color: transparent;
+            }
+
+        .digit6box {
+            width: 15%;
+            border: 1px solid grey;
+            margin: 0;
+        }
+
+        input.digit6box {
+            margin: 0px;
+            padding: 1%;
+            text-align: center;
+            min-height: 50px;
+            min-width: 20px;
+        }
+
+            input.digit6box :hover {
+                border: 1px solid lightskyblue;
+            }
+
+
+        .checkboxSlider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 2px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 20px;
+        }
+
+        input:checked + .checkboxSlider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .checkboxSlider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .checkboxSlider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        .main h2 {
+            font-weight: 500;
+            margin-bottom: 30px;
+        }
+
+        .main h4 {
+            font-size: 2rem;
+            margin: 14px 0px;
+            line-height: 27px;
+            color: #6c6c6c;
+        }
+
+        .main h3 {
+            text-align: center;
+            color: red;
+            font-size: 3rem;
+            margin: 26px auto;
+        }
+
+        .main p {
+            font-size: 12pt;
+            font-weight: 400;
+            margin: 0;
+            color: darkgray;
+        }
+
+        .information-form-inner label.block {
+            display: block
+        }
+
+        .information-form-inner label {
+            margin-bottom: 10px
+        }
+
+        .bootstrap-tagsinput {
+            width: 100%;
+            padding: 8px 8px;
+            min-height: 47px;
+        }
+
+            .bootstrap-tagsinput span {
+                display: inline-block;
+                padding: 5px;
+                font-size: 1.6rem;
+                /*background-color: #587ae8;*/
+                background-color: #4584ff;
+            }
+
+            .bootstrap-tagsinput input[type=text] {
+                display: inline;
+                margin-top: 2px;
+                height: 40px;
+            }
+
+        .slct {
+            margin-bottom: 30px;
+        }
+
+        .color-crimson {
+            color: crimson;
+        }
+
+        .weight500 {
+            font-weight: 500;
+        }
+
+        .div_ModalBody {
+            padding: 5%;
+            text-align: center;
+        }
+
+            .div_ModalBody .popupHeading, .div_ModalBody div h2 {
+                font-size: 22pt;
+            }
+
+        .redcolor {
+            color: #fc0404;
+        }
+
+        .div_ModalBody p {
+            font-size: 11pt;
+            margin: 5px 5px;
+            line-height: 17pt;
+            font-weight: 400;
+        }
+
+        .div_ModalBody a {
+            display: block;
+            margin: 15px 0;
+            text-decoration: underline;
+        }
+
+        .div_ModalBody p .note {
+            color: darkorange;
+        }
+
+        .div_ModalBody button.btn {
+            padding: 0% 10%;
+            margin-top: 2%;
+            height: 40px;
+            background-color: #4c4ccc;
+        }
+
+        .div_ModalBody button.bg_greencolor {
+            background-color: #4bd363;
+        }
+
+        .div_ModalBody button.bg_redcolor {
+            background-color: #e43c44;
+        }
+
+        .btnnewheight {
+            min-height: 50px;
+            min-width: 80%;
+        }
+
+        .newpadding {
+            padding-left: 15%;
+            padding-right: 15%;
+        }
+
+        #Modal_ConfirmPaymentPlan #monthlyChargeh4 {
+            font-size: 24pt;
+            margin-bottom: 8%;
+            color: #4c4ccc;
+        }
+
+        #monthlyChargeh4 .paymenyplus {
+            margin: 2% 0;
+        }
+
+        .divPlanSlider {
+            margin-bottom: 10px;
+            border-radius: 5px;
+            padding: 45px 0 10px 0;
+            box-shadow: 0em 0.2em 1em 0.2em lightgrey;
+            position: relative;
+        }
+
+        .btn-showOrderHistory {
+            color: darkgray;
+            font-size: 11pt;
+            font-weight: 400;
+            border-bottom: 1px solid;
+            position: relative;
+            top: 10px;
+        }
+
+        .footer {
+            padding: 30px 15px;
+        }
+
+            .footer img {
+                margin-top: 2%;
+            }
+
+        #SocialProfileMG, #section1MG, #section2MG {
+            margin-right: 0px;
+            margin-left: 0px;
+        }
+
+
+        @@media screen and (max-width:768px) {
+
+            .btn_mg_top {
+                margin-top: 8px;
+            }
+
+            button .close {
+                top: 0px;
+                right: 15px;
+            }
+
+            .modal-title {
+                font-size: 20pt;
+                text-align: center;
+                color: #4c4ccc;
+            }
+
+            .modal-footer {
+                text-align: center;
+            }
+
+                .modal-footer button {
+                    background-color: #4c4ccc;
+                }
+        }
+
+        @@media screen and (max-width: 500px) {
+            .color-crimson, .planPrice, #Modal_ConfirmPaymentPlan #monthlyChargeh4, #Modal_ConfirmPaymentPlan .paymentCard h3 {
+                font-size: 20pt;
+            }
+
+            .div_ModalBody .popupHeading, .div_ModalBody div h2 {
+                margin-top: 5%;
+                font-size: 18pt;
+            }
+
+            .digit6inputbody {
+                width: 100%;
+            }
+
+            .lnk_ShowSignupModal {
+                padding: 10px;
+            }
+
+            .div_ModalBody button.btn {
+                padding: 0 10%;
+                min-height: 34px;
+            }
+
+            #Modal_ConfirmPaymentPlan .monthlyChargeh3 {
+                font-size: 18pt;
+            }
+
+            #Form_TargetPreferences label b.smallfont {
+                font-size: 12pt;
+            }
+
+            #Form_TargetPreferences label sup.smallfont {
+                font-size: 11pt;
+            }
+
+            .digit6inputbody {
+                min-height: 175px;
+            }
+        }
+
+        @@media screen and (max-width:430px) {
+
+            .div_ModalBody button.btn {
+                padding: 0 5%;
+                font-size: 15pt;
+            }
+
+
+            .modal-body #shoppingcardPD {
+                padding: 0px;
+            }
+
+            .section_targetgrow h1 {
+                font-size: 19pt;
+            }
+
+            .btn-showOrderHistory {
+                font-size: 9pt;
+            }
+
+            .color-crimson, .planPrice, #Modal_ConfirmPaymentPlan #monthlyChargeh4, #Modal_ConfirmPaymentPlan .paymentCard h3 {
+                font-size: 16pt;
+            }
+
+            .digit6inputbody {
+                min-height: 165px;
+            }
+
+            #Modal_ConfirmPaymentPlan .paymentCard {
+                padding: 15px;
+            }
+
+            #Modal_ConfirmPaymentPlan .modal-content {
+                padding: 0px;
+            }
+
+
+            .section_targetgrow .form-group .smallfont {
+                font-size: 10pt;
+            }
+
+            .form-group #smallfontfornew {
+                margin-top: 2%;
+            }
+        }
+
+        @@media screen and (max-width: 330px) {
+            .div_ModalBody .popupHeading {
+                font-size: 16pt;
+            }
+
+
+
+            .modal-dialog {
+                margin: 0px;
+            }
+        }
+    </style>
+
+}
+
+

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SG2.CORE.BAL</RootNamespace>
     <AssemblyName>SG2.CORE.BAL</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <SccProjectName>SAK</SccProjectName>
@@ -36,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
@@ -58,18 +58,14 @@
     <Compile Include="IManagers\ISession.cs" />
     <Compile Include="Managers\CommonManager.cs" />
     <Compile Include="Managers\CustomerManager.cs" />
-    <Compile Include="Managers\JVBoxManager.cs" />
     <Compile Include="Managers\LikeyAccountManager.cs" />
     <Compile Include="Managers\PlanInformationManager.cs" />
-    <Compile Include="Managers\ProxyManager.cs" />
-    <Compile Include="Managers\QueueLoggerManager.cs" />
     <Compile Include="Managers\SessionManager.cs" />
     <Compile Include="Managers\NotificationManager.cs" />
     <Compile Include="Managers\StatisticsManager.cs" />
     <Compile Include="Managers\SystemSettingsManager.cs" />
-    <Compile Include="Managers\TargetPreferencesManager.cs" />
+    <None Include="Managers\TargetPreferencesManager.cs" />
     <Compile Include="Managers\TeamMemberManager.cs" />
-    <Compile Include="Managers\VPSSupplierManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

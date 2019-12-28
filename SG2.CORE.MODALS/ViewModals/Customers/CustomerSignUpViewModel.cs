@@ -19,8 +19,8 @@ namespace SG2.CORE.MODAL.ViewModals.Customers
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid Phone number")]
         public string PhoneNumber { get; set; }
 
-        //[Required(ErrorMessage = "User InstaUsrName is Required")]
-        [Display(Name = "User InstaUsrName")]
+        [Required(ErrorMessage = "Instagram username is Required")]
+        [Display(Name = "Intsagram username")]
         public string UserName { get; set; }
 
         //[Required(ErrorMessage = "SurName is Required")]

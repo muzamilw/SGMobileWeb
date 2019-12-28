@@ -14,6 +14,7 @@ using Stripe;
 using SG2.CORE.MODAL.DTO.Customers;
 using System.Collections.Generic;
 using SG2.CORE.MODAL.DTO.SystemSettings;
+using SG2.CORE.MODAL.ViewModals.Customers;
 
 namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 {
@@ -23,8 +24,9 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
         protected readonly CustomerManager _customerManager;
         protected readonly CommonManager _commonManager;
         private readonly string _PageSize = string.Empty;
-        protected readonly TargetPreferencesManager _targetPreferenceManager;
+        //protected readonly TargetPreferencesManager _targetPreferenceManager;
         protected readonly List<SystemSettingsDTO> SystemConfigs;
+        protected readonly PlanInformationManager _planmanager;
 
 
         public CRMController()
@@ -32,9 +34,10 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             _customerManager = new CustomerManager();
             _commonManager = new CommonManager();
             _PageSize = WebConfigurationManager.AppSettings["PageSize"];
-            _targetPreferenceManager = new TargetPreferencesManager();
+            //_targetPreferenceManager = new TargetPreferencesManager();
             ViewBag.SetMenuActiveClass = "CRM";
             SystemConfigs = SystemConfig.GetConfigs;
+            _planmanager = new PlanInformationManager();
 
         }
 
@@ -112,11 +115,14 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                 ViewBag.Message = TempData["Message"];
             }
 
+
+
             //int custId = Convert.ToInt32(CryptoEngine.Decrypt(id));
             int custId1 = Convert.ToInt32(HttpUtility.UrlDecode(CryptoEngine.Decrypt(id)));
             int socialProfileId = Convert.ToInt32(HttpUtility.UrlDecode(CryptoEngine.Decrypt(SPId)));
             var model = _customerManager.GetSpecificUserData(custId1, socialProfileId);
-            model.Countries = CommonManager.GetCountries();
+            ViewBag.SocailProfile = this._customerManager.GetSocialProfileById(socialProfileId);
+            //model.Countries = CommonManager.GetCountries();
             if (!string.IsNullOrEmpty(model.Country))
             {
                 model.cities = CommonManager.GetCities().Where(m => m.CountryId == Convert.ToInt16(model.Country)).ToList();
@@ -163,7 +169,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
         }
 
-        public ActionResult ScheduleCall(string customerId, DateTime schedule, string notes)
+        public ActionResult ScheduleCall(string customerId, string schedule, string notes)
         {
             try
             {
@@ -174,7 +180,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                     //int custId = Convert.ToInt32(CryptoEngine.Decrypt(customerId.ToString()));
                     int custId = Convert.ToInt32((CryptoEngine.Decrypt(Cus)));
 
-                    var User = _customerManager.ScheduleCall(custId, schedule, notes);
+                    var User = _customerManager.ScheduleCall(custId,Convert.ToDateTime(  schedule), notes);
                     if (User)
                     {
 
@@ -210,63 +216,17 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                     //int custId = Convert.ToInt32(CryptoEngine.Decrypt(customerId.ToString()));
                     int custId = Convert.ToInt32((CryptoEngine.Decrypt(Cus)));
                     int socialProfileId = Convert.ToInt32((CryptoEngine.Decrypt(SPId)));
-                    var User = _customerManager.AssignJVBoxToCustomer(custId, socialProfileId);
-                    if (User != null)
-                    {
-                        jr.Data = new { ResultType = "Success", message = "JV Box assigned successfully.", User };
-                    }
+                    //var User = _customerManager.AssignJVBoxToCustomer(custId, socialProfileId);
+                    //if (User != null)
+                    //{
+                    //    jr.Data = new { ResultType = "Success", message = "JV Box assigned successfully.", User };
+                    //}
 
-                    else
-                    {
-                        string messages = "Something went wrong";
-                        jr.Data = new { ResultType = "Error", message = messages };
-                    }
-
-                }
-                return Json(jr, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-        }
-
-        public ActionResult AssignNearestIPToProfile(string customerId, string profileId)
-        {
-            try
-            {
-                var _googleApiKey = SystemConfigs.First(x => x.ConfigKey == "GoogleMapApiKey").ConfigValue;
-
-                var jr = new JsonResult();
-                if (!string.IsNullOrEmpty(customerId))
-                {
-                    var Cus = HttpUtility.UrlDecode(customerId);
-                    var SPId = HttpUtility.UrlDecode(profileId);
-                    //int custId = Convert.ToInt32(CryptoEngine.Decrypt(customerId.ToString()));
-                    int custId = Convert.ToInt32((CryptoEngine.Decrypt(Cus)));
-                    int socialProfileId = Convert.ToInt32((CryptoEngine.Decrypt(SPId)));
-
-                    var cityId = _customerManager.GetTargetedCityIdByCustomerId(custId, socialProfileId);
-                    if (cityId > 0)
-                    {
-                        var city = CommonManager.GetCityAndCountryData(cityId).FirstOrDefault();
-                        if (city != null)
-                        {
-                            var User = _commonManager.AssignedNearestProxyIP(custId, city.CountyCityName.Replace(",", ""), socialProfileId, _googleApiKey);
-                        }
-                    }
-
-                    if (User != null)
-                    {
-                        jr.Data = new { ResultType = "Success", message = "IP assigned successfully.", User };
-                    }
-
-                    else
-                    {
-                        string messages = "Something went wrong";
-                        jr.Data = new { ResultType = "Error", message = messages };
-                    }
+                    //else
+                    //{
+                    //    string messages = "Something went wrong";
+                    //    jr.Data = new { ResultType = "Error", message = messages };
+                    //}
 
                 }
                 return Json(jr, JsonRequestBehavior.AllowGet);
@@ -318,36 +278,56 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
         public ActionResult DeleteCustomerProfile(string customerId, string profileId)
         {
             var jr = new JsonResult();
-            string messages = string.Empty;
             try
             {
 
-                if (!string.IsNullOrEmpty(customerId))
-                {
-                    var Cus = HttpUtility.UrlDecode(customerId);
-                    var SPId = HttpUtility.UrlDecode(profileId);
-                    //int custId = Convert.ToInt32(CryptoEngine.Decrypt(customerId.ToString()));
-                    int custId = Convert.ToInt32((CryptoEngine.Decrypt(Cus)));
-                    int socialProfileId = Convert.ToInt32((CryptoEngine.Decrypt(SPId)));
-                    var User = _customerManager.DeleteCustomerAll(custId, 0);
-                    if (User)
-                    {
-                        jr.Data = new { ResultType = "Success", message = "Customer deleted successfully.", User };
-                    }
+                var SPId = HttpUtility.UrlDecode(profileId);
+                int socialProfileId = Convert.ToInt32((CryptoEngine.Decrypt(SPId)));
 
+                SocialProfileDTO profileDTO = _customerManager.GetSocialProfileById(socialProfileId);
+           
+                var _stripeApiKey = SystemConfig.GetConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
+                if (profileDTO != null)
+                {
+
+                    if (profileDTO.SocialProfile.StatusId != 18)
+                    {
+                        if (!string.IsNullOrEmpty(profileDTO.SocialProfile.StripeSubscriptionId))
+                        {
+                            StripeConfiguration.SetApiKey(_stripeApiKey);
+                            var service = new SubscriptionService();
+                            var sub = service.Get(profileDTO.SocialProfile.StripeSubscriptionId);
+
+                            var subscription = service.Cancel(sub.Id, null);
+
+                          
+
+                            jr.Data = new { ResultType = "Success", message = "User has successfully Unsubscribe." };
+                        }
+                        else
+                        {
+                            jr.Data = new { ResultType = "Error", message = "No active subscription available." };
+
+                        }
+
+                    }
                     else
                     {
-                        messages = "Something went wrong";
-                        jr.Data = new { ResultType = "Error", message = messages };
+                        jr.Data = new { ResultType = "Error", message = "No active subscription available." };
+
                     }
-
                 }
-
+               
+                if (_customerManager.DeleteProfile(0, socialProfileId))
+                {
+                    {
+                        jr.Data = new { ResultType = "Error", message = "Profile has been successfully deleted." };
+                    }
+                }
             }
-            catch (Exception ex)
+            catch (Exception exp)
             {
-
-                messages = ex.Message;
+                throw exp;
             }
             return Json(jr, JsonRequestBehavior.AllowGet);
         }
@@ -389,7 +369,58 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             return Json(jr, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult TargettingInformation(string id, string SPId)
+        public ActionResult TargettingInformation(string id, string SPId, int? success)
+        {
+
+
+
+            int custId = Convert.ToInt32(CryptoEngine.Decrypt(id));
+            int socialProfileId = Convert.ToInt32(CryptoEngine.Decrypt(SPId));
+
+
+            ViewBag.socialProfileId = socialProfileId;
+            
+            var SocailProfile = this._customerManager.GetSocialProfileById(socialProfileId);
+            
+            var customer = _customerManager.GetCustomerByCustomerId(SocailProfile.SocialProfile.CustomerId.Value);
+            ViewBag.CurrentUser = customer;
+
+            ViewBag.Plans = _planmanager.GetallIntagramPaymentPlans(customer.IsBroker.HasValue ? customer.IsBroker.Value : false);
+
+            if (success.HasValue && success.Value == 1)
+            {
+                ViewBag.success = 1;
+            }
+
+            var _stripeApiKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
+            var _stripePublishKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue2;
+
+            ViewBag.stripeApiKey = _stripeApiKey;
+            ViewBag.stripePublishKey = _stripePublishKey;
+            StripeConfiguration.SetApiKey(_stripeApiKey);
+            var planService = new PlanService();
+            var cardService = new CardService();
+            var cardOptions = new CardListOptions
+            {
+                Limit = 3,
+            };
+            List<CustomerPaymentCardsViewModel> payCards = null;
+
+
+            return View(SocailProfile);
+
+        }
+
+
+        [HttpPost]
+        public ActionResult Target(SocialProfileDTO request)
+        {
+
+            this._customerManager.UpdateTargetProfile(request);
+            return RedirectToAction("Target", "Profile", new { socialProfileId = request.SocialProfile_Instagram_TargetingInformation.SocialProfileId, success = 1 });
+        }
+
+        public ActionResult TargettingInformationx(string id, string SPId)
         {
             int custId = Convert.ToInt32(CryptoEngine.Decrypt(id));
             int SocialPId = Convert.ToInt32(CryptoEngine.Decrypt(SPId));
@@ -411,9 +442,9 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                 {
                     model1.Cities = CommonManager.GetCities();
                 }
-                model1.ProxyIPs = _customerManager.GetProxyIPs(model.Country ?? 0, model.City ?? 0);
-                model1.JarveeStatuses = this.ApplicationStatuses;
-                model.MPBoxList = _customerManager.GetMPBoxes();
+                //model1.ProxyIPs = _customerManager.GetProxyIPs(model.Country ?? 0, model.City ?? 0);
+                //model1.JarveeStatuses = this.ApplicationStatuses;
+                //model.MPBoxList = _customerManager.GetMPBoxes();
                 return View(model1);
             }
             else
@@ -427,9 +458,9 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                 {
                     model.Cities = CommonManager.GetCities();
                 }
-                model.ProxyIPs = _customerManager.GetProxyIPs(model.Country ?? 0, model.City ?? 0);
-                model.JarveeStatuses = this.ApplicationStatuses;
-                model.MPBoxList = _customerManager.GetMPBoxes();
+                //model.ProxyIPs = _customerManager.GetProxyIPs(model.Country ?? 0, model.City ?? 0);
+                //model.JarveeStatuses = this.ApplicationStatuses;
+                //model.MPBoxList = _customerManager.GetMPBoxes();
                 return View(model);
             }
         }
@@ -441,31 +472,31 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var dl = _targetPreferenceManager.SaveTargetPreferences(new TargetPreferencesDTO()
-                    {
-                        Preference1 = model.Preference1,
-                        Preference2 = model.Preference2,
-                        Preference3 = model.Preference3,
-                        Preference4 = model.Preference4,
-                        Preference5 = model.Preference5,
-                        Preference6 = model.Preference6,
-                        Preference7 = model.Preference7,
-                        Preference8 = model.Preference8,
-                        Preference9 = model.Preference9,
-                        Preference10 = model.Preference10,
-                        //Country = model.Country,
-                        //City = model.City,
-                        //InstaUser = model.InstaUser,
-                        //InstaPassword = model.InstaPassword,
-                        SocialProfileId = Convert.ToInt32(model.SPId),
-                        Id = Convert.ToInt32(model.Id),
-                        SocialAccAs = model.SocialAccAS
-                    });
+                    //var dl = _targetPreferenceManager.SaveTargetPreferences(new TargetPreferencesDTO()
+                    //{
+                    //    Preference1 = model.Preference1,
+                    //    Preference2 = model.Preference2,
+                    //    Preference3 = model.Preference3,
+                    //    Preference4 = model.Preference4,
+                    //    Preference5 = model.Preference5,
+                    //    Preference6 = model.Preference6,
+                    //    Preference7 = model.Preference7,
+                    //    Preference8 = model.Preference8,
+                    //    Preference9 = model.Preference9,
+                    //    Preference10 = model.Preference10,
+                    //    //Country = model.Country,
+                    //    //City = model.City,
+                    //    //InstaUser = model.InstaUser,
+                    //    //InstaPassword = model.InstaPassword,
+                    //    SocialProfileId = Convert.ToInt32(model.SPId),
+                    //    Id = Convert.ToInt32(model.Id),
+                    //    SocialAccAs = model.SocialAccAS
+                    //});
 
                     TempData["Success"] = "Yes";
                     TempData["Message"] = "Profile updated successfully.";
                     //return RedirectToAction("TargettingInformation", "CRM", new { @id = CryptoEngine.Encrypt(Convert.ToString(dl.Id)), @SPId= model.SPId });
-                    return Redirect("/sadmin/crm/targettinginformation?id=" + Url.Encode(CryptoEngine.Encrypt(Convert.ToString(dl.Id))) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(model.SPId)));
+                    return Redirect("/sadmin/crm/targettinginformation?id=" + Url.Encode(CryptoEngine.Encrypt(Convert.ToString(1))) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(model.SPId)));
                 }
                 else
                 {
@@ -497,15 +528,15 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                 {
                     int? CityId = model.City;
                     int? CountryId = model.Country;
-                    var dl = _targetPreferenceManager.SaveSocialProfileData(
-                        model.InstaUser,
-                        model.InstaPassword,
-                        CityId ?? 0,
-                        CountryId ?? 0,
-                        Convert.ToInt32(model.SPId),
-                        Convert.ToInt32(model.Status)
-                    );
-                    return Redirect("/sadmin/crm/targettinginformation?id=" + Url.Encode(CryptoEngine.Encrypt(model.Id)) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(model.SPId)));
+                    //var dl = _targetPreferenceManager.SaveSocialProfileData(
+                    //    model.InstaUser,
+                    //    model.InstaPassword,
+                    //    CityId ?? 0,
+                    //    CountryId ?? 0,
+                    //    Convert.ToInt32(model.SPId),
+                    //    Convert.ToInt32(model.Status)
+                    //);
+                    return Redirect("/sadmin/crm/targettinginformation?id=" + Url.Encode(CryptoEngine.Encrypt("")) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(model.SPId)));
                 }
                 else
                 {
@@ -527,116 +558,46 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
         }
 
-        public ActionResult UpdateMPBox(string profileId, int? MPBox = null)
+
+        public ActionResult GlobalTarget(int? success)
         {
-            var jr = new JsonResult();
-            string messages = string.Empty;
-            try
+
+
+            int socialProfileId = -999;
+
+
+            ViewBag.socialProfileId = socialProfileId;
+
+            var SocailProfile = this._customerManager.GetSocialProfileById(socialProfileId);
+
+            //var customer = _customerManager.GetCustomerByCustomerId(SocailProfile.SocialProfile.CustomerId.Value);
+            //ViewBag.CurrentUser = customer;
+
+            //ViewBag.Plans = _planmanager.GetallIntagramPaymentPlans(customer.IsBroker.HasValue ? customer.IsBroker.Value : false);
+
+            if (success.HasValue && success.Value == 1)
             {
-                if (!string.IsNullOrEmpty(profileId))
-                {
-                    var SPId = HttpUtility.UrlDecode(profileId);
-                    int socialProfileId = Convert.ToInt32((CryptoEngine.Decrypt(SPId)));
-                    var User = _customerManager.UpdateMPBox(socialProfileId, MPBox);
-                    if (User)
-                    {
-                        jr.Data = new { ResultType = "Success", message = "MP Box updated successfully." };
-                    }
-
-                    else
-                    {
-                        messages = "Something went wrong";
-                        jr.Data = new { ResultType = "Error", message = messages };
-                    }
-
-                }
-
-                return Json(jr, JsonRequestBehavior.AllowGet);
+                ViewBag.success = 1;
             }
-            catch (Exception)
-            {
 
-                throw;
-            }
+            var _stripeApiKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
+            var _stripePublishKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue2;
+
+            ViewBag.stripeApiKey = _stripeApiKey;
+            ViewBag.stripePublishKey = _stripePublishKey;
+            
+
+
+            return View(SocailProfile);
 
         }
 
-        public ActionResult UpdateJVStatus(string profileId, int? jvStatus = null)
+        [HttpPost]
+        public ActionResult GlobalTarget(SocialProfileDTO request)
         {
-            var jr = new JsonResult();
-            string messages = string.Empty;
-            try
-            {
-                if (!string.IsNullOrEmpty(profileId))
-                {
-                    var SPId = HttpUtility.UrlDecode(profileId);
-                    int socialProfileId = Convert.ToInt32((CryptoEngine.Decrypt(SPId)));
-                    var User = _customerManager.UpdateJVStatus(socialProfileId, jvStatus);
-                    if (User)
-                    {
-                        jr.Data = new { ResultType = "Success", message = "Status updated successfully." };
-                    }
 
-                    else
-                    {
-                        messages = "Something went wrong";
-                        jr.Data = new { ResultType = "Error", message = messages };
-                    }
-
-                }
-
-                return Json(jr, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-
-        }
-
-        public ActionResult UpdateProxyIp(string profileId, int? proxyIp = null)
-        {
-            try
-            {
-                var jr = new JsonResult();
-                string messages = string.Empty;
-                if (!string.IsNullOrEmpty(profileId))
-                {
-                    var SPId = HttpUtility.UrlDecode(profileId);
-                    int socialProfileId = Convert.ToInt32((CryptoEngine.Decrypt(SPId)));
-                    var User = _customerManager.UpdateProxyIp(socialProfileId, proxyIp);
-                    if (User)
-                    {
-                        var data = _customerManager.GetProxyIp(socialProfileId);
-                        jr.Data = new { ResultType = "Success", message = "Proxy assigned successfully.", ResultData = data };
-                    }
-
-                    else
-                    {
-                        messages = "Something went wrong";
-                        jr.Data = new { ResultType = "Error", message = messages };
-                    }
-
-                }
-
-                return Json(jr, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-
-        }
-
-        public ActionResult GetProxyIps(int countryId, int cityId)
-        {
-            var proxyIP = _customerManager.GetProxyIPs(countryId, cityId).ToList();
-
-            return Json(proxyIP, JsonRequestBehavior.AllowGet);
+            this._customerManager.UpdateTargetProfile(request);
+            return RedirectToAction("GlobalTarget", "CRM", new {success = 1 });
         }
 
         public ActionResult UserDetail()
@@ -667,18 +628,18 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                     //int custId = Convert.ToInt32(CryptoEngine.Decrypt(customerId.ToString()));
                     int proId = Convert.ToInt32((CryptoEngine.Decrypt(pro)));
-                    CustomerTargetProfileDTO profileDTO = _customerManager.GetSocialProfilesById(proId);
+                    SocialProfileDTO profileDTO = _customerManager.GetSocialProfileById(proId);
 
                     if (profileDTO != null)
                     {
 
-                        Subscription subscriptionItemUpdate = subscriptionService.Get(profileDTO.StripeSubscriptionId);
+                        Subscription subscriptionItemUpdate = subscriptionService.Get(profileDTO.SocialProfile.StripeSubscriptionId);
 
 
                         var items = new List<SubscriptionItemUpdateOption> {
                                         new SubscriptionItemUpdateOption {
                                         Id= subscriptionItemUpdate.Items.Data[0].Id,
-                                        PlanId = subscriptionItemUpdate.Plan.Id,
+                                        Plan = subscriptionItemUpdate.Plan.Id,
                                         Quantity= 1,
 
                                        },
@@ -691,12 +652,12 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                             //BillingThresholds = { },
                             Prorate = false,
-                            BillingCycleAnchorUnchanged = false,
+                            //BillingCycleAnchorUnchanged = false,
                             TrialEnd = subscriptionItemUpdate.CurrentPeriodEnd.Value.AddDays(addFreeDays),
                             //EndTrialNow = true,
 
                         };
-                        stripeSubscription = subscriptionService.Update(profileDTO.StripeSubscriptionId, subscriptionUpdateoptions);
+                        stripeSubscription = subscriptionService.Update(profileDTO.SocialProfile.StripeSubscriptionId, subscriptionUpdateoptions);
                         jr.Data = new { ResultType = "Success", message = "Free days successfully added to customer Current subscription.", User };
                     }
 
@@ -734,43 +695,43 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                     //int custId = Convert.ToInt32(CryptoEngine.Decrypt(customerId.ToString()));
                     int proId = Convert.ToInt32((CryptoEngine.Decrypt(pro)));
-                    CustomerTargetProfileDTO profileDTO = _customerManager.GetSocialProfilesById(proId);
+                    SocialProfileDTO profileDTO = _customerManager.GetSocialProfileById(proId);
 
                     if (profileDTO != null)
                     {
                        
                         if (profileDTO != null)
                         {
-                            if (profileDTO.ProfileStatusId != 18)
+                            if (profileDTO.SocialProfile .StatusId != 18)
                             {
-                                if (!string.IsNullOrEmpty(profileDTO.StripeSubscriptionId))
+                                if (!string.IsNullOrEmpty(profileDTO.SocialProfile.StripeSubscriptionId))
                                 {
                                     StripeConfiguration.SetApiKey(_stripeApiKey);
                                     var service = new SubscriptionService();
-                                    var subscription = service.Cancel(profileDTO.StripeSubscriptionId, null);
+                                    var subscription = service.Cancel(profileDTO.SocialProfile.StripeSubscriptionId, null);
                                 }
                                 else
                                 {
-                                    SubscriptionDTO cancelledSub = new SubscriptionDTO();
-                                    cancelledSub = _customerManager.GetLastCancelledSubscription(profileDTO.SocialProfileId, DateTime.Now);
-                                    profileDTO.StripeSubscriptionId = cancelledSub.StripeSubscriptionId;
-                                    profileDTO.StripeInvoiceId = cancelledSub.StripeInvoiceId;
+                                    SocialProfile_PaymentsDTO cancelledSub = new SocialProfile_PaymentsDTO();
+                                    cancelledSub = _customerManager.GetLastCancelledSubscription(profileDTO.SocialProfile .SocialProfileId, DateTime.Now);
+                                    profileDTO.SocialProfile.StripeSubscriptionId = cancelledSub.StripeSubscriptionId;
+                                    //profileDTO.StripeInvoiceId = cancelledSub.StripeInvoiceId;
 
                                 }
 
                             }
                         }
 
-                        Subscription subscriptionItemUpdate = subscriptionService.Get(profileDTO.StripeSubscriptionId);
+                        Subscription subscriptionItemUpdate = subscriptionService.Get(profileDTO.SocialProfile.StripeSubscriptionId);
                         var invoiceService = new InvoiceService();
-                        var invoice = invoiceService.Get(profileDTO.StripeInvoiceId);
+                        var invoice = invoiceService.Get(profileDTO.LastSocialProfile_Payments.First().StripeInvoiceId);
                         var chargeService = new ChargeService();
                         var charge = chargeService.Get(invoice.ChargeId);
                         var refundOptions = new RefundCreateOptions
                         {
                             Amount = charge.Amount,
                             Reason = RefundReasons.RequestedByCustomer,
-                            ChargeId = charge.Id
+                            Charge = charge.Id
                         };
                         var refundService = new RefundService();
                         Refund refund = refundService.Create(refundOptions);
@@ -789,7 +750,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                                 //int custId = Convert.ToInt32(CryptoEngine.Decrypt(customerId.ToString()));
                                 int custId = Convert.ToInt32((CryptoEngine.Decrypt(Cus)));
-                                var User = _customerManager.SaveUpdateUserDataIndividually(value, "Comment", custId, profileDTO.SocialProfileId);
+                                var User = _customerManager.SaveUpdateUserDataIndividually(value, "Comment", custId, profileDTO.SocialProfile. SocialProfileId);
 
 
                             }

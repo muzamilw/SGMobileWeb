@@ -208,7 +208,7 @@ img {
 }
 
 label {
-    font-size: 1.6rem;
+    font-size: 1.1rem;
     font-weight: 400;
     color: #444;
 }
@@ -219,7 +219,7 @@ select {
     border-radius: 5px;
     height: 47px;
     font-weight: 300;
-    font-size: 1.4rem;
+    font-size: 1.0rem;
     padding-left: 8px;
     background-image: url(../images/down-arrow.png);
     background-repeat: no-repeat;
@@ -261,7 +261,7 @@ input[type=text], input[type=password], input[type=email], textarea {
     margin-bottom: 30px;
     padding: 10px;
     cursor: text;
-    font-size: 1.4rem;
+    font-size: 1.0rem;
     font-weight: 300;
     color: #666;
 }
@@ -276,7 +276,7 @@ textarea {
         background-color: #e6f5fa;
     }
 
-.btn {
+/*.btn {
     background-color: #587ae8;
     color: #fff;
     font-size: 16pt;
@@ -285,7 +285,7 @@ textarea {
     border-radius: 5px;
     border: 0px;
     font-weight: 500;
-}
+}*/
 
     .btn:hover {
         color: #fff;
@@ -368,14 +368,14 @@ iframe {
 
 
 /* css custom **************************************************/
-.container {
+/*.container {
     max-width: 100%;
     width: 100%;
     margin: 0 auto;
     padding-left: 7%;
     padding-right: 7%;
     position: relative;
-}
+}*/
 
 .mainIntro3 #2coldiv {
     max-height: 350px;
@@ -389,6 +389,8 @@ iframe {
     height: 102px;
 }
 
+
+
 .contaier_pd_bottom {
     padding-bottom: 40px;
 }
@@ -397,11 +399,11 @@ iframe {
     padding-bottom: 50px;
 }
 
-.header .container {
+/*.header .container {
     top: 25px;
     padding-left: 3%;
     padding-right: 3%;
-}
+}*/
 
 .header .logo span {
     color: #a9a9a9;
@@ -497,11 +499,7 @@ iframe {
 }
 
 .main h2 {
-    font-size: 4rem;
-    color: #3c3c3c;
-    margin-top: 10px;
-    font-family: arial sans-serif;
-    font-weight: 400;
+   
 }
 
 .form-wrap select {
@@ -565,20 +563,17 @@ iframe {
     .product-listing-sec table td {
         padding: 25px 18px;
         text-align: left;
-        font-size: 1.6rem;
+        font-size: 1.1rem;
         font-weight: 400;
         color: #555;
     }
 
     .product-listing-sec table th {
-        font-size: 1.6rem;
+        font-size: 1.1rem;
         color: #5c5c5c;
         font-weight: 500;
     }
 
-.footer {
-    padding: 60px 15px;
-}
 
 .pagination-wrap {
     float: right;
@@ -663,7 +658,7 @@ iframe {
     }
 
 input.transition {
-    font-size: 1.8rem;
+    font-size: 1.2rem;
     font-weight: 500;
 }
 
@@ -698,7 +693,7 @@ input.transition {
             padding: 15px 10px;
             background-color: #8fc7f4;
             color: #fff;
-            font-size: 1.8rem;
+            font-size: 1.2rem;
             font-weight: 500;
             display: block;
             width: 160px;
@@ -732,14 +727,14 @@ input.transition {
 }
 
 .information-form-inner ul li {
-    font-size: 1.8rem;
+    font-size: 1.2rem;
     font-weight: 500;
     padding: 5px 0;
 }
 
 .information-form-inner input[type=text] {
     height: 47px;
-    font-size: 1.4rem;
+    font-size: 1.0rem;
     font-weight: 400;
 }
 
@@ -774,7 +769,7 @@ input.transition {
 }
 
 .user-inner span {
-    font-size: 1.6rem;
+    font-size: 1.1rem;
     font-weight: 500;
     color: #8fc7f4;
     display: block;
@@ -794,7 +789,7 @@ input.transition {
 }
 
 .user-btn a {
-    font-size: 1.6rem;
+    font-size: 1.1rem;
     color: #fff;
     background-color: #2b9af4;
     padding: 15px 20px;
@@ -832,7 +827,7 @@ input.transition {
         display: block;
         background-color: #82ca9c;
         border-radius: 5px;
-        font-size: 1.8rem;
+        font-size: 1.2rem;
         font-weight: 500;
     }
 
@@ -858,7 +853,7 @@ input.transition {
         width: 100%;
         height: 49px;
         border-radius: 5px;
-        font-size: 1.6rem;
+        font-size: 1.1rem;
         font-weight: 500;
         color: #fff;
     }
@@ -886,7 +881,7 @@ input.transition {
         }
 
         .compaign-sec ul li {
-            font-size: 1.6rem;
+            font-size: 1.1rem;
             font-weight: 400;
             color: #6c6c6c;
             padding: 5px;
@@ -910,7 +905,7 @@ input.transition {
 }
 
     .source h2 {
-        font-size: 1.6rem;
+        font-size: 1.1rem;
         color: #ff4a65;
         font-weight: 400;
         margin-bottom: 8px
@@ -918,7 +913,7 @@ input.transition {
 
     .source span {
         font-weight: 400;
-        font-size: 1.8rem;
+        font-size: 1.2rem;
         color: #555;
         display: block;
     }
@@ -1002,7 +997,7 @@ input.transition {
         .accounts-form .product label {
             width: 30%;
             float: left;
-            font-size: 1.6rem;
+            font-size: 1.1rem;
             position: relative;
             top: 12px;
         }
@@ -1058,7 +1053,7 @@ input.transition {
     width: 30%;
     position: relative;
     top: 12px;
-    font-size: 1.6rem;
+    font-size: 1.1rem;
     font-weight: 400;
 }
 
@@ -1135,13 +1130,13 @@ input.transition {
     }
 
         .team-member-detail .team-member-sec h4 {
-            font-size: 1.8rem;
+            font-size: 1.2rem;
             font-weight: 400;
             margin-bottom: 10px;
         }
 
         .team-member-detail .team-member-sec span {
-            font-size: 1.4rem;
+            font-size: 1.0rem;
             margin-left: 13px;
             font-weight: 400;
         }
@@ -1187,7 +1182,7 @@ input.transition {
     .action-board-white .colm h2 {
         background-color: #28a745;
         font-weight: 500;
-        font-size: 1.6rem;
+        font-size: 1.1rem;
         padding: 16px 10px;
         display: block;
         text-align: center;
@@ -1217,7 +1212,7 @@ input.transition {
 .action-board-white .white-sec h3 {
     background-color: #3b77d8;
     font-weight: 400;
-    font-size: 1.6rem;
+    font-size: 1.1rem;
     padding: 13px 8px;
     display: block;
     text-align: left;
@@ -1227,7 +1222,7 @@ input.transition {
 }
 
 .action-board-white .white-sec p {
-    font-size: 1.4rem;
+    font-size: 1.0rem;
     font-weight: 400;
     color: #000;
     margin: 5px;
@@ -1242,7 +1237,7 @@ input.transition {
 .action-board-white .white-sec a {
     background-color: #017bff;
     font-weight: 500;
-    font-size: 1.4rem;
+    font-size: 1.0rem;
     padding: 10px 10px;
     display: inline-block;
     text-align: center;
@@ -1372,7 +1367,7 @@ ul.range-labels li {
     color: #b2b2b2;
     font-size: 14px;
     cursor: pointer;
-    font-size: 1.6rem;
+    font-size: 1.1rem;
     font-weight: 500
 }
 
@@ -1707,7 +1702,7 @@ span.span_jvStatusName {
         color: #b2b2b2;
         font-size: 14px;
         cursor: pointer;
-        font-size: 1.6rem;
+        font-size: 1.1rem;
         font-weight: 500
     }
 
@@ -1819,7 +1814,7 @@ span.span_jvStatusName {
     }
 
     label {
-        font-size: 1.6rem;
+        font-size: 1.1rem;
     }
 
     .form-group {

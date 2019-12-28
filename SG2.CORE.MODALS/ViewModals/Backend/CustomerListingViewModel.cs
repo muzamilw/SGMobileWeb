@@ -14,8 +14,8 @@ namespace SG2.CORE.MODAL.ViewModals.Backend
 
         public string InstaUsrName { get; set; }
         public string Products { get; set; }
-        public string Proxy { get; set; }
-        public string Box { get; set; }
+        
+        public bool BrokerAccount { get; set; }
         public string Status { get; set; }
         public Nullable<int> TotalRecord { get; set; }
 

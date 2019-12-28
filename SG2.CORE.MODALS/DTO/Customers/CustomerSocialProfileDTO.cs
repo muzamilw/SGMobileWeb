@@ -10,7 +10,7 @@ namespace SG2.CORE.MODAL.DTO.Customers
         public Nullable<int> JVBoxId { get; set; }
         public Nullable<int> JVBoxStatusId { get; set; }
         public Nullable<int> StatusId { get; set; }
-        public Nullable<int> StripeCustomerId { get; set; }
+        public string StripeCustomerId { get; set; }
         public string SocialUsername { get; set; }
         public string SocialPassword { get; set; }
         public string ProfileName { get; set; }
@@ -19,7 +19,7 @@ namespace SG2.CORE.MODAL.DTO.Customers
         public string StatusName { get; set; }
         public string JVBoxStatusName { get; set; }
         public string SocialProfileTypeName { get; set; }
-        public string JVBoxName { get; set; }
+        public string BlockedStatus { get; set; }
 
         public string SubscriptionName { get; set; }
         public string SubScriptionStatus { get; set; }

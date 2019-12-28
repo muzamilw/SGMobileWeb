@@ -1,10 +1,13 @@
 ﻿@using SG2.CORE.MODAL.DTO.Customers
+@using SG2.CORE.MODAL
+@model SG2.CORE.MODAL.ViewModals.Customers.ProfilesSearchRequest
 @{
 
     ViewBag.Title = "Dashboard";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
 
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
+    var Customer = (Customer)ViewBag.Customer;
     var socailProfiles = (List<CustomerSocialProfileDTO>)ViewBag.SocailProfiles;
 
     List<SelectListItem> profiles = new List<SelectListItem>();
@@ -15,484 +18,1314 @@
 
 }
 
-<div class="main">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <h4>Select which growth engine you want to tweak and boost.</h4>
-                <br />
-            </div>
-            <div class="col-xs-4">
-                @Html.DropDownList("SocialProfile", profiles)
-            </div>
-            <div class="col-xs-4">
-                @if (socailProfiles.Any(x => x.SubScriptionStatus == "Active"))
-                {
-                    <button type="button" class="btn btn-primary btn-height47">
-
-                        <i class="fa fa-plus"></i> Add another Social Account
-                    </button>
-                }
-
-            </div>
-            <div class="col-xs-12">
-                <hr />
-            </div>
-            <div class="col-xs-6">
-                <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="49" />
-                <b>@socailProfiles.FirstOrDefault().ProfileName</b>
-            </div>
-            <div class="col-xs-6 text-right">
-                @if (@socailProfiles.FirstOrDefault().SubscriptionName != null)
-                {
-                    <h1 class="text-primary">Plan: @socailProfiles.FirstOrDefault().SubscriptionName</h1>
-                }
-                else
-                {
-                    <b>Free Plan</b>
-                }
-
-            </div>
-            <div class="col-xs-12">
-                &nbsp;
-            </div>
-            <div class="col-xs-6">
-                <a href="#" class="btn btn-primary btn-height64 btn-block">
-                    Insights And Statistics
-                </a>
-            </div>
-            <div class="col-xs-6">
-                <a href="/TargetPreferences/ModifyTargetPreferences?socialProfileId=@socailProfiles.FirstOrDefault().SocialProfileId" class="btn btn-primary btn-height64 btn-block btn-white">
-                    Target Preferences
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-@*<div class="main">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <h2>
-                    Hi,
-
-                        @currentUser.FirstName @currentUser.SurName !</h2>
-                    <h4>See how well you instagram is doing.</h4>
-                </div>
-            </div>
-        </div>
-    </div>*@
-
-<br />
-
-<div class="information-form">
-    <div class="container">
-        <div class="information-form-inner">
-            <div class="row">
-
-                <div class="col-xs-8">
-                    <div id="FollowerBarChart" style="width:850px; height:500px"></div>
-                </div>
-                <div class="col-xs-4">
-                    <div id="FollowerPiChart" style="width:400px; height:500px"></div>
-                </div>
-                
-                <div class="col-xs-8">
-                    <div id="LikeBarChart" style="width:850px; height:500px"></div>
-                </div>
-                <div class="col-xs-4">
-                    <div id="LikePiChart" style="width:400px; height:500px"></div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-
-<style type="text/css">
-    .btn-height47 {
-        height: 47px;
-        font-weight: 400;
-    }
-
-    .btn-height64 {
-        height: 64px;
-        font-weight: 400;
-        font-size: 3rem;
-    }
-
-    .btn-white {
-        background-color: white;
-        color: darkgray;
-    }
-
-        .btn-white:hover {
-            background-color: white;
-            color: darkgray;
+@section styles{
+    <style>
+        .table-hover tbody tr {
+            cursor: pointer;
         }
 
-    .main .container hr {
-        border-bottom: 2px solid #ccc
-    }
-</style>
+        .table-hover > tbody > tr > td {
+            vertical-align: middle;
+        }
 
+
+        .example.example1 {
+            background-color: transparent;
+        }
+
+            .example.example1 * {
+                font-family: Roboto, Open Sans, Segoe UI, sans-serif;
+                font-size: 16px;
+                font-weight: 500;
+            }
+
+            .example.example1 fieldset {
+                margin: 0 15px 20px;
+                padding: 0;
+                border-style: none;
+                /*background-color: #7795f8;*/
+                /*box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #829fff;
+                border-radius: 4px;*/
+            }
+
+            .example.example1 .row {
+                display: -ms-flexbox;
+                display: flex;
+                -ms-flex-align: center;
+                align-items: center;
+                margin-left: 15px;
+            }
+
+                .example.example1 .row + .row {
+                    /*border-top: 1px solid #819efc;*/
+                }
+
+            .example.example1 label {
+                width: 15%;
+                min-width: 70px;
+                padding: 11px 0;
+                color: black;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .example.example1 input, .example.example1 button {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                outline: none;
+                border-style: none;
+            }
+
+                .example.example1 input:-webkit-autofill {
+                    -webkit-text-fill-color: darkgray;
+                    transition: background-color 100000000s;
+                    -webkit-animation: 1ms void-animation-out;
+                }
+
+            .example.example1 .StripeElement--webkit-autofill {
+                background: transparent !important;
+            }
+
+            .example.example1 .StripeElement {
+                width: 100%;
+                padding: 11px 15px 11px 0;
+            }
+
+            .example.example1 input {
+                width: 100%;
+                padding: 11px 15px 11px 0;
+                color: black;
+                background-color: transparent;
+                -webkit-animation: 1ms void-animation-out;
+            }
+
+                .example.example1 input::-webkit-input-placeholder {
+                    color: darkgray;
+                }
+
+                .example.example1 input::-moz-placeholder {
+                    color: darkgray;
+                }
+
+                .example.example1 input:-ms-input-placeholder {
+                    color: darkgray;
+                }
+
+            .example.example1 button {
+                display: block;
+                width: calc(100% - 30px);
+                height: 40px;
+                margin: 40px 15px 0;
+                border-color: #008385 !important;
+                background-color: #00b5b8 !important;
+                color: #FFFFFF;
+                box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #ffb9f6;
+                border-radius: 4px;
+                color: #fff;
+                font-weight: 600;
+                cursor: pointer;
+            }
+
+                .example.example1 button:active {
+                    background-color: #d782d9;
+                    box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #e298d8;
+                }
+
+            .example.example1 .error svg .base {
+                fill: #fff;
+            }
+
+            .example.example1 .error svg .glyph {
+                fill: #6772e5;
+            }
+
+            .example.example1 .error .message {
+                color: red;
+            }
+
+            .example.example1 .success .icon .border {
+                stroke: #87bbfd;
+            }
+
+            .example.example1 .success .icon .checkmark {
+                stroke: #fff;
+            }
+
+            .example.example1 .success .title {
+                color: #fff;
+            }
+
+            .example.example1 .success .message {
+                color: #9cdbff;
+            }
+
+            .example.example1 .success .reset path {
+                fill: #fff;
+            }
+    </style>
+    <link href="~/Content/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet" />
+    <link href="~/Content/app-assets/css/stripe.css" rel="stylesheet" />
+
+}
+
+
+<!-- BEGIN: Content-->
+<div class="app-content container center-layout mt-2">
+    <div class="content-wrapper">
+        <div class="content-header row">
+            <div class="content-header-left col-md-6 col-12 mb-2">
+                <h3 class="content-header-title mb-0">Click on a profile to set growth engine preferences</h3>
+
+            </div>
+            <div class="content-header-right col-md-6 col-12">
+                <div class="media width-250 float-right">
+                    <div class="media-right text-right">
+                        @*<div id="sp-bar-total-sales"></div>*@
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="content-body">
+            <!-- Extra large table start -->
+            <div class="row match-height">
+                <div class="col-9">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Social media profiles</h4>
+                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-blue" data-toggle="modal" data-target="#newProfile"><i class="fa fa-plus"></i> Social Profile</button>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body card-dashboard">
+                                <form class="form" id="formbasic" method="post">
+                                    <div class="form-row">
+                                        <div class="col-3">
+                                            <input type="search" class="form-control mb-1" id="searchString" name="searchString" placeholder="Search profiles" value="@Model.searchString">
+                                        </div>
+                                        @{
+                                            List<SelectListItem> mlist = new List<SelectListItem>();
+                                            mlist.Add(new SelectListItem { Text = "Select Type (All)", Value = "0" });
+                                            mlist.Add(new SelectListItem { Text = "Instagram", Value = "30" });
+                                            mlist.Add(new SelectListItem { Text = "LinkedIn", Value = "31" });
+                                            mlist.Add(new SelectListItem { Text = "Facebook", Value = "32" });
+                                        }
+                                        <div class="col-3">
+                                            @Html.DropDownListFor(n => n.SocialType, new SelectList(mlist, "Value", "Text", 0), new { @class = "custom-select block" })
+                                        </div>
+                                        <div class="col-3">
+                                            @{
+                                                List<SelectListItem> blist = new List<SelectListItem>();
+                                                blist.Add(new SelectListItem { Text = "Select Block Type (All)", Value = "99" });
+                                                blist.Add(new SelectListItem { Text = "Valid", Value = "0" });
+                                                blist.Add(new SelectListItem { Text = "Action Block", Value = "66" });
+                                                blist.Add(new SelectListItem { Text = "Hard Block", Value = "67" });
+                                                blist.Add(new SelectListItem { Text = "Passsword Block", Value = "68" });
+                                            }
+                                            @Html.DropDownListFor(n => n.Block, new SelectList(blist, "Value", "Text", 0), new { @class = "custom-select block" })
+                                        </div>
+                                        <div class="col-3">
+                                            @{
+                                                List<SelectListItem> plist = new List<SelectListItem>();
+                                                plist.Add(new SelectListItem { Text = "Plans (All)", Value = "0" });
+                                                plist.Add(new SelectListItem { Text = "Free Forever", Value = "1" });
+                                                plist.Add(new SelectListItem { Text = "$59 per month", Value = "2" });
+                                                plist.Add(new SelectListItem { Text = "$99 per month", Value = "3" });
+                                                plist.Add(new SelectListItem { Text = "$39 Afilliate Plan", Value = "4" });
+                                            }
+                                            @Html.DropDownListFor(n => n.Plan, new SelectList(plist, "Value", "Text", 0), new { @class = "custom-select block" })
+
+                                        </div>
+
+
+                                    </div>
+                                </form>
+                            </div>
+                            @if (socailProfiles != null && socailProfiles.Count > 0)
+                            {
+                                <div class="table-responsive">
+                                    <table id="ResponsiveTable" class="table table-xl mb-0 table-hover">
+
+                                        <tbody>
+                                            @foreach (var item in socailProfiles)
+                                            {
+                                                <tr class='clickable-row' data-href='/Profile/Basic?socialProfileId=@item.SocialProfileId' data-hrefstats='/Profile/stats?socialProfileId=@item.SocialProfileId'>
+
+                                                    <td scope="row" class="align-middle">
+                                                        @if (item.SocialProfileTypeId == 30)
+                                                        {
+                                                            <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="49" />
+                                                        }
+                                                        <a style="display:inline-block" href="/Profile/Basic?socialProfileId=@item.SocialProfileId"><h4>@item.SocialUsername</h4></a>
+                                                    </td>
+                                                    <td>
+                                                        @{
+                                                            var statusclass = "";
+                                                            switch (item.BlockedStatus)
+                                                            {
+                                                                case "Valid": statusclass = "badge-primary"; break;
+                                                                case "Action Blocked": statusclass = "badge-danger"; break;
+                                                                case "Hard Blocked": statusclass = "badge-danger"; break;
+                                                                case "Password Blocked": statusclass = "badge-danger"; break;
+                                                                default:
+                                                                    statusclass = "badge-primary";
+                                                                    break;
+                                                            }
+                                                        }
+
+                                                        <span class="badge @statusclass label-square mr-1 mb-1 display-inline">
+
+                                                            <span>@item.BlockedStatus</span>
+                                                        </span>
+                                                    </td>
+
+                                                    <td class="align-middle">
+                                                        @if (@socailProfiles.FirstOrDefault().SubscriptionName != null)
+                                                        {
+                                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: @item.SubscriptionName</div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline">Free Plan</div>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                            else
+                            {
+
+                                <p class="card-text text-center">
+                                    Now profiles found matching your criteria. Please try again with different criteria.
+                                </p>
+
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 col-sm-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <img class="card-img-top img-fluid" src="~/Content/ThemeAssets/Images/afilliate.jpg" alt="Card image cap">
+                            <div class="card-body">
+
+                                
+                                @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true) 
+                                {
+                                                        <p class="card-text">
+                                                            Affiliate Status : Active
+
+                                                            <a href="#" class="btn btn-success btn-block" id="btnAfilliateProfile">Update Afilliate Profile</a>
+
+                                                            <a href = "#" class="btn btn-success btn-block" id="btnAfilliateBilling" data-toggle="modal" data-target="#BillingHistoryModal">View Billing History</a>
+
+                                                            <a href = "#" class="btn btn-danger btn-block" id="btnCancelAfilliate">Cancel Afilliate Plan</a>
+
+                                                        </p>
+                                }
+                                else
+                                {
+                                <h4 class="card-title">Become an Afilliate</h4>
+                                <p class="card-text">
+                                    Join the Social Growth Affiliates Program and start earning money today.
+
+                                </p>
+                                <a href = "#" class="btn btn-success" id="btnAfilliate">Become an Afilliate</a>
+                                }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Extra large table end -->
+                            </div>
+                        </div>
+</div>
+<div class="modal fade text-left" id="newProfile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel34" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title" id="myModalLabel34">Create a new Social Profile</h3>
+                                    <button type = "button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+            <form id="newprofileForm">
+                <input type="hidden" id="customerId" name="customerId" value="@currentUser.CustomerId" />
+                <div class="modal-body">
+                    <label>Instagram Username </label>
+                    <div class="form-group position-relative has-icon-left">
+                        <input type="text" placeholder="Intagram Username" class="form-control" name="IntagramUserName" required>
+                        <div class="form-control-position">
+                            <i class="fa fa-envelope font-medium-5 line-height-1 text-muted icon-align"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="close">
+                    <input type="submit" class="btn btn-outline-primary btn-lg" value="Create New Profile">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade text-left" id="AfilliateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel34" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="myModalLabel34">Afilliate Profile</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="AfilliateProfileForm">
+                <input type="hidden" name="cid" value="@Customer.CustomerId"/>
+                <div class="modal-body">
+                    <label>Following information will be used to white label the modile app for your profiles.</label>
+                    <div class="form-group position-relative has-icon-left">
+                        <input type="text" placeholder="App Name" class="form-control position-inside-maxlength" name="BrokerAppName" value="@Customer.BrokerAppName" required maxlength="100">
+                        <div class="form-control-position">
+                            <i class="fa fa-file font-medium-5 line-height-1 text-muted icon-align"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group position-relative has-icon-left">
+                        <input type="text" placeholder="Strap Line" class="form-control position-inside-maxlength" name="BrokerStrapLine" value="@Customer.BrokerStrapLine" required maxlength="500">
+                        <div class="form-control-position">
+                            <i class="fa fa-file-text font-medium-5 line-height-1 text-muted icon-align"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group position-relative has-icon-left">
+                        <input type="text" placeholder="App Aspect Color" class="form-control position-inside-maxlength" name="BrokerAspectColor" value="@Customer.BrokerAspectColor" id="BrokerAspectColor" required maxlength="50">
+                        <div class="form-control-position">
+                            <i class="fa fa-pencil font-medium-5 line-height-1 text-muted icon-align"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group position-relative has-icon-left">
+                        <input type="text" placeholder="Training Link" class="form-control position-inside-maxlength" name="BrokerTrainingLink" value="@Customer.BrokerTrainingLink" required maxlength="500">
+                        <div class="form-control-position">
+                            <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group position-relative has-icon-left">
+                        <input type="text" placeholder="Terms Of Use Link" class="form-control position-inside-maxlength" name="BrokerTermsOfUse" value="@Customer.BrokerTermsOfUse" required maxlength="500">
+                        <div class="form-control-position">
+                            <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group position-relative has-icon-left">
+                        <input type="text" placeholder="Privacy Policy Link" class="form-control position-inside-maxlength" name="BrokerPrivacyPolicy" value="@Customer.BrokerPrivacyPolicy" required maxlength="500">
+                        <div class="form-control-position">
+                            <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group position-relative has-icon-left">
+                        <input type="text" placeholder="Feedback Page Link" class="form-control position-inside-maxlength" name="BrokerFeedbackPage" value="@Customer.BrokerFeedbackPage" required maxlength="500">
+                        <div class="form-control-position">
+                            <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group position-relative has-icon-left">
+                        <input type="text" placeholder="Home Page Link" class="form-control position-inside-maxlength" name="BrokerHomePage" value="@Customer.BrokerHomePage" required maxlength="500">
+                        <div class="form-control-position">
+                            <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
+                        </div>
+
+                    </div>
+                    <label>Trust Pilot Code </label>
+                    <div class="form-group position-relative has-icon-left">
+                        <textarea type="text" placeholder="Trust Pilot Code" class="form-control position-inside-maxlength" name="BrokerTrustPilotCode" maxlength="5000">@Customer.BrokerTrustPilotCode</textarea>
+                        <div class="form-control-position">
+                            <i class="fa fa-file-text font-medium-5 line-height-1 text-muted icon-align"></i>
+                        </div>
+                    </div>
+                    <label>App Logo</label>
+                    @if (!string.IsNullOrEmpty(Customer.BrokerLogo))
+                    {
+                        <div class="form-group position-relative">
+                            <img src="@Customer.BrokerLogo" />
+                        </div>
+                    }
+                        <div class="form-group position-relative has-icon-left">
+                            <input type="text" placeholder="Home Page Link" class="form-control position-inside-maxlength" name="BrokerLogo" value="@Customer.BrokerLogo" required maxlength="500">
+                            <div class="form-control-position">
+                                <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
+                            </div>
+
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="close">
+                    <input type="submit" class="btn btn-outline-primary btn-lg" value="Update Afilliate Profile">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade text-left" id="planSubscriptionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary white">
+                <h4 class="modal-title" id="myModalLabel1">Subscribe to Afilliate plan</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="cell example example1">
+                    <form method="post" id="payment-form">
+                        <fieldset>
+                            <div class="row" style="display:inline">
+                                <h3 class="text-center">Selected Plan</h3>
+                                <h1 class="text-center selectedPlanName"></h1>
+                                <h1 class="text-center " id="selectedPlanPrice"></h1>
+                                <input type="hidden" id="selectedPlanId" />
+                                <input type="hidden" id="existingStripeCustomerId" value="@currentUser.StripeCustomerId" />
+                                <input type="hidden" id="existingStripeSubscriptionId" value="@currentUser.StripeSubscriptionId" />
+                                <input type="hidden" id="existingPlanId" value="@currentUser.BrokerPaymentPlanID" />
+
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <div class="row">
+                                <label for="example1-name" data-tid="elements_examples.form.name_label">Name</label>
+                                <input id="example1-name" data-tid="elements_examples.form.name_placeholder" type="text" placeholder="Jane Doe" required="" autocomplete="name" value="@currentUser.FirstName">
+                            </div>
+                            <div class="row">
+                                <label for="example1-email" data-tid="elements_examples.form.email_label">Email</label>
+                                <input id="example1-email" data-tid="elements_examples.form.email_placeholder" type="email" placeholder="janedoe@gmail.com" required="" autocomplete="email" value="@currentUser.EmailAddress">
+                            </div>
+                            <div class="row">
+                                <label for="example1-phone" data-tid="elements_examples.form.phone_label">Phone</label>
+                                <input id="example1-phone" data-tid="elements_examples.form.phone_placeholder" type="tel" placeholder="(941) 555-0123" required="" autocomplete="tel" value="@(currentUser.PhoneCode + " " + currentUser.PhoneNumber)">
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <div class="row">
+                                @*<div id="example1-card" class="StripeElement StripeElement--empty"><div class="__PrivateStripeElement" style="margin: 0px !important; padding: 0px !important; border: none !important; display: block !important; background: transparent !important; position: relative !important; opacity: 1 !important;"><iframe frameborder="0" allowtransparency="true" scrolling="no" name="__privateStripeFrame5" allowpaymentrequest="true" src="https://js.stripe.com/v3/elements-inner-card-cd25803263cd2601cb18e3cd5aa05896.html#style[base][iconColor]=%23c4f0ff&amp;style[base][color]=%23fff&amp;style[base][fontWeight]=500&amp;style[base][fontFamily]=Roboto%2C+Open+Sans%2C+Segoe+UI%2C+sans-serif&amp;style[base][fontSize]=16px&amp;style[base][fontSmoothing]=antialiased&amp;style[base][:-webkit-autofill][color]=%23fce883&amp;style[base][::placeholder][color]=%2387BBFD&amp;style[invalid][iconColor]=%23FFC7EE&amp;style[invalid][color]=%23FFC7EE&amp;iconStyle=solid&amp;locale=en&amp;componentName=card&amp;wait=true&amp;rtl=false&amp;keyMode=test&amp;apiKey=pk_test_6pRNASCoBOKtIshFeQd4XMUh&amp;origin=https%3A%2F%2Fstripe.dev&amp;referrer=https%3A%2F%2Fstripe.dev%2Felements-examples%2F&amp;controllerId=__privateStripeController1" title="Secure payment input frame" style="border: none !important; margin: 0px !important; padding: 0px !important; width: 1px !important; min-width: 100% !important; overflow: hidden !important; display: block !important; user-select: none !important; height: 19.2px;"></iframe><input class="__PrivateStripeElement-input" aria-hidden="true" aria-label=" " autocomplete="false" maxlength="1" style="border: none !important; display: block !important; position: absolute !important; height: 1px !important; top: 0px !important; left: 0px !important; padding: 0px !important; margin: 0px !important; width: 100% !important; opacity: 0 !important; background: transparent !important; pointer-events: none !important; font-size: 16px !important;"></div></div>*@
+                                <div id="card-element">
+                                    <!-- A Stripe Element will be inserted here. -->
+                                </div>
+                                <div class="error" role="alert">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17">
+                                        <path class="base" fill="#000" d="M8.5,17 C3.80557963,17 0,13.1944204 0,8.5 C0,3.80557963 3.80557963,0 8.5,0 C13.1944204,0 17,3.80557963 17,8.5 C17,13.1944204 13.1944204,17 8.5,17 Z"></path>
+                                        <path class="glyph" fill="#FFF" d="M8.5,7.29791847 L6.12604076,4.92395924 C5.79409512,4.59201359 5.25590488,4.59201359 4.92395924,4.92395924 C4.59201359,5.25590488 4.59201359,5.79409512 4.92395924,6.12604076 L7.29791847,8.5 L4.92395924,10.8739592 C4.59201359,11.2059049 4.59201359,11.7440951 4.92395924,12.0760408 C5.25590488,12.4079864 5.79409512,12.4079864 6.12604076,12.0760408 L8.5,9.70208153 L10.8739592,12.0760408 C11.2059049,12.4079864 11.7440951,12.4079864 12.0760408,12.0760408 C12.4079864,11.7440951 12.4079864,11.2059049 12.0760408,10.8739592 L9.70208153,8.5 L12.0760408,6.12604076 C12.4079864,5.79409512 12.4079864,5.25590488 12.0760408,4.92395924 C11.7440951,4.59201359 11.2059049,4.59201359 10.8739592,4.92395924 L8.5,7.29791847 L8.5,7.29791847 Z"></path>
+                                    </svg>
+                                    <span class="message"></span>
+                                </div>
+                            </div>
+                            <div>
+                                @if (ViewBag.paycards != null)
+                                {
+                                    <div id="div_previousCard">
+                                        @foreach (var item in ViewBag.paycards)
+                                        {
+                                            <p>
+                                                Card ending in <b>@item.Last4</b>
+                                                @*<img class="pull-right" src="~/Content/Images/visa-icon.png" />*@
+                                            </p>
+
+                                            <p>Expiry <b>@item.ExpMonth/@item.ExpYear</b></p>
+                                        }
+                                        <br />
+                                        <a href="#" class="btn_displayNewCard">[Edit]</a>
+                                        <br />
+                                    </div>
+                                }
+                            </div>
+
+                        </fieldset>
+
+                        <button id="submit">
+                            <div id="spinner" class="hidden"></div>
+                            <span id="button-text">Subscribe to the Plan</span>
+                        </button>
+
+                    </form>
+                    <div class="success">
+                        <div class="icon">
+                            <svg width="84px" height="84px" viewBox="0 0 84 84" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <circle class="border" cx="42" cy="42" r="40" stroke-linecap="round" stroke-width="4" stroke="#000" fill="none"></circle>
+                                <path class="checkmark" stroke-linecap="round" stroke-linejoin="round" d="M23.375 42.5488281 36.8840688 56.0578969 64.891932 28.0500338" stroke-width="4" stroke="#000" fill="none"></path>
+                            </svg>
+                        </div>
+                        <h3 class="title" data-tid="elements_examples.success.title">Success</h3>
+                        <p class="message"><span id="cmessage" data-tid="elements_examples.success.message">Afilliate Subscription has been created successfully and payment has been processed. Complete the Afilliate profile and create social profiles.</span></p>
+                        <a class="btn btn-success" id="btnCompleteAfilliateProfile">Complete Afilliate Profile</a>
+                    </div>
+                </div>
+            </div>
+            @*<div class="modal-footer">
+                    <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-outline-primary">Save changes</button>
+                </div>*@
+        </div>
+    </div>
+</div>
+
+<div class="modal fade text-left" id="BillingHistoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel34" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="myModalLabel34">Afilliate Order History</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+               
+            <div class="modal-body">
+                @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true)
+                {
+                    <div class="table-responsive">
+                        <table class="table table-xl mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Payment Date/Time</th>
+                                    <th>Plan</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.PaymentHistory)
+                                {
+                                    <tr>
+                                        <td scope="row">
+                                            @item.PaymentDateTime
+                                        </td>
+
+
+                                        <td>
+                                            @item.PaymentPlanName
+                                        </td>
+                                        <td>
+                                            @item.Price
+                                        </td>
+                                        <td>
+                                            <div class="badge badge-primary label-square">
+                                                <i class="fa fa-paperclip font-medium-2"></i>
+                                                <span>@item.Status</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                </div>
+                <div class="modal-footer">
+                    <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="close">
+                   
+                </div>
+           
+        </div>
+    </div>
+</div>
+
+<!-- END: Content-->
 @section Scripts{
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="~/Content/app-assets/js/core/libraries/bootstrap.min.js"></script>
+    <script src="~/Content/app-assets/vendors/js/extensions/sweetalert.min.js"></script>
+    <script src="~/Content/app-assets/js/scripts/extensions/sweet-alerts.js"></script>
+    <script src="~/Content/app-assets/vendors/js/forms/extended/maxlength/bootstrap-maxlength.js"></script>
+    <script src="~/Scripts/bootstrap-colorpicker.min.js"></script>
 
-    <script src="~/Scripts/ECharts/echarts.js"></script>
-    <script src="~/Scripts/ECharts/echarts-all.js"></script>
-    <script src="~/Scripts/ECharts/chart/bar.js"></script>
-    <script src="~/Scripts/ECharts/chart/line.js"></script>
-    <script src="~/Scripts/ECharts/chart/chord.js"></script>
-    <script src="~/Scripts/ECharts/chart/eventRiver.js"></script>
-    <script src="~/Scripts/ECharts/chart/force.js"></script>
-    <script src="~/Scripts/ECharts/chart/funnel.js"></script>
-    <script src="~/Scripts/ECharts/chart/gauge.js"></script>
-    <script src="~/Scripts/ECharts/chart/k.js"></script>
-    <script src="~/Scripts/ECharts/chart/map.js"></script>
-    <script src="~/Scripts/ECharts/chart/pie.js"></script>
-    <script src="~/Scripts/ECharts/chart/radar.js"></script>
-    <script src="~/Scripts/ECharts/chart/scatter.js"></script>
-    <script src="~/Scripts/ECharts/chart/tree.js"></script>
-    <script src="~/Scripts/ECharts/chart/treemap.js"></script>
-    <script src="~/Scripts/ECharts/chart/venn.js"></script>
-    <script src="~/Scripts/ECharts/chart/wordCloud.js"></script>
-    <script src="~/Scripts/ECharts/chart/echarts-all-english-v2.js"></script>
-    <script type="text/javascript">
+    <script>
+
+        $('#ResponsiveTable > tbody > tr').click(function (element) {
+
+            if (element.target.parentElement.nodeName.toLowerCase() === 'tr')
+                window.location = element.target.parentElement.getAttribute("data-href");
+            else if (element.target.parentElement.parentElement.nodeName.toLowerCase() === 'tr')
+                window.location = element.target.parentElement.parentElement.getAttribute("data-hrefstats");
+        });
+
 
         $("document").ready(function () {
+            $('.position-inside-maxlength').maxlength({
+                alwaysShow: true,
+                warningClass: "badge badge-success",
+                limitReachedClass: "badge badge-danger",
+                placement: 'centered-right'
+                // Option : centered-right.
+            });
 
+            $('#BrokerAspectColor').colorpicker();
 
-            $.ajax({
-                type: "GET",
-                url: "/user/GetFollowersStatistics",
-                dataType: "json",
-                success: function (Response) {
-
-
-                    if (!$.isEmptyObject(Response)) {
-                        if (Response.Data.ResultType == "Success") {
-
-
-                            LoadFollowersBarChart(Response.Data.ResultData);
-                            LoadFollowersPiChart(Response.Data.ResultData);
-                            LoadLikeBarChart(Response.Data.ResultData);
-                            LoadLikePiChart(Response.Data.ResultData);
-
-                        } else {
-
-                        }
-                    }
-                },
-                failure: function (errMsg) {
-                    alert("hello2");
-
+            $('.input').keypress(function (e) {
+                if (e.which == 13) {
+                    $('#formbasic').submit();
+                    return false;    //<---- Add this line
                 }
             });
 
+            $('#SocialType,#Block,#Plan').change(function () {
+                this.form.submit();
+            });
+
+            $("#newprofileForm").on("submit", function () {
+                debugger;
+                var SocialProfileCount = @socailProfiles.Count();
+
+                //if ($("#Form_UpdatePassword").valid()) {
+
+                var data = $("#newprofileForm").serializeArray();
+                $.ajax({
+                    type: "POST",
+                    url: "/User/CreateNewProfile",
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        if (!$.isEmptyObject(data)) {
+                            if (data.Data.ResultType == "Success") {
+                                //$("#Modal_MessageBoxTitle").text("Message");
+                                //$("#Modal_MessageBoxBody").text(data.message);
+                                //$("#Modal_Messagebox").modal("show");
+                                //$('#default').modal('show');
+
+
+                                //fB pixel event
+                                if (SocialProfileCount > 0) {
+                                    fbq('track', 'MultipleAccount');
+                                }
+
+                                swal("Success!", "You have successfully created a social profile. Please activate the payment plan to start using it with your mobile device!", "success")
+                                    .then((value) => {
+                                        window.location.reload(false);
+                                    });
+                                //$(location).attr('href', "/Home/PasswordUpdated");
+                            } else {
+                                //$("#Modal_MessageBoxTitle").text("Message");
+                                //$("#Modal_MessageBoxBody").text(data.message);
+                                //$("#Modal_Messagebox").modal("show");
+                                //$('#default').modal('show');
+                                swal("Error!", data.Data.message, "error");
+                                //$('#ErrorMessage').text(data.message);
+
+                            }
+
+                        }
+                    },
+                    failure: function (errMsg) {
+
+                    }
+                });
+                return false;
+                //}
+
+            });
+
+            $("#AfilliateProfileForm").on("submit", function () {
+                debugger;
+
+                //if ($("#Form_UpdatePassword").valid()) {
+
+                var data = $("#AfilliateProfileForm").serializeArray();
+                $.ajax({
+                    type: "POST",
+                    url: "/User/UpdateBrokerProfile",
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        if (!$.isEmptyObject(data)) {
+                            if (data.Data.ResultType == "Success") {
+                                //$("#Modal_MessageBoxTitle").text("Message");
+                                //$("#Modal_MessageBoxBody").text(data.message);
+                                //$("#Modal_Messagebox").modal("show");
+                                //$('#default').modal('show');
+                                swal("Success!", "You have successfully updated Afilliate profile.", "success")
+                                    .then((value) => {
+                                        window.location.reload(false);
+                                    });
+                                //$(location).attr('href', "/Home/PasswordUpdated");
+                            } else {
+                                //$("#Modal_MessageBoxTitle").text("Message");
+                                //$("#Modal_MessageBoxBody").text(data.message);
+                                //$("#Modal_Messagebox").modal("show");
+                                //$('#default').modal('show');
+                                swal("Error!", data.Data.message, "error");
+                                //$('#ErrorMessage').text(data.message);
+
+                            }
+
+                        }
+                    },
+                    failure: function (errMsg) {
+
+                    }
+                });
+                return false;
+                //}
+
+            });
+
+            function OpenAfilliate(mode) {
+
+                if (mode == "new") {
+                    $("#planSubscriptionModal").modal("hide");
+                }
+
+                $("#AfilliateModal").modal({
+                    backdrop: "static"
+                }, "show");
+
+            }
+
+
+            $("#btnAfilliateProfile").on("click", function () {
+                OpenAfilliate("update");
+            });
+
+            $("#btnCompleteAfilliateProfile").on("click", function () {
+                OpenAfilliate("new");
+            });
+
+            $("#btnCancelAfilliate").on("click", function (e) {
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                var customerId = '@Customer.CustomerId';
+
+                swal({
+                    title: "Cancel Afilliate Subscription!",
+                    text: "Are you sure you want to Cancel your Afilliate subscription ? This action will reset plans for all profiles to Free Plan!",
+                    icon: "error",
+                    showLoaderOnConfirm: true,
+                    closeOnClickOutside: false,
+                    buttons: {
+                        cancel: {
+                            text: "No, cancel please",
+                            value: null,
+                            visible: true,
+                            className: "",
+                            closeModal: true,
+                        },
+                        confirm: {
+                            text: "Go ahead, Cancel Afilliate subscription",
+                            value: true,
+                            visible: true,
+                            className: "btn-warning",
+                            closeModal: false
+                        }
+                    },
+
+                }).then(isConfirm => {
+                    if (isConfirm) {
+
+
+                        fetch('/User/ConfirmCancelAfilliateSubscription', {
+                            method: 'post',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                customerId: customerId
+                            })
+                        })
+                            .then(subscription => {
+                                //handleSubscription(subscription);.
+                                swal.close();
+                                swal("Success!", "Your Afilliate subscription & profiles have been cancelled successfully;", "success")
+                                    .then(function () {
+                                        window.location = "/User/Home/";
+                                    });;
+                            });
+                    }
+                    else {
+                        //swal("OK", "It's safe.", "error");
+                    }
+                });
+
+
+            });
+
+
+            $("#btnAfilliate").on("click", function () {
+                $(".selectedPlanName").text('Monthly Afilliate Plan');
+                $("#selectedPlanprice").text('200');
+                $("#selectedPlanId").val(5);
+
+                selectedPlanName = $(".selectedPlanName").text();
+                selectedPlanprice = 200;
+
+                var ChangeType = "";
+                var ChangeMsg = "";
+                var ChangeBtn = "";
+                var newplan = $("#selectedPlanId").val();
+                var existingPlan = $("#existingPlanId").val();
+                var existingStripeSubscriptionId = $("#existingStripeSubscriptionId").val();
+
+                if (newplan == 1) {
+                    var ChangeType = "Downgrade to Free Plan";
+                    var ChangeMsg = "Are you sure you want to downgrade to Free Plan? Free plan does not let the app connect and grow!";
+                    var ChangeBtn = "Yes, Let's Downgrade to Free";
+                } else if (existingPlan != undefined && newplan < existingPlan) {
+                    var ChangeType = "Downgrade to " + selectedPlanName + " Plan!";
+                    var ChangeMsg = "Are you sure you want to downgrade your plan ?";
+                    var ChangeBtn = "Yes, Let's Downgrade";
+                }
+                else {
+                    var ChangeType = "Subscribe " + selectedPlanName + " Plan";
+                    var ChangeMsg = "Are you sure you want to subscribe for " + selectedPlanprice +" per month?";
+                    var ChangeBtn = "Yes, Let's Subscribe";
+                }
+
+                swal({
+                    title: ChangeType,
+                    text: ChangeMsg,
+                    icon: "info",
+                    showLoaderOnConfirm: true,
+                    closeOnClickOutside: false,
+                    buttons: {
+                        cancel: {
+                            text: "No, cancel please",
+                            value: null,
+                            visible: true,
+                            className: "",
+                            closeModal: true,
+                        },
+                        confirm: {
+                            text: ChangeBtn,
+                            value: true,
+                            visible: true,
+                            className: "",
+                            closeModal: false
+                        }
+                    },
+                    //preConfirm: (login) => {
+                    //    return fetch('//api.github.com/users/muzamilw')
+                    //        .then(response => {
+                    //            if (!response.ok) {
+                    //                throw new Error(response.statusText)
+                    //            }
+                    //            return response.json()
+                    //        })
+                    //        .catch(error => {
+                    //            Swal.showValidationMessage(
+                    //                'Request failed: ${error}'
+                    //            )
+                    //        })
+                    //},
+                }).then(isConfirm => {
+                    if (isConfirm && existingStripeSubscriptionId == "") {
+                        swal.close();
+                        $("#planSubscriptionModal").modal({
+                            backdrop: "static"
+                        },"show");
+                    }
+                    else if (isConfirm && existingStripeSubscriptionId != "") {
+                        //swal.enableLoading();
+                        //swal("OK", "It's safe.", "error");
+                        debugger;
+                        fetch('/profile/CreateStripeCustomerSubscription', {
+                            method: 'post',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                NewSubs: false,
+                                email: '',
+                                paymentmethod: '',
+                                selectedPlanId: newplan,
+                                customerid: customerid,
+                                socialProfileId: socialProfileId
+
+                            })
+                        })
+                            .then(response => {
+                                return response.json();
+                            })
+                            .then(subscription => {
+                                //handleSubscription(subscription);.
+                                swal.close();
+                                swal("Success!", "Your subscription has been successfully updated;", "success")
+                                    .then(function () {
+                                        window.location = "/User/Home/";
+                                    });;
+                            });
+                    }
+                    else {
+                        //swal("OK", "It's safe.", "error");
+                    }
+                });
+
+
+            });
+
+            ///////////////////////////////////////////////////////////////////////////////////striepe////////////////////////
+            var stripe;
+
+            var stripeElements = function (publicKey) {
+                stripe = Stripe(publicKey);
+                var elements = stripe.elements();
+
+                // Element styles
+                var style = {
+                    base: {
+                        fontSize: '16px',
+                        color: '#32325d',
+                        fontFamily:
+                            '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif',
+                        fontSmoothing: 'antialiased',
+                        '::placeholder': {
+                            color: 'rgba(0,0,0,0.4)'
+                        }
+                    }
+                };
+
+                var card = elements.create('card', { style: style });
+                card.mount('#card-element');
+
+                // Element focus ring
+                card.on('focus', function () {
+                    var el = document.getElementById('card-element');
+                    el.classList.add('focused');
+                    fbq('track', 'AddPaymentInfo');
+                });
+
+                card.on('blur', function () {
+                    var el = document.getElementById('card-element');
+                    el.classList.remove('focused');
+                });
+
+                registerElements([card], 'example1',card);
+
+                //document.querySelector('#submit').addEventListener('click', function (evt) {
+                //    evt.preventDefault();
+                //    changeLoadingState(true);
+                //    // Initiate payment
+                //    createPaymentMethodAndCustomer(stripe, card);
+                //});
+            };
+            var example = null;
+            function registerElements(elements, exampleName, card) {
+                var formClass = '.' + exampleName;
+                example = document.querySelector(formClass);
+
+                var form = example.querySelector('form');
+                var resetButton = example.querySelector('a.reset');
+                var error = form.querySelector('.error');
+                var errorMessage = error.querySelector('.message');
+
+                function enableInputs() {
+                    Array.prototype.forEach.call(
+                        form.querySelectorAll(
+                            "input[type='text'], input[type='email'], input[type='tel']"
+                        ),
+                        function (input) {
+                            input.removeAttribute('disabled');
+                        }
+                    );
+                }
+
+                function disableInputs() {
+                    Array.prototype.forEach.call(
+                        form.querySelectorAll(
+                            "input[type='text'], input[type='email'], input[type='tel']"
+                        ),
+                        function (input) {
+                            input.setAttribute('disabled', 'true');
+                        }
+                    );
+                }
+
+                function triggerBrowserValidation() {
+                    // The only way to trigger HTML5 form validation UI is to fake a user submit
+                    // event.
+                    var submit = document.createElement('input');
+                    submit.type = 'submit';
+                    submit.style.display = 'none';
+                    form.appendChild(submit);
+                    submit.click();
+                    submit.remove();
+                }
+
+                // Listen for errors from each Element, and show error messages in the UI.
+                var savedErrors = {};
+                elements.forEach(function (element, idx) {
+                    element.on('change', function (event) {
+                        if (event.error) {
+                            error.classList.add('visible');
+                            savedErrors[idx] = event.error.message;
+                            errorMessage.innerText = event.error.message;
+                        } else {
+                            savedErrors[idx] = null;
+
+                            // Loop over the saved errors and find the first one, if any.
+                            var nextError = Object.keys(savedErrors)
+                                .sort()
+                                .reduce(function (maybeFoundError, key) {
+                                    return maybeFoundError || savedErrors[key];
+                                }, null);
+
+                            if (nextError) {
+                                // Now that they've fixed the current error, show another one.
+                                errorMessage.innerText = nextError;
+                            } else {
+                                // The user fixed the last error; no more errors.
+                                error.classList.remove('visible');
+                            }
+                        }
+                    });
+                });
+
+                // Listen on the form's 'submit' handler...
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    // Trigger HTML5 validation UI on the form if any of the inputs fail
+                    // validation.
+                    var plainInputsValid = true;
+                    Array.prototype.forEach.call(form.querySelectorAll('input'), function (
+                        input
+                    ) {
+                        if (input.checkValidity && !input.checkValidity()) {
+                            plainInputsValid = false;
+                            return;
+                        }
+                    });
+                    if (!plainInputsValid) {
+                        triggerBrowserValidation();
+                        return;
+                    }
+
+                    // Show a loading screen...
+                    example.classList.add('submitting');
+
+                    // Disable all inputs.
+                    disableInputs();
+
+                    // Gather additional customer data we may have collected in our form.
+                    var name = form.querySelector('#' + exampleName + '-name');
+                    var email = form.querySelector('#' + exampleName + '-email');
+                    var phone = form.querySelector('#' + exampleName + '-phone');
+
+
+                    debugger;
+                    createPaymentMethodAndCustomer(stripe, card, name.value, email.value, phone.value);
+
+                    // Use Stripe.js to create a token. We only need to pass in one Element
+                    // from the Element group in order to create a token. We can also pass
+                    // in the additional customer data we collected in our form.
+                    //stripe.createToken(elements[0], additionalData).then(function (result) {
+                    //    // Stop loading!
+                    //    example.classList.remove('submitting');
+
+                    //    if (result.token) {
+                    //        // If we received a token, show the token ID.
+                    //        example.querySelector('.token').innerText = result.token.id;
+                    //        example.classList.add('submitted');
+                    //    } else {
+                    //        // Otherwise, un-disable inputs.
+                    //        enableInputs();
+                    //    }
+                    //});
+                });
+
+
+            }
+
+
+            function createPaymentMethodAndCustomer(stripe, card, name, email, phone) {
+               debugger;
+
+                var selectedPlanId = $('#selectedPlanId').val();
+                var customerId = $('#customerId').val();
+
+                stripe.createPaymentMethod('card', card, {
+                        billing_details: {
+                            email: email,
+                            name: name,
+                            phone:phone
+                        }
+                    })
+                    .then(function (result) {
+                        if (result.error) {
+                            showCardError(result.error);
+                        } else {
+                            createCustomer(result.paymentMethod.id, email, selectedPlanId, customerId, name,phone);
+                        }
+                    });
+            }
+
+            async function createCustomer(paymentMethod, cardholderEmail, selectedPlanId, customerid, name, phone) {
+                return fetch('/User/CreateStripeCustomerSubscription', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        NewSubs : true,
+                        email: cardholderEmail,
+                        paymentmethod: paymentMethod,
+                        selectedPlanId: selectedPlanId,
+                        customerid: customerid,
+                        socialProfileId: 0
+
+                    })
+                })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(subscription => {
+                        handleSubscription(subscription);
+                    });
+            }
+
+            function handleSubscription(subscription) {
+                const { latest_invoice } = subscription;
+                const { payment_intent } = latest_invoice;
+
+                if (payment_intent) {
+                    const { client_secret, status } = payment_intent;
+
+                    if (status === 'requires_action' || status === 'requires_payment_method') {
+                        stripe.confirmCardPayment(client_secret).then(function (result) {
+                            if (result.error) {
+                                // Display error message in your UI.
+                                // The card was declined (i.e. insufficient funds, card has expired, etc)
+                                //changeLoadingState(false);
+                                showCardError(result.error);
+                            } else {
+                                // Show a success message to your customer
+                                confirmSubscription(subscription.id);
+                            }
+                        });
+                    } else {
+                        // No additional information was needed
+                        // Show a success message to your customer
+                        orderComplete(subscription);
+                    }
+                } else {
+                    orderComplete(subscription);
+                }
+            }
+
+            function confirmSubscription(subscriptionId) {
+                return fetch('/subscription', {
+                    method: 'post',
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        subscriptionId: subscriptionId
+                    })
+                })
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(function (subscription) {
+                        orderComplete(subscription);
+                    });
+            }
+
+
+            /* ------- Post-payment helpers ------- */
+
+            /* Shows a success / error message when the payment is complete */
+            var orderComplete = function (subscription) {
+                changeLoadingState(false);
+                //var subscriptionJson = JSON.stringify(subscription, null, 2);
+                example.classList.remove('submitting');
+                example.classList.add('submitted');
+
+                fbq('track', 'Purchase', {
+                    value: 59,
+                    currency: 'USD',
+                });
+
+
+                //alert(subscriptionJson);
+                //document.querySelectorAll('.payment-view').forEach(function (view) {
+                //    view.classList.add('hidden');
+                //});
+                //document.querySelectorAll('.completed-view').forEach(function (view) {
+                //    view.classList.remove('hidden');
+                //});
+                //document.querySelector('.order-status').textContent = subscription.status;
+                //document.querySelector('code').textContent = subscriptionJson;
+            };
+
+            // Show a spinner on subscription submission
+            var changeLoadingState = function (isLoading) {
+                if (isLoading) {
+                    document.querySelector('#spinner').classList.add('loading');
+                    document.querySelector('button').disabled = true;
+
+                    document.querySelector('#button-text').classList.add('hidden');
+                } else {
+                    document.querySelector('button').disabled = false;
+                    document.querySelector('#spinner').classList.remove('loading');
+                    document.querySelector('#button-text').classList.remove('hidden');
+                }
+            };
+
+            function showCardError(error) {
+                //changeLoadingState(false);
+                example.classList.remove('submitting');
+                // The card was declined (i.e. insufficient funds, card has expired, etc)
+                var errorMsg = document.querySelector('cmessage');
+                errorMsg.textContent = error.message;
+
+            }
+
+            stripeElements('@ViewBag.stripePublishKey');
+
         });
-
-        function LoadFollowersBarChart(ChartsData) {
-
-            var dom = document.getElementById("FollowerBarChart");
-            var myChart = echarts.init(dom);
-            var app = {};
-            option = null;
-            option = {
-                title: {
-                    text: ''
-                },
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'cross',
-                        label: {
-                            backgroundColor: '#6a7985'
-                        }
-                    }
-                },
-                legend: {
-                    data: ['Followers', 'Followers Change', 'Followings', 'Followings Change Ratio']
-                },
-                toolbox: {
-                    show: true,
-                    feature: {
-
-
-                        magicType: { show: true, type: ['line', 'bar'] },
-                        restore: { show: true },
-                        saveAsImage: { show: true }
-                    }
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                xAxis: [
-                    {
-                        type: 'category',
-                        boundaryGap: false,
-                        data: ChartsData.Date// ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-                    }
-                ],
-                yAxis: [
-                    {
-                        type: 'value'
-                    }
-                ]
-                ,
-                series: [
-                    {
-                        name: 'Followers',
-                        type: 'line',
-                        stack: ChartsData.TotalFollowers,
-                        areaStyle: {},
-                        data: ChartsData.FollowersData
-                    },
-                    {
-                        name: 'Followers Change',
-                        type: 'line',
-                        stack: ChartsData.TotalFollowersGain,
-                        areaStyle: {},
-                        data: ChartsData.FollowersGainData
-                    },
-                    //{
-                    //    name: 'Avg. Follower Change Per Day',
-                    //    type: 'line',
-                    //    stack: '8000',
-                    //    areaStyle: { normal: {} },
-                    //    data: ChartsData.AVGFollowersData.split(',')
-                    //},
-                    {
-                        name: 'Followings',
-                        type: 'line',
-                        stack: ChartsData.TotalFollowings,
-                        areaStyle: {},
-                        data: ChartsData.FollowingsData
-                    },
-                    {
-                        name: 'Followings Change Ratio',
-                        type: 'line',
-                        stack: ChartsData.TotalFollowingsRatio,
-                        areaStyle: {},
-                        data: ChartsData.FollowingsRatioData
-                    }
-                ]
-            };
-            ;
-
-
-            myChart.setOption(option);
-            if (option && typeof option === "object") {
-                myChart.setOption(option, true);
-            }
-
-        }
-
-        function LoadFollowersPiChart(ChartsData) {
-
-
-            var dom = document.getElementById("FollowerPiChart");
-            var myChart = echarts.init(dom);
-            var app = {};
-            option = null;
-            option = {
-                title: {
-                    text: '',
-                    subtext: '',
-                    x: 'center'
-                },
-                tooltip: {
-                    trigger: 'item',
-                    formatter: "{a} <br/>{b} : {c} ({d}%)"
-                },
-                legend: {
-                    orient: 'vertical',
-                    left: 'left',
-                    data: ['Followers', 'Followers Change', 'Followings', 'Followings Change Ratio']
-                },
-                series: [
-                    {
-                        name: 'Followers',
-                        type: 'pie',
-                        radius: '45%',
-                        center: ['50%', '60%'],
-                        data: [
-                            { value: ChartsData.TotalFollowers, name: 'Followers' },
-                            { value: ChartsData.TotalFollowersGain, name: 'Followers Change' },
-                            //{ value: 234, name: 'Avg. Follower Change Per Day' },
-                            { value: ChartsData.TotalFollowings, name: 'Followings' },
-                            { value: ChartsData.TotalFollowingsRatio, name: 'Followings Change Ratio' }
-                        ],
-                        itemStyle: {
-                            emphasis: {
-                                shadowBlur: 10,
-                                shadowOffsetX: 0,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                            }
-                        }
-                    }
-                ]
-            };
-            ;
-            if (option && typeof option === "object") {
-                myChart.setOption(option, true);
-            }
-        }
-
-        function LoadLikeBarChart(ChartsData) {
-
-            var dom = document.getElementById("LikeBarChart");
-            var myChart = echarts.init(dom);
-            var app = {};
-            option = null;
-            option = {
-                title: {
-                    text: ''
-                },
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'cross',
-                        label: {
-                            backgroundColor: '#6a7985'
-                        }
-                    }
-                },
-                legend: {
-                    data: ['Like', 'Comment', 'Like Comment', 'Engagement']
-                },
-                toolbox: {
-                    show: true,
-                    feature: {
-
-
-                        magicType: { show: true, type: ['line', 'bar'] },
-                        restore: { show: true },
-                        saveAsImage: { show: true }
-                    }
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                xAxis: [
-                    {
-                        type: 'category',
-                        boundaryGap: false,
-                        data: ChartsData.Date// ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-                    }
-                ],
-                yAxis: [
-                    {
-                        type: 'value'
-                    }
-                ]
-                ,
-                series: [
-                    {
-                        name: 'Like',
-                        type: 'line',
-                        stack: ChartsData.TotalLike,
-                        areaStyle: {},
-                        data: ChartsData.LikeData
-                    },
-                    {
-                        name: 'Comment',
-                        type: 'line',
-                        stack: ChartsData.TotalComment,
-                        areaStyle: {},
-                        data: ChartsData.CommentData
-                    },
-                    //{
-                    //    name: 'Avg. Follower Change Per Day',
-                    //    type: 'line',
-                    //    stack: '8000',
-                    //    areaStyle: { normal: {} },
-                    //    data: ChartsData.AVGFollowersData.split(',')
-                    //},
-                    {
-                        name: 'Like Comment',
-                        type: 'line',
-                        stack: ChartsData.TotalFollowings,
-                        areaStyle: {},
-                        data: ChartsData.LikeCommentData
-                    },
-                    {
-                        name: 'Engagement',
-                        type: 'line',
-                        stack: ChartsData.TotalEngagement,
-                        areaStyle: {},
-                        data: ChartsData.Engagement
-                    }
-                ]
-            };
-            ;
-
-
-            myChart.setOption(option);
-            if (option && typeof option === "object") {
-                myChart.setOption(option, true);
-            }
-
-        }
-
-        function LoadLikePiChart(ChartsData) {
-
-            ;
-            var dom = document.getElementById("LikePiChart");
-            var myChart = echarts.init(dom);
-            var app = {};
-            option = null;
-            option = {
-                title: {
-                    text: '',
-                    subtext: '',
-                    x: 'center'
-                },
-                tooltip: {
-                    trigger: 'item',
-                    formatter: "{a} <br/>{b} : {c} ({d}%)"
-                },
-                legend: {
-                    orient: 'vertical',
-                    left: 'left',
-                    data: ['Like', 'Comment', 'Like Comment', 'Engagement']
-                },
-                series: [
-                    {
-                        name: 'Followers',
-                        type: 'pie',
-                        radius: '45%',
-                        center: ['50%', '60%'],
-                        data: [
-                            { value: ChartsData.TotalLike, name: 'Like' },
-                            { value: ChartsData.TotalComment, name: 'Comment' },
-                            //{ value: 234, name: 'Avg. Follower Change Per Day' },
-                            { value: ChartsData.TotalLikeComment, name: 'Like Commen' },
-                            { value: ChartsData.TotalEngagement, name: 'Engagement' }
-                        ],
-                        itemStyle: {
-                            emphasis: {
-                                shadowBlur: 10,
-                                shadowOffsetX: 0,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                            }
-                        }
-                    }
-                ]
-            };
-            ;
-            if (option && typeof option === "object") {
-                myChart.setOption(option, true);
-            }
-        }
-
     </script>
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

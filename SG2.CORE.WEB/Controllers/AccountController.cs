@@ -70,7 +70,7 @@ namespace SG2.CORE.WEB.Controllers
                     {
                         CustomerId = model.CustomerId,
                         FirstName = model.FirstName,
-                        SurName = model.SurName,
+                        SurName = model.UserName,
                         EmailAddress = model.EmailAddress,
                         StatusId = (int)CustomersStatus.Active,
                         GUID = Guid.NewGuid().ToString(),
@@ -163,7 +163,9 @@ namespace SG2.CORE.WEB.Controllers
                 if (ModelState.IsValid)
                 {
                     string errorMesage = "";
-                    if (_customerManager.LoginUser(model.EmailAddress, model.Password, ref errorMesage))
+                    var resp = _customerManager.LoginUser(model.EmailAddress, model.Password, ref errorMesage);
+
+                    if (resp.Item1)
                     {
                         var usr = (CustomerDTO)_sessionManager.Get(SessionConstants.Customer);
                         HttpContext.Items["isAuthentication"] = true;
@@ -264,112 +266,112 @@ namespace SG2.CORE.WEB.Controllers
         }
 
 
-        [HttpPost]
-        public ActionResult SubscriptionWizard(SignupWizardViewModel model)
-        {
-            bool anyError = true;
-            var _stripeApiKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
-            StripeConfiguration.SetApiKey(_stripeApiKey);
-            var stripeDefaultPlan = _planManager.GetAllSocialGrowthPlans().ToList().FirstOrDefault(x => x.PlantypeName == "Likey" && (x.IsDefault != null && x.IsDefault == true));
-            var _googleApiKey = SystemConfigs.First(x => x.ConfigKey == "GoogleMapApiKey").ConfigValue;
+        //[HttpPost]
+        //public ActionResult SubscriptionWizard(SignupWizardViewModel model)
+        //{
+        //    bool anyError = true;
+        //    var _stripeApiKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
+        //    StripeConfiguration.SetApiKey(_stripeApiKey);
+        //    var stripeDefaultPlan = _planManager.GetAllSocialGrowthPlans().ToList().FirstOrDefault(x => x.PlantypeName == "Likey" && (x.IsDefault != null && x.IsDefault == true));
+        //    var _googleApiKey = SystemConfigs.First(x => x.ConfigKey == "GoogleMapApiKey").ConfigValue;
 
-            var jr = new JsonResult();
-            try
-            {
-                //if (ModelState.IsValid)
-                //{
+        //    var jr = new JsonResult();
+        //    try
+        //    {
+        //        //if (ModelState.IsValid)
+        //        //{
 
 
-                //-- Create Customer into stripe
-                var customerCreateOptions = new CustomerCreateOptions
-                {
-                    Description = "Customer for Social Growth" + this.CDT.EmailAddress,
-                    SourceToken = model.stripeToken,
-                    Name = this.CDT.FirstName + " " + this.CDT.SurName,
-                    Email = this.CDT.EmailAddress,
-                };
-                var customerService = new CustomerService();
-                Customer stripeCustomer = customerService.Create(customerCreateOptions);
+        //        //-- Create Customer into stripe
+        //        var customerCreateOptions = new CustomerCreateOptions
+        //        {
+        //            Description = "Customer for Social Growth" + this.CDT.EmailAddress,
+        //            //SourceToken = model.stripeToken,
+        //            Name = this.CDT.FirstName + " " + this.CDT.SurName,
+        //            Email = this.CDT.EmailAddress,
+        //        };
+        //        var customerService = new CustomerService();
+        //        Customer stripeCustomer = customerService.Create(customerCreateOptions);
 
-                //-- Save StripeCustomerId int our database getting from stripe service 
-                _customerManager.UpdateStripeCustomerId(this.CDT.CustomerId, stripeCustomer.Id);
-                this.CDT.StripeCustomerId = stripeCustomer.Id;
-                _sessionManager.Set(SessionConstants.Customer, this.CDT);
+        //        //-- Save StripeCustomerId int our database getting from stripe service 
+        //        _customerManager.UpdateSocialProfileStripeCustomer(this.CDT.CustomerId, stripeCustomer.Id);
+        //        this.CDT.StripeCustomerId = stripeCustomer.Id;
+        //        _sessionManager.Set(SessionConstants.Customer, this.CDT);
 
-                //Create Subscription into stripe.
-                var stripeItems = new List<SubscriptionItemOption> {
-                      new SubscriptionItemOption {
-                        PlanId = stripeDefaultPlan.StripePlanId,
-                        Quantity= 1
-                      }
-                    };
-                var stripeSubscriptionCreateOptions = new SubscriptionCreateOptions
-                {
-                    CustomerId = stripeCustomer.Id,
-                    Items = stripeItems,
-                    Billing = Billing.ChargeAutomatically,
-                    BillingThresholds = { }
-                };
-                var stripeSubscriptionService = new SubscriptionService();
-                Subscription stripeSubscription = stripeSubscriptionService.Create(stripeSubscriptionCreateOptions);
+        //        //Create Subscription into stripe.
+        //        var stripeItems = new List<SubscriptionItemOption> {
+        //              new SubscriptionItemOption {
+        //                Plan = stripeDefaultPlan.StripePlanId,
+        //                Quantity= 1
+        //              }
+        //            };
+        //        var stripeSubscriptionCreateOptions = new SubscriptionCreateOptions
+        //        {
+        //            Customer = stripeCustomer.Id,
+        //            Items = stripeItems,
+        //            //Billing = Billing.ChargeAutomatically,
+        //            BillingThresholds = { }
+        //        };
+        //        var stripeSubscriptionService = new SubscriptionService();
+        //        Subscription stripeSubscription = stripeSubscriptionService.Create(stripeSubscriptionCreateOptions);
 
-                // Subscription successfull save into our DB
-                if (stripeSubscription != null)
-                {
-                    this.CDT.StripePlanId = stripeDefaultPlan.StripePlanId;
-                    _sessionManager.Set(SessionConstants.Customer, this.CDT);
+        //        // Subscription successfull save into our DB
+        //        if (stripeSubscription != null)
+        //        {
+        //            this.CDT.StripePlanId = stripeDefaultPlan.StripePlanId;
+        //            _sessionManager.Set(SessionConstants.Customer, this.CDT);
 
-                    SubscriptionDTO subDTO = new SubscriptionDTO();
-                    subDTO.CustomerId = this.CDT.CustomerId;
-                    subDTO.StripeSubscriptionId = stripeSubscription.Id;
-                    subDTO.Description = stripeSubscription.Plan.Nickname;
-                    subDTO.Name = stripeSubscription.Plan.Nickname;
-                    subDTO.Price = stripeSubscription.Plan.Amount;
-                    subDTO.StripePlanId = stripeDefaultPlan.StripePlanId;
-                    subDTO.SubscriptionType = stripeSubscription.Plan.Interval;
-                    subDTO.StartDate = stripeSubscription.Start ?? DateTime.Now;
-                    subDTO.EndDate = ((DateTime)stripeSubscription.Start).AddMonths(1);
-                    subDTO.StatusId = (int)GlobalEnums.PlanSubscription.Active;
-                    subDTO.PaymentPlanId = stripeDefaultPlan.PlanId;
-                    subDTO.SocialProfileId = this.CDT.SocialProfileId;
+        //            SocialProfile_PaymentsDTO subDTO = new SocialProfile_PaymentsDTO();
+        //            //subDTO.CustomerId = this.CDT.CustomerId;
+        //            subDTO.StripeSubscriptionId = stripeSubscription.Id;
+        //            subDTO.Description = stripeSubscription.Plan.Nickname;
+        //            subDTO.Name = stripeSubscription.Plan.Nickname;
+        //            subDTO.Price = stripeSubscription.Plan.Amount;
+        //            subDTO.StripePlanId = stripeDefaultPlan.StripePlanId;
+        //            subDTO.SubscriptionType = stripeSubscription.Plan.Interval;
+        //            subDTO.StartDate = stripeSubscription.StartDate ?? DateTime.Now;
+        //            subDTO.EndDate = ((DateTime)stripeSubscription.StartDate).AddMonths(1);
+        //            subDTO.StatusId = (int)GlobalEnums.PlanSubscription.Active;
+        //            subDTO.PaymentPlanId = stripeDefaultPlan.PlanId;
+        //            subDTO.SocialProfileId = this.CDT.SocialProfileId;
 
-                    _customerManager.InsertSubscription(subDTO);
+        //            _customerManager.InsertSubscription(subDTO);
 
-                    _customerManager.AssignJVBoxToCustomer(this.CDT.CustomerId, this.CDT.SocialProfileId);
-                    var cityId = _customerManager.GetTargetedCityIdByCustomerId(this.CDT.CustomerId, this.CDT.SocialProfileId);
-                    if (cityId > 0)
-                    {
-                        var city = CommonManager.GetCityAndCountryData(cityId).FirstOrDefault();
-                        if (city != null)
-                        {
-                            _commonManager.AssignedNearestProxyIP(this.CDT.CustomerId, city.CountyCityName.Replace(",", ""), this.CDT.SocialProfileId, _googleApiKey);
-                        }
-                    }
-                    anyError = false;
-                }
+        //            ////_customerManager.AssignJVBoxToCustomer(this.CDT.CustomerId, this.CDT.SocialProfileId);
+        //            ////var cityId = _customerManager.GetTargetedCityIdByCustomerId(this.CDT.CustomerId, this.CDT.SocialProfileId);
+        //            ////if (cityId > 0)
+        //            ////{
+        //            ////    var city = CommonManager.GetCityAndCountryData(cityId).FirstOrDefault();
+        //            ////    if (city != null)
+        //            ////    {
+        //            ////        _commonManager.AssignedNearestProxyIP(this.CDT.CustomerId, city.CountyCityName.Replace(",", ""), this.CDT.SocialProfileId, _googleApiKey);
+        //            ////    }
+        //            ////}
+        //            anyError = false;
+        //        }
 
-                if (!anyError)
-                {
-                    jr.Data = new { ResultType = "Success", message = "User signup successfully. Please check you inbox to verify.", data = true };
-                }
-                else
-                {
-                    jr.Data = new { ResultType = "Error", message = "Error! Please contact administrator." };
-                }
+        //        if (!anyError)
+        //        {
+        //            jr.Data = new { ResultType = "Success", message = "User signup successfully. Please check you inbox to verify.", data = true };
+        //        }
+        //        else
+        //        {
+        //            jr.Data = new { ResultType = "Error", message = "Error! Please contact administrator." };
+        //        }
 
-                //}
-                //else
-                //{
-                //    var message = string.Join(" | ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
-                //    jr.Data = new { ResultType = "Error", message = message };
-                //}
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return jr;
-        }
+        //        //}
+        //        //else
+        //        //{
+        //        //    var message = string.Join(" | ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+        //        //    jr.Data = new { ResultType = "Error", message = message };
+        //        //}
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return jr;
+        //}
 
         [HttpPost]
         public ActionResult ForgetPassword(string email)

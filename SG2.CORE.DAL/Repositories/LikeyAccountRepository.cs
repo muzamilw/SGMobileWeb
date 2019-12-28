@@ -4,6 +4,7 @@ using SG2.CORE.MODAL.ViewModals.Backend.LikeyAccount;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SG2.CORE.MODAL;
 
 namespace SG2.CORE.DAL.Repositories
 {
@@ -14,10 +15,22 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
+                    var oLikeyAccount = new LikeyAccount();
+                    oLikeyAccount.LikeyAccountId = entity.LikeyAccountId;
+                    oLikeyAccount.InstaUserName = entity.InstaUserName;
+                    oLikeyAccount.InstaPassword = entity.InstaPassword;
+                    oLikeyAccount.Country = entity.Country;
+                    oLikeyAccount.City = entity.City;
+                    oLikeyAccount.Gender = entity.Gender;
+                    oLikeyAccount.HashTag = entity.HashTag;
+                    oLikeyAccount.StatusId = entity.StatusId;
 
-                    _db.SG2_usp_LikeyAccount_Save(entity.LikeyAccountId, entity.InstaUserName, entity.InstaPassword, entity.Country, entity.City, entity.Gender, entity.HashTag, entity.StatusId);
+
+                    _db.LikeyAccounts.Add(oLikeyAccount);
+                    _db.SaveChanges();
+
                     return entity;
                 }
             }
@@ -31,9 +44,21 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
-                    _db.SG2_usp_LikeyAccount_Save(entity.LikeyAccountId, entity.InstaUserName, entity.InstaPassword, entity.Country, entity.City, entity.Gender, entity.HashTag, entity.StatusId);
+                    var oLikeyAccount = _db.LikeyAccounts.Where(g => g.LikeyAccountId == entity.LikeyAccountId).SingleOrDefault();
+
+                    oLikeyAccount.LikeyAccountId = entity.LikeyAccountId;
+                    oLikeyAccount.InstaUserName = entity.InstaUserName;
+                    oLikeyAccount.InstaPassword = entity.InstaPassword;
+                    oLikeyAccount.Country = entity.Country;
+                    oLikeyAccount.City = entity.City;
+                    oLikeyAccount.Gender = entity.Gender;
+                    oLikeyAccount.HashTag = entity.HashTag;
+                    oLikeyAccount.StatusId = entity.StatusId;
+
+
+                    _db.SaveChanges();
                     return entity;
                 }
 
@@ -48,16 +73,16 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
 
-                    if (LKaccId == 0) return !_db.SG2_LikeyAccount.Any(u => u.InstaUserName.Equals(InstaUserName));
-                    var user = _db.SG2_LikeyAccount.Find(LKaccId);
+                    if (LKaccId == 0) return !_db.LikeyAccounts.Any(u => u.InstaUserName.Equals(InstaUserName));
+                    var user = _db.LikeyAccounts.Find(LKaccId);
                     if (user.InstaUserName.Equals(InstaUserName, StringComparison.CurrentCultureIgnoreCase))
                     {
                         return true;
                     }
-                    return !_db.SG2_LikeyAccount.Any(r => r.InstaUserName.Equals(InstaUserName) && r.LikeyAccountId != LKaccId);
+                    return !_db.LikeyAccounts.Any(r => r.InstaUserName.Equals(InstaUserName) && r.LikeyAccountId != LKaccId);
                 }
             }
             catch (Exception ex)
@@ -70,9 +95,9 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
-                    var pro = _db.SG2_usp_LikeyAccount_GetById(LikeyAccountId).FirstOrDefault();
+                    var pro = _db.LikeyAccounts.Where(g => g.LikeyAccountId == LikeyAccountId).FirstOrDefault();
                     if (pro != null)
                     {
                         LikeyAccountDTO likey = new LikeyAccountDTO()
@@ -102,13 +127,18 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
-                    var LKaccount=_db.SG2_usp_LikeyAccount_Delete(LikeyAccountId);
-                    if (LKaccount == 1)
+                    var LKaccount=_db.LikeyAccounts.Where( g=> g.LikeyAccountId == LikeyAccountId).FirstOrDefault();
+                    if (LKaccount != null)
+                    {
+                        LKaccount.StatusId = 18;
+                        _db.SaveChanges();
                         return true;
+                    }
                     else
                         return false;
+                  
                 }
             }
             catch (Exception ex)
@@ -121,7 +151,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var likeyAccountdata = _db.SG2_usp_LikeyAccount_GetAll(SearchCriteria, PageNumber, PageSize, StatusId).ToList();
                     if (likeyAccountdata != null)
@@ -155,7 +185,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     return true;
                 }

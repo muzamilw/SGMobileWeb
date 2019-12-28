@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using SG2.CORE.MODAL;
 
 namespace SG2.CORE.DAL.Repositories
 {
@@ -15,7 +16,7 @@ namespace SG2.CORE.DAL.Repositories
         //    try
         //    {
 
-        //        using (var _db = new SocialGrowth2Entities())
+        //        using (var _db = new SocialGrowth2Connection())
         //        {
         //            _db.SG2_usp_QueueAudit_InsertLog(transactionId, queueType, queueStatus, queueData, errorDescription, profileId, jVBoxData, createdDate, createdBy, modifiedDate, modifiedBy, noOfAttempts, QueueAction, jVServerId);
 
@@ -32,7 +33,7 @@ namespace SG2.CORE.DAL.Repositories
         //    try
         //    {
 
-        //        using (var _db = new SocialGrowth2Entities())
+        //        using (var _db = new SocialGrowth2Connection())
         //        {
         //            _db.SG2_usp_QueueAudit_Detail_InsertLog(transactionId, stepName, stepDetail, stepStatus, stepError, createdDate, createdBy, base64Image);
 
@@ -49,7 +50,7 @@ namespace SG2.CORE.DAL.Repositories
             try
             {
 
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     _db.SG2_usp_QueueAudit_InsertLog(queueAuditDTO.TransactionId, queueAuditDTO.QueueType, queueAuditDTO.QueueStatus, queueAuditDTO.QueueData, queueAuditDTO.ErrorDescription, queueAuditDTO.ProfileId, queueAuditDTO.JVBoxData, queueAuditDTO.CreatedDate, queueAuditDTO.CreatedBy, queueAuditDTO.ModifiedDate, queueAuditDTO.ModifiedBy, queueAuditDTO.NoOfAttempts, queueAuditDTO.QueueAction, queueAuditDTO.JVServerId);
 
@@ -65,7 +66,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                    var result = _db.SG2_QueueAudit.SqlQuery("Update SG2_QueueAudit set QueueStatus=@statudId where TransactionId=@transactionId;select top 1 * from SG2_QueueAudit where TransactionId=@transactionId "
                                                     , new SqlParameter ("@statudId", statudId)
@@ -93,7 +94,7 @@ namespace SG2.CORE.DAL.Repositories
             try
             {
                 string image = null;
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
 
                     var result= _db.SG2_usp_QueueAudit_GetimageData(id).FirstOrDefault();
@@ -128,7 +129,7 @@ namespace SG2.CORE.DAL.Repositories
                     url = System.Text.Encoding.UTF8.GetBytes(queueAuditDetailDTO.Base64Image);
                 }
 
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     _db.SG2_usp_QueueAudit_Detail_InsertLog(queueAuditDetailDTO.TransactionId, queueAuditDetailDTO.StepName, queueAuditDetailDTO.StepDetail, queueAuditDetailDTO.StepStatus, queueAuditDetailDTO.StepError, queueAuditDetailDTO.CreatedDate, queueAuditDetailDTO.CreatedBy, url);
 
@@ -144,7 +145,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             { 
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var proDet = _db.SG2_usp_QueueAudit_GetDetail(jVServerId).ToList();
                     List<QueueAuditDTO> queueAuditDTOs = new List<QueueAuditDTO>();
@@ -182,7 +183,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     _db.SG2_usp_Delete_QueueAuditAndDetail(id);
                     return true;
@@ -200,7 +201,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     _db.SG2_QueueAuditDetail.RemoveRange(_db.SG2_QueueAuditDetail.Where(x => x.QueueAuditDetailId == id));
                     _db.SaveChanges();
@@ -220,7 +221,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var auditDetialData = _db.SG2_usp_QueueAuditDetail_GetDetail(transactionId).ToList();
                     if (auditDetialData != null)

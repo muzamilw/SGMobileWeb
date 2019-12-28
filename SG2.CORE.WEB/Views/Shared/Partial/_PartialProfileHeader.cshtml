@@ -1,0 +1,56 @@
+﻿@using SG2.CORE.MODAL.DTO.Customers;
+@using SG2.CORE.COMMON;
+@using SG2.CORE.MODAL;
+
+@{
+
+    SocialProfile socialProfile = null;
+
+    socialProfile = (SocialProfile)ViewBag.socialProfile;
+
+
+    var ProfileStatus = "";
+    var statusclass = "btn-primary";
+
+    switch (socialProfile.BlockedStatus)
+    {
+        case null: ProfileStatus = "Valid"; statusclass= "btn-primary"; break;
+        case 0: ProfileStatus = "Valid"; statusclass = "btn-primary"; break;
+        case 66: ProfileStatus = "Action Blocked"; statusclass = "btn-danger"; break;
+        case 67: ProfileStatus = "Hard Blocked"; statusclass = "btn-danger"; break;
+        case 68: ProfileStatus = "Password Blocked"; statusclass = "btn-danger"; break;
+        default:
+            ProfileStatus = "Valid"; statusclass = "btn-primary";
+            break;
+    }
+
+}
+<div class="app-content container center-layout mt-2">
+    <div class="content-wrapper">
+        <div class="content-header row">
+            <div class="content-header-left col-md-6 col-12 mb-2">
+
+                <div class="media">
+                    <a class="media-left align-self-center" href="#">
+                        <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" alt="Generic placeholder image" style="width: 64px;height: 64px;" />
+                    </a>
+                    <div class="media-body mt-2">
+                        <h3 class="media-heading">@socialProfile.SocialUsername</h3>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="content-header-right col-md-6 col-12 align-middle text-right" style="height:100%">
+                <div class="btn-group" style="margin-top:12px;">
+                    <button class="btn btn-round @statusclass" type="button"><i class="ft-activity pr-1"></i> @ProfileStatus</button>
+
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

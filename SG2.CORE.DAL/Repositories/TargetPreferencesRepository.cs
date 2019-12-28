@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SG2.CORE.MODAL;
 
 namespace SG2.CORE.DAL.Repositories
 {
@@ -15,7 +16,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var result = _db.SG2_usp_Customer_SavePreference(entity.SocialProfileId,
                                                                       entity.Preference1,
@@ -56,7 +57,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var user = _db.SG2_SocialProfile.FirstOrDefault(x => x.SocialProfileId == SocialProfileId);
                     if (user != null)
@@ -104,7 +105,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var user = _db.SG2_SocialProfile.FirstOrDefault(x => x.SocialProfileId == SocialProfileId);
                     if (user != null)
@@ -138,7 +139,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
 
                     if (SocialProfileId == 0) return !_db.SG2_SocialProfile.Any(u => u.SocialUsername.Equals(InstaUser));
@@ -161,7 +162,7 @@ namespace SG2.CORE.DAL.Repositories
             try
             {
                 List<TargetPreferencesDTO> profiles = null;
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
                     var profs =  _db.SG2_usp_Customer_GetPendingSocialProfiles(QueueStatusId).ToList();
                     if (profs != null)

@@ -2,160 +2,256 @@
 @using SG2.CORE.MODAL.DTO.Customers;
 @{
     ViewBag.Title = "Profile";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout_LoggedInstack.cshtml";
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
 }
 
+@section styles{
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/plugins/forms/validation/form-validation.css">
+    <link href="~/Content/app-assets/css/intlTelInput.min.css" rel="stylesheet" />
 
-<div class="main">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-4">
-                <h2>Profile</h2>
-            </div>
-            <div class="col-xs-8 text-right">                
-                <a style="font-size:13pt; position: relative;top: 14px; right: 5px; color:#337ab7" href="/targetpreferences/modifytargetpreferences?socialprofileid=@custDto.DefaultSocialProfileId">
-                    <i class="fa fa-backward"></i> Target form
-                </a>                
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="information-form">
-    <div class="container">
-        <div class="information-form-inner">
-            <div class="row">
-                <div class="col-md-6 col-sm-12">
-                    @Html.Partial("~/Views/User/partials/_PartialUpdateUserProfile.cshtml", Model.CustomerProfileUpdateVM)
-                </div>
+   
 
-                <div class="col-md-6  col-sm-12">
-                    @Html.Partial("~/Views/User/partials/_PartialUpdateUserPassword.cshtml", Model.CustomerUpdatePasswordVM)
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<br />
-
-<div class="information-form">
-    <div class="container">
-        <div class="information-form-inner">
-            <div class="row">
-                <div class="col-md-12">
-                    <p>I'd like to receive to the following emails:</p>
-                    <br />
-                    @using (Html.BeginForm("UpdateUserEmailSubscription", "User", FormMethod.Post, new { @id = "form_UpdateUserSubscription" }))
-                    {
-                        <label class="form-Checkbox">
-                            Social marketing tips &amp; educational emails
-                            @Html.CheckBoxFor(model => model.IsOptedEducationalEmailSeries)
-                            <span class="chkmark"></span>
-                        </label>
-
-                        <label class="form-Checkbox">
-                            Product updates on social marketing growth tools
-                            @Html.CheckBoxFor(model => model.IsOptedMarketingEmail)
-                            <span class="chkmark"></span>
-                        </label>
-                        <br />
-                        <input type="button" class="btn btn-primary" id="btn_SaveEmailSubscription" value="Update" />
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<style type="text/css">
-    .information-form-inner {
-        padding: 30px;
-    }
-
-        .information-form-inner input[type=submit] {
-            text-align: left;
-            margin: 0;
+    <style type="text/css">
+        .iti {
+            width: 100%;
+        }
+        #error-msg {
+            color: red;
         }
 
-    .form-Checkbox {
-        display: block;
-        position: relative;
-        padding-left: 30px;
-        margin-bottom: 12px;
-        cursor: pointer;
-        font-size: 1.6rem;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
+        #valid-msg {
+            color: #00C900;
+        }
 
-        /* Hide the browser's default checkbox */
-        .form-Checkbox input {
-            position: absolute;
-            opacity: 0;
+        input.error {
+            border: 1px solid #FF7C7C;
+        }
+
+        .hide {
+            display: none;
+        }
+
+
+        .information-form-inner {
+            padding: 30px;
+        }
+
+            .information-form-inner input[type=submit] {
+                text-align: left;
+                margin: 0;
+            }
+
+        .form-Checkbox {
+            display: block;
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 12px;
             cursor: pointer;
-            height: 0;
-            width: 0;
+            font-size: 1.6rem;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
-    /* Create a custom checkbox */
-    .chkmark {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 20px;
-        width: 20px;
-        background-color: #fff;
-        border: 1px solid #6ab8ee
-    }
+            /* Hide the browser's default checkbox */
+            .form-Checkbox input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+                height: 0;
+                width: 0;
+            }
 
-    /* On mouse-over, add a grey background color */
-    .form-Checkbox:hover input ~ .chkmark {
-        background-color: #6ab8ee;
-    }
+        /* Create a custom checkbox */
+        .chkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 20px;
+            width: 20px;
+            background-color: #fff;
+            border: 1px solid #6ab8ee
+        }
 
-    /* When the checkbox is checked, add a blue background */
-    .form-Checkbox input:checked ~ .chkmark {
-        background-color: #2196F3;
-    }
+        /* On mouse-over, add a grey background color */
+        .form-Checkbox:hover input ~ .chkmark {
+            background-color: #6ab8ee;
+        }
 
-    /* Create the checkmark/indicator (hidden when not checked) */
-    .chkmark:after {
-        content: "";
-        position: absolute;
-        display: none;
-    }
+        /* When the checkbox is checked, add a blue background */
+        .form-Checkbox input:checked ~ .chkmark {
+            background-color: #2196F3;
+        }
 
-    /* Show the checkmark when checked */
-    .form-Checkbox input:checked ~ .chkmark:after {
-        display: block;
-    }
+        /* Create the checkmark/indicator (hidden when not checked) */
+        .chkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
 
-    /* Style the checkmark/indicator */
-    .form-Checkbox .chkmark:after {
-        left: 6px;
-        top: 3px;
-        width: 6px;
-        height: 10px;
-        border: solid white;
-        border-width: 0 3px 3px 0;
-        -webkit-transform: rotate(45deg);
-        -ms-transform: rotate(45deg);
-        transform: rotate(45deg);
-    }
-</style>
+        /* Show the checkmark when checked */
+        .form-Checkbox input:checked ~ .chkmark:after {
+            display: block;
+        }
+
+        /* Style the checkmark/indicator */
+        .form-Checkbox .chkmark:after {
+            left: 6px;
+            top: 3px;
+            width: 6px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+    </style>
+}
+
+
+<!-- BEGIN: Content-->
+<div class="app-content container center-layout mt-2">
+    <div class="content-wrapper">
+        <div class="content-header row">
+            <div class="content-header-left col-md-6 col-12 mb-2">
+                <h3 class="content-header-title mb-0">User Profile</h3>
+
+            </div>
+            <div class="content-header-right col-md-6 col-12">
+                <div class="media width-250 float-right">
+                    <div class="media-right text-right">
+                        @*<div id="sp-bar-total-sales"></div>*@
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="content-body">
+            <!-- Extra large table start -->
+            <div class="row match-height">
+                <div class="col-12">
+                    <div class="card">
+
+                        <div class="card-content collapse show">
+                            <div class="card-body card-dashboard">
+                                <p class="card-text"></p>
+                            </div>
+                            <div class="information-form">
+                                <div class="container">
+                                    <div class="information-form-inner">
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12">
+                                                @Html.Partial("~/Views/User/partials/_PartialUpdateUserProfile.cshtml", Model.CustomerProfileUpdateVM)
+                                            </div>
+
+                                            <div class="col-md-6  col-sm-12">
+                                                @Html.Partial("~/Views/User/partials/_PartialUpdateUserPassword.cshtml", Model.CustomerUpdatePasswordVM)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="information-form">
+                                <div class="container">
+                                    <div class="information-form-inner">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <p>I'd like to receive to the following emails:</p>
+                                                <br />
+                                                @using (Html.BeginForm("UpdateUserEmailSubscription", "User", FormMethod.Post, new { @id = "form_UpdateUserSubscription" }))
+                                                {
+                                                    <label class="form-Checkbox">
+                                                        Social marketing tips &amp; educational emails
+                                                        @Html.CheckBoxFor(model => model.IsOptedEducationalEmailSeries)
+                                                        <span class="chkmark"></span>
+                                                    </label>
+
+                                                    <label class="form-Checkbox">
+                                                        Product updates on social marketing growth tools
+                                                        @Html.CheckBoxFor(model => model.IsOptedMarketingEmail)
+                                                        <span class="chkmark"></span>
+                                                    </label>
+                                                    <br />
+                                                    <input type="button" class="btn btn-primary" id="btn_SaveEmailSubscription" value="Update" />
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- Extra large table end -->
+        </div>
+    </div>
+</div>
+
+
+
+
 
 @section scripts{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Content/app-assets/js/scripts/intlTelInput.min.js"></script>
     <script type="text/javascript">
         $("document").ready(function () {
+            var input = document.querySelector(".phoneNumber"),
+                errorMsg = document.querySelector("#error-msg"),
+                validMsg = document.querySelector("#valid-msg");
+
+            // here, the index maps to the error code returned from getValidationError - see readme
+            var errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+
+            var iti = window.intlTelInput(input, {
+                "separateDialCode": true,
+                utilsScript: "../Content/app-assets/js/scripts/utils.js?1562189064761"
+            });
+
+            var reset = function () {
+                input.classList.remove("error");
+                errorMsg.innerHTML = "";
+                errorMsg.classList.add("hide");
+                validMsg.classList.add("hide");
+            };
+
+            // on blur: validate
+            input.addEventListener('blur', function () {
+                reset();
+                if (input.value.trim()) {
+                    if (iti.isValidNumber()) {
+                        validMsg.classList.remove("hide");
+                    } else {
+                        input.classList.add("error");
+                        var errorCode = iti.getValidationError();
+                        errorMsg.innerHTML = errorMap[errorCode];
+                        errorMsg.classList.remove("hide");
+                    }
+                }
+            });
+
+            // on keyup / change flag: reset
+            input.addEventListener('change', reset);
+            input.addEventListener('keyup', reset);
 
             $("#btn_UpdateUserProfile").on("click", function () {
-                if ($("#form_UpdateUserProfile").valid()) {
+                var isValid = iti.isValidNumber();
+                if ($("#form_UpdateUserProfile").valid() && isValid) {
+                    var countryData = iti.getSelectedCountryData();
+                    $("#PhoneCode").val(countryData.dialCode);
                     $("#spn_updateUserProfile").show();
-                    var data = $("#form_UpdateUserProfile").serialize();                    
+                    var data = $("#form_UpdateUserProfile").serialize();
                     $.ajax({
                         type: "POST",
                         url: "/user/updateuserprofile",
@@ -164,7 +260,7 @@
                         success: function (data) {
                             $("#spn_updateUserProfile").hide();
                             if (!$.isEmptyObject(data)) {
-                                
+
                                 if (data.ResultType == "Success") {
                                     $("#Modal_MessageBoxTitle").text("Message");
                                     $("#Modal_MessageBoxBody").text(data.message);

@@ -1,16 +1,23 @@
 ﻿@model SG2.CORE.MODAL.ViewModals.Backend.ActionBoard.ActionBoardViewModel
 @using SG2.CORE.COMMON;
 @{
+    /**/
+
     ViewBag.Title = "Action Board";
-    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_LayoutNew.cshtml";
     var BaseURl = ViewBag.BaseUrl;
 }
 
 
+@section styles{
+<link href="~/Content/ThemeAssets/css/backendcss.css" rel="stylesheet" />
+<link href="~/Content/ThemeAssets/css/style.css" rel="stylesheet" type="text/css">
+}
+
 <div class="main">
     <div class="container">
         <div class="row">
-            <div class="col-xs-12">                
+            <div class="col-xs-12">
                 <div class="search-wrap clearfix">
                     <h2 style="display:inline-block">Action Board</h2>
                     <input id="SearchCriteria" name="SearchCriteria" placeholder="Search social username here..." type="search" value="">
@@ -44,7 +51,7 @@
 
             <div class="clearfix"></div>
 
-            <div class="hide listHTML">
+            <div class="hidden listHTML">
                 <div class="white-sec" style="text-align:left">
                     <p style="color:red;font:bolder;font-size:large">{{InstaUsername}}</p>
                     <p style="font:bolder">{{Email}}</p>
@@ -87,7 +94,7 @@
                     </div>
                     <div class="col-md-4">
                         <textarea readonly id="TINotes"></textarea>
-                       <br />
+                        <br />
                         <input type="text" name="" id="txt_comments" placeholder="Enter Comments Here..." /> &nbsp; &nbsp;<i id="btn_saveComments" class="fa fa-save"></i>
                     </div>
                     <div class="col-md-4">
@@ -100,18 +107,18 @@
                             }
                         </select> &nbsp; &nbsp;<i id="btn_StatusId" class="fa fa-save"></i>
 
-                        <label>MP Box: </label>
-                        <select name="" id="input_MPBox">
-                            <option>-- Select MP Box --</option>
-                            @foreach (var item in Model.MPBoxList)
-                            {
-                                <option value="@item.JVBoxId">@item.BoxName</option>
-                            }
-                        </select>
-                        &nbsp; &nbsp;<i id="btn_MPBox" class="fa fa-save"></i>
+                        @*<label>MP Box: </label>*@
+                        @*<select name="" id="input_MPBox">
+                                <option>-- Select MP Box --</option>
+                                @foreach (var item in Model.MPBoxList)
+                                {
+                                    <option value="@item.JVBoxId">@item.BoxName</option>
+                                }
+                            </select>*@
+                        @*&nbsp; &nbsp;<i id="btn_MPBox" class="fa fa-save"></i>
 
-                        <label>IP:</label>
-                        <label id="IPText"></label>
+                            <label>IP:</label>
+                            <label id="IPText"></label>*@
 
                         &nbsp; &nbsp; &nbsp; &nbsp;
                         <button id="BlockIP" class="btn" style="padding:2px; visibility:hidden; background-color:crimson">
@@ -121,30 +128,30 @@
                         <div class="row div_ipBlock">
                             <div class="col-md-6">
                                 <label>Country</label>
-                                <select name="" id="cmb_Country">
-                                    @foreach (var item in Model.Countries)
-                                    {
-                                        <option value="@item.CountryId">@item.Name</option>
-                                    }
-                                </select>
+                                @*<select name="" id="cmb_Country">
+                                        @foreach (var item in Model.Countries)
+                                        {
+                                            <option value="@item.CountryId">@item.Name</option>
+                                        }
+                                    </select>*@
                             </div>
                             <div class="col-md-6">
                                 <label>City</label>
-                                <select name="" id="cmb_City">
-                                    @foreach (var item in Model.Cities.Distinct())
-                                    {
-                                        <option value="@item.CityId">@item.Name</option>
-                                    }
+                                @*<select name="" id="cmb_City">
+                                        @foreach (var item in Model.Cities.Distinct())
+                                        {
+                                            <option value="@item.CityId">@item.Name</option>
+                                        }
 
-                                </select>
+                                    </select>*@
                             </div>
                             <div class="col-md-12">
                                 <label style="display:block">IP: </label>
                                 <select name="" id="cmb_IPSelect">
                                     @*@foreach (var item in Model.MPBoxList)
-                    {
-                        <option value="@item.JVBoxId">@item.BoxName</option>
-                    }*@
+                                        {
+                                            <option value="@item.JVBoxId">@item.BoxName</option>
+                                        }*@
                                     <option>-- Select Proxy IP --</option>
                                 </select>
                                 &nbsp;<i id="btn_IPSelect" class="fa fa-save"></i>
@@ -154,141 +161,141 @@
                         </div>
 
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+
+                            <div>
+                                <select name="" id="cmb_StatusId">
+                                    @foreach (var item in Model.JVStatuses)
+                                    {
+                                        <option value="@item.JVBStatusId">@item.JVBStatusName</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
                     @*<div class="col-md-6">
-            <div class="form-group">
+                            <div class="form-group">
+                                <label class="form-label col-sm-5">Name: </label>
+                                <div class="col-md-7">
+                                    <input type="text" id="Fullname" readonly value="" class="form-control col-sm-12" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label col-sm-5">Email: </label>
+                                <div class="col-md-7">
+                                    <input type="text" id="Email" readonly value="" class="form-control col-sm-12" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label col-sm-5">Insta Username: </label>
+                                <div class="col-md-7">
+                                    <input type="text" id="InstaUsername" readonly value="" class="form-control col-sm-12" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label col-sm-5">Insta password: </label>
+                                <div class="col-md-7">
+                                    <input type="text" id="InstaPassword" readonly value="" class="form-control col-sm-12" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <h2>Target Information</h2>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label col-sm-5">Hashtags want to engage: </label>
+                                <div class="col-md-7">
+                                    <input type="text" id="HashtagsEngaged" readonly class="form-control col-sm-12" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label col-sm-5">Hashtags don't want to engage: </label>
+                                <div class="col-md-7">
+                                    <input type="text" id="HashtagsNotEngaged" readonly class="form-control col-sm-12" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label col-sm-5">locations to focus: </label>
+                                <div class="col-md-7">
+                                    <input type="text" id="FocusedLocation" readonly class="form-control col-sm-12" value="" />
+                                </div>
+                            </div>
+                        </div>
 
-                <div>
-                    <select name="" id="cmb_StatusId">
-                        @foreach (var item in Model.JVStatuses)
-                        {
-                            <option value="@item.JVBStatusId">@item.JVBStatusName</option>
-                        }
-                    </select>
-                </div>
-            </div>
-        </div>*@
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label col-sm-5">locations to skip: </label>
+                                <div class="col-md-7">
+                                    <input type="text" id="SkipLocation" readonly class="form-control col-sm-12" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label col-sm-5">Effective growth strategy: </label>
+                                <div class="col-md-7">
+                                    <input type="text" id="EffectiveGStrategy" readonly class="form-control col-sm-12" value="" />
+                                </div>
+                            </div>
+                        </div>
 
-                    @*<div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label col-sm-5">Name: </label>
-                <div class="col-md-7">
-                    <input type="text" id="Fullname" readonly value="" class="form-control col-sm-12" />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label col-sm-5">Email: </label>
-                <div class="col-md-7">
-                    <input type="text" id="Email" readonly value="" class="form-control col-sm-12" />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label col-sm-5">Insta Username: </label>
-                <div class="col-md-7">
-                    <input type="text" id="InstaUsername" readonly value="" class="form-control col-sm-12" />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label col-sm-5">Insta password: </label>
-                <div class="col-md-7">
-                    <input type="text" id="InstaPassword" readonly value="" class="form-control col-sm-12" />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <h2>Target Information</h2>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label col-sm-5">Hashtags want to engage: </label>
-                <div class="col-md-7">
-                    <input type="text" id="HashtagsEngaged" readonly class="form-control col-sm-12" value="" />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label col-sm-5">Hashtags don't want to engage: </label>
-                <div class="col-md-7">
-                    <input type="text" id="HashtagsNotEngaged" readonly class="form-control col-sm-12" value="" />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label col-sm-5">locations to focus: </label>
-                <div class="col-md-7">
-                    <input type="text" id="FocusedLocation" readonly class="form-control col-sm-12" value="" />
-                </div>
-            </div>
-        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label col-sm-5">People want to engage: </label>
+                                <div class="col-md-7">
+                                    <input type="text" id="PeopleEngaged" readonly class="form-control col-sm-12" value="" />
+                                </div>
+                            </div>
+                        </div>
 
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label col-sm-5">locations to skip: </label>
-                <div class="col-md-7">
-                    <input type="text" id="SkipLocation" readonly class="form-control col-sm-12" value="" />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label col-sm-5">Effective growth strategy: </label>
-                <div class="col-md-7">
-                    <input type="text" id="EffectiveGStrategy" readonly class="form-control col-sm-12" value="" />
-                </div>
-            </div>
-        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label col-sm-5">Include business accounts: </label>
+                                <div class="col-md-7">
+                                    <input type="text" id="IncludeBA" readonly class="form-control col-sm-12" value="" />
+                                </div>
+                            </div>
+                        </div>
 
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label col-sm-5">People want to engage: </label>
-                <div class="col-md-7">
-                    <input type="text" id="PeopleEngaged" readonly class="form-control col-sm-12" value="" />
-                </div>
-            </div>
-        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label col-sm-5">Targeted user demographics: </label>
+                                <div class="col-md-7">
+                                    <input type="text" id="TargetUsrDemo" readonly class="form-control col-sm-12" value="" />
+                                </div>
+                            </div>
+                        </div>
 
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label col-sm-5">Include business accounts: </label>
-                <div class="col-md-7">
-                    <input type="text" id="IncludeBA" readonly class="form-control col-sm-12" value="" />
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label col-sm-5">Targeted user demographics: </label>
-                <div class="col-md-7">
-                    <input type="text" id="TargetUsrDemo" readonly class="form-control col-sm-12" value="" />
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label col-sm-5">Direct competitors : </label>
-                <div class="col-md-7">
-                    <input type="text" readonly id="DirectCompetitors" class="form-control col-sm-12" value="" />
-                </div>
-            </div>
-        </div>*@
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label col-sm-5">Direct competitors : </label>
+                                <div class="col-md-7">
+                                    <input type="text" readonly id="DirectCompetitors" class="form-control col-sm-12" value="" />
+                                </div>
+                            </div>
+                        </div>*@
                 </div>
 
             </div>
             <div class="modal-footer">
                 @*<button type="button" class="btn btn-default btn_saveStatus">
-            Change Status and Refresh Board
-            <span id="CSSpinner" hidden><i class="fa fa-spinner fa-spin"></i></span>
+                        Change Status and Refresh Board
+                        <span id="CSSpinner" hidden><i class="fa fa-spinner fa-spin"></i></span>
 
-        </button>*@
+                    </button>*@
                 <button type="button" id="btn_Archive" class="btn fa fa-archive" style="background-color:green"> Archive Ticket</button>
                 <button type="button" id="btn_UnArchive" class="btn fa fa-archive" style="background-color:green"> Un Archive Ticket</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -372,11 +379,11 @@
     .action-board-grey {
         overflow-x: scroll;
         overflow-y: scroll;
-        height: 500px;
+        height: 600px;
     }
 
     .action-board-white {
-        min-height: 528px;
+        min-height: 628px;
         width: 4080px;
         height: auto;
     }
@@ -392,7 +399,6 @@
 
     label.form-label {
         margin-top: 8px;
-
     }
 
     h3 {
@@ -438,13 +444,12 @@
         padding: 10px;
         font-weight: 400;
     }
-
 </style>
 
-@section JavaScript{
+@section Scripts{
 
     <script type="text/javascript">
-      
+
         var glb_SocialProfileId = $("#SProfileId").val();
        // var glb_ArchiveCards = [];
         var glb_ArchiveCards = new Array();
@@ -508,7 +513,7 @@
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (Data) {
-                        
+
                         $("#btn_UnArchive").addClass("fa-archive");
                         $("#btn_UnArchive").removeClass("fa-spin fa-spinner");
                         if (Data.Data.ResultType == "Success") {
@@ -584,7 +589,7 @@
         });
 
 
-        
+
         $("#btn_IPBlockList").on("click", function () {
             $("#btn_IPBlockList").removeClass("fa-save");
             $("#btn_IPBlockList").addClass("fa-spin fa-spinner");
@@ -708,7 +713,7 @@
                         }
                         //$("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
                         //$("#Modal_MessageBoxBody").text(Data.Data.message);
-                        //$("#Modal_Messagebox").modal("show");                        
+                        //$("#Modal_Messagebox").modal("show");
                     } else {
                         //$("#Modal_ConfirmUpdateProxyIP").modal("hide");
                         $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
@@ -732,7 +737,7 @@
                 if (sectionId != "boardSection-Archived") {
                     LoadActionData(sectionId);
                 }
-                
+
             });
             LoadArchivedData();
         }
@@ -761,10 +766,10 @@
         function PushArchivedArray(profileObject) {
             var IsExists = false;
             glb_ArchiveCards.forEach(function (obj, i) {
-                
+
                 if (obj.ProfileId == profileObject.ProfileId) {
                     IsExists = true;
-                    
+
 
                 }
 
@@ -775,9 +780,9 @@
         }
 
         function PopUnArchivedArray(profileId) {
-         
+
             glb_ArchiveCards.forEach(function (obj, i) {
-             
+
                 if (obj.ProfileId == profileId) {
                     glb_ArchiveCards.splice(i, 1);
 
@@ -786,9 +791,9 @@
 
             })
 
-          
-         
-            
+
+
+
         }
 
         function LoadActionData(sectionId) {
@@ -808,7 +813,7 @@
                     if (!$.isEmptyObject(result)) {
                         if (result.Data.ResultType == "Success") {
                             $.each(result.Data.ResultData, function (i, obj) {
-                                
+
                                 if (obj.IsArchived == 0) {
                                     var div = divHtml.replace("{{Fullname}}", obj.UserName)
                                         .replace("{{Email}}", obj.Email)
@@ -823,7 +828,7 @@
                                 else {
                                     //glb_ArchiveCards.push(obj);
                                     PushArchivedArray(obj);
-                                    
+
                                     //var div = divHtml.replace("{{Fullname}}", obj.UserName)
                                     //    .replace("{{Email}}", obj.Email)
                                     //    .replace("{{InstaUsername}}", obj.InstaUsrName)
@@ -853,7 +858,7 @@
         }
 
         //function ShowDetailModal(e) {
-        //    
+        //
         //    $.ajax({
         //        // edit to add steve's suggestion.
         //        //url: "/ControllerName/ActionName",
@@ -888,7 +893,7 @@
                         $('#cmb_IPSelect').append($("<option></option>").val(e.ProxyId).html(e.ProxyNumber));
                     });
                 },
-                error: function (reponse) {                  
+                error: function (reponse) {
                     alert("error : " + reponse);
                 }
             });
@@ -901,16 +906,16 @@
                 $("#btn_saveComments").trigger("click");
             }
             event.stopPropagation();
-        }); 
+        });
 
-        $('#SearchCriteria').on("keyup", function (event) {                        
+        $('#SearchCriteria').on("keyup", function (event) {
             var keycode = (event.keyCode ? event.keyCode : event.which);
             //if (keycode == '13')
             {
                 var squery = $("#SearchCriteria").val();
                 console.log(squery)
                 if (squery == "") {
-                    $('.white-sec').removeClass("hide");
+                    $('.white-sec').removeClass("hidden");
                 } else {
                     $('.white-sec').each(function (i, val) {
                         var username = $(val).children(":eq(0)").html();
@@ -919,19 +924,19 @@
                             (username).toLowerCase().indexOf(squery) >= 0
                             || (email).toLowerCase().indexOf(squery) >= 0
                         ) {
-                            $(val).removeClass("hide");
+                            $(val).removeClass("hidden");
                         } else {
-                            $(val).addClass("hide");
+                            $(val).addClass("hidden");
                         }
                     });
-                }                
+                }
             }
-        }); 
+        });
 
         $("#btn_saveComments").on("click", function () {
             $("#btn_saveComments").removeClass("fa-save");
             $("#btn_saveComments").addClass("fa-spin fa-spinner");
-            var _Value = $("#txt_comments").val() 
+            var _Value = $("#txt_comments").val()
             var url = GLB_BASEURL + "/ActionBoard/SaveUpdateUserDataIndividually";
             $.ajax({
                 url: url,
@@ -959,9 +964,9 @@
                 }
             });
         });
-             
+
         function ShowDetailModal(e) {
-            
+
             e.preventDefault();
             e.stopPropagation();
             var divHtml = $(".TPrefDiv1").html();
@@ -982,7 +987,7 @@
             $.getJSON(GLB_BASEURL + "/actionboard/getprofiledetailbyid?id=" + id, function (data) {
                 if (!jQuery.isEmptyObject(data)) {
                     var rs = data.Data.ResultData;
-                    
+
                     $("#TInfo").val(rs.TargetPreferences);
                     $("#TINotes").val(rs.Notes);
                     //$("#Fullname").val(rs.UserName);

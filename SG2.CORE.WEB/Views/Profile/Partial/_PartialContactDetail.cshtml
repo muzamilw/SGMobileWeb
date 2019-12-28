@@ -1,0 +1,193 @@
+﻿@model SG2.CORE.MODAL.DTO.Customers.SocialProfileDTO
+@using SG2.CORE.MODAL.DTO.Customers;
+@{
+	var custDto = (CustomerDTO)ViewBag.CustomerDTO;
+	var profile = (SocialProfileDTO)ViewBag.SocailProfile;
+}
+
+@using SG2.CORE.COMMON;
+@{
+
+	var customerDTO = (CustomerDTO)ViewBag.CustomerDTO;
+
+	ViewBag.Title = "Contact Details";
+	//Layout = "~/Views/Shared/_Layout.cshtml";
+	<style>
+		input[type=number] {
+			width: 20px;
+			padding: 0;
+			text-align: -webkit-center;
+			color: lightblue;
+			background-color: white;
+			border-color: white;
+			margin-left: 2px;
+			border: 1px groove;
+		}
+	</style>
+	<form id="ContectDetail" method="post" action="ContactDetailsPOST">
+		<div class="container" style="background-color:white">
+			<div class="row">
+				<div class="col-md-6"><h3 style="margin-top:20px;margin-bottom:20px;float:left">Contect Details</h3></div><div class="col-md-6"><h3 style="margin-top:20px;margin-bottom:20px;float:right">E-mails:@(Model.socialcustomer.EmailAddress)</h3></div>
+			</div>
+			<div class="row " style="background-color:#f7f7f7; padding:10px; border-radius:5px;">
+				<div class="div_blockInstaprofile">
+					<div class="col-md-5">
+						<div class="form-group pull-left">
+							<span style="display:block;font-size:20px;margin-top: 6px;">App Connection Status</span>
+
+@*							<span style="display:block;font-size:20px;margin-top: 6px;">@(Model.SocialProfile.DeviceStatus)</span>*@
+						</div>
+
+					</div>
+
+					<div class="col-md-2"> </div>
+					<div class="col-md-5">
+						<div class="form-group pull-right">
+							<span style="display:block;font-size:20px;margin-top: 6px;">Profile Account Status</span>
+							@*<span style="display:block;font-size:20px;margin-top: 6px;">@(Model.SocialProfile.StatusId)</span>*@
+							<input type="hidden" name="SocialProfileId" value=@(Model.SocialProfile.SocialProfileId) />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-5" style="height: 1px;">
+							<hr style="margin-top:0; border:1px groove" />
+						</div>
+						<div class="col-md-2">
+
+						</div>
+						<div class="col-md-5" style="height: 1px;">
+							<hr style="margin-top:0; border:1px groove" />
+						</div>
+					</div>
+					<div class="col-md-5">
+						<div class="form-group pull-left">
+
+							<span style="display:block;font-size:20px;margin-top: 6px;">@(Model.SocialProfile.LastConnectedDateTime)</span>
+						</div>
+
+					</div>
+
+					<div class="col-md-2"> </div>
+					<div class="col-md-5">
+						<div class="form-group pull-right">
+							<span style="display:block;font-size:20px;margin-top: 6px;">@(Model.SocialProfile.PaymentPlanId)</span>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="row" style="background-color:#f7f7f7; padding:10px; border-radius:5px; margin-top:4px">
+				<div class="div_blockInstaprofile" style="margin-top:4px">
+					<div class="col-md-12">
+						<div class="col-md-5">Mobile Phone IMEI</div>
+						<div class="col-md-2"> </div>
+						<div class="col-md-5">Mobile Device Bin Location</div>
+					</div>
+					<div class="col-md-12">
+						<div class="col-md-5">@(Model.SocialProfile.DeviceIMEI)</div>
+						<div class="col-md-2"></div>
+						<div class="col-md-5"></div>
+					</div>
+					<div class="col-md-12">
+						<div class="col-md-5">Samsung A10</div>
+						<div class="col-md-2"></div>
+						<div class="col-md-4"><input name="DeviceBinLocation" id="DeviceBinLocation" disabled="disabled"  type="text" value=@(Model.SocialProfile.DeviceBinLocation) /></div>
+						<div><span id="btn1" class="glyphicon">&#x270f;</span></div>
+
+					</div>
+
+				</div>
+			</div>
+			<div class="row " style="background-color:#f7f7f7; padding:10px; border-radius:5px;margin-top: 6px;">
+				<div class="div_blockInstaprofile">
+					<div class="col-md-6">
+						<div class="form-group">
+							<a href="#" class="link_importantNotice">Important notice?</a>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group text-right ">
+							@*<h3 class="color-crimson">Profile Status: <span class="span_jvStatusName">@(Model.JVStatus ?? "No Setup")</span></h3>*@
+						</div>
+					</div>
+					<div class="col-md-12">
+						<hr style="margin-top:0" />
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<img class="pull-right" src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="49" />
+							<span style="display:block">Instagram Username:<br />@(Model.SocialProfile.SocialUsername)<br /><br /></span>
+							<input type="text" name="SocialProfileName"  value="@(Model.SocialProfile.SocialProfileName)" class="form-control required" />
+							@*@Html.TextBoxFor(m => m.InstaUser, new { @class = "form-control required" })
+
+								@Html.ValidationMessageFor(model => model.InstaUser, "", new { @class = "text-danger" })*@
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<span style="display:block">Instagram Password<br /></span>
+							<span style="display:block">Please make sure you provide the correct password to avoid delay in getting started (Your password is submitted over SSL 256Bit Encryption)</span>
+							<input type="text" readonly name="SocialProfilePassword" value=@(Model.SocialProfile.SocialPassword) class="form-control required" />
+							@*@Html.PasswordFor(m => m.InstaPassword, new { @class = "form-control required" })
+
+
+								@Html.ValidationMessageFor(model => model.InstaPassword, "", new { @class = "text-danger" })*@
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<div class="col-md-5">Pin Code</div>
+						<div class="col-md-2"> </div>
+						<div class="col-md-5">Profile Created On:</div>
+					</div>
+					<div class="col-md-12">
+						<div class="col-md-5"><span style="display:block">@(Model.SocialProfile.PinCode)<br /><br /></span></div>
+						<div class="col-md-2"></div>
+						<div class="col-md-5" style="color:red"> @(Model.SocialProfile.CreatedOn) </div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group" style="text-align:center">
+							<br />
+
+							@*@{var hideStr = "";
+								if (Model.ActivePlanId == null)
+								{
+									hideStr = "hide";
+								}
+							}*@
+							<button type="submit" class="btn btn-primary" id="btn_updateSocialProfile">Update Profile</button>
+								
+
+						</div>
+					</div>
+
+				</div>
+
+
+
+			</div>
+
+		</div>
+	</form>
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function () {
+		
+		var count = 0;
+		if (count == 0) {
+			$('#btn1').click(function () {
+				//textbox.attr('disabled', 'disabled');
+			$('#DeviceBinLocation').removeAttr('disabled');
+
+			});
+		}
+		if (count == 1) {
+			$('#DeviceBinLocation').click(function () {
+				$('input').attr('disabled', 'disabled');
+			});
+		}
+         });
+</script>

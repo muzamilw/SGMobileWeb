@@ -150,7 +150,8 @@
                 success: function (data) {
                     if (!$.isEmptyObject(data)) {
                         if (data.ResultType == "Success") {
-                            window.location = "/TargetPreferences/ModifyTargetPreferences?socialProfileId=" + data.ResultData;
+                            //window.location = "/Profile/Target?socialProfileId=" + data.ResultData;
+                            window.location = "/User/Home";
                         } else {
                             $("#LoginSpiner").hide();
                             $("#login-error").show().html(data.message);

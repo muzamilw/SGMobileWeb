@@ -16,57 +16,32 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
     public class ActionBoardController : BaseController
     {
         protected readonly CustomerManager _customerManager;
-        protected readonly ProxyManager _proxyManager;
+        //protected readonly ProxyManager _proxyManager;
 
         public ActionBoardController()
         {
             _customerManager = new CustomerManager();
-            _proxyManager = new ProxyManager();
+            //_proxyManager = new ProxyManager();
             ViewBag.SetMenuActiveClass = "ActionBoard";
         }
 
         // GET: SuperAdmin/ActionBoard
         public ActionResult Index()
         {
-            var JVStatusesData = _customerManager.GetJVStatuses();
-            var countries = CommonManager.GetCountries();
+            //var JVStatusesData = _customerManager.GetJVStatuses();
+            //var countries = CommonManager.GetCountries();
             var cities = CommonManager.GetCities();
             var model = new ActionBoardViewModel()
             {
-                JVStatuses = JVStatusesData,
-                MPBoxList = _customerManager.GetMPBoxes(),
-                Countries = countries,
+                JVStatuses = _customerManager.GetTrelloStatuses(),
+                //MPBoxList = _customerManager.GetMPBoxes(),
+                //Countries = countries,
                 Cities = cities
 
             };
             return View(model);
         }
-        
-        public ActionResult AddBadIP(int profileId, int IP)
-        {
-            var jr = new JsonResult();
-            try
-            {
-                var JVListingData = _proxyManager.SaveBadProxyIP(IP, profileId);
-                if (JVListingData != null)
-                {
-                    jr.Data = new { ResultType = "Success", message = "" };
-                }
-                else
-                {
-                    jr.Data = new { ResultType = "Error", message = "Error. Can not find the details." };
-                }
-
-                return Json(jr, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-        }
-        
+       
         public ActionResult SetSocialProfileUnArchive(string id)
         {
             var jr = new JsonResult();
@@ -128,6 +103,29 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                 if (JVListingData != null)
                 {
                     jr.Data = new { ResultType = "Success", message = "", ResultData = JVListingData };
+                }
+                else
+                {
+                    jr.Data = new { ResultType = "Error", message = "Error. Can not find the details." };
+                }
+
+                return Json(jr, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<ActionResult> SetSocialProfileJVStatus(int id, int? statusId = null)
+        {
+            var jr = new JsonResult();
+            try
+            {
+                var SocialProfileJVStatus = await _customerManager.SetSocialProfileJVStatus(id, statusId ?? 0, "Admin");
+                if (SocialProfileJVStatus)
+                {
+                    jr.Data = new { ResultType = "Success", message = "", ResultData = SocialProfileJVStatus };
                 }
                 else
                 {
@@ -297,29 +295,6 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                     };
 
                     jr.Data = new { ResultType = "Success", message = "", ResultData = targetpref };
-                }
-                else
-                {
-                    jr.Data = new { ResultType = "Error", message = "Error. Can not find the details." };
-                }
-
-                return Json(jr, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public async Task<ActionResult> SetSocialProfileJVStatus(int id, int? statusId = null)
-        {
-            var jr = new JsonResult();
-            try
-            {
-                var SocialProfileJVStatus = await _customerManager.SetSocialProfileJVStatus(id, statusId ?? 0, "Admin");
-                if (SocialProfileJVStatus)
-                {
-                    jr.Data = new { ResultType = "Success", message = "", ResultData = SocialProfileJVStatus };
                 }
                 else
                 {

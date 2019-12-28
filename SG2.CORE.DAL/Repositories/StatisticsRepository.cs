@@ -4,6 +4,8 @@ using SG2.CORE.MODAL.ViewModals.Statistics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SG2.CORE.MODAL;
+using SG2.CORE.MODAL.MobileViewModels;
 
 namespace SG2.CORE.DAL.Repositories
 {
@@ -14,9 +16,9 @@ namespace SG2.CORE.DAL.Repositories
             try
             {
 
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
-                    _db.SG2_usp_SocialProfile_SaveStatistics(data);
+                    //_db.SG2_usp_SocialProfile_SaveStatistics(data);
 
                 }
             }
@@ -26,100 +28,145 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
-        public IList<StatisticsDTO>  GetFollersStatistics(int socialProfileId, DateTime fromDate, DateTime ToDate)
+        public bool SaveInitialStatistics(MobileIniitalStatsRequest model)
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
-                    List<StatisticsDTO> lstStatisticsDTO = new List<StatisticsDTO>();
-                    var statsData = _db.SG2_usp_SocialProfile_Statistics_GetFollowers(socialProfileId, fromDate, ToDate).ToList();
-                    if (statsData != null)
+                    //only save initial stats if old one does not exists. skip if any older stats exists.
+                    if (_db.SocialProfile_Statistics.Where(g => g.SocialProfileId == model.SocialProfileId && g.Date <= DateTime.Today).Count() == 0)
                     {
 
-                        foreach (var item in statsData)
-                        {
-                            StatisticsDTO statisticsDTO = new StatisticsDTO();
-                            statisticsDTO.SocialProfileId = item.SocialProfileId;
-                            statisticsDTO.Username = item.Username;
-                            statisticsDTO.Followers = item.followers;
-                            statisticsDTO.FollowersGain = item.FollowersGain;
-                            statisticsDTO.Followings = item.Followings;
-                            statisticsDTO.FollowingsRatio = item.FollowingsRatio;
-                            statisticsDTO.AVGFollowers = item.AVGFollowers;
-                            statisticsDTO.Date = item.Date;
-                            statisticsDTO.Like = item.Like;
-                            statisticsDTO.Comment = item.Comment;
-                            statisticsDTO.Engagement = item.Engagement;
-                            statisticsDTO.LikeComments = item.LikeComments;
+                        var stats = new SocialProfile_Statistics();
+                        stats.SocialProfileId = model.SocialProfileId;
+                        stats.Posts = model.InitialPosts;
+                        stats.PostsTotal = model.InitialPosts;
 
-                            lstStatisticsDTO.Add(statisticsDTO);
-                        }
-                        return lstStatisticsDTO;
+                        stats.Followers = model.InitialFollowers;
+                        stats.FollowersTotal = model.InitialFollowers;
+
+                        stats.Followings = model.InitialFollowings;
+                        stats.FollowingsTotal = model.InitialFollowings;
+
+                        stats.Date = DateTime.Today;
+                        stats.CreatedDate = DateTime.Now;
+                        stats.UpdateDate = DateTime.Now;
+
+                        _db.SocialProfile_Statistics.Add(stats);
+                        _db.SaveChanges();
                     }
-
-                    return null;
+                    return true;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+
+                throw;
             }
+            return true;
         }
 
-        public StatisticsViewModel GetStatistics(int socialProfileId)
+
+        public bool UpdateStatistics(SocialProfile_Statistics model)
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
-                    List<StatisticsDTO> lstStatisticsDTO = new List<StatisticsDTO>();
-                    var statsData = _db.SG2_usp_SocialProfile_Statistics_GetStatistics(socialProfileId).FirstOrDefault();
-                    if (statsData != null)
+
+                    var stats = _db.SocialProfile_Statistics.Where(g => g.SocialProfileId == model.SocialProfileId).FirstOrDefault();
+                    //only save initial stats if old one does not exists. skip if any older stats exists.
+                    if (stats != null)
                     {
-                             StatisticsViewModel model = new StatisticsViewModel();
-                            model.TotalFollowers = statsData.TotalFollowers;
-                            model.TotalFollowersGain = statsData.TotalFollowersGain;
-                            model.TotalFollowings = statsData.TotalFollowings;
-                            model.TotalFollowingsRatio = statsData.TotalFollowingsRatio;
-                            model.TotalLike = statsData.TotalLike;
-                            model.TotalLikeComment = statsData.TotalLikeComment;
-                            model.TotalLikeComment = statsData.TotalLikeComment;
-                            model.TotalEngagement = statsData.TotalEngagement;
 
-                        return model;
+                        stats.Followings = model.Followings;
+                        stats.FollowingsTotal = model.FollowingsTotal;
+
+                        stats.Like = model.Like;
+                        stats.LikeTotal = model.LikeTotal;
+
+                        stats.Comment = model.Comment;
+                        stats.StoryViews = model.StoryViews;
+                        stats.StoryViewsTotal = model.StoryViewsTotal;
+
+                        stats.Follow = model.Follow;
+                        stats.FollowTotal = model.FollowTotal;
+
+                        stats.UpdateDate = DateTime.Now;
+
+                        _db.SaveChanges();
                     }
-
-                    return null;
+                    return true;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+
+                throw;
             }
+            return true;
         }
 
-        public AdminReportViewModel GetAdminReports()
+
+        public bool InsertStatistics(SocialProfile_Statistics model)
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
+
+                    var stats = new SocialProfile_Statistics();
+                    //only save initial stats if old one does not exists. skip if any older stats exists.
+                    if (stats != null)
+                    {
+
+                        stats.Followings = model.Followings;
+                        stats.FollowingsTotal = model.FollowingsTotal;
+
+                        stats.Like = model.Like;
+                        stats.LikeTotal = model.LikeTotal;
+
+                        stats.Comment = model.Comment;
+                        stats.StoryViews = model.StoryViews;
+                        stats.StoryViewsTotal = model.StoryViewsTotal;
+
+                        stats.Follow = model.Follow;
+                        stats.FollowTotal = model.FollowTotal;
+
+                        stats.Date = DateTime.Today;
+                        stats.CreatedDate = DateTime.Now;
+                        stats.UpdateDate = DateTime.Now;
+
+                        stats.SocialProfileId = model.SocialProfileId;
+
+                        _db.SocialProfile_Statistics.Add(stats);
+
+                        _db.SaveChanges();
+                    }
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return true;
+        }
+
+        public IList<SocialProfile_Statistics>  GetProfileTrends(int socialProfileId, DateTime fromDate, DateTime ToDate)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                   
+                    var statsData = _db.SocialProfile_Statistics.Where (g=> g.SocialProfileId ==  socialProfileId && g.Date >= fromDate && g.Date <= ToDate).ToList();
+
                   
-                    var reportData = _db.SG2_usp_Report_GetReportData().FirstOrDefault();
-                    if (reportData != null)
-                    {
-                        AdminReportViewModel model = new AdminReportViewModel();
-                        model.AllSlotsOnJVBox = reportData.TotalJVServer;
-                        model.UsedSlotsOnJVBox = reportData.TotalJVServersUsage;
-                        model.FreeSlotsOnJVServer = reportData.FreeSlotsPerServer;
-                        model.AllAvailableIPs = reportData.AllAvailableIPs;
-                        model.TotalUsedIPs = reportData.TotalUsedIPs;
-                       
-                        return model;
-                    }
+                    return statsData;
 
-                    return null;
                 }
             }
             catch (Exception ex)
@@ -128,27 +175,18 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
-        public AdminReportViewModel GetJVBoxandProxyIPsData(DateTime fromDate, DateTime toDate)
+
+        public SocialProfile_Statistics GetLatestStatistics(int socialProfileId)
         {
             try
             {
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
 
-                    var reportData = _db.SG2_usp_Report_GetJVBoxandProxyIPsData(fromDate, toDate).FirstOrDefault();
-                    if (reportData != null)
-                    {
-                        AdminReportViewModel model = new AdminReportViewModel();
-                        model.AllSlotsOnJVBox = reportData.AllSlotsOnJVBox;
-                        model.UsedSlotsOnJVBox = reportData.UsedSlotsOnJVBox;
-                        model.FreeSlotsOnJVServer = reportData.FreeSlotsOnJVServer;
-                        model.AllAvailableIPs = reportData.AllProxyIPs;
-                        model.TotalUsedIPs = reportData.UsedProxyIPs;
-                        model.RemainingProxyIPs = reportData.RemainingProxyIPs;
-                        return model;
-                    }
+                    var statsData = _db.SocialProfile_Statistics.Where(g => g.SocialProfileId == socialProfileId).OrderByDescending( g=> g.Date).FirstOrDefault();
 
-                    return null;
+                    return statsData;
+
                 }
             }
             catch (Exception ex)
@@ -156,13 +194,38 @@ namespace SG2.CORE.DAL.Repositories
                 throw ex;
             }
         }
+
+        public List<SocialProfile_Statistics> GetStatisticsFirstAndRecent(int socialProfileId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    List<SocialProfile_Statistics> lstStatisticsDTO = new List<SocialProfile_Statistics>();
+                    var first = _db.SocialProfile_Statistics.Where(g => g.SocialProfileId == socialProfileId).OrderBy(g => g.Date).FirstOrDefault();
+                    if (first != null) ;
+                        lstStatisticsDTO.Add(first); ///very first record
+
+                    var recent = _db.SocialProfile_Statistics.Where(g => g.SocialProfileId == socialProfileId).OrderByDescending(g => g.Date).FirstOrDefault();
+                    if ( recent!= null )
+                        lstStatisticsDTO.Add(recent); ///recent record
+                    return lstStatisticsDTO;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
 
         public List<PlanListReportDTO> GetMostUsedProductData(DateTime fromDate, DateTime toDate)
         {
             try
             {
                 List<PlanListReportDTO> lstPlanReportDTO = new List<PlanListReportDTO>();
-                using (var _db = new SocialGrowth2Entities())
+                using (var _db = new SocialGrowth2Connection())
                 {
 
                     var reportData = _db.SG2_usp_Report_GetMostUsedProductData(fromDate, toDate);

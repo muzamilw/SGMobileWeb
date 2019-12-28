@@ -1,4 +1,5 @@
 ﻿using SG2.CORE.MODAL.DTO.Customers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
@@ -9,7 +10,12 @@ namespace SG2.CORE.MODAL.ViewModals.Backend.PlanInformation
     {
         public int PlanId { get; set; }
         //[Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than {1}")]
-        public int Likes { get; set; }
+        [Required]
+        public Nullable<int> NoOfFollow { get; set; }
+        [Required]
+        public Nullable<int> NoOfStoryView { get; set; }
+        [Required]
+        public Nullable<int> NoOfComments { get; set; }
 
         [Required]
         public double PlanPrice { get; set; }
@@ -24,8 +30,7 @@ namespace SG2.CORE.MODAL.ViewModals.Backend.PlanInformation
         [Required]
         public string PlanDescription { get; set; }
 
-        [Required]
-        public string PlanType { get; set; }
+       
 
         [Required]
         public int StatusId { get; set; }

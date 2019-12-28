@@ -77,7 +77,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                     StripeConfiguration.SetApiKey(Stripe);
                     var options = new PlanCreateOptions
                     {
-                        ProductId = StripeInstagramProductId,
+                        Product = StripeInstagramProductId,
                         Nickname = model.PlanName,
                         Amount = Convert.ToInt32(model.PlanPrice * 100),
                         Active = true,
@@ -100,8 +100,10 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                     {
                         PlanId = model.PlanId,
                         PlanName = model.PlanName,
-                        Likes = model.Likes,
-                        PlanType = model.PlanType,
+                        NoOfFollow = model.NoOfFollow,
+                        NoOfComments = model.NoOfComments,
+                        NoOfStoryView = model.NoOfStoryView,
+                      
                         PlanPrice = model.PlanPrice,
                         DisplayPrice=model.DisplayPrice,
                         PlanDescription = model.PlanDescription,
@@ -110,7 +112,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                         SortOrder = model.SortOrder,
                         IsDefault=model.IsDefault,
                         StripePlanId= subscription.Id,
-                        SocialPlanTypeId=model.SocialPlanTypeId
+                        SocialPlatform=model.SocialPlanTypeId
 
                     });
                     TempData["Success"] = "Yes";
@@ -151,17 +153,19 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             {
                 model.PlanId = planInformationDTO.PlanId;
                 model.PlanName = planInformationDTO.PlanName;
-                model.PlanType = planInformationDTO.PlanType;
+                model.IsBrokerPlan = planInformationDTO.IsBrokerPlan;
                 model.PlanPrice = planInformationDTO.PlanPrice;
                 model.DisplayPrice = planInformationDTO.DisplayPrice;
-                model.Likes = planInformationDTO.Likes;
+                model.NoOfFollow = planInformationDTO.NoOfFollow;
+                model.NoOfComments = planInformationDTO.NoOfComments;
+                model.NoOfStoryView = planInformationDTO.NoOfStoryView;
                 model.StripePlanId = planInformationDTO.StripePlanId;
                 model.NoOfLikesDuration = planInformationDTO.NoOfLikesDuration;
                 model.PlanDescription = planInformationDTO.PlanDescription;
                 model.StatusId = planInformationDTO.StatusId;
                 model.SortOrder = planInformationDTO.SortOrder;
                 model.IsDefault = planInformationDTO.IsDefault;
-                model.SocialPlanTypeId = planInformationDTO.SocialPlanTypeId;
+                model.SocialPlanTypeId = planInformationDTO.SocialPlatform;
             }
             return View(model);
         }
@@ -182,7 +186,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                         StripeConfiguration.SetApiKey(Stripe);
                         var options = new PlanCreateOptions
                         {
-                            ProductId = StripeInstagramProductId,
+                            Product = StripeInstagramProductId,
                             Nickname = model.PlanName,
                             Amount = Convert.ToInt32(model.PlanPrice * 100),
                             Active = true,
@@ -205,8 +209,10 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                     {
                         PlanId = model.PlanId,
                         PlanName = model.PlanName,
-                        Likes = model.Likes,
-                        PlanType = model.PlanType,
+                        NoOfFollow = model.NoOfFollow,
+                        NoOfComments = model.NoOfComments,
+                        NoOfStoryView = model.NoOfStoryView,
+                        
                         PlanPrice = model.PlanPrice,
                         DisplayPrice = model.DisplayPrice,
                         PlanDescription = model.PlanDescription,
@@ -215,7 +221,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                         SortOrder=model.SortOrder,
                         IsDefault=model.IsDefault,
                         StripePlanId= model.StripePlanId==null? subscription.Id : model.StripePlanId,
-                        SocialPlanTypeId = model.SocialPlanTypeId
+                        SocialPlatform = model.SocialPlanTypeId
 
                     });
                     TempData["Success"] = "Yes";
@@ -284,7 +290,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                         
                     //    Name = "LikeyXA"
                     //},
-                    ProductId = "prod_Ev6ss2wq4CxHA1",
+                    Product = "prod_Ev6ss2wq4CxHA1",
                     Nickname= "LikeyXAB",
                     Amount = 5000,
                     Active = true,

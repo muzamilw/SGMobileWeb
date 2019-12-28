@@ -63,7 +63,8 @@
             public static string SellerUser = "SellerUser";
             public static string SystemUser = "SystemUser";
             public static string JVRPCSESSIONID = "JVRPCSESSIONID";
-        }
+			public static string SocialProfile = "SocialProfile";
+		}
 
         public enum CustomersStatus
         {
@@ -84,24 +85,7 @@
             Deleted=10
         }
 
-        public enum JVStatus
-        {
-            TwoFactor = 32,
-            EmailVerificationRequired=36,
-            InvalidCredentials=17,
-            InvalidCredentialReSend=31,
-            APIBlock=33,
-            ValidAndNotSetup=39,
-            ValidAndSetUp = 40,
-            ProfileAdding=11,
-            ProfileAdded=41,
-            TargetToBeUpdated = 14,
-            Deleted = 35,
-            CancelButNotDeletedOnMP = 37,
-            ProfileNotSetup = 42,
-            ProxyAndInternetIssue = 50,
-            ProfileRequiresCancelling = 15
-        }
+       
 
         public enum GeneralStatus
         {
@@ -127,41 +111,37 @@
         {
             Active=25,
             canceled=26,
-            Unsubscribe=27
+            Unsubscribe=27,
+            ActivePlan = 24
         }
 
-        public enum JVServerType
-        {
-            Likey=28,
-            GrowthEngine=29
-        }
-
+      
         public enum SocialMedia
         {
-            Instagram=30
+            Instagram=30,
+            LinkedIn = 56,
+            FaceBook = 57,
+            TikTok = 58
+
 
         }
 
-        public enum QueueStatus
+      
+        public enum DeviceStatus
         {
-            Pending=43,
-            Inprogress=44,
-            Completed=45,
-            Error = 48,
-
+            Connected = 54,
+            NotConnected = 55
         }
 
-        public enum QueueType
+
+        public enum BlockStatus
         {
-            RPC=47,
-            Regular=46,
+            UnBlocked = 0,
+            Block1 = 66,
+            Block2 = 67,
+            Block3 = 68,
+            Clear = 69
         }
-
-        public enum ProxyIP
-        {
-            BadIP= 49
-        }
-
 
     }
 }

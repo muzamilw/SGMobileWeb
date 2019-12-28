@@ -184,12 +184,12 @@
                                     <li>@Html.ActionLink("Trello", "Index", "ActionBoard", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "ActionBoard" ? "active" : "" })</li>
                                     <li>@Html.ActionLink("CRM", "Index", "CRM", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "CRM" ? "active" : "" })</li>
 
-                                     
-                                    
-                                    
+
+
+
                                     @*<li>@Html.ActionLink("Likies", "Index", "LikeAccts", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "LikeAccts" ? "active" : "" })</li>*@
                                     @*<li>@Html.ActionLink("Team", "Index", "TeamMember", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "TeamMember" ? "active" : "" })</li>
-                                    <li>@Html.ActionLink("Social Plans", "Index", "PlanInformation", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "TeamMember" ? "active" : "" })</li>*@
+                                        <li>@Html.ActionLink("Social Plans", "Index", "PlanInformation", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "TeamMember" ? "active" : "" })</li>*@
                                     <li>@Html.ActionLink("Settings", "Index", "SystemSettings", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "SystemSettings" ? "active" : "" })</li>
                                 }
                                 else if (userDto.UserRoleName == "Manager")
@@ -198,8 +198,8 @@
                                     <li>@Html.ActionLink("Trello", "Index", "ActionBoard", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "ActionBoard" ? "active" : "" })</li>
                                     <li>@Html.ActionLink("CRM", "Index", "CRM", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "CRM" ? "active" : "" })</li>
 
-                                    
-                                    
+
+
                                     @*<li>@Html.ActionLink("Likies", "Index", "LikeAccts", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "LikeAccts" ? "active" : "" })</li>*@
                                 }
                                 else if (userDto.UserRoleName == "Sales")
@@ -209,8 +209,8 @@
                                 }
                                 else if (userDto.UserRoleName == "Operations")
                                 {
-                                    
-                                    
+
+
                                     @*<li>@Html.ActionLink("Likies", "Index", "LikeAccts", null, htmlAttributes: new { @class = ViewBag.SetMenuActiveClass == "LikeAccts" ? "active" : "" })</li>*@
                                 }
                                 <li>
@@ -261,18 +261,10 @@
         }
     </style>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="footer-logo text-center">
-                        <img src="~/Content/ThemeAssets/Images/social-growth-footer-logo.jpg" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
+    <footer class="footer footer-static footer-light navbar-shadow">
+        <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2 container center-layout"><span class="float-md-left d-block d-md-inline-block">Copyright &copy; 2019 <a class="text-bold-800 grey darken-2" href="https://wwww.socialgrowthlabs.com" target="_blank">Social Growth Labs Inc.</a></span></p>
     </footer>
-    
+
     <script type="text/javascript">
         var GLB_BASEURL = "/sadmin"
         var GLB_ADMINPASSWORD = "P@ssword1"
@@ -288,7 +280,7 @@
     <script src="~/Content/ThemeAssets/js/jquery-ui.min.js"></script>
     <script src="~/Content/ThemeAssets/js/moment.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
-    
+
     <script src="~/Content/ThemeAssets/js/functions.js"></script>
     @RenderSection("JavaScript", false)
 
