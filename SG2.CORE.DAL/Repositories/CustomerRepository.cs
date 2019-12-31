@@ -969,7 +969,8 @@ namespace SG2.CORE.DAL.Repositories
                         cus.BrokerAspectColor = model.BrokerAspectColor;
                         cus.BrokerFeedbackPage = model.BrokerFeedbackPage;
                         cus.BrokerHomePage = model.BrokerHomePage;
-                        cus.BrokerLogo = model.BrokerLogo;
+                        if (!string.IsNullOrEmpty( model.BrokerLogo))
+                            cus.BrokerLogo = model.BrokerLogo;
                         cus.BrokerPrivacyPolicy = model.BrokerPrivacyPolicy;
                         cus.BrokerStrapLine = model.BrokerStrapLine;
                         cus.BrokerTermsOfUse = model.BrokerTermsOfUse;
@@ -1000,22 +1001,34 @@ namespace SG2.CORE.DAL.Repositories
                         cus.StripeCustomerId = StripCustomerId;
                         cus.StripeSubscriptionId = StripeSubscriptionId;
                         cus.BrokerPaymentPlanID = PaymentPlanId == 0 ? (int?)null : PaymentPlanId;
-                        if (string.IsNullOrEmpty(StripCustomerId))
+                        if (string.IsNullOrEmpty(StripCustomerId) || string.IsNullOrEmpty(StripeSubscriptionId))
+                        {
                             cus.IsBroker = false;
+                            cus.StripeSubscriptionId = null;
+                            cus.StripeCustomerId = null;
+
+                            _db.Customer_Payments.Add(new Customer_Payments { CustomerId = cus.CustomerId, PaymentPlanId = 1, StatusId = 1, StartDate = DateTime.Now, EndDate = DateTime.Now, Name= "Subscrption set to Free", Description = "Subscrption set to Free", Price = 0 });
+                        }
                         else
                             cus.IsBroker = true;
                         _db.SaveChanges();
 
 
                         //set all profiles to free if afilliate subscription is null 
-                        if (string.IsNullOrEmpty(StripCustomerId))
+                        if (string.IsNullOrEmpty(StripCustomerId) || string.IsNullOrEmpty(StripeSubscriptionId))
                         {
                             var profiles = _db.SocialProfiles.Where(g => g.CustomerId == CustomerId).ToList();
                             foreach (var profile in profiles)
                             {
+                                profile.StripeSubscriptionId = null;
                                 profile.PaymentPlanId = null;
                                 profile.StatusId = 25;
                                 profile.StripeSubscriptionId = null;
+                                profile.StripeCustomerId = null;
+
+
+                                _db.SocialProfile_Payments.Add(new SocialProfile_Payments { SocialProfileId = profile.SocialProfileId, PaymentPlanId = 1, StatusId = 1, StartDate = DateTime.Now, EndDate = DateTime.Now, Name = "Subscrption set to Free", Description = "Subscrption set to Free", Price = 0 });
+
                             }
                             _db.SaveChanges();
 
@@ -1495,6 +1508,7 @@ namespace SG2.CORE.DAL.Repositories
                                                           
                     profile.SocialProfile_FollowedAccounts = _db.SocialProfile_FollowedAccounts.Where(g => g.SocialProfileId == profileId).OrderByDescending(g => g.FollowedDateTime).ToList();
 					profile.socialcustomer = _db.Customers.Where(g => g.CustomerId == profile.SocialProfile.CustomerId).SingleOrDefault();
+                    
                 }
 
                 if (profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals != null)

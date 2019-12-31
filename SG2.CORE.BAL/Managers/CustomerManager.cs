@@ -12,6 +12,11 @@ using SG2.CORE.MODAL.DTO.Common;
 using SG2.CORE.MODAL;
 using SG2.CORE.MODAL.MobileViewModels;
 using SG2.CORE.MODAL.ViewModals.Customers;
+using System.IO;
+using System.Drawing;
+using System.Text.RegularExpressions;
+using HeyRed.Mime;
+using System.Web.Hosting;
 
 namespace SG2.CORE.BAL.Managers
 {
@@ -330,6 +335,21 @@ namespace SG2.CORE.BAL.Managers
 			}
 		}
 
+        public bool UpdateBasicSocialProfileSocialPassword(string SocialPassword, int SocialProfileId)
+        {
+            try
+            {
+                return  _socialRepository.UpdateSocialProfileSocialPassword(SocialPassword, SocialProfileId);
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+
+            }
+        }
+
         public bool UpdateBasicSocialProfileBlock(BlockStatus blockStatus, int SocialProfileId)
         {
             try
@@ -455,6 +475,27 @@ namespace SG2.CORE.BAL.Managers
         {
             try
             {
+
+                if ( !string.IsNullOrEmpty( model.BrokerLogoUpload))
+                {
+                    String[] spearator = { "base64," };
+                    string ext = "";
+
+
+                    var match = Regex.Match(model.BrokerLogoUpload, @"data:(?<type>.+?);base64,(?<data>.+)");
+                    var base64Data = match.Groups["data"].Value;
+                    var contentType = match.Groups["type"].Value;
+                   
+                    byte[] bytes = Convert.FromBase64String(base64Data);
+                    using (MemoryStream ms = new MemoryStream(bytes))
+                    {
+                        Image image = Image.FromStream(ms);
+                        image.Save(HostingEnvironment.MapPath( "~/AgencyLogos/" + model.cid.ToString() +"."+ MimeTypesMap.GetExtension(contentType)));
+                    }
+
+                    model.BrokerLogo = model.cid.ToString() +"."+ MimeTypesMap.GetExtension(contentType);
+                }
+
                 return _customerRepository.UpdateCustomerBrokerProfile(model);
             }
             catch (Exception ex)
@@ -655,7 +696,8 @@ namespace SG2.CORE.BAL.Managers
                 }
                 else
                 {
-                    return _customerRepository.GetSocialProfilesById(profileId);
+                    return  _customerRepository.GetSocialProfilesById(profileId);
+                   
                 }
             }
             catch (Exception ex)

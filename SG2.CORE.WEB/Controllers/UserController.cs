@@ -53,6 +53,8 @@ namespace SG2.CORE.WEB.Controllers
             if (Cust.IsBroker.HasValue && Cust.IsBroker.Value)
             {
                 ViewBag.PaymentHistory = _customerManager.GetCustomerBrokerPaymentHistory(Cust.CustomerId);
+
+                Cust.BrokerLogo = "/AgencyLogos/" + Cust.BrokerLogo;
             }
             ViewBag.SocailProfiles = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId,model);
 
@@ -203,9 +205,17 @@ namespace SG2.CORE.WEB.Controllers
                         {
                             StripeConfiguration.SetApiKey(_stripeApiKey);
                             var service = new SubscriptionService();
-                            var sub = service.Get(customer.StripeSubscriptionId);
+                            try
+                            {
+                                var sub = service.Get(customer.StripeSubscriptionId);
 
-                            var subscription = service.Cancel(sub.Id, null);
+                                var subscription = service.Cancel(sub.Id, null);
+
+                            }
+                            catch (Exception)
+                            {
+
+                            }
 
                             //cancelling all social profile stripe subscriptions
                             var profiles = _customerManager.GetSocialProfilesByCustomerid(customer.CustomerId, new ProfilesSearchRequest { Block = 99, Plan = 0, searchString = "", SocialType = 0 });
@@ -214,8 +224,16 @@ namespace SG2.CORE.WEB.Controllers
                                 var dbprofile = _customerManager.GetSocialProfileById(profile.SocialProfileId);
                                 if (dbprofile.SocialProfile.StripeSubscriptionId != null)
                                 {
-                                    var subs = service.Get(dbprofile.SocialProfile.StripeSubscriptionId);
-                                    service.Cancel(subs.Id, null);
+                                    try
+                                    {
+                                        var subs = service.Get(dbprofile.SocialProfile.StripeSubscriptionId);
+                                        service.Cancel(subs.Id, null);
+                                    }
+                                    catch (Exception)
+                                    {
+
+
+                                    }
                                 }
                             }
 

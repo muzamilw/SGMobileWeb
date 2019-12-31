@@ -157,7 +157,7 @@
                 <div class="col-12 mb-2">
                     <div id="filterrange" class="btn-group" role="group" aria-label="Filter Range">
                         <!-- Button group with icons -->
-                        <button type="button" class="btn btn-primary active" data-mode="1">7 Days</button>
+                        <button type="button" class="btn btn-primary active" data-mode="1">15 Days</button>
                         <button type="button" class="btn btn-primary" data-mode="2">1 Months</button>
                         <button type="button" class="btn btn-primary" data-mode="3">3 Months</button>
                         <button type="button" class="btn btn-primary" data-mode="4">6 Months</button>
@@ -193,7 +193,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Followings</h4>
+                            <h4 class="card-title">Followings / Likes</h4>
                             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                             <div class="heading-elements">
                                 <ul class="list-inline mb-0"></ul>
@@ -230,180 +230,27 @@
                 </div>
             </div>
             <!--/Engagement Rate Line Chart-->
-            <!--Average Likes Line Chart-->
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Average Likes</h4>
-                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                            <div class="heading-elements">
-                                <ul class="list-inline mb-0"></ul>
-                            </div>
-                        </div>
-                        <div class="card-content collapse show">
-                            <div class="card-body">
-
-                                <div id="line-likes" class="height-400"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--/Average Like Line Chart-->
-            <!--Average Like Posting Line Chart-->
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Average Like Posting Times</h4>
-                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                            <div class="heading-elements">
-                                <ul class="list-inline mb-0"></ul>
-                            </div>
-                        </div>
-                        <div class="card-content collapse show">
-                            <div class="card-body">
-
-                                <div id="line-posting" class="height-400"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--/Average Like Posting Line Chart-->
+           
             <!-- Bounce Rate & List -->
             <div class="row match-height">
 
                 <div class="col-xl-12 col-lg-12">
                     <div class="card">
                         <div class="card-header border-0">
-                            <h4 class="card-title">Overview</h4>
+                            <h4 class="card-title">Mobile App Actions History</h4>
                             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                             <div class="heading-elements">
                                 <ul class="list-inline mb-0"></ul>
                             </div>
                         </div>
                         <div class="card-content">
-                            <div id="audience-list-scroll" class="table-responsive height-300 position-relative">
-                                <table class="table mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>Country</th>
-                                            <th>Followers</th>
-                                            <th>Device Type</th>
-                                            <th>% Success Rate</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><i class="flag-icon flag-icon-gb"></i> United State</td>
-                                            <td>18</td>
-                                            <td>Desktop</td>
-                                            <td class="text-center font-small-2">
-                                                85%
-                                                <div class="progress progress-sm mt-1 mb-0">
-                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 85%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><i class="flag-icon flag-icon-au"></i> Australia</td>
-                                            <td>12</td>
-                                            <td>Mobile</td>
-                                            <td class="text-center font-small-2">
-                                                75%
-                                                <div class="progress progress-sm mt-1 mb-0">
-                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><i class="flag-icon flag-icon-br"></i> Brazil</td>
-                                            <td>25</td>
-                                            <td>Tablet</td>
-                                            <td class="text-center font-small-2">
-                                                66%
-                                                <div class="progress progress-sm mt-1 mb-0">
-                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 66%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><i class="flag-icon flag-icon-gb"></i> Great Britain (UK)</td>
-                                            <td>8</td>
-                                            <td>Mobile</td>
-                                            <td class="text-center font-small-2">
-                                                58%
-                                                <div class="progress progress-sm mt-1 mb-0">
-                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 85%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><i class="flag-icon flag-icon-hk"></i> Hong Kong</td>
-                                            <td>18</td>
-                                            <td>Desktop</td>
-                                            <td class="text-center font-small-2">
-                                                45%
-                                                <div class="progress progress-sm mt-1 mb-0">
-                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 45%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><i class="flag-icon flag-icon-in"></i> India</td>
-                                            <td>10</td>
-                                            <td>Desktop</td>
-                                            <td class="text-center font-small-2">
-                                                38%
-                                                <div class="progress progress-sm mt-1 mb-0">
-                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 38%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><i class="flag-icon flag-icon-jp"></i> Japan</td>
-                                            <td>11</td>
-                                            <td>Moblie</td>
-                                            <td class="text-center font-small-2">
-                                                25%
-                                                <div class="progress progress-sm mt-1 mb-0">
-                                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><i class="flag-icon flag-icon-mx"></i> Mexico</td>
-                                            <td>15</td>
-                                            <td>Tablet</td>
-                                            <td class="text-center font-small-2">
-                                                22%
-                                                <div class="progress progress-sm mt-1 mb-0">
-                                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 22%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><i class="flag-icon flag-icon-ma"></i> Morocco</td>
-                                            <td>14</td>
-                                            <td>Moblie</td>
-                                            <td class="text-center font-small-2">
-                                                18%
-                                                <div class="progress progress-sm mt-1 mb-0">
-                                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 18%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <h4 class="card-title mt-2">Actions History</h4>
+
+
                             <div class="table-responsive mt-4">
                                 <table class="table table-xl mb-0">
                                     <thead>
                                         <tr>
-                                            <th>action Date/Time</th>
+                                            <th>Action Date/Time</th>
                                             <th>Action</th>
                                             <th>Social User Name</th>
                                             <th>Message</th>
@@ -482,8 +329,8 @@
                             LoadFollowersChart(Response.Data);
                             LoadFollowingChart(Response.Data);
                             LoadEngagementChart(Response.Data);
-                            LoadAverageLikesChart(Response.Data);
-                            LoadAverageLikesbyPostingTimeChart(Response.Data);
+                            //LoadAverageLikesChart(Response.Data);
+                            //LoadAverageLikesbyPostingTimeChart(Response.Data);
 
                         } else {
 
@@ -502,7 +349,7 @@
             var morrisData = [];
 
             for (i = 0; i < ChartsData.ResultData.Date.length; i++) {
-                morrisData.push({ 'year': ChartsData.ResultData.Date[i], 'Followers': ChartsData.ResultData.Followers[i] });
+                morrisData.push({ 'Date': ChartsData.ResultData.Date[i], 'Followers': ChartsData.ResultData.Followers[i] });
             }
 
             //$.each(ChartsData.ResultData, function (Date, Followers) {
@@ -514,7 +361,7 @@
             Morris.Line({
                 element: 'line-followers',
                 data: morrisData,
-                xkey: 'year',
+                xkey: 'Date',
                 ykeys: ['Followers'],
                 labels: ['Followers'],
                 resize: true,
@@ -527,7 +374,10 @@
                 gridtextSize: 14,
                 lineWidth: 3,
                 hideHover: 'auto',
-                lineColors: ['#FF4558']
+                lineColors: ['#FF4558'],
+                xLabelAngle: 45,
+                parseTime: false
+
             });
 
         }
@@ -538,7 +388,7 @@
             var morrisData = [];
 
             for (i = 0; i < ChartsData.ResultData.Date.length; i++) {
-                morrisData.push({ 'year': ChartsData.ResultData.Date[i], 'Following': ChartsData.ResultData.FollowingsData[i] });
+                morrisData.push({ 'year': ChartsData.ResultData.Date[i], 'Following': ChartsData.ResultData.FollowingsData[i], 'Likes': ChartsData.ResultData.AvgLikes[i] });
             }
 
             //$.each(ChartsData.ResultData, function (Date, Followers) {
@@ -546,12 +396,12 @@
             //});
 
             $("#line-followings").empty();
-            Morris.Line({
+            Morris.Bar({
                 element: 'line-followings',
                 data: morrisData,
                 xkey: 'year',
-                ykeys: ['Following'],
-                labels: ['Following'],
+                ykeys: ['Following', 'Likes'],
+                labels: ['Following','Likes'],
                 resize: true,
                 smooth: false,
                 pointSize: 3,
@@ -562,7 +412,9 @@
                 gridtextSize: 14,
                 lineWidth: 3,
                 hideHover: 'auto',
-                lineColors: ['#FF4558']
+                lineColors: ['#FF4558'],
+                xLabelAngle: 45,
+                parseTime: false
             });
         }
 
@@ -595,7 +447,9 @@
                 gridtextSize: 14,
                 lineWidth: 3,
                 hideHover: 'auto',
-                lineColors: ['#FF4558']
+                lineColors: ['#FF4558'],
+                xLabelAngle: 45,
+                parseTime: false
             });
 
         }
@@ -629,7 +483,9 @@
                 gridtextSize: 14,
                 lineWidth: 3,
                 hideHover: 'auto',
-                lineColors: ['#FF4558']
+                lineColors: ['#FF4558'],
+                xLabelAngle: 45,
+                parseTime: false
             });
         }
 
@@ -662,7 +518,9 @@
                 gridtextSize: 14,
                 lineWidth: 3,
                 hideHover: 'auto',
-                lineColors: ['#FF4558']
+                lineColors: ['#FF4558'],
+                xLabelAngle: 45,
+                parseTime: false
             });
 
 

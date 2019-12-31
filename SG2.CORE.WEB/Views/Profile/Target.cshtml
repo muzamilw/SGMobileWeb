@@ -1366,13 +1366,13 @@
                 } else if (existingPlan != undefined && newplan < existingPlan )  {
                     var ChangeType = "Downgrade to "+ selectedPlanName +" Plan!";
                     var ChangeMsg = "Are you sure you want to downgrade your plan ?";
-                    var ChangeBtn = "Yes, Let's Downgrade";
+                    var ChangeBtn = "Let's Downgrade";
                 }
                 else
                 {
                     var ChangeType = "Upgrade to " + selectedPlanName +" Plan";
                 var ChangeMsg = "Are you sure you want to upgrade your plan ?";
-                var ChangeBtn = "Yes, Let's Upgrade";
+                var ChangeBtn = "Let's Upgrade";
                  }
 
                 swal({
@@ -1383,7 +1383,7 @@
                     closeOnClickOutside:false,
                     buttons: {
                         cancel: {
-                            text: "No, cancel please",
+                            text: "Close",
                             value: null,
                             visible: true,
                             className: "",
@@ -1470,14 +1470,14 @@
                     closeOnClickOutside: false,
                     buttons: {
                         cancel: {
-                            text: "No, cancel please",
+                            text: "Close",
                             value: null,
                             visible: true,
                             className: "",
                             closeModal: true,
                         },
                         confirm: {
-                            text: "Go ahead, delete subscription & profile",
+                            text: "Delete subscription & profile",
                             value: true,
                             visible: true,
                             className: "btn-warning",
@@ -1536,7 +1536,7 @@
                     }
                 };
 
-                var card = elements.create('card', { style: style });
+                var card = elements.create('card', { hidePostalCode: true, style: style });
                 card.mount('#card-element');
 
                 // Element focus ring

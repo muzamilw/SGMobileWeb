@@ -17,9 +17,9 @@ namespace SG2.CORE.MODAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Customer()
         {
-            this.Customer_Payments = new HashSet<Customer_Payments>();
             this.Customer_ContactDetail = new HashSet<Customer_ContactDetail>();
             this.SocialProfiles = new HashSet<SocialProfile>();
+            this.Customer_Payments = new HashSet<Customer_Payments>();
         }
     
         public int CustomerId { get; set; }
@@ -64,10 +64,10 @@ namespace SG2.CORE.MODAL
     
         public virtual PaymentPlan PaymentPlan { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Customer_Payments> Customer_Payments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Customer_ContactDetail> Customer_ContactDetail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SocialProfile> SocialProfiles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Customer_Payments> Customer_Payments { get; set; }
     }
 }

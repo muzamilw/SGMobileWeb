@@ -77,7 +77,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                 KlaviyoProfile klaviyoProfile = new KlaviyoProfile();
                 if (ModelState.IsValid)
                 {
-                    var dl = _teamMemberManager.UpdatSystemUser(
+                    var dl = _teamMemberManager.AddSystemUser(
                         new SystemUserDTO()
                         {
                             SystemUserId = model.SystemUserId,
@@ -89,9 +89,9 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                             Password = model.Password,
                             SystemRoleId = model.SystemRoleId,
                             HostUser = false,
-                            CreatedBy = CDT.FirstName + "" + CDT.LastName,
+                            CreatedBy = "",
                             CreatedOn = DateTime.Now,
-                            ModifiedBy = CDT.FirstName + "" + CDT.LastName,
+                            ModifiedBy = "",
                             ModifiedOn = DateTime.Now,
                         }
                     );
@@ -129,10 +129,10 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                     return View(model);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                throw e;
             }
            
             
@@ -182,9 +182,9 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                         Password = model.Password,
                         StatusId = model.StatusId,
                         SystemRoleId = model.SystemRoleId,
-                        CreatedBy = CDT.FirstName + "" + CDT.LastName,
+                        CreatedBy = "",
                         CreatedOn = DateTime.Now,
-                        ModifiedBy = CDT.FirstName + "" + CDT.LastName,
+                        ModifiedBy = "",
                         ModifiedOn = DateTime.Now,
                     });
                     TempData["Success"] = "Yes";
@@ -201,10 +201,10 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                     return View(model);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                throw e;
             }
         }
 

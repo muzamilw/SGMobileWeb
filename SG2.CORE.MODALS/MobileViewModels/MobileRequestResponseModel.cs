@@ -116,6 +116,8 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public string TargetSocialUserName { get; set; }
         
         public string Message { get; set; }
+
+        public string ActionDateTime { get; set; }
     }
 
 

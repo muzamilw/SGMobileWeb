@@ -158,7 +158,7 @@
             }
 
             .example.example1 .success .message {
-                color: #9cdbff;
+                color: black;
             }
 
             .example.example1 .success .reset path {
@@ -222,32 +222,35 @@
                                         <div class="col-3">
                                             @Html.DropDownListFor(n => n.SocialType, new SelectList(mlist, "Value", "Text", 0), new { @class = "custom-select block" })
                                         </div>
-                                        <div class="col-3">
-                                            @{
-                                                List<SelectListItem> blist = new List<SelectListItem>();
-                                                blist.Add(new SelectListItem { Text = "Select Block Type (All)", Value = "99" });
-                                                blist.Add(new SelectListItem { Text = "Valid", Value = "0" });
-                                                blist.Add(new SelectListItem { Text = "Action Block", Value = "66" });
-                                                blist.Add(new SelectListItem { Text = "Hard Block", Value = "67" });
-                                                blist.Add(new SelectListItem { Text = "Passsword Block", Value = "68" });
-                                            }
-                                            @Html.DropDownListFor(n => n.Block, new SelectList(blist, "Value", "Text", 0), new { @class = "custom-select block" })
-                                        </div>
-                                        <div class="col-3">
-                                            @{
-                                                List<SelectListItem> plist = new List<SelectListItem>();
-                                                plist.Add(new SelectListItem { Text = "Plans (All)", Value = "0" });
-                                                plist.Add(new SelectListItem { Text = "Free Forever", Value = "1" });
-                                                plist.Add(new SelectListItem { Text = "$59 per month", Value = "2" });
-                                                plist.Add(new SelectListItem { Text = "$99 per month", Value = "3" });
-                                                plist.Add(new SelectListItem { Text = "$39 Afilliate Plan", Value = "4" });
-                                            }
-                                            @Html.DropDownListFor(n => n.Plan, new SelectList(plist, "Value", "Text", 0), new { @class = "custom-select block" })
+                                        @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true)
+                                        {
+                                            <div class="col-3">
+                                                @{
+                                                    List<SelectListItem> blist = new List<SelectListItem>();
+                                                    blist.Add(new SelectListItem { Text = "Select Block Type (All)", Value = "99" });
+                                                    blist.Add(new SelectListItem { Text = "Valid", Value = "0" });
+                                                    blist.Add(new SelectListItem { Text = "Action Block", Value = "66" });
+                                                    blist.Add(new SelectListItem { Text = "Hard Block", Value = "67" });
+                                                    blist.Add(new SelectListItem { Text = "Passsword Block", Value = "68" });
+                                                }
+                                                @Html.DropDownListFor(n => n.Block, new SelectList(blist, "Value", "Text", 0), new { @class = "custom-select block" })
+                                            </div>
+                                        }
+                                            <div class="col-3">
+                                                @{
+                                                    List<SelectListItem> plist = new List<SelectListItem>();
+                                                    plist.Add(new SelectListItem { Text = "Plans (All)", Value = "0" });
+                                                    plist.Add(new SelectListItem { Text = "Free Forever", Value = "1" });
+                                                    plist.Add(new SelectListItem { Text = "$59 per month", Value = "2" });
+                                                    plist.Add(new SelectListItem { Text = "$99 per month", Value = "3" });
+                                                    plist.Add(new SelectListItem { Text = "$39 Agency Plan", Value = "4" });
+                                                }
+                                                @Html.DropDownListFor(n => n.Plan, new SelectList(plist, "Value", "Text", 0), new { @class = "custom-select block" })
+
+                                            </div>
+
 
                                         </div>
-
-
-                                    </div>
                                 </form>
                             </div>
                             @if (socailProfiles != null && socailProfiles.Count > 0)
@@ -326,24 +329,24 @@
                                 @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true) 
                                 {
                                                         <p class="card-text">
-                                                            Affiliate Status : Active
+                                                            Agency Status : Active
 
-                                                            <a href="#" class="btn btn-success btn-block" id="btnAfilliateProfile">Update Afilliate Profile</a>
+                                                            <a href="#" class="btn btn-success btn-block" id="btnAfilliateProfile">Update Agency Profile</a>
 
                                                             <a href = "#" class="btn btn-success btn-block" id="btnAfilliateBilling" data-toggle="modal" data-target="#BillingHistoryModal">View Billing History</a>
 
-                                                            <a href = "#" class="btn btn-danger btn-block" id="btnCancelAfilliate">Cancel Afilliate Plan</a>
+                                                            <a href = "#" class="btn btn-danger btn-block" id="btnCancelAfilliate">Cancel Agency Plan</a>
 
                                                         </p>
                                 }
                                 else
                                 {
-                                <h4 class="card-title">Become an Afilliate</h4>
+                                <h4 class="card-title">Become an Afilliate Agency</h4>
                                 <p class="card-text">
                                     Join the Social Growth Affiliates Program and start earning money today.
 
                                 </p>
-                                <a href = "#" class="btn btn-success" id="btnAfilliate">Become an Afilliate</a>
+                                <a href = "#" class="btn btn-success" id="btnAfilliate">Become an Afilliate Agency</a>
                                 }
                                                 </div>
                                             </div>
@@ -388,8 +391,8 @@
 <div class="modal fade text-left" id="AfilliateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel34" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="myModalLabel34">Afilliate Profile</h3>
+            <div class="modal-header bg-primary white">
+                <h3 class="modal-title" id="myModalLabel34">Agency App Skin</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -468,24 +471,30 @@
                             <i class="fa fa-file-text font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
                     </div>
-                    <label>App Logo</label>
+                    <label>Upload Logo Image (600 x 600 px)</label>
                     @if (!string.IsNullOrEmpty(Customer.BrokerLogo))
-                    {
+                            {
+                                var numsi = new Random();
+                        
+
                         <div class="form-group position-relative">
-                            <img src="@Customer.BrokerLogo" />
+                            <img src="@(Customer.BrokerLogo +"?"+ numsi.NextDouble().ToString()) " style="max-width:200px;" />
                         </div>
                     }
                         <div class="form-group position-relative has-icon-left">
-                            <input type="text" placeholder="Home Page Link" class="form-control position-inside-maxlength" name="BrokerLogo" value="@Customer.BrokerLogo" required maxlength="500">
+                            <input type="file" class="form-control-file" id="uploadImage" onchange="selectFile()">
+
+                            <input type="hidden" name="BrokerLogoUpload" id="BrokerLogoUpload"/>
+                            @*<input type="text" placeholder="Home Page Link" class="form-control position-inside-maxlength" name="BrokerLogo" value="@Customer.BrokerLogo" required maxlength="500">
                             <div class="form-control-position">
                                 <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
-                            </div>
+                            </div>*@
 
                         </div>
                 </div>
                 <div class="modal-footer">
                     <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="close">
-                    <input type="submit" class="btn btn-outline-primary btn-lg" value="Update Afilliate Profile">
+                    <input type="submit" class="btn btn-outline-primary btn-lg" value="Update Agency App Skin">
                 </div>
             </form>
         </div>
@@ -496,7 +505,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary white">
-                <h4 class="modal-title" id="myModalLabel1">Subscribe to Afilliate plan</h4>
+                <h4 class="modal-title" id="myModalLabel1">Subscribe to Agency plan</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -581,8 +590,8 @@
                             </svg>
                         </div>
                         <h3 class="title" data-tid="elements_examples.success.title">Success</h3>
-                        <p class="message"><span id="cmessage" data-tid="elements_examples.success.message">Afilliate Subscription has been created successfully and payment has been processed. Complete the Afilliate profile and create social profiles.</span></p>
-                        <a class="btn btn-success" id="btnCompleteAfilliateProfile">Complete Afilliate Profile</a>
+                        <p class="message"><span id="cmessage" data-tid="elements_examples.success.message">Agency Subscription has been created successfully and payment has been processed. Complete the Agency profile and create social profiles.</span></p>
+                        <a class="btn btn-primary btn-lg btn-block" style="color:white;padding:14px;" id="btnCompleteAfilliateProfile">Complete Agency Profile</a>
                     </div>
                 </div>
             </div>
@@ -598,7 +607,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="myModalLabel34">Afilliate Order History</h3>
+                <h3 class="modal-title" id="myModalLabel34">Agency Order History</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -674,8 +683,29 @@
                 window.location = element.target.parentElement.parentElement.getAttribute("data-hrefstats");
         });
 
+        //var LogoImage = '';
+
+        function selectFile() {
+
+            var file = document.getElementById('uploadImage').files[0];
+            var reader = new FileReader();
+
+            reader.addEventListener("load", function () {
+                $('#BrokerLogoUpload').val(reader.result);
+                //LogoImage = reader.result;
+                //alert(LogoImage);
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+
 
         $("document").ready(function () {
+
+           
+
             $('.position-inside-maxlength').maxlength({
                 alwaysShow: true,
                 warningClass: "badge badge-success",
@@ -749,12 +779,15 @@
 
             });
 
+           
+
             $("#AfilliateProfileForm").on("submit", function () {
                 debugger;
 
                 //if ($("#Form_UpdatePassword").valid()) {
 
                 var data = $("#AfilliateProfileForm").serializeArray();
+
                 $.ajax({
                     type: "POST",
                     url: "/User/UpdateBrokerProfile",
@@ -767,7 +800,7 @@
                                 //$("#Modal_MessageBoxBody").text(data.message);
                                 //$("#Modal_Messagebox").modal("show");
                                 //$('#default').modal('show');
-                                swal("Success!", "You have successfully updated Afilliate profile.", "success")
+                                swal("Success!", "You have successfully updated Agency profile.", "success")
                                     .then((value) => {
                                         window.location.reload(false);
                                     });
@@ -822,21 +855,21 @@
                 var customerId = '@Customer.CustomerId';
 
                 swal({
-                    title: "Cancel Afilliate Subscription!",
-                    text: "Are you sure you want to Cancel your Afilliate subscription ? This action will reset plans for all profiles to Free Plan!",
+                    title: "Cancel Agency Subscription!",
+                    text: "Are you sure you want to Cancel your Agency subscription ? This action will reset plans for all profiles to Free Plan!",
                     icon: "error",
                     showLoaderOnConfirm: true,
                     closeOnClickOutside: false,
                     buttons: {
                         cancel: {
-                            text: "No, cancel please",
+                            text: "Close",
                             value: null,
                             visible: true,
                             className: "",
                             closeModal: true,
                         },
                         confirm: {
-                            text: "Go ahead, Cancel Afilliate subscription",
+                            text: "Cancel Agency subscription",
                             value: true,
                             visible: true,
                             className: "btn-warning",
@@ -860,7 +893,7 @@
                             .then(subscription => {
                                 //handleSubscription(subscription);.
                                 swal.close();
-                                swal("Success!", "Your Afilliate subscription & profiles have been cancelled successfully;", "success")
+                                swal("Success!", "Your Agency subscription & profiles have been cancelled successfully;", "success")
                                     .then(function () {
                                         window.location = "/User/Home/";
                                     });;
@@ -876,7 +909,7 @@
 
 
             $("#btnAfilliate").on("click", function () {
-                $(".selectedPlanName").text('Monthly Afilliate Plan');
+                $(".selectedPlanName").text('Monthly Agency Plan');
                 $("#selectedPlanprice").text('200');
                 $("#selectedPlanId").val(5);
 
@@ -913,7 +946,7 @@
                     closeOnClickOutside: false,
                     buttons: {
                         cancel: {
-                            text: "No, cancel please",
+                            text: "Close",
                             value: null,
                             visible: true,
                             className: "",
@@ -1008,7 +1041,7 @@
                     }
                 };
 
-                var card = elements.create('card', { style: style });
+                var card = elements.create('card', { hidePostalCode: true, style: style });
                 card.mount('#card-element');
 
                 // Element focus ring

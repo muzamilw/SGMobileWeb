@@ -69,8 +69,55 @@ namespace SG2.CORE.BAL.Managers
             try
             {
                 var prevStats =  _statistics.GetLatestStatistics(socialProfileId);
-                if ( prevStats != null)
+                if (prevStats != null)
                 {
+
+                
+                    
+
+                    if (prevStats.Date == DateTime.Today)
+                    {
+                        prevStats.Followings = prevStats.Followings + FollowingCount;
+                        prevStats.FollowingsTotal = prevStats.FollowingsTotal + FollowingCount;
+
+                        prevStats.Like = prevStats.Like + LikeCount;
+                        prevStats.LikeTotal = prevStats.LikeTotal + LikeCount;
+
+                        prevStats.Comment = prevStats.Comment + CommentCount;
+
+
+                        prevStats.StoryViews = prevStats.StoryViews+ StoryCount;
+                        prevStats.StoryViewsTotal = prevStats.StoryViewsTotal + StoryCount;
+
+                        prevStats.Follow = prevStats.Follow  + Math.Abs((prevStats.Follow.HasValue ? prevStats.Follow.Value : 0) - FollowCount);
+                        prevStats.FollowTotal = Math.Abs((prevStats.FollowTotal.HasValue ? prevStats.FollowTotal.Value : 0) - FollowCount);
+                        _statistics.UpdateStatistics(prevStats);
+                    }
+                    else
+                    {
+                        prevStats.Followings =  FollowingCount;
+                        prevStats.FollowingsTotal = prevStats.FollowingsTotal + FollowingCount;
+
+                        prevStats.Like =  LikeCount;
+                        prevStats.LikeTotal = prevStats.LikeTotal + LikeCount;
+
+                        prevStats.Comment = CommentCount;
+
+
+                        prevStats.StoryViews = StoryCount;
+                        prevStats.StoryViewsTotal = prevStats.StoryViewsTotal + StoryCount;
+
+                        prevStats.Follow = Math.Abs((prevStats.Follow.HasValue ? prevStats.Follow.Value : 0) - FollowCount);
+                        prevStats.FollowTotal = Math.Abs((prevStats.FollowTotal.HasValue ? prevStats.FollowTotal.Value : 0) - FollowCount);
+
+                        _statistics.InsertStatistics(prevStats);
+                    }
+
+
+                }
+                else
+                {
+                    prevStats = new SocialProfile_Statistics();
 
                     prevStats.Followings = FollowingCount;
                     prevStats.FollowingsTotal = prevStats.FollowingsTotal + FollowingCount;
@@ -85,19 +132,11 @@ namespace SG2.CORE.BAL.Managers
                     prevStats.StoryViewsTotal = prevStats.StoryViewsTotal + StoryCount;
 
                     prevStats.Follow = Math.Abs((prevStats.Follow.HasValue ? prevStats.Follow.Value : 0) - FollowCount);
-                    prevStats.FollowTotal = Math.Abs((prevStats.FollowTotal.HasValue ? prevStats.FollowTotal.Value:0) - FollowCount);
+                    prevStats.FollowTotal = Math.Abs((prevStats.FollowTotal.HasValue ? prevStats.FollowTotal.Value : 0) - FollowCount);
 
-                    if ( prevStats.Date == DateTime.Today)
-                    {
-                        
-                        _statistics.UpdateStatistics(prevStats);
-                    }
-                    else
-                    {
-                        _statistics.InsertStatistics(prevStats);
-                    }
-
-
+                   
+                    _statistics.InsertStatistics(prevStats);
+                    
                 }
 
 

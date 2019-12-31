@@ -11,9 +11,9 @@
           </Key>
           <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="GUID" Type="nvarchar" MaxLength="36" Nullable="false" />
-          <Property Name="FirstName" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="SurName" Type="nvarchar" MaxLength="20" />
-          <Property Name="EmailAddress" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="SurName" Type="nvarchar" MaxLength="100" />
+          <Property Name="EmailAddress" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -69,18 +69,11 @@
           <Property Name="ScheduleCallDate" Type="datetime" />
           <Property Name="Notes" Type="nvarchar(max)" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Customer_Payments">
           <Key>
             <PropertyRef Name="PaymentId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="Description" />
-            <PropertyRef Name="StartDate" />
-            <PropertyRef Name="EndDate" />
-            <PropertyRef Name="CustomerId" />
           </Key>
-          <Property Name="PaymentId" Type="int" Nullable="false" />
+          <Property Name="PaymentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="SubscriptionType" Type="nvarchar" MaxLength="255" />
@@ -758,6 +751,7 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does
         <EntityContainer Name="SocialGrowth2EntitiesStoreContainer">
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer_ContactDetail" EntityType="Self.Customer_ContactDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer_Payments" EntityType="Self.Customer_Payments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer_Title" EntityType="Self.Customer_Title" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Enumeration" EntityType="Self.Enumeration" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EnumerationValue" EntityType="Self.EnumerationValue" Schema="dbo" store:Type="Tables" />
@@ -777,24 +771,6 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does
           <EntitySet Name="SystemRole" EntityType="Self.SystemRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemState" EntityType="Self.SystemState" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemUser" EntityType="Self.SystemUser" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Customer_Payments" EntityType="Self.Customer_Payments" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Customer_Payments].[PaymentId] AS [PaymentId], 
-    [Customer_Payments].[Name] AS [Name], 
-    [Customer_Payments].[Description] AS [Description], 
-    [Customer_Payments].[SubscriptionType] AS [SubscriptionType], 
-    [Customer_Payments].[Price] AS [Price], 
-    [Customer_Payments].[PaymentDateTime] AS [PaymentDateTime], 
-    [Customer_Payments].[StartDate] AS [StartDate], 
-    [Customer_Payments].[EndDate] AS [EndDate], 
-    [Customer_Payments].[CustomerId] AS [CustomerId], 
-    [Customer_Payments].[StripeSubscriptionId] AS [StripeSubscriptionId], 
-    [Customer_Payments].[StatusId] AS [StatusId], 
-    [Customer_Payments].[StripePlanId] AS [StripePlanId], 
-    [Customer_Payments].[PaymentPlanId] AS [PaymentPlanId], 
-    [Customer_Payments].[StripeInvoiceId] AS [StripeInvoiceId]
-    FROM [dbo].[Customer_Payments] AS [Customer_Payments]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_Customer_PaymentPlan" Association="Self.FK_Customer_PaymentPlan">
             <End Role="PaymentPlan" EntitySet="PaymentPlan" />
             <End Role="Customer" EntitySet="Customer" />
@@ -1037,14 +1013,9 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does
           <Parameter Name="SocialprofileId" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="Customers" EntityType="SocialGrowth2Entities.Customer" />
-          <EntitySet Name="Customer_Payments" EntityType="SocialGrowth2Entities.Customer_Payments" />
           <AssociationSet Name="FK_Customer_PaymentPlan" Association="SocialGrowth2Entities.FK_Customer_PaymentPlan">
             <End Role="PaymentPlan" EntitySet="PaymentPlans" />
             <End Role="Customer" EntitySet="Customers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Customer_Payments_Customer" Association="SocialGrowth2Entities.FK_Customer_Payments_Customer">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="Customer_Payments" EntitySet="Customer_Payments" />
           </AssociationSet>
           <AssociationSet Name="FK_SG2_ContactDetails_SG2_Customer" Association="SocialGrowth2Entities.FK_SG2_ContactDetails_SG2_Customer">
             <End Role="Customer" EntitySet="Customers" />
@@ -1055,8 +1026,13 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does
             <End Role="SocialProfile" EntitySet="SocialProfiles" />
           </AssociationSet>
           <FunctionImport Name="SG2_usp_GetProfilebyJVStatusId" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_GetProfilebyJVStatusId_Result)">
-            <Parameter Name="riJVStatusId" Mode="In" Type="Int32" />
+          <Parameter Name="riJVStatusId" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="Customer_Payments" EntityType="SocialGrowth2Entities.Customer_Payments" />
+          <AssociationSet Name="FK_Customer_Payments_Customer" Association="SocialGrowth2Entities.FK_Customer_Payments_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Customer_Payments" EntitySet="Customer_Payments" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="SG2_usp_Get_AllUser1_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
@@ -2167,9 +2143,9 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does
           </Key>
           <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="GUID" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="true" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="SurName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SurName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2205,34 +2181,9 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does
           <Property Name="BrokerHomePage" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="BrokerTrustPilotCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="PaymentPlan" Relationship="SocialGrowth2Entities.FK_Customer_PaymentPlan" FromRole="Customer" ToRole="PaymentPlan" />
-          <NavigationProperty Name="Customer_Payments" Relationship="SocialGrowth2Entities.FK_Customer_Payments_Customer" FromRole="Customer" ToRole="Customer_Payments" />
           <NavigationProperty Name="Customer_ContactDetail" Relationship="SocialGrowth2Entities.FK_SG2_ContactDetails_SG2_Customer" FromRole="Customer" ToRole="Customer_ContactDetail" />
           <NavigationProperty Name="SocialProfiles" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer" FromRole="Customer" ToRole="SocialProfile" />
-        </EntityType>
-        <EntityType Name="Customer_Payments">
-          <Key>
-            <PropertyRef Name="PaymentId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="Description" />
-            <PropertyRef Name="StartDate" />
-            <PropertyRef Name="EndDate" />
-            <PropertyRef Name="CustomerId" />
-          </Key>
-          <Property Name="PaymentId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="SubscriptionType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PaymentDateTime" Type="DateTime" Precision="3" />
-          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CustomerId" Type="Int32" Nullable="false" />
-          <Property Name="StripeSubscriptionId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="StatusId" Type="Int32" />
-          <Property Name="StripePlanId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="PaymentPlanId" Type="Int32" />
-          <Property Name="StripeInvoiceId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Customer" Relationship="SocialGrowth2Entities.FK_Customer_Payments_Customer" FromRole="Customer_Payments" ToRole="Customer" />
+          <NavigationProperty Name="Customer_Payments" Relationship="SocialGrowth2Entities.FK_Customer_Payments_Customer" FromRole="Customer" ToRole="Customer_Payments" />
         </EntityType>
         <Association Name="FK_Customer_PaymentPlan">
           <End Type="SocialGrowth2Entities.PaymentPlan" Role="PaymentPlan" Multiplicity="0..1" />
@@ -2243,18 +2194,6 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does
             </Principal>
             <Dependent Role="Customer">
               <PropertyRef Name="BrokerPaymentPlanID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Customer_Payments_Customer">
-          <End Type="SocialGrowth2Entities.Customer" Role="Customer" Multiplicity="1" />
-          <End Type="SocialGrowth2Entities.Customer_Payments" Role="Customer_Payments" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="CustomerId" />
-            </Principal>
-            <Dependent Role="Customer_Payments">
-              <PropertyRef Name="CustomerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2305,6 +2244,38 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does
           <Property Type="String" Name="Comment" Nullable="true" />
           <Property Type="Boolean" Name="IsArchived" Nullable="false" />
         </ComplexType>
+        <EntityType Name="Customer_Payments">
+          <Key>
+            <PropertyRef Name="PaymentId" />
+          </Key>
+          <Property Name="PaymentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="SubscriptionType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PaymentDateTime" Type="DateTime" Precision="3" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="StripeSubscriptionId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int32" />
+          <Property Name="StripePlanId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentPlanId" Type="Int32" />
+          <Property Name="StripeInvoiceId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Customer" Relationship="SocialGrowth2Entities.FK_Customer_Payments_Customer" FromRole="Customer_Payments" ToRole="Customer" />
+        </EntityType>
+        <Association Name="FK_Customer_Payments_Customer">
+          <End Type="SocialGrowth2Entities.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="SocialGrowth2Entities.Customer_Payments" Role="Customer_Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="Customer_Payments">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3430,26 +3401,6 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Customer_Payments">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.Customer_Payments">
-              <MappingFragment StoreEntitySet="Customer_Payments">
-                <ScalarProperty Name="StripeInvoiceId" ColumnName="StripeInvoiceId" />
-                <ScalarProperty Name="PaymentPlanId" ColumnName="PaymentPlanId" />
-                <ScalarProperty Name="StripePlanId" ColumnName="StripePlanId" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="StripeSubscriptionId" ColumnName="StripeSubscriptionId" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="PaymentDateTime" ColumnName="PaymentDateTime" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="SubscriptionType" ColumnName="SubscriptionType" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SG2_usp_GetProfilebyJVStatusId" FunctionName="SocialGrowth2Entities.Store.SG2_usp_GetProfilebyJVStatusId" >
             <ResultMapping>
               <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_GetProfilebyJVStatusId_Result">
@@ -3477,6 +3428,26 @@ warning 6002: The table/view 'DB_129180_socialgrowth.dbo.Customer_Payments' does
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="Customer_Payments">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.Customer_Payments">
+              <MappingFragment StoreEntitySet="Customer_Payments">
+                <ScalarProperty Name="StripeInvoiceId" ColumnName="StripeInvoiceId" />
+                <ScalarProperty Name="PaymentPlanId" ColumnName="PaymentPlanId" />
+                <ScalarProperty Name="StripePlanId" ColumnName="StripePlanId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="StripeSubscriptionId" ColumnName="StripeSubscriptionId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="PaymentDateTime" ColumnName="PaymentDateTime" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="SubscriptionType" ColumnName="SubscriptionType" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

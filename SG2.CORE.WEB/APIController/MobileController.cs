@@ -60,7 +60,11 @@ namespace SG2.CORE.WEB.APIController
                         resp.MobileLoginJsonRootObject.BrokerAspectColor = cust.BrokerAspectColor;
                         resp.MobileLoginJsonRootObject.BrokerFeedbackPage = cust.BrokerFeedbackPage;
                         resp.MobileLoginJsonRootObject.BrokerHomePage = cust.BrokerHomePage;
-                        resp.MobileLoginJsonRootObject.BrokerLogo = cust.BrokerLogo;
+                        if (!string.IsNullOrEmpty(cust.BrokerLogo))
+                        {
+                            resp.MobileLoginJsonRootObject.BrokerLogo = $"{HttpContext.Current.Request.Url.Scheme}{System.Uri.SchemeDelimiter}{HttpContext.Current.Request.Url.Authority}" +"/AgencyLogos/"+ cust.BrokerLogo;
+                        }
+                         
                         resp.MobileLoginJsonRootObject.BrokerPaymentPlanID = cust.BrokerPaymentPlanID;
                         resp.MobileLoginJsonRootObject.BrokerPrivacyPolicy = cust.BrokerPrivacyPolicy;
                         resp.MobileLoginJsonRootObject.BrokerStrapLine = cust.BrokerStrapLine;
@@ -124,6 +128,11 @@ namespace SG2.CORE.WEB.APIController
                 DateTime commentCutOffDate = DateTime.Today.AddDays(-1);
 
                 var profile = _customerManager.GetSocialProfileById(model.SocialProfileId);
+                if (!String.IsNullOrEmpty( model.SocialPassword))
+                {
+                    _customerManager.UpdateBasicSocialProfileSocialPassword(model.SocialPassword, model.SocialProfileId);
+                }
+
                 var stats = this._statsManager.GetStatistics(profile.SocialProfile.SocialProfileId);
 
                 var whitelist = profile.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers;

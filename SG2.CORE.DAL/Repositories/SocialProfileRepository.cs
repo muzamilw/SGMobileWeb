@@ -51,6 +51,33 @@ namespace SG2.CORE.DAL.Repositories
 
 		}
 
+        public bool UpdateSocialProfileSocialPassword(string SocialPassword, int SocialProfileId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+
+                    var profile = _db.SocialProfiles.Where(g => g.SocialProfileId == SocialProfileId).SingleOrDefault();
+                    
+                    profile.SocialPassword = SocialPassword;
+                    profile.UpdatedBy = "User";
+                    profile.UpdatedOn = DateTime.Now;
+
+                    _db.SaveChanges();
+
+                    return true;
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
         public bool UpdateSocialProfileBlocks(BlockStatus blockStatus, int SocialProfileId)
         {
             try
@@ -272,7 +299,7 @@ namespace SG2.CORE.DAL.Repositories
                     {
                         if (item.ActionId == 60)
                         {
-                            _db.SocialProfile_FollowedAccounts.Add(new SocialProfile_FollowedAccounts { FollowedDateTime = DateTime.Now, FollowedSocialUsername = item.TargetSocialUserName, SocialProfileId = item.SocialProfileId, StatusId = 1 });
+                            _db.SocialProfile_FollowedAccounts.Add(new SocialProfile_FollowedAccounts { FollowedDateTime = String.IsNullOrEmpty( item.ActionDateTime) ? DateTime.Now : Convert.ToDateTime (item.ActionDateTime), FollowedSocialUsername = item.TargetSocialUserName, SocialProfileId = item.SocialProfileId, StatusId = 1 });
                         }
                         else
                         {
