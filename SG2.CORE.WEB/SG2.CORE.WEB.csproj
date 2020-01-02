@@ -3227,6 +3227,8 @@
     <Content Include="Views\Profile\Stats.cshtml" />
     <Content Include="Views\Shared\_Layout_LoggedInStack.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialProfileHeader.cshtml" />
+    <Content Include="Views\User\AgencyInstagramTarget.cshtml" />
+    <Content Include="Views\User\EditorTemplates\Boolean.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\animate.css" />

@@ -1556,6 +1556,46 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
+        public SocialProfileDTO GetAgencySocialTargettingByBrokerCustomerId(int BrokerCustomerId)
+        {
+
+            try
+            {
+                SocialProfileDTO profile = new SocialProfileDTO();
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    //Agency profile loading
+
+                    _db.Configuration.LazyLoadingEnabled = false;
+                    profile.SocialProfile_Instagram_TargetingInformation = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.BrokerCustomerId == BrokerCustomerId && g.IsBrokerDefault == true).SingleOrDefault();
+                    if (profile.SocialProfile_Instagram_TargetingInformation == null)
+                    {
+                        var newBrokerDefaultProfile = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.IsSystem == true && g.SocialProfileId == null).Single();
+                        newBrokerDefaultProfile.BrokerCustomerId = BrokerCustomerId;
+                        newBrokerDefaultProfile.SocialProfileId = null;
+                        newBrokerDefaultProfile.IsBrokerDefault = true;
+                        newBrokerDefaultProfile.IsSystem = false;
+
+
+                        _db.SocialProfile_Instagram_TargetingInformation.Add(newBrokerDefaultProfile);
+                        _db.SaveChanges();
+
+                        profile.SocialProfile_Instagram_TargetingInformation = newBrokerDefaultProfile;
+
+                    }
+
+                }
+
+                if (profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals != null)
+                    profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals = Regex.Unescape(Regex.Replace(profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals, @"\t|\n|\r", "")).Replace("\\", @"");
+
+                return profile;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public List<SocialProfile_PaymentsDTO> GetCustomerBrokerPaymentHistory(int CustomerId)
         {

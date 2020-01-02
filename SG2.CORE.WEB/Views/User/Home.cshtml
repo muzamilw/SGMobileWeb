@@ -236,21 +236,21 @@
                                                 @Html.DropDownListFor(n => n.Block, new SelectList(blist, "Value", "Text", 0), new { @class = "custom-select block" })
                                             </div>
                                         }
-                                            <div class="col-3">
-                                                @{
-                                                    List<SelectListItem> plist = new List<SelectListItem>();
-                                                    plist.Add(new SelectListItem { Text = "Plans (All)", Value = "0" });
-                                                    plist.Add(new SelectListItem { Text = "Free Forever", Value = "1" });
-                                                    plist.Add(new SelectListItem { Text = "$59 per month", Value = "2" });
-                                                    plist.Add(new SelectListItem { Text = "$99 per month", Value = "3" });
-                                                    plist.Add(new SelectListItem { Text = "$39 Agency Plan", Value = "4" });
-                                                }
-                                                @Html.DropDownListFor(n => n.Plan, new SelectList(plist, "Value", "Text", 0), new { @class = "custom-select block" })
-
-                                            </div>
-
+                                        <div class="col-3">
+                                            @{
+                                                List<SelectListItem> plist = new List<SelectListItem>();
+                                                plist.Add(new SelectListItem { Text = "Plans (All)", Value = "0" });
+                                                plist.Add(new SelectListItem { Text = "Free Forever", Value = "1" });
+                                                plist.Add(new SelectListItem { Text = "$59 per month", Value = "2" });
+                                                plist.Add(new SelectListItem { Text = "$99 per month", Value = "3" });
+                                                plist.Add(new SelectListItem { Text = "$39 Agency Plan", Value = "4" });
+                                            }
+                                            @Html.DropDownListFor(n => n.Plan, new SelectList(plist, "Value", "Text", 0), new { @class = "custom-select block" })
 
                                         </div>
+
+
+                                    </div>
                                 </form>
                             </div>
                             @if (socailProfiles != null && socailProfiles.Count > 0)
@@ -325,47 +325,53 @@
                             <img class="card-img-top img-fluid" src="~/Content/ThemeAssets/Images/afilliate.jpg" alt="Card image cap">
                             <div class="card-body">
 
-                                
-                                @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true) 
+
+                                @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true)
                                 {
-                                                        <p class="card-text">
-                                                            Agency Status : Active
+                                    <p class="card-text">
+                                        Agency Status : Active
 
-                                                            <a href="#" class="btn btn-success btn-block" id="btnAfilliateProfile">Update Agency Profile</a>
+                                        <a href="#" class="btn btn-success btn-block" id="btnAfilliateProfile">Update App Skin</a>
 
-                                                            <a href = "#" class="btn btn-success btn-block" id="btnAfilliateBilling" data-toggle="modal" data-target="#BillingHistoryModal">View Billing History</a>
+                                        <a href="~/user/AgencyInstagramTarget" class="btn btn-success btn-block">Instagram Default Filters</a>
 
-                                                            <a href = "#" class="btn btn-danger btn-block" id="btnCancelAfilliate">Cancel Agency Plan</a>
+                                        <a href="#" class="btn btn-success btn-block">LinkedIn Default Filters</a>
 
-                                                        </p>
+                                        <a href="#" class="btn btn-success btn-block">Twitter Default Filters</a>
+
+                                        <a href="#" class="btn btn-success btn-block" id="btnAfilliateBilling" data-toggle="modal" data-target="#BillingHistoryModal">View Billing History</a>
+
+                                        <a href="#" class="btn btn-danger btn-block" id="btnCancelAfilliate">Cancel Agency Plan</a>
+
+                                    </p>
                                 }
                                 else
                                 {
-                                <h4 class="card-title">Become an Afilliate Agency</h4>
-                                <p class="card-text">
-                                    Join the Social Growth Affiliates Program and start earning money today.
+                                    <h4 class="card-title">Become an Afilliate Agency</h4>
+                                    <p class="card-text">
+                                        Join the Social Growth Affiliates Program and start earning money today.
 
-                                </p>
-                                <a href = "#" class="btn btn-success" id="btnAfilliate">Become an Afilliate Agency</a>
+                                    </p>
+                                    <a href="#" class="btn btn-success" id="btnAfilliate">Become an Afilliate Agency</a>
                                 }
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Extra large table end -->
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Extra large table end -->
+        </div>
+    </div>
 </div>
 <div class="modal fade text-left" id="newProfile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel34" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h3 class="modal-title" id="myModalLabel34">Create a new Social Profile</h3>
-                                    <button type = "button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="myModalLabel34">Create a new Social Profile</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             <form id="newprofileForm">
                 <input type="hidden" id="customerId" name="customerId" value="@currentUser.CustomerId" />
                 <div class="modal-body">
@@ -398,7 +404,7 @@
                 </button>
             </div>
             <form id="AfilliateProfileForm">
-                <input type="hidden" name="cid" value="@Customer.CustomerId"/>
+                <input type="hidden" name="cid" value="@Customer.CustomerId" />
                 <div class="modal-body">
                     <label>Following information will be used to white label the modile app for your profiles.</label>
                     <div class="form-group position-relative has-icon-left">
@@ -473,24 +479,24 @@
                     </div>
                     <label>Upload Logo Image (600 x 600 px)</label>
                     @if (!string.IsNullOrEmpty(Customer.BrokerLogo))
-                            {
-                                var numsi = new Random();
-                        
+                    {
+                        var numsi = new Random();
+
 
                         <div class="form-group position-relative">
                             <img src="@(Customer.BrokerLogo +"?"+ numsi.NextDouble().ToString()) " style="max-width:200px;" />
                         </div>
                     }
-                        <div class="form-group position-relative has-icon-left">
-                            <input type="file" class="form-control-file" id="uploadImage" onchange="selectFile()">
+                    <div class="form-group position-relative has-icon-left">
+                        <input type="file" class="form-control-file" id="uploadImage" onchange="selectFile()">
 
-                            <input type="hidden" name="BrokerLogoUpload" id="BrokerLogoUpload"/>
-                            @*<input type="text" placeholder="Home Page Link" class="form-control position-inside-maxlength" name="BrokerLogo" value="@Customer.BrokerLogo" required maxlength="500">
+                        <input type="hidden" name="BrokerLogoUpload" id="BrokerLogoUpload" />
+                        @*<input type="text" placeholder="Home Page Link" class="form-control position-inside-maxlength" name="BrokerLogo" value="@Customer.BrokerLogo" required maxlength="500">
                             <div class="form-control-position">
                                 <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
                             </div>*@
 
-                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="close">
@@ -612,8 +618,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            
-               
+
+
             <div class="modal-body">
                 @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true)
                 {
@@ -654,12 +660,12 @@
                         </table>
                     </div>
                 }
-                </div>
-                <div class="modal-footer">
-                    <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="close">
-                   
-                </div>
-           
+            </div>
+            <div class="modal-footer">
+                <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="close">
+
+            </div>
+
         </div>
     </div>
 </div>
@@ -704,7 +710,7 @@
 
         $("document").ready(function () {
 
-           
+
 
             $('.position-inside-maxlength').maxlength({
                 alwaysShow: true,
@@ -779,7 +785,7 @@
 
             });
 
-           
+
 
             $("#AfilliateProfileForm").on("submit", function () {
                 debugger;

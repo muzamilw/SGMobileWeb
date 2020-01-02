@@ -707,6 +707,20 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
+        public SocialProfileDTO GetSocialProfileTargetByBrokerCustomerId(int BrokerCustomerId)
+        {
+            try
+            {
+                return _customerRepository.GetAgencySocialTargettingByBrokerCustomerId(BrokerCustomerId);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
         public (bool Succcess, string Message) AddInstagramSocialProfile(string InstagramSocialUsername, int CustomerId)
         {
             try

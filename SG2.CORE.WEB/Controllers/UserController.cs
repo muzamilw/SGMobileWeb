@@ -1124,15 +1124,15 @@ namespace SG2.CORE.WEB.Controllers
 
             return Json(jr, JsonRequestBehavior.AllowGet);
         }
-       
+
         //public ActionResult GetFollowersStatistics()
         //{
         //    var jr = new JsonResult();
         //    try
         //    {
-                
+
         //        StatisticsViewModel statisticsViewModel = _statisticsManager.GetStatistics(8, DateTime.Now.AddDays(-15), DateTime.Now.AddDays(+5));
-                
+
         //        if (statisticsViewModel.StatisticsListing !=  null)
         //        {
         //            jr.Data = new { ResultType = "Success", message = "",
@@ -1171,9 +1171,33 @@ namespace SG2.CORE.WEB.Controllers
         //    {
         //        throw exp;
         //    }
-            
+
         //    return Json(jr, JsonRequestBehavior.AllowGet);
         //}
+
+
+        public ActionResult AgencyInstagramTarget(int? success)
+        {
+
+            var SocailProfile = this._customerManager.GetSocialProfileTargetByBrokerCustomerId(this.CDT.CustomerId);
+           
+            if (success.HasValue && success.Value == 1)
+            {
+                ViewBag.success = 1;
+            }
+
+
+            return View(SocailProfile);
+
+        }
+
+        [HttpPost]
+        public ActionResult AgencyInstagramTarget(SocialProfileDTO request)
+        {
+
+            this._customerManager.UpdateTargetProfile(request);
+            return RedirectToAction("AgencyInstagramTarget", "user", new { success = 1 });
+        }
 
     }
 }
