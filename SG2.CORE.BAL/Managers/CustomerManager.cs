@@ -365,11 +365,11 @@ namespace SG2.CORE.BAL.Managers
 
             }
         }
-        public bool UpdateTargetProfile(SocialProfileDTO model)
+        public bool UpdateTargetProfile(SocialProfileDTO model, bool SaveFullTargetProfile = true)
 		{
 			try
 			{
-				var socialprofile = _socialRepository.UpdateTargetProfile(model);
+				var socialprofile = _socialRepository.UpdateTargetProfile(model, SaveFullTargetProfile);
 				if (socialprofile)
 				{
 					_sessionManager.Set(SessionConstants.SocialProfile, socialprofile);

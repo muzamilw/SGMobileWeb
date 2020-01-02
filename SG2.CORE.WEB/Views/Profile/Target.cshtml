@@ -10,6 +10,7 @@
     Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
     ViewBag.socialProfile = Model.SocialProfile;
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
+    var Customer = (Customer)ViewBag.Customer;
     var ProfileStatus = "";
     if (Model.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
     {
@@ -47,7 +48,11 @@
             margin-top: 10px;
         }
 
-
+        .toggleButtonAlign {
+            position: absolute;
+            right: 15px;
+            top: 0px;
+        }
 
         .example.example1 {
             background-color: transparent;
@@ -252,20 +257,20 @@
                             <div>
                                 @if (ViewBag.paycards != null)
                                 {
-                                <div id="div_previousCard">
-                                    @foreach (var item in ViewBag.paycards)
-                                    {
-                                        <p>
-                                            Card ending in <b>@item.Last4</b>
-                                            @*<img class="pull-right" src="~/Content/Images/visa-icon.png" />*@
-                                        </p>
+                                    <div id="div_previousCard">
+                                        @foreach (var item in ViewBag.paycards)
+                                        {
+                                            <p>
+                                                Card ending in <b>@item.Last4</b>
+                                                @*<img class="pull-right" src="~/Content/Images/visa-icon.png" />*@
+                                            </p>
 
-                                        <p>Expiry <b>@item.ExpMonth/@item.ExpYear</b></p>
-                                    }
-                                    <br />
-                                    <a href="#" class="btn_displayNewCard">[Edit]</a>
-                                    <br />
-                                </div>
+                                            <p>Expiry <b>@item.ExpMonth/@item.ExpYear</b></p>
+                                        }
+                                        <br />
+                                        <a href="#" class="btn_displayNewCard">[Edit]</a>
+                                        <br />
+                                    </div>
                                 }
                             </div>
 
@@ -320,10 +325,7 @@
                                     <h4 class="card-title" id="horz-layout-basic">Targeting</h4>
                                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                                     <div class="heading-elements">
-                                        <ul class="list-inline mb-0">
-                                            <li></li>
-
-                                        </ul>
+                                        <button class="btn btn-danger" id="btnDeleteSubscription">Delete Subscription</button>
                                     </div>
                                 </div>
                                 <div class="card-content collpase show">
@@ -345,11 +347,11 @@
                                             </div>
                                             @*<div class="form-group">
 
-                                                    <label>Choose the hashtags you DO NOT want to engage (Optional):</label>
-                                                    <div id="hashtagsnotengage" class="edit-on-delete form-control" data-tags-input-name="wlextracted">@Model.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage</div>
-                                                    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage)
+            <label>Choose the hashtags you DO NOT want to engage (Optional):</label>
+            <div id="hashtagsnotengage" class="edit-on-delete form-control" data-tags-input-name="wlextracted">@Model.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage</div>
+            @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage)
 
-                                                </div>*@
+        </div>*@
                                             <div class="form-group">
                                                 @*<span style="display:block"> Please use this format for hashtags: #hashtag,#hashtag,#hashtag</span>*@
                                                 <label>Choose towns, cities and countries that are best suited for your account (cities work best):</label>
@@ -424,12 +426,20 @@
 
                                             </div>
 
-                                        </div>
+                                            @if (Customer.IsBroker.HasValue == false || Customer.IsBroker.Value == false)
+                                            {
+                                                <div class="form-actions text-center" style="margin-top:0px">
+                                                    <button type="submit" class="btn btn-primary">
+                                                        <i class="fa fa-check-square-o"></i> Save
+                                                    </button>
+                                                </div>
+                                            }
+
+                                            </div>
 
                                     </div>
                                 </div>
                             </div>
-
 
 
                             <div class="row">
@@ -469,326 +479,399 @@
                                 }
                             </div>
 
-                            
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title form-section">Follow</h4>
-                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                                    <div class="heading-elements">
-                                        <ul class="list-inline mb-0">
-                                            <li><input id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.FollowOn"></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="card-content collpase show">
-                                    <div class="card-body">
-                                        <div class="col-md-12">
-                                            <fieldset>
+                            @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true)
+                            {
+                                <div class="card">
 
 
-                                                @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowOn)
 
-                                                <div class="col-md-12">
-                                                    <div class="weekDays-selector1">
-                                                        @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserProfileImage, new { @class = "weekday" })
-                                                        @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserProfileImage)*@
-                                                        <label for="weekday-mon">Only target users who have a profile image?</label>
-                                                    </div>
 
+                                    <div class="card-content collpase show">
+                                        <div class="card-body">
+
+                                            <div class="col-md-12">
+                                                <h4 class="card-title form-section">Like users latest posts</h4>
+                                                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                                <div class="toggleButtonAlign">
+                                                    <ul class="list-inline mb-0">
+                                                        <li><input id="AfterFollLikeuserPosts" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts"></li>
+                                                    </ul>
+                                                    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts)
                                                 </div>
-                                                <div class="col-md-12">
-                                                    <div class="weekDays-selector1">
-                                                        @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserMinPosts, new { @class = "weekday" })
-                                                        @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserMinPosts)*@
-                                                        <label for="weekday-mon">Minimum posts on user account to target</label>
-                                                        @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserMinPostsVal, new { type = "number", style = "width:65px;" })
-                                                        @*@Html.EditorFor(m=>m.FollUserMinPosts)*@
-                                                    </div>
+                                            </div>
 
+                                            <div class="col-md-12">
+                                                <h4 class="card-title form-section">Comment on users latest posts</h4>
+                                                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                                <div class="toggleButtonAlign">
+                                                    <ul class="list-inline mb-0">
+                                                        <li><input id="AfterFollCommentUserPosts" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts"></li>
+                                                    </ul>
+                                                    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts)
                                                 </div>
-                                                <div class="col-md-12">
-                                                    <div class="weekDays-selector1">
-                                                        @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserPostsLastXDays, new { @class = "weekday" })
-                                                        @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserPostsLastXDays)*@
-                                                        <label for="weekday-mon">Users last post should be between </label>
-                                                        @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserPostsLastXDaysVal, new { type = "number", style = "width:65px;" }) days
-                                                    </div>
+                                            </div>
 
+                                            <div class="col-md-12">
+                                                <h4 class="card-title form-section">View user stories</h4>
+                                                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                                <div class="toggleButtonAlign">
+                                                    <ul class="list-inline mb-0">
+                                                        <li><input id="AfterFollViewUserStory" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.AfterFollViewUserStory"></li>
+                                                    </ul>
+                                                    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollViewUserStory)
                                                 </div>
+                                            </div>
 
-                                                @*<div class="col-md-12">
+                                            <div class="col-md-12">
+                                                <h4 class="card-title form-section">Comment on user stories</h4>
+                                                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                                <div class="toggleButtonAlign">
+                                                    <ul class="list-inline mb-0">
+                                                        <li><input id="AfterFollCommentUserStory" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserStory"></li>
+                                                    </ul>
+                                                    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserStory)
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <h4 class="card-title form-section">Unfollow users ( Users we followed in last 48 hours )</h4>
+                                                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                                <div class="toggleButtonAlign">
+                                                    <ul class="list-inline mb-0">
+                                                        <li><input id="UnFollFollowersAfterMinDays" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays"></li>
+                                                    </ul>
+                                                    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays)
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <h4 class="card-title form-section">Follow</h4>
+                                                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                                <div class="toggleButtonAlign">
+                                                    <ul class="list-inline mb-0">
+                                                        <li><input id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.FollowOn"></li>
+                                                    </ul>
+                                                    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowOn)
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-12">
+                                                <fieldset>
+
+
+
+
+                                                    <div class="col-md-12">
                                                         <div class="weekDays-selector1">
-                                                            @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollCheckPostsCapBlackList.Value, new { @class = "weekday" })
-                                                            @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollCheckPostsCapBlackList)
-                                                            <label for="weekday-mon">Check most recent posts caption for Black list words</label>
+                                                            @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserProfileImage, new { @class = "weekday" })
+                                                            @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserProfileImage)*@
+                                                            <label for="weekday-mon">Only target users who have a profile image?</label>
                                                         </div>
 
-                                                    </div>*@
-                                                <div class="col-md-12">
-                                                    <div class="weekDays-selector1">
-
-                                                        @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollDoNotFollowUsernamewithdigits, new { @class = "weekday" })
-                                                        @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollDoNotFollowUsernamewithdigits)*@
-                                                        <label for="weekday-mon">Account should have no more than  </label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollDoNotFollowUsernamewithdigitsVal, new { type = "number", style = "width:65px;" })<label> digits in their username</label>
                                                     </div>
-
-                                                </div>
-
-                                                @*<div class="col-md-12">
+                                                    <div class="col-md-12">
                                                         <div class="weekDays-selector1">
-                                                            <label for="weekday-mon">Wait between</label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowWaitBetweenActionsVal2, new { style = "width:65px;", type = "number" })  seconds before each action e.g follow, comments and view
+                                                            @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserMinPosts, new { @class = "weekday" })
+                                                            @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserMinPosts)*@
+                                                            <label for="weekday-mon">Minimum posts on user account to target</label>
+                                                            @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserMinPostsVal, new { type = "number", style = "width:65px;" })
+                                                            @*@Html.EditorFor(m=>m.FollUserMinPosts)*@
                                                         </div>
 
-                                                    </div>*@
-                                                @*<div class="col-md-12">
-
+                                                    </div>
+                                                    <div class="col-md-12">
                                                         <div class="weekDays-selector1">
-
-                                                            @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowCompetitorsFollowers.Value, new { @class = "weekday" })
-                                                            @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowCompetitorsFollowers)
-                                                            <label for="weekday-mon">Follow COMPETITORS followers Select </label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowCompetitorsFollowersVal, new { style = "width:65px;", type = "number" })<label>  random competitors followers daily</label>
+                                                            @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserPostsLastXDays, new { @class = "weekday" })
+                                                            @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserPostsLastXDays)*@
+                                                            <label for="weekday-mon">Users last post should be between </label>
+                                                            @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserPostsLastXDaysVal, new { type = "number", style = "width:65px;" }) days
                                                         </div>
 
-                                                    </div>*@
-                                                @*<div class="col-md-12">
-
-                                                        <div class="weekDays-selector1">
-                                                            @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowUsersfromHashtagResults.Value, new { @class = "weekday" })
-                                                            @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowUsersfromHashtagResults)
-                                                            <label for="weekday-mon">Follower Users from HASHTAG search results. Select any random post from top</label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowUsersfromHashtagResultsVal, new { style = "width:65px;", type = "number" }) <label> posts result</label>
-                                                        </div>
-
-                                                    </div>*@
-
-                                            </fieldset>
-                                        </div>
-
-                                        <div class="col-md-12">
-                                            <fieldset>
-                                                <h4 class="mt-2 mb-1">AFTER FOLLOW ACTIONS:</h4>
-                                                <div class="col-md-12">
-                                                    <div class="weekDays-selector1">
-                                                        @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts, new { @class = "weekday" })
-                                                        @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts)*@
-                                                        <label for="weekday-mon">Like users latest posts</label>
                                                     </div>
 
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="weekDays-selector1">
-
-                                                        @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts, new { @class = "weekday" })
-                                                        @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts)*@
-                                                        <label for="weekday-mon">Comment on user’s latest posts</label>
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="weekDays-selector1">
-                                                        @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollViewUserStory, new { @class = "weekday" })
-                                                        @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollViewUserStory)*@
-                                                        <label for="weekday-mon">View user’s stories</label>
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="weekDays-selector1">
-                                                        @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollMuteUser, new { @class = "weekday" })
-                                                        @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollMuteUser)*@
-                                                        <label for="weekday-mon">Mute user after follow</label>
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="col-md-12">
-                                                    <div class="weekDays-selector1">
-                                                        @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserLangs, new { @class = "weekday" })
-                                                        @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserLangs)*@
-                                                        <label for="weekday-mon">Follow users ONLY in these Languages</label><select><option>English</option></select>
-                                                    </div>
-
-                                                </div>
-
-                                            </fieldset>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title form-section">UN-FOLLOW</h4>
-                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                                    <div class="heading-elements">
-                                        <ul class="list-inline mb-0">
-                                            <li><input id="unFollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.UnFollowOn"></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="card-content collpase show">
-                                    <div class="card-body">
-
-                                        <div class="col-md-12">
-                                            <fieldset>
-
-
-                                                @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollowOn)
-
-
-                                                <div class="col-md-12">
-                                                    <div class="weekDays-selector1">
-
-                                                        @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays, new { @class = "weekday" })
-                                                        @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays)*@
-                                                        <label for="weekday-mon">Unfollow users after a minimum of </label>@Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDaysVal, new { style = "width:65px;", type = "number" }) <label> days of engaging with them</label>
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="weekDays-selector1">
-                                                        @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowLikersOfPosts, new { @class = "weekday" })
-                                                        @**@@*Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowLikersOfPosts)*@
-                                                        <label for="weekday-mon">Keep following users who liked recent posts </label>@Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowLikersOfPostsCount, new { style = "width:65px;", type = "number" })<label> posts</label>
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="weekDays-selector1">
-                                                        @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowCommThatCommented, new { @class = "weekday" })
-                                                        @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowCommThatCommented)*@
-
-                                                        <label for="weekday-mon">Keep following users who commented on recent </label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowCommThatCommentedCount, new { style = "width:65px;", type = "number" })<label> posts</label>
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="weekDays-selector1">
-
-                                                        @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollUseWhiteList, new { @class = "weekday" })
-                                                        @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollUseWhiteList)*@
-                                                        <label for="weekday-mon">Enable whitelist</label>
-                                                    </div>
-
-                                                </div>
-
-                                            </fieldset>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title form-section">Run Timer for APP daily operations</h4>
-                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                                    <div class="heading-elements">
-                                        <ul class="list-inline mb-0">
-                                            <li></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="card-content collpase show">
-                                    <div class="card-body">
-
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <span>Execute Between</span>
-                                                <div class="row">
-
-
-                                                    <div class="form-group col-12 mb-2 interval-repeater">
-                                                        <div data-repeater-list="group-a">
-                                                            <div data-repeater-item>
-                                                                <div class="row">
-                                                                    <input type="hidden" name="starttime" value="" />
-                                                                    <input type="hidden" name="endtime" value="" />
-                                                                    <div class="col-md-5"><input type="time" class="form-control" name="sc" onchange="schandler(event);" /></div>
-                                                                    <div class="col-md-5"><input type="time" class="form-control" name="ec" onchange="echandler(event);" /></div>
-                                                                    <div class="col-md-2">
-                                                                        <a data-repeater-delete value="" class="btn btn-icon btn-danger mr-1 mb-1">
-                                                                            <i class="fa fa-remove"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
+                                                    @*<div class="col-md-12">
+                                                            <div class="weekDays-selector1">
+                                                                @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollCheckPostsCapBlackList.Value, new { @class = "weekday" })
+                                                                @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollCheckPostsCapBlackList)
+                                                                <label for="weekday-mon">Check most recent posts caption for Black list words</label>
                                                             </div>
 
+                                                        </div>*@
+                                                    <div class="col-md-12">
+                                                        <div class="weekDays-selector1">
+
+                                                            @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollDoNotFollowUsernamewithdigits, new { @class = "weekday" })
+                                                            @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollDoNotFollowUsernamewithdigits)*@
+                                                            <label for="weekday-mon">Account should have no more than  </label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollDoNotFollowUsernamewithdigitsVal, new { type = "number", style = "width:65px;" })<label> digits in their username</label>
                                                         </div>
-                                                        <button type="button" data-repeater-create class="btn btn-primary">
-                                                            <i class="icon-plus4"></i> Add Interval
-                                                        </button>
+
                                                     </div>
 
-                                                    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals)
-                                                </div>
+                                                    @*<div class="col-md-12">
+                                                            <div class="weekDays-selector1">
+                                                                <label for="weekday-mon">Wait between</label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowWaitBetweenActionsVal2, new { style = "width:65px;", type = "number" })  seconds before each action e.g follow, comments and view
+                                                            </div>
 
-                                                @*<div class="row">
-                                                        <div class="col-md-12 mt-2">
-                                                            @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.RandomizeIntervalsDaily.Value)
-                                                            @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.RandomizeIntervalsDaily)
-                                                            <label for="weekday-mon">Randomly internal daily</label>
-                                                        </div>
+                                                        </div>*@
+                                                    @*<div class="col-md-12">
 
-                                                    </div>*@
+                                                            <div class="weekDays-selector1">
 
+                                                                @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowCompetitorsFollowers.Value, new { @class = "weekday" })
+                                                                @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowCompetitorsFollowers)
+                                                                <label for="weekday-mon">Follow COMPETITORS followers Select </label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowCompetitorsFollowersVal, new { style = "width:65px;", type = "number" })<label>  random competitors followers daily</label>
+                                                            </div>
+
+                                                        </div>*@
+                                                    @*<div class="col-md-12">
+
+                                                            <div class="weekDays-selector1">
+                                                                @Html.CheckBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowUsersfromHashtagResults.Value, new { @class = "weekday" })
+                                                                @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowUsersfromHashtagResults)
+                                                                <label for="weekday-mon">Follower Users from HASHTAG search results. Select any random post from top</label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowUsersfromHashtagResultsVal, new { style = "width:65px;", type = "number" }) <label> posts result</label>
+                                                            </div>
+
+                                                        </div>*@
+
+                                                </fieldset>
                                             </div>
-                                            <div class="col-md-8">
-                                                <div class="col-md-12">
-                                                    <span>Days of the week when to operate</span>
-                                                </div>
-                                                <div class="col-md-12 mt-1">
-                                                    <div class="weekDays-selector">
-                                                        @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.MonOper, new { @class = "weekday" })
-                                                        @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.MonOper)*@
 
-                                                        <label for="weekday-mon">Monday</label>
+                                            <div class="col-md-12">
+                                                <fieldset>
 
-                                                        @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.TueOper, new { @class = "weekday" })
-                                                        @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.TueOper)*@
 
-                                                        <label for="weekday-tue">Tueday</label>
 
-                                                        @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.WedOper, new { @class = "weekday" })
-                                                        @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.WedOper)*@
+                                                    <div class="col-md-12">
+                                                        <div class="weekDays-selector1">
+                                                            @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollMuteUser, new { @class = "weekday" })
+                                                            @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollMuteUser)*@
+                                                            <label for="weekday-mon">Mute user after follow</label>
+                                                        </div>
 
-                                                        <label for="weekday-wed">Wednesday</label>
-                                                        @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.ThuOper, new { @class = "weekday" })
-                                                        @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.ThuOper)*@
-                                                        <label for="weekday-thu">Thursday</label>
-                                                        @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FriOper, new { @class = "weekday" })
-                                                        @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FriOper)*@
-                                                        <label for="weekday-fri">Friday</label><br />
-                                                        @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.SatOper, new { @class = "weekday" })
-                                                        @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.SatOper)*@
-                                                        <label for="weekday-sat">Saturday</label>
-                                                        @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.SunOper, new { @class = "weekday" })
-                                                        @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.SunOper)*@
-                                                        <label for="weekday-sun">Sunday</label>
                                                     </div>
-                                                </div>
 
+                                                    <div class="col-md-12">
+                                                        <div class="weekDays-selector1">
+                                                            @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserLangs, new { @class = "weekday" })
+                                                            @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserLangs)*@
+                                                            <label for="weekday-mon">Follow users ONLY in these Languages</label><select><option>English</option></select>
+                                                        </div>
 
+                                                    </div>
+
+                                                </fieldset>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-12 text-right">
-                                                <button class="btn btn-danger" id="btnDeleteSubscription">Delete Subscription</button>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title form-section">UN-FOLLOW</h4>
+                                        <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                        <div class="heading-elements">
+                                            <ul class="list-inline mb-0">
+                                                <li><input id="unFollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.UnFollowOn"></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="card-content collpase show">
+                                        <div class="card-body">
+
+                                            <div class="col-md-12">
+                                                <fieldset>
+
+
+                                                    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollowOn)
+
+
+
+                                                    <div class="col-md-12">
+                                                        <div class="weekDays-selector1">
+                                                            @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowLikersOfPosts, new { @class = "weekday" })
+                                                            @**@@*Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowLikersOfPosts)*@
+                                                            <label for="weekday-mon">Keep following users who liked recent posts </label>@Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowLikersOfPostsCount, new { style = "width:65px;", type = "number" })<label> posts</label>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="weekDays-selector1">
+                                                            @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowCommThatCommented, new { @class = "weekday" })
+                                                            @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowCommThatCommented)*@
+
+                                                            <label for="weekday-mon">Keep following users who commented on recent </label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowCommThatCommentedCount, new { style = "width:65px;", type = "number" })<label> posts</label>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="weekDays-selector1">
+
+                                                            @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollUseWhiteList, new { @class = "weekday" })
+                                                            @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollUseWhiteList)*@
+                                                            <label for="weekday-mon">Enable whitelist</label>
+                                                        </div>
+
+                                                    </div>
+
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title form-section">Run Timer for APP daily operations</h4>
+                                        <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                        <div class="heading-elements">
+                                            <ul class="list-inline mb-0">
+                                                <li></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="card-content collpase show">
+                                        <div class="card-body">
+
+                                            <div class="row">
+                                                <div class="col-md-10">
+
+                                                    <div class="row">
+
+
+                                                        <div class="form-group col-12 mb-2 interval-repeater">
+                                                            <div data-repeater-list="group-a">
+                                                                <div data-repeater-item>
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <h3>Session <span name="ecounter"></span></h3>
+                                                                            <p>Execute Between</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-5">
+                                                                            <div class="row">
+                                                                                <input type="hidden" name="starttime" value="" />
+                                                                                <input type="hidden" name="endtime" value="" />
+                                                                                <div class="col-5"><input type="time" class="form-control" name="sc" onchange="schandler(event);" /></div>
+                                                                                <div class="col-5"><input type="time" class="form-control" name="ec" onchange="echandler(event);" /></div>
+                                                                                <div class="col-2">
+                                                                                    <a data-repeater-delete value="" class="btn btn-icon btn-danger mr-1 mb-1">
+                                                                                        <i class="fa fa-remove"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="col-7">
+
+                                                                            <div class="form-group row">
+                                                                                <label class="col-md-9 label-control" for="userinput1">Follow new accounts by search tags</label>
+                                                                                <div class="col-md-3">
+                                                                                    <input type="text" class="form-control" placeholder="" name="FollAccSearchTags" onkeypress="return isNumberKey(event)">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label class="col-md-9 label-control" for="userinput1">Un-Follow after 16 days of engaging</label>
+                                                                                <div class="col-md-3">
+                                                                                    <input type="text" class="form-control" placeholder="" name="UnFoll16DaysEngage" onkeypress="return isNumberKey(event)">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label class="col-md-9 label-control" for="userinput1">Like on followings posts</label>
+                                                                                <div class="col-md-3">
+                                                                                    <input type="text" class="form-control" placeholder="" name="LikeFollowingPosts" onkeypress="return isNumberKey(event)">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label class="col-md-9 label-control" for="userinput1">View stories by followings</label>
+                                                                                <div class="col-md-3">
+                                                                                    <input type="text" class="form-control" placeholder="" name="VwStoriesFollowing" onkeypress="return isNumberKey(event)">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label class="col-md-9 label-control" for="userinput1">Comment on following posts</label>
+                                                                                <div class="col-md-3">
+                                                                                    <input type="text" class="form-control" placeholder="" name="CommFollowingPosts" onkeypress="return isNumberKey(event)">
+                                                                                </div>
+                                                                            </div>
+
+
+
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <button type="button" data-repeater-create class="btn btn-primary">
+                                                                <i class="icon-plus4"></i> Add Interval
+                                                            </button>
+                                                        </div>
+
+                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals)
+                                                    </div>
+
+
+
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <div class="col-md-12">
+                                                        <span>Days of the week when to operate</span>
+                                                    </div>
+                                                    <div class="col-md-12 mt-1">
+                                                        <div class="weekDays-selector">
+                                                            @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.MonOper, new { @class = "weekday" })
+                                                            @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.MonOper)*@
+
+                                                            <label for="weekday-mon">Monday</label>
+
+                                                            @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.TueOper, new { @class = "weekday" })
+                                                            @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.TueOper)*@
+
+                                                            <label for="weekday-tue">Tueday</label>
+
+                                                            @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.WedOper, new { @class = "weekday" })
+                                                            @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.WedOper)*@
+
+                                                            <label for="weekday-wed">Wednesday</label>
+                                                            @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.ThuOper, new { @class = "weekday" })
+                                                            @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.ThuOper)*@
+                                                            <label for="weekday-thu">Thursday</label>
+                                                            @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FriOper, new { @class = "weekday" })
+                                                            @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FriOper)*@
+                                                            <label for="weekday-fri">Friday</label><br />
+                                                            @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.SatOper, new { @class = "weekday" })
+                                                            @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.SatOper)*@
+                                                            <label for="weekday-sat">Saturday</label>
+                                                            @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.SunOper, new { @class = "weekday" })
+                                                            @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.SunOper)*@
+                                                            <label for="weekday-sun">Sunday</label>
+                                                        </div>
+                                                    </div>
+
+
                                                 </div>
                                             </div>
+
                                             <div class="form-actions text-center">
 
-                                                <button type="submit" class="btn btn-primary" >
+                                                <button type="submit" class="btn btn-primary">
                                                     <i class="fa fa-check-square-o"></i> Save
                                                 </button>
                                             </div>
 
                                         </div>
+                                    </div>
                                 </div>
-                            </div>
+                            }
                         </div>
                     </div>
                 </section>
@@ -873,7 +956,7 @@
         var socialProfileId = '@Model.SocialProfile.SocialProfileId';
         var selectedPlanName = '';
         var selectedPlanprice = '';
-
+        var BrokerMode = @((Customer.IsBroker.HasValue && Customer.IsBroker.Value == true).ToString().ToLower());
         var customerid = '@Model.SocialProfile.CustomerId';
 
         $('#formtarget').submit(function (e) {
@@ -884,13 +967,20 @@
 
             document.getElementById("SocialProfile_Instagram_TargetingInformation_DirectCompetitors").value = DirectCompetitorsbox.tagging("getTags").join(', ');
 
-            if (repeater.repeaterVal()['group-a'].length > 0) {
+            if (BrokerMode && repeater.repeaterVal()['group-a'].length > 0) {
                 var intverl = JSON.stringify(repeater.repeaterVal()).replace('\"group-a\":', '');
                 intverl = intverl.slice(1).slice(0, -1);
                 console.log(intverl);
                 $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals)').val(intverl);
             }
         });
+
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : evt.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
 
         //time field change event handler
         function schandler(e) {
@@ -945,22 +1035,55 @@
             });
             DirectCompetitorsbox = DirectCompetitors[0];
 
-            var FollowOn = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.FollowOn.Value ? "on" : "off")'
-            $('#FollowOn').bootstrapToggle(FollowOn);
-            $('#FollowOn').change(function () {
-                $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowOn)').val($(this).prop('checked'));
-            });
+            if (BrokerMode) {
+                var FollowOn = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.FollowOn.Value ? "on" : "off")'
+                $('#FollowOn').bootstrapToggle(FollowOn);
+                $('#FollowOn').change(function () {
+                    $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowOn)').val($(this).prop('checked'));
+                });
+
+                var AfterFollLikeuserPosts = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts.Value ? "on" : "off")'
+                $('#AfterFollLikeuserPosts').bootstrapToggle(AfterFollLikeuserPosts);
+                $('#AfterFollLikeuserPosts').change(function () {
+                    $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts)').val($(this).prop('checked'));
+                });
+
+                var AfterFollCommentUserPosts = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts.Value ? "on" : "off")'
+                $('#AfterFollCommentUserPosts').bootstrapToggle(AfterFollCommentUserPosts);
+                $('#AfterFollCommentUserPosts').change(function () {
+                    $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts)').val($(this).prop('checked'));
+                });
+
+                var AfterFollViewUserStory = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.AfterFollViewUserStory.Value ? "on" : "off")'
+                $('#AfterFollViewUserStory').bootstrapToggle(AfterFollViewUserStory);
+                $('#AfterFollViewUserStory').change(function () {
+                    $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollViewUserStory)').val($(this).prop('checked'));
+                });
+
+                var AfterFollCommentUserStory = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserStory.HasValue && Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserStory.Value == true  ? "on" : "off")'
+                $('#AfterFollCommentUserStory').bootstrapToggle(AfterFollCommentUserStory);
+                $('#AfterFollCommentUserStory').change(function () {
+                    $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserStory)').val($(this).prop('checked'));
+                });
+
+                var UnFollFollowersAfterMinDays = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays.Value ? "on" : "off")'
+                $('#UnFollFollowersAfterMinDays').bootstrapToggle(UnFollFollowersAfterMinDays);
+                $('#UnFollFollowersAfterMinDays').change(function () {
+                    $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays)').val($(this).prop('checked'));
+                });
 
 
-            var unFollowOn = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.UnFollowOn.Value ? "on" : "off")'
-            $('#unFollowOn').bootstrapToggle(unFollowOn);
-            $('#unFollowOn').change(function () {
-                $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollowOn)').val($(this).prop('checked'));
-            });
 
-           
 
-            
+                var unFollowOn = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.UnFollowOn.Value ? "on" : "off")'
+                $('#unFollowOn').bootstrapToggle(unFollowOn);
+                $('#unFollowOn').change(function () {
+                    $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollowOn)').val($(this).prop('checked'));
+                });
+            }
+
+
+
 
             $('#formtarget input').change(function () {
                 somethingChanged = true;
@@ -971,28 +1094,33 @@
                     return 'Targeting information has changed, Are you sure you want to navigate away without saving the changes ?';
             };
 
+            if (BrokerMode) {
 
-            $('#pincode').pincodeInput({ hidedigits: false, inputs: 8 });
+                var IntEleCount = 0;
+                // Custom Show / Hide Configurations
+                repeater = $('.file-repeater, .interval-repeater').repeater({
+                    show: function () {
+                        $(this).slideDown();
 
-            // Custom Show / Hide Configurations
-            repeater = $('.file-repeater, .interval-repeater').repeater({
-                show: function () {
-                    $(this).slideDown();
+                        $(this).find("input[name*='sc']").val($(this).find("input[name*='starttime']").val());
+                        $(this).find("input[name*='ec']").val($(this).find("input[name*='endtime']").val());
+                        IntEleCount++;
 
-                    $(this).find("input[name*='sc']").val($(this).find("input[name*='starttime']").val());
-                    $(this).find("input[name*='ec']").val($(this).find("input[name*='endtime']").val());
-                },
-                hide: function (remove) {
-                    if (confirm('Are you sure you want to remove this item?')) {
-                        $(this).slideUp(remove);
+                        $(this).find("span[name*='ecounter']").text(IntEleCount);
+                    },
+                    hide: function (remove) {
+                        if (confirm('Are you sure you want to remove this item?')) {
+                            $(this).slideUp(remove);
+                            IntEleCount--;
+                        }
                     }
-                }
-            });
+                });
 
-            var intv = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals)';
-            var intvlist = JSON.parse(intv)
-            if (intvlist !== undefined) {
-                repeater.setList(intvlist);
+                var intv = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals)';
+                var intvlist = JSON.parse(intv)
+                if (intvlist !== undefined) {
+                    repeater.setList(intvlist);
+                }
             }
 
             $(".planSelect").on("click", function () {
@@ -1103,16 +1231,16 @@
                     }
                 });
 
-               
+
             });
 
             $("#btnDeleteSubscription").on("click", function (e) {
-              
+
                 e.preventDefault();
                 e.stopPropagation();
-             
 
-                
+
+
                 swal({
                     title: "Delete subscription!",
                     text: "Are you sure you want to delete your profile and subscription ? This action is not reversible!",
@@ -1135,11 +1263,11 @@
                             closeModal: false
                         }
                     },
-                   
+
                 }).then(isConfirm => {
                     if (isConfirm) {
 
-                        
+
                         fetch('/profile/Confirmdelete', {
                             method: 'post',
                             headers: {
@@ -1342,7 +1470,7 @@
 
             function createPaymentMethodAndCustomer(stripe, card, name, email, phone) {
                debugger;
-                
+
                 var selectedPlanId = $('#selectedPlanId').val();
 
                 stripe.createPaymentMethod('card', card, {
@@ -1478,7 +1606,7 @@
                 // The card was declined (i.e. insufficient funds, card has expired, etc)
                 var errorMsg = document.querySelector('cmessage');
                 errorMsg.textContent = error.message;
-               
+
             }
 
             stripeElements('@ViewBag.stripePublishKey');

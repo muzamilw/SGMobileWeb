@@ -125,7 +125,8 @@ namespace SG2.CORE.WEB.Controllers
             var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
             var customer =_customerManager.GetCustomerByCustomerId(this.CDT.CustomerId);
 
-            
+            ViewBag.Customer = customer;
+
             ViewBag.Plans = _planManager.GetallIntagramPaymentPlans(customer.IsBroker.HasValue? customer.IsBroker.Value:false);
 
             if (success.HasValue && success.Value == 1)
@@ -138,134 +139,8 @@ namespace SG2.CORE.WEB.Controllers
 
             ViewBag.stripeApiKey = _stripeApiKey;
             ViewBag.stripePublishKey = _stripePublishKey;
-            StripeConfiguration.SetApiKey(_stripeApiKey);
-            var planService = new PlanService();
-            var cardService = new CardService();
-            var cardOptions = new CardListOptions
-            {
-                Limit = 3,
-            };
-            List<CustomerPaymentCardsViewModel> payCards = null;
-            //if (SocailProfile.SocialProfile.StripeCustomerId != null)
-            //{
-            //    var striptCards = cardService.List(SocailProfile.SocialProfile.StripeCustomerId, cardOptions);
-                
-            //    if (striptCards != null)
-            //    {
-            //        payCards = new List<CustomerPaymentCardsViewModel>();
-            //        foreach (var item in striptCards)
-            //        {
-            //            var card = new CustomerPaymentCardsViewModel();
-            //            card.Last4 = item.Last4;
-            //            card.ExpMonth = item.ExpMonth;
-            //            card.ExpYear = item.ExpYear;
-            //            card.Brand = item.Brand;
-            //            card.Funding = item.Funding;
-            //            payCards.Add(card);
-            //        }
-            //    }
-            //}
-
-            //ViewBag.paycards = payCards;
-           
 
             return View(SocailProfile);
-
-            ////if (!string.IsNullOrEmpty((string)TempData["Success"]))
-            ////{
-            ////    ViewBag.Success = (string)TempData["Success"];
-            ////    ViewBag.Message = TempData["Message"];
-            ////}
-            //int SocialProfileId = socialProfileId ?? 0;
-            //ViewBag.CurrentUser = this.CDT;
-            //ViewBag.SocailProfiles = this._cm.GetSocialProfilesByCustomerid(this.CDT.CustomerId);
-            //var history = _customerManager.GetCustomerOrderHistory("50", 1, this.CDT.CustomerId, SocialProfileId);
-           
-            //StripeConfiguration.SetApiKey(_stripeApiKey);
-
-            //SocialProfileDTO profileDTO = new SocialProfileDTO();
-            //if (socialProfileId != null && socialProfileId > 0)
-            //{
-            //    profileDTO = _cm.GetSocialProfileById(socialProfileId ?? 0);
-            //}
-
-            //TargetPreferencesViewModel targetPreferences = new TargetPreferencesViewModel();
-            //var plans = _planManager.GetAllSocialGrowthPlans().ToList();
-
-            //PlanInformationDTO selectedPlan = new PlanInformationDTO();
-            //if (profileDTO.SocialProfile.PaymentPlanId != null)
-            //{
-            //    selectedPlan = plans.FirstOrDefault(x => x.PlanId == profileDTO.SocialProfile.PaymentPlanId);
-            //}
-
-            //targetPreferences.ProfileName = profileDTO.SocialProfile.SocialUsername;
-            ////targetPreferences.Preference1 = profileDTO.Preference1;
-            ////targetPreferences.Preference2 = profileDTO.Preference2;
-            ////targetPreferences.Preference3 = profileDTO.Preference3;
-            ////targetPreferences.Preference4 = profileDTO.Preference4;
-            ////targetPreferences.Preference5 = profileDTO.Preference5;
-            ////targetPreferences.Preference6 = profileDTO.Preference6;
-            ////targetPreferences.Preference7 = profileDTO.Preference7;
-            ////targetPreferences.Preference8 = profileDTO.Preference8;
-            ////targetPreferences.Preference9 = profileDTO.Preference9;
-            ////targetPreferences.Preference10 = profileDTO.Preference10;
-            ////targetPreferences.City = profileDTO.PrefferedCityId;
-            ////targetPreferences.Country = profileDTO.PrefferedCountryId;
-            //targetPreferences.InstaPassword = profileDTO.SocialProfile.SocialPassword;
-            //targetPreferences.InstaUser = profileDTO.SocialProfile.SocialUsername;
-            //targetPreferences.TargetInformationId = profileDTO.SocialProfile_Instagram_TargetingInformation.TargetingInformationId;
-            //targetPreferences.SocialProfileId = socialProfileId;
-            //targetPreferences.Plans = plans;
-            //targetPreferences.ActivePlanName = profileDTO.CurrentPaymentPlan.PlanName;
-            //targetPreferences.ActivePlanId = selectedPlan.PlanId == 0 ? null : (int?)selectedPlan.PlanId;
-            //targetPreferences.ActivePlanPrice = selectedPlan.DisplayPrice;
-            //targetPreferences.ActivePlanLikes = selectedPlan.Likes;
-            //targetPreferences.DefaultPaymentPlan = plans.FirstOrDefault(x => x.IsParentPlan == true &&  x.SocialPlatform == 30 && x.IsDefault.Value == true);
-            ////targetPreferences.JVStatus = profileDTO.JVBoxStatusName;
-            ////targetPreferences.JVStatusId = profileDTO.JVStatusId;
-            //targetPreferences.StripeApiKey = _stripeApiKey;
-            //targetPreferences.StripePublishKey = _stripePublishKey;
-            //targetPreferences.SPStatusId = profileDTO.SocialProfile.StatusId;
-            //targetPreferences.OrderHistoryViewModels = history;
-            ////targetPreferences.IsOptedMarketingEmail = profileDTO.IsOptedMarketingEmail;
-            ////targetPreferences.SocialAccAS = profileDTO.SocialAccAS;
-            ////if (targetPreferences.Country != null)
-            ////{
-            ////    targetPreferences.Cities = CommonManager.GetCities().Where(m => m.CountryId == Convert.ToInt16(profileDTO.PrefferedCountryId)).ToList();
-            ////}
-            ////else
-            ////{
-            ////    targetPreferences.Cities = CommonManager.GetCities();
-            ////}
-
-            //var cardService = new CardService();
-            //var cardOptions = new CardListOptions
-            //{
-            //    Limit = 3,
-            //};
-            //List<CustomerPaymentCardsViewModel> payCards = null;
-            //if (this.CDT.StripeCustomerId != null)
-            //{
-            //    var striptCards = cardService.List(this.CDT.StripeCustomerId, cardOptions);
-            //    if (striptCards != null)
-            //    {
-            //        payCards = new List<CustomerPaymentCardsViewModel>();
-            //        foreach (var item in striptCards)
-            //        {
-            //            var card = new CustomerPaymentCardsViewModel();
-            //            card.Last4 = item.Last4;
-            //            card.ExpMonth = item.ExpMonth;
-            //            card.ExpYear = item.ExpYear;
-            //            card.Brand = item.Brand;
-            //            card.Funding = item.Funding;
-            //            payCards.Add(card);
-            //        }
-            //    }
-            //}
-
-            //targetPreferences.PaymentCards = payCards;
-            ////targetPreferences.Countries = CommonManager.GetCountries();
-            //return View(targetPreferences);
 
         }
 
@@ -273,8 +148,10 @@ namespace SG2.CORE.WEB.Controllers
 		[HttpPost]
 		public ActionResult Target(SocialProfileDTO request)
 		{
-			
-			this._cm.UpdateTargetProfile(request);
+            var customer = _customerManager.GetCustomerByCustomerId(this.CDT.CustomerId);
+            var brokermode = customer.IsBroker.HasValue && customer.IsBroker.Value == true;
+
+            this._cm.UpdateTargetProfile(request, brokermode);
 			return RedirectToAction("Target", "Profile", new { socialProfileId = request.SocialProfile_Instagram_TargetingInformation.SocialProfileId, success = 1 });
 		}
         public ActionResult Stats(int socialProfileId)
