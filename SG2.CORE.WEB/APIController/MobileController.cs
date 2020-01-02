@@ -164,25 +164,25 @@ namespace SG2.CORE.WEB.APIController
 
                 var daysSinceRegistration = DateTime.Today - profile.SocialProfile.CreatedOn;
                 //  
-                manifest.TargetInformation.FollMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.FollDailyIncreaseLim.Value * daysSinceRegistration.Days) + profile.SocialProfile_Instagram_TargetingInformation.FollNewPerDayLim.Value - manifest.FollowList.Count;
-                if (manifest.TargetInformation.FollMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.FollMaxPerDayLim)
-                    manifest.TargetInformation.FollMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.FollMaxPerDayLim.Value;
+                ////manifest.TargetInformation.FollMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.FollDailyIncreaseLim.Value * daysSinceRegistration.Days) + profile.SocialProfile_Instagram_TargetingInformation.FollNewPerDayLim.Value - manifest.FollowList.Count;
+                ////if (manifest.TargetInformation.FollMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.FollMaxPerDayLim)
+                ////    manifest.TargetInformation.FollMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.FollMaxPerDayLim.Value;
 
-                manifest.TargetInformation.UnFollMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.UnFollDailyIncreaseLim.Value * daysSinceRegistration.Days) + profile.SocialProfile_Instagram_TargetingInformation.UnFollNewPerDayLim.Value;
-                if (manifest.TargetInformation.UnFollMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.UnFollMaxPerDayLim)
-                    manifest.TargetInformation.UnFollMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.UnFollMaxPerDayLim.Value;
+                ////manifest.TargetInformation.UnFollMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.UnFollDailyIncreaseLim.Value * daysSinceRegistration.Days) + profile.SocialProfile_Instagram_TargetingInformation.UnFollNewPerDayLim.Value;
+                ////if (manifest.TargetInformation.UnFollMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.UnFollMaxPerDayLim)
+                ////    manifest.TargetInformation.UnFollMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.UnFollMaxPerDayLim.Value;
 
-                manifest.TargetInformation.LikeMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.LikeDailyIncreaseLim.Value * daysSinceRegistration.Days )+ profile.SocialProfile_Instagram_TargetingInformation.LikePerDayLim.Value - manifest.LikeList.Count;
-                if (manifest.TargetInformation.LikeMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.LikeMaxPerDayLim)
-                    manifest.TargetInformation.LikeMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.LikeMaxPerDayLim.Value;
+                ////manifest.TargetInformation.LikeMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.LikeDailyIncreaseLim.Value * daysSinceRegistration.Days )+ profile.SocialProfile_Instagram_TargetingInformation.LikePerDayLim.Value - manifest.LikeList.Count;
+                ////if (manifest.TargetInformation.LikeMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.LikeMaxPerDayLim)
+                ////    manifest.TargetInformation.LikeMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.LikeMaxPerDayLim.Value;
 
-                manifest.TargetInformation.ViewStoriesMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesDailyIncreaseLim.Value * daysSinceRegistration.Days )+ profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesPerDayLim.Value;
-                if (manifest.TargetInformation.ViewStoriesMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesMaxPerDayLim)
-                    manifest.TargetInformation.ViewStoriesMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesMaxPerDayLim.Value;
+                ////manifest.TargetInformation.ViewStoriesMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesDailyIncreaseLim.Value * daysSinceRegistration.Days )+ profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesPerDayLim.Value;
+                ////if (manifest.TargetInformation.ViewStoriesMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesMaxPerDayLim)
+                ////    manifest.TargetInformation.ViewStoriesMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesMaxPerDayLim.Value;
 
-                manifest.TargetInformation.CommentMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.CommentDailyIncreaseLim.Value * daysSinceRegistration.Days )+ profile.SocialProfile_Instagram_TargetingInformation.CommentPerDayLim.Value;
-                if (manifest.TargetInformation.CommentMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.CommentMaxPerDayLim)
-                    manifest.TargetInformation.CommentMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.CommentMaxPerDayLim.Value;
+                ////manifest.TargetInformation.CommentMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.CommentDailyIncreaseLim.Value * daysSinceRegistration.Days )+ profile.SocialProfile_Instagram_TargetingInformation.CommentPerDayLim.Value;
+                ////if (manifest.TargetInformation.CommentMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.CommentMaxPerDayLim)
+                ////    manifest.TargetInformation.CommentMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.CommentMaxPerDayLim.Value;
 
               
 

@@ -385,7 +385,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             var customer = _customerManager.GetCustomerByCustomerId(SocailProfile.SocialProfile.CustomerId.Value);
             ViewBag.CurrentUser = customer;
 
-            ViewBag.Plans = _planmanager.GetallIntagramPaymentPlans(customer.IsBroker.HasValue ? customer.IsBroker.Value : false);
+            //ViewBag.Plans = _planmanager.GetallIntagramPaymentPlans(customer.IsBroker.HasValue ? customer.IsBroker.Value : false);
 
             if (success.HasValue && success.Value == 1)
             {
@@ -413,151 +413,15 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
 
         [HttpPost]
-        public ActionResult Target(SocialProfileDTO request)
+        public ActionResult TargettingInformation(SocialProfileDTO request)
         {
 
             this._customerManager.UpdateTargetProfile(request);
-            return RedirectToAction("Target", "Profile", new { socialProfileId = request.SocialProfile_Instagram_TargetingInformation.SocialProfileId, success = 1 });
+            //return RedirectToAction("targettinginformation", "crm", new { id = Url.Encode(CryptoEngine.Encrypt(Convert.ToString(request.SocialProfile.CustomerId))), SPId= Url.Encode(CryptoEngine.Encrypt(request.SocialProfile.SocialProfileId.ToString())), success = 1 });
+            return Redirect("/sadmin/crm/targettinginformation?id=" + Url.Encode(CryptoEngine.Encrypt(Convert.ToString(request.SocialProfile.CustomerId))) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(request.SocialProfile_Instagram_TargetingInformation.SocialProfileId.ToString())) + "&success=1");
         }
 
-        public ActionResult TargettingInformationx(string id, string SPId)
-        {
-            int custId = Convert.ToInt32(CryptoEngine.Decrypt(id));
-            int SocialPId = Convert.ToInt32(CryptoEngine.Decrypt(SPId));
-            var model = _customerManager.GetSpecificUserTargettingInformation(custId, SocialPId);
-
-            if (model == null)
-            {
-
-                CustomerTargetPreferencesViewModel model1 = new CustomerTargetPreferencesViewModel();
-                model1.SPId = SocialPId.ToString();
-                model1.Id = custId.ToString();
-                model1.Countries = CommonManager.GetCountries();
-                if (model1.Country != null)
-                {
-                    model1.Cities = CommonManager.GetCities().Where(m => m.CountryId == Convert.ToInt16(model.Country)).ToList();
-
-                }
-                else
-                {
-                    model1.Cities = CommonManager.GetCities();
-                }
-                //model1.ProxyIPs = _customerManager.GetProxyIPs(model.Country ?? 0, model.City ?? 0);
-                //model1.JarveeStatuses = this.ApplicationStatuses;
-                //model.MPBoxList = _customerManager.GetMPBoxes();
-                return View(model1);
-            }
-            else
-            {
-                model.Countries = CommonManager.GetCountries();
-                if (model.Country != null)
-                {
-                    model.Cities = CommonManager.GetCities().Where(m => m.CountryId == Convert.ToInt16(model.Country)).ToList();
-                }
-                else
-                {
-                    model.Cities = CommonManager.GetCities();
-                }
-                //model.ProxyIPs = _customerManager.GetProxyIPs(model.Country ?? 0, model.City ?? 0);
-                //model.JarveeStatuses = this.ApplicationStatuses;
-                //model.MPBoxList = _customerManager.GetMPBoxes();
-                return View(model);
-            }
-        }
-
-        [HttpPost]
-        public ActionResult UpdateTargettingInformation(CustomerTargetPreferencesViewModel model)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    //var dl = _targetPreferenceManager.SaveTargetPreferences(new TargetPreferencesDTO()
-                    //{
-                    //    Preference1 = model.Preference1,
-                    //    Preference2 = model.Preference2,
-                    //    Preference3 = model.Preference3,
-                    //    Preference4 = model.Preference4,
-                    //    Preference5 = model.Preference5,
-                    //    Preference6 = model.Preference6,
-                    //    Preference7 = model.Preference7,
-                    //    Preference8 = model.Preference8,
-                    //    Preference9 = model.Preference9,
-                    //    Preference10 = model.Preference10,
-                    //    //Country = model.Country,
-                    //    //City = model.City,
-                    //    //InstaUser = model.InstaUser,
-                    //    //InstaPassword = model.InstaPassword,
-                    //    SocialProfileId = Convert.ToInt32(model.SPId),
-                    //    Id = Convert.ToInt32(model.Id),
-                    //    SocialAccAs = model.SocialAccAS
-                    //});
-
-                    TempData["Success"] = "Yes";
-                    TempData["Message"] = "Profile updated successfully.";
-                    //return RedirectToAction("TargettingInformation", "CRM", new { @id = CryptoEngine.Encrypt(Convert.ToString(dl.Id)), @SPId= model.SPId });
-                    return Redirect("/sadmin/crm/targettinginformation?id=" + Url.Encode(CryptoEngine.Encrypt(Convert.ToString(1))) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(model.SPId)));
-                }
-                else
-                {
-                    string messages = string.Join(", ", ModelState.Values
-                                            .SelectMany(x => x.Errors)
-                                            .Select(x => x.ErrorMessage));
-                    TempData["Success"] = "False";
-                    TempData["Message"] = messages;
-                    return RedirectToAction("TargettingInformation");
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            //int custId = Convert.ToInt32(CryptoEngine.Decrypt(id));
-            //var model = _customerManager.GetSpecificUserTargettingInformation(custId);
-            //return View(Model);
-
-        }
-
-        [HttpPost]
-        public ActionResult UpdateTarget(CustomerTargetPreferencesViewModel model)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    int? CityId = model.City;
-                    int? CountryId = model.Country;
-                    //var dl = _targetPreferenceManager.SaveSocialProfileData(
-                    //    model.InstaUser,
-                    //    model.InstaPassword,
-                    //    CityId ?? 0,
-                    //    CountryId ?? 0,
-                    //    Convert.ToInt32(model.SPId),
-                    //    Convert.ToInt32(model.Status)
-                    //);
-                    return Redirect("/sadmin/crm/targettinginformation?id=" + Url.Encode(CryptoEngine.Encrypt("")) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(model.SPId)));
-                }
-                else
-                {
-                    string messages = string.Join(", ", ModelState.Values
-                                            .SelectMany(x => x.Errors)
-                                            .Select(x => x.ErrorMessage));
-                    TempData["Success"] = "False";
-                    TempData["Message"] = messages;
-                    return Redirect("/sadmin/crm/targettinginformation?id=" + Url.Encode(CryptoEngine.Encrypt(model.Id)) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(model.SPId)));
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            //int custId = Convert.ToInt32(CryptoEngine.Decrypt(id));
-            //var model = _customerManager.GetSpecificUserTargettingInformation(custId);
-            //return View(Model);
-
-        }
-
+              
 
         public ActionResult GlobalTarget(int? success)
         {

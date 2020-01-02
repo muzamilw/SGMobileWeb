@@ -211,11 +211,10 @@
           <Property Name="TargetingInformationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SocialProfileId" Type="int" />
           <Property Name="IsSystem" Type="bit" />
+          <Property Name="IsBrokerDefault" Type="bit" />
+          <Property Name="BrokerCustomerId" Type="int" />
           <Property Name="FollowOn" Type="bit" />
-          <Property Name="LikeOn" Type="bit" />
           <Property Name="UnFollowOn" Type="bit" />
-          <Property Name="StoryViewerOn" Type="bit" />
-          <Property Name="ContactMembersOn" Type="bit" />
           <Property Name="HashTagsToEngage" Type="nvarchar" MaxLength="1000" />
           <Property Name="HashTagsToNotEngage" Type="nvarchar" MaxLength="1000" />
           <Property Name="LocationsToEngage" Type="nvarchar" MaxLength="1000" />
@@ -230,58 +229,24 @@
           <Property Name="SatOper" Type="bit" />
           <Property Name="SunOper" Type="bit" />
           <Property Name="ExecutionIntervals" Type="nvarchar" MaxLength="500" />
-          <Property Name="RandomizeIntervalsDaily" Type="bit" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" />
-          <Property Name="SocialAccAs" Type="int" />
-          <Property Name="FollNewPerDayLim" Type="int" />
-          <Property Name="FollDailyIncreaseLim" Type="int" />
-          <Property Name="FollMaxPerDayLim" Type="int" />
-          <Property Name="UnFollNewPerDayLim" Type="int" />
-          <Property Name="UnFollDailyIncreaseLim" Type="int" />
-          <Property Name="UnFollMaxPerDayLim" Type="int" />
-          <Property Name="LikePerDayLim" Type="int" />
-          <Property Name="LikeDailyIncreaseLim" Type="int" />
-          <Property Name="LikeMaxPerDayLim" Type="int" />
-          <Property Name="ViewStoriesPerDayLim" Type="int" />
-          <Property Name="ViewStoriesDailyIncreaseLim" Type="int" />
-          <Property Name="ViewStoriesMaxPerDayLim" Type="int" />
-          <Property Name="CommentPerDayLim" Type="int" />
-          <Property Name="CommentDailyIncreaseLim" Type="int" />
-          <Property Name="CommentMaxPerDayLim" Type="int" />
-          <Property Name="DMPerDayLim" Type="int" />
-          <Property Name="DMDailyIncreaseLim" Type="int" />
-          <Property Name="DMMaxPerDayLim" Type="int" />
           <Property Name="FollUserProfileImage" Type="bit" />
           <Property Name="FollUserMinPosts" Type="bit" />
           <Property Name="FollUserMinPostsVal" Type="int" />
           <Property Name="FollUserPostsLastXDays" Type="bit" />
           <Property Name="FollUserPostsLastXDaysVal" Type="int" />
-          <Property Name="FollUseBlackList" Type="bit" />
-          <Property Name="FollCheckPostsCapBlackList" Type="bit" />
           <Property Name="FollDoNotFollowUsernamewithdigits" Type="bit" />
           <Property Name="FollDoNotFollowUsernamewithdigitsVal" Type="int" />
           <Property Name="FollUserLangs" Type="bit" />
           <Property Name="FollUserLangsList" Type="nvarchar" MaxLength="500" />
-          <Property Name="FollowWaitBetweenActionsVal1" Type="int" />
-          <Property Name="FollowWaitBetweenActionsVal2" Type="int" />
-          <Property Name="FollowCompetitorsFollowers" Type="bit" />
-          <Property Name="FollowCompetitorsFollowersVal" Type="int" />
-          <Property Name="FollowUsersfromHashtagResults" Type="bit" />
-          <Property Name="FollowUsersfromHashtagResultsVal" Type="int" />
           <Property Name="AfterFollLikeuserPosts" Type="bit" />
           <Property Name="AfterFollCommentUserPosts" Type="bit" />
           <Property Name="AfterFollViewUserStory" Type="bit" />
+          <Property Name="AfterFollCommentUserStory" Type="bit" />
           <Property Name="AfterFollMuteUser" Type="bit" />
-          <Property Name="FollEngageDaily" Type="bit" />
-          <Property Name="FollEngageDailyfollCountFrmUnFollowList" Type="bit" />
-          <Property Name="FollEngageDailyfollCountFrmUnFollowListVal" Type="int" />
-          <Property Name="FollEngageLikeRecentPost" Type="bit" />
-          <Property Name="FollEngageEnableLikeCommAfterPostLike" Type="bit" />
-          <Property Name="FollEngageSendDMAfterLike" Type="bit" />
-          <Property Name="FollEngageViewUserStoryAfterLike" Type="bit" />
           <Property Name="UnFollFollowersAfterMinDays" Type="bit" />
           <Property Name="UnFollFollowersAfterMinDaysVal" Type="int" />
           <Property Name="UnFollDoNotUnFollowLikersOfPosts" Type="bit" />
@@ -289,35 +254,6 @@
           <Property Name="UnFollDoNotUnFollowCommThatCommented" Type="bit" />
           <Property Name="UnFollDoNotUnFollowCommThatCommentedCount" Type="int" />
           <Property Name="UnFollUseWhiteList" Type="bit" />
-          <Property Name="StorVwOnlyPostXMin" Type="bit" />
-          <Property Name="StorVwOnlyPostXMinVal" Type="int" />
-          <Property Name="StorVwAfterReply" Type="bit" />
-          <Property Name="StorVwAfterLikeSendDM" Type="bit" />
-          <Property Name="CommUsrRecentPosts" Type="bit" />
-          <Property Name="CommUsrRecentPostsVal" Type="int" />
-          <Property Name="CommUsrRecentPostsTypes" Type="int" />
-          <Property Name="CommUserPostedWithinXDays" Type="bit" />
-          <Property Name="CommUserPostedWithinXDaysVal" Type="int" />
-          <Property Name="CommFltrPostsByLike" Type="bit" />
-          <Property Name="CommFltrPostsByLikeCount" Type="int" />
-          <Property Name="CommDelCommAfterXDays" Type="bit" />
-          <Property Name="CommDelCommAfterXDaysCount" Type="int" />
-          <Property Name="CommLine1" Type="nvarchar" MaxLength="500" />
-          <Property Name="CommLine2" Type="nvarchar" MaxLength="500" />
-          <Property Name="CommLine3" Type="nvarchar" MaxLength="500" />
-          <Property Name="CommLine4" Type="nvarchar" MaxLength="500" />
-          <Property Name="CommLine5" Type="nvarchar" MaxLength="500" />
-          <Property Name="DMShowUnReadMsg" Type="bit" />
-          <Property Name="DMShowPendingReq" Type="bit" />
-          <Property Name="LEXLikeUsrMostRecentPosts" Type="bit" />
-          <Property Name="LEXLikeUsrMostRecentPostsCount" Type="int" />
-          <Property Name="LEXUseBlackList" Type="bit" />
-          <Property Name="LEXChkPostCaptionsforBlackList" Type="bit" />
-          <Property Name="LEXPostedWithinLastXDays" Type="bit" />
-          <Property Name="LEXPostedWithinLastXDaysVal" Type="int" />
-          <Property Name="LEXPostActionEmpty" Type="bit" />
-          <Property Name="LEXDonotLikePvtUsers" Type="bit" />
-          <Property Name="LEXSkipBizAccount" Type="bit" />
           <Property Name="WhistListManualUsers" Type="nvarchar(max)" />
           <Property Name="WhilstListImportedUsers" Type="nvarchar(max)" />
           <Property Name="BlackListUsers" Type="nvarchar(max)" />
@@ -600,6 +536,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SocialProfile_Instagram_TargetingInformation_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="SocialProfile_Instagram_TargetingInformation" Type="Self.SocialProfile_Instagram_TargetingInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="SocialProfile_Instagram_TargetingInformation">
+              <PropertyRef Name="BrokerCustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SocialProfile_PaymentPlan">
           <End Role="PaymentPlan" Type="Self.PaymentPlan" Multiplicity="0..1" />
           <End Role="SocialProfile" Type="Self.SocialProfile" Multiplicity="*" />
@@ -811,6 +759,10 @@
             <End Role="SocialProfile" EntitySet="SocialProfile" />
             <End Role="SocialProfile_FollowedAccounts" EntitySet="SocialProfile_FollowedAccounts" />
           </AssociationSet>
+          <AssociationSet Name="FK_SocialProfile_Instagram_TargetingInformation_Customer" Association="Self.FK_SocialProfile_Instagram_TargetingInformation_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="SocialProfile_Instagram_TargetingInformation" EntitySet="SocialProfile_Instagram_TargetingInformation" />
+          </AssociationSet>
           <AssociationSet Name="FK_SocialProfile_PaymentPlan" Association="Self.FK_SocialProfile_PaymentPlan">
             <End Role="PaymentPlan" EntitySet="PaymentPlan" />
             <End Role="SocialProfile" EntitySet="SocialProfile" />
@@ -1001,11 +953,6 @@
             <End Role="PaymentPlan" EntitySet="PaymentPlans" />
             <End Role="SocialProfile_Payments" EntitySet="SocialProfile_Payments" />
           </AssociationSet>
-          <EntitySet Name="SocialProfile_Instagram_TargetingInformation" EntityType="SocialGrowth2Entities.SocialProfile_Instagram_TargetingInformation" />
-          <AssociationSet Name="FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile">
-            <End Role="SocialProfile" EntitySet="SocialProfiles" />
-            <End Role="SocialProfile_Instagram_TargetingInformation" EntitySet="SocialProfile_Instagram_TargetingInformation" />
-          </AssociationSet>
           <FunctionImport Name="SG2_usp_Customers_Get" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Customers_Get_Result)">
           <Parameter Name="Id" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -1032,6 +979,15 @@
           <AssociationSet Name="FK_Customer_Payments_Customer" Association="SocialGrowth2Entities.FK_Customer_Payments_Customer">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="Customer_Payments" EntitySet="Customer_Payments" />
+          </AssociationSet>
+          <EntitySet Name="SocialProfile_Instagram_TargetingInformation" EntityType="SocialGrowth2Entities.SocialProfile_Instagram_TargetingInformation" />
+          <AssociationSet Name="FK_SocialProfile_Instagram_TargetingInformation_Customer" Association="SocialGrowth2Entities.FK_SocialProfile_Instagram_TargetingInformation_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="SocialProfile_Instagram_TargetingInformation" EntitySet="SocialProfile_Instagram_TargetingInformation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile">
+            <End Role="SocialProfile" EntitySet="SocialProfiles" />
+            <End Role="SocialProfile_Instagram_TargetingInformation" EntitySet="SocialProfile_Instagram_TargetingInformation" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="SG2_usp_Get_AllUser1_Result">
@@ -1858,11 +1814,11 @@
           <NavigationProperty Name="SocialProfile_Payments" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Payments" />
           <NavigationProperty Name="SocialProfile_FollowedAccounts" Relationship="SocialGrowth2Entities.FK_SocialProfile_FollowedAccounts_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_FollowedAccounts" />
           <NavigationProperty Name="PaymentPlan" Relationship="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan" FromRole="SocialProfile" ToRole="PaymentPlan" />
-          <NavigationProperty Name="SocialProfile_Instagram_TargetingInformation" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Instagram_TargetingInformation" />
           <Property Name="BlockedStatus" Type="Int32" />
           <Property Name="BockedSinceDateTime" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Customer" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer" FromRole="SocialProfile" ToRole="Customer" />
           <Property Name="TrelloStatusId" Type="Int32" />
+          <NavigationProperty Name="SocialProfile_Instagram_TargetingInformation" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Instagram_TargetingInformation" />
         </EntityType>
         <Association Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
           <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="1" />
@@ -1963,140 +1919,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="SocialProfile_Instagram_TargetingInformation">
-          <Key>
-            <PropertyRef Name="TargetingInformationId" />
-          </Key>
-          <Property Name="TargetingInformationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SocialProfileId" Type="Int32" />
-          <Property Name="IsSystem" Type="Boolean" />
-          <Property Name="FollowOn" Type="Boolean" />
-          <Property Name="LikeOn" Type="Boolean" />
-          <Property Name="UnFollowOn" Type="Boolean" />
-          <Property Name="StoryViewerOn" Type="Boolean" />
-          <Property Name="ContactMembersOn" Type="Boolean" />
-          <Property Name="HashTagsToEngage" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="HashTagsToNotEngage" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="LocationsToEngage" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="DirectCompetitors" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="GenderEngagmentPref" Type="Int32" />
-          <Property Name="IncludeBusinessAccounts" Type="Int32" />
-          <Property Name="MonOper" Type="Boolean" />
-          <Property Name="TueOper" Type="Boolean" />
-          <Property Name="WedOper" Type="Boolean" />
-          <Property Name="ThuOper" Type="Boolean" />
-          <Property Name="FriOper" Type="Boolean" />
-          <Property Name="SatOper" Type="Boolean" />
-          <Property Name="SunOper" Type="Boolean" />
-          <Property Name="ExecutionIntervals" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="RandomizeIntervalsDaily" Type="Boolean" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SocialAccAs" Type="Int32" />
-          <Property Name="FollNewPerDayLim" Type="Int32" />
-          <Property Name="FollDailyIncreaseLim" Type="Int32" />
-          <Property Name="FollMaxPerDayLim" Type="Int32" />
-          <Property Name="UnFollNewPerDayLim" Type="Int32" />
-          <Property Name="UnFollDailyIncreaseLim" Type="Int32" />
-          <Property Name="UnFollMaxPerDayLim" Type="Int32" />
-          <Property Name="LikePerDayLim" Type="Int32" />
-          <Property Name="LikeDailyIncreaseLim" Type="Int32" />
-          <Property Name="LikeMaxPerDayLim" Type="Int32" />
-          <Property Name="ViewStoriesPerDayLim" Type="Int32" />
-          <Property Name="ViewStoriesDailyIncreaseLim" Type="Int32" />
-          <Property Name="ViewStoriesMaxPerDayLim" Type="Int32" />
-          <Property Name="CommentPerDayLim" Type="Int32" />
-          <Property Name="CommentDailyIncreaseLim" Type="Int32" />
-          <Property Name="CommentMaxPerDayLim" Type="Int32" />
-          <Property Name="DMPerDayLim" Type="Int32" />
-          <Property Name="DMDailyIncreaseLim" Type="Int32" />
-          <Property Name="DMMaxPerDayLim" Type="Int32" />
-          <Property Name="FollUserProfileImage" Type="Boolean" />
-          <Property Name="FollUserMinPosts" Type="Boolean" />
-          <Property Name="FollUserMinPostsVal" Type="Int32" />
-          <Property Name="FollUserPostsLastXDays" Type="Boolean" />
-          <Property Name="FollUserPostsLastXDaysVal" Type="Int32" />
-          <Property Name="FollUseBlackList" Type="Boolean" />
-          <Property Name="FollCheckPostsCapBlackList" Type="Boolean" />
-          <Property Name="FollDoNotFollowUsernamewithdigits" Type="Boolean" />
-          <Property Name="FollDoNotFollowUsernamewithdigitsVal" Type="Int32" />
-          <Property Name="FollUserLangs" Type="Boolean" />
-          <Property Name="FollUserLangsList" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="FollowWaitBetweenActionsVal1" Type="Int32" />
-          <Property Name="FollowWaitBetweenActionsVal2" Type="Int32" />
-          <Property Name="FollowCompetitorsFollowers" Type="Boolean" />
-          <Property Name="FollowCompetitorsFollowersVal" Type="Int32" />
-          <Property Name="FollowUsersfromHashtagResults" Type="Boolean" />
-          <Property Name="FollowUsersfromHashtagResultsVal" Type="Int32" />
-          <Property Name="AfterFollLikeuserPosts" Type="Boolean" />
-          <Property Name="AfterFollCommentUserPosts" Type="Boolean" />
-          <Property Name="AfterFollViewUserStory" Type="Boolean" />
-          <Property Name="AfterFollMuteUser" Type="Boolean" />
-          <Property Name="FollEngageDaily" Type="Boolean" />
-          <Property Name="FollEngageDailyfollCountFrmUnFollowList" Type="Boolean" />
-          <Property Name="FollEngageDailyfollCountFrmUnFollowListVal" Type="Int32" />
-          <Property Name="FollEngageLikeRecentPost" Type="Boolean" />
-          <Property Name="FollEngageEnableLikeCommAfterPostLike" Type="Boolean" />
-          <Property Name="FollEngageSendDMAfterLike" Type="Boolean" />
-          <Property Name="FollEngageViewUserStoryAfterLike" Type="Boolean" />
-          <Property Name="UnFollFollowersAfterMinDays" Type="Boolean" />
-          <Property Name="UnFollFollowersAfterMinDaysVal" Type="Int32" />
-          <Property Name="UnFollDoNotUnFollowLikersOfPosts" Type="Boolean" />
-          <Property Name="UnFollDoNotUnFollowLikersOfPostsCount" Type="Int32" />
-          <Property Name="UnFollDoNotUnFollowCommThatCommented" Type="Boolean" />
-          <Property Name="UnFollDoNotUnFollowCommThatCommentedCount" Type="Int32" />
-          <Property Name="UnFollUseWhiteList" Type="Boolean" />
-          <Property Name="StorVwOnlyPostXMin" Type="Boolean" />
-          <Property Name="StorVwOnlyPostXMinVal" Type="Int32" />
-          <Property Name="StorVwAfterReply" Type="Boolean" />
-          <Property Name="StorVwAfterLikeSendDM" Type="Boolean" />
-          <Property Name="CommUsrRecentPosts" Type="Boolean" />
-          <Property Name="CommUsrRecentPostsVal" Type="Int32" />
-          <Property Name="CommUsrRecentPostsTypes" Type="Int32" />
-          <Property Name="CommUserPostedWithinXDays" Type="Boolean" />
-          <Property Name="CommUserPostedWithinXDaysVal" Type="Int32" />
-          <Property Name="CommFltrPostsByLike" Type="Boolean" />
-          <Property Name="CommFltrPostsByLikeCount" Type="Int32" />
-          <Property Name="CommDelCommAfterXDays" Type="Boolean" />
-          <Property Name="CommDelCommAfterXDaysCount" Type="Int32" />
-          <Property Name="CommLine1" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CommLine2" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CommLine3" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CommLine4" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CommLine5" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="DMShowUnReadMsg" Type="Boolean" />
-          <Property Name="DMShowPendingReq" Type="Boolean" />
-          <Property Name="LEXLikeUsrMostRecentPosts" Type="Boolean" />
-          <Property Name="LEXLikeUsrMostRecentPostsCount" Type="Int32" />
-          <Property Name="LEXUseBlackList" Type="Boolean" />
-          <Property Name="LEXChkPostCaptionsforBlackList" Type="Boolean" />
-          <Property Name="LEXPostedWithinLastXDays" Type="Boolean" />
-          <Property Name="LEXPostedWithinLastXDaysVal" Type="Int32" />
-          <Property Name="LEXPostActionEmpty" Type="Boolean" />
-          <Property Name="LEXDonotLikePvtUsers" Type="Boolean" />
-          <Property Name="LEXSkipBizAccount" Type="Boolean" />
-          <Property Name="WhistListManualUsers" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="WhilstListImportedUsers" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="BlackListUsers" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="BlackListLocations" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="BlackListHashtags" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="BlackListWordsManual" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" FromRole="SocialProfile_Instagram_TargetingInformation" ToRole="SocialProfile" />
-        </EntityType>
-        <Association Name="FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile">
-          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="0..1" />
-          <End Type="SocialGrowth2Entities.SocialProfile_Instagram_TargetingInformation" Role="SocialProfile_Instagram_TargetingInformation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SocialProfile">
-              <PropertyRef Name="SocialProfileId" />
-            </Principal>
-            <Dependent Role="SocialProfile_Instagram_TargetingInformation">
-              <PropertyRef Name="SocialProfileId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="SG2_usp_Customers_Get_Result">
           <Property Type="Int32" Name="CustomerId" Nullable="false" />
           <Property Type="String" Name="GUID" Nullable="false" MaxLength="36" />
@@ -2184,6 +2006,7 @@
           <NavigationProperty Name="Customer_ContactDetail" Relationship="SocialGrowth2Entities.FK_SG2_ContactDetails_SG2_Customer" FromRole="Customer" ToRole="Customer_ContactDetail" />
           <NavigationProperty Name="SocialProfiles" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer" FromRole="Customer" ToRole="SocialProfile" />
           <NavigationProperty Name="Customer_Payments" Relationship="SocialGrowth2Entities.FK_Customer_Payments_Customer" FromRole="Customer" ToRole="Customer_Payments" />
+          <NavigationProperty Name="SocialProfile_Instagram_TargetingInformation" Relationship="SocialGrowth2Entities.FK_SocialProfile_Instagram_TargetingInformation_Customer" FromRole="Customer" ToRole="SocialProfile_Instagram_TargetingInformation" />
         </EntityType>
         <Association Name="FK_Customer_PaymentPlan">
           <End Type="SocialGrowth2Entities.PaymentPlan" Role="PaymentPlan" Multiplicity="0..1" />
@@ -2273,6 +2096,89 @@
             </Principal>
             <Dependent Role="Customer_Payments">
               <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SocialProfile_Instagram_TargetingInformation">
+          <Key>
+            <PropertyRef Name="TargetingInformationId" />
+          </Key>
+          <Property Name="TargetingInformationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SocialProfileId" Type="Int32" />
+          <Property Name="IsSystem" Type="Boolean" />
+          <Property Name="IsBrokerDefault" Type="Boolean" />
+          <Property Name="BrokerCustomerId" Type="Int32" />
+          <Property Name="FollowOn" Type="Boolean" />
+          <Property Name="UnFollowOn" Type="Boolean" />
+          <Property Name="HashTagsToEngage" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="HashTagsToNotEngage" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="LocationsToEngage" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="DirectCompetitors" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="GenderEngagmentPref" Type="Int32" />
+          <Property Name="IncludeBusinessAccounts" Type="Int32" />
+          <Property Name="MonOper" Type="Boolean" />
+          <Property Name="TueOper" Type="Boolean" />
+          <Property Name="WedOper" Type="Boolean" />
+          <Property Name="ThuOper" Type="Boolean" />
+          <Property Name="FriOper" Type="Boolean" />
+          <Property Name="SatOper" Type="Boolean" />
+          <Property Name="SunOper" Type="Boolean" />
+          <Property Name="ExecutionIntervals" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FollUserProfileImage" Type="Boolean" />
+          <Property Name="FollUserMinPosts" Type="Boolean" />
+          <Property Name="FollUserMinPostsVal" Type="Int32" />
+          <Property Name="FollUserPostsLastXDays" Type="Boolean" />
+          <Property Name="FollUserPostsLastXDaysVal" Type="Int32" />
+          <Property Name="FollDoNotFollowUsernamewithdigits" Type="Boolean" />
+          <Property Name="FollDoNotFollowUsernamewithdigitsVal" Type="Int32" />
+          <Property Name="FollUserLangs" Type="Boolean" />
+          <Property Name="FollUserLangsList" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="AfterFollLikeuserPosts" Type="Boolean" />
+          <Property Name="AfterFollCommentUserPosts" Type="Boolean" />
+          <Property Name="AfterFollViewUserStory" Type="Boolean" />
+          <Property Name="AfterFollCommentUserStory" Type="Boolean" />
+          <Property Name="AfterFollMuteUser" Type="Boolean" />
+          <Property Name="UnFollFollowersAfterMinDays" Type="Boolean" />
+          <Property Name="UnFollFollowersAfterMinDaysVal" Type="Int32" />
+          <Property Name="UnFollDoNotUnFollowLikersOfPosts" Type="Boolean" />
+          <Property Name="UnFollDoNotUnFollowLikersOfPostsCount" Type="Int32" />
+          <Property Name="UnFollDoNotUnFollowCommThatCommented" Type="Boolean" />
+          <Property Name="UnFollDoNotUnFollowCommThatCommentedCount" Type="Int32" />
+          <Property Name="UnFollUseWhiteList" Type="Boolean" />
+          <Property Name="WhistListManualUsers" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="WhilstListImportedUsers" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BlackListUsers" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BlackListLocations" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BlackListHashtags" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BlackListWordsManual" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Customer" Relationship="SocialGrowth2Entities.FK_SocialProfile_Instagram_TargetingInformation_Customer" FromRole="SocialProfile_Instagram_TargetingInformation" ToRole="Customer" />
+          <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" FromRole="SocialProfile_Instagram_TargetingInformation" ToRole="SocialProfile" />
+        </EntityType>
+        <Association Name="FK_SocialProfile_Instagram_TargetingInformation_Customer">
+          <End Type="SocialGrowth2Entities.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="SocialGrowth2Entities.SocialProfile_Instagram_TargetingInformation" Role="SocialProfile_Instagram_TargetingInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="SocialProfile_Instagram_TargetingInformation">
+              <PropertyRef Name="BrokerCustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile">
+          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="0..1" />
+          <End Type="SocialGrowth2Entities.SocialProfile_Instagram_TargetingInformation" Role="SocialProfile_Instagram_TargetingInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SocialProfile">
+              <PropertyRef Name="SocialProfileId" />
+            </Principal>
+            <Dependent Role="SocialProfile_Instagram_TargetingInformation">
+              <PropertyRef Name="SocialProfileId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3189,128 +3095,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SocialProfile_Instagram_TargetingInformation">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile_Instagram_TargetingInformation">
-              <MappingFragment StoreEntitySet="SocialProfile_Instagram_TargetingInformation">
-                <ScalarProperty Name="BlackListWordsManual" ColumnName="BlackListWordsManual" />
-                <ScalarProperty Name="BlackListHashtags" ColumnName="BlackListHashtags" />
-                <ScalarProperty Name="BlackListLocations" ColumnName="BlackListLocations" />
-                <ScalarProperty Name="BlackListUsers" ColumnName="BlackListUsers" />
-                <ScalarProperty Name="WhilstListImportedUsers" ColumnName="WhilstListImportedUsers" />
-                <ScalarProperty Name="WhistListManualUsers" ColumnName="WhistListManualUsers" />
-                <ScalarProperty Name="LEXSkipBizAccount" ColumnName="LEXSkipBizAccount" />
-                <ScalarProperty Name="LEXDonotLikePvtUsers" ColumnName="LEXDonotLikePvtUsers" />
-                <ScalarProperty Name="LEXPostActionEmpty" ColumnName="LEXPostActionEmpty" />
-                <ScalarProperty Name="LEXPostedWithinLastXDaysVal" ColumnName="LEXPostedWithinLastXDaysVal" />
-                <ScalarProperty Name="LEXPostedWithinLastXDays" ColumnName="LEXPostedWithinLastXDays" />
-                <ScalarProperty Name="LEXChkPostCaptionsforBlackList" ColumnName="LEXChkPostCaptionsforBlackList" />
-                <ScalarProperty Name="LEXUseBlackList" ColumnName="LEXUseBlackList" />
-                <ScalarProperty Name="LEXLikeUsrMostRecentPostsCount" ColumnName="LEXLikeUsrMostRecentPostsCount" />
-                <ScalarProperty Name="LEXLikeUsrMostRecentPosts" ColumnName="LEXLikeUsrMostRecentPosts" />
-                <ScalarProperty Name="DMShowPendingReq" ColumnName="DMShowPendingReq" />
-                <ScalarProperty Name="DMShowUnReadMsg" ColumnName="DMShowUnReadMsg" />
-                <ScalarProperty Name="CommLine5" ColumnName="CommLine5" />
-                <ScalarProperty Name="CommLine4" ColumnName="CommLine4" />
-                <ScalarProperty Name="CommLine3" ColumnName="CommLine3" />
-                <ScalarProperty Name="CommLine2" ColumnName="CommLine2" />
-                <ScalarProperty Name="CommLine1" ColumnName="CommLine1" />
-                <ScalarProperty Name="CommDelCommAfterXDaysCount" ColumnName="CommDelCommAfterXDaysCount" />
-                <ScalarProperty Name="CommDelCommAfterXDays" ColumnName="CommDelCommAfterXDays" />
-                <ScalarProperty Name="CommFltrPostsByLikeCount" ColumnName="CommFltrPostsByLikeCount" />
-                <ScalarProperty Name="CommFltrPostsByLike" ColumnName="CommFltrPostsByLike" />
-                <ScalarProperty Name="CommUserPostedWithinXDaysVal" ColumnName="CommUserPostedWithinXDaysVal" />
-                <ScalarProperty Name="CommUserPostedWithinXDays" ColumnName="CommUserPostedWithinXDays" />
-                <ScalarProperty Name="CommUsrRecentPostsTypes" ColumnName="CommUsrRecentPostsTypes" />
-                <ScalarProperty Name="CommUsrRecentPostsVal" ColumnName="CommUsrRecentPostsVal" />
-                <ScalarProperty Name="CommUsrRecentPosts" ColumnName="CommUsrRecentPosts" />
-                <ScalarProperty Name="StorVwAfterLikeSendDM" ColumnName="StorVwAfterLikeSendDM" />
-                <ScalarProperty Name="StorVwAfterReply" ColumnName="StorVwAfterReply" />
-                <ScalarProperty Name="StorVwOnlyPostXMinVal" ColumnName="StorVwOnlyPostXMinVal" />
-                <ScalarProperty Name="StorVwOnlyPostXMin" ColumnName="StorVwOnlyPostXMin" />
-                <ScalarProperty Name="UnFollUseWhiteList" ColumnName="UnFollUseWhiteList" />
-                <ScalarProperty Name="UnFollDoNotUnFollowCommThatCommentedCount" ColumnName="UnFollDoNotUnFollowCommThatCommentedCount" />
-                <ScalarProperty Name="UnFollDoNotUnFollowCommThatCommented" ColumnName="UnFollDoNotUnFollowCommThatCommented" />
-                <ScalarProperty Name="UnFollDoNotUnFollowLikersOfPostsCount" ColumnName="UnFollDoNotUnFollowLikersOfPostsCount" />
-                <ScalarProperty Name="UnFollDoNotUnFollowLikersOfPosts" ColumnName="UnFollDoNotUnFollowLikersOfPosts" />
-                <ScalarProperty Name="UnFollFollowersAfterMinDaysVal" ColumnName="UnFollFollowersAfterMinDaysVal" />
-                <ScalarProperty Name="UnFollFollowersAfterMinDays" ColumnName="UnFollFollowersAfterMinDays" />
-                <ScalarProperty Name="FollEngageViewUserStoryAfterLike" ColumnName="FollEngageViewUserStoryAfterLike" />
-                <ScalarProperty Name="FollEngageSendDMAfterLike" ColumnName="FollEngageSendDMAfterLike" />
-                <ScalarProperty Name="FollEngageEnableLikeCommAfterPostLike" ColumnName="FollEngageEnableLikeCommAfterPostLike" />
-                <ScalarProperty Name="FollEngageLikeRecentPost" ColumnName="FollEngageLikeRecentPost" />
-                <ScalarProperty Name="FollEngageDailyfollCountFrmUnFollowListVal" ColumnName="FollEngageDailyfollCountFrmUnFollowListVal" />
-                <ScalarProperty Name="FollEngageDailyfollCountFrmUnFollowList" ColumnName="FollEngageDailyfollCountFrmUnFollowList" />
-                <ScalarProperty Name="FollEngageDaily" ColumnName="FollEngageDaily" />
-                <ScalarProperty Name="AfterFollMuteUser" ColumnName="AfterFollMuteUser" />
-                <ScalarProperty Name="AfterFollViewUserStory" ColumnName="AfterFollViewUserStory" />
-                <ScalarProperty Name="AfterFollCommentUserPosts" ColumnName="AfterFollCommentUserPosts" />
-                <ScalarProperty Name="AfterFollLikeuserPosts" ColumnName="AfterFollLikeuserPosts" />
-                <ScalarProperty Name="FollowUsersfromHashtagResultsVal" ColumnName="FollowUsersfromHashtagResultsVal" />
-                <ScalarProperty Name="FollowUsersfromHashtagResults" ColumnName="FollowUsersfromHashtagResults" />
-                <ScalarProperty Name="FollowCompetitorsFollowersVal" ColumnName="FollowCompetitorsFollowersVal" />
-                <ScalarProperty Name="FollowCompetitorsFollowers" ColumnName="FollowCompetitorsFollowers" />
-                <ScalarProperty Name="FollowWaitBetweenActionsVal2" ColumnName="FollowWaitBetweenActionsVal2" />
-                <ScalarProperty Name="FollowWaitBetweenActionsVal1" ColumnName="FollowWaitBetweenActionsVal1" />
-                <ScalarProperty Name="FollUserLangsList" ColumnName="FollUserLangsList" />
-                <ScalarProperty Name="FollUserLangs" ColumnName="FollUserLangs" />
-                <ScalarProperty Name="FollDoNotFollowUsernamewithdigitsVal" ColumnName="FollDoNotFollowUsernamewithdigitsVal" />
-                <ScalarProperty Name="FollDoNotFollowUsernamewithdigits" ColumnName="FollDoNotFollowUsernamewithdigits" />
-                <ScalarProperty Name="FollCheckPostsCapBlackList" ColumnName="FollCheckPostsCapBlackList" />
-                <ScalarProperty Name="FollUseBlackList" ColumnName="FollUseBlackList" />
-                <ScalarProperty Name="FollUserPostsLastXDaysVal" ColumnName="FollUserPostsLastXDaysVal" />
-                <ScalarProperty Name="FollUserPostsLastXDays" ColumnName="FollUserPostsLastXDays" />
-                <ScalarProperty Name="FollUserMinPostsVal" ColumnName="FollUserMinPostsVal" />
-                <ScalarProperty Name="FollUserMinPosts" ColumnName="FollUserMinPosts" />
-                <ScalarProperty Name="FollUserProfileImage" ColumnName="FollUserProfileImage" />
-                <ScalarProperty Name="DMMaxPerDayLim" ColumnName="DMMaxPerDayLim" />
-                <ScalarProperty Name="DMDailyIncreaseLim" ColumnName="DMDailyIncreaseLim" />
-                <ScalarProperty Name="DMPerDayLim" ColumnName="DMPerDayLim" />
-                <ScalarProperty Name="CommentMaxPerDayLim" ColumnName="CommentMaxPerDayLim" />
-                <ScalarProperty Name="CommentDailyIncreaseLim" ColumnName="CommentDailyIncreaseLim" />
-                <ScalarProperty Name="CommentPerDayLim" ColumnName="CommentPerDayLim" />
-                <ScalarProperty Name="ViewStoriesMaxPerDayLim" ColumnName="ViewStoriesMaxPerDayLim" />
-                <ScalarProperty Name="ViewStoriesDailyIncreaseLim" ColumnName="ViewStoriesDailyIncreaseLim" />
-                <ScalarProperty Name="ViewStoriesPerDayLim" ColumnName="ViewStoriesPerDayLim" />
-                <ScalarProperty Name="LikeMaxPerDayLim" ColumnName="LikeMaxPerDayLim" />
-                <ScalarProperty Name="LikeDailyIncreaseLim" ColumnName="LikeDailyIncreaseLim" />
-                <ScalarProperty Name="LikePerDayLim" ColumnName="LikePerDayLim" />
-                <ScalarProperty Name="UnFollMaxPerDayLim" ColumnName="UnFollMaxPerDayLim" />
-                <ScalarProperty Name="UnFollDailyIncreaseLim" ColumnName="UnFollDailyIncreaseLim" />
-                <ScalarProperty Name="UnFollNewPerDayLim" ColumnName="UnFollNewPerDayLim" />
-                <ScalarProperty Name="FollMaxPerDayLim" ColumnName="FollMaxPerDayLim" />
-                <ScalarProperty Name="FollDailyIncreaseLim" ColumnName="FollDailyIncreaseLim" />
-                <ScalarProperty Name="FollNewPerDayLim" ColumnName="FollNewPerDayLim" />
-                <ScalarProperty Name="SocialAccAs" ColumnName="SocialAccAs" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="RandomizeIntervalsDaily" ColumnName="RandomizeIntervalsDaily" />
-                <ScalarProperty Name="ExecutionIntervals" ColumnName="ExecutionIntervals" />
-                <ScalarProperty Name="SunOper" ColumnName="SunOper" />
-                <ScalarProperty Name="SatOper" ColumnName="SatOper" />
-                <ScalarProperty Name="FriOper" ColumnName="FriOper" />
-                <ScalarProperty Name="ThuOper" ColumnName="ThuOper" />
-                <ScalarProperty Name="WedOper" ColumnName="WedOper" />
-                <ScalarProperty Name="TueOper" ColumnName="TueOper" />
-                <ScalarProperty Name="MonOper" ColumnName="MonOper" />
-                <ScalarProperty Name="IncludeBusinessAccounts" ColumnName="IncludeBusinessAccounts" />
-                <ScalarProperty Name="GenderEngagmentPref" ColumnName="GenderEngagmentPref" />
-                <ScalarProperty Name="DirectCompetitors" ColumnName="DirectCompetitors" />
-                <ScalarProperty Name="LocationsToEngage" ColumnName="LocationsToEngage" />
-                <ScalarProperty Name="HashTagsToNotEngage" ColumnName="HashTagsToNotEngage" />
-                <ScalarProperty Name="HashTagsToEngage" ColumnName="HashTagsToEngage" />
-                <ScalarProperty Name="ContactMembersOn" ColumnName="ContactMembersOn" />
-                <ScalarProperty Name="StoryViewerOn" ColumnName="StoryViewerOn" />
-                <ScalarProperty Name="UnFollowOn" ColumnName="UnFollowOn" />
-                <ScalarProperty Name="LikeOn" ColumnName="LikeOn" />
-                <ScalarProperty Name="FollowOn" ColumnName="FollowOn" />
-                <ScalarProperty Name="IsSystem" ColumnName="IsSystem" />
-                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
-                <ScalarProperty Name="TargetingInformationId" ColumnName="TargetingInformationId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SG2_usp_Customers_Get" FunctionName="SocialGrowth2Entities.Store.SG2_usp_Customers_Get">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_Customers_Get_Result">
@@ -3445,6 +3229,64 @@
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SocialProfile_Instagram_TargetingInformation">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile_Instagram_TargetingInformation">
+              <MappingFragment StoreEntitySet="SocialProfile_Instagram_TargetingInformation">
+                <ScalarProperty Name="BlackListWordsManual" ColumnName="BlackListWordsManual" />
+                <ScalarProperty Name="BlackListHashtags" ColumnName="BlackListHashtags" />
+                <ScalarProperty Name="BlackListLocations" ColumnName="BlackListLocations" />
+                <ScalarProperty Name="BlackListUsers" ColumnName="BlackListUsers" />
+                <ScalarProperty Name="WhilstListImportedUsers" ColumnName="WhilstListImportedUsers" />
+                <ScalarProperty Name="WhistListManualUsers" ColumnName="WhistListManualUsers" />
+                <ScalarProperty Name="UnFollUseWhiteList" ColumnName="UnFollUseWhiteList" />
+                <ScalarProperty Name="UnFollDoNotUnFollowCommThatCommentedCount" ColumnName="UnFollDoNotUnFollowCommThatCommentedCount" />
+                <ScalarProperty Name="UnFollDoNotUnFollowCommThatCommented" ColumnName="UnFollDoNotUnFollowCommThatCommented" />
+                <ScalarProperty Name="UnFollDoNotUnFollowLikersOfPostsCount" ColumnName="UnFollDoNotUnFollowLikersOfPostsCount" />
+                <ScalarProperty Name="UnFollDoNotUnFollowLikersOfPosts" ColumnName="UnFollDoNotUnFollowLikersOfPosts" />
+                <ScalarProperty Name="UnFollFollowersAfterMinDaysVal" ColumnName="UnFollFollowersAfterMinDaysVal" />
+                <ScalarProperty Name="UnFollFollowersAfterMinDays" ColumnName="UnFollFollowersAfterMinDays" />
+                <ScalarProperty Name="AfterFollMuteUser" ColumnName="AfterFollMuteUser" />
+                <ScalarProperty Name="AfterFollCommentUserStory" ColumnName="AfterFollCommentUserStory" />
+                <ScalarProperty Name="AfterFollViewUserStory" ColumnName="AfterFollViewUserStory" />
+                <ScalarProperty Name="AfterFollCommentUserPosts" ColumnName="AfterFollCommentUserPosts" />
+                <ScalarProperty Name="AfterFollLikeuserPosts" ColumnName="AfterFollLikeuserPosts" />
+                <ScalarProperty Name="FollUserLangsList" ColumnName="FollUserLangsList" />
+                <ScalarProperty Name="FollUserLangs" ColumnName="FollUserLangs" />
+                <ScalarProperty Name="FollDoNotFollowUsernamewithdigitsVal" ColumnName="FollDoNotFollowUsernamewithdigitsVal" />
+                <ScalarProperty Name="FollDoNotFollowUsernamewithdigits" ColumnName="FollDoNotFollowUsernamewithdigits" />
+                <ScalarProperty Name="FollUserPostsLastXDaysVal" ColumnName="FollUserPostsLastXDaysVal" />
+                <ScalarProperty Name="FollUserPostsLastXDays" ColumnName="FollUserPostsLastXDays" />
+                <ScalarProperty Name="FollUserMinPostsVal" ColumnName="FollUserMinPostsVal" />
+                <ScalarProperty Name="FollUserMinPosts" ColumnName="FollUserMinPosts" />
+                <ScalarProperty Name="FollUserProfileImage" ColumnName="FollUserProfileImage" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="ExecutionIntervals" ColumnName="ExecutionIntervals" />
+                <ScalarProperty Name="SunOper" ColumnName="SunOper" />
+                <ScalarProperty Name="SatOper" ColumnName="SatOper" />
+                <ScalarProperty Name="FriOper" ColumnName="FriOper" />
+                <ScalarProperty Name="ThuOper" ColumnName="ThuOper" />
+                <ScalarProperty Name="WedOper" ColumnName="WedOper" />
+                <ScalarProperty Name="TueOper" ColumnName="TueOper" />
+                <ScalarProperty Name="MonOper" ColumnName="MonOper" />
+                <ScalarProperty Name="IncludeBusinessAccounts" ColumnName="IncludeBusinessAccounts" />
+                <ScalarProperty Name="GenderEngagmentPref" ColumnName="GenderEngagmentPref" />
+                <ScalarProperty Name="DirectCompetitors" ColumnName="DirectCompetitors" />
+                <ScalarProperty Name="LocationsToEngage" ColumnName="LocationsToEngage" />
+                <ScalarProperty Name="HashTagsToNotEngage" ColumnName="HashTagsToNotEngage" />
+                <ScalarProperty Name="HashTagsToEngage" ColumnName="HashTagsToEngage" />
+                <ScalarProperty Name="UnFollowOn" ColumnName="UnFollowOn" />
+                <ScalarProperty Name="FollowOn" ColumnName="FollowOn" />
+                <ScalarProperty Name="BrokerCustomerId" ColumnName="BrokerCustomerId" />
+                <ScalarProperty Name="IsBrokerDefault" ColumnName="IsBrokerDefault" />
+                <ScalarProperty Name="IsSystem" ColumnName="IsSystem" />
+                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
+                <ScalarProperty Name="TargetingInformationId" ColumnName="TargetingInformationId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

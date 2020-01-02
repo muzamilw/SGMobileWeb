@@ -149,108 +149,50 @@ namespace SG2.CORE.MODAL.MobileViewModels
     public class MobileSocialProfile_Instagram_TargetingInformation
     {
         public int TargetingInformationId { get; set; }
-        public int SocialProfileId { get; set; }
-        
-        public bool FollowOn { get; set; }
-        public bool LikeOn { get; set; }
-        public bool UnFollowOn { get; set; }
-        public bool StoryViewerOn { get; set; }
-        public bool ContactMembersOn { get; set; }
+        public Nullable<int> SocialProfileId { get; set; }
+        public Nullable<bool> IsSystem { get; set; }
+       
+        public Nullable<bool> FollowOn { get; set; }
+        public Nullable<bool> UnFollowOn { get; set; }
         public string HashTagsToEngage { get; set; }
         public string HashTagsToNotEngage { get; set; }
         public string LocationsToEngage { get; set; }
         public string DirectCompetitors { get; set; }
-        public int GenderEngagmentPref { get; set; }
-        public int IncludeBusinessAccounts { get; set; }
-        public bool MonOper { get; set; }
-        public bool TueOper { get; set; }
-        public bool WedOper { get; set; }
-        public bool ThuOper { get; set; }
-        public bool FriOper { get; set; }
-        public bool SatOper { get; set; }
-        public bool SunOper { get; set; }
+        public Nullable<int> GenderEngagmentPref { get; set; }
+        public Nullable<int> IncludeBusinessAccounts { get; set; }
+        public Nullable<bool> MonOper { get; set; }
+        public Nullable<bool> TueOper { get; set; }
+        public Nullable<bool> WedOper { get; set; }
+        public Nullable<bool> ThuOper { get; set; }
+        public Nullable<bool> FriOper { get; set; }
+        public Nullable<bool> SatOper { get; set; }
+        public Nullable<bool> SunOper { get; set; }
         public string ExecutionIntervals { get; set; }
-        public bool RandomizeIntervalsDaily { get; set; }
-       
-        public int SocialAccAs { get; set; }
-      
-        public int FollMaxPerDayLim { get; set; }
-   
-        public int UnFollMaxPerDayLim { get; set; }
-     
-        public int LikeMaxPerDayLim { get; set; }
-       
-        public int ViewStoriesMaxPerDayLim { get; set; }
-       
-        public int CommentMaxPerDayLim { get; set; }
-      
-        //public int DMMaxPerDayLim { get; set; }
-
-
-        public bool FollUserProfileImage { get; set; }
-        public bool FollUserMinPosts { get; set; }
-        public int FollUserMinPostsVal { get; set; }
-        public bool FollUserPostsLastXDays { get; set; }
-        public int FollUserPostsLastXDaysVal { get; set; }
-        public bool FollUseBlackList { get; set; }
-        public bool FollCheckPostsCapBlackList { get; set; }
-        public bool FollDoNotFollowUsernamewithdigits { get; set; }
-        public int FollDoNotFollowUsernamewithdigitsVal { get; set; }
-        public bool FollUserLangs { get; set; }
+        public System.DateTime CreatedOn { get; set; }
+        public string CreatedBy { get; set; }
+        public System.DateTime UpdatedOn { get; set; }
+        public string UpdatedBy { get; set; }
+        public Nullable<bool> FollUserProfileImage { get; set; }
+        public Nullable<bool> FollUserMinPosts { get; set; }
+        public Nullable<int> FollUserMinPostsVal { get; set; }
+        public Nullable<bool> FollUserPostsLastXDays { get; set; }
+        public Nullable<int> FollUserPostsLastXDaysVal { get; set; }
+        public Nullable<bool> FollDoNotFollowUsernamewithdigits { get; set; }
+        public Nullable<int> FollDoNotFollowUsernamewithdigitsVal { get; set; }
+        public Nullable<bool> FollUserLangs { get; set; }
         public string FollUserLangsList { get; set; }
-        public int FollowWaitBetweenActionsVal1 { get; set; }
-        public int FollowWaitBetweenActionsVal2 { get; set; }
-        public bool FollowCompetitorsFollowers { get; set; }
-        public int FollowCompetitorsFollowersVal { get; set; }
-        public bool FollowUsersfromHashtagResults { get; set; }
-        public int FollowUsersfromHashtagResultsVal { get; set; }
-        public bool AfterFollLikeuserPosts { get; set; }
-        public bool AfterFollCommentUserPosts { get; set; }
-        public bool AfterFollViewUserStory { get; set; }
-        public bool AfterFollMuteUser { get; set; }
-        public bool FollEngageDaily { get; set; }
-        public bool FollEngageDailyfollCountFrmUnFollowList { get; set; }
-        public int FollEngageDailyfollCountFrmUnFollowListVal { get; set; }
-        public bool FollEngageLikeRecentPost { get; set; }
-        public bool FollEngageEnableLikeCommAfterPostLike { get; set; }
-        public bool FollEngageSendDMAfterLike { get; set; }
-        public bool FollEngageViewUserStoryAfterLike { get; set; }
-        public bool UnFollFollowersAfterMinDays { get; set; }
-        public int UnFollFollowersAfterMinDaysVal { get; set; }
-        public bool UnFollDoNotUnFollowLikersOfPosts { get; set; }
-        public int UnFollDoNotUnFollowLikersOfPostsCount { get; set; }
-        public bool UnFollDoNotUnFollowCommThatCommented { get; set; }
-        public int UnFollDoNotUnFollowCommThatCommentedCount { get; set; }
-        public bool UnFollUseWhiteList { get; set; }
-        public bool StorVwOnlyPostXMin { get; set; }
-        public int StorVwOnlyPostXMinVal { get; set; }
-        public bool StorVwAfterReply { get; set; }
-        public bool StorVwAfterLikeSendDM { get; set; }
-        public bool CommUsrRecentPosts { get; set; }
-        public int CommUsrRecentPostsVal { get; set; }
-        public int CommUsrRecentPostsTypes { get; set; }
-        public bool CommUserPostedWithinXDays { get; set; }
-        public int CommUserPostedWithinXDaysVal { get; set; }
-        public bool CommFltrPostsByLike { get; set; }
-        public int CommFltrPostsByLikeCount { get; set; }
-        public bool CommDelCommAfterXDays { get; set; }
-        public int CommDelCommAfterXDaysCount { get; set; }
-        public string CommLine1 { get; set; }
-        public string CommLine2 { get; set; }
-        public string CommLine3 { get; set; }
-        public string CommLine4 { get; set; }
-        public string CommLine5 { get; set; }
-        public bool DMShowUnReadMsg { get; set; }
-        public bool DMShowPendingReq { get; set; }
-        public bool LEXLikeUsrMostRecentPosts { get; set; }
-        public int LEXLikeUsrMostRecentPostsCount { get; set; }
-        public bool LEXUseBlackList { get; set; }
-        public bool LEXChkPostCaptionsforBlackList { get; set; }
-        public bool LEXPostedWithinLastXDays { get; set; }
-        public int LEXPostedWithinLastXDaysVal { get; set; }
-        public bool LEXPostActionEmpty { get; set; }
-        public bool LEXDonotLikePvtUsers { get; set; }
-        public bool LEXSkipBizAccount { get; set; }
+        public Nullable<bool> AfterFollLikeuserPosts { get; set; }
+        public Nullable<bool> AfterFollCommentUserPosts { get; set; }
+        public Nullable<bool> AfterFollViewUserStory { get; set; }
+        public Nullable<bool> AfterFollCommentUserStory { get; set; }
+        public Nullable<bool> AfterFollMuteUser { get; set; }
+        public Nullable<bool> UnFollFollowersAfterMinDays { get; set; }
+        public Nullable<int> UnFollFollowersAfterMinDaysVal { get; set; }
+        public Nullable<bool> UnFollDoNotUnFollowLikersOfPosts { get; set; }
+        public Nullable<int> UnFollDoNotUnFollowLikersOfPostsCount { get; set; }
+        public Nullable<bool> UnFollDoNotUnFollowCommThatCommented { get; set; }
+        public Nullable<int> UnFollDoNotUnFollowCommThatCommentedCount { get; set; }
+        public Nullable<bool> UnFollUseWhiteList { get; set; }
         public string WhistListManualUsers { get; set; }
         public string WhilstListImportedUsers { get; set; }
         public string BlackListUsers { get; set; }

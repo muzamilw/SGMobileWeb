@@ -60,8 +60,8 @@ namespace SG2.CORE.MODAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SocialProfile_FollowedAccounts> SocialProfile_FollowedAccounts { get; set; }
         public virtual PaymentPlan PaymentPlan { get; set; }
+        public virtual Customer Customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SocialProfile_Instagram_TargetingInformation> SocialProfile_Instagram_TargetingInformation { get; set; }
-        public virtual Customer Customer { get; set; }
     }
 }

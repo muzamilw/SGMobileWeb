@@ -274,7 +274,7 @@ namespace SG2.CORE.DAL.Repositories
                             }
                         }
                     }
-                    else if ((fieldName == "firstName") || (fieldName == "lastName") || (fieldName == "Source") || (fieldName == "Comment") || (fieldName == "Title") || (fieldName == "ResTeamMember") || (fieldName == "AvaToEveryOne") || (fieldName == "CustomerStatus"))
+                    else if ((fieldName == "firstName") || (fieldName == "LastName") || (fieldName == "Source") || (fieldName == "Comment") || (fieldName == "Title") || (fieldName == "ResTeamMember") || (fieldName == "AvaToEveryOne") || (fieldName == "CustomerStatus"))
                     {
                         var user = _db.Customers.FirstOrDefault(x => x.CustomerId == customerId);
 
@@ -286,7 +286,7 @@ namespace SG2.CORE.DAL.Repositories
                                 _db.SaveChanges();
                                 return true;
                             }
-                            else if (fieldName == "lastName")
+                            else if (fieldName == "LastName")
                             {
                                 user.SurName = value;
                                 _db.SaveChanges();

@@ -47,9 +47,9 @@ namespace SG2.CORE.DAL.DB
         public virtual DbSet<SocialProfile_Statistics> SocialProfile_Statistics { get; set; }
         public virtual DbSet<SocialProfile> SocialProfiles { get; set; }
         public virtual DbSet<PaymentPlan> PaymentPlans { get; set; }
-        public virtual DbSet<SocialProfile_Instagram_TargetingInformation> SocialProfile_Instagram_TargetingInformation { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Customer_Payments> Customer_Payments { get; set; }
+        public virtual DbSet<SocialProfile_Instagram_TargetingInformation> SocialProfile_Instagram_TargetingInformation { get; set; }
     
         public virtual ObjectResult<SG2_usp_SystemConfig_GetAll_Result> SG2_usp_SystemConfig_GetAll(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId)
         {
