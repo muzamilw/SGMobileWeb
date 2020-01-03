@@ -155,7 +155,6 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public Nullable<bool> FollowOn { get; set; }
         public Nullable<bool> UnFollowOn { get; set; }
         public string HashTagsToEngage { get; set; }
-        public string HashTagsToNotEngage { get; set; }
         public string LocationsToEngage { get; set; }
         public string DirectCompetitors { get; set; }
         public Nullable<int> GenderEngagmentPref { get; set; }
@@ -168,10 +167,7 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public Nullable<bool> SatOper { get; set; }
         public Nullable<bool> SunOper { get; set; }
         public string ExecutionIntervals { get; set; }
-        public System.DateTime CreatedOn { get; set; }
-        public string CreatedBy { get; set; }
-        public System.DateTime UpdatedOn { get; set; }
-        public string UpdatedBy { get; set; }
+       
         public Nullable<bool> FollUserProfileImage { get; set; }
         public Nullable<bool> FollUserMinPosts { get; set; }
         public Nullable<int> FollUserMinPostsVal { get; set; }

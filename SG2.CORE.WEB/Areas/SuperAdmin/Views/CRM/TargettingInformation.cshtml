@@ -53,6 +53,14 @@
             right: 15px;
             top: 0px;
         }
+
+        .checkboxsas label {
+            margin-right: 10px;
+        }
+
+        .checkboxsas input {
+            margin-right: 3px;
+        }
     </style>
 }
 
@@ -388,8 +396,47 @@
                                                 <div class="col-md-12">
                                                     <div class="weekDays-selector1">
                                                         @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserLangs, new { @class = "weekday" })
-                                                        @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserLangs)*@
-                                                        <label for="weekday-mon">Follow users ONLY in these Languages</label><select><option>English</option></select>
+                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserLangsList)
+                                                        <label for="weekday-mon">Follow users ONLY in these Languages</label>
+                                                        <fieldset class="checkboxsas" style="margin-left: 17px;">
+                                                            <label>
+                                                                <input name="Languages" type="checkbox" value="EN">
+                                                                English
+                                                            </label>
+                                                            <label>
+                                                                <input name="Languages" type="checkbox" value="DA">
+                                                                Danish
+                                                            </label>
+
+                                                            <label>
+                                                                <input name="Languages" type="checkbox" value="FI">Finnish
+                                                            </label>
+                                                            <label><input name="Languages" type="checkbox" value="FR">French</label>
+                                                            <label><input name="Languages" type="checkbox" value="KA">Georgian</label>
+                                                            <label><input name="Languages" type="checkbox" value="DE">German</label>
+                                                            <label><input name="Languages" type="checkbox" value="EL">Greek</label>
+                                                            <label>
+                                                                <input name="Languages" type="checkbox" value="IT">Italian
+                                                            </label>
+                                                            <label><input name="Languages" type="checkbox" value="LA">Latin</label>
+                                                            <label>
+                                                                <input name="Languages" type="checkbox" value="LV">Latvian
+                                                            </label>
+                                                            <label>
+                                                                <input name="Languages" type="checkbox" value="LT">Lithuanian
+                                                            </label>
+                                                            <label>
+                                                                <input name="Languages" type="checkbox" value="NO">Norwegian
+                                                            </label>
+                                                            <label><input name="Languages" type="checkbox" value="PL">Polish</label>
+                                                            <label><input name="Languages" type="checkbox" value="PT">Portuguese</label>
+                                                            <label><input name="Languages" type="checkbox" value="RU">Russian</label>
+                                                            <label><input name="Languages" type="checkbox" value="ES">Spanish</label>
+
+                                                            <label><input name="Languages" type="checkbox" value="SV">Swedish</label>
+                                                            <label><input name="Languages" type="checkbox" value="TR">Turkish</label>
+                                                            <label><input name="Languages" type="checkbox" value="UK">Ukranian</label>
+                                                        </fieldset>
                                                     </div>
 
                                                 </div>
@@ -705,6 +752,16 @@
 
             document.getElementById("SocialProfile_Instagram_TargetingInformation_DirectCompetitors").value = DirectCompetitorsbox.tagging("getTags").join(', ');
 
+            var langlist = '';
+            $('input[name="Languages"]:checked').each(function () {
+                //console.log(this.value);
+                langlist = langlist + this.value + ",";
+            });
+
+               
+            $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserLangsList)').val(langlist);
+                
+
             if (repeater.repeaterVal()['group-a'].length > 0) {
                 var intverl = JSON.stringify(repeater.repeaterVal()).replace('\"group-a\":', '');
                 intverl = intverl.slice(1).slice(0, -1);
@@ -772,6 +829,11 @@
                 'forbidden-chars': [",", "?"]
             });
             DirectCompetitorsbox = DirectCompetitors[0];
+
+            var arrayValues =  $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserLangsList)').val().split(',');
+                $.each(arrayValues, function (i, val) {
+                    $("input[value='" + val + "']").prop('checked', true);
+                });
 
             var FollowOn = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.FollowOn.Value ? "on" : "off")'
             $('#FollowOn').bootstrapToggle(FollowOn);

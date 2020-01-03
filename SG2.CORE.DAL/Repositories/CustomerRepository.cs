@@ -1633,7 +1633,23 @@ namespace SG2.CORE.DAL.Repositories
                         Random generator = new Random();
                         String r = generator.Next(0, 999999).ToString("D6");
                         var PaymentPlan = _db.PaymentPlans.Where(g => g.IsDefault == true && g.IsBrokerPlan == false).Single();
-                        var defaultTargetProfile = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.IsSystem == true).Single();
+
+                        var Customer = _db.Customers.Where(g => g.CustomerId == CustomerId).Single();
+
+                        SocialProfile_Instagram_TargetingInformation defaultTargetProfile = null;
+                        //if broker get default profile from broker if available.
+                        if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true)
+                        {
+                            defaultTargetProfile =  _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.IsBrokerDefault == true && g.BrokerCustomerId == CustomerId).SingleOrDefault();
+                            if (defaultTargetProfile == null)
+                            {
+                                defaultTargetProfile = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.IsSystem == true).Single();
+                            }
+                        }
+                        else// get default profile from global.
+                        {
+                            defaultTargetProfile = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.IsSystem == true).Single();
+                        }
 
                         var newProfile = new SocialProfile { CreatedBy = "User", SocialProfileTypeId = 30, SocialUsername = InstagramSocialUsername, CreatedOn = DateTime.Now, UpdatedBy="User", UpdatedOn = DateTime.Now, IsArchived = false, CustomerId = CustomerId, PaymentPlanId = PaymentPlan.PaymentPlanId, PinCode = r, StatusId = 25 };
 
@@ -1642,6 +1658,9 @@ namespace SG2.CORE.DAL.Repositories
 
                         defaultTargetProfile.SocialProfileId = newProfile.SocialProfileId;
                         defaultTargetProfile.IsSystem = false;
+                        defaultTargetProfile.BrokerCustomerId = null;
+                        defaultTargetProfile.IsBrokerDefault = false;
+
 
                         _db.SocialProfile_Instagram_TargetingInformation.Add(defaultTargetProfile);
                         _db.SaveChanges();
