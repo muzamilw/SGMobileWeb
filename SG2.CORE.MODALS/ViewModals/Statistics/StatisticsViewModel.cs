@@ -34,4 +34,19 @@ namespace SG2.CORE.MODAL.ViewModals.Statistics
         public Int64? StoryViewsRecent { get; set; }
 
     }
+
+
+    public partial class SocialProfile_ActionsViewModel
+    {
+        public long SPSHId { get; set; }
+        public Nullable<int> SocialProfileId { get; set; }
+        public Nullable<int> ActionID { get; set; }
+
+        public string Action { get; set; }
+        public string TargetProfile { get; set; }
+        public Nullable<System.DateTime> ActionDateTime { get; set; }
+        public string Message { get; set; }
+
+       
+    }
 }

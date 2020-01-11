@@ -64,7 +64,7 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public bool UpdateStatistics(int socialProfileId, int FollowingCount, int LikeCount, int CommentCount, int StoryCount, int FollowCount)
+        public bool UpdateStatistics(int socialProfileId, int FollowingCount, int LikeCount, int CommentCount, int StoryCount, int FollowCount, DateTime UpdateDateTime)
         {
             try
             {
@@ -75,41 +75,43 @@ namespace SG2.CORE.BAL.Managers
                 
                     
 
-                    if (prevStats.Date == DateTime.Today)
+                    if (prevStats.Date.Date == UpdateDateTime.Date)
                     {
                         prevStats.Followings = prevStats.Followings + FollowingCount;
-                        prevStats.FollowingsTotal = prevStats.FollowingsTotal + FollowingCount;
+                        prevStats.FollowingsTotal = (prevStats.FollowingsTotal ?? 0 ) + FollowingCount;
 
                         prevStats.Like = prevStats.Like + LikeCount;
-                        prevStats.LikeTotal = prevStats.LikeTotal + LikeCount;
+                        prevStats.LikeTotal = (prevStats.LikeTotal ?? 0) + LikeCount;
 
-                        prevStats.Comment = prevStats.Comment + CommentCount;
+                        prevStats.Comment = (prevStats.Comment ?? 0 )+ CommentCount;
 
 
-                        prevStats.StoryViews = prevStats.StoryViews+ StoryCount;
-                        prevStats.StoryViewsTotal = prevStats.StoryViewsTotal + StoryCount;
+                        prevStats.StoryViews = (prevStats.StoryViews ?? 0) + StoryCount;
+                        prevStats.StoryViewsTotal = (prevStats.StoryViewsTotal ?? 0) + StoryCount;
 
-                        prevStats.Follow = prevStats.Follow  + Math.Abs((prevStats.Follow.HasValue ? prevStats.Follow.Value : 0) - FollowCount);
-                        prevStats.FollowTotal = Math.Abs((prevStats.FollowTotal.HasValue ? prevStats.FollowTotal.Value : 0) - FollowCount);
+                        prevStats.Followers = FollowCount;
+                        prevStats.FollowersTotal = FollowCount;
+
+
                         _statistics.UpdateStatistics(prevStats);
                     }
                     else
                     {
                         prevStats.Followings =  FollowingCount;
-                        prevStats.FollowingsTotal = prevStats.FollowingsTotal + FollowingCount;
+                        prevStats.FollowingsTotal = (prevStats.FollowingsTotal ?? 0) + FollowingCount;
 
                         prevStats.Like =  LikeCount;
-                        prevStats.LikeTotal = prevStats.LikeTotal + LikeCount;
+                        prevStats.LikeTotal = (prevStats.LikeTotal ?? 0) + LikeCount;
 
                         prevStats.Comment = CommentCount;
 
-
                         prevStats.StoryViews = StoryCount;
-                        prevStats.StoryViewsTotal = prevStats.StoryViewsTotal + StoryCount;
+                        prevStats.StoryViewsTotal = (prevStats.StoryViewsTotal ?? 0) + StoryCount;
 
-                        prevStats.Follow = Math.Abs((prevStats.Follow.HasValue ? prevStats.Follow.Value : 0) - FollowCount);
-                        prevStats.FollowTotal = Math.Abs((prevStats.FollowTotal.HasValue ? prevStats.FollowTotal.Value : 0) - FollowCount);
+                        prevStats.Followers = FollowCount;
+                        prevStats.FollowersTotal = FollowCount;
 
+                        prevStats.Date = UpdateDateTime;
                         _statistics.InsertStatistics(prevStats);
                     }
 
@@ -117,24 +119,27 @@ namespace SG2.CORE.BAL.Managers
                 }
                 else
                 {
+                    
+
                     prevStats = new SocialProfile_Statistics();
+                    prevStats.Date = UpdateDateTime;
+                    prevStats.SocialProfileId = socialProfileId;
 
                     prevStats.Followings = FollowingCount;
-                    prevStats.FollowingsTotal = prevStats.FollowingsTotal + FollowingCount;
+                    prevStats.FollowingsTotal = (prevStats.FollowingsTotal ?? 0 )+ FollowingCount;
 
                     prevStats.Like = LikeCount;
-                    prevStats.LikeTotal = prevStats.LikeTotal + LikeCount;
+                    prevStats.LikeTotal = (prevStats.LikeTotal ?? 0) + LikeCount;
 
                     prevStats.Comment = CommentCount;
 
 
                     prevStats.StoryViews = StoryCount;
-                    prevStats.StoryViewsTotal = prevStats.StoryViewsTotal + StoryCount;
+                    prevStats.StoryViewsTotal = (prevStats.StoryViewsTotal ?? 0) + StoryCount;
 
-                    prevStats.Follow = Math.Abs((prevStats.Follow.HasValue ? prevStats.Follow.Value : 0) - FollowCount);
-                    prevStats.FollowTotal = Math.Abs((prevStats.FollowTotal.HasValue ? prevStats.FollowTotal.Value : 0) - FollowCount);
+                    prevStats.Followers = FollowCount;
+                    prevStats.FollowersTotal = FollowCount;
 
-                   
                     _statistics.InsertStatistics(prevStats);
                     
                 }

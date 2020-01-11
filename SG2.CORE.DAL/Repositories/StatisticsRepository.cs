@@ -90,8 +90,8 @@ namespace SG2.CORE.DAL.Repositories
                         stats.StoryViews = model.StoryViews;
                         stats.StoryViewsTotal = model.StoryViewsTotal;
 
-                        stats.Follow = model.Follow;
-                        stats.FollowTotal = model.FollowTotal;
+                        stats.Followers = model.Followers;
+                        stats.FollowersTotal = model.FollowersTotal;
 
                         stats.UpdateDate = DateTime.Now;
 
@@ -131,10 +131,10 @@ namespace SG2.CORE.DAL.Repositories
                         stats.StoryViews = model.StoryViews;
                         stats.StoryViewsTotal = model.StoryViewsTotal;
 
-                        stats.Follow = model.Follow;
-                        stats.FollowTotal = model.FollowTotal;
+                        stats.Followers = model.Followers;
+                        stats.FollowersTotal = model.FollowersTotal;
 
-                        stats.Date = DateTime.Today;
+                        stats.Date = model.Date;
                         stats.CreatedDate = DateTime.Now;
                         stats.UpdateDate = DateTime.Now;
 

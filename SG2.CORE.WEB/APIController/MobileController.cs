@@ -295,9 +295,16 @@ namespace SG2.CORE.WEB.APIController
                         //take diff with previous no and then update.
                     }
 
+                    DateTime statsDate = DateTime.Now;
+
+                    if (!string.IsNullOrEmpty(model.First().ActionDateTime))
+                    {
+                        statsDate = Convert.ToDateTime(model.First().ActionDateTime);
+                    }
+
                     //omny update stats if anything changes.
-                    if ( FollowCount > 0 || LikeCount >0 || CommentCount > 0 || StoryCount > 0 || FollowCount > 0 )
-                        _statsManager.UpdateStatistics(model.First().SocialProfileId, FollowingCountNet, LikeCount, CommentCount, StoryCount, FollowCount);
+                    if ( FollowCount > 0 || LikeCount > 0 || CommentCount > 0 || StoryCount > 0 || FollowCount > 0 )
+                        _statsManager.UpdateStatistics(model.First().SocialProfileId, FollowingCountNet, LikeCount, CommentCount, StoryCount, FollowCount, statsDate);
 
                     if ( successCount == model.Count)
                         return Ok(new MobileActionResponse { StatusCode = 1, StatusMessage = "Success" });

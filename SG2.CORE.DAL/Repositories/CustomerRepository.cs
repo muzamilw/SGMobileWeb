@@ -1431,7 +1431,13 @@ namespace SG2.CORE.DAL.Repositories
                 using (var _db = new SocialGrowth2Connection())
                 {
                     var action = new SocialProfile_Actions();
-                    action.ActionDateTime = DateTime.UtcNow;
+                    if (!string.IsNullOrEmpty( model.ActionDateTime ))
+                    {
+                        action.ActionDateTime = Convert.ToDateTime(model.ActionDateTime);
+                    }
+                    else
+                        action.ActionDateTime = DateTime.UtcNow;
+
                     action.ActionID = model.ActionId;
                     action.Message = model.Message;
                     action.SocialProfileId = model.SocialProfileId;

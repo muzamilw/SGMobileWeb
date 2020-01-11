@@ -87,22 +87,33 @@
         <div class="navbar-wrapper">
             <div class="navbar-header">
                 <ul class="nav navbar-nav flex-row">
-                    <li class="nav-item mobile-menu d-md-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu font-large-1"></i></a></li>
+                    <li class="nav-item mobile-menu d-md-none mr-auto">
+                        @if (ViewBag.socialProfileId != null)
+                        {
+
+                            <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu font-large-1"></i></a>
+                        }
+                        </li>
                     <li class="nav-item">
                         <a class="navbar-brand" href="~/user/home">
                             <img class="brand-logo" style="width:90px" alt="Social Growth Logo" src="~/Content/ThemeAssets/images/social-growth.png">
 
                         </a>
                     </li>
-                    <li class="nav-item d-md-none"><a class="nav-link open-navbar-container" data-toggle="collapse" data-target="#navbar-mobile"><i class="fa fa-ellipsis-v"></i></a></li>
+                    <li class="nav-item d-md-none">
+                        <a class="nav-link open-navbar-container" data-toggle="collapse" data-target="#navbar-mobile"><i class="fa fa-ellipsis-v"></i></a>
+                    </li>
                 </ul>
             </div>
             <div class="navbar-container container center-layout">
                 <div class="collapse navbar-collapse" id="navbar-mobile">
                     <ul class="nav navbar-nav mr-auto float-left">
-                        @*<li class="nav-item d-none d-md-block"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu"></i></a></li>*@
+                        @if (ViewBag.socialProfileId != null)
+                        {
 
-                    </ul>
+                            <li class="nav-item d-none d-md-block"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu"></i></a></li>
+                        }
+                        </ul>
                     <ul class="nav navbar-nav float-right">
 
                         <li class="dropdown dropdown-user nav-item">
@@ -135,19 +146,19 @@
                 <!-- include ../../../includes/mixins-->
                 <ul class="nav navbar-nav" id="main-menu-navigation" data-menu="menu-navigation">
 
-                    <li class="dropdown nav-item" data-menu="dropdown">
+                    <li class="nav-item">
                         <a class="nav-link" href="~/Profile/stats?socialProfileId=@ViewBag.socialProfileId"><i class="ft-monitor"></i><span>Stats</span></a>
 
                     </li>
-                    <li class="dropdown nav-item" data-menu="dropdown">
+                    <li class="nav-item" >
                         <a class="nav-link" href="~/Profile/Basic?socialProfileId=@ViewBag.socialProfileId"><i class="ft-layout"></i><span>IG Account Info</span></a>
 
                     </li>
-                    <li class="dropdown nav-item" data-menu="dropdown">
+                    <li class="nav-item" >
                         <a class="nav-link" href="~/Profile/target?socialProfileId=@ViewBag.socialProfileId"><i class="ft-zap"></i><span>Targeting</span></a>
 
                     </li>
-                    <li class="dropdown mega-dropdown nav-item" data-menu="megamenu">
+                    <li class="mega-dropdown nav-item" >
                         <a class="nav-link" href="~/Profile/lists?socialProfileId=@ViewBag.socialProfileId"><i class="ft-box"></i><span>White & Black Lists</span></a>
 
                     </li>
@@ -155,7 +166,7 @@
                             <a class="nav-link" href="~/Profile/followings?socialProfileId=@custDto.DefaultSocialProfileId"><i class="ft-droplet"></i><span>New Followings</span></a>
 
                         </li>*@
-                    <li class="dropdown nav-item" data-menu="dropdown">
+                    <li class="nav-item" >
                         <a class="nav-link" href="~/Profile/history?socialProfileId=@ViewBag.socialProfileId"><i class="ft-briefcase"></i><span>Order History</span></a>
 
                     </li>

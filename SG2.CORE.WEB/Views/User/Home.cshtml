@@ -19,7 +19,16 @@
 }
 
 @section styles{
-    <style>
+<style>
+
+        @@media (max-width: 767.98px) {
+            .table td.fit,
+            .table th.fit {
+                white-space: nowrap;
+                width: 1%;
+            }
+        }
+
         .table-hover tbody tr {
             cursor: pointer;
         }
@@ -164,7 +173,7 @@
             .example.example1 .success .reset path {
                 fill: #fff;
             }
-    </style>
+</style>
     <link href="~/Content/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet" />
     <link href="~/Content/app-assets/css/stripe.css" rel="stylesheet" />
 
@@ -191,7 +200,7 @@
         <div class="content-body">
             <!-- Extra large table start -->
             <div class="row match-height">
-                <div class="col-9">
+                <div class="col-xl-9 col-md-6 col-sm-12">
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Social media profiles</h4>
@@ -209,7 +218,7 @@
                             <div class="card-body card-dashboard">
                                 <form class="form" id="formbasic" method="post">
                                     <div class="form-row">
-                                        <div class="col-3">
+                                        <div class="col-xl-3 col-sm-12">
                                             <input type="search" class="form-control mb-1" id="searchString" name="searchString" placeholder="Search profiles" value="@Model.searchString">
                                         </div>
                                         @{
@@ -219,12 +228,12 @@
                                             mlist.Add(new SelectListItem { Text = "LinkedIn", Value = "31" });
                                             mlist.Add(new SelectListItem { Text = "Facebook", Value = "32" });
                                         }
-                                        <div class="col-3">
-                                            @Html.DropDownListFor(n => n.SocialType, new SelectList(mlist, "Value", "Text", 0), new { @class = "custom-select block" })
+                                        <div class="col-xl-3 col-sm-12">
+                                            @Html.DropDownListFor(n => n.SocialType, new SelectList(mlist, "Value", "Text", 0), new { @class = "custom-select block mb-1" })
                                         </div>
-                                        @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true)
+                                        @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true && 1==0)
                                         {
-                                            <div class="col-3">
+                                            <div class="col-xl-3 col-sm-12">
                                                 @{
                                                     List<SelectListItem> blist = new List<SelectListItem>();
                                                     blist.Add(new SelectListItem { Text = "Select Block Type (All)", Value = "99" });
@@ -233,19 +242,26 @@
                                                     blist.Add(new SelectListItem { Text = "Hard Block", Value = "67" });
                                                     blist.Add(new SelectListItem { Text = "Passsword Block", Value = "68" });
                                                 }
-                                                @Html.DropDownListFor(n => n.Block, new SelectList(blist, "Value", "Text", 0), new { @class = "custom-select block" })
+                                                @Html.DropDownListFor(n => n.Block, new SelectList(blist, "Value", "Text", 0), new { @class = "custom-select block mb-1" })
                                             </div>
                                         }
-                                        <div class="col-3">
+                                        <div class="col-xl-3 col-sm-12">
                                             @{
                                                 List<SelectListItem> plist = new List<SelectListItem>();
                                                 plist.Add(new SelectListItem { Text = "Plans (All)", Value = "0" });
                                                 plist.Add(new SelectListItem { Text = "Free Forever", Value = "1" });
-                                                plist.Add(new SelectListItem { Text = "$59 per month", Value = "2" });
-                                                plist.Add(new SelectListItem { Text = "$99 per month", Value = "3" });
-                                                plist.Add(new SelectListItem { Text = "$39 Agency Plan", Value = "4" });
+                                                if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true)
+                                                {
+                                                    plist.Add(new SelectListItem { Text = "$39 Agency Plan", Value = "4" });
+                                                }
+                                                else
+                                                {
+                                                    plist.Add(new SelectListItem { Text = "$59 per month", Value = "2" });
+                                                    plist.Add(new SelectListItem { Text = "$99 per month", Value = "3" });
+
+                                                }
                                             }
-                                            @Html.DropDownListFor(n => n.Plan, new SelectList(plist, "Value", "Text", 0), new { @class = "custom-select block" })
+                                                        @Html.DropDownListFor(n => n.Plan, new SelectList(plist, "Value", "Text", 0), new { @class = "custom-select block" })
 
                                         </div>
 
@@ -254,21 +270,44 @@
                                 </form>
                             </div>
                             @if (socailProfiles != null && socailProfiles.Count > 0)
-                            {
+                                                    {
                                 <div class="table-responsive">
                                     <table id="ResponsiveTable" class="table table-xl mb-0 table-hover">
 
                                         <tbody>
                                             @foreach (var item in socailProfiles)
-                                            {
+                                                    {
                                                 <tr class='clickable-row' data-href='/Profile/Basic?socialProfileId=@item.SocialProfileId' data-hrefstats='/Profile/stats?socialProfileId=@item.SocialProfileId'>
 
-                                                    <td scope="row" class="align-middle">
+                                                    <td scope="row" class="align-middle fit">
                                                         @if (item.SocialProfileTypeId == 30)
-                                                        {
-                                                            <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="49" />
+                                                    {
+
+
+
+                                                            <picture>
+                                                                <!-- Extra Large Desktops -->
+                                                                <source media="(min-width: 75em)"
+                                                                        srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
+
+                                                                <!-- Desktops -->
+                                                                <source media="(min-width: 62em)"
+                                                                        srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
+
+                                                                <!-- Tablets -->
+                                                                <source media="(min-width: 48em)"
+                                                                        srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
+
+                                                                <!-- Landscape Phones -->
+                                                                <source media="(min-width: 34em)"
+                                                                        srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png">
+
+                                                                <!-- Portrait Phones -->
+                                                                <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png"
+                                                                     srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png">
+                                                            </picture>
                                                         }
-                                                        <a style="display:inline-block" href="/Profile/Basic?socialProfileId=@item.SocialProfileId"><h4>@item.SocialUsername</h4></a>
+                                                        <a style="display:inline-block" href="/Profile/Basic?socialProfileId=@item.SocialProfileId">@item.SocialUsername</a>
                                                     </td>
                                                     <td>
                                                         @{
@@ -293,7 +332,7 @@
 
                                                     <td class="align-middle">
                                                         @if (@socailProfiles.FirstOrDefault().SubscriptionName != null)
-                                                        {
+                                                {
                                                             <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: @item.SubscriptionName</div>
                                                         }
                                                         else
@@ -327,9 +366,9 @@
 
 
                                 @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true)
-                                {
+                                                {
                                     <p class="card-text">
-                                        Agency Status : Active
+                                       
 
                                         <a href="#" class="btn btn-success btn-block" id="btnAfilliateProfile">Update App Skin</a>
 
@@ -347,12 +386,12 @@
                                 }
                                 else
                                 {
-                                    <h4 class="card-title">Become an Afilliate Agency</h4>
+                                    <h4 class="card-title">Become an Broker Agency</h4>
                                     <p class="card-text">
                                         Join the Social Growth Affiliates Program and start earning money today.
 
                                     </p>
-                                    <a href="#" class="btn btn-success" id="btnAfilliate">Become an Afilliate Agency</a>
+                                    <a href="#" class="btn btn-success mt-1" id="btnAfilliate" >Become an Broker Agency</a>
                                 }
                             </div>
                         </div>
@@ -366,7 +405,7 @@
 <div class="modal fade text-left" id="newProfile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel34" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-primary white">
                 <h3 class="modal-title" id="myModalLabel34">Create a new Social Profile</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -375,18 +414,16 @@
             <form id="newprofileForm">
                 <input type="hidden" id="customerId" name="customerId" value="@currentUser.CustomerId" />
                 <div class="modal-body">
-                    <label>Instagram Username </label>
-                    <div class="form-group position-relative has-icon-left">
+                    <label>Please enter valid Instagram Username below :</label>
+                    <div class="form-group position-relative">
                         <input type="text" placeholder="Intagram Username" class="form-control" name="IntagramUserName" required>
-                        <div class="form-control-position">
-                            <i class="fa fa-envelope font-medium-5 line-height-1 text-muted icon-align"></i>
-                        </div>
+                       
 
                     </div>
 
                 </div>
                 <div class="modal-footer">
-                    <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="close">
+                    <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="Close">
                     <input type="submit" class="btn btn-outline-primary btn-lg" value="Create New Profile">
                 </div>
             </form>
@@ -405,7 +442,7 @@
             </div>
             <form id="AfilliateProfileForm">
                 <input type="hidden" name="cid" value="@Customer.CustomerId" />
-                <div class="modal-body">
+                <div class="modal-body p-3">
                     <label>Following information will be used to white label the modile app for your profiles.</label>
                     <div class="form-group position-relative has-icon-left">
                         <input type="text" placeholder="App Name" class="form-control position-inside-maxlength" name="BrokerAppName" value="@Customer.BrokerAppName" required maxlength="100">
@@ -479,8 +516,8 @@
                     </div>
                     <label>Upload Logo Image (600 x 600 px)</label>
                     @if (!string.IsNullOrEmpty(Customer.BrokerLogo))
-                    {
-                        var numsi = new Random();
+                                                {
+                                                    var numsi = new Random();
 
 
                         <div class="form-group position-relative">
@@ -499,7 +536,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="close">
+                    <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="Close">
                     <input type="submit" class="btn btn-outline-primary btn-lg" value="Update Agency App Skin">
                 </div>
             </form>
@@ -612,7 +649,7 @@
 <div class="modal fade text-left" id="BillingHistoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel34" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-primary white">
                 <h3 class="modal-title" id="myModalLabel34">Agency Order History</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -862,7 +899,7 @@
 
                 swal({
                     title: "Cancel Agency Subscription!",
-                    text: "Are you sure you want to Cancel your Agency subscription ? This action will reset plans for all profiles to Free Plan!",
+                    text: "Are you sure you want to Cancel your Agency Subscription? This action will reset plans for all profiles to Free Plan!",
                     icon: "error",
                     showLoaderOnConfirm: true,
                     closeOnClickOutside: false,
@@ -875,7 +912,7 @@
                             closeModal: true,
                         },
                         confirm: {
-                            text: "Cancel Agency subscription",
+                            text: "Cancel Agency Subscription",
                             value: true,
                             visible: true,
                             className: "btn-warning",
@@ -899,7 +936,7 @@
                             .then(subscription => {
                                 //handleSubscription(subscription);.
                                 swal.close();
-                                swal("Success!", "Your Agency subscription & profiles have been cancelled successfully;", "success")
+                                swal("Downgraded!", "Your Broker Agency Subscription & profiles have been downgraded;", "success")
                                     .then(function () {
                                         window.location = "/User/Home/";
                                     });;

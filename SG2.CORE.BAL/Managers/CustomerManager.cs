@@ -17,6 +17,8 @@ using System.Drawing;
 using System.Text.RegularExpressions;
 using HeyRed.Mime;
 using System.Web.Hosting;
+using SG2.CORE.MODAL.ViewModals.Statistics;
+using AutoMapper;
 
 namespace SG2.CORE.BAL.Managers
 {
@@ -760,11 +762,33 @@ namespace SG2.CORE.BAL.Managers
         }
 
 
-        public List<SocialProfile_Actions> ReturnLastActions(int socialProfileId, int NoOfActions)
+        public List<SocialProfile_ActionsViewModel> ReturnLastActions(int socialProfileId, int NoOfActions)
         {
             try
             {
-                return _customerRepository.ReturnLastActions(socialProfileId, NoOfActions);
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<SocialProfile_Actions, SocialProfile_ActionsViewModel>()
+                );
+
+                var mapper = new Mapper(config);
+
+                var results =  _customerRepository.ReturnLastActions(socialProfileId, NoOfActions);
+
+                var mapped =  mapper.Map<List<SocialProfile_ActionsViewModel>>(results);
+
+                foreach (var item in mapped)
+                {
+                    switch (item.ActionID)
+                    {
+                        case 60 : item.Action = "Follow";break;
+                        case 61 : item.Action = "UnFollow"; break;
+                        case 62: item.Action = "Like"; break;
+                        case 63: item.Action = "Comment"; break;
+                        case 64: item.Action = "StoryView"; break;
+                        default:
+                            break;
+                    }
+                }
+                return mapped;
             }
             catch (Exception e)
             {
