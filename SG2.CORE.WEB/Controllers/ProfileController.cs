@@ -160,7 +160,7 @@ namespace SG2.CORE.WEB.Controllers
             ViewBag.CurrentUser = this.CDT;
             ViewBag.socialProfile = this._cm.GetSocialProfileById(socialProfileId).SocialProfile;
 
-            ViewBag.actions = this._cm.ReturnLastActions(socialProfileId, 100);
+            ViewBag.actions = this._cm.ReturnLastActions(socialProfileId, 500);
             
 
             return View(this._statisticsManager.GetStatistics(socialProfileId));
@@ -227,7 +227,9 @@ namespace SG2.CORE.WEB.Controllers
                     item.FollowersTotal  = item.FollowersTotal.HasValue ?  item.FollowersTotal: 0;
                     item.Followings = item.Followings.HasValue ? item.Followings : 0;
                     item.Like = item.Like.HasValue ? item.Like : 0;
-                    item.Engagement = (item.FollowersTotal ?? 0) * 100 / (item.Followings ?? 1);
+                    item.Engagement = (item.FollowersTotal ?? 1) * 100 / (item.Followings ?? 1);
+                    item.Unfollow = (item.Unfollow ?? 0);
+                    item.StoryViews = (item.StoryViews ?? 0);
                 }
 
 
@@ -252,7 +254,9 @@ namespace SG2.CORE.WEB.Controllers
                             //LikeCommentData = statisticsViewModel.StatisticsListing.Select(x => x.LikeComments.ToString()).ToArray(),
                             Engagement = trends.Select(x => x.Engagement.ToString()).ToArray(),
 
-                            AvgLikes = trends.Select(x => x.Like.ToString()).ToArray()
+                            AvgLikes = trends.Select(x => x.Like.ToString()).ToArray(),
+                            StoryViews = trends.Select(x => x.StoryViews.ToString()).ToArray(),
+                            Unfollow = trends.Select(x => x.Unfollow.ToString()).ToArray()
 
 
                             //TotalComment = statisticsViewModel.TotalComment.ToString(),

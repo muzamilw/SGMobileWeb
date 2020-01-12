@@ -277,9 +277,9 @@ namespace SG2.CORE.WEB.APIController
                     
                     var FollowingCount = model.Where(g => g.ActionId == 60).Count();
 
-                    var FollowingCountDecrease = model.Where(g => g.ActionId == 61).Count();
+                    var UnFollowCount = model.Where(g => g.ActionId == 61).Count();
                     //follow
-                    var FollowingCountNet = FollowingCount - FollowingCountDecrease;
+                    var FollowingCountNet = FollowingCount - UnFollowCount;
 
                     var LikeCount = model.Where(g => g.ActionId == 62).Count();
 
@@ -303,8 +303,8 @@ namespace SG2.CORE.WEB.APIController
                     }
 
                     //omny update stats if anything changes.
-                    if ( FollowCount > 0 || LikeCount > 0 || CommentCount > 0 || StoryCount > 0 || FollowCount > 0 )
-                        _statsManager.UpdateStatistics(model.First().SocialProfileId, FollowingCountNet, LikeCount, CommentCount, StoryCount, FollowCount, statsDate);
+                    if (FollowingCount > 0  || FollowingCountNet  > 0|| LikeCount > 0 || CommentCount > 0 || StoryCount > 0 || FollowCount > 0  || UnFollowCount > 0)
+                        _statsManager.UpdateStatistics(model.First().SocialProfileId, FollowingCountNet, LikeCount, CommentCount, StoryCount, FollowCount, statsDate, UnFollowCount);
 
                     if ( successCount == model.Count)
                         return Ok(new MobileActionResponse { StatusCode = 1, StatusMessage = "Success" });

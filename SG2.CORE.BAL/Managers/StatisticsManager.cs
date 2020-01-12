@@ -64,7 +64,7 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public bool UpdateStatistics(int socialProfileId, int FollowingCount, int LikeCount, int CommentCount, int StoryCount, int FollowCount, DateTime UpdateDateTime)
+        public bool UpdateStatistics(int socialProfileId, int FollowingCount, int LikeCount, int CommentCount, int StoryCount, int FollowCount, DateTime UpdateDateTime, int UnFollowCount)
         {
             try
             {
@@ -75,12 +75,12 @@ namespace SG2.CORE.BAL.Managers
                 
                     
 
-                    if (prevStats.Date.Date == UpdateDateTime.Date)
+                    if (prevStats.Date.Date.CompareTo(UpdateDateTime.Date)  == 0)
                     {
-                        prevStats.Followings = prevStats.Followings + FollowingCount;
+                        prevStats.Followings = (prevStats.Followings ?? 0) + FollowingCount;
                         prevStats.FollowingsTotal = (prevStats.FollowingsTotal ?? 0 ) + FollowingCount;
 
-                        prevStats.Like = prevStats.Like + LikeCount;
+                        prevStats.Like = (prevStats.Like ?? 0) + LikeCount;
                         prevStats.LikeTotal = (prevStats.LikeTotal ?? 0) + LikeCount;
 
                         prevStats.Comment = (prevStats.Comment ?? 0 )+ CommentCount;
@@ -91,6 +91,8 @@ namespace SG2.CORE.BAL.Managers
 
                         prevStats.Followers = FollowCount;
                         prevStats.FollowersTotal = FollowCount;
+
+                        prevStats.Unfollow = (prevStats.Unfollow ??0 ) + UnFollowCount;
 
 
                         _statistics.UpdateStatistics(prevStats);
@@ -110,6 +112,8 @@ namespace SG2.CORE.BAL.Managers
 
                         prevStats.Followers = FollowCount;
                         prevStats.FollowersTotal = FollowCount;
+
+                        prevStats.Unfollow = UnFollowCount;
 
                         prevStats.Date = UpdateDateTime;
                         _statistics.InsertStatistics(prevStats);
@@ -139,6 +143,8 @@ namespace SG2.CORE.BAL.Managers
 
                     prevStats.Followers = FollowCount;
                     prevStats.FollowersTotal = FollowCount;
+
+                    prevStats.Unfollow = UnFollowCount;
 
                     _statistics.InsertStatistics(prevStats);
                     

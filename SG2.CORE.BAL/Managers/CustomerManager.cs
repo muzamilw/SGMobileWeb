@@ -784,6 +784,11 @@ namespace SG2.CORE.BAL.Managers
                         case 62: item.Action = "Like"; break;
                         case 63: item.Action = "Comment"; break;
                         case 64: item.Action = "StoryView"; break;
+                        case 65: item.Action = "Followers count update"; break;
+                        case 66: item.Action = "Action Block"; break;
+                        case 67: item.Action = "Block 2"; break;
+                        case 68: item.Action = "Block 3"; break;
+                        case 69: item.Action = "Clear Block"; break;
                         default:
                             break;
                     }

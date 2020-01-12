@@ -186,7 +186,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Followings / Likes</h4>
+                            <h4 class="card-title">Followings / Likes / UnFollow / Story Views</h4>
                            
                         </div>
                         <div class="card-content collapse show">
@@ -372,7 +372,7 @@
             var morrisData = [];
 
             for (i = 0; i < ChartsData.ResultData.Date.length; i++) {
-                morrisData.push({ 'year': ChartsData.ResultData.Date[i], 'Following': ChartsData.ResultData.FollowingsData[i], 'Likes': ChartsData.ResultData.AvgLikes[i] });
+                morrisData.push({ 'year': ChartsData.ResultData.Date[i], 'Following': ChartsData.ResultData.FollowingsData[i], 'Likes': ChartsData.ResultData.AvgLikes[i], 'Unfollow': ChartsData.ResultData.Unfollow[i], 'StoryViews': ChartsData.ResultData.StoryViews[i]   });
             }
 
             //$.each(ChartsData.ResultData, function (Date, Followers) {
@@ -384,8 +384,8 @@
                 element: 'line-followings',
                 data: morrisData,
                 xkey: 'year',
-                ykeys: ['Following', 'Likes'],
-                labels: ['Following','Likes'],
+                ykeys: ['Following', 'Likes', 'Unfollow', 'StoryViews' ],
+                labels: ['Following', 'Likes', 'Unfollow', 'StoryViews'],
                 resize: true,
                 smooth: false,
                 pointSize: 3,
@@ -398,7 +398,8 @@
                 hideHover: 'auto',
                 lineColors: ['#FF4558'],
                 xLabelAngle: 45,
-                parseTime: false
+                parseTime: false,
+                barColors: ["#2685CB", "#4AD95A", "#FD8D14", "#FEC81B"],
             });
         }
 

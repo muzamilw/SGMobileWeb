@@ -75,7 +75,7 @@ namespace SG2.CORE.DAL.Repositories
                 using (var _db = new SocialGrowth2Connection())
                 {
 
-                    var stats = _db.SocialProfile_Statistics.Where(g => g.SocialProfileId == model.SocialProfileId).FirstOrDefault();
+                    var stats = _db.SocialProfile_Statistics.Where(g => g.SocialStatisticsId == model.SocialStatisticsId).FirstOrDefault();
                     //only save initial stats if old one does not exists. skip if any older stats exists.
                     if (stats != null)
                     {
@@ -89,6 +89,8 @@ namespace SG2.CORE.DAL.Repositories
                         stats.Comment = model.Comment;
                         stats.StoryViews = model.StoryViews;
                         stats.StoryViewsTotal = model.StoryViewsTotal;
+
+                        stats.Unfollow = model.Unfollow;
 
                         stats.Followers = model.Followers;
                         stats.FollowersTotal = model.FollowersTotal;
@@ -133,6 +135,8 @@ namespace SG2.CORE.DAL.Repositories
 
                         stats.Followers = model.Followers;
                         stats.FollowersTotal = model.FollowersTotal;
+
+                        stats.Unfollow = model.Unfollow;
 
                         stats.Date = model.Date;
                         stats.CreatedDate = DateTime.Now;
