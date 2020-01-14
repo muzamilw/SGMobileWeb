@@ -1,3 +1,7 @@
+body {
+    font-size: 0.85rem;
+    color: #000000;
+}
 a:focus {
     outline: none;
 }
@@ -169,6 +173,10 @@ pre {
         flex: 0 0 50%;
         max-width: 50%;
     }
+    .modal-dialog {
+        max-width: 600px;
+    }
+    
 }
 
 @media (min-width: 992px) {
@@ -311,7 +319,8 @@ form {
 }
 
     form label {
-        color: #2e405c;
+        color: #000000;
+        font-size: 0.85rem;
     }
 
     form .form-group {
@@ -320,7 +329,8 @@ form {
 
     form .form-control {
         border: 1px solid #ccd6e6;
-        color: #3f587e;
+        color: #000000;
+        font-size: 0.85rem;
     }
 
         form .form-control::-webkit-input-placeholder {
@@ -342,7 +352,7 @@ form {
         }
 
     form .form-section {
-        color: #404E67;
+        color: #000000;
         line-height: 3rem;
         margin-bottom: 20px;
         border-bottom: 1px solid #404E67;
@@ -379,10 +389,13 @@ form {
             margin-bottom: 20px;
         }
 
-@media (max-width: 767.98px) {
+@media (max-width: 768.98px) {
     form .form-actions .buttons-group {
         float: left !important;
         margin-bottom: 10px;
+    }
+    #SocialProfileBtnCnt {
+        margin-top: 10px;
     }
 }
 
@@ -486,6 +499,8 @@ select.form-control {
 .custom-select {
     -moz-appearance: none;
     -webkit-appearance: none;
+    font-size: 0.85rem;
+    color: #000000;
 }
 
 /* 
@@ -2023,8 +2038,7 @@ button, html [type='button'], [type='reset'], [type='submit'] {
 
     .badge[class*='badge-'] span {
         position: relative;
-        bottom: 2px;
-        padding: 0 5px;
+        padding: 5px;
     }
 
     .badge[class*='badge-'] a {
@@ -3386,4 +3400,24 @@ a:hover {
         border-bottom: none;
         line-height: 1.25rem;
     }
+}
+input[type="radio"], input[type="checkbox"] {
+    position:relative;
+    top:2px;
+}
+.card-text {
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+.ml-05 {
+    margin-left:0.5rem;
+}
+.mr-05 {
+    margin-right: 0.5rem;
+}
+.text-danger {
+    position:absolute;
+}
+.modal-content {
+    border:0px;
 }

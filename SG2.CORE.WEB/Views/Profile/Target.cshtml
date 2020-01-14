@@ -596,15 +596,15 @@
                                                     <div class="weekDays-selector1">
                                                         @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserPostsLastXDays, new { @class = "weekday" })
                                                         
-                                                        <label for="@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserPostsLastXDays)">Users last post should be between </label>
-                                                        @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserPostsLastXDaysVal, new { type = "number", style = "width:65px;" }) days
+                                                        <label for="@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserPostsLastXDays)" class="mr-05">Users last post should be between</label>
+                                                        @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserPostsLastXDaysVal, new { type = "number", style = "width:65px;" })<label class="ml-05">days</label>
                                                     </div>
 
                                                     <div class="weekDays-selector1">
 
                                                         @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollDoNotFollowUsernamewithdigits, new { @class = "weekday" })
                                                         
-                                                        <label for="@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.FollDoNotFollowUsernamewithdigits)">Account should have no more than  </label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollDoNotFollowUsernamewithdigitsVal, new { type = "number", style = "width:65px;" })<label> digits in their username</label>
+                                                        <label for="@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.FollDoNotFollowUsernamewithdigits)" class="mr-05">Account should have no more than</label>@Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollDoNotFollowUsernamewithdigitsVal, new { type = "number", style = "width:65px;" })<label class="ml-05"> digits in their username</label>
                                                     </div>
 
                                                     <div class="weekDays-selector1">
@@ -692,7 +692,7 @@
                                         <div class="weekDays-selector1">
                                             @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowLikersOfPosts, new { @class = "weekday" })
                                             
-                                            <label for="@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowLikersOfPosts)">Keep following users who liked recent posts </label>@Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowLikersOfPostsCount, new { style = "width:65px;", type = "number" })<label> posts</label>
+                                            <label for="@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowLikersOfPosts)" class="mr-05">Keep following users who liked recent posts </label>@Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowLikersOfPostsCount, new { style = "width:65px;", type = "number" })<label  class="ml-05"> posts</label>
                                         </div>
 
                                     </div>
@@ -701,7 +701,7 @@
                                             @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowCommThatCommented, new { @class = "weekday" })
                                             
 
-                                            <label for="@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowCommThatCommented)">Keep following users who commented on recent </label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowCommThatCommentedCount, new { style = "width:65px;", type = "number" })<label> posts</label>
+                                            <label for="@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowCommThatCommented)" class="mr-05">Keep following users who commented on recent </label> @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowCommThatCommentedCount, new { style = "width:65px;", type = "number" })<label  class="ml-05"> posts</label>
                                         </div>
 
                                     </div>
@@ -822,10 +822,10 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-8">
-                                    <div class="col-md-12">
+                                    <div>
                                         <span>Days of the week when to operate</span>
                                     </div>
-                                    <div class="col-md-12 mt-1">
+                                    <div class="mt-1">
                                         <div class="weekDays-selector">
                                             @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.MonOper, new { @class = "weekday" })
                                             
