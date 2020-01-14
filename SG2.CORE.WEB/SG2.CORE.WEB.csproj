@@ -3676,7 +3676,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>56019</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://SG2</IISUrl>
+          <IISUrl>http://sg2</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

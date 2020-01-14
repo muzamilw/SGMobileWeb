@@ -237,9 +237,9 @@
                                 <label>Social Password</label>
                                 <div class="displayBlock" id="Password-textBlock">
                                     <h2 class="displayText">@(string.IsNullOrEmpty(SocialProfile.SocialProfile.SocialPassword) ? "--" : SocialProfile.SocialProfile.SocialPassword)</h2>
-                                    
+
                                 </div>
-                             
+
                             </div>
 
 
@@ -250,7 +250,7 @@
                     </div>
                 </div>
 
-              
+
 
 
             </div>
@@ -263,15 +263,15 @@
 
         <div class="source">
             <div class="row">
-                
+
                 <div class="col-md-4 col-sm-4 col-xs-6 inner-colm">
                     <div class="user-inner">
                         <span>Registered</span>
                         <h2>@Html.DisplayFor(m => m.UpdatedOn)</h2>
                     </div>
                 </div>
-                
-                
+
+
 
                 <div class="col-md-4 col-sm-4 col-xs-6 inner-colm">
                     <div class="user-inner" style="display:none">
@@ -304,7 +304,7 @@
                 <div class="col-2">
                     <a href="#" class="delete btn_ShowThreeDaysConfirmModal" style="background-color:blueviolet">Give 3 Day Free Service</a>
                 </div>
-               
+
             </div>
         </div>
     </div>
@@ -324,6 +324,7 @@
                 <p>Are you sure you want to delete the item.</p>
                 <h3 style="color:red">This will delete all CRM records, Profiles and user data Permanently</h3>
                 <input type="hidden" id="hdn_DeleteItemId" value="" />
+                <input type="text" id="deleteConfirmation" placeholder="Type in 'Delete This Profile' to continue" />
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -772,6 +773,12 @@
 
             $(".btn_ConfirmDelete").on("click", function () {
 
+                if ($("#deleteConfirmation").val() != "Delete This Profile") {
+                    var options = {};
+                    $("#deleteConfirmation").effect("bounce", options, 500, null);
+                    return false;
+                }
+
                 $.ajax({
 
                     url: GLB_BASEURL + "/CRM/DeleteCustomerProfile",
@@ -788,8 +795,10 @@
                             $("#Modal_Messagebox").modal("show");
                             //TODO:Handle the status here
 
+                            setTimeout(function () {
+                                 window.location.href = GLB_BASEURL+"/CRM/Index"
+                            }, 1000);
 
-                            window.location.href = GLB_BASEURL+"/CRM/Index"
 
                         } else {
                             $("#Modal_ConfirmDeletion").modal("hide");

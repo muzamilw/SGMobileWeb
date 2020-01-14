@@ -331,13 +331,13 @@
                                                     </td>
 
                                                     <td class="align-middle">
-                                                        @if (@socailProfiles.FirstOrDefault().SubscriptionName != null)
+                                                        @if (item.SubscriptionName != null)
                                                 {
                                                             <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: @item.SubscriptionName</div>
                                                         }
                                                         else
                                                         {
-                                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline">Free Plan</div>
+                                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: Forever Free</div>
                                                         }
                                                     </td>
                                                 </tr>

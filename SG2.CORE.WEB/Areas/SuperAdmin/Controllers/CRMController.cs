@@ -321,7 +321,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                 if (_customerManager.DeleteProfile(0, socialProfileId))
                 {
                     {
-                        jr.Data = new { ResultType = "Error", message = "Profile has been successfully deleted." };
+                        jr.Data = new { ResultType = "Success", message = "Profile has been successfully deleted." };
                     }
                 }
             }
