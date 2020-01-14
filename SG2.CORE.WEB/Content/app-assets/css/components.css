@@ -154,8 +154,6 @@ html {
 footer.footer {
     padding: 1.4rem;
     bottom: 0px;
-    position: absolute;
-    width: 100%;
 }
 
 footer.navbar-shadow {
