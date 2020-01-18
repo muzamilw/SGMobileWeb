@@ -37,7 +37,6 @@ namespace SG2.CORE.DAL.DB
         public virtual DbSet<SocialProfile_FollowedAccounts> SocialProfile_FollowedAccounts { get; set; }
         public virtual DbSet<SocialProfile_Notification> SocialProfile_Notification { get; set; }
         public virtual DbSet<SocialProfile_Payments> SocialProfile_Payments { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<SystemCity> SystemCities { get; set; }
         public virtual DbSet<SystemConfig> SystemConfigs { get; set; }
         public virtual DbSet<SystemCountry> SystemCountries { get; set; }

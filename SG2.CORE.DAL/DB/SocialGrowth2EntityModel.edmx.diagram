@@ -14,7 +14,6 @@
         <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_FollowedAccounts" Width="3" PointX="5.25" PointY="21.625" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Notification" Width="1.5" PointX="0.75" PointY="7.75" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Payments" Width="3" PointX="8.25" PointY="25.125" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.sysdiagram" Width="1.5" PointX="7.75" PointY="5.75" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.SystemCity" Width="1.5" PointX="7.75" PointY="8.75" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.SystemConfig" Width="1.5" PointX="9.75" PointY="5.75" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.SystemCountry" Width="1.5" PointX="9.75" PointY="9.75" />

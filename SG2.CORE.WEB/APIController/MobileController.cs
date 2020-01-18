@@ -46,7 +46,9 @@ namespace SG2.CORE.WEB.APIController
                             SocialProfileId = res.SocialProfileId,
                             SocialPasswordNeeded = res.PasswordNeeded,
                             BlockCode = res.BlockCode,
-                            BlockDateTimeUTC = res.BlockDateTimeUTC
+                            BlockDateTimeUTC = res.BlockDateTimeUTC,
+                            InitialStatsReceived = res.InitialStatsReceived
+
                         }
 
                     };

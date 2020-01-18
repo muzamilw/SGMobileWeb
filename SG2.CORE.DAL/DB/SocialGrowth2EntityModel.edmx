@@ -182,6 +182,8 @@
           <Property Name="BlockedStatus" Type="int" />
           <Property Name="BockedSinceDateTime" Type="datetime" />
           <Property Name="TrelloStatusId" Type="int" />
+          <Property Name="InitialStatsReceived" Type="bit" />
+          <Property Name="InitialStatsReceivedDateTime" Type="datetime" />
         </EntityType>
         <EntityType Name="SocialProfile_Actions">
           <Key>
@@ -331,16 +333,6 @@
           <Property Name="PostsTotal" Type="bigint" />
           <Property Name="FollowTotal" Type="bigint" />
           <Property Name="StoryViewsTotal" Type="bigint" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="SystemCity">
           <Key>
@@ -594,16 +586,6 @@
           <Parameter Name="rvcPhoneNumber" Type="nvarchar" Mode="In" />
           <Parameter Name="rvcPhoneCode" Type="nvarchar" Mode="In" />
         </Function>
-        <Function Name="SG2_usp_Customer_SignUp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="rvcFirstName" Type="nvarchar" Mode="In" />
-          <Parameter Name="rvcSurName" Type="nvarchar" Mode="In" />
-          <Parameter Name="rvcEmailAddress" Type="nvarchar" Mode="In" />
-          <Parameter Name="rvcPassword" Type="nvarchar" Mode="In" />
-          <Parameter Name="rvcCreatedBy" Type="nvarchar" Mode="In" />
-          <Parameter Name="rvcGUID" Type="nvarchar" Mode="In" />
-          <Parameter Name="rvcLastLoginIP" Type="nvarchar" Mode="In" />
-          <Parameter Name="rvcStatusId" Type="int" Mode="In" />
-        </Function>
         <Function Name="SG2_usp_Customer_SignUpCustomerWithPreference" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="rvcFirstName" Type="nvarchar" Mode="In" />
           <Parameter Name="rvcLastName" Type="nvarchar" Mode="In" />
@@ -624,9 +606,6 @@
           <Parameter Name="Id" Type="int" Mode="In" />
         </Function>
         <Function Name="SG2_usp_Get_AllUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="SG2_usp_Get_Customer_Instagram_TargetingInformation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="riSocialProfileId" Type="int" Mode="In" />
-        </Function>
         <Function Name="SG2_usp_Get_CustomerOrderHistory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="riCustomerId" Type="int" Mode="In" />
           <Parameter Name="riSocialProfileId" Type="int" Mode="In" />
@@ -634,7 +613,6 @@
           <Parameter Name="riPageSize" Type="varchar" Mode="In" />
         </Function>
         <Function Name="SG2_usp_Get_EnumerationValue" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="SG2_usp_Get_SocialProfile_PaymentPlan" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SG2_usp_Get_SpecificCustomerDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="riCustomerId" Type="int" Mode="In" />
           <Parameter Name="riProfileId" Type="int" Mode="In" />
@@ -712,7 +690,6 @@
           <EntitySet Name="SocialProfile_Notification" EntityType="Self.SocialProfile_Notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SocialProfile_Payments" EntityType="Self.SocialProfile_Payments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SocialProfile_Statistics" EntityType="Self.SocialProfile_Statistics" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemCity" EntityType="Self.SystemCity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemConfig" EntityType="Self.SystemConfig" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemCountry" EntityType="Self.SystemCountry" Schema="dbo" store:Type="Tables" />
@@ -905,7 +882,6 @@
           <EntitySet Name="SocialProfile_FollowedAccounts" EntityType="SocialGrowth2Entities.SocialProfile_FollowedAccounts" />
           <EntitySet Name="SocialProfile_Notification" EntityType="SocialGrowth2Entities.SocialProfile_Notification" />
           <EntitySet Name="SocialProfile_Payments" EntityType="SocialGrowth2Entities.SocialProfile_Payments" />
-          <EntitySet Name="sysdiagrams" EntityType="SocialGrowth2Entities.sysdiagram" />
           <EntitySet Name="SystemCities" EntityType="SocialGrowth2Entities.SystemCity" />
           <EntitySet Name="SystemConfigs" EntityType="SocialGrowth2Entities.SystemConfig" />
           <EntitySet Name="SystemCountries" EntityType="SocialGrowth2Entities.SystemCountry" />
@@ -1605,16 +1581,6 @@
           <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_Subscription_SG2_SocialProfile" FromRole="SocialProfile_Payments" ToRole="SocialProfile" />
           <NavigationProperty Name="PaymentPlan" Relationship="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" FromRole="SocialProfile_Payments" ToRole="PaymentPlan" />
         </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
         <EntityType Name="SystemCity">
           <Key>
             <PropertyRef Name="CityId" />
@@ -1819,6 +1785,8 @@
           <NavigationProperty Name="Customer" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer" FromRole="SocialProfile" ToRole="Customer" />
           <Property Name="TrelloStatusId" Type="Int32" />
           <NavigationProperty Name="SocialProfile_Instagram_TargetingInformation" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Instagram_TargetingInformation" />
+          <Property Name="InitialStatsReceived" Type="Boolean" />
+          <Property Name="InitialStatsReceivedDateTime" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
           <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="1" />
@@ -2256,116 +2224,6 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SG2_Delete_Customer_All" FunctionName="SocialGrowth2Entities.Store.SG2_Delete_Customer_All" />
-          <FunctionImportMapping FunctionImportName="SG2_usp_Get_Customer_Instagram_TargetingInformation" FunctionName="SocialGrowth2Entities.Store.SG2_usp_Get_Customer_Instagram_TargetingInformation">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_Get_Customer_Instagram_TargetingInformation_Result">
-                <ScalarProperty Name="TargetingInformationId" ColumnName="TargetingInformationId" />
-                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
-                <ScalarProperty Name="IsSystem" ColumnName="IsSystem" />
-                <ScalarProperty Name="FollowOn" ColumnName="FollowOn" />
-                <ScalarProperty Name="LikeOn" ColumnName="LikeOn" />
-                <ScalarProperty Name="UnFollowOn" ColumnName="UnFollowOn" />
-                <ScalarProperty Name="StoryViewerOn" ColumnName="StoryViewerOn" />
-                <ScalarProperty Name="ContactMembersOn" ColumnName="ContactMembersOn" />
-                <ScalarProperty Name="HashTagsToEngage" ColumnName="HashTagsToEngage" />
-                <ScalarProperty Name="HashTagsToNotEngage" ColumnName="HashTagsToNotEngage" />
-                <ScalarProperty Name="LocationsToEngage" ColumnName="LocationsToEngage" />
-                <ScalarProperty Name="GenderEngagmentPref" ColumnName="GenderEngagmentPref" />
-                <ScalarProperty Name="IncludeBusinessAccounts" ColumnName="IncludeBusinessAccounts" />
-                <ScalarProperty Name="MonOper" ColumnName="MonOper" />
-                <ScalarProperty Name="TueOper" ColumnName="TueOper" />
-                <ScalarProperty Name="WedOper" ColumnName="WedOper" />
-                <ScalarProperty Name="ThuOper" ColumnName="ThuOper" />
-                <ScalarProperty Name="FriOper" ColumnName="FriOper" />
-                <ScalarProperty Name="SatOper" ColumnName="SatOper" />
-                <ScalarProperty Name="SunOper" ColumnName="SunOper" />
-                <ScalarProperty Name="ExecutionIntervals" ColumnName="ExecutionIntervals" />
-                <ScalarProperty Name="RandomizeIntervalsDaily" ColumnName="RandomizeIntervalsDaily" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="SocialAccAs" ColumnName="SocialAccAs" />
-                <ScalarProperty Name="FollNewPerDayLim" ColumnName="FollNewPerDayLim" />
-                <ScalarProperty Name="FollDailyIncreaseLim" ColumnName="FollDailyIncreaseLim" />
-                <ScalarProperty Name="FollMaxPerDayLim" ColumnName="FollMaxPerDayLim" />
-                <ScalarProperty Name="UnFollNewPerDayLim" ColumnName="UnFollNewPerDayLim" />
-                <ScalarProperty Name="UnFollDailyIncreaseLim" ColumnName="UnFollDailyIncreaseLim" />
-                <ScalarProperty Name="UnFollMaxPerDayLim" ColumnName="UnFollMaxPerDayLim" />
-                <ScalarProperty Name="LikePerDayLim" ColumnName="LikePerDayLim" />
-                <ScalarProperty Name="LikeDailyIncreaseLim" ColumnName="LikeDailyIncreaseLim" />
-                <ScalarProperty Name="LikeMaxPerDayLim" ColumnName="LikeMaxPerDayLim" />
-                <ScalarProperty Name="ViewStoriesPerDayLim" ColumnName="ViewStoriesPerDayLim" />
-                <ScalarProperty Name="ViewStoriesDailyIncreaseLim" ColumnName="ViewStoriesDailyIncreaseLim" />
-                <ScalarProperty Name="ViewStoriesMaxPerDayLim" ColumnName="ViewStoriesMaxPerDayLim" />
-                <ScalarProperty Name="CommentPerDayLim" ColumnName="CommentPerDayLim" />
-                <ScalarProperty Name="CommentDailyIncreaseLim" ColumnName="CommentDailyIncreaseLim" />
-                <ScalarProperty Name="CommentMaxPerDayLim" ColumnName="CommentMaxPerDayLim" />
-                <ScalarProperty Name="DMPerDayLim" ColumnName="DMPerDayLim" />
-                <ScalarProperty Name="DMDailyIncreaseLim" ColumnName="DMDailyIncreaseLim" />
-                <ScalarProperty Name="DMMaxPerDayLim" ColumnName="DMMaxPerDayLim" />
-                <ScalarProperty Name="FollUserProfileImage" ColumnName="FollUserProfileImage" />
-                <ScalarProperty Name="FollUserMinPosts" ColumnName="FollUserMinPosts" />
-                <ScalarProperty Name="FollUserPostsLastXDays" ColumnName="FollUserPostsLastXDays" />
-                <ScalarProperty Name="FollUseBlackList" ColumnName="FollUseBlackList" />
-                <ScalarProperty Name="FollCheckPostsCapBlackList" ColumnName="FollCheckPostsCapBlackList" />
-                <ScalarProperty Name="FollDoNotFollowPrivateUser" ColumnName="FollDoNotFollowPrivateUser" />
-                <ScalarProperty Name="FollSkipBizAcct" ColumnName="FollSkipBizAcct" />
-                <ScalarProperty Name="FollDoNotFollowUsernamewithdigits" ColumnName="FollDoNotFollowUsernamewithdigits" />
-                <ScalarProperty Name="FollOnlyFollowGender" ColumnName="FollOnlyFollowGender" />
-                <ScalarProperty Name="FollUserLangs" ColumnName="FollUserLangs" />
-                <ScalarProperty Name="AfterFollLikeuserPosts" ColumnName="AfterFollLikeuserPosts" />
-                <ScalarProperty Name="AfterFollLikeuserPostsWaitSecsFrom" ColumnName="AfterFollLikeuserPostsWaitSecsFrom" />
-                <ScalarProperty Name="AfterFollLikeuserPostsWaitSecsTo" ColumnName="AfterFollLikeuserPostsWaitSecsTo" />
-                <ScalarProperty Name="AfterFollCommentUserPosts" ColumnName="AfterFollCommentUserPosts" />
-                <ScalarProperty Name="AfterFollViewUserStory" ColumnName="AfterFollViewUserStory" />
-                <ScalarProperty Name="AfterFollMuteUser" ColumnName="AfterFollMuteUser" />
-                <ScalarProperty Name="FollEngageDaily" ColumnName="FollEngageDaily" />
-                <ScalarProperty Name="FollEngageDailyfollCountFrmUnFollowList" ColumnName="FollEngageDailyfollCountFrmUnFollowList" />
-                <ScalarProperty Name="FollEngageLikeRecentPost" ColumnName="FollEngageLikeRecentPost" />
-                <ScalarProperty Name="FollEngageEnableLikeCommAfterPostLike" ColumnName="FollEngageEnableLikeCommAfterPostLike" />
-                <ScalarProperty Name="FollEngageSendDMAfterLike" ColumnName="FollEngageSendDMAfterLike" />
-                <ScalarProperty Name="FollEngageViewUserStoryAfterLike" ColumnName="FollEngageViewUserStoryAfterLike" />
-                <ScalarProperty Name="UnFollFollowersAfterMinDays" ColumnName="UnFollFollowersAfterMinDays" />
-                <ScalarProperty Name="UnFollFollowersAfterMinDaysVal" ColumnName="UnFollFollowersAfterMinDaysVal" />
-                <ScalarProperty Name="UnFollDoNotUnFollowLikersOfPosts" ColumnName="UnFollDoNotUnFollowLikersOfPosts" />
-                <ScalarProperty Name="UnFollDoNotUnFollowLikersOfPostsCount" ColumnName="UnFollDoNotUnFollowLikersOfPostsCount" />
-                <ScalarProperty Name="UnFollDoNotUnFollowCommThatCommented" ColumnName="UnFollDoNotUnFollowCommThatCommented" />
-                <ScalarProperty Name="UnFollDoNotUnFollowCommThatCommentedCount" ColumnName="UnFollDoNotUnFollowCommThatCommentedCount" />
-                <ScalarProperty Name="UnFollUseWhiteList" ColumnName="UnFollUseWhiteList" />
-                <ScalarProperty Name="StorVwOnlyPostXMin" ColumnName="StorVwOnlyPostXMin" />
-                <ScalarProperty Name="StorVwOnlyPostXMinVal" ColumnName="StorVwOnlyPostXMinVal" />
-                <ScalarProperty Name="StorVwLikeUsrPostRcntPost" ColumnName="StorVwLikeUsrPostRcntPost" />
-                <ScalarProperty Name="StorVwLikeUsrPostRcntPostVal" ColumnName="StorVwLikeUsrPostRcntPostVal" />
-                <ScalarProperty Name="StorVwReply" ColumnName="StorVwReply" />
-                <ScalarProperty Name="StorVwSendDMAfterLike" ColumnName="StorVwSendDMAfterLike" />
-                <ScalarProperty Name="CommUsrRecentPosts" ColumnName="CommUsrRecentPosts" />
-                <ScalarProperty Name="CommUsrRecentPostsVal" ColumnName="CommUsrRecentPostsVal" />
-                <ScalarProperty Name="CommUsrRecentPostsTypes" ColumnName="CommUsrRecentPostsTypes" />
-                <ScalarProperty Name="CommFltrPostsByLikeCount" ColumnName="CommFltrPostsByLikeCount" />
-                <ScalarProperty Name="CommDelCommAfterXDays" ColumnName="CommDelCommAfterXDays" />
-                <ScalarProperty Name="CommDelCommAfterXDaysCount" ColumnName="CommDelCommAfterXDaysCount" />
-                <ScalarProperty Name="DMShowUnReadMsg" ColumnName="DMShowUnReadMsg" />
-                <ScalarProperty Name="DMShowPendingReq" ColumnName="DMShowPendingReq" />
-                <ScalarProperty Name="LEXLikeUsrMostRecentPosts" ColumnName="LEXLikeUsrMostRecentPosts" />
-                <ScalarProperty Name="LEXLikeUsrMostRecentPostsCount" ColumnName="LEXLikeUsrMostRecentPostsCount" />
-                <ScalarProperty Name="LEXUseBlackList" ColumnName="LEXUseBlackList" />
-                <ScalarProperty Name="LEXChkPostCaptionsforBlackList" ColumnName="LEXChkPostCaptionsforBlackList" />
-                <ScalarProperty Name="SocialUsername" ColumnName="SocialUsername" />
-                <ScalarProperty Name="SocialPassword" ColumnName="SocialPassword" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="SocialProfileName" ColumnName="SocialProfileName" />
-                <ScalarProperty Name="SocialProfileId1" ColumnName="SocialProfileId1" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="NoOfProfile" ColumnName="NoOfProfile" />
-                <ScalarProperty Name="SocialAccAs1" ColumnName="SocialAccAs1" />
-                <ScalarProperty Name="VerificationCode" ColumnName="VerificationCode" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="IsArchived" ColumnName="IsArchived" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SG2_usp_Get_SpecificCustomerDetail" FunctionName="SocialGrowth2Entities.Store.SG2_usp_Get_SpecificCustomerDetail">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_Get_SpecificCustomerDetail_Result">
@@ -2548,26 +2406,6 @@
                 <ScalarProperty Name="IsBrokerPlan" ColumnName="IsBrokerPlan" />
                 <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
                 <ScalarProperty Name="NoOfComments" ColumnName="NoOfComments" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SG2_usp_Get_SocialProfile_PaymentPlan" FunctionName="SocialGrowth2Entities.Store.SG2_usp_Get_SocialProfile_PaymentPlan">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_Get_SocialProfile_PaymentPlan_Result">
-                <ScalarProperty Name="paymentPlanId" ColumnName="paymentPlanId" />
-                <ScalarProperty Name="Likes" ColumnName="Likes" />
-                <ScalarProperty Name="PlanPrice" ColumnName="PlanPrice" />
-                <ScalarProperty Name="PlanName" ColumnName="PlanName" />
-                <ScalarProperty Name="PlanDescription" ColumnName="PlanDescription" />
-                <ScalarProperty Name="isparentplan" ColumnName="isparentplan" />
-                <ScalarProperty Name="StripePlanId" ColumnName="StripePlanId" />
-                <ScalarProperty Name="NoOfLikesDuration" ColumnName="NoOfLikesDuration" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
-                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
-                <ScalarProperty Name="socialplatform" ColumnName="socialplatform" />
-                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
-                <ScalarProperty Name="DisplayPrice" ColumnName="DisplayPrice" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -2864,17 +2702,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="SocialGrowth2Entities.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SystemCities">
             <EntityTypeMapping TypeName="SocialGrowth2Entities.SystemCity">
               <MappingFragment StoreEntitySet="SystemCity">
@@ -2994,53 +2821,11 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="SG2_usp_Customer_SignUp" FunctionName="SocialGrowth2Entities.Store.SG2_usp_Customer_SignUp">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_Customer_SignUp_Result">
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="GUID" ColumnName="GUID" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="SurName" ColumnName="SurName" />
-                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
-                <ScalarProperty Name="LoginAttempts" ColumnName="LoginAttempts" />
-                <ScalarProperty Name="LastLoginIP" ColumnName="LastLoginIP" />
-                <ScalarProperty Name="Tocken" ColumnName="Tocken" />
-                <ScalarProperty Name="StripeCustomerId" ColumnName="StripeCustomerId" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="Source" ColumnName="Source" />
-                <ScalarProperty Name="Register" ColumnName="Register" />
-                <ScalarProperty Name="ResponsibleTeamMemberId" ColumnName="ResponsibleTeamMemberId" />
-                <ScalarProperty Name="AvailableToEveryOne" ColumnName="AvailableToEveryOne" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="CancelledDate" ColumnName="CancelledDate" />
-                <ScalarProperty Name="IsOptedEducationalEmailSeries" ColumnName="IsOptedEducationalEmailSeries" />
-                <ScalarProperty Name="IsOptedMarketingEmail" ColumnName="IsOptedMarketingEmail" />
-                <ScalarProperty Name="ContactDetailsId" ColumnName="ContactDetailsId" />
-                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
-                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
-                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="Sate" ColumnName="Sate" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-                <ScalarProperty Name="PhoneCode" ColumnName="PhoneCode" />
-                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
-                <ScalarProperty Name="DefaultSocialProfileId" ColumnName="DefaultSocialProfileId" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="SocialProfiles">
             <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile">
               <MappingFragment StoreEntitySet="SocialProfile">
+                <ScalarProperty Name="InitialStatsReceivedDateTime" ColumnName="InitialStatsReceivedDateTime" />
+                <ScalarProperty Name="InitialStatsReceived" ColumnName="InitialStatsReceived" />
                 <ScalarProperty Name="TrelloStatusId" ColumnName="TrelloStatusId" />
                 <ScalarProperty Name="BockedSinceDateTime" ColumnName="BockedSinceDateTime" />
                 <ScalarProperty Name="BlockedStatus" ColumnName="BlockedStatus" />

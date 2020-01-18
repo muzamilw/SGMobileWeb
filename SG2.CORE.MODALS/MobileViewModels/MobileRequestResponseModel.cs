@@ -47,6 +47,8 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public string BrokerFeedbackPage { get; set; }
         public string BrokerHomePage { get; set; }
         public string BrokerTrustPilotCode { get; set; }
+
+        public bool InitialStatsReceived { get; set; }
     }
 
 

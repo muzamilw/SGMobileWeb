@@ -34,8 +34,11 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
+
+                    var profile = _db.SocialProfiles.Where(g => g.SocialProfileId == model.SocialProfileId).Single();
+
                     //only save initial stats if old one does not exists. skip if any older stats exists.
-                    if (_db.SocialProfile_Statistics.Where(g => g.SocialProfileId == model.SocialProfileId && g.Date <= DateTime.Today).Count() == 0)
+                    if ((profile.InitialStatsReceived.HasValue == false || profile.InitialStatsReceived.Value == false ) &&  _db.SocialProfile_Statistics.Where(g => g.SocialProfileId == model.SocialProfileId && g.Date <= DateTime.Today).Count() == 0)
                     {
 
                         var stats = new SocialProfile_Statistics();
@@ -54,7 +57,12 @@ namespace SG2.CORE.DAL.Repositories
                         stats.UpdateDate = DateTime.Now;
 
                         _db.SocialProfile_Statistics.Add(stats);
+                        
+                        profile.InitialStatsReceived = true;
+                        profile.InitialStatsReceivedDateTime = DateTime.Now;
+
                         _db.SaveChanges();
+
                     }
                     return true;
                 }
