@@ -1914,3 +1914,11 @@ span.span_jvStatusName {
 
      
     }
+.pagination li {
+    padding-right: 5px;
+    font-size: 0.85rem;
+}
+.pagination li:last-child {
+    padding-right: 0px;
+    font-size: 0.85rem;
+}
