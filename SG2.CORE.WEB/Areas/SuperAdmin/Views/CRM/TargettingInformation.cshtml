@@ -61,6 +61,12 @@
         .checkboxsas input {
             margin-right: 3px;
         }
+         .border-bottom-social-profile {
+        border-bottom: 1px solid #404E67;
+        }
+        .l-h12-social-profile {
+            line-height: 1.2;
+        }
     </style>
 }
 
@@ -77,9 +83,9 @@
         <div class="row mt-1">
 
             <div class="col-6">
-                <a class="btn btn-primary active" href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.SocialProfileId.ToString()))">Contact Details</a>
-                <a class="btn btn-primary" href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.SocialProfileId.ToString()))">Order History</a>
-                <a class="btn btn-primary" href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.SocialProfileId.ToString()))">Target Form</a>
+                <a class="btn btn-primary active  mb-1" href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.SocialProfileId.ToString()))">Contact Details</a>
+                <a class="btn btn-primary  mb-1" href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.SocialProfileId.ToString()))">Order History</a>
+                <a class="btn btn-primary  mb-1" href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.SocialProfileId.ToString()))">Target Form</a>
             </div>
             <div class="col-6 text-right"><a class=" btn btn-primary right" href="javascript:void(0);" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></div>
 
@@ -231,10 +237,9 @@
                                 <div class="card-content collpase show">
                                     <div class="card-body">
 
-                                        <div class="col-md-12">
-                                            <h4 class="card-title form-section">Like users latest posts</h4>
-                                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                                            <div class="toggleButtonAlign">
+                                        <div class="border-bottom-social-profile col-md-12 ml-0 mr-0 row">
+                                            <h4 class="col-lg-6 col-md-6 col-sm-12 card-title form-section pl-0 mb-0" style="border-bottom:0px;">Like users latest posts</h4>
+                                            <div class="col-lg-6 col-md-6 col-sm-12 text-right pr-0 mb-1">
                                                 <ul class="list-inline mb-0">
                                                     <li><input id="AfterFollLikeuserPosts" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts"></li>
                                                 </ul>
@@ -242,10 +247,9 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-12">
-                                            <h4 class="card-title form-section">Comment on users latest posts</h4>
-                                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                                            <div class="toggleButtonAlign">
+                                        <div class="border-bottom-social-profile col-md-12 ml-0 mr-0 row mt-1">
+                                            <h4 class="col-lg-6 col-md-6 col-sm-12 card-title form-section pl-0 mb-0" style="border-bottom:0px;">Comment on users latest posts</h4>
+                                            <div class="col-lg-6 col-md-6 col-sm-12 text-right pr-0 mb-1">
                                                 <ul class="list-inline mb-0">
                                                     <li><input id="AfterFollCommentUserPosts" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts"></li>
                                                 </ul>
@@ -253,10 +257,9 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-12">
-                                            <h4 class="card-title form-section">View user stories</h4>
-                                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                                            <div class="toggleButtonAlign">
+                                        <div class="border-bottom-social-profile col-md-12 ml-0 mr-0 row mt-1">
+                                            <h4 class="col-lg-6 col-md-6 col-sm-12 card-title form-section pl-0 mb-0" style="border-bottom:0px;">View user stories</h4>
+                                            <div class="col-lg-6 col-md-6 col-sm-12 text-right pr-0 mb-1">
                                                 <ul class="list-inline mb-0">
                                                     <li><input id="AfterFollViewUserStory" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.AfterFollViewUserStory"></li>
                                                 </ul>
@@ -264,10 +267,9 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-12">
-                                            <h4 class="card-title form-section">Comment on user stories</h4>
-                                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                                            <div class="toggleButtonAlign">
+                                        <div class="border-bottom-social-profile col-md-12 ml-0 mr-0 row mt-1">
+                                            <h4 class="col-lg-6 col-md-6 col-sm-12 card-title form-section pl-0 mb-0" style="border-bottom:0px;">Comment on user stories</h4>
+                                            <div class="col-lg-6 col-md-6 col-sm-12 text-right pr-0 mb-1">
                                                 <ul class="list-inline mb-0">
                                                     <li><input id="AfterFollCommentUserStory" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserStory"></li>
                                                 </ul>
@@ -275,10 +277,9 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-12">
-                                            <h4 class="card-title form-section">Unfollow users ( Users we followed in last 48 hours )</h4>
-                                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                                            <div class="toggleButtonAlign">
+                                        <div class="border-bottom-social-profile col-md-12 ml-0 mr-0 row mt-1">
+                                            <h4 class="col-lg-6 col-md-6 col-sm-12 card-title form-section pl-0 mb-0" style="border-bottom:0px;">Unfollow users ( Users we followed in last 48 hours )</h4>
+                                           <div class="col-lg-6 col-md-6 col-sm-12 text-right pr-0 mb-1">
                                                 <ul class="list-inline mb-0">
                                                     <li><input id="UnFollFollowersAfterMinDays" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays"></li>
                                                 </ul>
@@ -286,10 +287,9 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-12">
-                                            <h4 class="card-title form-section">Follow</h4>
-                                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                                            <div class="toggleButtonAlign">
+                                        <div class="border-bottom-social-profile col-md-12 ml-0 mr-0 row mt-1">
+                                            <h4 class="col-lg-6 col-md-6 col-sm-12 card-title form-section pl-0 mb-0" style="border-bottom:0px;">Follow</h4>
+                                            <div class="col-lg-6 col-md-6 col-sm-12 text-right pr-0 mb-1">
                                                 <ul class="list-inline mb-0">
                                                     <li><input id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.FollowOn"></li>
                                                 </ul>
@@ -388,7 +388,7 @@
 
 
                                                 <div class="col-md-12">
-                                                    <div class="weekDays-selector1">
+                                                    <div class="weekDays-selector1 l-h12-social-profile">
                                                         @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollMuteUser, new { @class = "weekday" })
                                                         @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollMuteUser)*@
                                                         <label for="weekday-mon">Mute user after follow</label>
@@ -397,7 +397,7 @@
                                                 </div>
 
                                                 <div class="col-md-12">
-                                                    <div class="weekDays-selector1">
+                                                    <div class="weekDays-selector1 l-h12-social-profile">
                                                         @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserLangs, new { @class = "weekday" })
                                                         @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserLangsList)
                                                         <label for="weekday-mon">Follow users ONLY in these Languages</label>
@@ -474,7 +474,7 @@
 
 
                                                 <div class="col-md-12">
-                                                    <div class="weekDays-selector1">
+                                                    <div class="weekDays-selector1 l-h12-social-profile">
                                                         @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowLikersOfPosts, new { @class = "weekday" })
                                                         @**@@*Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowLikersOfPosts)*@
                                                         <label for="weekday-mon" class="mr-05">Keep following users who liked recent posts</label>@Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowLikersOfPostsCount, new { style = "width:65px;", type = "number" })<label class="ml-05"> posts</label>
@@ -482,7 +482,7 @@
 
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <div class="weekDays-selector1">
+                                                    <div class="weekDays-selector1 l-h12-social-profile">
                                                         @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowCommThatCommented, new { @class = "weekday" })
                                                         @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowCommThatCommented)*@
 
@@ -491,7 +491,7 @@
 
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <div class="weekDays-selector1">
+                                                    <div class="weekDays-selector1 l-h12-social-profile">
 
                                                         @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollUseWhiteList, new { @class = "weekday" })
                                                         @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollUseWhiteList)*@
