@@ -2,7 +2,7 @@
 @using SG2.CORE.COMMON
 @{
     ViewBag.Title = "VerifyEmail";
-    Layout = "~/Views/Shared/_Layout_LoggedIn.cshtml";
+    Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
 }
 
 
@@ -29,7 +29,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="intro2 " data-aos="fade-left">
+                <div class="intro2 center text-center " data-aos="fade-left">
                     <br />
                     <br />
                     <br />
@@ -43,7 +43,7 @@
 
                     @Html.HiddenFor(model => model.CustomerId)
 
-                    <input type="submit" class="btn btn-block btn-default" style="width:250px;" id="btn_SignIn" value="Sign In" />
+                    <a href="~/" class="btn btn-primary center" style="width:250px;" id="btn_SignIns" />Sign In</a>
 
 
                 </div>

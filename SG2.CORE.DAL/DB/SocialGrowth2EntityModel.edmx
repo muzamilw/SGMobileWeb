@@ -586,6 +586,16 @@
           <Parameter Name="rvcPhoneNumber" Type="nvarchar" Mode="In" />
           <Parameter Name="rvcPhoneCode" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="SG2_usp_Customer_SignUp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rvcFirstName" Type="nvarchar" Mode="In" />
+          <Parameter Name="rvcSurName" Type="nvarchar" Mode="In" />
+          <Parameter Name="rvcEmailAddress" Type="nvarchar" Mode="In" />
+          <Parameter Name="rvcPassword" Type="nvarchar" Mode="In" />
+          <Parameter Name="rvcCreatedBy" Type="nvarchar" Mode="In" />
+          <Parameter Name="rvcGUID" Type="nvarchar" Mode="In" />
+          <Parameter Name="rvcLastLoginIP" Type="nvarchar" Mode="In" />
+          <Parameter Name="rvcStatusId" Type="int" Mode="In" />
+        </Function>
         <Function Name="SG2_usp_Customer_SignUpCustomerWithPreference" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="rvcFirstName" Type="nvarchar" Mode="In" />
           <Parameter Name="rvcLastName" Type="nvarchar" Mode="In" />
@@ -893,16 +903,6 @@
             <End Role="SystemUser" EntitySet="SystemUsers" />
           </AssociationSet>
           <EntitySet Name="SocialProfile_Statistics" EntityType="SocialGrowth2Entities.SocialProfile_Statistics" />
-          <FunctionImport Name="SG2_usp_Customer_SignUp" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Customer_SignUp_Result)">
-            <Parameter Name="rvcFirstName" Mode="In" Type="String" />
-            <Parameter Name="rvcSurName" Mode="In" Type="String" />
-            <Parameter Name="rvcEmailAddress" Mode="In" Type="String" />
-            <Parameter Name="rvcPassword" Mode="In" Type="String" />
-            <Parameter Name="rvcCreatedBy" Mode="In" Type="String" />
-            <Parameter Name="rvcGUID" Mode="In" Type="String" />
-            <Parameter Name="rvcLastLoginIP" Mode="In" Type="String" />
-            <Parameter Name="rvcStatusId" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="SocialProfiles" EntityType="SocialGrowth2Entities.SocialProfile" />
           <AssociationSet Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile" Association="SocialGrowth2Entities.FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
             <End Role="SocialProfile" EntitySet="SocialProfiles" />
@@ -965,6 +965,16 @@
             <End Role="SocialProfile" EntitySet="SocialProfiles" />
             <End Role="SocialProfile_Instagram_TargetingInformation" EntitySet="SocialProfile_Instagram_TargetingInformation" />
           </AssociationSet>
+          <FunctionImport Name="SG2_usp_Customer_SignUp" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Customer_SignUp_Result)">
+            <Parameter Name="rvcFirstName" Mode="In" Type="String" />
+            <Parameter Name="rvcSurName" Mode="In" Type="String" />
+            <Parameter Name="rvcEmailAddress" Mode="In" Type="String" />
+            <Parameter Name="rvcPassword" Mode="In" Type="String" />
+            <Parameter Name="rvcCreatedBy" Mode="In" Type="String" />
+            <Parameter Name="rvcGUID" Mode="In" Type="String" />
+            <Parameter Name="rvcLastLoginIP" Mode="In" Type="String" />
+            <Parameter Name="rvcStatusId" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="SG2_usp_Get_AllUser1_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
@@ -1711,9 +1721,9 @@
         <ComplexType Name="SG2_usp_Customer_SignUp_Result">
           <Property Type="Int32" Name="CustomerId" Nullable="false" />
           <Property Type="String" Name="GUID" Nullable="false" MaxLength="36" />
-          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="SurName" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="EmailAddress" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="SurName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="EmailAddress" Nullable="false" MaxLength="150" />
           <Property Type="String" Name="Password" Nullable="false" MaxLength="64" />
           <Property Type="DateTime" Name="CreatedOn" Nullable="false" Precision="23" />
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="50" />
@@ -1724,7 +1734,7 @@
           <Property Type="Byte" Name="LoginAttempts" Nullable="false" />
           <Property Type="String" Name="LastLoginIP" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="Tocken" Nullable="false" MaxLength="128" />
-          <Property Type="String" Name="StripeCustomerId" Nullable="true" />
+          <Property Type="String" Name="StripeCustomerId" Nullable="true" MaxLength="150" />
           <Property Type="String" Name="UserName" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Source" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Register" Nullable="true" MaxLength="50" />
@@ -2150,6 +2160,46 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="SG2_usp_Customer_SignUp_Result1">
+          <Property Type="Int32" Name="CustomerId" Nullable="false" />
+          <Property Type="String" Name="GUID" Nullable="false" MaxLength="36" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="SurName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="EmailAddress" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="64" />
+          <Property Type="DateTime" Name="CreatedOn" Nullable="false" Precision="23" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="UpdatedOn" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UpdatedBy" Nullable="false" MaxLength="50" />
+          <Property Type="Int16" Name="StatusId" Nullable="false" />
+          <Property Type="DateTime" Name="LastLoginDate" Nullable="false" Precision="23" />
+          <Property Type="Byte" Name="LoginAttempts" Nullable="false" />
+          <Property Type="String" Name="LastLoginIP" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Tocken" Nullable="false" MaxLength="128" />
+          <Property Type="String" Name="StripeCustomerId" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="UserName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Source" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Register" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ResponsibleTeamMemberId" Nullable="true" />
+          <Property Type="Boolean" Name="AvailableToEveryOne" Nullable="true" />
+          <Property Type="String" Name="Comment" Nullable="true" />
+          <Property Type="DateTime" Name="CancelledDate" Nullable="true" Precision="23" />
+          <Property Type="Boolean" Name="IsOptedEducationalEmailSeries" Nullable="true" />
+          <Property Type="Boolean" Name="IsOptedMarketingEmail" Nullable="true" />
+          <Property Type="Int32" Name="ContactDetailsId" Nullable="true" />
+          <Property Type="String" Name="JobTitle" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="MobileNumber" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PhoneNumber" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AddressLine1" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="AddressLine2" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="City" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Sate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Country" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PostalCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PhoneCode" Nullable="true" MaxLength="5" />
+          <Property Type="Int32" Name="PaymentId" Nullable="true" />
+          <Property Type="Int32" Name="DefaultSocialProfileId" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3075,6 +3125,50 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SG2_usp_Customer_SignUp" FunctionName="SocialGrowth2Entities.Store.SG2_usp_Customer_SignUp">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_Customer_SignUp_Result">
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="SurName" ColumnName="SurName" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+                <ScalarProperty Name="LoginAttempts" ColumnName="LoginAttempts" />
+                <ScalarProperty Name="LastLoginIP" ColumnName="LastLoginIP" />
+                <ScalarProperty Name="Tocken" ColumnName="Tocken" />
+                <ScalarProperty Name="StripeCustomerId" ColumnName="StripeCustomerId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="ResponsibleTeamMemberId" ColumnName="ResponsibleTeamMemberId" />
+                <ScalarProperty Name="AvailableToEveryOne" ColumnName="AvailableToEveryOne" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="CancelledDate" ColumnName="CancelledDate" />
+                <ScalarProperty Name="IsOptedEducationalEmailSeries" ColumnName="IsOptedEducationalEmailSeries" />
+                <ScalarProperty Name="IsOptedMarketingEmail" ColumnName="IsOptedMarketingEmail" />
+                <ScalarProperty Name="ContactDetailsId" ColumnName="ContactDetailsId" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Sate" ColumnName="Sate" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="PhoneCode" ColumnName="PhoneCode" />
+                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
+                <ScalarProperty Name="DefaultSocialProfileId" ColumnName="DefaultSocialProfileId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -79,7 +79,7 @@ namespace SG2.CORE.WEB.Controllers
 
             KlaviyoAPI klaviyoAPI = new KlaviyoAPI();
             KlaviyoProfile klaviyoProfile = new KlaviyoProfile();
-
+            ViewBag.Title = "Email Verification";
             ResendEmailViewModel model = new ResendEmailViewModel();
             try
             {
@@ -119,6 +119,9 @@ namespace SG2.CORE.WEB.Controllers
 
                             var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
                             klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
+
+                            model.CustomerId = customer.CustomerId;
+                            ViewBag.CustomerDTO = customer;
                         }
                         return View(model);
 
