@@ -217,9 +217,9 @@ select {
     border: 1px solid #c8c5c5;
     width: 100%;
     border-radius: 5px;
-    height: 47px;
+    height: 37px;
     font-weight: 300;
-    font-size: 1.0rem;
+    font-size: 0.85rem;
     padding-left: 8px;
     background-image: url(../images/down-arrow.png);
     background-repeat: no-repeat;
@@ -537,8 +537,6 @@ iframe {
     padding: 0;
     width: 100%;
     table-layout: fixed;
-    border-top: 20px solid #fff;
-    border-bottom: 20px solid #fff;
     border-left: 15px solid #fff;
     border-right: 15px solid #fff;
 }
@@ -552,7 +550,7 @@ iframe {
         border: 1px solid #fff;
         padding: 5px;
         border-bottom: 2px solid #e1e0df;
-        padding-top: 20px;
+        padding-top: 0px;
     }
 
         .product-listing-sec table tr:hover {
@@ -561,23 +559,28 @@ iframe {
 
     .product-listing-sec table th,
     .product-listing-sec table td {
-        padding: 25px 18px;
+        padding: 18px 18px;
         text-align: left;
-        font-size: 1.1rem;
+        font-size: 0.85rem;
         font-weight: 400;
         color: #555;
     }
 
     .product-listing-sec table th {
-        font-size: 1.1rem;
+        font-size: 11.9px;
         color: #5c5c5c;
         font-weight: 500;
     }
 
 
 .pagination-wrap {
-    float: right;
-    padding: 14px 0px;
+    font-size: 0.85rem;
+    padding: 14px;
+    width: 100%;
+    background: white;
+    margin-bottom: 20px;
+    text-align: right;
+    padding-bottom: 30px;
 }
 /*********  information sec *************/
 .information-wrap {
@@ -602,14 +605,14 @@ iframe {
     }
 
     .information-wrap span.right {
-        font-size: 20px;
-        color: #12b601;
+        font-size: 15px;
+        color: black;
         font-weight: 400;
         float: right;
     }
 
         .information-wrap span.right i {
-            color: crimson;
+            color: black;
             font-style: normal;
         }
 
@@ -727,14 +730,14 @@ input.transition {
 }
 
 .information-form-inner ul li {
-    font-size: 1.2rem;
+    font-size: 0.85rem;
     font-weight: 500;
     padding: 5px 0;
 }
 
 .information-form-inner input[type=text] {
-    height: 47px;
-    font-size: 1.0rem;
+    height: 37px;
+    font-size: 0.85rem;
     font-weight: 400;
 }
 
@@ -755,11 +758,11 @@ input.transition {
     }
 
     .information-form-inner li span {
-        color: #ff0000;
+        color: black;
     }
 
         .information-form-inner li span.email {
-            color: #2b9af4;
+            color: black;
         }
 
 .users {
@@ -905,8 +908,8 @@ input.transition {
 }
 
     .source h2 {
-        font-size: 1.1rem;
-        color: #ff4a65;
+        font-size: 0.85rem;
+        color: black;
         font-weight: 400;
         margin-bottom: 8px
     }
@@ -1484,9 +1487,9 @@ span.span_jvStatusName {
 }
 
 .btn-height47 {
-    height: 47px;
+    height: 37px;
     font-weight: 400;
-    background-color: #5cb85c;
+    background-color: black;
     padding-left: 20px;
     padding-right: 20px;
 }
@@ -1911,3 +1914,11 @@ span.span_jvStatusName {
 
      
     }
+.pagination li {
+    padding-right: 5px;
+    font-size: 0.85rem;
+}
+.pagination li:last-child {
+    padding-right: 0px;
+    font-size: 0.85rem;
+}
