@@ -99,11 +99,11 @@ namespace SG2.CORE.MODAL.MobileViewModels
         [Required]
         public int SocialProfileId { get; set; }
         [Required]
-        public int InitialFollowings { get; set; }
+        public string InitialFollowings { get; set; }
         [Required]
-        public int InitialFollowers { get; set; }
+        public string InitialFollowers { get; set; }
         [Required]
-        public int InitialPosts { get; set; }
+        public string InitialPosts { get; set; }
 
     }
 

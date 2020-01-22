@@ -3215,6 +3215,7 @@
     <Content Include="Areas\SuperAdmin\Views\Shared\_LayoutNew.cshtml" />
     <Content Include="Areas\SuperAdmin\Views\CRM\GlobalTarget.cshtml" />
     <Content Include="Areas\SuperAdmin\Views\CRM\EditorTemplates\Boolean.cshtml" />
+    <Content Include="Areas\SuperAdmin\Views\CRM\Lists.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

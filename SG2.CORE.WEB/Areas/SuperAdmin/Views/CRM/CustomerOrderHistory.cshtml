@@ -2,11 +2,47 @@
 @using PagedList;
 @using SG2.CORE.MODAL.ViewModals.Backend;
 @using SG2.CORE.COMMON;
+@using SG2.CORE.MODAL.DTO.Customers;
 @model SG2.CORE.MODAL.ViewModals.Backend.CustomerOrderHistoryIndexViewModel
 @{
     ViewBag.Title = "Payment Histroy";
     Layout = "~/Areas/SuperAdmin/Views/Shared/_Layoutnew.cshtml";
     var BaseURl = ViewBag.BaseUrl;
+
+
+    var PlanStatus = "";
+    var SocialProfile = (SocialProfileDTO)ViewBag.SocailProfile;
+    var ProfileStatus = "";
+    var statusclass = "btn-primary";
+
+    if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
+    {
+        PlanStatus = "Active (Free)";
+    }
+    else if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.ActivePlan)
+    {
+        PlanStatus = "Active (Plan)";
+    }
+    else if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.canceled)
+    {
+        PlanStatus = "Cancelled";
+    }
+    else if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Unsubscribe)
+    {
+        PlanStatus = "Unsubscribed";
+    }
+
+    switch (SocialProfile.SocialProfile.BlockedStatus)
+    {
+        case null: ProfileStatus = "Valid"; statusclass = "btn-primary"; break;
+        case 0: ProfileStatus = "Valid"; statusclass = "btn-primary"; break;
+        case 66: ProfileStatus = "Action Blocked"; statusclass = "btn-danger"; break;
+        case 67: ProfileStatus = "Hard Blocked"; statusclass = "btn-danger"; break;
+        case 68: ProfileStatus = "Password Blocked"; statusclass = "btn-danger"; break;
+        default:
+            ProfileStatus = "Valid"; statusclass = "btn-primary";
+            break;
+    }
 }
 
 @section styles{
@@ -21,20 +57,15 @@
             <div class="col-md-6 col-xs-12">
                 <h3>
                     <img src="/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="36">
-                    @Model.SPName / @(Model.SusrName ?? "--")
+                    @(SocialProfile.SocialProfile.SocialUsername ?? "--")
                 </h3>
 
             </div>
             <div class="col-md-6 col-xs-12 text-right">
-                <span class="right">Profile Status: <i>@Model.SPStatus</i></span><br />
-                @if (string.IsNullOrEmpty(Model.JVStatus))
-                {
-                    <span class="right">MP Status: <i>--</i></span>
-                }
-                else
-                {
-                    <span class="right">MP Status: <i>@Model.JVStatus</i></span>
-                }
+                <span class="right">Block Status: <i>@ProfileStatus</i></span><br />
+
+                <span class="right">Plan Status: <i>@PlanStatus</i></span>
+
             </div>
         </div>
     </div>
@@ -48,6 +79,7 @@
                 <a class="btn btn-primary active" href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Contact Details</a>
                 <a class="btn btn-primary" href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Order History</a>
                 <a class="btn btn-primary" href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Target Form</a>
+                <a class="btn btn-primary" href="@BaseURl/crm/lists?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">White & Black Lists</a>
             </div>
             <div class="col-6"><a class=" btn btn-primary right" href="javascript:void(0);" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></div>
 

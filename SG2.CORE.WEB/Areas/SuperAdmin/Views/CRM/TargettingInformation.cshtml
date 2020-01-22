@@ -32,6 +32,41 @@
     var plans = (List<PlanInformationDTO>)ViewBag.Plans;
     var paycards = (List<CustomerPaymentCardsViewModel>)ViewBag.paycards;
 
+
+    var PlanStatus = "";
+    var SocialProfile = (SocialProfileDTO)ViewBag.SocailProfile;
+
+    var statusclass = "btn-primary";
+
+    if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
+    {
+        PlanStatus = "Active (Free)";
+    }
+    else if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.ActivePlan)
+    {
+        PlanStatus = "Active (Plan)";
+    }
+    else if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.canceled)
+    {
+        PlanStatus = "Cancelled";
+    }
+    else if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Unsubscribe)
+    {
+        PlanStatus = "Unsubscribed";
+    }
+
+    switch (SocialProfile.SocialProfile.BlockedStatus)
+    {
+        case null: ProfileStatus = "Valid"; statusclass = "btn-primary"; break;
+        case 0: ProfileStatus = "Valid"; statusclass = "btn-primary"; break;
+        case 66: ProfileStatus = "Action Blocked"; statusclass = "btn-danger"; break;
+        case 67: ProfileStatus = "Hard Blocked"; statusclass = "btn-danger"; break;
+        case 68: ProfileStatus = "Password Blocked"; statusclass = "btn-danger"; break;
+        default:
+            ProfileStatus = "Valid"; statusclass = "btn-primary";
+            break;
+    }
+
 }
 
 
@@ -61,13 +96,24 @@
         .checkboxsas input {
             margin-right: 3px;
         }
-         .border-bottom-social-profile {
-        border-bottom: 1px solid #404E67;
+
+        .border-bottom-social-profile {
+            border-bottom: 1px solid #404E67;
         }
+
         .l-h12-social-profile {
             line-height: 1.2;
         }
+
+        .information-wrap{
+            margin-top: 20px;
+    margin-bottom: 20px;
+        }
     </style>
+   
+     
+       
+    
 }
 
 
@@ -78,6 +124,26 @@
     </button>*@
 <!-- Modal -->
 
+<div class="information-wrap main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <h3>
+                    <img src="/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="36">
+                    @(SocialProfile.SocialProfile.SocialUsername ?? "--")
+                </h3>
+
+            </div>
+            <div class="col-md-6 col-xs-12 text-right">
+                <span class="right">Block Status: <i>@ProfileStatus</i></span><br />
+
+                <span class="right">Plan Status: <i>@PlanStatus</i></span>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="detail-page-contact">
     <div class="container">
         <div class="row mt-1">
@@ -86,6 +152,7 @@
                 <a class="btn btn-primary active  mb-1" href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.SocialProfileId.ToString()))">Contact Details</a>
                 <a class="btn btn-primary  mb-1" href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.SocialProfileId.ToString()))">Order History</a>
                 <a class="btn btn-primary  mb-1" href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.SocialProfileId.ToString()))">Target Form</a>
+                <a class="btn btn-primary mb-1" href="@BaseURl/crm/lists?id=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.SocialProfileId.ToString()))">White & Black Lists</a>
             </div>
             <div class="col-6 text-right"><a class=" btn btn-primary right" href="javascript:void(0);" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></div>
 
@@ -279,7 +346,7 @@
 
                                         <div class="border-bottom-social-profile col-md-12 ml-0 mr-0 row mt-1">
                                             <h4 class="col-lg-6 col-md-6 col-sm-12 card-title form-section pl-0 mb-0" style="border-bottom:0px;">Unfollow users ( Users we followed in last 48 hours )</h4>
-                                           <div class="col-lg-6 col-md-6 col-sm-12 text-right pr-0 mb-1">
+                                            <div class="col-lg-6 col-md-6 col-sm-12 text-right pr-0 mb-1">
                                                 <ul class="list-inline mb-0">
                                                     <li><input id="UnFollFollowersAfterMinDays" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays"></li>
                                                 </ul>
@@ -328,7 +395,7 @@
                                                         @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserPostsLastXDays)*@
                                                         <label for="weekday-mon" class="mr-05">Users last post should be between</label>
                                                         @Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserPostsLastXDaysVal, new { type = "number", style = "width:65px;" })
-                                                    <label class="ml-05">days</label>
+                                                        <label class="ml-05">days</label>
                                                     </div>
 
                                                 </div>
@@ -348,7 +415,7 @@
                                                         @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollDoNotFollowUsernamewithdigits)*@
                                                         <label for="weekday-mon" class="mr-05">Account should have no more than</label>@Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.FollDoNotFollowUsernamewithdigitsVal, new { type = "number", style = "width:65px;" })
                                                         <label class="ml-05">digits in their username</label>
-                                                   
+
                                                     </div>
 
                                                 </div>
@@ -761,9 +828,9 @@
                 langlist = langlist + this.value + ",";
             });
 
-               
+
             $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserLangsList)').val(langlist);
-                
+
 
             if (repeater.repeaterVal()['group-a'].length > 0) {
                 var intverl = JSON.stringify(repeater.repeaterVal()).replace('\"group-a\":', '');
@@ -925,7 +992,7 @@
                 repeater.setList(intvlist);
             }
 
-         
+
 
             ///////////////////////////////////////////////////////////////////////////////////striepe////////////////////////
 

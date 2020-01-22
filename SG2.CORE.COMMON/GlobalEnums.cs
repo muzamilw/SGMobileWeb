@@ -7,7 +7,7 @@
             "Customer signup.",
             "Customer email verification required.",
             "Customer verified email successfully.",
-            "Customer successfull subscribe for plan {0}",
+            "Customer successful subscribe for plan {0}",
             "Customer update target preferences.",
             "Customer update social profile.",
             "Customer enter email verification code {0}",

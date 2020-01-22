@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SG2.CORE.MODAL;
 using SG2.CORE.MODAL.MobileViewModels;
+using System.Text.RegularExpressions;
 
 namespace SG2.CORE.DAL.Repositories
 {
@@ -43,14 +44,14 @@ namespace SG2.CORE.DAL.Repositories
 
                         var stats = new SocialProfile_Statistics();
                         stats.SocialProfileId = model.SocialProfileId;
-                        stats.Posts = model.InitialPosts;
-                        stats.PostsTotal = model.InitialPosts;
+                        stats.Posts = strotint(model.InitialPosts);
+                        stats.PostsTotal = strotint(model.InitialPosts);
 
-                        stats.Followers = model.InitialFollowers;
-                        stats.FollowersTotal = model.InitialFollowers;
+                        stats.Followers = strotint(model.InitialFollowers);
+                        stats.FollowersTotal = strotint(model.InitialFollowers);
 
-                        stats.Followings = model.InitialFollowings;
-                        stats.FollowingsTotal = model.InitialFollowings;
+                        stats.Followings = strotint(model.InitialFollowings);
+                        stats.FollowingsTotal = strotint(model.InitialFollowings);
 
                         stats.Date = DateTime.Today;
                         stats.CreatedDate = DateTime.Now;
@@ -73,6 +74,23 @@ namespace SG2.CORE.DAL.Repositories
                 throw;
             }
             return true;
+        }
+
+
+        public int strotint(string s)
+        {
+            var resultString = string.Join(string.Empty, Regex.Matches(s, @"\d+([.,])?").OfType<Match>().Select(m => m.Value));
+            var multifactor = 1;
+            if ( s.ToLower().Contains("k"))
+            {
+                multifactor = 1000;
+            }
+            else if (s.ToLower().Contains("m"))
+            {
+                multifactor = 1000000;
+            }
+
+            return Convert.ToInt32( Convert.ToDouble(resultString) * multifactor);
         }
 
 

@@ -80,7 +80,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                 //int custId = Convert.ToInt32(CryptoEngine.Decrypt(customerId.ToString()));
                 int custId = Convert.ToInt32((CryptoEngine.Decrypt(id)));
                 int SocialPId = Convert.ToInt32((CryptoEngine.Decrypt(SPId)));
-
+                ViewBag.SocailProfile = this._customerManager.GetSocialProfileById(SocialPId);
                 var COH = _customerManager.GetCustomerOrderHistory(_PageSize, page, custId, SocialPId);
                 var totatRecord = COH.FirstOrDefault()?.TotalRecords ?? 0;
 
@@ -381,7 +381,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             ViewBag.socialProfileId = socialProfileId;
             
             var SocailProfile = this._customerManager.GetSocialProfileById(socialProfileId);
-            
+            ViewBag.SocailProfile = SocailProfile;
             var customer = _customerManager.GetCustomerByCustomerId(SocailProfile.SocialProfile.CustomerId.Value);
             ViewBag.CurrentUser = customer;
 
@@ -421,7 +421,39 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             return Redirect("/sadmin/crm/targettinginformation?id=" + Url.Encode(CryptoEngine.Encrypt(Convert.ToString(request.SocialProfile.CustomerId))) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(request.SocialProfile_Instagram_TargetingInformation.SocialProfileId.ToString())) + "&success=1");
         }
 
-              
+
+        public ActionResult Lists(string id, string SPId, int? success)
+        {
+
+            int custId = Convert.ToInt32(CryptoEngine.Decrypt(id));
+            int socialProfileId = Convert.ToInt32(CryptoEngine.Decrypt(SPId));
+
+
+            ViewBag.socialProfileId = socialProfileId;
+
+            var SocailProfile = this._customerManager.GetSocialProfileById(socialProfileId);
+            ViewBag.SocailProfile = SocailProfile;
+
+            ViewBag.socialProfileId = socialProfileId;
+            ViewBag.CurrentUser = this.CDT;
+           
+
+            if (success.HasValue && success.Value == 1)
+            {
+                ViewBag.success = 1;
+            }
+
+            return View(SocailProfile);
+
+        }
+
+
+        [HttpPost]
+        public ActionResult Lists(SocialProfileDTO request)
+        {
+            this._customerManager.UpdateTargetProfileLists(request);
+            return Redirect("/sadmin/crm/lists?id=" + Url.Encode(CryptoEngine.Encrypt(Convert.ToString(0))) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(request.SocialProfile_Instagram_TargetingInformation.SocialProfileId.ToString())) + "&success=1");
+        }
 
         public ActionResult GlobalTarget(int? success)
         {

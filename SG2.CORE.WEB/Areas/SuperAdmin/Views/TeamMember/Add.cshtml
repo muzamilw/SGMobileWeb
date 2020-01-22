@@ -12,6 +12,11 @@
 @section styles{
     <link href="~/Content/ThemeAssets/css/backendcss.css" rel="stylesheet" />
     <link href="~/Content/ThemeAssets/css/style.css" rel="stylesheet" type="text/css">
+    <style>
+        .text-danger {
+            position:relative;
+        }
+    </style>
 }
 
 @using (Html.BeginForm("Add", "TeamMember", FormMethod.Post, new { @class = "" }))
@@ -42,74 +47,74 @@
             <div class="accounts-form">
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <div class="product">
+                        <div class="col-12">
                             <label>Title</label>
                             <div class="select">
-                                <select name="Title" id="Title">
+                                <select name="Title" id="Title" tabindex="1">
                                     <option>Select Title</option>
                                     <option value="MR" @(Model.Title == "MR" ? "selected='selected'" : "")>MR</option>
                                     <option value="MS" @(Model.Title == "MS" ? "selected='selected'" : "")>MS</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="product">
+                        <div class="col-12">
                             @Html.LabelFor(m => m.FirstName, new { @class = "" })
                             <div class="select">
-                                @Html.TextBoxFor(m => m.FirstName, new { @class = "" })
+                                @Html.TextBoxFor(m => m.FirstName, new { @class = "", tabindex="3" })
                                 @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <div class="product">
+                        <div class="col-12">
                             @Html.LabelFor(m => m.Password, new { @class = "" })
                             <div class="select">
-                                @Html.PasswordFor(m => m.Password, new { @class = "" })
+                                @Html.PasswordFor(m => m.Password, new { @class = "",tabindex="5" })
                                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <div class="product">
+                        <div class="col-12">
                             <label>Role</label>
                             <div class="select">
-                                @Html.DropDownListFor(m => m.SystemRoleId, rolesSelectList, "-- Select Role -- ")
+                                @Html.DropDownListFor(m => m.SystemRoleId, rolesSelectList, "-- Select Role -- ", new { tabindex="7"})
                                 @Html.ValidationMessageFor(model => model.SystemRoleId, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-12 right">
-                        <div class="product">
-                            @Html.LabelFor(m => m.Email, new { @class = "" })
+                        <div class="col-12">
+                            @Html.LabelFor(m => m.Email, new { @class = ""  })
                             <div class="select">
-                                @Html.TextBoxFor(m => m.Email, new { @class = "" })
+                                @Html.TextBoxFor(m => m.Email, new { @class = "",tabindex="2" })
                                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <div class="product">
-                            @Html.LabelFor(m => m.LastName, new { @class = "" })
+                        <div class="col-12">
+                            @Html.LabelFor(m => m.LastName, new { @class = ""})
                             <div class="select">
-                                @Html.TextBoxFor(m => m.LastName, new { @class = "" })
+                                @Html.TextBoxFor(m => m.LastName, new { @class = "",tabindex="4"  })
                                 @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <div class="product">
+                        <div class="col-12">
                             @Html.LabelFor(m => m.Confirm_Password, new { @class = "" })
                             <div class="select">
-                                @Html.PasswordFor(m => m.Confirm_Password, new { @class = "" })
+                                @Html.PasswordFor(m => m.Confirm_Password, new { @class = "",tabindex="6" })
                                 @Html.ValidationMessageFor(model => model.Confirm_Password, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
-                        <div class="product">
+                        <div class="col-12">
                             <label>Status</label>
                             <div class="select">
-                                <select name="StatusId" id="Status">
+                                <select name="StatusId" id="Status" tabindex="8">
                                     <option value="21" @(Model.StatusId == 21 ? "selected='selected'" : "")>Invited</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div class="product">
+                        <div class="col-12">
                             <label>&nbsp;</label>
                             <div class="select">
-                                <button type="submit" value="Save & Close" class="btn btn-primary btn-block transition">Save & Close</button>
+                                <button type="submit" value="Save & Close" tabindex="9" class="btn btn-primary btn-block transition">Save & Close</button>
                             </div>
                         </div>
 
