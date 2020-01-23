@@ -162,13 +162,14 @@
     <div class="container">
         <div class="row">
 
-            <div class="col-6">
+            <div class="col-8">
+                <a class="btn btn-primary" href="@BaseURl/crm/stats?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Stats</a>
                 <a class="btn btn-primary active" href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Contact Details</a>
                 <a class="btn btn-primary" href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Order History</a>
                 <a class="btn btn-primary" href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Target Form</a>
                 <a class="btn btn-primary" href="@BaseURl/crm/lists?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">White & Black Lists</a>
             </div>
-            <div class="col-6"><a class=" btn btn-primary right" href="javascript:void(0);" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></div>
+            <div class="col-4"><a class=" btn btn-primary right" href="javascript:void(0);" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></div>
 
         </div>
     </div>
@@ -190,6 +191,9 @@
                     <!--<h4>E-mail<br><span>kardio.tvister@yanex.com</span></h4>-->
                 </div>
                 <div class="col-md-4 col-xs-6">
+                    <ul>
+                        <li>Pin Code: <span class="email">@SocialProfile.SocialProfile.PinCode</span></li>
+                    </ul>
                 </div>
             </div>
             <hr />

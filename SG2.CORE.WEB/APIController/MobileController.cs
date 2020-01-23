@@ -264,7 +264,7 @@ namespace SG2.CORE.WEB.APIController
                             successCount++;
                     }
 
-                    int[] BlockedStatuses = new int[] { 66, 67, 68, 69 };
+                    int[] BlockedStatuses = new int[] { 66, 67, 68, 69, 70, 71 };
 
                     var BlockedActions = model.Where(g => BlockedStatuses.Contains(g.ActionId)).ToList();
                     if (BlockedActions != null &&  BlockedActions.Count>0)
@@ -281,7 +281,7 @@ namespace SG2.CORE.WEB.APIController
 
                     var UnFollowCount = model.Where(g => g.ActionId == 61).Count();
                     //follow
-                    var FollowingCountNet = FollowingCount - UnFollowCount;
+                    var FollowingCountNet = FollowingCount;// - UnFollowCount;
 
                     var LikeCount = model.Where(g => g.ActionId == 62).Count();
 

@@ -27,7 +27,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
         //protected readonly TargetPreferencesManager _targetPreferenceManager;
         protected readonly List<SystemSettingsDTO> SystemConfigs;
         protected readonly PlanInformationManager _planmanager;
-
+        protected readonly StatisticsManager _statisticsManager;
 
         public CRMController()
         {
@@ -38,7 +38,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             ViewBag.SetMenuActiveClass = "CRM";
             SystemConfigs = SystemConfig.GetConfigs;
             _planmanager = new PlanInformationManager();
-
+            _statisticsManager = new StatisticsManager();
         }
 
         // GET: SuperAdmin/CRM
@@ -453,6 +453,114 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
         {
             this._customerManager.UpdateTargetProfileLists(request);
             return Redirect("/sadmin/crm/lists?id=" + Url.Encode(CryptoEngine.Encrypt(Convert.ToString(0))) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(request.SocialProfile_Instagram_TargetingInformation.SocialProfileId.ToString())) + "&success=1");
+        }
+
+
+        public ActionResult Stats(string id, string SPId)
+        {
+            int custId = Convert.ToInt32(CryptoEngine.Decrypt(id));
+            int socialProfileId = Convert.ToInt32(CryptoEngine.Decrypt(SPId));
+
+            ViewBag.socialProfileId = socialProfileId;
+            ViewBag.CurrentUser = this.CDT;
+            ViewBag.socialProfile = this._customerManager.GetSocialProfileById(socialProfileId);
+
+            ViewBag.actions = this._customerManager.ReturnLastActions(socialProfileId, 500);
+
+
+            return View(this._statisticsManager.GetStatistics(socialProfileId));
+
+
+        }
+
+        public ActionResult Trends(int socialProfileId, int mode)
+        {
+            var jr = new JsonResult();
+            try
+            {
+                DateTime startdate = DateTime.Today.AddDays(-15);   //1 week
+                DateTime enddate = DateTime.Today.AddHours(24);
+
+                if (mode == 2)
+                {
+                    startdate = DateTime.Today.AddDays(-30);  //3 months
+                }
+                if (mode == 3)
+                {
+                    startdate = DateTime.Today.AddMonths(-3);  //3 months
+                }
+                else if (mode == 4)
+                {
+                    startdate = DateTime.Today.AddMonths(-6); //6 months
+                }
+                else if (mode == 5)
+                {
+                    startdate = DateTime.Today.AddMonths(-12); //6 months
+                }
+
+
+                var trends = _statisticsManager.GetProfileTrends(socialProfileId, startdate, enddate);
+
+                foreach (var item in trends)
+                {
+                    item.FollowersTotal = item.FollowersTotal.HasValue ? item.FollowersTotal : 0;
+                    item.Followings = item.Followings.HasValue ? item.Followings : 0;
+                    item.Like = item.Like.HasValue ? item.Like : 0;
+                    item.Engagement = (item.FollowersTotal ?? 1) * 100 / (item.Followings ?? 1);
+                    item.Unfollow = (item.Unfollow ?? 0);
+                    item.StoryViews = (item.StoryViews ?? 0);
+                }
+
+
+                if (trends != null)
+                {
+                    jr.Data = new
+                    {
+                        ResultType = "Success",
+                        message = "",
+                        ResultData = new
+                        {
+                            Date = trends.Select(x => x.Date.ToString("dd-MMM-yyyy")).ToArray(),
+                            Followers = trends.Select(x => x.FollowersTotal.ToString()).ToArray(),
+                            //FollowersGainData = statisticsViewModel.StatisticsListing.Select(x => x.FollowersGain.ToString()).ToArray(),
+                            FollowingsData = trends.Select(x => x.Followings.ToString()).ToArray(),
+                            //FollowingsRatioData = statisticsViewModel.StatisticsListing.Select(x => x.FollowingsRatio.ToString()).ToArray(),
+                            //AVGFollowersData = statisticsViewModel.StatisticsListing.Select(x => x.AVGFollowers.ToString()).ToArray(),
+
+
+                            //LikeData = statisticsViewModel.StatisticsListing.Select(x => x.Like.ToString()).ToArray(),
+                            //CommentData = statisticsViewModel.StatisticsListing.Select(x => x.Comment.ToString()).ToArray(),
+                            //LikeCommentData = statisticsViewModel.StatisticsListing.Select(x => x.LikeComments.ToString()).ToArray(),
+                            Engagement = trends.Select(x => x.Engagement.ToString()).ToArray(),
+
+                            AvgLikes = trends.Select(x => x.Like.ToString()).ToArray(),
+                            StoryViews = trends.Select(x => x.StoryViews.ToString()).ToArray(),
+                            Unfollow = trends.Select(x => x.Unfollow.ToString()).ToArray()
+
+
+                            //TotalComment = statisticsViewModel.TotalComment.ToString(),
+                            //TotalEngagement = statisticsViewModel.TotalEngagement.ToString(),
+                            //TotalFollowers = statisticsViewModel.TotalFollowers.ToString(),
+                            //TotalFollowersGain = statisticsViewModel.TotalFollowersGain.ToString(),
+                            //TotalFollowings = statisticsViewModel.TotalFollowings.ToString(),
+                            //TotalFollowingsRatio = statisticsViewModel.TotalFollowingsRatio.ToString(),
+                            //TotalLike = statisticsViewModel.TotalLike.ToString(),
+                            //TotalLikeComment = statisticsViewModel.TotalLikeComment.ToString()
+                        }
+                    };
+                }
+                else
+                {
+                    jr.Data = new { ResultType = "Error", message = "" };
+                }
+
+            }
+            catch (Exception exp)
+            {
+                throw exp;
+            }
+
+            return Json(jr, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult GlobalTarget(int? success)

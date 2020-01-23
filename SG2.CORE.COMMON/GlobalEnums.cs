@@ -140,7 +140,9 @@
             Block1 = 66,
             Block2 = 67,
             Block3 = 68,
-            Clear = 69
+            Clear = 69,
+            Block4 = 70,
+            Block5 = 71,
         }
 
     }
