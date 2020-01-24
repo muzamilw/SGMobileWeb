@@ -90,12 +90,12 @@
                 @using (Html.BeginForm("Index", "CRM", FormMethod.Get, new { @id = "Form_SearchCriteria" }))
                 {
                 <div class="row">
-                    <div class="col-md-3 col-sm-12">
+                    <div class="col-md-3 col-sm-12 mb-2">
                         <div class="search-wrap clearfix">
                             @Html.TextBoxFor(model => model.SearchCriteria, htmlAttributes: new { @placeholder = "Search here", @type = "search" })
                         </div>
                     </div>
-                    <div class="col-md-2 col-sm-12">
+                    <div class="col-md-2 col-sm-12 mb-2">
                         <div class="product">
                             <label>Plan</label>
                             <div class="select">
@@ -104,7 +104,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-2 col-sm-12">
+                    <div class="col-md-2 col-sm-12 mb-2">
                         <div class="product">
                             <label>Subscription</label>
                             <div class="select">
@@ -112,7 +112,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2 col-sm-12">
+                    <div class="col-md-2 col-sm-12 mb-2">
                         <div class="product">
                             <fieldset>
                                 <div class="custom-control custom-radio">
@@ -193,11 +193,11 @@
         <div class="container">
             <div class="product-list-inner">
                 <div class="row">
-                    <div class="col-xs-12">
-                        <table>
+                    <div class="col-xs-12 table-responsive">
+                        <table id="ResponsiveTable" class="table table-xl mb-0 table-hover">
                             <thead>
                                 <tr>
-                                    <th scope="col" style="width:25%">Name</th>
+                                    <th scope="col" >Name</th>
                                     <th scope="col">Plan</th>
                                     <th scope="col">Broker/Regular</th>
                                     <th scope="col">Plan Status</th>

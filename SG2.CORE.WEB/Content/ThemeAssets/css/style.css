@@ -536,7 +536,7 @@ iframe {
     margin: 0;
     padding: 0;
     width: 100%;
-    table-layout: fixed;
+    /*table-layout: fixed;*/
     border-left: 15px solid #fff;
     border-right: 15px solid #fff;
 }
@@ -737,7 +737,7 @@ input.transition {
 
 .information-form-inner input[type=text] {
     height: 37px;
-    font-size: 0.85rem;
+    font-size: 11pt;
     font-weight: 400;
 }
 
@@ -1490,8 +1490,10 @@ span.span_jvStatusName {
     height: 37px;
     font-weight: 400;
     background-color: black;
+    padding: 0.55rem 1rem;
     padding-left: 20px;
     padding-right: 20px;
+    color: white;
 }
 
 .btn-height64 {
@@ -1808,7 +1810,7 @@ span.span_jvStatusName {
   
         .btn {
         padding: 9px;
-        font-size: 15pt;
+        /*font-size: 15pt;*/
         min-height: 40px;
     }
 
@@ -1921,4 +1923,9 @@ span.span_jvStatusName {
 .pagination li:last-child {
     padding-right: 0px;
     font-size: 0.85rem;
+}
+@media screen and (min-width: 700px) {
+    .product-listing-sec table {
+        table-layout: fixed;
+    }
 }

@@ -48,7 +48,10 @@
         }
         .l-h12-social-profile {
             line-height: 1.2;
-        }
+        }      
+        .weekDays-selector1 label {
+    display: inline;
+}
     </style>
 }
 
@@ -441,7 +444,7 @@
 
 
                                                 <div class="col-md-12">
-                                                    <div class="weekDays-selector1">
+                                                    <div class="weekDays-selector1" style="    line-height: 1.4;">
                                                         @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowLikersOfPosts, new { @class = "weekday" })
                                                         @**@@*Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowLikersOfPosts)*@
                                                         <label for="weekday-mon">Keep following users who liked recent posts </label>@Html.TextBoxFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowLikersOfPostsCount, new { style = "width:65px;margin-left:8px;", type = "number" })<label class="ml-05"> posts</label>
@@ -449,7 +452,7 @@
 
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <div class="weekDays-selector1">
+                                                    <div class="weekDays-selector1" style="    line-height: 1.4;">
                                                         @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowCommThatCommented, new { @class = "weekday" })
                                                         @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowCommThatCommented)*@
 
@@ -458,7 +461,7 @@
 
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <div class="weekDays-selector1">
+                                                    <div class="weekDays-selector1" style="    line-height: 1.4;">
 
                                                         @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollUseWhiteList, new { @class = "weekday" })
                                                         @*@Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollUseWhiteList)*@
@@ -506,7 +509,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
-                                                                    <div class="col-5">
+                                                                    <div class="col-md-5 col-xs-12">
                                                                         <div class="row">
                                                                             <input type="hidden" name="starttime" value="" />
                                                                             <input type="hidden" name="endtime" value="" />
@@ -520,7 +523,7 @@
                                                                         </div>
                                                                     </div>
 
-                                                                    <div class="col-7">
+                                                                    <div class="col-md-7 col-xs-12">
 
                                                                         <div class="form-group row">
                                                                             <label class="col-md-9 label-control" for="userinput1">Follow new accounts by search tags</label>
