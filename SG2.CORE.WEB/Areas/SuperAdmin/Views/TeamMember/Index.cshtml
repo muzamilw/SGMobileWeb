@@ -40,13 +40,13 @@
             @using (Html.BeginForm("Index", "TeamMember", FormMethod.Get, new { @id = "Form_SearchCriteria" }))
             {
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-lg-3 col-md-3 col-xs-12 mb-2">
                         <div class="search-wrap">
                             @*<input type="search" placeholder="Search here">*@
                             @Html.TextBoxFor(model => model.SearchCriteria, htmlAttributes: new { @placeholder = "Search here", @type = "search" })
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col-lg-3 col-md-3 col-xs-12 mb-2">
                         <div class="product">
                             <label>Status</label>
                             <div class="select">
@@ -54,20 +54,20 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col-lg-3 col-md-3 col-xs-12">
                         <div class="product">
                             <label>&nbsp;</label>
                             <div class="select">
-                                <button type="submit" class="btn searchBtn" value="SearchCriteria">
+                                <button type="submit" class="btn btn-primary searchBtn" value="SearchCriteria">
                                     <i class="fa fa-search"></i> Search
                                 </button>
-                                <a href="@BaseURl/teammember" id="" class="btn searchBtn btn-height47">
+                                <a href="@BaseURl/teammember" id="" class="btn btn-secondary searchBtn btn-height47">
                                     <i class="fa icon-cross-filter"></i> Reset
                                 </a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col-lg-3 col-md-3 col-xs-12">
                         <div class="product right">
                             <label>&nbsp;</label>
                             <div class="select">
@@ -86,8 +86,8 @@
     <div class="container">
         <div class="product-list-inner">
             <div class="row">
-                <div class="col-xs-12">
-                    <table>
+                <div class="col-xs-12 table-responsive">
+                    <table id="ResponsiveTable" class="table table-xl mb-0 table-hover">
                         <thead>
                             <tr>
                                 <th scope="col">Name</th>
