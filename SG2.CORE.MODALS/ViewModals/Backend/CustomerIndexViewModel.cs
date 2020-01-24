@@ -25,6 +25,8 @@ namespace SG2.CORE.MODAL.ViewModals.Backend
 
         public int? Subscription { get; set; }
 
+        public int? profileType { get; set; }
+
 
 
     }

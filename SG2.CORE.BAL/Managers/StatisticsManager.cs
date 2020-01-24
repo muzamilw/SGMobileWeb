@@ -166,7 +166,7 @@ namespace SG2.CORE.BAL.Managers
 
 
             public StatisticsViewModel GetStatistics(int socialProfileId)
-        {
+        { 
             try
             {
                 StatisticsViewModel followersStatisticsViewModel = new StatisticsViewModel();

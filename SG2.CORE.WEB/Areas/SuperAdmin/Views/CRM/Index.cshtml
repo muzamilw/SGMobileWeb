@@ -89,29 +89,85 @@
             <div class="inner-colmn">
                 @using (Html.BeginForm("Index", "CRM", FormMethod.Get, new { @id = "Form_SearchCriteria" }))
                 {
-                    <div class="row">
-                        <div class="col-md-3 col-sm-12">
-                            <div class="search-wrap clearfix">
-                                @Html.TextBoxFor(model => model.SearchCriteria, htmlAttributes: new { @placeholder = "Search here", @type = "search" })
+                <div class="row">
+                    <div class="col-md-3 col-sm-12">
+                        <div class="search-wrap clearfix">
+                            @Html.TextBoxFor(model => model.SearchCriteria, htmlAttributes: new { @placeholder = "Search here", @type = "search" })
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-12">
+                        <div class="product">
+                            <label>Plan</label>
+                            <div class="select">
+                                @Html.DropDownListFor(model => model.ProductId, appProductIds, "Plan (All)")
                             </div>
                         </div>
-                        <div class="col-md-2 col-sm-12">
-                            <div class="product">
-                                <label>Product</label>
-                                <div class="select">
-                                    @Html.DropDownListFor(model => model.ProductId, appProductIds, "Products (All)")
+                    </div>
+
+                    <div class="col-md-2 col-sm-12">
+                        <div class="product">
+                            <label>Subscription</label>
+                            <div class="select">
+                                @Html.DropDownListFor(model => model.Subscription, appSubscription, "Subscription (All)")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-12">
+                        <div class="product">
+                            <fieldset>
+                                <div class="custom-control custom-radio">
+                                    @{
+
+                                        var aAttributes = new Dictionary<string, object>();
+                                        aAttributes.Add(@"class", "custom-control-input");
+                                        aAttributes.Add(@"id", "customRadio1");
+                                        if (Model.profileType == null)
+                                        {
+                                            aAttributes.Add("Checked", "checked");
+                                        }
+                                    }
+                                    @Html.RadioButtonFor(model => model.profileType, "", aAttributes)
+                                    
+
+
+                                    <label class="custom-control-label" for="customRadio1">All</label>
                                 </div>
-                            </div>
-                        </div>
-                       
-                        <div class="col-md-2 col-sm-12">
-                            <div class="product">
-                                <label>Subscription</label>
-                                <div class="select">
-                                    @Html.DropDownListFor(model => model.Subscription, appSubscription, "Subscription (All)")
+                            </fieldset>
+                            <fieldset>
+                                <div class="custom-control custom-radio">
+                                    @{
+
+                                        var cAttributes = new Dictionary<string, object>();
+                                        cAttributes.Add(@"class", "custom-control-input");
+                                        cAttributes.Add(@"id", "customRadio2");
+                                        if (Model.profileType == 0)
+                                        {
+                                            cAttributes.Add("Checked", "checked");
+                                        }
+                                    }
+                                    @Html.RadioButtonFor(model => model.profileType, "0", cAttributes)
+                                    <label class="custom-control-label" for="customRadio2">Regular Profiles</label>
                                 </div>
-                            </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="custom-control custom-radio">
+                                    @{ 
+
+                                        var bAttributes = new Dictionary<string, object>();
+                                        bAttributes.Add(@"class", "custom-control-input");
+                                        bAttributes.Add(@"id", "customRadio3");
+                                        if (Model.profileType == 0)
+                                        {
+                                            bAttributes.Add("Checked", "checked");
+                                        }
+                                    }
+                                    @Html.RadioButtonFor(model => model.profileType, "1", bAttributes)
+                                    
+                                    <label class="custom-control-label" for="customRadio3">Broker Profiles</label>
+                                </div>
+                            </fieldset>
                         </div>
+                </div>
                        
                         <div class="col-md-3 col-sm-12 ">
                             <div class="product">
@@ -142,7 +198,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col" style="width:25%">Name</th>
-                                    <th scope="col">Products</th>
+                                    <th scope="col">Plan</th>
                                     <th scope="col">Broker/Regular</th>
                                     <th scope="col">Plan Status</th>
                                     <th scope="col">Action</th>

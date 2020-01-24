@@ -786,14 +786,14 @@ namespace SG2.CORE.DAL.Repositories
 
         }
 
-        public IList<CustomerListingViewModel> GetUserData(string SearchCriteria, int PageNumber, string PageSize, int? Status, string ProductId, string JVStatus, int? Subscription)
+        public IList<CustomerListingViewModel> GetUserData(string SearchCriteria, int PageNumber, string PageSize, int? Status, string ProductId, string JVStatus, int? Subscription, int? profileType)
         {
             try
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
                     //-- TODO: Change proper sp
-                    var usrdata = _db.SG2_usp_GetUserDetailsForbackOffice(SearchCriteria, PageNumber, PageSize, Status, (ProductId), JVStatus, Subscription).ToList();
+                    var usrdata = _db.SG2_usp_GetUserDetailsForbackOffice(SearchCriteria, PageNumber, PageSize, Status, (ProductId), JVStatus, Subscription,profileType).ToList();
                     if (usrdata != null)
                     {
                         List<CustomerListingViewModel> customerListingViewModelsList = new List<CustomerListingViewModel>();

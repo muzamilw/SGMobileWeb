@@ -638,6 +638,7 @@
           <Parameter Name="riProductId" Type="varchar" Mode="In" />
           <Parameter Name="riJVStatus" Type="varchar" Mode="In" />
           <Parameter Name="riSubscription" Type="int" Mode="In" />
+          <Parameter Name="profileType" Type="int" Mode="In" />
         </Function>
         <Function Name="SG2_usp_LikeyAccount_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="rsSearchCrite" Type="nvarchar(max)" Mode="In" />
@@ -809,6 +810,7 @@
             <Parameter Name="riProductId" Mode="In" Type="String" />
             <Parameter Name="riJVStatus" Mode="In" Type="String" />
             <Parameter Name="riSubscription" Mode="In" Type="Int32" />
+            <Parameter Name="profileType" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SG2_usp_Login_Customers" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Login_Customers_Result)">
             <Parameter Name="rvcEmailAddress" Mode="In" Type="String" />

@@ -42,11 +42,11 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
         }
 
         // GET: SuperAdmin/CRM
-        public ActionResult Index(int page = 1, string SearchCriteria = "", int? StatusId = null, string ProductId = null, string JVStatus = null, int? Subscription=null)
+        public ActionResult Index(int page = 1, string SearchCriteria = "", int? StatusId = null, string ProductId = null, string JVStatus = null, int? Subscription=null, int ? profileType = null)
         {
             try
             {
-                var customers = _customerManager.GetUserData(SearchCriteria, _PageSize, page, StatusId, ProductId, JVStatus, Subscription);
+                var customers = _customerManager.GetUserData(SearchCriteria, _PageSize, page, StatusId, ProductId, JVStatus, Subscription, profileType);
                 var ProductIds = _customerManager.GetProductIds();
                 var totatRecord = customers.FirstOrDefault()?.TotalRecord ?? 0;
                 IPagedList<CustomerListingViewModel> pageOrders = new StaticPagedList<CustomerListingViewModel>(customers, page, Convert.ToInt32(_PageSize), totatRecord);

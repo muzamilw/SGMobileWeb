@@ -177,7 +177,7 @@ namespace SG2.CORE.DAL.DB
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Get_CustomerOrderHistory_Result>("SG2_usp_Get_CustomerOrderHistory", riCustomerIdParameter, riSocialProfileIdParameter, riPageNumberParameter, riPageSizeParameter);
         }
     
-        public virtual ObjectResult<SG2_usp_GetUserDetailsForbackOffice_Result> SG2_usp_GetUserDetailsForbackOffice(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId, string riProductId, string riJVStatus, Nullable<int> riSubscription)
+        public virtual ObjectResult<SG2_usp_GetUserDetailsForbackOffice_Result> SG2_usp_GetUserDetailsForbackOffice(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId, string riProductId, string riJVStatus, Nullable<int> riSubscription, Nullable<int> profileType)
         {
             var rsSearchCriteParameter = rsSearchCrite != null ?
                 new ObjectParameter("rsSearchCrite", rsSearchCrite) :
@@ -207,7 +207,11 @@ namespace SG2.CORE.DAL.DB
                 new ObjectParameter("riSubscription", riSubscription) :
                 new ObjectParameter("riSubscription", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_GetUserDetailsForbackOffice_Result>("SG2_usp_GetUserDetailsForbackOffice", rsSearchCriteParameter, riPageNumberParameter, riPageSizeParameter, riStatusIdParameter, riProductIdParameter, riJVStatusParameter, riSubscriptionParameter);
+            var profileTypeParameter = profileType.HasValue ?
+                new ObjectParameter("profileType", profileType) :
+                new ObjectParameter("profileType", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_GetUserDetailsForbackOffice_Result>("SG2_usp_GetUserDetailsForbackOffice", rsSearchCriteParameter, riPageNumberParameter, riPageSizeParameter, riStatusIdParameter, riProductIdParameter, riJVStatusParameter, riSubscriptionParameter, profileTypeParameter);
         }
     
         public virtual ObjectResult<SG2_usp_Login_Customers_Result> SG2_usp_Login_Customers(string rvcEmailAddress, string rvcPassword, string rvcCreatedBy, string rvcLastLoginIP, Nullable<int> rvcStatusId)
