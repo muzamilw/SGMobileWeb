@@ -403,7 +403,7 @@
         function LoadCharts(mode) {
             $.ajax({
                 type: "GET",
-                url: "/Profile/Trends?socialProfileId=@socialProfile.SocialProfile.SocialProfileId&mode=" + mode,
+                url: "/sadmin/crm/Trends?socialProfileId=@socialProfile.SocialProfile.SocialProfileId&mode=" + mode,
                 dataType: "json",
                 success: function (Response) {
 
