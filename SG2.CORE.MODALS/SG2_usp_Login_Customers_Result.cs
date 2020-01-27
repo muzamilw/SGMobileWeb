@@ -51,5 +51,6 @@ namespace SG2.CORE.MODAL
         public string PhoneCode { get; set; }
         public Nullable<int> DefaultSocialProfileId { get; set; }
         public Nullable<int> PaymentId { get; set; }
+        public string StripeSubscriptionId { get; set; }
     }
 }

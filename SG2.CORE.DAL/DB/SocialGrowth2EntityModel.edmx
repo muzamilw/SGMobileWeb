@@ -1194,9 +1194,9 @@
         <ComplexType Name="SG2_usp_Login_Customers_Result">
           <Property Type="Int32" Name="CustomerId" Nullable="false" />
           <Property Type="String" Name="GUID" Nullable="false" MaxLength="36" />
-          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="SurName" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="EmailAddress" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="SurName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="EmailAddress" Nullable="false" MaxLength="150" />
           <Property Type="String" Name="Password" Nullable="false" MaxLength="64" />
           <Property Type="DateTime" Name="CreatedOn" Nullable="false" Precision="23" />
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="50" />
@@ -1207,7 +1207,7 @@
           <Property Type="Byte" Name="LoginAttempts" Nullable="false" />
           <Property Type="String" Name="LastLoginIP" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="Tocken" Nullable="false" MaxLength="128" />
-          <Property Type="String" Name="StripeCustomerId" Nullable="true" />
+          <Property Type="String" Name="StripeCustomerId" Nullable="true" MaxLength="150" />
           <Property Type="String" Name="UserName" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Source" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Register" Nullable="true" MaxLength="50" />
@@ -1230,6 +1230,7 @@
           <Property Type="String" Name="PhoneCode" Nullable="true" MaxLength="5" />
           <Property Type="Int32" Name="DefaultSocialProfileId" Nullable="true" />
           <Property Type="Int32" Name="PaymentId" Nullable="true" />
+          <Property Type="String" Name="StripeSubscriptionId" Nullable="true" MaxLength="150" />
         </ComplexType>
         <ComplexType Name="SG2_usp_SocialProfile_Payments_Save_Result">
           <Property Type="Int32" Name="SubscriptionId" Nullable="false" />
@@ -2384,6 +2385,7 @@
                 <ScalarProperty Name="PhoneCode" ColumnName="PhoneCode" />
                 <ScalarProperty Name="DefaultSocialProfileId" ColumnName="DefaultSocialProfileId" />
                 <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
+                <ScalarProperty Name="StripeSubscriptionId" ColumnName="StripeSubscriptionId" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

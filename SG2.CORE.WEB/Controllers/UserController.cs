@@ -302,7 +302,7 @@ namespace SG2.CORE.WEB.Controllers
                 }
 
                            
-                if (_customerManager.UpdateCustomerStripeCustomer(customer.CustomerId,customer.StripeCustomerId, null,0))
+                if (_customerManager.UpdateCustomerStripeCustomer(customer.CustomerId,null, null,0))
                 {
 
                     //--TODO: Update Klaviyo Web API Key

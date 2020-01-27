@@ -907,7 +907,7 @@ namespace SG2.CORE.DAL.Repositories
                             IsOptedEducationalEmailSeries = Convert.ToBoolean(usr.IsOptedEducationalEmailSeries),
                             IsOptedMarketingEmail = Convert.ToBoolean(usr.IsOptedMarketingEmail),
                             StatusId = usr.StatusId,
-                            StripeSubscriptionId = usr.PaymentId.HasValue ? usr.PaymentId.Value.ToString() : null,
+                            StripeSubscriptionId = usr.StripeSubscriptionId,
                             DefaultSocialProfileId = usr.DefaultSocialProfileId.Value,
                             
                         };
