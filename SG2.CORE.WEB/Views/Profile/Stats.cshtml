@@ -11,7 +11,8 @@
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
     var socialProfile = (SocialProfile)ViewBag.socialProfile;
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
-
+    
+    ViewBag.PlanName = socialProfile.PaymentPlan == null ? "Forever Free" : socialProfile.PaymentPlan.PlanName;
 }
 
 @section profileheader{
@@ -36,7 +37,7 @@
                                 <div class="row my-1">
                                     <div class="col-lg-4 col-12">
                                         <div class="text-center">
-                                            <h3>@(Math.Round(Model.LastSessionIndex??0, 2))</h3>
+                                            <h3>@(Math.Round(Model.LastSessionIndex ?? 0, 2))</h3>
                                             <p class="text-muted">Last Session Index </p>
                                             <div id="sp-tristate-bar-total-revenue"></div>
                                         </div>
@@ -78,9 +79,7 @@
                                         <i class="icon-user-follow primary primary font-large-2 float-right"></i>
                                     </div>
                                 </div>
-                                <div class="progress progress-sm mt-1 mb-0">
-                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="@(Model.FollowsTotal == 0 ? 0 : (Model.FollowsRecent / Model.FollowsTotal * 100))" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -98,9 +97,7 @@
                                         <i class="icon-dislike danger font-large-2 float-right"></i>
                                     </div>
                                 </div>
-                                <div class="progress progress-sm mt-1 mb-0">
-                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 40%" aria-valuenow="@(Model.LikesTotal == 0 ? 0 : (Model.LikesInitial / Model.LikesTotal * 100))" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -115,12 +112,10 @@
                                         <span>Likes now / initial </span>
                                     </div>
                                     <div class="media-right media-middle">
-                                        <i class="icon-like success font-large-2 float-right"></i>
+                                        <i class="icon-heart success font-large-2 float-right"></i>
                                     </div>
                                 </div>
-                                <div class="progress progress-sm mt-1 mb-0">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="@(Model.UnFollowTotal == 0 ? 0 : (Model.UnFollowInitial / Model.UnFollowTotal * 100))" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -135,12 +130,10 @@
                                         <span>Story Views now / initial</span>
                                     </div>
                                     <div class="media-right media-middle">
-                                        <i class="icon-book-open warning font-large-2 float-right"></i>
+                                        <i class="icon-camera warning font-large-2 float-right"></i>
                                     </div>
                                 </div>
-                                <div class="progress progress-sm mt-1 mb-0">
-                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 35%" aria-valuenow="@(Model.StoryViewsTotal == 0 ? 0 : (Model.StoryViewsInitial / Model.StoryViewsTotal * 100))" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -163,7 +156,7 @@
                                     </div>
                                 </div>
                                 <div class="progress progress-sm mt-1 mb-0">
-                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="@(Model.FollowsTotal == 0 ? 0 : (Model.FollowsRecent / Model.FollowsTotal * 100))" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: @(Model.FollowingTodayLimit == 0 ? 0 : (Model.FollowingToday / Model.FollowingTodayLimit * 100))%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
@@ -183,7 +176,7 @@
                                     </div>
                                 </div>
                                 <div class="progress progress-sm mt-1 mb-0">
-                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 40%" aria-valuenow="@(Model.LikesTotal == 0 ? 0 : (Model.LikesInitial / Model.LikesTotal * 100))" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: @(Model.UnFollowLimit == 0 ? 0 : (Model.UnFollowToday / Model.UnFollowLimit * 100))%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
@@ -199,11 +192,11 @@
                                         <span>Like </span>
                                     </div>
                                     <div class="media-right media-middle">
-                                        <i class="icon-like success font-large-2 float-right"></i>
+                                        <i class="icon-heart success font-large-2 float-right"></i>
                                     </div>
                                 </div>
                                 <div class="progress progress-sm mt-1 mb-0">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="@(Model.UnFollowTotal == 0 ? 0 : (Model.UnFollowInitial / Model.UnFollowTotal * 100))" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: @(Model.LikeLimit == 0 ? 0 : (Model.LikeToday / Model.LikeLimit * 100))%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
@@ -219,11 +212,11 @@
                                         <span>Story Views</span>
                                     </div>
                                     <div class="media-right media-middle">
-                                        <i class="icon-book-open warning font-large-2 float-right"></i>
+                                        <i class="icon-camera warning font-large-2 float-right"></i>
                                     </div>
                                 </div>
                                 <div class="progress progress-sm mt-1 mb-0">
-                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 35%" aria-valuenow="@(Model.StoryViewsTotal == 0 ? 0 : (Model.StoryViewsInitial / Model.StoryViewsTotal * 100))" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: @(Model.StoryViewLimit == 0 ? 0 : (Model.StoryViewToday / Model.StoryViewLimit * 100))%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>

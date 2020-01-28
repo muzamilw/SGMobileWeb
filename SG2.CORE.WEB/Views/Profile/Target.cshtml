@@ -9,6 +9,7 @@
     ViewBag.Title = "Match Filter";
     Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
     ViewBag.socialProfile = Model.SocialProfile;
+    ViewBag.PlanName = Model.CurrentPaymentPlan == null ? "Forever Free" : Model.CurrentPaymentPlan.PlanName;
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
     var Customer = (Customer)ViewBag.Customer;
     var ProfileStatus = "";

@@ -1043,7 +1043,7 @@ namespace SG2.CORE.DAL.Repositories
                 throw ex;
             }
         }
-        public bool UpdateSocialProfileStripeCustomerId(int SocialProfileId, string StripCustomerId, string StripeSubscriptionId, int PaymentPlanId)
+        public bool UpdateSocialProfileStripeCustomerId(int SocialProfileId, string StripCustomerId, string StripeSubscriptionId, int PaymentPlanId, PlanSubscription status = PlanSubscription.ActivePlan)
         {
             try
             {
@@ -1055,7 +1055,7 @@ namespace SG2.CORE.DAL.Repositories
                         cus.StripeCustomerId = StripCustomerId;
                         cus.StripeSubscriptionId = StripeSubscriptionId;
                         cus.PaymentPlanId = PaymentPlanId;
-                        cus.StatusId = 24;
+                        cus.StatusId = (int)status;
                         _db.SaveChanges();
                         return true;
                     }
@@ -1475,7 +1475,23 @@ namespace SG2.CORE.DAL.Repositories
            
         }
 
+        public SocialProfile GetSocialProfileByStripeSubscriptionId(string StripeSubscriptionId)
 
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    return _db.SocialProfiles.Where(g => g.StripeSubscriptionId == StripeSubscriptionId).SingleOrDefault();
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+
+        }
 
 
         public SocialProfileDTO GetSocialProfilesById(int profileId)

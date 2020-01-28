@@ -531,11 +531,11 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public bool UpdateSocialProfileStripeCustomer(int SocialProfileId, string StripCustomerId, string StripeSubscriptionId, int PaymentPlanId)
+        public bool UpdateSocialProfileStripeCustomer(int SocialProfileId, string StripCustomerId, string StripeSubscriptionId, int PaymentPlanId, PlanSubscription status = PlanSubscription.ActivePlan)
         {
             try
             {
-                return  _customerRepository.UpdateSocialProfileStripeCustomerId(SocialProfileId, StripCustomerId, StripeSubscriptionId, PaymentPlanId);
+                return  _customerRepository.UpdateSocialProfileStripeCustomerId(SocialProfileId, StripCustomerId, StripeSubscriptionId, PaymentPlanId, status);
             }
             catch (Exception ex)
             {
@@ -701,6 +701,22 @@ namespace SG2.CORE.BAL.Managers
                     return  _customerRepository.GetSocialProfilesById(profileId);
                    
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public SocialProfile GetSocialProfileByStripeSubscriptionId(string StripeSubscriptionId)
+        {
+            try
+            {
+                
+                    return _customerRepository.GetSocialProfileByStripeSubscriptionId(StripeSubscriptionId);
+
+                
             }
             catch (Exception ex)
             {

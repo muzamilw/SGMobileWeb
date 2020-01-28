@@ -50,24 +50,12 @@
                         <div class="product">
                             <label>Status</label>
                             <div class="select">
-                                @Html.DropDownListFor(model => model.StatusId, appStatus, "Select All(Status)", new { @class = "slct" })
+                                @Html.DropDownListFor(model => model.StatusId, appStatus, "Select All(Status)", new { @class = "slct", @onchange = "this.form.submit();" })
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-xs-12">
-                        <div class="product">
-                            <label>&nbsp;</label>
-                            <div class="select">
-                                <button type="submit" class="btn btn-primary searchBtn" value="SearchCriteria">
-                                    <i class="fa fa-search"></i> Search
-                                </button>
-                                <a href="@BaseURl/teammember" id="" class="btn btn-secondary searchBtn btn-height47">
-                                    <i class="fa icon-cross-filter"></i> Reset
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-xs-12">
+                    
+                    <div class="col-lg-6 col-md-6 col-xs-12">
                         <div class="product right">
                             <label>&nbsp;</label>
                             <div class="select">
