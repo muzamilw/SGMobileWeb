@@ -11,13 +11,14 @@
     <link href="~/Content/app-assets/css/intlTelInput.min.css" rel="stylesheet" />
 
 
-   
+
 
 
     <style type="text/css">
         .iti {
             width: 100%;
         }
+
         #error-msg {
             color: red;
         }
@@ -162,7 +163,7 @@
                                     <div class="information-form-inner">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <p>I'd like to receive to the following emails:</p>                                                
+                                                <p>I'd like to receive to the following emails:</p>
                                                 @using (Html.BeginForm("UpdateUserEmailSubscription", "User", FormMethod.Post, new { @id = "form_UpdateUserSubscription" }))
                                                 {
                                                     <label class="form-Checkbox">
@@ -204,6 +205,9 @@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Content/app-assets/js/scripts/intlTelInput.min.js"></script>
+    <script src="~/Content/app-assets/vendors/js/extensions/sweetalert.min.js"></script>
+    <script src="~/Content/app-assets/js/scripts/extensions/sweet-alerts.js"></script>
+
     <script type="text/javascript">
         $("document").ready(function () {
             var input = document.querySelector(".phoneNumber"),
@@ -309,8 +313,8 @@
             });
 
 
-            $(".btn_UpdatePassword").on("click", function () {
-
+            $("#btn_UpdatePassword").on("click", function () {
+                debugger
                 if ($("#Form_UpdatePassword").valid()) {
                     $("#spn_UpdatePassword").show();
                     var data = $("#Form_UpdatePassword").serialize();
@@ -320,18 +324,19 @@
                         data: data,
                         dataType: "json",
                         success: function (data) {
-                            $("#spn_UpdatePassword").hide();
-                            if (!$.isEmptyObject(data)) {
-                                if (data.ResultType == "Success") {
-                                    $("#Modal_MessageBoxTitle").text("Message");
-                                    $("#Modal_MessageBoxBody").text(data.message);
-                                    $("#Modal_Messagebox").modal("show");
-                                } else {
-                                    $("#Modal_MessageBoxTitle").text("Message");
-                                    $("#Modal_MessageBoxBody").text(data.message);
-                                    $("#Modal_Messagebox").modal("show");
+                            setTimeout(function(){
+                                $("#spn_UpdatePassword").hide();
+                                if (!$.isEmptyObject(data)) {
+                                    if (data.ResultType == "Success") {
+                                       swal("Success!", "You have successfully updated your password!", "success");                                 
+                                    } else {
+                                        $("#Modal_MessageBoxTitle").text("Message");
+                                        $("#Modal_MessageBoxBody").text(data.message);
+                                        $("#Modal_Messagebox").modal("show");
+                                    }
                                 }
-                            }
+                            }, 50);
+                            
                         },
                         failure: function (errMsg) {
                             $("#spn_UpdatePassword").hide();
