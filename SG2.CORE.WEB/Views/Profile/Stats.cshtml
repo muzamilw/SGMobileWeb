@@ -29,12 +29,18 @@
                     <div class="card">
                         <div class="card-header border-0-bottom">
                             <h4 class="card-title">Insights & Stats Overview</h4>
-                            
+
                         </div>
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="row my-1">
-                                   
+                                    <div class="col-lg-4 col-12">
+                                        <div class="text-center">
+                                            <h3>@(Math.Round(Model.LastSessionIndex??0, 2))</h3>
+                                            <p class="text-muted">Last Session Index </p>
+                                            <div id="sp-tristate-bar-total-revenue"></div>
+                                        </div>
+                                    </div>
                                     <div class="col-lg-4 col-12">
                                         <div class="text-center">
                                             <h3>@Model.FollowersTotal</h3>
@@ -42,13 +48,13 @@
                                             <div id="sp-stacked-bar-total-sales"></div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-12">
-                                        <div class="text-center">
-                                            <h3>@Model.FollowingsTotal</h3>
-                                            <p class="text-muted">Followings from start <span class="success"><i class="ft-arrow-up"></i> @Model.FollowingsInitial</span></p>
-                                            <div id="sp-bar-total-cost"></div>
-                                        </div>
+                                    @*<div class="col-lg-4 col-12">
+                                    <div class="text-center">
+                                        <h3>@Model.FollowingsTotal</h3>
+                                        <p class="text-muted">Followings from start <span class="success"><i class="ft-arrow-up"></i> @Model.FollowingsInitial</span></p>
+                                        <div id="sp-bar-total-cost"></div>
                                     </div>
+                                </div>*@
                                 </div>
                             </div>
                         </div>
@@ -57,7 +63,7 @@
             </div>
             <!--/ Analytics spakline & chartjs  -->
             <!--stats-->
-
+            <div><h4 class="mb-2 ml-1 text-uppercase" style="font-size: 1.12rem;">All Time Activity</h4></div>
             <div class="row">
                 <div class="col-xl-3 col-lg-6 col-12">
                     <div class="card">
@@ -65,11 +71,11 @@
                             <div class="card-body">
                                 <div class="media">
                                     <div class="media-body text-left w-100">
-                                        <h3 class="primary">@Model.FollowsRecent / @Model.FollowsTotal</h3>
-                                        <span>Follows</span>
+                                        <h3 class="primary">@Model.FollowingsTotal / @Model.FollowingsInitial</h3>
+                                        <span>Followings now / initial </span>
                                     </div>
                                     <div class="media-right media-middle">
-                                        <i class="icon-magnet primary font-large-2 float-right"></i>
+                                        <i class="icon-user-follow primary primary font-large-2 float-right"></i>
                                     </div>
                                 </div>
                                 <div class="progress progress-sm mt-1 mb-0">
@@ -85,15 +91,15 @@
                             <div class="card-body">
                                 <div class="media">
                                     <div class="media-body text-left w-100">
-                                        <h3 class="danger">@Model.LikesRecent / @Model.LikesTotal</h3>
-                                        <span>Likes</span>
+                                        <h3 class="danger">@Model.UnFollowTotal / @Model.UnFollowInitial</h3>
+                                        <span>UnFollow now / initial</span>
                                     </div>
                                     <div class="media-right media-middle">
-                                        <i class="icon-like danger font-large-2 float-right"></i>
+                                        <i class="icon-dislike danger font-large-2 float-right"></i>
                                     </div>
                                 </div>
                                 <div class="progress progress-sm mt-1 mb-0">
-                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 40%" aria-valuenow="@(Model.LikesTotal == 0 ? 0 : (Model.LikesRecent / Model.LikesTotal * 100))" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 40%" aria-valuenow="@(Model.LikesTotal == 0 ? 0 : (Model.LikesInitial / Model.LikesTotal * 100))" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
@@ -105,15 +111,79 @@
                             <div class="card-body">
                                 <div class="media">
                                     <div class="media-body text-left w-100">
-                                        <h3 class="success">@Model.UnFollowRecent / @Model.UnFollowTotal</h3>
+                                        <h3 class="success">@Model.LikesTotal / @Model.LikesInitial</h3>
+                                        <span>Likes now / initial </span>
+                                    </div>
+                                    <div class="media-right media-middle">
+                                        <i class="icon-like success font-large-2 float-right"></i>
+                                    </div>
+                                </div>
+                                <div class="progress progress-sm mt-1 mb-0">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="@(Model.UnFollowTotal == 0 ? 0 : (Model.UnFollowInitial / Model.UnFollowTotal * 100))" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body text-left w-100">
+                                        <h3 class="warning">@Model.StoryViewsTotal / @Model.StoryViewsInitial</h3>
+                                        <span>Story Views now / initial</span>
+                                    </div>
+                                    <div class="media-right media-middle">
+                                        <i class="icon-book-open warning font-large-2 float-right"></i>
+                                    </div>
+                                </div>
+                                <div class="progress progress-sm mt-1 mb-0">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 35%" aria-valuenow="@(Model.StoryViewsTotal == 0 ? 0 : (Model.StoryViewsInitial / Model.StoryViewsTotal * 100))" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div><h4 class="mb-2 ml-1 text-uppercase" style="font-size: 1.12rem;">Today's Session Activity</h4></div>
+            <div class="row">
+                <div class="col-xl-3 col-lg-6 col-12">
+                    <div class="card">
+
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body text-left w-100">
+                                        <h3 class="primary">@Model.FollowingToday - @Model.FollowingTodayLimit</h3>
+                                        <span>Following</span>
+                                    </div>
+                                    <div class="media-right media-middle">
+                                        <i class="icon-user-follow primary font-large-2 float-right"></i>
+                                    </div>
+                                </div>
+                                <div class="progress progress-sm mt-1 mb-0">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="@(Model.FollowsTotal == 0 ? 0 : (Model.FollowsRecent / Model.FollowsTotal * 100))" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body text-left w-100">
+                                        <h3 class="danger">@Model.UnFollowToday - @Model.UnFollowLimit</h3>
                                         <span>UnFollow</span>
                                     </div>
                                     <div class="media-right media-middle">
-                                        <i class="icon-dislike success font-large-2 float-right"></i>
+                                        <i class="icon-dislike danger font-large-2 float-right"></i>
                                     </div>
                                 </div>
                                 <div class="progress progress-sm mt-1 mb-0">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="@(Model.UnFollowTotal == 0 ? 0 : (Model.UnFollowRecent / Model.UnFollowTotal * 100))" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 40%" aria-valuenow="@(Model.LikesTotal == 0 ? 0 : (Model.LikesInitial / Model.LikesTotal * 100))" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
@@ -125,15 +195,35 @@
                             <div class="card-body">
                                 <div class="media">
                                     <div class="media-body text-left w-100">
-                                        <h3 class="warning">@Model.StoryViewsRecent / @Model.StoryViewsTotal</h3>
-                                        <span>Story Views</span>
+                                        <h3 class="success">@Model.LikeToday - @Model.LikeLimit</h3>
+                                        <span>Like </span>
                                     </div>
                                     <div class="media-right media-middle">
-                                        <i class="icon-screen-tablet warning font-large-2 float-right"></i>
+                                        <i class="icon-like success font-large-2 float-right"></i>
                                     </div>
                                 </div>
                                 <div class="progress progress-sm mt-1 mb-0">
-                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 35%" aria-valuenow="@(Model.StoryViewsTotal == 0 ? 0 : (Model.StoryViewsRecent / Model.StoryViewsTotal * 100))" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="@(Model.UnFollowTotal == 0 ? 0 : (Model.UnFollowInitial / Model.UnFollowTotal * 100))" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body text-left w-100">
+                                        <h3 class="warning">@Model.StoryViewToday - @Model.StoryViewLimit</h3>
+                                        <span>Story Views</span>
+                                    </div>
+                                    <div class="media-right media-middle">
+                                        <i class="icon-book-open warning font-large-2 float-right"></i>
+                                    </div>
+                                </div>
+                                <div class="progress progress-sm mt-1 mb-0">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 35%" aria-valuenow="@(Model.StoryViewsTotal == 0 ? 0 : (Model.StoryViewsInitial / Model.StoryViewsTotal * 100))" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
@@ -163,7 +253,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Followers</h4>
-                           
+
                         </div>
                         <div class="card-content collapse show">
                             <div class="card-body">
@@ -181,7 +271,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Engagement Actions</h4>
-                           
+
                         </div>
                         <div class="card-content collapse show">
                             <div class="card-body">
@@ -199,7 +289,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Engagement Rate</h4>
-                           
+
                         </div>
                         <div class="card-content collapse show">
                             <div class="card-body">
@@ -211,55 +301,54 @@
                 </div>
             </div>
             <!--/Engagement Rate Line Chart-->
-           
             <!-- Bounce Rate & List -->
             @*<div class="row match-height">
 
-                <div class="col-xl-12 col-lg-12">
-                    <div class="card">
-                        <div class="card-header border-0">
-                            <h4 class="card-title">Activity History</h4>
-                            
-                        </div>
-                        <div class="card-content">
+            <div class="col-xl-12 col-lg-12">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <h4 class="card-title">Activity History</h4>
+
+                    </div>
+                    <div class="card-content">
 
 
-                            <div class="table-responsive mt-4">
-                                <table class="table table-xl mb-0">
-                                    <thead>
+                        <div class="table-responsive mt-4">
+                            <table class="table table-xl mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Action Date/Time</th>
+                                        <th>Action</th>
+                                        <th>Social User Name</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in (List<SocialProfile_ActionsViewModel>)ViewBag.actions)
+                                    {
                                         <tr>
-                                            <th>Action Date/Time</th>
-                                            <th>Action</th>
-                                            <th>Social User Name</th>
-                                           
+                                            <td scope="row">
+                                                @item.ActionDateTime
+                                            </td>
+
+
+                                            <td>
+                                                @item.Action
+                                            </td>
+                                            <td>
+                                                @item.TargetProfile
+                                            </td>
+
+
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in (List<SocialProfile_ActionsViewModel>)ViewBag.actions)
-                                        {
-                                            <tr>
-                                                <td scope="row">
-                                                    @item.ActionDateTime
-                                                </td>
-
-
-                                                <td>
-                                                    @item.Action
-                                                </td>
-                                                <td>
-                                                    @item.TargetProfile
-                                                </td>
-                                               
-
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-            </div>*@
+            </div>
+        </div>*@
             <!--/ Bounce Rate & List -->
 
         </section>

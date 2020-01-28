@@ -275,7 +275,7 @@
                             <div class="row" style="display:inline">
                                 <h2 class="text-center">You are subscribing to a monthly plan :</h2>
                                 <h1 class="text-center selectedPlanName"></h1>
-                                <h2 class="text-center selectedPlanPrice"></h2>
+                                <h2 class="text-center selectedPlanPrice hidden"></h2>
                                 <input type="hidden" id="selectedPlanId" />
                                 <input type="hidden" id="existingStripeCustomerId" value="@Model.SocialProfile.StripeCustomerId" />
                                 <input type="hidden" id="existingStripeSubscriptionId" value="@Model.SocialProfile.StripeSubscriptionId" />
@@ -353,8 +353,8 @@
                             </svg>
                         </div>
                         <h3 class="title" data-tid="elements_examples.success.title">Success</h3>
-                        <p class="message"><span id="cmessage" data-tid="elements_examples.success.message">Subscription has been created successfully and payment has been processed. You can now connect the mobile app and start growing.</span></p>
-                        <a class="btn btn-success" href="~/User/Home/">Continue</a>
+                        <p class="message" style="font-size:16px;color:green"><span id="cmessage" data-tid="elements_examples.success.message">Subscription has been created successfully and payment has been processed. You can now connect the mobile app and start growing.</span></p>
+                        <a class="btn btn-primary btn-lg btn-block" style="padding:14px;" href="~/User/Home/">Continue</a>
                     </div>
                 </div>
             </div>

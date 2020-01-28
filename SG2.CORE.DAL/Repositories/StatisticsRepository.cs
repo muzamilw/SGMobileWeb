@@ -53,6 +53,9 @@ namespace SG2.CORE.DAL.Repositories
                         stats.Followings = strotint(model.InitialFollowings);
                         stats.FollowingsTotal = strotint(model.InitialFollowings);
 
+                        stats.Unfollow = 0;
+                        stats.UnfollowTotal = 0;
+
                         stats.Date = DateTime.Today;
                         stats.CreatedDate = DateTime.Now;
                         stats.UpdateDate = DateTime.Now;
@@ -117,9 +120,13 @@ namespace SG2.CORE.DAL.Repositories
                         stats.StoryViewsTotal = model.StoryViewsTotal;
 
                         stats.Unfollow = model.Unfollow;
+                        stats.UnfollowTotal = model.UnfollowTotal;
 
                         stats.Followers = model.Followers;
                         stats.FollowersTotal = model.FollowersTotal;
+
+                        stats.Follow = model.Follow;
+                        stats.FollowTotal = model.FollowTotal;
 
                         stats.UpdateDate = DateTime.Now;
 
@@ -163,6 +170,10 @@ namespace SG2.CORE.DAL.Repositories
                         stats.FollowersTotal = model.FollowersTotal;
 
                         stats.Unfollow = model.Unfollow;
+                        stats.UnfollowTotal = model.UnfollowTotal;
+
+                        stats.Follow = model.Follow;
+                        stats.FollowTotal = model.FollowTotal;
 
                         stats.Date = model.Date;
                         stats.CreatedDate = DateTime.Now;

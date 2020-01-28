@@ -588,7 +588,7 @@
                             <div class="row" style="display:inline">
                                 <h2 class="text-center">You are subscribing to a monthly plan :</h2>
                                 <h1 class="text-center selectedPlanName"></h1>
-                                <h2 class="text-center selectedPlanPrice"></h2>
+                                <h2 class="text-center selectedPlanPrice hidden"></h2>
                                 <input type="hidden" id="selectedPlanId" />
                                 <input type="hidden" id="existingStripeCustomerId" value="@currentUser.StripeCustomerId" />
                                 <input type="hidden" id="existingStripeSubscriptionId" value="@currentUser.StripeSubscriptionId" />
@@ -1377,7 +1377,7 @@
                 example.classList.add('submitted');
 
                 fbq('track', 'Purchase', {
-                    value: 59,
+                    value: 200,
                     currency: 'USD',
                 });
 

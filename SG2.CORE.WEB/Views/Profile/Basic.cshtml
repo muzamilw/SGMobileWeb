@@ -105,7 +105,8 @@
                                                     </div>
 
                                                   
-
+                                                    @if (Model.socialcustomer.IsBroker.HasValue && Model.socialcustomer.IsBroker.Value == true)
+                                                    {
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="label-control" for="projectinput2">Device Bin Location</label>
@@ -114,6 +115,7 @@
 
                                                         </div>
                                                     </div>
+                                                    }
 
                                                 </div>
 
@@ -130,15 +132,18 @@
 
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="label-control" for="projectinput2">Instagram Password</label>
+                                                    @if (Model.socialcustomer.IsBroker.HasValue && Model.socialcustomer.IsBroker.Value == true)
+                                                    {
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="label-control" for="projectinput2">Instagram Password</label>
 
-                                                            <input type="text" class="form-control" id="firstName1" readonly="readonly" value="@Model.SocialProfile.SocialPassword">
+                                                                <input type="text" class="form-control" id="firstName1" readonly="readonly" value="@Model.SocialProfile.SocialPassword">
 
+                                                            </div>
                                                         </div>
+                                                    }
                                                     </div>
-                                                </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">

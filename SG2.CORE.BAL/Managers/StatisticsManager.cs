@@ -15,11 +15,13 @@ namespace SG2.CORE.BAL.Managers
     {
         private readonly StatisticsRepository _statistics;
         private readonly SessionManager _sessionManager;
+        private readonly CustomerRepository _cm;
 
         public StatisticsManager()
         {
             _statistics = new StatisticsRepository();
             _sessionManager = new SessionManager();
+            _cm = new CustomerRepository();
         }
 
        
@@ -93,6 +95,7 @@ namespace SG2.CORE.BAL.Managers
                         prevStats.FollowersTotal = FollowCount;
 
                         prevStats.Unfollow = (prevStats.Unfollow ??0 ) + UnFollowCount;
+                        prevStats.UnfollowTotal = (prevStats.UnfollowTotal ?? 0) + UnFollowCount;
 
 
                         _statistics.UpdateStatistics(prevStats);
@@ -114,6 +117,7 @@ namespace SG2.CORE.BAL.Managers
                         prevStats.FollowersTotal = FollowCount;
 
                         prevStats.Unfollow = UnFollowCount;
+                        prevStats.UnfollowTotal =  UnFollowCount;
 
                         prevStats.Date = UpdateDateTime;
                         _statistics.InsertStatistics(prevStats);
@@ -186,14 +190,44 @@ namespace SG2.CORE.BAL.Managers
                     followersStatisticsViewModel.FollowsRecent = model[1].Follow.HasValue ? model[1].Follow.Value : 0;
                     followersStatisticsViewModel.FollowsTotal = model[1].FollowTotal.HasValue ? model[1].FollowTotal.Value : 0;
 
-                    followersStatisticsViewModel.LikesRecent = model[1].Like.HasValue ? model[1].Like.Value : 0;
+                    followersStatisticsViewModel.LikesInitial = model[0].Like.HasValue ? model[0].Like.Value : 0;
                     followersStatisticsViewModel.LikesTotal = model[1].LikeTotal.HasValue ? model[1].LikeTotal.Value : 0;
 
-                    followersStatisticsViewModel.UnFollowRecent = model[1].Unfollow.HasValue ? model[1].Unfollow.Value : 0;
+                    followersStatisticsViewModel.UnFollowInitial = model[0].Unfollow.HasValue ? model[0].Unfollow.Value : 0;
                     followersStatisticsViewModel.UnFollowTotal = model[1].UnfollowTotal.HasValue ? model[1].UnfollowTotal.Value : 0;
 
-                    followersStatisticsViewModel.StoryViewsRecent = model[1].StoryViews.HasValue ? model[1].StoryViews.Value : 0;
+                    followersStatisticsViewModel.StoryViewsInitial = model[0].StoryViews.HasValue ? model[0].StoryViews.Value : 0;
                     followersStatisticsViewModel.StoryViewsTotal = model[1].StoryViewsTotal.HasValue ? model[1].StoryViewsTotal.Value :0;
+
+                    
+
+
+
+                    var date =  model[1].Date;
+
+
+                    var recs = _cm.ReturnLastActions(socialProfileId, 10000).Where(g => g.ActionDateTime.Value.Year == date.Year && g.ActionDateTime.Value.Month == date.Month && g.ActionDateTime.Value.Day == date.Day).OrderBy(g => g.ActionDateTime);
+                    if (recs != null && recs.Count() >= 2)
+                    {
+                        var tDiff = recs.Last().ActionDateTime - recs.First().ActionDateTime;
+                        followersStatisticsViewModel.LastSessionIndex = (Double)recs.Count()/ Convert.ToDouble(tDiff.Value.TotalMinutes == 0 ?1.0 : tDiff.Value.TotalMinutes);
+                        var profile = _cm.GetSocialProfilesById(socialProfileId);
+                        var intervals = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Intervals>>(profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals).First();
+                                               
+                        followersStatisticsViewModel.FollowingToday = recs.Where(g => g.ActionID == 60).Count();
+                        followersStatisticsViewModel.FollowingTodayLimit = Convert.ToInt32( intervals.FollAccSearchTags);
+                        followersStatisticsViewModel.LikeToday = recs.Where(g => g.ActionID == 62).Count();
+                        followersStatisticsViewModel.LikeLimit = Convert.ToInt32(intervals.LikeFollowingPosts);
+                        followersStatisticsViewModel.UnFollowToday = recs.Where(g => g.ActionID == 61).Count();
+                        followersStatisticsViewModel.UnFollowLimit = Convert.ToInt32(intervals.UnFoll16DaysEngage);
+                        followersStatisticsViewModel.StoryViewToday = recs.Where(g => g.ActionID == 64).Count();
+                        followersStatisticsViewModel.StoryViewLimit = Convert.ToInt32(intervals.VwStoriesFollowing);
+
+                    }
+                    else
+                        followersStatisticsViewModel.LastSessionIndex = 0;
+
+                    
 
                 }
                 else
@@ -210,13 +244,13 @@ namespace SG2.CORE.BAL.Managers
                     followersStatisticsViewModel.FollowsRecent = 0;
                     followersStatisticsViewModel.FollowsTotal = 0;
 
-                    followersStatisticsViewModel.LikesRecent = 0;
+                    followersStatisticsViewModel.LikesInitial = 0;
                     followersStatisticsViewModel.LikesTotal = 0;
 
-                    followersStatisticsViewModel.UnFollowRecent = 0;
+                    followersStatisticsViewModel.UnFollowInitial = 0;
                     followersStatisticsViewModel.UnFollowTotal = 0;
 
-                    followersStatisticsViewModel.StoryViewsRecent = 0;
+                    followersStatisticsViewModel.StoryViewsInitial = 0;
                     followersStatisticsViewModel.StoryViewsTotal = 0;
                 }
                 return followersStatisticsViewModel;

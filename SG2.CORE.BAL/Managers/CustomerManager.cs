@@ -779,7 +779,7 @@ namespace SG2.CORE.BAL.Managers
                 {
                     switch (item.ActionID)
                     {
-                        case 60 : item.Action = "Follow";break;
+                        case 60 : item.Action = "Following";break;
                         case 61 : item.Action = "UnFollow"; break;
                         case 62: item.Action = "Like"; break;
                         case 63: item.Action = "Comment"; break;

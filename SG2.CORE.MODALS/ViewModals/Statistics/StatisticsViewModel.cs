@@ -25,14 +25,41 @@ namespace SG2.CORE.MODAL.ViewModals.Statistics
         public Int64? FollowsRecent { get; set; }
 
         public Int64? LikesTotal { get; set; }
-        public Int64? LikesRecent { get; set; }
+        public Int64? LikesInitial { get; set; }
 
         public Int64? UnFollowTotal { get; set; }
-        public Int64? UnFollowRecent { get; set; }
+        public Int64? UnFollowInitial { get; set; }
 
         public Int64? StoryViewsTotal { get; set; }
-        public Int64? StoryViewsRecent { get; set; }
+        public Int64? StoryViewsInitial { get; set; }
 
+
+        public int FollowingToday { get; set; }
+        public int FollowingTodayLimit { get; set; }
+
+        public int UnFollowToday { get; set; }
+        public int UnFollowLimit { get; set; }
+
+        public int LikeToday { get; set; }
+        public int LikeLimit { get; set; }
+
+        public int StoryViewToday { get; set; }
+        public int StoryViewLimit { get; set; }
+
+
+        public double? LastSessionIndex { get; set; }
+
+    }
+
+    public class Intervals
+    {
+        public string FollAccSearchTags { get; set; }
+        public string UnFoll16DaysEngage { get; set; }
+        public string LikeFollowingPosts { get; set; }
+        public string VwStoriesFollowing { get; set; }
+        public string CommFollowingPosts { get; set; }
+        public string starttime { get; set; }
+        public string endtime { get; set; }
     }
 
 

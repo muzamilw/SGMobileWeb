@@ -249,7 +249,7 @@ namespace SG2.CORE.DAL.Repositories
                         }
                         else
                         {
-                            var delrec = _db.SocialProfile_FollowedAccounts.Where(g => g.FollowedSocialUsername == item.TargetSocialUserName).SingleOrDefault();
+                            var delrec = _db.SocialProfile_FollowedAccounts.Where(g => g.FollowedSocialUsername == item.TargetSocialUserName && g.SocialProfileId == item.SocialProfileId).SingleOrDefault();
                             if (delrec != null)
                                 _db.SocialProfile_FollowedAccounts.Remove(delrec);
                         }
