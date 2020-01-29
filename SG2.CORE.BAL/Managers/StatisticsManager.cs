@@ -262,6 +262,21 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
+
+        public bool ClearStatsActions(int SocialProfileId)
+        {
+            try
+            {
+                return _statistics.ClearStatsActions(SocialProfileId);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
         //public AdminReportViewModel GetAdminReports()
         //{
         //    try

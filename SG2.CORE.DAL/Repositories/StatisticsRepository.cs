@@ -80,6 +80,8 @@ namespace SG2.CORE.DAL.Repositories
         }
 
 
+
+
         public int strotint(string s)
         {
             var resultString = string.Join(string.Empty, Regex.Matches(s, @"\d+([.,])?").OfType<Match>().Select(m => m.Value));
@@ -291,6 +293,32 @@ namespace SG2.CORE.DAL.Repositories
             {
                 throw ex;
             }
+        }
+
+        public bool ClearStatsActions(int SocialProfileId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+
+                    _db.Database.ExecuteSqlCommand("delete from SocialProfile_Statistics where SocialProfileId = " + SocialProfileId.ToString());
+
+                    _db.Database.ExecuteSqlCommand("delete from SocialProfile_Actions where SocialProfileId = " + SocialProfileId.ToString());
+
+                    _db.Database.ExecuteSqlCommand("delete from SocialProfile_FollowedAccounts where SocialProfileId = " + SocialProfileId.ToString());
+
+                    _db.Database.ExecuteSqlCommand("update SocialProfile set InitialStatsReceived = 0 where SocialProfileId = " + SocialProfileId.ToString());
+
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return true;
         }
 
     }

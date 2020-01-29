@@ -351,9 +351,35 @@ namespace SG2.CORE.WEB.APIController
                 return Content(HttpStatusCode.BadRequest, "Input params missing");
             }
         }
-    }
+    
 
-    public class NullToZeroIntTypeConverter : ITypeConverter<int?, int?>
+    [Route("ClearData")]
+    [HttpGet]
+    public IHttpActionResult ClearData(int SocialProfileId)
+    {
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                if (_statsManager.ClearStatsActions(SocialProfileId))
+                    return Ok(new MobileActionResponse { StatusCode = 1, StatusMessage = "Success, data cleared" });
+                else
+                    return Content(HttpStatusCode.BadRequest, "Data could not be cleared");
+
+            }
+            catch (Exception e)
+            {
+                return Content(HttpStatusCode.BadRequest, e.ToString());
+            }
+        }
+        else
+        {
+            return Content(HttpStatusCode.BadRequest, "Input params missing");
+        }
+    }
+}
+
+public class NullToZeroIntTypeConverter : ITypeConverter<int?, int?>
     {
         //public int Convert(ResolutionContext ctx)
         //{
