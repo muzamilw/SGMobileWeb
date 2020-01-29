@@ -18,8 +18,9 @@ using System.Web.Http;
 using System.Web;
 using SG2.CORE.MODAL.DTO.Customers;
 
-namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
+namespace SG2.CORE.WEB.APIController
 {
+    [RoutePrefix("api/stripe")]
     public class StripeWebHookController : ApiController
     {
         protected readonly TeamMemberManager _teamMemberManager;

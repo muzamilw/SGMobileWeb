@@ -219,7 +219,7 @@
     <Compile Include="Areas\SuperAdmin\Controllers\PermissionController.cs" />
     <Compile Include="Areas\SuperAdmin\Controllers\PlanInformationController.cs" />
     <Compile Include="Areas\SuperAdmin\Controllers\SystemSettingsController.cs" />
-    <Compile Include="Areas\SuperAdmin\Controllers\StripeWebhookController.cs" />
+    <Compile Include="APIController\StripeWebhookController.cs" />
     <Compile Include="Areas\SuperAdmin\Controllers\TeamMemberController.cs" />
     <Compile Include="Areas\SuperAdmin\Controllers\UserProfileController.cs" />
     <Compile Include="Areas\SuperAdmin\SuperAdminAreaRegistration.cs" />

@@ -39,31 +39,53 @@ namespace SG2.CORE.DAL.Repositories
                     var profile = _db.SocialProfiles.Where(g => g.SocialProfileId == model.SocialProfileId).Single();
 
                     //only save initial stats if old one does not exists. skip if any older stats exists.
-                    if ((profile.InitialStatsReceived.HasValue == false || profile.InitialStatsReceived.Value == false ) &&  _db.SocialProfile_Statistics.Where(g => g.SocialProfileId == model.SocialProfileId && g.Date <= DateTime.Today).Count() == 0)
+                    if ((profile.InitialStatsReceived.HasValue == false || profile.InitialStatsReceived.Value == false ))
                     {
 
-                        var stats = new SocialProfile_Statistics();
+                        //check if we have stats
+                        var newStats = false;
+                        var stats = _db.SocialProfile_Statistics.Where(g => g.SocialProfileId == model.SocialProfileId).SingleOrDefault();
+                        if (stats == null)
+                        {
+                            stats = new SocialProfile_Statistics();
+                            newStats = true;
+                        }
+
                         stats.SocialProfileId = model.SocialProfileId;
-                        stats.Posts = strotint(model.InitialPosts);
-                        stats.PostsTotal = strotint(model.InitialPosts);
+                        //stats.Posts = (stats.Posts ?? 0) <> 0;
+                        stats.PostsTotal = (stats.Posts ?? 0)  + strotint(model.InitialPosts);
 
-                        stats.Followers = strotint(model.InitialFollowers);
-                        stats.FollowersTotal = strotint(model.InitialFollowers);
+                        //stats.Followers = strotint(model.InitialFollowers);
+                        stats.FollowersTotal = (stats.Followers ?? 0) + strotint(model.InitialFollowers);
 
-                        stats.Followings = strotint(model.InitialFollowings);
-                        stats.FollowingsTotal = strotint(model.InitialFollowings);
+                        //stats.Followings = strotint(model.InitialFollowings);
+                        stats.FollowingsTotal = (stats.Followings??0) + strotint(model.InitialFollowings);
 
                         stats.Unfollow = 0;
                         stats.UnfollowTotal = 0;
 
-                        stats.Date = DateTime.Today;
-                        stats.CreatedDate = DateTime.Now;
-                        stats.UpdateDate = DateTime.Now;
 
-                        _db.SocialProfile_Statistics.Add(stats);
+
+                        if (newStats == true)
+                        {
+                            stats.Date = DateTime.Now;
+                            stats.CreatedDate = DateTime.Now;
+                            stats.UpdateDate = DateTime.Now;
+                            _db.SocialProfile_Statistics.Add(stats);
+                        }
+                        //else update the existing
                         
                         profile.InitialStatsReceived = true;
                         profile.InitialStatsReceivedDateTime = DateTime.Now;
+
+                        var act = new SocialProfile_Actions();
+                        act.SocialProfileId = model.SocialProfileId;
+                        act.ActionID = 72;
+                        act.Message = "Initial Posts : " + model.InitialPosts + ", Initial Followers : " + model.InitialFollowers + ", Initial Following" + model.InitialFollowings ;
+                        act.TargetProfile = "";
+                        act.ActionDateTime = DateTime.Now;
+
+                        _db.SocialProfile_Actions.Add(act);
 
                         _db.SaveChanges();
 
