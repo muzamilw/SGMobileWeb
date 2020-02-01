@@ -91,8 +91,11 @@ namespace SG2.CORE.BAL.Managers
                         prevStats.StoryViews = (prevStats.StoryViews ?? 0) + StoryCount;
                         prevStats.StoryViewsTotal = (prevStats.StoryViewsTotal ?? 0) + StoryCount;
 
-                        prevStats.Followers = FollowCount;
-                        prevStats.FollowersTotal = FollowCount;
+                        if (FollowCount > 0)
+                        {
+                            prevStats.Followers = FollowCount;
+                            prevStats.FollowersTotal = FollowCount;
+                        }
 
                         prevStats.Unfollow = (prevStats.Unfollow ??0 ) + UnFollowCount;
                         prevStats.UnfollowTotal = (prevStats.UnfollowTotal ?? 0) + UnFollowCount;

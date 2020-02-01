@@ -53,26 +53,22 @@ namespace SG2.CORE.DAL.Repositories
 
                         stats.SocialProfileId = model.SocialProfileId;
                         //stats.Posts = (stats.Posts ?? 0) <> 0;
-                        stats.PostsTotal = (stats.Posts ?? 0)  + strotint(model.InitialPosts);
+                        stats.PostsTotal = strotint(model.InitialPosts);
 
-                        //stats.Followers = strotint(model.InitialFollowers);
-                        stats.FollowersTotal = (stats.Followers ?? 0) + strotint(model.InitialFollowers);
+                        stats.Followers =  strotint(model.InitialFollowers);
+                        stats.FollowersTotal = strotint(model.InitialFollowers);
 
-                        //stats.Followings = strotint(model.InitialFollowings);
-                        stats.FollowingsTotal = (stats.Followings??0) + strotint(model.InitialFollowings);
+                        stats.Followings = strotint(model.InitialFollowings);
+                        stats.FollowingsTotal = strotint(model.InitialFollowings);
 
                         stats.Unfollow = 0;
                         stats.UnfollowTotal = 0;
 
-
-
-                        if (newStats == true)
-                        {
-                            stats.Date = DateTime.Now;
+                            stats.Date = DateTime.Now.AddDays(-1);
                             stats.CreatedDate = DateTime.Now;
                             stats.UpdateDate = DateTime.Now;
                             _db.SocialProfile_Statistics.Add(stats);
-                        }
+                       
                         //else update the existing
                         
                         profile.InitialStatsReceived = true;
