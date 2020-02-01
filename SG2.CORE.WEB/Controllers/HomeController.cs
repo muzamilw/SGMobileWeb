@@ -19,6 +19,7 @@ using System.Windows.Forms;
 using SG2.CORE.MODAL.DTO.QueueLogger;
 using SG2.CORE.MODAL.DTO.SystemSettings;
 using System.Globalization;
+using SG2.CORE.MODAL.DTO.Customers;
 
 namespace SG2.CORE.WEB.Controllers
 {
@@ -52,9 +53,14 @@ namespace SG2.CORE.WEB.Controllers
 
         public ActionResult HowWeWork()
         {
+            ViewBag.CustomerDTO = new CustomerDTO();
             return View();
         }
-
+        public ActionResult Pricing()
+        {
+            ViewBag.CustomerDTO = new CustomerDTO();
+            return View();
+        }
         public ActionResult HowWeWork2()
         {
             return View();
