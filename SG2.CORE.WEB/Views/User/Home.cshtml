@@ -277,15 +277,15 @@
                                             @{
                                                 List<SelectListItem> plist = new List<SelectListItem>();
                                                 plist.Add(new SelectListItem { Text = "Plans (All)", Value = "0" });
-                                                plist.Add(new SelectListItem { Text = "Free Forever", Value = "1" });
+                                                plist.Add(new SelectListItem { Text = "FREE", Value = "1" });
                                                 if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true)
                                                 {
-                                                    plist.Add(new SelectListItem { Text = "$39 Agency Plan", Value = "4" });
+                                                    plist.Add(new SelectListItem { Text = "A PRO", Value = "4" });
                                                 }
                                                 else
                                                 {
-                                                    plist.Add(new SelectListItem { Text = "$59 per month", Value = "2" });
-                                                    plist.Add(new SelectListItem { Text = "$99 per month", Value = "3" });
+                                                    plist.Add(new SelectListItem { Text = "PRO", Value = "2" });
+                                                    plist.Add(new SelectListItem { Text = "PLATINUM", Value = "3" });
 
                                                 }
                                             }
@@ -365,7 +365,7 @@
                                                         }
                                                         else
                                                         {
-                                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: Forever Free</div>
+                                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: FREE</div>
                                                         }
                                                     </td>
                                                 </tr>

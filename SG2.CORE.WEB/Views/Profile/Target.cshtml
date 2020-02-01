@@ -9,7 +9,7 @@
     ViewBag.Title = "Match Filter";
     Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
     ViewBag.socialProfile = Model.SocialProfile;
-    ViewBag.PlanName = Model.CurrentPaymentPlan == null ? "Forever Free" : Model.CurrentPaymentPlan.PlanName;
+    ViewBag.PlanName = Model.CurrentPaymentPlan == null ? "FREE" : Model.CurrentPaymentPlan.PlanName;
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
     var Customer = (Customer)ViewBag.Customer;
     var ProfileStatus = "";
@@ -276,7 +276,7 @@
                             <div class="row" style="display:inline">
                                 <h2 class="text-center">You are subscribing to a monthly plan :</h2>
                                 <h1 class="text-center selectedPlanName"></h1>
-                                <h2 class="text-center selectedPlanPrice hidden"></h2>
+                                <h2 class="text-center selectedPlanPrice"></h2>
                                 <input type="hidden" id="selectedPlanId" />
                                 <input type="hidden" id="existingStripeCustomerId" value="@Model.SocialProfile.StripeCustomerId" />
                                 <input type="hidden" id="existingStripeSubscriptionId" value="@Model.SocialProfile.StripeSubscriptionId" />
@@ -530,11 +530,12 @@
                                                 <img class="card-img-top img-fluid" src="~/content/app-assets/images/carousel/05.jpg" alt="Card image cap">
                                                 <div class="card-body">
                                                     <h4 class="card-title">@plan.PlanName</h4>
+                                                    <h4 style="font-size:0.8rem" class="card-title">$@plan.PlanPrice per month</h4>
                                                     <p class="card-text">
                                                         @Html.Raw(plan.PlanDescription.Replace("\n", "<br>"))
-                                                    </p>@if (Model.SocialProfile.PaymentPlanId == plan.PlanId)
+                                                    </p>@if ((Model.SocialProfile.PaymentPlanId ?? 1) == plan.PlanId)
                                                     {
-                                                        <a href="#" class="btn btn-outline-primary disabled">Current Plan</a>
+                                                        <a href="#" class="btn btn-primary disabled">Current Plan</a>
                                                     }
                                                     else
                                                     {
@@ -607,8 +608,8 @@
                                                 </div>
                                             </div>
 
-                                            <div class="border-bottom-social-profile col-md-12 ml-0 mr-0 row mt-1">
-                                                <h4 class="col-lg-8 col-md-8 col-sm-12 card-title form-section pl-0 mb-0" style="border-bottom:0px;">Unfollow users ( Users we followed in last 48 hours )</h4>
+                                            @*<div class="border-bottom-social-profile col-md-12 ml-0 mr-0 row mt-1">
+                                                <h4 class="col-lg-8 col-md-8 col-sm-12 card-title form-section pl-0 mb-0" style="border-bottom:0px;">Unfollow users </h4>
                                                 
                                                 <div class="col-lg-4 col-md-4 col-sm-12 text-right pr-0 mb-1">
                                                     <ul class="list-inline mb-0">
@@ -616,7 +617,7 @@
                                                     </ul>
                                                     @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays)
                                                 </div>
-                                            </div>
+                                            </div>*@
 
                                             <div class="border-bottom-social-profile col-md-12 ml-0 mr-0 row mt-1">
                                                 <h4 class="col-lg-8 col-md-8 col-sm-12 card-title form-section pl-0 mb-0" style="border-bottom:0px;">Follow</h4>

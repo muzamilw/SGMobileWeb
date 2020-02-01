@@ -9,7 +9,7 @@
 
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
     ViewBag.socialProfile = Model.SocialProfile;
-    ViewBag.PlanName = Model.CurrentPaymentPlan == null ? "Forever Free" : Model.CurrentPaymentPlan.PlanName;
+    ViewBag.PlanName = Model.CurrentPaymentPlan == null ? "FREE" : Model.CurrentPaymentPlan.PlanName;
     var ProfileStatus = "";
     if (Model.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
     {

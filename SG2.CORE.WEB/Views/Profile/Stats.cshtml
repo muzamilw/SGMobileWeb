@@ -12,7 +12,7 @@
     var socialProfile = (SocialProfile)ViewBag.socialProfile;
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
     
-    ViewBag.PlanName = socialProfile.PaymentPlan == null ? "Forever Free" : socialProfile.PaymentPlan.PlanName;
+    ViewBag.PlanName = socialProfile.PaymentPlan == null ? "FREE" : socialProfile.PaymentPlan.PlanName;
 }
 
 @section profileheader{
