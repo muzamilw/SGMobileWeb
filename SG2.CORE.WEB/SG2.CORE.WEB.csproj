@@ -2602,6 +2602,10 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\agency.png" />
+    <Content Include="Content\Images\free.png" />
+    <Content Include="Content\Images\platinum.png" />
+    <Content Include="Content\Images\pro.png" />
     <Content Include="Content\Theme-Enviro\css\animate.css" />
     <Content Include="Content\Theme-Enviro\css\bootstrap.min.css" />
     <Content Include="Content\Theme-Enviro\css\default\classy-nav.min.css" />

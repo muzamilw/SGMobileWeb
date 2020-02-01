@@ -275,8 +275,8 @@
                         <fieldset>
                             <div class="row" style="display:inline">
                                 <h2 class="text-center">You are subscribing to a monthly plan :</h2>
-                                <h1 class="text-center selectedPlanName"></h1>
-                                <h2 class="text-center selectedPlanPrice"></h2>
+                                <h1 class="text-center selectedPlanName mt-1"></h1>
+                                <h2 class="text-center selectedPlanPrice mt-1"></h2>
                                 <input type="hidden" id="selectedPlanId" />
                                 <input type="hidden" id="existingStripeCustomerId" value="@Model.SocialProfile.StripeCustomerId" />
                                 <input type="hidden" id="existingStripeSubscriptionId" value="@Model.SocialProfile.StripeSubscriptionId" />
@@ -527,7 +527,20 @@
                                     <div class="col-xl-4 col-md-6 col-sm-12">
                                         <div class="card">
                                             <div class="card-content">
-                                                <img class="card-img-top img-fluid" src="~/content/app-assets/images/carousel/05.jpg" alt="Card image cap">
+                                                @{ 
+                                                    var filename = "";
+                                                    switch (plan.PlanId)
+                                                    {
+                                                        case 1: filename = "free.png";break;
+                                                        case 2: filename = "pro.png"; break;
+                                                        case 3: filename = "platinum.png"; break;
+                                                        case 4: filename = "agency.png"; break;
+                                                        default:
+                                                            break;
+                                                    }
+                                                }
+                                    
+                                                <img class="card-img-top img-fluid" src="~/content/Images/@filename" alt="Card image cap">
                                                 <div class="card-body">
                                                     <h4 class="card-title">@plan.PlanName</h4>
                                                     <h4 style="font-size:0.8rem" class="card-title">$@plan.PlanPrice per month</h4>
@@ -535,7 +548,7 @@
                                                         @Html.Raw(plan.PlanDescription.Replace("\n", "<br>"))
                                                     </p>@if ((Model.SocialProfile.PaymentPlanId ?? 1) == plan.PlanId)
                                                     {
-                                                        <a href="#" class="btn btn-primary disabled">Current Plan</a>
+                                                        <a href="#" class="btn btn-pink disabled">Current Plan</a>
                                                     }
                                                     else
                                                     {
@@ -1215,7 +1228,7 @@
 
             $(".planSelect").on("click", function () {
                 $(".selectedPlanName").text($(this).attr("data-planname"));
-                $(".selectedPlanPrice").text( "for $"  + $(this).attr("data-planprice"));
+                $(".selectedPlanPrice").text( "for $"  + $(this).attr("data-planprice") + " per month");
                 $("#selectedPlanId").val($(this).attr("data-planId"));
 
                 selectedPlanName = $(".selectedPlanName").text();

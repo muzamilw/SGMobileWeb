@@ -104,7 +104,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-2 col-sm-12 mb-2">
+                    <div class="col-md-2 col-sm-12 mb-2 hidden">
                         <div class="product">
                             <label>Subscription</label>
                             <div class="select">
@@ -200,7 +200,7 @@
                                     <th scope="col" >Name</th>
                                     <th scope="col">Plan</th>
                                     <th scope="col">Broker/Regular</th>
-                                    <th scope="col">Plan Status</th>
+                                    
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -224,7 +224,7 @@
                                         <td data-label="Products" class="product">@(string.IsNullOrEmpty(item.Products) ? "--" : item.Products)</td>
 
                                         <td data-label="Box">@(item.BrokerAccount ? "Broker" : "Regular")</td>
-                                        <td data-label="Status" class="status">@item.Status</td>
+                                        @*<td data-label="Status" class="status">@item.Status</td>*@
                                         @*<td data-label="JVBoxStatus" class="JVBoxStatus">@(string.IsNullOrEmpty(item.JVBoxStatus) ? "--" : item.JVBoxStatus)</td>*@
                                         <td data-label="Action" class="status">
                                             <a href="@BaseURl/crm/TargettingInformation?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))"><i class="fa fa-edit"></i></a>

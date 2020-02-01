@@ -179,21 +179,37 @@
         <div class="information-form-inner detail">
             <div class="row">
                 <div class="col-md-4 col-xs-6">
-                    <ul>
-                        <li>Last Connected <span class="JVboxName">@DeviceStatus</span></li>
 
-                    </ul>
+                    <div class="user-inner">
+                        <label style="border-bottom: 1px solid lightgray;font-size:1.2rem">Device Status</label>
+                        <div class="displayBlock" id="firstName-textBlock">
+                            <h2 class="displayText" style="color:black;font-size: 0.85rem;">@DeviceStatus</h2>
+
+                        </div>
+
+                    </div>
                 </div>
                 <div class="col-md-4 col-xs-6">
-                    <ul>
-                        <li>E-mail: <span class="email">@Html.DisplayFor(m => m.Email)</span></li>
-                    </ul>
-                    <!--<h4>E-mail<br><span>kardio.tvister@yanex.com</span></h4>-->
+                    
+                    <div class="user-inner">
+                        <label style="border-bottom: 1px solid lightgray;font-size:1.2rem">Email</label>
+                        <div class="displayBlock" id="firstName-textBlock">
+                            <h2 class="displayText" style="color:black;font-size: 0.85rem;">@Html.DisplayFor(m => m.Email)</h2>
+
+                        </div>
+
+                    </div>
                 </div>
                 <div class="col-md-4 col-xs-6">
-                    <ul>
-                        <li>Pin Code: <span class="email">@SocialProfile.SocialProfile.PinCode</span></li>
-                    </ul>
+                   
+                    <div class="user-inner">
+                        <label style="border-bottom: 1px solid lightgray;font-size:1.2rem">Pin Code</label>
+                        <div class="displayBlock" id="firstName-textBlock">
+                            <h2 class="displayText" style="color:black;font-size: 0.85rem;">@SocialProfile.SocialProfile.PinCode</h2>
+
+                        </div>
+
+                    </div>
                 </div>
             </div>
             <hr />
@@ -238,20 +254,20 @@
                         </div>
 
                         @*<div class="col-md-4 col-sm-4 col-xs-12">
-                            <div class="user-inner">
-                                <label>Social Password</label>
-                                <div class="displayBlock" id="Password-textBlock">
-                                    <h2 class="displayText">@(string.IsNullOrEmpty(SocialProfile.SocialProfile.SocialPassword) ? "--" : SocialProfile.SocialProfile.SocialPassword)</h2>
+                                <div class="user-inner">
+                                    <label>Social Password</label>
+                                    <div class="displayBlock" id="Password-textBlock">
+                                        <h2 class="displayText">@(string.IsNullOrEmpty(SocialProfile.SocialProfile.SocialPassword) ? "--" : SocialProfile.SocialProfile.SocialPassword)</h2>
+
+                                    </div>
 
                                 </div>
 
-                            </div>
 
 
 
 
-
-                        </div>*@
+                            </div>*@
                     </div>
                 </div>
 

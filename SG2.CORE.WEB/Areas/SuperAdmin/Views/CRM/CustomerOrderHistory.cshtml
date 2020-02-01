@@ -96,10 +96,10 @@
                         <thead>
                             <tr>
                                 <th scope="col">Purchase Date</th>
-                                <th scope="col">Expire Date</th>
+                                @*<th scope="col">Expire Date</th>*@
                                 <th scope="col">Name</th>
                                 <th scope="col">Price</th>
-                                <th scope="col">Status</th>
+                                @*<th scope="col">Status</th>*@
                             </tr>
                         </thead>
                         <tbody>
@@ -115,19 +115,19 @@
                                     {
                                         <td data-label="StartDate">--</td>
                                     }
-                                    @if (item.EndDate.HasValue)
+                                    @*@if (item.EndDate.HasValue)
                                     {
                                         <td data-label="EndDate"> @(item.EndDate.Value.ToShortDateString())</td>
                                     }
                                     else
                                     {
                                         <td data-label="EndDate">--</td>
-                                    }
+                                    }*@
 
 
                                     <td data-label="Name" class="product">@(string.IsNullOrEmpty(item.Name) ? "--" : item.Name)</td>
-                                    <td data-label="Name" class="product">@(item.Price / 100)</td>
-                                    <td data-label="Proxy">@(string.IsNullOrEmpty(item.Status) ? "--" : item.Status) </td>
+                                    <td data-label="Name" class="product">@(item.Price)</td>
+                                    @*<td data-label="Proxy">@(string.IsNullOrEmpty(item.Status) ? "--" : item.Status) </td>*@
 
                                 </tr>
                             }

@@ -587,8 +587,8 @@
                         <fieldset>
                             <div class="row" style="display:inline">
                                 <h2 class="text-center">You are subscribing to a monthly plan :</h2>
-                                <h1 class="text-center selectedPlanName"></h1>
-                                <h2 class="text-center selectedPlanPrice hidden"></h2>
+                                <h1 class="text-center selectedPlanName mt-2"></h1>
+                                <h4 class="text-center selectedPlanPrice mt-1"></h4>
                                 <input type="hidden" id="selectedPlanId" />
                                 <input type="hidden" id="existingStripeCustomerId" value="@currentUser.StripeCustomerId" />
                                 <input type="hidden" id="existingStripeSubscriptionId" value="@currentUser.StripeSubscriptionId" />
@@ -987,11 +987,11 @@
 
             $("#btnAfilliate").on("click", function () {
                 $(".selectedPlanName").text('Monthly Agency Plan');
-                $("#selectedPlanprice").text('200');
+                $(".selectedPlanPrice").text('for $299 per month');
                 $("#selectedPlanId").val(5);
 
                 selectedPlanName = $(".selectedPlanName").text();
-                selectedPlanprice = 200;
+                selectedPlanprice = 299;
                 var customerId = '@Customer.CustomerId';
                 
 
@@ -1007,13 +1007,13 @@
                     var ChangeMsg = "Are you sure you want to downgrade to Free Plan? Free plan does not let the app connect and grow!";
                     var ChangeBtn = "Yes, Let's Downgrade to Free";
                 } else if (existingPlan != undefined && newplan < existingPlan) {
-                    var ChangeType = "Downgrade to " + selectedPlanName + " Plan!";
+                    var ChangeType = "Downgrade to " + selectedPlanName + "!";
                     var ChangeMsg = "Are you sure you want to downgrade your plan ?";
                     var ChangeBtn = "Yes, Let's Downgrade";
                 }
                 else {
-                    var ChangeType = "Subscribe " + selectedPlanName + " Plan";
-                    var ChangeMsg = "Are you sure you want to subscribe for " + selectedPlanprice +" per month?";
+                    var ChangeType = "Subscribe to " + selectedPlanName + "";
+                    var ChangeMsg = "Are you sure you want to subscribe for $" + selectedPlanprice +" per month?";
                     var ChangeBtn = "Yes, Let's Subscribe";
                 }
 
@@ -1377,7 +1377,7 @@
                 example.classList.add('submitted');
 
                 fbq('track', 'Purchase', {
-                    value: 200,
+                    value: 299,
                     currency: 'USD',
                 });
 
