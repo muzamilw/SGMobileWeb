@@ -475,7 +475,10 @@ namespace SG2.CORE.WEB.Controllers
             }
 
         }
-
+        public ActionResult Agency()
+        {
+            return View();
+        }
         private static HttpWebRequest GetWebRequestObject(string endPoint)
         {
             HttpWebRequest request = WebRequest.Create(endPoint) as HttpWebRequest;

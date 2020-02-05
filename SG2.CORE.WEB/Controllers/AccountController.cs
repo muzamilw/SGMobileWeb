@@ -53,7 +53,11 @@ namespace SG2.CORE.WEB.Controllers
         {
             return View();
         }
-
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+       
         [HttpPost]
         public ActionResult SignUp(CustomerSignUpViewModel model)
         {
@@ -184,8 +188,9 @@ namespace SG2.CORE.WEB.Controllers
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                var jr = new JsonResult();
+                jr.Data = new { ResultType = "Error", message = "Unable to login" };
+                return jr;
             }
         }
 
