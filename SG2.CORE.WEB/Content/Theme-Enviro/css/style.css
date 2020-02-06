@@ -1450,7 +1450,7 @@ textarea:invalid {
   position: relative;
   z-index: 1;
   border-radius: .75rem; }
-  .aboutUs-thumbnail::before {
+  /*.aboutUs-thumbnail::before {
     content: "";
     position: absolute;
     width: 60%;
@@ -1459,7 +1459,7 @@ textarea:invalid {
     top: 50px;
     right: 70%;
     z-index: 10;
-    border-radius: 3px; }
+    border-radius: 3px; }*/
   .aboutUs-thumbnail img {
     border-radius: .75rem; }
 
@@ -4084,9 +4084,14 @@ img.mfp-img {
   .form-control:focus {
     box-shadow: none; }
 
-.error,
 .success {
   margin-bottom: 20px; }
+.error{
+    position: relative !important;
+    margin-bottom: 20px;
+    color: indianred;
+    padding-left: 20px;
+}
 
 .google-maps-wrapper {
   position: relative;

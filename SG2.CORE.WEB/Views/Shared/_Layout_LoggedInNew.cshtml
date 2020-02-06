@@ -1,8 +1,8 @@
 ﻿@using SG2.CORE.MODAL.DTO.Customers;
 @{
-                /**/
+    /**/
 
-                var custDto = (CustomerDTO)ViewBag.CustomerDTO;
+    var custDto = (CustomerDTO)ViewBag.CustomerDTO;
 }
 @{
     var _intercomPublishKey = SG2.CORE.WEB.Architecture.SystemConfig.GetConfigs.First(x => x.ConfigKey == "Intercom").ConfigValue;
@@ -16,9 +16,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags-->
     <!-- Title-->
-    <title>Saasbox - Multipurpose HTML template for Saas, SEO & Agency</title>
-    <!-- Favicon-->
-    <link rel="icon" href="img/core-img/favicon.ico">
+    <title>@ViewBag.Title - Social Growth Labs</title>
     <!-- Core Stylesheet-->
 
     <link href="~/Content/Theme-Enviro/css/bootstrap.min.css" rel="stylesheet" />
@@ -30,8 +28,7 @@
     <link href="~/Content/Theme-Enviro/css/magnific-popup.css" rel="stylesheet" />
     <link href="~/Content/Theme-Enviro/css/owl.carousel.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/Content/Theme-Enviro/css/style.css">
-</head>
-@*<head>
+
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -40,47 +37,7 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ViewBag.Title - Social Growth</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    <link href="~/Content/Theme-Enviro/css/style.css" rel="stylesheet" />
-    <link href="~/Content/Theme-Enviro/css/default/classy-nav.min.css" rel="stylesheet" />
-    <link href="~/Content/Theme-Enviro/css/default/lineicons.min.css" rel="stylesheet" />
-    <link href="~/Content/Theme-Enviro/css/animate.css" rel="stylesheet" />
-    <link href="~/Content/Theme-Enviro/css/flag-icon.min.css" rel="stylesheet" />
-    <link href="~/Content/Theme-Enviro/css/jquery.animatedheadline.css" rel="stylesheet" />
-    <link href="~/Content/Theme-Enviro/css/magnific-popup.css" rel="stylesheet" />
-    <link href="~/Content/Theme-Enviro/css/owl.carousel.min.css" rel="stylesheet" />
-    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700' rel='stylesheet' type='text/css'>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" type="text/css">
-  
-    <script>
-        !function (f, b, e, v, n, t, s) {
-            if (f.fbq) return; n = f.fbq = function () {
-                n.callMethod ?
-                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-            }; if (!f._fbq) f._fbq = n;
-            n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0;
-            t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
-        }(window,
-            document, 'script', '//connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '1185819604852319');
-        fbq('init', '2899883190056318');
-        fbq('init', '722023768308766');
-        fbq('init', '433629843942100');
-        fbq('track', 'PageView'); //tracks a PageView to both initialized pixels
-    </script>
-    <noscript>
-        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1185819604852319&ev=PageView&noscript=1" />
-        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2899883190056318&ev=PageView&noscript=1" />
-        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=722023768308766&ev=PageView&noscript=1" />
-        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=433629843942100&ev=PageView&noscript=1" />
-    </noscript>
-
-
-</head>*@
+</head>
 
 <body>
     <header class="header-area">
@@ -88,7 +45,7 @@
             <div class="container">
                 <div class="classy-nav-container breakpoint-off">
                     <nav class="classy-navbar justify-content-between" id="radixNav">
-                        <!-- Logo--><a class="nav-brand mr-5" href="index.html"><img src="/Content/Theme-Enviro/img/core-img/logo_SM.png" alt="" class="logo-height-50"></a>
+                        <!-- Logo--><a class="nav-brand mr-5" href="index.html"><img src="~/Content/Theme-Enviro/img/core-img/logo_SM.png" alt="" class="logo-height-50"></a>
                         <!-- Navbar Toggler-->
                         <div class="classy-navbar-toggler"><span class="navbarToggler"><span></span><span></span><span></span><span></span></span></div>
                         <!-- Menu-->
@@ -107,18 +64,15 @@
                                         <a href="/Home/HowWeWork">How It Works</a>
                                     </li>
                                     <li>
-                                        <a href="#">Agencies</a>
-                                       
+                                        <a href="/Home/Agency">Agencies</a>
+
                                     </li>
                                     <li>
                                         <a href="/Home/Pricing">Pricing</a>
                                     </li>
-                                    <li>
-                                        <a href="#">Blog</a>
-                                    </li>
                                 </ul>
                                 <!-- Login Button-->
-                                <div class="login-btn-area ml-5 mt-5 mt-lg-0"><a class="btn radix-btn white-btn-2  mr-3" href="#">Sign In</a><a class="btn radix-btn white-btn" href="#">Get Started</a></div>
+                                <div class="login-btn-area ml-5 mt-5 mt-lg-0"><a class="btn radix-btn white-btn-2  mr-3" href="/Account/Login">Sign In</a><a class="btn radix-btn white-btn" href="/Account/SignUp">Get Started</a></div>
                             </div>
                         </div>
                     </nav>
@@ -126,38 +80,6 @@
             </div>
         </div>
     </header>
-    @*<header class="header">
-            <div class="container">
-
-                <nav class="navbar navbar-expand-md navbar-light">
-                    <a href="/Profile/Basic?socialProfileId=@custDto.DefaultSocialProfileId" class="navbar-brand">
-                        <img src="~/Content/ThemeAssets/images/social-growth.png" height="28" alt="Social Growth">
-                    </a>
-                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarCollapse">
-
-                        <div class="navbar-nav ml-auto">
-                            if (ViewBag.IsAuthentication == null)
-                            {
-                                <a href="#" class="nav-item nav-link">Login</a>
-                            }
-                            else
-                            {
-                                <a href="/Account/Logout" class="btn_logout">
-                                    <i class="fa fa-sign-out" aria-hidden="true"></i> Logout
-                                </a>
-                            }
-                        </div>
-                    </div>
-                </nav>
-
-
-            </div>
-        </header>*@
-
     @RenderBody()
 
     <footer class="footer-area footer2 section-padding-120">
@@ -168,7 +90,7 @@
                     <div class="footer-widget-area mb-70">
                         <a class="d-block mb-4" href="index.html"><img src="~/Content/Theme-Enviro/img/core-img/logo_SM.png" class="logo-height-50" alt=""></a>
                         <p>It's crafted with the latest trend of design & coded with all modern approaches.</p>
-                        
+
                         <div class="footer-social-icon d-flex align-items-center"><a href="#" data-toggle="tooltip" data-placement="top" title="Facbook"><i class="fa fa-facebook"></i></a><a href="#" data-toggle="tooltip" data-placement="top" title="Twitter"><i class="fa fa-twitter"></i></a><a href="#" data-toggle="tooltip" data-placement="top" title="Instagram"><i class="fa fa-instagram"></i></a><a href="#" data-toggle="tooltip" data-placement="top" title="Linkedin"><i class="fa fa-linkedin"></i></a><a href="#" data-toggle="tooltip" data-placement="top" title="Youtube"><i class="fa fa-youtube"></i></a></div>
                     </div>
                 </div>
@@ -180,7 +102,6 @@
                             <li><a href="/Home/HowWeWork" target="_blank">How It Works</a></li>
                             <li><a href="#" target="_blank">Agency</a></li>
                             <li><a href="/Home/Pricing" target="_blank">Pricing</a></li>
-                            <li><a href="#" target="_blank">Blog</a></li>
                         </ul>
                     </div>
                 </div>
@@ -190,7 +111,7 @@
                         <h5 class="widget-title">My Account</h5>
                         <ul>
                             <li>
-                                <div class="login-btn-area"><a class="btn radix-btn white-btn-2  mr-3" href="#">Sign In</a></div>
+                                <div class="login-btn-area"><a class="btn radix-btn white-btn-2  mr-3" href="/Account/Login">Sign In</a></div>
                             </li>
                         </ul>
                     </div>
@@ -209,46 +130,15 @@
                     <!-- Footer Nav-->
                     <div class="footer-nav text-left">
                         <ul class="d-flex">
-                            <li><a href="#" target="_blank">Privacy Policy</a></li>
-                            <li><a href="#" target="_blank">Terms &amp; Conditions</a></li>
+                            <li><a href="/Pages/TermsConditions" target="_blank">Privacy Policy</a></li>
+                            <li><a href="/pages/PrivacyPolicy" target="_blank">Terms &amp; Conditions</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
-    @*<footer class="footer">
-            <div class="row">
-                <div class="col text-center">
-                    RenderSection("footer", required: false)
-                </div>
-            </div>
-            <div class="row">
-                <div class="col text-center">
-                    <img src="~/Content/ThemeAssets/images/social-growth.png" height="28" alt="Social Growth">
-                </div>
-            </div>
-
-        </footer>*@
-
-
-
-    @Html.Partial("~/Views/Shared/Partial/_PartialLoginPopup.cshtml")
-
-    @Html.Partial("~/Views/Shared/Partial/_PartialForgetPasswordPopup.cshtml")
-
-    @Html.Partial("~/Views/Shared/Partial/_PartialSignupPopup.cshtml")
-
     @Html.Partial("~/Views/Shared/Partial/_PartialMessagePopup.cshtml")
-
-    @*@Scripts.Render("~/bundles/jquery")*@
-
-    @*<script src="~/Content/ThemeAssets/js/jquery.min.js"></script>
-        <script src="~/Content/ThemeAssets/js/bootstrap.min.js"></script>*@
-
-
-
-    @*<script src="https://unpkg.com/aos@next/dist/aos.js"></script>*@
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -261,7 +151,29 @@
     <script type="text/javascript">
         var glb_intercomKey = '@_intercomPublishKey';
     </script>
-
+    <!-- All JavaScript Files-->
+    <script src="~/Content/Theme-Enviro/js/jquery.min.js"></script>
+    <script src="~/Content/Theme-Enviro/js/popper.min.js"></script>
+    <script src="~/Content/Theme-Enviro/js/bootstrap.min.js"></script>
+    <script src="~/Content/Theme-Enviro/js/default/classy-nav.min.js"></script>
+    <script src="~/Content/Theme-Enviro/js/default/sticky.js"></script>
+    <script src="~/Content/Theme-Enviro/js/waypoints.min.js"></script>
+    <script src="~/Content/Theme-Enviro/js/jquery.easing.min.js"></script>
+    <script src="~/Content/Theme-Enviro/js/default/jquery.scrollup.min.js"></script>
+    <script src="~/Content/Theme-Enviro/js/owl.carousel.min.js"></script>
+    <script src="~/Content/Theme-Enviro/js/imagesloaded.pkgd.min.js"></script>
+    <script src="~/Content/Theme-Enviro/js/default/isotope.pkgd.min.js"></script>
+    <script src="~/Content/Theme-Enviro/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/Content/Theme-Enviro/js/jquery.animatedheadline.min.js"></script>
+    <script src="~/Content/Theme-Enviro/js/jquery.counterup.min.js"></script>
+    <script src="~/Content/Theme-Enviro/js/wow.min.js"></script>
+    <script src="~/Content/Theme-Enviro/js/jarallax.min.js"></script>
+    <script src="~/Content/Theme-Enviro/js/jarallax-video.min.js"></script>
+    <script src="~/Content/Theme-Enviro/js/default/cookiealert.js"></script>
+    <script src="~/Content/Theme-Enviro/js/default/jquery.passwordstrength.js"></script>
+    <script src="~/Content/Theme-Enviro/js/default/mail.js"></script>
+    <script src="~/Content/Theme-Enviro/js/default/active.js"></script>
+    @Scripts.Render("~/scripts/js")
     @Scripts.Render("~/Scripts/Intercom1.1.js")
 
 
@@ -348,52 +260,12 @@
                 }
             });
 
-            $("a.lnk_ShowLoginModal").on("click", function (e) {
-                $("#login-error").hide().html("");
-                $("#forgetpassword-error").hide().html("");
-
-                $("#Form_Login").validate().resetForm();
-
-                $("#Form_ForgetPassword").validate().resetForm();
-                $(".Modal-LoginStep").removeClass("hide");
-
-                $(".Modal-ForgetPasswordStep").addClass("hide");
-
-                $("#forgetPassowrdMessage").hide();
-                $(".forgetPasswordFields").show();
-                $("#Form_ForgetPassword").trigger("reset");
-                $("#Form_Login").trigger("reset");
-
-                $("#Modal_SignupPopup").modal("hide");
-                $("#Modal_LoginPopup").modal("show");
-
-                e.preventDefault();
-                e.stopPropagation();
-            });
-
-            $("a.lnk_ShowFrogetPasswordModal").on("click", function (e) {
-                $(".Modal-LoginStep").addClass("hide");
-                $(".Modal-ForgetPasswordStep").removeClass("hide");
-
-                e.preventDefault();
-                e.stopPropagation();
-            });
-
-            $("a.lnk_ShowSignupModal").on("click", function (e) {
-                $("h1.signup-success-message").addClass("hide");
-                $("#Form_Signup").show();
-                $("#Form_Signup").validate().resetForm();
-
-                $("#Modal_LoginPopup").modal("hide");
-                $("#Modal_SignupPopup").modal("show");
-                e.preventDefault();
-                e.stopPropagation();
-            });
 
             $(".btn_formLogin").on("click", function (e) {
+
                 $("#login-error").html("");
                 if ($("#Form_Login").valid()) {
-                    $("#LoginSpiner").show();
+                    $("#LoginSpiner").css("display", "inline-block");
                     var frmData = $("#Form_Login").serialize();
                     $.ajax({
                         type: "POST",
@@ -401,58 +273,29 @@
                         data: frmData,
                         dataType: "json",
                         success: function (data) {
+                            $("#LoginSpiner").css("display", "none");
                             if (!$.isEmptyObject(data)) {
                                 if (data.ResultType == "Success") {
                                     //window.location = "/Profile/Target?socialProfileId=" + data.ResultData;
                                     window.location = "/User/Home";
                                 } else {
-                                    $("#LoginSpiner").hide();
+
                                     $("#login-error").show().html(data.message);
                                 }
                             }
                         },
                         failure: function (errMsg) {
-                            $("#LoginSpiner").hide();
+                            $("#LoginSpiner").css("display", "none");
                         }
                     });
-                }
-
-            });
-
-            $(".btn_forgetPassword").on("click", function (e) {
-                $("#forgetpassword-error").html("");
-                if ($("#Form_ForgetPassword").valid()) {
-                    $("#ForgotPassSpiner").show();
-                    var data = $("#Form_ForgetPassword").serialize();
-                    $.ajax({
-                        type: "POST",
-                        url: "/account/forgetpassword",
-                        data: data,
-                        dataType: "json",
-                        success: function (data) {
-                            $("#ForgotPassSpiner").hide();
-                            if (!$.isEmptyObject(data)) {
-                                $("#ForgotPassSpiner").hide();
-                                if (data.ResultType == "Success") {
-                                    $("#forgetPassowrdMessage").show();
-                                    $(".forgetPasswordFields").hide();
-                                } else {
-                                    $("#forgetpassword-error").show().html(data.message);
-                                }
-                            }
-                        },
-                        failure: function (errMsg) {
-                            $("#ForgotPassSpiner").hide();
-                        }
-                    });
-
                 }
 
             });
 
             $(".btn_formSignup").on("click", function (e) {
+
                 if ($("#Form_Signup").valid()) {
-                    $("#SignUpSpinner").show();
+                    $("#SignUpSpinner").css("display", "inline-block");
                     var data = $("#Form_Signup").serialize();
                     $.ajax({
                         type: "POST",
@@ -462,7 +305,7 @@
                         success: function (data) {
                             if (!$.isEmptyObject(data)) {
                                 if (data.ResultType == "Success") {
-                                    $("#SignUpSpinner").hide();
+                                    $("#SignUpSpinner").css("display", "none");
                                     $("#Modal_SignupPopup").modal("hide");
                                     $("#Modal_MessageBoxTitle").text("Account Created Succesfully.!");
                                     $("#Modal_MessageBoxBody").text("Congratulation! Your account has successfully created. Please check your inbox for verification.!");
@@ -470,18 +313,44 @@
                                     $("#Modal_Messagebox").modal("show");
                                 } else {
                                     $("#signup-error").show().html(data.message);
-                                    $("#SignUpSpinner").hide();
+                                    $("#SignUpSpinner").css("display", "none");
                                 }
                             }
                         },
                         failure: function (errMsg) {
-                            $("#SignUpSpinner").hide();
+                            $("#SignUpSpinner").css("display", "none");
                         }
                     });
-                    $("#SignUpSpinner").hide();
                 }
             });
-
+            $(".btn_ForgetPassword").on("click", function (e) {
+                var UsersEmail = $("#UsersEmail").val();
+                if (UsersEmail.toLowerCase() != "") {
+                     $("#ForgotPassSpiner").css("display", "inline-block");
+                    $.ajax({
+                        type: "POST",
+                        url: "/Account/ForgetPassword",
+                        dataType: "json",
+                        success: function (Data) {
+                           $("#ForgotPassSpiner").css("display", "none");
+                            if (!$.isEmptyObject(Data)) {
+                                if (Data.ResultType == "Success") {
+                                    $("#forgotPassword-error").show().html("Your account has been successfully deleted.");
+                                    $("#Modal_Messagebox").modal("show");
+                                } else {
+                                    $("#forgotPassword-error").show().html(data.message);
+                                }
+                            }
+                        },
+                        failure: function (errMsg) {
+                            $("#ForgotPassSpiner").css("display", "none");
+                        }
+                    });
+                }
+                else {
+                    $("#forgotPassword-error").show().html("Email Required.");
+                }
+            });
         });
 
     </script>
@@ -512,28 +381,7 @@
         }
 
     </script>
-    <!-- All JavaScript Files-->
-    <script src="/Content/Theme-Enviro/js/jquery.min.js"></script>
-    <script src="/Content/Theme-Enviro/js/popper.min.js"></script>
-    <script src="/Content/Theme-Enviro/js/bootstrap.min.js"></script>
-    <script src="/Content/Theme-Enviro/js/default/classy-nav.min.js"></script>
-    <script src="/Content/Theme-Enviro/js/default/sticky.js"></script>
-    <script src="/Content/Theme-Enviro/js/waypoints.min.js"></script>
-    <script src="/Content/Theme-Enviro/js/jquery.easing.min.js"></script>
-    <script src="/Content/Theme-Enviro/js/default/jquery.scrollup.min.js"></script>
-    <script src="/Content/Theme-Enviro/js/owl.carousel.min.js"></script>
-    <script src="/Content/Theme-Enviro/js/imagesloaded.pkgd.min.js"></script>
-    <script src="/Content/Theme-Enviro/js/default/isotope.pkgd.min.js"></script>
-    <script src="/Content/Theme-Enviro/js/jquery.magnific-popup.min.js"></script>
-    <script src="/Content/Theme-Enviro/js/jquery.animatedheadline.min.js"></script>
-    <script src="/Content/Theme-Enviro/js/jquery.counterup.min.js"></script>
-    <script src="/Content/Theme-Enviro/js/wow.min.js"></script>
-    <script src="/Content/Theme-Enviro/js/jarallax.min.js"></script>
-    <script src="/Content/Theme-Enviro/js/jarallax-video.min.js"></script>
-    <script src="/Content/Theme-Enviro/js/default/cookiealert.js"></script>
-    <script src="/Content/Theme-Enviro/js/default/jquery.passwordstrength.js"></script>
-    <script src="/Content/Theme-Enviro/js/default/mail.js"></script>
-    <script src="/Content/Theme-Enviro/js/default/active.js"></script>
+
 
 </body>
 </html>

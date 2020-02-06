@@ -3778,6 +3778,8 @@
     <Content Include="Views\Profile\EditorTemplates\Boolean.cshtml" />
     <Content Include="site.webmanifest" />
     <Content Include="Views\Home\Pricing.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Home\Agency.cshtml" />
     <None Include="Views\Shared\Partial\_PartialForgetPasswordPopup.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialSignupPopup.cshtml" />
     <Content Include="Views\User\Home.cshtml" />
