@@ -1252,9 +1252,11 @@
                 }
                 else
                 {
-                    var ChangeType = "Upgrade to " + selectedPlanName +" Plan";
-                var ChangeMsg = "Are you sure you want to upgrade your plan ?";
-                var ChangeBtn = "Let's Upgrade";
+                //    var ChangeType = "Upgrade to " + selectedPlanName +" Plan";
+                //var ChangeMsg = "Are you sure you want to upgrade your plan ?";
+                //var ChangeBtn = "Let's Upgrade";
+                    $("#planSubscriptionModal").modal("show");
+                    return;
                  }
 
                 swal({
