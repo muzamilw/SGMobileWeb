@@ -357,7 +357,7 @@ textarea:invalid {
   border: none;
   display: inline-block;
   color: #ffffff;
-  border-radius: 6px;
+  border-radius: 15px;
   padding: 0 2rem;
   font-size: 14px;
   background-color: #0811FB;
@@ -378,11 +378,12 @@ textarea:invalid {
       box-shadow: 0 3px 42px 2px rgba(255, 255, 255, 0.175); }
   .radix-btn.white-btn-2 {
     background-color: #fdd76e;
-    color: #0b0757; }
+    color: #0b0757 !important; }
     .radix-btn.white-btn-2:hover, .radix-btn.white-btn-2:focus {
-      background-color: #0811FB;
-      color: #ffffff;
-      box-shadow: 0 3px 42px 2px rgba(255, 255, 255, 0.175); }
+        background-color: #0811FB;
+        color: #ffffff !important;
+        box-shadow: 0 3px 42px 2px rgba(255, 255, 255, 0.175);
+    }
   .radix-btn.btn-sm {
     padding: 0 1.25rem;
     height: 40px;
@@ -2265,7 +2266,7 @@ textarea:invalid {
 .partner3 {
   position: relative;
   z-index: 1;
-  background-color: #fdd76e; }
+  background-color: white; }
   .partner3 .single-partner {
     background-color: #ffffff;
     padding-top: 20px;

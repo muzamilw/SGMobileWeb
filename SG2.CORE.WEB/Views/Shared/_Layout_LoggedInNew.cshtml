@@ -36,7 +36,28 @@
     <link rel="manifest" href="/site.webmanifest">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
-
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            }; if (!f._fbq) f._fbq = n;
+            n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
+        }(window,
+            document, 'script', '//connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1185819604852319');
+        fbq('init', '2899883190056318');
+        fbq('init', '722023768308766');
+        fbq('init', '433629843942100');
+        fbq('track', 'PageView'); //tracks a PageView to both initialized pixels
+    </script>
+    <noscript>
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1185819604852319&ev=PageView&noscript=1" />
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2899883190056318&ev=PageView&noscript=1" />
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=722023768308766&ev=PageView&noscript=1" />
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=433629843942100&ev=PageView&noscript=1" />
+    </noscript>
 </head>
 
 <body>
@@ -89,8 +110,7 @@
                 <div class="col-12 col-sm-10 col-lg-4">
                     <div class="footer-widget-area mb-70">
                         <a class="d-block mb-4" href="index.html"><img src="~/Content/Theme-Enviro/img/core-img/logo_SM.png" class="logo-height-50" alt=""></a>
-                        <p>It's crafted with the latest trend of design & coded with all modern approaches.</p>
-
+                        
                         <div class="footer-social-icon d-flex align-items-center"><a href="#" data-toggle="tooltip" data-placement="top" title="Facbook"><i class="fa fa-facebook"></i></a><a href="#" data-toggle="tooltip" data-placement="top" title="Twitter"><i class="fa fa-twitter"></i></a><a href="#" data-toggle="tooltip" data-placement="top" title="Instagram"><i class="fa fa-instagram"></i></a><a href="#" data-toggle="tooltip" data-placement="top" title="Linkedin"><i class="fa fa-linkedin"></i></a><a href="#" data-toggle="tooltip" data-placement="top" title="Youtube"><i class="fa fa-youtube"></i></a></div>
                     </div>
                 </div>
@@ -99,9 +119,9 @@
                     <div class="footer-widget-area mb-70">
                         <h5 class="widget-title">Important Links</h5>
                         <ul>
-                            <li><a href="/Home/HowWeWork" target="_blank">How It Works</a></li>
-                            <li><a href="#" target="_blank">Agency</a></li>
-                            <li><a href="/Home/Pricing" target="_blank">Pricing</a></li>
+                            <li><a href="/Home/HowWeWork">How It Works</a></li>
+                            <li><a href="/Home/Agency">Agencies</a></li>
+                            <li><a href="/Home/Pricing">Pricing</a></li>
                         </ul>
                     </div>
                 </div>
@@ -123,7 +143,7 @@
                 <div class="col-12 col-md-6 col-lg-5">
                     <!-- Copywrite Text-->
                     <div class="footer--content-text">
-                        <p class="mb-0">All rights reserved by <a href="#" target="_blank">Social Growth Lab Inc.</a></p>
+                        <p class="mb-0">All rights reserved by &nbsp; <a href="/Home">Social Growth Lab Inc.</a></p>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-7">
@@ -148,9 +168,7 @@
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Content/ThemeAssets/js/owl.carousel.min.js"></script>
     <script src="~/Content/ThemeAssets/js/functions.js"></script>
-    <script type="text/javascript">
-        var glb_intercomKey = '@_intercomPublishKey';
-    </script>
+   
     <!-- All JavaScript Files-->
     <script src="~/Content/Theme-Enviro/js/jquery.min.js"></script>
     <script src="~/Content/Theme-Enviro/js/popper.min.js"></script>
@@ -174,8 +192,11 @@
     <script src="~/Content/Theme-Enviro/js/default/mail.js"></script>
     <script src="~/Content/Theme-Enviro/js/default/active.js"></script>
     @Scripts.Render("~/scripts/js")
-    @Scripts.Render("~/Scripts/Intercom1.1.js")
+    <script type="text/javascript">
+        var glb_intercomKey = '@_intercomPublishKey';
+    </script>
 
+    @Scripts.Render("~/Scripts/Intercom1.1.js")
 
     <script type="text/javascript">
 
@@ -326,13 +347,13 @@
             $(".btn_ForgetPassword").on("click", function (e) {
                 var UsersEmail = $("#UsersEmail").val();
                 if (UsersEmail.toLowerCase() != "") {
-                     $("#ForgotPassSpiner").css("display", "inline-block");
+                    $("#ForgotPassSpiner").css("display", "inline-block");
                     $.ajax({
                         type: "POST",
                         url: "/Account/ForgetPassword",
                         dataType: "json",
                         success: function (Data) {
-                           $("#ForgotPassSpiner").css("display", "none");
+                            $("#ForgotPassSpiner").css("display", "none");
                             if (!$.isEmptyObject(Data)) {
                                 if (Data.ResultType == "Success") {
                                     $("#forgotPassword-error").show().html("Your account has been successfully deleted.");
