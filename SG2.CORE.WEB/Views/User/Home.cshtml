@@ -444,7 +444,7 @@
                 <div class="modal-body">
                     <label>Please enter valid Instagram Username below :</label>
                     <div class="form-group position-relative">
-                        <input type="text" placeholder="Instagram Username" class="form-control" name="IntagramUserName" required>
+                        <input type="text" placeholder="Instagram Username" class="form-control" name="IntagramUserName" >
                        
 
                     </div>
@@ -473,7 +473,7 @@
                 <div class="modal-body p-3">
                     <label>Following information will be used to white label the modile app for your profiles.</label>
                     <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="App Name" class="form-control position-inside-maxlength" name="BrokerAppName" value="@Customer.BrokerAppName" required maxlength="100">
+                        <input type="text" placeholder="App Name" class="form-control position-inside-maxlength" name="BrokerAppName" value="@Customer.BrokerAppName"  maxlength="100">
                         <div class="form-control-position">
                             <i class="fa fa-file font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -481,7 +481,7 @@
                     </div>
 
                     <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="Strap Line" class="form-control position-inside-maxlength" name="BrokerStrapLine" value="@Customer.BrokerStrapLine" required maxlength="500">
+                        <input type="text" placeholder="Strap Line" class="form-control position-inside-maxlength" name="BrokerStrapLine" value="@Customer.BrokerStrapLine"  maxlength="500">
                         <div class="form-control-position">
                             <i class="fa fa-file-text font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -489,7 +489,7 @@
                     </div>
 
                     <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="App Aspect Color" class="form-control position-inside-maxlength" name="BrokerAspectColor" value="@Customer.BrokerAspectColor" id="BrokerAspectColor" required maxlength="50">
+                        <input type="text" placeholder="App Aspect Color" class="form-control position-inside-maxlength" name="BrokerAspectColor" value="@Customer.BrokerAspectColor" id="BrokerAspectColor"  maxlength="50">
                         <div class="form-control-position">
                             <i class="fa fa-pencil font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -497,7 +497,7 @@
                     </div>
 
                     <div class="form-group position-relative has-icon-left">
-                        <input type="url" pattern="https://.*" placeholder="https:// Training Link" class="form-control position-inside-maxlength" name="BrokerTrainingLink" value="@Customer.BrokerTrainingLink" required maxlength="500">
+                        <input type="url" pattern="https://.*" placeholder="https:// Training Link" class="form-control position-inside-maxlength" name="BrokerTrainingLink" value="@Customer.BrokerTrainingLink"  maxlength="500">
                         <div class="form-control-position">
                             <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -505,7 +505,7 @@
                     </div>
 
                     <div class="form-group position-relative has-icon-left">
-                        <input type="url" pattern="https://.*" placeholder="https:// Terms Of Use Link" class="form-control position-inside-maxlength" name="BrokerTermsOfUse" value="@Customer.BrokerTermsOfUse" required maxlength="500">
+                        <input type="url" pattern="https://.*" placeholder="https:// Terms Of Use Link" class="form-control position-inside-maxlength" name="BrokerTermsOfUse" value="@Customer.BrokerTermsOfUse"  maxlength="500">
                         <div class="form-control-position">
                             <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -513,7 +513,7 @@
                     </div>
 
                     <div class="form-group position-relative has-icon-left">
-                        <input type="url" pattern="https://.*" placeholder="https:// Privacy Policy Link" class="form-control position-inside-maxlength" name="BrokerPrivacyPolicy" value="@Customer.BrokerPrivacyPolicy" required maxlength="500">
+                        <input type="url" pattern="https://.*" placeholder="https:// Privacy Policy Link" class="form-control position-inside-maxlength" name="BrokerPrivacyPolicy" value="@Customer.BrokerPrivacyPolicy"  maxlength="500">
                         <div class="form-control-position">
                             <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -521,7 +521,7 @@
                     </div>
 
                     <div class="form-group position-relative has-icon-left">
-                        <input type="url" pattern="https://.*" placeholder="https:// Feedback Page Link" class="form-control position-inside-maxlength" name="BrokerFeedbackPage" value="@Customer.BrokerFeedbackPage" required maxlength="500">
+                        <input type="url" pattern="https://.*" placeholder="https:// Feedback Page Link" class="form-control position-inside-maxlength" name="BrokerFeedbackPage" value="@Customer.BrokerFeedbackPage"  maxlength="500">
                         <div class="form-control-position">
                             <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -529,7 +529,7 @@
                     </div>
 
                     <div class="form-group position-relative has-icon-left">
-                        <input type="url" pattern="https://.*" placeholder="https:// Home Page Link" class="form-control position-inside-maxlength" name="BrokerHomePage" value="@Customer.BrokerHomePage" required maxlength="500">
+                        <input type="url" pattern="https://.*" placeholder="https:// Home Page Link" class="form-control position-inside-maxlength" name="BrokerHomePage" value="@Customer.BrokerHomePage"  maxlength="500">
                         <div class="form-control-position">
                             <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -556,7 +556,7 @@
                         <input type="file" class="form-control-file" id="uploadImage" onchange="selectFile()">
 
                         <input type="hidden" name="BrokerLogoUpload" id="BrokerLogoUpload" />
-                        @*<input type="text" placeholder="Home Page Link" class="form-control position-inside-maxlength" name="BrokerLogo" value="@Customer.BrokerLogo" required maxlength="500">
+                        @*<input type="text" placeholder="Home Page Link" class="form-control position-inside-maxlength" name="BrokerLogo" value="@Customer.BrokerLogo"  maxlength="500">
                             <div class="form-control-position">
                                 <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
                             </div>*@
@@ -599,15 +599,15 @@
                         <fieldset>
                             <div class="row">
                                 <label for="example1-name" data-tid="elements_examples.form.name_label">Name on card</label>
-                                <input id="example1-name" data-tid="elements_examples.form.name_placeholder" type="text" placeholder="Jane Doe" required="" autocomplete="name" value="@currentUser.FirstName">
+                                <input id="example1-name" data-tid="elements_examples.form.name_placeholder" type="text" placeholder="Jane Doe" ="" autocomplete="name" value="@currentUser.FirstName">
                             </div>
                             <div class="row">
                                 <label for="example1-email" data-tid="elements_examples.form.email_label">Email</label>
-                                <input id="example1-email" data-tid="elements_examples.form.email_placeholder" type="email" placeholder="janedoe@gmail.com" required="" autocomplete="email" value="@currentUser.EmailAddress">
+                                <input id="example1-email" data-tid="elements_examples.form.email_placeholder" type="email" placeholder="janedoe@gmail.com" ="" autocomplete="email" value="@currentUser.EmailAddress">
                             </div>
                             <div class="row">
                                 <label for="example1-phone" data-tid="elements_examples.form.phone_label">Phone</label>
-                                <input id="example1-phone" data-tid="elements_examples.form.phone_placeholder" type="tel" placeholder="(941) 555-0123" required="" autocomplete="tel" value="@(currentUser.PhoneCode + " " + currentUser.PhoneNumber)">
+                                <input id="example1-phone" data-tid="elements_examples.form.phone_placeholder" type="tel" placeholder="(941) 555-0123" ="" autocomplete="tel" value="@(currentUser.PhoneCode + " " + currentUser.PhoneNumber)">
                             </div>
                         </fieldset>
 
