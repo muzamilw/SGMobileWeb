@@ -533,7 +533,7 @@
                                                     {
                                                         case 1: filename = "free.png";break;
                                                         case 2: filename = "pro.png"; break;
-                                                        case 3: filename = "platinum.png"; break;
+                                                        case 7: filename = "platinum.png"; break;
                                                         case 4: filename = "agency.png"; break;
                                                         default:
                                                             break;
@@ -1252,9 +1252,11 @@
                 }
                 else
                 {
-                    var ChangeType = "Upgrade to " + selectedPlanName +" Plan";
-                var ChangeMsg = "Are you sure you want to upgrade your plan ?";
-                var ChangeBtn = "Let's Upgrade";
+                //    var ChangeType = "Upgrade to " + selectedPlanName +" Plan";
+                //var ChangeMsg = "Are you sure you want to upgrade your plan ?";
+                //var ChangeBtn = "Let's Upgrade";
+                    $("#planSubscriptionModal").modal("show");
+                    return;
                  }
 
                 swal({
