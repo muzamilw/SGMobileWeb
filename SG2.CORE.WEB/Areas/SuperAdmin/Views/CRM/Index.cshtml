@@ -200,7 +200,7 @@
                                     <th scope="col" >Name</th>
                                     <th scope="col">Plan</th>
                                     <th scope="col">Broker/Regular</th>
-                                    
+                                    <th scope="col">Status</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -208,28 +208,30 @@
 
                                 @foreach (var item in Model.CustomerListing)
                                 {
-                                    <tr>
-                                        <td data-label="ID">
-                                            <div style="width: 30px;
+                                <tr>
+                                    <td data-label="ID">
+                                        <div style="width: 30px;
     float: left;">
-                                                <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="24">
-                                            </div>
-                                            <div >
-                                                <a style="color:black;" href="@BaseURl/crm/detailpage?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))">@(string.IsNullOrEmpty(item.InstaUsrName) ? "--" : item.InstaUsrName)</a><br />
-                                                @(string.IsNullOrEmpty(item.CustomerEmail) ? "--" : item.CustomerEmail) <br />
+                                            <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="24">
+                                        </div>
+                                        <div>
+                                            <a style="color:black;" href="@BaseURl/crm/detailpage?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))">@(string.IsNullOrEmpty(item.InstaUsrName) ? "--" : item.InstaUsrName)</a><br />
+                                            @(string.IsNullOrEmpty(item.CustomerEmail) ? "--" : item.CustomerEmail) <br />
 
-                                            </div>
-                                            
-                                        </td>
-                                        <td data-label="Products" class="product">@(string.IsNullOrEmpty(item.Products) ? "--" : item.Products)</td>
+                                        </div>
 
-                                        <td data-label="Box">@(item.BrokerAccount ? "Broker" : "Regular")</td>
-                                        @*<td data-label="Status" class="status">@item.Status</td>*@
-                                        @*<td data-label="JVBoxStatus" class="JVBoxStatus">@(string.IsNullOrEmpty(item.JVBoxStatus) ? "--" : item.JVBoxStatus)</td>*@
-                                        <td data-label="Action" class="status">
-                                            <a href="@BaseURl/crm/TargettingInformation?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))"><i class="fa fa-edit"></i></a>
-                                        </td>
-                                    </tr>
+                                    </td>
+                                    <td data-label="Products" class="product">@(string.IsNullOrEmpty(item.Products) ? "--" : item.Products)</td>
+
+                                    <td data-label="Box">@(item.BrokerAccount ? "Broker" : "Regular")</td>
+                                    @*<td data-label="Status" class="status">@item.Status</td>*@
+                                    @*<td data-label="JVBoxStatus" class="JVBoxStatus">@(string.IsNullOrEmpty(item.JVBoxStatus) ? "--" : item.JVBoxStatus)</td>*@
+                                    <td data-label="Status" class="product">@(item.Status)</td>
+
+                                    <td data-label="Action" class="status">
+                                        <a href="@BaseURl/crm/TargettingInformation?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))"><i class="fa fa-edit"></i></a>
+                                    </td>
+                                </tr>
                                 }
                             </tbody>
                         </table>
