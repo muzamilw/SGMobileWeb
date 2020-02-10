@@ -805,7 +805,7 @@
             });
 
             $("#newprofileForm").on("submit", function () {
-                debugger;
+                
                 var SocialProfileCount = @socailProfiles.Count();
 
                 //if ($("#Form_UpdatePassword").valid()) {
@@ -859,7 +859,7 @@
 
 
             $("#AfilliateProfileForm").on("submit", function () {
-                debugger;
+               
 
                 //if ($("#Form_UpdatePassword").valid()) {
 
@@ -1063,7 +1063,7 @@
                     else if (isConfirm && existingStripeSubscriptionId != "") {
                         //swal.enableLoading();
                         //swal("OK", "It's safe.", "error");
-                        debugger;
+                        
                         fetch('/profile/CreateStripeCustomerSubscription', {
                             method: 'post',
                             headers: {
