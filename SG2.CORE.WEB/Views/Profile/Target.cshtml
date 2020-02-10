@@ -276,7 +276,7 @@
                             <div class="row" style="display:inline">
                                 <h2 class="text-center">You are subscribing to a monthly plan :</h2>
                                 <h1 class="text-center selectedPlanName mt-1"></h1>
-                                <h2 class="text-center selectedPlanPrice mt-1"></h2>
+                                <h1 class="text-center selectedPlanPrice mt-1"></h1>
                                 <input type="hidden" id="selectedPlanId" />
                                 <input type="hidden" id="existingStripeCustomerId" value="@Model.SocialProfile.StripeCustomerId" />
                                 <input type="hidden" id="existingStripeSubscriptionId" value="@Model.SocialProfile.StripeSubscriptionId" />
@@ -621,7 +621,7 @@
                                                 </div>
                                             </div>
 
-                                            @*<div class="border-bottom-social-profile col-md-12 ml-0 mr-0 row mt-1">
+                                            <div class="border-bottom-social-profile col-md-12 ml-0 mr-0 row mt-1">
                                                 <h4 class="col-lg-8 col-md-8 col-sm-12 card-title form-section pl-0 mb-0" style="border-bottom:0px;">Unfollow users </h4>
                                                 
                                                 <div class="col-lg-4 col-md-4 col-sm-12 text-right pr-0 mb-1">
@@ -630,7 +630,7 @@
                                                     </ul>
                                                     @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays)
                                                 </div>
-                                            </div>*@
+                                            </div>
 
                                             <div class="border-bottom-social-profile col-md-12 ml-0 mr-0 row mt-1">
                                                 <h4 class="col-lg-8 col-md-8 col-sm-12 card-title form-section pl-0 mb-0" style="border-bottom:0px;">Follow</h4>
@@ -742,7 +742,7 @@
                 </div>
 
 
-                <div class="card">
+                <div class="card hidden">
                     <div class="card-header">
                         <h4 class="card-title form-section">UN-FOLLOW</h4>
                         

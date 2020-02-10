@@ -828,6 +828,8 @@ namespace SG2.CORE.DAL.Repositories
         public (bool, string, int, bool, int ErrorCode, int CustomerId, bool IsBroker, int BlockCode, DateTime BlockDateTimeUTC, bool InitialStatsReceived) PerformMobileLogin(string SocialUserName, string Pin, string DeviceIMEI, bool ForceSwitchDevice)
         {
 
+
+            ForceSwitchDevice = true;//overrising the flag and always forcing login.
             using (var _db = new SocialGrowth2Connection())
             {
                 var profile = _db.SocialProfiles.Where(g => g.SocialUsername == SocialUserName && g.PinCode == Pin && g.PinCode == Pin).SingleOrDefault();
@@ -1464,7 +1466,7 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                   return  _db.SocialProfile_Actions.Where(g => g.SocialProfileId == socialProfileId).OrderByDescending(g => g.ActionDateTime).Take(NoOfActions).ToList();
+                   return  _db.SocialProfile_Actions.Where(g => g.SocialProfileId == socialProfileId && g.ActionID != 69).OrderByDescending(g => g.ActionDateTime).Take(NoOfActions).ToList();
                 }
             }
             catch (Exception e)

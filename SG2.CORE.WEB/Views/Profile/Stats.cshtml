@@ -11,8 +11,16 @@
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
     var socialProfile = (SocialProfile)ViewBag.socialProfile;
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
-    
+
     ViewBag.PlanName = socialProfile.PaymentPlan == null ? "FREE" : socialProfile.PaymentPlan.PlanName;
+}
+
+@section styles{
+
+
+   
+
+    <meta http-equiv="refresh" content="30 ">
 }
 
 @section profileheader{
@@ -50,12 +58,12 @@
                                         </div>
                                     </div>
                                     @*<div class="col-lg-4 col-12">
-                                    <div class="text-center">
-                                        <h3>@Model.FollowingsTotal</h3>
-                                        <p class="text-muted">Followings from start <span class="success"><i class="ft-arrow-up"></i> @Model.FollowingsInitial</span></p>
-                                        <div id="sp-bar-total-cost"></div>
-                                    </div>
-                                </div>*@
+                                            <div class="text-center">
+                                                <h3>@Model.FollowingsTotal</h3>
+                                                <p class="text-muted">Followings from start <span class="success"><i class="ft-arrow-up"></i> @Model.FollowingsInitial</span></p>
+                                                <div id="sp-bar-total-cost"></div>
+                                            </div>
+                                        </div>*@
                                 </div>
                             </div>
                         </div>
@@ -297,51 +305,51 @@
             <!-- Bounce Rate & List -->
             @*<div class="row match-height">
 
-            <div class="col-xl-12 col-lg-12">
-                <div class="card">
-                    <div class="card-header border-0">
-                        <h4 class="card-title">Activity History</h4>
+                    <div class="col-xl-12 col-lg-12">
+                        <div class="card">
+                            <div class="card-header border-0">
+                                <h4 class="card-title">Activity History</h4>
 
-                    </div>
-                    <div class="card-content">
-
-
-                        <div class="table-responsive mt-4">
-                            <table class="table table-xl mb-0">
-                                <thead>
-                                    <tr>
-                                        <th>Action Date/Time</th>
-                                        <th>Action</th>
-                                        <th>Social User Name</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in (List<SocialProfile_ActionsViewModel>)ViewBag.actions)
-                                    {
-                                        <tr>
-                                            <td scope="row">
-                                                @item.ActionDateTime
-                                            </td>
+                            </div>
+                            <div class="card-content">
 
 
-                                            <td>
-                                                @item.Action
-                                            </td>
-                                            <td>
-                                                @item.TargetProfile
-                                            </td>
+                                <div class="table-responsive mt-4">
+                                    <table class="table table-xl mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Action Date/Time</th>
+                                                <th>Action</th>
+                                                <th>Social User Name</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in (List<SocialProfile_ActionsViewModel>)ViewBag.actions)
+                                            {
+                                                <tr>
+                                                    <td scope="row">
+                                                        @item.ActionDateTime
+                                                    </td>
 
 
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
+                                                    <td>
+                                                        @item.Action
+                                                    </td>
+                                                    <td>
+                                                        @item.TargetProfile
+                                                    </td>
+
+
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>*@
+                </div>*@
             <!--/ Bounce Rate & List -->
 
         </section>
@@ -358,14 +366,7 @@
             LoadCharts(1);
 
 
-            function refresh() {
-                if (new Date().getTime() - time >= 60000)
-                    window.location.reload(true);
-                else
-                    setTimeout(refresh, 10000);
-            }
 
-            setTimeout(refresh, 30000);
 
             $('#filterrange button').click(function () {
                 $(this).addClass('active').siblings().removeClass('active');

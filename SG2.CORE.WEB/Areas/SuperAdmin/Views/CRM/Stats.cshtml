@@ -70,13 +70,15 @@
 
 @section styles{
 
-   
+
     <style>
         .information-wrap {
             margin-top: 20px;
             margin-bottom: 20px;
         }
     </style>
+
+    <meta http-equiv="refresh" content="30">
 }
 
 <div class="information-wrap main">
@@ -132,7 +134,7 @@
                                 <div class="row my-1">
                                     <div class="col-lg-4 col-12">
                                         <div class="text-center">
-                                            <h3>@(Math.Round(Model.LastSessionIndex??0,2))</h3>
+                                            <h3>@(Math.Round(Model.LastSessionIndex ?? 0, 2))</h3>
                                             <p class="text-muted">Last Session Index </p>
                                             <div id="sp-tristate-bar-total-revenue"></div>
                                         </div>
@@ -145,12 +147,12 @@
                                         </div>
                                     </div>
                                     @*<div class="col-lg-4 col-12">
-                                    <div class="text-center">
-                                        <h3>@Model.FollowingsTotal</h3>
-                                        <p class="text-muted">Followings from start <span class="success"><i class="ft-arrow-up"></i> @Model.FollowingsInitial</span></p>
-                                        <div id="sp-bar-total-cost"></div>
-                                    </div>
-                                </div>*@
+                                            <div class="text-center">
+                                                <h3>@Model.FollowingsTotal</h3>
+                                                <p class="text-muted">Followings from start <span class="success"><i class="ft-arrow-up"></i> @Model.FollowingsInitial</span></p>
+                                                <div id="sp-bar-total-cost"></div>
+                                            </div>
+                                        </div>*@
                                 </div>
                             </div>
                         </div>
@@ -174,7 +176,7 @@
                                         <i class="icon-user-follow primary primary font-large-2 float-right"></i>
                                     </div>
                                 </div>
-                               
+
                             </div>
                         </div>
                     </div>
@@ -192,7 +194,7 @@
                                         <i class="icon-dislike danger font-large-2 float-right"></i>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -210,7 +212,7 @@
                                         <i class="icon-heart success font-large-2 float-right"></i>
                                     </div>
                                 </div>
-                               
+
                             </div>
                         </div>
                     </div>
@@ -228,7 +230,7 @@
                                         <i class="icon-camera warning font-large-2 float-right"></i>
                                     </div>
                                 </div>
-                               
+
                             </div>
                         </div>
                     </div>
@@ -454,14 +456,7 @@
         $("document").ready(function () {
             LoadCharts(1);
 
-            function refresh() {
-                if (new Date().getTime() - time >= 60000)
-                    window.location.reload(true);
-                else
-                    setTimeout(refresh, 10000);
-            }
-
-            setTimeout(refresh, 30000);
+           
 
             $('#filterrange button').click(function () {
                 $(this).addClass('active').siblings().removeClass('active');
