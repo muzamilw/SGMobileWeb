@@ -2606,7 +2606,10 @@
     <Content Include="Content\Images\Agencies_2.gif" />
     <Content Include="Content\Images\agency.png" />
     <Content Include="Content\Images\bg_image.gif" />
+    <Content Include="Content\Images\boho.png" />
+    <Content Include="Content\Images\ecocoonut.png" />
     <Content Include="Content\Images\free.png" />
+    <Content Include="Content\Images\glitzgamom.png" />
     <Content Include="Content\Images\HIW_1.gif" />
     <Content Include="Content\Images\HIW_2.gif" />
     <Content Include="Content\Images\HIW_3.gif" />
@@ -2622,6 +2625,8 @@
     <Content Include="Content\Images\Pricing_option_1.gif" />
     <Content Include="Content\Images\Pricing_Option_2.gif" />
     <Content Include="Content\Images\pro.png" />
+    <Content Include="Content\Images\signature.gif" />
+    <Content Include="Content\Images\social_growth.png" />
     <Content Include="Content\Theme-Enviro\css\animate.css" />
     <Content Include="Content\Theme-Enviro\css\bootstrap.min.css" />
     <Content Include="Content\Theme-Enviro\css\default\classy-nav.min.css" />
