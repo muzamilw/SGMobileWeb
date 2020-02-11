@@ -172,7 +172,7 @@ table {
 
 body {
     font-size: 14px;
-    font-family: Roboto, Arial, sans-serif;
+    font-family: Roboto, Arial, sans-serif !important;
     background-color: #f7f7f7;
 }
 
@@ -742,7 +742,7 @@ input.transition {
 }
 
 .information-form-inner input[type=password] {
-    height: 47px;
+    height: 37px;
 }
 
 .information-form-inner,

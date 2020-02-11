@@ -43,56 +43,57 @@
     <link href="~/Content/ThemeAssets/css/backendcss.css" rel="stylesheet" />
     <link href="~/Content/ThemeAssets/css/style.css" rel="stylesheet" type="text/css">
 
-        <style type="text/css">
+    <style type="text/css">
 
-            .form-wrap .search-wrap input[type=search] {
-                   font-size: 0.85rem;
-    line-height: 22px;
-    height: 35px;
-            }
+        .form-wrap .search-wrap input[type=search] {
+            font-size: 0.85rem;
+            line-height: 22px;
+            height: 35px;
+        }
 
-            input[type=search] {
-                border-bottom: 2px solid #eceffb;
-                font-style: normal;
-                padding: 0px 24px 10px;
-            }
+        input[type=search] {
+            border-bottom: 2px solid #eceffb;
+            font-style: normal;
+            padding: 0px 24px 10px;
+        }
 
-            button.searchBtn {
-                height:37px;
-            }
+        button.searchBtn {
+            height: 37px;
+        }
 
-            button.width {
-                width: 60px;
-            }
+        button.width {
+            width: 60px;
+        }
 
-            .product-list-inner {
-                background-color: #fff;
-            }
-            .pagination{
-                float:right;
-            }
-        </style>
-    }
+        .product-list-inner {
+            background-color: #fff;
+        }
 
-    <div class="main">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <h2>CRM</h2>
-                </div>
+        .pagination {
+            float: right;
+        }
+    </style>
+}
+
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>CRM</h2>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="form-wrap">
-        <div class="container">
-            <div class="inner-colmn">
-                @using (Html.BeginForm("Index", "CRM", FormMethod.Get, new { @id = "Form_SearchCriteria" }))
-                {
+<div class="form-wrap">
+    <div class="container">
+        <div class="inner-colmn">
+            @using (Html.BeginForm("Index", "CRM", FormMethod.Get, new { @id = "Form_SearchCriteria" }))
+            {
                 <div class="row">
                     <div class="col-md-3 col-sm-12 mb-2">
                         <div class="search-wrap clearfix">
-                            @Html.TextBoxFor(model => model.SearchCriteria, htmlAttributes: new { @placeholder = "Search here", @type = "search" })
+                            @Html.TextBoxFor(model => model.SearchCriteria, htmlAttributes: new { @placeholder = "Search here", @type = "search", @class = "input" })
                         </div>
                     </div>
                     <div class="col-md-2 col-sm-12 mb-2">
@@ -121,13 +122,14 @@
                                         var aAttributes = new Dictionary<string, object>();
                                         aAttributes.Add(@"class", "custom-control-input");
                                         aAttributes.Add(@"id", "customRadio1");
+                                        aAttributes.Add("onchange ", "this.form.submit();");
                                         if (Model.profileType == null)
                                         {
                                             aAttributes.Add("Checked", "checked");
                                         }
                                     }
                                     @Html.RadioButtonFor(model => model.profileType, "", aAttributes)
-                                    
+
 
 
                                     <label class="custom-control-label" for="customRadio1">All</label>
@@ -140,6 +142,8 @@
                                         var cAttributes = new Dictionary<string, object>();
                                         cAttributes.Add(@"class", "custom-control-input");
                                         cAttributes.Add(@"id", "customRadio2");
+                                         cAttributes.Add("onchange ", "this.form.submit();");
+                                        
                                         if (Model.profileType == 0)
                                         {
                                             cAttributes.Add("Checked", "checked");
@@ -151,110 +155,119 @@
                             </fieldset>
                             <fieldset>
                                 <div class="custom-control custom-radio">
-                                    @{ 
+                                    @{
 
                                         var bAttributes = new Dictionary<string, object>();
                                         bAttributes.Add(@"class", "custom-control-input");
                                         bAttributes.Add(@"id", "customRadio3");
+                                         bAttributes.Add("onchange ", "this.form.submit();");
+                                        
                                         if (Model.profileType == 0)
                                         {
                                             bAttributes.Add("Checked", "checked");
                                         }
                                     }
                                     @Html.RadioButtonFor(model => model.profileType, "1", bAttributes)
-                                    
+
                                     <label class="custom-control-label" for="customRadio3">Broker Profiles</label>
                                 </div>
                             </fieldset>
                         </div>
-                </div>
-                       
-                        <div class="col-md-3 col-sm-12 ">
-                            <div class="product">
-                                <label class="d-block">&nbsp;</label>
-                                <button type="submit" class="btn btn-primary d-inline-block" value="SearchCriteria">
-                                    <i class="fa fa-search"></i> Search
-                                </button>
+                    </div>
 
-                                <a href="@BaseURl/crm" id="" class="btn btn-secondary d-inline-block">
-                                    <i class="fa fa-times-circle"></i> Reset
-                                </a>
-                            </div>
+                    <div class="col-md-3 col-sm-12 ">
+                        <div class="product">
+                            <label class="d-block">&nbsp;</label>
+                          
+                            <a href="@BaseURl/crm" id="" class="btn btn-secondary d-inline-block">
+                                <i class="fa fa-times-circle"></i> Reset
+                            </a>
                         </div>
-                       
-                       
                     </div>
-                }
-            </div>
+
+
+                </div>
+            }
         </div>
     </div>
+</div>
 
-    <div class="product-listing-sec">
-        <div class="container">
-            <div class="product-list-inner">
-                <div class="row">
-                    <div class="col-xs-12 table-responsive">
-                        <table id="ResponsiveTable" class="table table-xl mb-0 table-hover">
-                            <thead>
+<div class="product-listing-sec">
+    <div class="container">
+        <div class="product-list-inner">
+            <div class="row">
+                <div class="col-xs-12 table-responsive">
+                    <table id="ResponsiveTable" class="table table-xl mb-0 table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Plan</th>
+                                <th scope="col">Broker/Regular</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model.CustomerListing)
+                            {
                                 <tr>
-                                    <th scope="col" >Name</th>
-                                    <th scope="col">Plan</th>
-                                    <th scope="col">Broker/Regular</th>
-                                    
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                @foreach (var item in Model.CustomerListing)
-                                {
-                                    <tr>
-                                        <td data-label="ID">
-                                            <div style="width: 30px;
+                                    <td data-label="ID">
+                                        <div style="width: 30px;
     float: left;">
-                                                <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="24">
-                                            </div>
-                                            <div >
-                                                <a style="color:black;" href="@BaseURl/crm/detailpage?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))">@(string.IsNullOrEmpty(item.InstaUsrName) ? "--" : item.InstaUsrName)</a><br />
-                                                @(string.IsNullOrEmpty(item.CustomerEmail) ? "--" : item.CustomerEmail) <br />
+                                            <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="24">
+                                        </div>
+                                        <div>
+                                            <a style="color:black;" href="@BaseURl/crm/detailpage?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))">@(string.IsNullOrEmpty(item.InstaUsrName) ? "--" : item.InstaUsrName)</a><br />
+                                            @(string.IsNullOrEmpty(item.CustomerEmail) ? "--" : item.CustomerEmail) <br />
 
-                                            </div>
-                                            
-                                        </td>
-                                        <td data-label="Products" class="product">@(string.IsNullOrEmpty(item.Products) ? "--" : item.Products)</td>
+                                        </div>
 
-                                        <td data-label="Box">@(item.BrokerAccount ? "Broker" : "Regular")</td>
-                                        @*<td data-label="Status" class="status">@item.Status</td>*@
-                                        @*<td data-label="JVBoxStatus" class="JVBoxStatus">@(string.IsNullOrEmpty(item.JVBoxStatus) ? "--" : item.JVBoxStatus)</td>*@
-                                        <td data-label="Action" class="status">
-                                            <a href="@BaseURl/crm/TargettingInformation?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))"><i class="fa fa-edit"></i></a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                                    </td>
+                                    <td data-label="Products" class="product">@(string.IsNullOrEmpty(item.Products) ? "--" : item.Products)</td>
+
+                                    <td data-label="Box">@(item.BrokerAccount ? "Broker" : "Regular")</td>
+                                    @*<td data-label="Status" class="status">@item.Status</td>*@
+                                    @*<td data-label="JVBoxStatus" class="JVBoxStatus">@(string.IsNullOrEmpty(item.JVBoxStatus) ? "--" : item.JVBoxStatus)</td>*@
+                                    <td data-label="Status" class="product">@(item.Status)</td>
+
+                                    <td data-label="Action" class="status">
+                                        <a href="@BaseURl/crm/TargettingInformation?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))"><i class="fa fa-edit"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="pagination-wrap">
-                Page @(Model.TotalRecord < Model.PageNumber ? 0 : Model.PageNumber)
-                of @Model.TotalRecord   @Html.PagedListPager((IPagedList<CustomerListingViewModel>)Model.CustomerListing, page => Url.Action("Index", new { page, Model.SearchCriteria, Model.StatusId, Model.ProductId }))
-            </div>
+        </div>
+        <div class="pagination-wrap">
+            Page @(Model.TotalRecord < Model.PageNumber ? 0 : Model.PageNumber)
+            of @Model.TotalRecord   @Html.PagedListPager((IPagedList<CustomerListingViewModel>)Model.CustomerListing, page => Url.Action("Index", new { page, Model.SearchCriteria, Model.StatusId, Model.ProductId }))
         </div>
     </div>
+</div>
 
 
 
 
-    @section scripts{
-        <script type="text/javascript">
+@section scripts{
+    <script type="text/javascript">
 
-            $(document).ready(function () {
-
+        $(document).ready(function () {
+            $('.input').keypress(function (e) {
+                if (e.which == 13) {
+                    $('#Form_SearchCriteria').submit();
+                    return false;    //<---- Add this line
+                }
             });
+            $('#ProductId,#Subscription,#profileType').change(function () {
+                this.form.submit();
+            });
+        });
 
 
 
-        </script>
+    </script>
 
-    }
+}
