@@ -1190,6 +1190,10 @@
           <Property Type="String" Name="CustomerEmail" Nullable="true" MaxLength="250" />
           <Property Type="Int32" Name="TotalRecord" Nullable="true" />
           <Property Type="Boolean" Name="IsBroker" Nullable="false" />
+          <Property Type="Boolean" Name="FollowOn" Nullable="true" />
+          <Property Type="Boolean" Name="UnFollFollowersAfterMinDays" Nullable="true" />
+          <Property Type="Boolean" Name="AfterFollLikeuserPosts" Nullable="true" />
+          <Property Type="Boolean" Name="AfterFollViewUserStory" Nullable="true" />
         </ComplexType>
         <ComplexType Name="SG2_usp_Login_Customers_Result">
           <Property Type="Int32" Name="CustomerId" Nullable="false" />
@@ -2345,6 +2349,10 @@
                 <ScalarProperty Name="CustomerEmail" ColumnName="CustomerEmail" />
                 <ScalarProperty Name="TotalRecord" ColumnName="TotalRecord" />
                 <ScalarProperty Name="IsBroker" ColumnName="IsBroker" />
+                <ScalarProperty Name="FollowOn" ColumnName="FollowOn" />
+                <ScalarProperty Name="UnFollFollowersAfterMinDays" ColumnName="UnFollFollowersAfterMinDays" />
+                <ScalarProperty Name="AfterFollLikeuserPosts" ColumnName="AfterFollLikeuserPosts" />
+                <ScalarProperty Name="AfterFollViewUserStory" ColumnName="AfterFollViewUserStory" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

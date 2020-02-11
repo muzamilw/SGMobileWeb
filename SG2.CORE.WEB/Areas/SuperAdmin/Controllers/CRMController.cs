@@ -62,6 +62,8 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                     SearchCriteria = SearchCriteria,
                     ProductId = ProductId,
                     StatusId = StatusId
+                    
+
                 };
                 return View(model);
             }

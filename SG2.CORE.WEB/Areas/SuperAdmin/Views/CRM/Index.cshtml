@@ -42,7 +42,7 @@
 @section styles{
     <link href="~/Content/ThemeAssets/css/backendcss.css" rel="stylesheet" />
     <link href="~/Content/ThemeAssets/css/style.css" rel="stylesheet" type="text/css">
-
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
     <style type="text/css">
 
         .form-wrap .search-wrap input[type=search] {
@@ -142,8 +142,8 @@
                                         var cAttributes = new Dictionary<string, object>();
                                         cAttributes.Add(@"class", "custom-control-input");
                                         cAttributes.Add(@"id", "customRadio2");
-                                         cAttributes.Add("onchange ", "this.form.submit();");
-                                        
+                                        cAttributes.Add("onchange ", "this.form.submit();");
+
                                         if (Model.profileType == 0)
                                         {
                                             cAttributes.Add("Checked", "checked");
@@ -160,8 +160,8 @@
                                         var bAttributes = new Dictionary<string, object>();
                                         bAttributes.Add(@"class", "custom-control-input");
                                         bAttributes.Add(@"id", "customRadio3");
-                                         bAttributes.Add("onchange ", "this.form.submit();");
-                                        
+                                        bAttributes.Add("onchange ", "this.form.submit();");
+
                                         if (Model.profileType == 0)
                                         {
                                             bAttributes.Add("Checked", "checked");
@@ -178,7 +178,7 @@
                     <div class="col-md-3 col-sm-12 ">
                         <div class="product">
                             <label class="d-block">&nbsp;</label>
-                          
+
                             <a href="@BaseURl/crm" id="" class="btn btn-secondary d-inline-block">
                                 <i class="fa fa-times-circle"></i> Reset
                             </a>
@@ -201,6 +201,10 @@
                         <thead>
                             <tr>
                                 <th scope="col">Name</th>
+                                <th scope="col">F</th>
+                                <th scope="col">U</th>
+                                <th scope="col">L</th>
+                                <th scope="col">S</th>
                                 <th scope="col">Plan</th>
                                 <th scope="col">Broker/Regular</th>
                                 <th scope="col">Status</th>
@@ -223,6 +227,22 @@
 
                                         </div>
 
+                                    </td>
+                                    <td>
+
+                                        <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@((item.FollowOn ?? false) == true ? "on": "off")">
+                                    </td>
+                                    <td>
+
+                                        <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@((item.UnFollFollowersAfterMinDays ?? false) == true ? "on": "off")">
+                                    </td>
+                                    <td>
+
+                                        <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollLikeuserPosts == true ? "on": "off")">
+                                    </td>
+                                    <td>
+
+                                        <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollViewUserStory == true ? "on": "off")">
                                     </td>
                                     <td data-label="Products" class="product">@(string.IsNullOrEmpty(item.Products) ? "--" : item.Products)</td>
 
@@ -252,6 +272,7 @@
 
 
 @section scripts{
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
     <script type="text/javascript">
 
         $(document).ready(function () {
@@ -263,6 +284,14 @@
             });
             $('#ProductId,#Subscription,#profileType').change(function () {
                 this.form.submit();
+            });
+
+             $('.toggler').each(function (index, currentElement) {
+                var vali =  $(this).val();
+                if (vali == "on")
+                    $(this).prop('checked', true).change();
+                else
+                    $(this).prop('checked', false).change();
             });
         });
 

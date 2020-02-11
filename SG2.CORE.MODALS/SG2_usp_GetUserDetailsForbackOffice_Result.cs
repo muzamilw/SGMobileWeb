@@ -25,5 +25,9 @@ namespace SG2.CORE.MODAL
         public string CustomerEmail { get; set; }
         public Nullable<int> TotalRecord { get; set; }
         public bool IsBroker { get; set; }
+        public Nullable<bool> FollowOn { get; set; }
+        public Nullable<bool> UnFollFollowersAfterMinDays { get; set; }
+        public Nullable<bool> AfterFollLikeuserPosts { get; set; }
+        public Nullable<bool> AfterFollViewUserStory { get; set; }
     }
 }

@@ -812,6 +812,11 @@ namespace SG2.CORE.DAL.Repositories
                             customerListingViewModel.SocialProfileId = Convert.ToString(item.SocialProfileId);
                             customerListingViewModel.SocialProfileName = item.SocialProfileName;
                             customerListingViewModel.CustomerEmail = item.CustomerEmail;
+                            customerListingViewModel.FollowOn = item.FollowOn;
+                            customerListingViewModel.UnFollFollowersAfterMinDays = item.UnFollFollowersAfterMinDays;
+                            customerListingViewModel.AfterFollLikeuserPosts = item.AfterFollLikeuserPosts;
+                            customerListingViewModel.AfterFollViewUserStory = item.AfterFollViewUserStory;
+
                             customerListingViewModelsList.Add(customerListingViewModel);
                         }
                         return customerListingViewModelsList;
