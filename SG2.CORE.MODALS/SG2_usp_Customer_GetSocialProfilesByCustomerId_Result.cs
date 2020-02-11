@@ -26,5 +26,9 @@ namespace SG2.CORE.MODAL
         public string SubscriptionStatus { get; set; }
         public string SubscriptionName { get; set; }
         public Nullable<int> BlockedStatus { get; set; }
+        public Nullable<bool> FollowOn { get; set; }
+        public Nullable<bool> UnFollFollowersAfterMinDays { get; set; }
+        public Nullable<bool> AfterFollLikeuserPosts { get; set; }
+        public Nullable<bool> AfterFollViewUserStory { get; set; }
     }
 }

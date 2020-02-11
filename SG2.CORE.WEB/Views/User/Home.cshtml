@@ -19,7 +19,7 @@
 }
 
 @section styles{
-<style>
+    <style>
 
         @@media (max-width: 767.98px) {
             .table td.fit,
@@ -37,9 +37,10 @@
             vertical-align: middle;
         }
 
-        .table-hover > tbody > tr > td > a {
-            color: #000000;
-        }
+            .table-hover > tbody > tr > td > a {
+                color: #000000;
+            }
+
         .example.example1 {
             background-color: transparent;
         }
@@ -49,162 +50,165 @@
                 font-size: 16px;
                 font-weight: 500;
             }
+
             .example.example1 h1 {
                 font-size: 24px;
             }
 
-    example.example1 h2 {
-        font-size: 20px;
-    }
+        example.example1 h2 {
+            font-size: 20px;
+        }
 
-            .example.example1 fieldset {
-                margin: 0 15px 20px;
-                padding: 0;
-                border-style: none;
-                /*background-color: #7795f8;*/
-                /*box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #829fff;
+        .example.example1 fieldset {
+            margin: 0 15px 20px;
+            padding: 0;
+            border-style: none;
+            /*background-color: #7795f8;*/
+            /*box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #829fff;
                 border-radius: 4px;*/
+        }
+
+        .example.example1 .row {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: center;
+            align-items: center;
+            margin-left: 15px;
+        }
+
+            .example.example1 .row + .row {
+                /*border-top: 1px solid #819efc;*/
             }
 
-            .example.example1 .row {
-                display: -ms-flexbox;
-                display: flex;
-                -ms-flex-align: center;
-                align-items: center;
-                margin-left: 15px;
-            }
+        .example.example1 label {
+            min-width: 70px;
+            padding: 11px 0;
+            color: black;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
 
-                .example.example1 .row + .row {
-                    /*border-top: 1px solid #819efc;*/
-                }
+        .example.example1 input, .example.example1 button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            outline: none;
+            width: 100%;
+            height: 44px;
+            padding: 8px 12px;
+            color: #303030;
+            font-size: 16px;
+            line-height: 1.5;
+            border: 0;
+            box-shadow: 0 0 0 1px #e0e0e0, 0 2px 4px 0 rgba(0,0,0,.07), 0 1px 1.5px 0 rgba(0,0,0,.05);
+            transition: box-shadow .08s ease-in,color .08s ease-in;
+            background: #fff;
+            -webkit-appearance: none;
+        }
 
-    .example.example1 label {
-        min-width: 70px;
-        padding: 11px 0;
-        color: black;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    .example.example1 input, .example.example1 button {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        outline: none;
-        width: 100%;
-        height: 44px;
-        padding: 8px 12px;
-        color: #303030;
-        font-size: 16px;
-        line-height: 1.5;
-        border: 0;
-        box-shadow: 0 0 0 1px #e0e0e0, 0 2px 4px 0 rgba(0,0,0,.07), 0 1px 1.5px 0 rgba(0,0,0,.05);
-        transition: box-shadow .08s ease-in,color .08s ease-in;
-        background: #fff;
-        -webkit-appearance: none;
-    }
-
-                .example.example1 input:-webkit-autofill {
-                    -webkit-text-fill-color: darkgray;
-                    transition: background-color 100000000s;
-                    -webkit-animation: 1ms void-animation-out;
-                }
-
-            .example.example1 .StripeElement--webkit-autofill {
-                background: transparent !important;
-            }
-
-    .example.example1 .StripeElement {
-        width: 100%;
-        padding: 11px 15px 11px 0;
-        border-radius: 6px;
-        box-shadow: 0 0 0 1px #e0e0e0, 0 2px 4px 0 rgba(0,0,0,.07), 0 1px 1.5px 0 rgba(0,0,0,.05);
-    }
-
-            .example.example1 input {
-                width: 100%;
-                padding: 11px 15px 11px 10px;
-                color: black;
-                background-color: transparent;
+            .example.example1 input:-webkit-autofill {
+                -webkit-text-fill-color: darkgray;
+                transition: background-color 100000000s;
                 -webkit-animation: 1ms void-animation-out;
             }
 
-                .example.example1 input::-webkit-input-placeholder {
-                    color: darkgray;
-                }
+        .example.example1 .StripeElement--webkit-autofill {
+            background: transparent !important;
+        }
 
-                .example.example1 input::-moz-placeholder {
-                    color: darkgray;
-                }
+        .example.example1 .StripeElement {
+            width: 100%;
+            padding: 11px 15px 11px 0;
+            border-radius: 6px;
+            box-shadow: 0 0 0 1px #e0e0e0, 0 2px 4px 0 rgba(0,0,0,.07), 0 1px 1.5px 0 rgba(0,0,0,.05);
+        }
 
-                .example.example1 input:-ms-input-placeholder {
-                    color: darkgray;
-                }
+        .example.example1 input {
+            width: 100%;
+            padding: 11px 15px 11px 10px;
+            color: black;
+            background-color: transparent;
+            -webkit-animation: 1ms void-animation-out;
+        }
 
-            .example.example1 button {
-                display: block;
-                width: calc(100% - 30px);
-                height: 40px;
-                margin: 40px 15px 0;
-                border-color: #008385 !important;
-                background-color: #00b5b8 !important;
-                color: #FFFFFF;
-                box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #ffb9f6;
-                border-radius: 4px;
-                color: #fff;
-                font-weight: 600;
-                cursor: pointer;
+            .example.example1 input::-webkit-input-placeholder {
+                color: darkgray;
             }
 
-                .example.example1 button:active {
-                    background-color: #d782d9;
-                    box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #e298d8;
-                }
-
-            .example.example1 .error svg .base {
-                fill: #fff;
+            .example.example1 input::-moz-placeholder {
+                color: darkgray;
             }
 
-            .example.example1 .error svg .glyph {
-                fill: #6772e5;
+            .example.example1 input:-ms-input-placeholder {
+                color: darkgray;
             }
 
-            .example.example1 .error .message {
-                color: red;
+        .example.example1 button {
+            display: block;
+            width: calc(100% - 30px);
+            height: 40px;
+            margin: 40px 15px 0;
+            border-color: #008385 !important;
+            background-color: #00b5b8 !important;
+            color: #FFFFFF;
+            box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #ffb9f6;
+            border-radius: 4px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+            .example.example1 button:active {
+                background-color: #d782d9;
+                box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #e298d8;
             }
 
-            .example.example1 .success .icon .border {
-                stroke: #87bbfd;
-            }
+        .example.example1 .error svg .base {
+            fill: #fff;
+        }
 
-            .example.example1 .success .icon .checkmark {
-                stroke: #fff;
-            }
+        .example.example1 .error svg .glyph {
+            fill: #6772e5;
+        }
 
-            .example.example1 .success .title {
-                color: #fff;
-            }
+        .example.example1 .error .message {
+            color: red;
+        }
 
-            .example.example1 .success .message {
-                color: black;
-            }
+        .example.example1 .success .icon .border {
+            stroke: #87bbfd;
+        }
 
-            .example.example1 .success .reset path {
-                fill: #fff;
-            }
-    .FormFieldInput-Icons {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-    }
+        .example.example1 .success .icon .checkmark {
+            stroke: #fff;
+        }
 
-    .FormFieldInput-IconsIcon {
-        padding-right: 4px;
-    }
-</style>
+        .example.example1 .success .title {
+            color: #fff;
+        }
+
+        .example.example1 .success .message {
+            color: black;
+        }
+
+        .example.example1 .success .reset path {
+            fill: #fff;
+        }
+
+        .FormFieldInput-Icons {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+        }
+
+        .FormFieldInput-IconsIcon {
+            padding-right: 4px;
+        }
+    </style>
     <link href="~/Content/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet" />
     <link href="~/Content/app-assets/css/stripe.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
 
 }
 
@@ -259,7 +263,7 @@
                                         <div class="col-xl-3 col-sm-12">
                                             @Html.DropDownListFor(n => n.SocialType, new SelectList(mlist, "Value", "Text", 0), new { @class = "custom-select block mb-1" })
                                         </div>
-                                        @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true && 1==0)
+                                        @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true && 1 == 0)
                                         {
                                             <div class="col-xl-3 col-sm-12">
                                                 @{
@@ -289,7 +293,7 @@
 
                                                 }
                                             }
-                                                        @Html.DropDownListFor(n => n.Plan, new SelectList(plist, "Value", "Text", 0), new { @class = "custom-select block" })
+                                            @Html.DropDownListFor(n => n.Plan, new SelectList(plist, "Value", "Text", 0), new { @class = "custom-select block" })
 
                                         </div>
 
@@ -298,77 +302,108 @@
                                 </form>
                             </div>
                             @if (socailProfiles != null && socailProfiles.Count > 0)
-                                                    {
+                            {
                                 <div class="table-responsive">
                                     <table id="ResponsiveTable" class="table table-xl mb-0 table-hover">
 
+                                        <thead>
+                                            <th>
+                                                
+                                            </th>
+                                            <th>
+                                                F
+                                            </th>
+                                            <th>
+                                                U
+                                            </th>
+                                            <th>L</th>
+                                            <th>S</th>
+                                            <th></th>
+                                            <th></th>
+                                        </thead>
                                         <tbody>
                                             @foreach (var item in socailProfiles)
+                                            {
+                                            <tr class='clickable-row' data-href='/Profile/Basic?socialProfileId=@item.SocialProfileId' data-hrefstats='/Profile/stats?socialProfileId=@item.SocialProfileId'>
+
+                                                <td scope="row" class="align-middle fit">
+                                                    @if (item.SocialProfileTypeId == 30)
                                                     {
-                                                <tr class='clickable-row' data-href='/Profile/Basic?socialProfileId=@item.SocialProfileId' data-hrefstats='/Profile/stats?socialProfileId=@item.SocialProfileId'>
-
-                                                    <td scope="row" class="align-middle fit">
-                                                        @if (item.SocialProfileTypeId == 30)
-                                                    {
 
 
 
-                                                            <picture>
-                                                                <!-- Extra Large Desktops -->
-                                                                <source media="(min-width: 75em)"
-                                                                        srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
+                                                        <picture>
+                                                            <!-- Extra Large Desktops -->
+                                                            <source media="(min-width: 75em)"
+                                                                    srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
 
-                                                                <!-- Desktops -->
-                                                                <source media="(min-width: 62em)"
-                                                                        srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
+                                                            <!-- Desktops -->
+                                                            <source media="(min-width: 62em)"
+                                                                    srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
 
-                                                                <!-- Tablets -->
-                                                                <source media="(min-width: 48em)"
-                                                                        srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
+                                                            <!-- Tablets -->
+                                                            <source media="(min-width: 48em)"
+                                                                    srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
 
-                                                                <!-- Landscape Phones -->
-                                                                <source media="(min-width: 34em)"
-                                                                        srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png">
+                                                            <!-- Landscape Phones -->
+                                                            <source media="(min-width: 34em)"
+                                                                    srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png">
 
-                                                                <!-- Portrait Phones -->
-                                                                <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png"
-                                                                     srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png">
-                                                            </picture>
-                                                        }
-                                                        <a style="display:inline-block" href="/Profile/Basic?socialProfileId=@item.SocialProfileId">@item.SocialUsername</a>
-                                                    </td>
-                                                    <td>
-                                                        @{
-                                                            var statusclass = "";
-                                                            switch (item.BlockedStatus)
-                                                            {
-                                                                case "Valid": statusclass = "badge-primary"; break;
-                                                                case "Action Blocked": statusclass = "badge-danger"; break;
-                                                                case "Hard Blocked": statusclass = "badge-danger"; break;
-                                                                case "Password Blocked": statusclass = "badge-danger"; break;
-                                                                default:
-                                                                    statusclass = "badge-primary";
-                                                                    break;
-                                                            }
-                                                        }
+                                                            <!-- Portrait Phones -->
+                                                            <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png"
+                                                                 srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png">
+                                                        </picture>
+                                                    }
+                                                    <a style="display:inline-block" href="/Profile/Basic?socialProfileId=@item.SocialProfileId">@item.SocialUsername</a>
+                                                </td>
+                                                <td>
 
-                                                        <span class="badge @statusclass label-square mr-1 mb-1 display-inline">
+                                                    <input class="toggler"  data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.FollowOn == true ? "on": "off")">
+                                                </td>
+                                                <td>
 
-                                                            <span>@item.BlockedStatus</span>
-                                                        </span>
-                                                    </td>
+                                                    <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.UnFollFollowersAfterMinDays == true ? "on": "off")">
+                                                </td>
+                                                <td>
 
-                                                    <td class="align-middle">
-                                                        @if (item.SubscriptionName != null)
-                                                {
-                                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: @item.SubscriptionName</div>
-                                                        }
-                                                        else
+                                                    <input  class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollLikeuserPosts == true ? "on": "off")">
+                                                </td>
+                                                <td>
+
+                                                    <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollViewUserStory == true ? "on": "off")">
+                                                </td>
+                                                <td>
+                                                    @{
+                                                        var statusclass = "";
+                                                        switch (item.BlockedStatus)
                                                         {
-                                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: FREE</div>
+                                                            case "Valid": statusclass = "badge-primary"; break;
+                                                            case "Action Blocked": statusclass = "badge-danger"; break;
+                                                            case "Hard Blocked": statusclass = "badge-danger"; break;
+                                                            case "Password Blocked": statusclass = "badge-danger"; break;
+                                                            default:
+                                                                statusclass = "badge-primary";
+                                                                break;
                                                         }
-                                                    </td>
-                                                </tr>
+                                                    }
+
+                                                    <span class="badge @statusclass label-square mr-1 mb-1 display-inline">
+
+                                                        <span>@item.BlockedStatus</span>
+                                                    </span>
+                                                </td>
+
+                                                <td class="align-middle">
+                                                    @if (item.SubscriptionName != null)
+                                                    {
+                                                        <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: @item.SubscriptionName</div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: FREE</div>
+                                                    }
+                                                </td>
+                                            </tr>
                                             }
                                         </tbody>
                                     </table>
@@ -394,9 +429,9 @@
 
 
                                 @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true)
-                                                {
+                                {
                                     <p class="card-text">
-                                       
+
 
                                         <a href="#" class="btn btn-success btn-block" id="btnAfilliateProfile">Update App Skin</a>
 
@@ -404,7 +439,7 @@
 
                                         @*<a href="#" class="btn btn-success btn-block">LinkedIn Default Filters</a>
 
-                                        <a href="#" class="btn btn-success btn-block">Twitter Default Filters</a>*@
+                                            <a href="#" class="btn btn-success btn-block">Twitter Default Filters</a>*@
 
                                         <a href="#" class="btn btn-success btn-block" id="btnAfilliateBilling" data-toggle="modal" data-target="#BillingHistoryModal">View Billing History</a>
 
@@ -419,7 +454,7 @@
                                         Join the Social Growth Affiliates Program and start earning money today.
 
                                     </p>
-                                    <a href="#" class="btn btn-success mt-1" id="btnAfilliate" >Become an Broker Agency</a>
+                                    <a href="#" class="btn btn-success mt-1" id="btnAfilliate">Become an Broker Agency</a>
                                 }
                             </div>
                         </div>
@@ -444,8 +479,8 @@
                 <div class="modal-body">
                     <label>Please enter valid Instagram Username below :</label>
                     <div class="form-group position-relative">
-                        <input type="text" placeholder="Instagram Username" class="form-control" name="IntagramUserName" >
-                       
+                        <input type="text" placeholder="Instagram Username" class="form-control" name="IntagramUserName">
+
 
                     </div>
 
@@ -473,7 +508,7 @@
                 <div class="modal-body p-3">
                     <label>Following information will be used to white label the modile app for your profiles.</label>
                     <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="App Name" class="form-control position-inside-maxlength" name="BrokerAppName" value="@Customer.BrokerAppName"  maxlength="100">
+                        <input type="text" placeholder="App Name" class="form-control position-inside-maxlength" name="BrokerAppName" value="@Customer.BrokerAppName" maxlength="100">
                         <div class="form-control-position">
                             <i class="fa fa-file font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -481,7 +516,7 @@
                     </div>
 
                     <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="Strap Line" class="form-control position-inside-maxlength" name="BrokerStrapLine" value="@Customer.BrokerStrapLine"  maxlength="500">
+                        <input type="text" placeholder="Strap Line" class="form-control position-inside-maxlength" name="BrokerStrapLine" value="@Customer.BrokerStrapLine" maxlength="500">
                         <div class="form-control-position">
                             <i class="fa fa-file-text font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -489,7 +524,7 @@
                     </div>
 
                     <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="App Aspect Color" class="form-control position-inside-maxlength" name="BrokerAspectColor" value="@Customer.BrokerAspectColor" id="BrokerAspectColor"  maxlength="50">
+                        <input type="text" placeholder="App Aspect Color" class="form-control position-inside-maxlength" name="BrokerAspectColor" value="@Customer.BrokerAspectColor" id="BrokerAspectColor" maxlength="50">
                         <div class="form-control-position">
                             <i class="fa fa-pencil font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -497,7 +532,7 @@
                     </div>
 
                     <div class="form-group position-relative has-icon-left">
-                        <input type="url" pattern="https://.*" placeholder="https:// Training Link" class="form-control position-inside-maxlength" name="BrokerTrainingLink" value="@Customer.BrokerTrainingLink"  maxlength="500">
+                        <input type="url" pattern="https://.*" placeholder="https:// Training Link" class="form-control position-inside-maxlength" name="BrokerTrainingLink" value="@Customer.BrokerTrainingLink" maxlength="500">
                         <div class="form-control-position">
                             <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -505,7 +540,7 @@
                     </div>
 
                     <div class="form-group position-relative has-icon-left">
-                        <input type="url" pattern="https://.*" placeholder="https:// Terms Of Use Link" class="form-control position-inside-maxlength" name="BrokerTermsOfUse" value="@Customer.BrokerTermsOfUse"  maxlength="500">
+                        <input type="url" pattern="https://.*" placeholder="https:// Terms Of Use Link" class="form-control position-inside-maxlength" name="BrokerTermsOfUse" value="@Customer.BrokerTermsOfUse" maxlength="500">
                         <div class="form-control-position">
                             <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -513,7 +548,7 @@
                     </div>
 
                     <div class="form-group position-relative has-icon-left">
-                        <input type="url" pattern="https://.*" placeholder="https:// Privacy Policy Link" class="form-control position-inside-maxlength" name="BrokerPrivacyPolicy" value="@Customer.BrokerPrivacyPolicy"  maxlength="500">
+                        <input type="url" pattern="https://.*" placeholder="https:// Privacy Policy Link" class="form-control position-inside-maxlength" name="BrokerPrivacyPolicy" value="@Customer.BrokerPrivacyPolicy" maxlength="500">
                         <div class="form-control-position">
                             <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -521,7 +556,7 @@
                     </div>
 
                     <div class="form-group position-relative has-icon-left">
-                        <input type="url" pattern="https://.*" placeholder="https:// Feedback Page Link" class="form-control position-inside-maxlength" name="BrokerFeedbackPage" value="@Customer.BrokerFeedbackPage"  maxlength="500">
+                        <input type="url" pattern="https://.*" placeholder="https:// Feedback Page Link" class="form-control position-inside-maxlength" name="BrokerFeedbackPage" value="@Customer.BrokerFeedbackPage" maxlength="500">
                         <div class="form-control-position">
                             <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -529,7 +564,7 @@
                     </div>
 
                     <div class="form-group position-relative has-icon-left">
-                        <input type="url" pattern="https://.*" placeholder="https:// Home Page Link" class="form-control position-inside-maxlength" name="BrokerHomePage" value="@Customer.BrokerHomePage"  maxlength="500">
+                        <input type="url" pattern="https://.*" placeholder="https:// Home Page Link" class="form-control position-inside-maxlength" name="BrokerHomePage" value="@Customer.BrokerHomePage" maxlength="500">
                         <div class="form-control-position">
                             <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
                         </div>
@@ -544,8 +579,8 @@
                     </div>
                     <label>Upload Logo Image (600 x 600 px)</label>
                     @if (!string.IsNullOrEmpty(Customer.BrokerLogo))
-                                                {
-                                                    var numsi = new Random();
+                    {
+                        var numsi = new Random();
 
 
                         <div class="form-group position-relative">
@@ -750,6 +785,7 @@
     <script src="~/Content/app-assets/vendors/js/forms/extended/maxlength/bootstrap-maxlength.js"></script>
     <script src="~/Scripts/bootstrap-colorpicker.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
     <script>
 
         $('#ResponsiveTable > tbody > tr').click(function (element) {
@@ -782,6 +818,18 @@
         $("document").ready(function () {
 
 
+            //$('.foll').bootstrapToggle('on');
+            $('.toggler').each(function (index, currentElement) {
+                var vali =  $(this).val();
+                if (vali == "on")
+                    $(this).prop('checked', true).change();
+                else
+                    $(this).prop('checked', false).change();
+            });
+                
+            
+
+            
 
             $('.position-inside-maxlength').maxlength({
                 alwaysShow: true,
@@ -805,7 +853,7 @@
             });
 
             $("#newprofileForm").on("submit", function () {
-                
+
                 var SocialProfileCount = @socailProfiles.Count();
 
                 //if ($("#Form_UpdatePassword").valid()) {
@@ -859,7 +907,7 @@
 
 
             $("#AfilliateProfileForm").on("submit", function () {
-               
+
 
                 //if ($("#Form_UpdatePassword").valid()) {
 
@@ -993,7 +1041,7 @@
                 selectedPlanName = $(".selectedPlanName").text();
                 selectedPlanprice = 299;
                 var customerId = '@Customer.CustomerId';
-                
+
 
                 var ChangeType = "";
                 var ChangeMsg = "";
@@ -1063,7 +1111,7 @@
                     else if (isConfirm && existingStripeSubscriptionId != "") {
                         //swal.enableLoading();
                         //swal("OK", "It's safe.", "error");
-                        
+
                         fetch('/profile/CreateStripeCustomerSubscription', {
                             method: 'post',
                             headers: {

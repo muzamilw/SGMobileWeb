@@ -1391,7 +1391,12 @@ namespace SG2.CORE.DAL.Repositories
                             StripeCustomerId = p.StripeCustomerId,
                             SubScriptionStatus = p.SubscriptionStatus,
                             SubscriptionName = p.SubscriptionName,
-                            BlockedStatus =  p.BlockedStatus.HasValue == false || (p.BlockedStatus.HasValue && p.BlockedStatus.Value == 0) ? "Valid" : p.BlockedStatus.Value == 66 ? "Action Blocked": p.BlockedStatus.Value == 67 ?"Hard Blocked" : p.BlockedStatus.Value == 68?"Password Blocked":"Valid" 
+                            BlockedStatus =  p.BlockedStatus.HasValue == false || (p.BlockedStatus.HasValue && p.BlockedStatus.Value == 0) ? "Valid" : p.BlockedStatus.Value == 66 ? "Action Blocked": p.BlockedStatus.Value == 67 ?"Hard Blocked" : p.BlockedStatus.Value == 68?"Password Blocked":"Valid",
+                             AfterFollLikeuserPosts = p.AfterFollLikeuserPosts,
+                              AfterFollViewUserStory = p.AfterFollViewUserStory,
+                              FollowOn = p.FollowOn,
+                              UnFollFollowersAfterMinDays = p.UnFollFollowersAfterMinDays
+
                             
                         }).ToList();
                     }

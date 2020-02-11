@@ -1276,6 +1276,10 @@
           <Property Type="String" Name="SubscriptionStatus" Nullable="false" MaxLength="7" />
           <Property Type="String" Name="SubscriptionName" Nullable="true" MaxLength="250" />
           <Property Type="Int32" Name="BlockedStatus" Nullable="true" />
+          <Property Type="Boolean" Name="FollowOn" Nullable="true" />
+          <Property Type="Boolean" Name="UnFollFollowersAfterMinDays" Nullable="true" />
+          <Property Type="Boolean" Name="AfterFollLikeuserPosts" Nullable="true" />
+          <Property Type="Boolean" Name="AfterFollViewUserStory" Nullable="true" />
         </ComplexType>
         <ComplexType Name="SG2_usp_LikeyAccount_GetAll_Result">
           <Property Type="Int32" Name="LikeyAccountId" Nullable="false" />
@@ -2428,6 +2432,10 @@
                 <ScalarProperty Name="SubscriptionStatus" ColumnName="SubscriptionStatus" />
                 <ScalarProperty Name="SubscriptionName" ColumnName="SubscriptionName" />
                 <ScalarProperty Name="BlockedStatus" ColumnName="BlockedStatus" />
+                <ScalarProperty Name="FollowOn" ColumnName="FollowOn" />
+                <ScalarProperty Name="UnFollFollowersAfterMinDays" ColumnName="UnFollFollowersAfterMinDays" />
+                <ScalarProperty Name="AfterFollLikeuserPosts" ColumnName="AfterFollLikeuserPosts" />
+                <ScalarProperty Name="AfterFollViewUserStory" ColumnName="AfterFollViewUserStory" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
