@@ -15,7 +15,7 @@
     {
         profiles.Add(new SelectListItem { Text = item.ProfileName, Value = item.SocialProfileId.ToString() });
     }
-
+    var displayClass = currentUser.IsBroker == true ? "" : "d-none";
 }
 
 @section styles{
@@ -307,103 +307,113 @@
                                     <table id="ResponsiveTable" class="table table-xl mb-0 table-hover">
 
                                         <thead>
-                                            <th>
-                                                
-                                            </th>
-                                            <th>
-                                                F
-                                            </th>
-                                            <th>
-                                                U
-                                            </th>
-                                            <th>L</th>
-                                            <th>S</th>
-                                            <th></th>
-                                            <th></th>
+                                        <th>
+                                        </th>
+                                        <th class="@displayClass">
+                                            F
+                                        </th>
+                                        <th class="@displayClass">
+                                            U
+                                        </th>
+                                        <th class="@displayClass">L</th>
+                                        <th class="@displayClass">S</th>
+                                        <th></th>
+                                        <th></th>
                                         </thead>
                                         <tbody>
                                             @foreach (var item in socailProfiles)
                                             {
-                                            <tr class='clickable-row' data-href='/Profile/Basic?socialProfileId=@item.SocialProfileId' data-hrefstats='/Profile/stats?socialProfileId=@item.SocialProfileId'>
 
-                                                <td scope="row" class="align-middle fit">
-                                                    @if (item.SocialProfileTypeId == 30)
-                                                    {
+                                                <tr class='clickable-row' data-href='/Profile/Basic?socialProfileId=@item.SocialProfileId' data-hrefstats='/Profile/stats?socialProfileId=@item.SocialProfileId'>
 
-
-
-                                                        <picture>
-                                                            <!-- Extra Large Desktops -->
-                                                            <source media="(min-width: 75em)"
-                                                                    srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
-
-                                                            <!-- Desktops -->
-                                                            <source media="(min-width: 62em)"
-                                                                    srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
-
-                                                            <!-- Tablets -->
-                                                            <source media="(min-width: 48em)"
-                                                                    srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
-
-                                                            <!-- Landscape Phones -->
-                                                            <source media="(min-width: 34em)"
-                                                                    srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png">
-
-                                                            <!-- Portrait Phones -->
-                                                            <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png"
-                                                                 srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png">
-                                                        </picture>
-                                                    }
-                                                    <a style="display:inline-block" href="/Profile/Basic?socialProfileId=@item.SocialProfileId">@item.SocialUsername</a>
-                                                </td>
-                                                <td>
-
-                                                    <input class="toggler"  data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.FollowOn == true ? "on": "off")">
-                                                </td>
-                                                <td>
-
-                                                    <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.UnFollFollowersAfterMinDays == true ? "on": "off")">
-                                                </td>
-                                                <td>
-
-                                                    <input  class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollLikeuserPosts == true ? "on": "off")">
-                                                </td>
-                                                <td>
-
-                                                    <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollViewUserStory == true ? "on": "off")">
-                                                </td>
-                                                <td>
-                                                    @{
-                                                        var statusclass = "";
-                                                        switch (item.BlockedStatus)
+                                                    <td scope="row" class="align-middle fit">
+                                                        
+                                                        @if (item.SocialProfileTypeId == 30)
                                                         {
-                                                            case "Valid": statusclass = "badge-primary"; break;
-                                                            case "Action Blocked": statusclass = "badge-danger"; break;
-                                                            case "Hard Blocked": statusclass = "badge-danger"; break;
-                                                            case "Password Blocked": statusclass = "badge-danger"; break;
-                                                            default:
-                                                                statusclass = "badge-primary";
-                                                                break;
+
+
+
+                                                            <picture>
+                                                                <!-- Extra Large Desktops -->
+                                                                <source media="(min-width: 75em)"
+                                                                        srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
+
+                                                                <!-- Desktops -->
+                                                                <source media="(min-width: 62em)"
+                                                                        srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
+
+                                                                <!-- Tablets -->
+                                                                <source media="(min-width: 48em)"
+                                                                        srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
+
+                                                                <!-- Landscape Phones -->
+                                                                <source media="(min-width: 34em)"
+                                                                        srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png">
+
+                                                                <!-- Portrait Phones -->
+                                                                <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png"
+                                                                     srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png">
+                                                            </picture>
                                                         }
-                                                    }
+                                                        <a style="display:inline-block" href="/Profile/Basic?socialProfileId=@item.SocialProfileId">@item.SocialUsername</a>
+                                                    </td>
+                                                    <td class="@displayClass">
+                                                        <a onclick="showPaymentPopUp(@item.SocialProfileId, 'F', '@item.SubscriptionName');">
+                                                            <input class="toggler" data-size="mini" id="followOn" data-profile-id="F@(item.SocialProfileId)" type="checkbox" data-toggle="toggle" checked data-onstyle="success" value="@(item.FollowOn == true && item.SubscriptionName != null ? "on": "off")">
 
-                                                    <span class="badge @statusclass label-square mr-1 mb-1 display-inline">
+                                                        </a>
+                                                           
+                                                        </td>
+                                                    <td class="@displayClass">
+                                                        <a onclick="showPaymentPopUp(@item.SocialProfileId, 'U', '@item.SubscriptionName');">
+                                                            <input class="toggler" data-size="mini"  id="followOn" data-profile-id="U@(item.SocialProfileId)" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.UnFollFollowersAfterMinDays == true && item.SubscriptionName != null ? "on": "off")">
 
-                                                        <span>@item.BlockedStatus</span>
-                                                    </span>
-                                                </td>
+                                                        </a>
+                                                    </td>
+                                                    <td class="@displayClass">
+                                                        <a onclick="showPaymentPopUp(@item.SocialProfileId, 'L', '@item.SubscriptionName');">
+                                                            <input class="toggler" data-size="mini"  id="followOn" data-profile-id="L@(item.SocialProfileId)" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollLikeuserPosts == true && item.SubscriptionName != null ? "on": "off")">
 
-                                                <td class="align-middle">
-                                                    @if (item.SubscriptionName != null)
-                                                    {
-                                                        <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: @item.SubscriptionName</div>
-                                                    }
-                                                    else
-                                                    {
-                                                        <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: FREE</div>
-                                                    }
-                                                </td>
-                                            </tr>
+                                                        </a>
+                                                     </td>
+                                                    <td class="@displayClass">
+                                                        <a onclick="showPaymentPopUp(@item.SocialProfileId, 'S', '@item.SubscriptionName');">
+                                                            <input class="toggler" data-size="mini"  id="followOn" data-profile-id="S@(item.SocialProfileId)" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollViewUserStory == true && item.SubscriptionName != null ? "on": "off")">
+
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        @{
+                                                            var statusclass = "";
+                                                            switch (item.BlockedStatus)
+                                                            {
+                                                                case "Valid": statusclass = "badge-primary"; break;
+                                                                case "Action Blocked": statusclass = "badge-danger"; break;
+                                                                case "Hard Blocked": statusclass = "badge-danger"; break;
+                                                                case "Password Blocked": statusclass = "badge-danger"; break;
+                                                                default:
+                                                                    statusclass = "badge-primary";
+                                                                    break;
+                                                            }
+                                                        }
+
+                                                        <span class="badge @statusclass label-square mr-1 mb-1 display-inline">
+
+                                                            <span>@item.BlockedStatus</span>
+                                                        </span>
+                                                    </td>
+
+                                                    <td class="align-middle">
+                                                        @if (item.SubscriptionName != null)
+                                                        {
+                                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: @item.SubscriptionName</div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: FREE</div>
+                                                        }
+                                                    </td>
+                                                </tr>
                                             }
                                         </tbody>
                                     </table>
@@ -820,16 +830,18 @@
 
             //$('.foll').bootstrapToggle('on');
             $('.toggler').each(function (index, currentElement) {
+
                 var vali =  $(this).val();
                 if (vali == "on")
                     $(this).prop('checked', true).change();
                 else
                     $(this).prop('checked', false).change();
             });
-                
-            
 
-            
+            $('input:checkbox').change(function (e) {
+                e.preventDefault();
+            });
+
 
             $('.position-inside-maxlength').maxlength({
                 alwaysShow: true,
@@ -1467,6 +1479,29 @@
             stripeElements('@ViewBag.stripePublishKey');
 
         });
+
+        function showPaymentPopUp(socialPId, type, subscriptionName) {
+            
+            if (subscriptionName == "") {
+                 $('input[data-profile-id="' + type+ socialPId +'"]').prop('checked', true).change();
+                   swal({
+                          title: "",
+                          text: "UPGRADE to a paid plan to enable this service. ",
+                          icon: "info", /* type: "info", */
+                          buttons: [
+                            "No", /* showCancelButton: true, cancelButtonText: "No", */
+                            "UPGRADE NOW" /* confirmButtonText: "Yes", */
+                          ],
+                          focusConfirm: false,
+                          showCloseButton: true
+                   }).then((value) => {
+                       if (value) {
+
+                      }
+                  });
+            }
+             
+        }
     </script>
 }
 
