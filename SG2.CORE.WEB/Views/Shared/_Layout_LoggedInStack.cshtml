@@ -1,8 +1,19 @@
 ﻿@using SG2.CORE.MODAL.DTO.Customers;
+@using System.Security.Cryptography;
+@using System.Text;
 @{
     /**/
+    
+    var encoding = new ASCIIEncoding();
+    
+   
 
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
+
+     var key = new HMACSHA256( encoding.GetBytes("ZEjdHxcIdtF_JSUgUyLxy1K0lx_qaiadqQ7gpl7S"));
+     var hash =  key.ComputeHash(encoding.GetBytes(custDto.EmailAddress));
+
+    var hmac = BitConverter.ToString(hash).Replace("-", "").ToLower();
 
 }
 @{
@@ -77,17 +88,6 @@
         <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=433629843942100&ev=PageView&noscript=1" />
     </noscript>
 
-    <script>
-
-        window.intercomSettings = {
-            app_id: "xsl2s4e6",
-            name: "Jane Doe", // Full name
-            email: "customer@example.com", // Email address
-            created_at: "1312182000" // Signup date as a Unix timestamp
-        };
-    </script>
-
-    <script>(function () { var w = window; var ic = w.Intercom; if (typeof ic === "function") { ic('reattach_activator'); ic('update', w.intercomSettings); } else { var d = document; var i = function () { i.c(arguments); }; i.q = []; i.c = function (args) { i.q.push(args); }; w.Intercom = i; var l = function () { var s = d.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'https://widget.intercom.io/widget/xsl2s4e6'; var x = d.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x); }; if (w.attachEvent) { w.attachEvent('onload', l); } else { w.addEventListener('load', l, false); } } })();</script>
 
     <!-- END: Custom CSS-->
 </head>
@@ -105,7 +105,7 @@
 
                             <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu font-large-1"></i></a>
                         }
-                        </li>
+                    </li>
                     <li class="nav-item">
                         <a class="navbar-brand" href="~/user/home">
                             <img class="brand-logo" style="width:90px" alt="Social Growth Logo" src="~/Content/ThemeAssets/images/social-growth.png">
@@ -125,7 +125,7 @@
 
                             <li class="nav-item d-none d-md-block"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu"></i></a></li>
                         }
-                        </ul>
+                    </ul>
                     <ul class="nav navbar-nav float-right">
 
                         <li class="dropdown dropdown-user nav-item">
@@ -162,15 +162,15 @@
                         <a class="nav-link" href="~/Profile/stats?socialProfileId=@ViewBag.socialProfileId"><i class="ft-monitor"></i><span>Stats</span></a>
 
                     </li>
-                    <li class="nav-item" >
+                    <li class="nav-item">
                         <a class="nav-link" href="~/Profile/Basic?socialProfileId=@ViewBag.socialProfileId"><i class="ft-layout"></i><span>IG Account Info</span></a>
 
                     </li>
-                    <li class="nav-item" >
-                        <a class="nav-link" href="~/Profile/target?socialProfileId=@ViewBag.socialProfileId"><i class="ft-zap"></i><span>Targeting</span></a>
+                    <li class="nav-item">
+                        <a class="nav-link TargetingLink" href="~/Profile/target?socialProfileId=@ViewBag.socialProfileId"><i class="ft-zap"></i><span>Targeting</span></a>
 
                     </li>
-                    <li class="mega-dropdown nav-item" >
+                    <li class="mega-dropdown nav-item">
                         <a class="nav-link" href="~/Profile/lists?socialProfileId=@ViewBag.socialProfileId"><i class="ft-box"></i><span>White & Black Lists</span></a>
 
                     </li>
@@ -178,7 +178,7 @@
                             <a class="nav-link" href="~/Profile/followings?socialProfileId=@custDto.DefaultSocialProfileId"><i class="ft-droplet"></i><span>New Followings</span></a>
 
                         </li>*@
-                    <li class="nav-item" >
+                    <li class="nav-item">
                         <a class="nav-link" href="~/Profile/history?socialProfileId=@ViewBag.socialProfileId"><i class="ft-briefcase"></i><span>Order History</span></a>
 
                     </li>
@@ -232,6 +232,31 @@
     <script src="~/Content/app-assets/js/scripts/pages/dashboard-analytics.js"></script>
     @RenderSection("scripts", required: false)
     <!-- END: Page JS-->
+
+    @{
+        DateTime foo = custDto.CreatedOn.ToUniversalTime();
+        long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds();
+
+
+    }
+
+    <script>
+
+        window.intercomSettings = {
+            app_id: "xsl2s4e6",
+            name: "@(custDto.FirstName + " " + custDto.SurName )", // Full name
+            email: "@custDto.EmailAddress", // Email address,
+            user_hash: "@hmac",
+            created_at: "@unixTime" // Signup date as a Unix timestamp
+        };
+    </script>
+
+    <script>(function () { var w = window; var ic = w.Intercom; if (typeof ic === "function") { ic('reattach_activator'); ic('update', w.intercomSettings); } else { var d = document; var i = function () { i.c(arguments); }; i.q = []; i.c = function (args) { i.q.push(args); }; w.Intercom = i; var l = function () { var s = d.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'https://widget.intercom.io/widget/xsl2s4e6'; var x = d.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x); }; if (w.attachEvent) { w.attachEvent('onload', l); } else { w.addEventListener('load', l, false); } } })();</script>
+    <script src="//app.helphero.co/embed/ViJqUtC2mcl"></script>
+    <script>
+        HelpHero.identify('@custDto.EmailAddress');
+    </script>
+
 </body>
 <!-- END: Body-->
 </html>

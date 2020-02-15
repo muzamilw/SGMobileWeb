@@ -321,13 +321,18 @@
                                         <th></th>
                                         </thead>
                                         <tbody>
+                                            @{
+                                                var rowCounter = 1;
+
+                                            }
                                             @foreach (var item in socailProfiles)
                                             {
 
+
                                                 <tr class='clickable-row' data-href='/Profile/Basic?socialProfileId=@item.SocialProfileId' data-hrefstats='/Profile/stats?socialProfileId=@item.SocialProfileId'>
 
-                                                    <td scope="row" class="align-middle fit">
-                                                        
+                                                    <td scope="row" class="align-middle fit profile@(rowCounter)">
+
                                                         @if (item.SocialProfileTypeId == 30)
                                                         {
 
@@ -357,28 +362,28 @@
                                                         }
                                                         <a style="display:inline-block" href="/Profile/Basic?socialProfileId=@item.SocialProfileId">@item.SocialUsername</a>
                                                     </td>
-                                                    <td class="@displayClass">
+                                                    <td class="@displayClass ">
                                                         <a onclick="showPaymentPopUp(@item.SocialProfileId, 'F', '@item.SubscriptionName');">
-                                                            <input class="toggler" data-size="mini" id="followOn" data-profile-id="F@(item.SocialProfileId)" type="checkbox" data-toggle="toggle" checked data-onstyle="success" value="@(item.FollowOn == true && item.SubscriptionName != null ? "on": "off")">
+                                                            <input class="toggler" data-size="mini" id="followOn" data-profile-id="F@(item.SocialProfileId)" type="checkbox" data-toggle="toggle" checked data-onstyle="success" value="@(item.FollowOn == true && item.SubscriptionName != null ? "on" : "off")">
 
                                                         </a>
-                                                           
-                                                        </td>
+
+                                                    </td>
                                                     <td class="@displayClass">
                                                         <a onclick="showPaymentPopUp(@item.SocialProfileId, 'U', '@item.SubscriptionName');">
-                                                            <input class="toggler" data-size="mini"  id="followOn" data-profile-id="U@(item.SocialProfileId)" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.UnFollFollowersAfterMinDays == true && item.SubscriptionName != null ? "on": "off")">
+                                                            <input class="toggler" data-size="mini" id="followOn" data-profile-id="U@(item.SocialProfileId)" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.UnFollFollowersAfterMinDays == true && item.SubscriptionName != null ? "on" : "off")">
 
                                                         </a>
                                                     </td>
                                                     <td class="@displayClass">
                                                         <a onclick="showPaymentPopUp(@item.SocialProfileId, 'L', '@item.SubscriptionName');">
-                                                            <input class="toggler" data-size="mini"  id="followOn" data-profile-id="L@(item.SocialProfileId)" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollLikeuserPosts == true && item.SubscriptionName != null ? "on": "off")">
+                                                            <input class="toggler" data-size="mini" id="followOn" data-profile-id="L@(item.SocialProfileId)" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollLikeuserPosts == true && item.SubscriptionName != null ? "on" : "off")">
 
                                                         </a>
-                                                     </td>
+                                                    </td>
                                                     <td class="@displayClass">
                                                         <a onclick="showPaymentPopUp(@item.SocialProfileId, 'S', '@item.SubscriptionName');">
-                                                            <input class="toggler" data-size="mini"  id="followOn" data-profile-id="S@(item.SocialProfileId)" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollViewUserStory == true && item.SubscriptionName != null ? "on": "off")">
+                                                            <input class="toggler" data-size="mini" id="followOn" data-profile-id="S@(item.SocialProfileId)" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollViewUserStory == true && item.SubscriptionName != null ? "on" : "off")">
 
                                                         </a>
                                                     </td>
@@ -414,6 +419,7 @@
                                                         }
                                                     </td>
                                                 </tr>
+                                                rowCounter++;
                                             }
                                         </tbody>
                                     </table>
@@ -423,7 +429,7 @@
                             {
 
                                 <p class="card-text text-center">
-                                    Now profiles found matching your criteria. Please try again with different criteria.
+                                Now profiles found matching your criteria. Please try again with different criteria.
                                 </p>
 
                             }
@@ -836,6 +842,8 @@
                     $(this).prop('checked', true).change();
                 else
                     $(this).prop('checked', false).change();
+
+                $(this).attr("disabled", true);
             });
 
             $('input:checkbox').change(function (e) {
@@ -1481,8 +1489,8 @@
         });
 
         function showPaymentPopUp(socialPId, type, subscriptionName) {
-            
-            if (subscriptionName == "") {
+
+            if (subscriptionName == "" || subscriptionName == "FREE" ) {
                  $('input[data-profile-id="' + type+ socialPId +'"]').prop('checked', true).change();
                    swal({
                           title: "",
@@ -1496,11 +1504,11 @@
                           showCloseButton: true
                    }).then((value) => {
                        if (value) {
-
+                           window.location.href = '/Profile/target?socialProfileId=' + socialPId;
                       }
                   });
             }
-             
+
         }
     </script>
 }

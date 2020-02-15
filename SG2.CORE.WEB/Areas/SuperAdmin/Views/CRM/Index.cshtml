@@ -315,7 +315,9 @@
                 if (vali == "on")
                     $(this).prop('checked', true).change();
                 else
-                    $(this).prop('checked', false).change();
+                     $(this).prop('checked', false).change();
+
+                 $(this).attr("disabled", true);
             });
         });
 
