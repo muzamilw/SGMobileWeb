@@ -9,7 +9,7 @@
     ViewBag.Title = "Match Filter";
     Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
     ViewBag.socialProfile = Model.SocialProfile;
-    ViewBag.PlanName = Model.CurrentPaymentPlan == null ? "FREE" : Model.CurrentPaymentPlan.PlanName;
+    var planName = ViewBag.PlanName = Model.CurrentPaymentPlan == null ? "FREE" : Model.CurrentPaymentPlan.PlanName;
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
     var Customer = (Customer)ViewBag.Customer;
     var ProfileStatus = "";
@@ -582,7 +582,11 @@
                                                 
                                                 <div class="col-lg-6 col-md-6 col-sm-12 text-right pr-0 mb-1">
                                                     <ul class="list-inline mb-0">
-                                                        <li><input id="AfterFollLikeuserPosts" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts"></li>
+                                                        <li>
+                                                            <a onclick="showPaymentPopUp('AfterFollLikeuserPosts');">
+                                                                <input id="AfterFollLikeuserPosts" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts">
+                                                            </a>                                      
+                                                        </li>
                                                     </ul>
                                                     @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts)
                                                 </div>
@@ -593,7 +597,11 @@
                                                 
                                                 <div class="col-lg-4 col-md-4 col-sm-12 text-right pr-0 mb-1">
                                                     <ul class="list-inline mb-0">
-                                                        <li><input id="AfterFollCommentUserPosts" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts"></li>
+                                                        <li>
+                                                            <a onclick="showPaymentPopUp('AfterFollCommentUserPosts');">'
+                                                                <input id="AfterFollCommentUserPosts" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts">
+                                                            </a>                                                               
+                                                        </li>
                                                     </ul>
                                                     @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts)
                                                 </div>
@@ -604,7 +612,11 @@
                                                 
                                                 <div class="col-lg-4 col-md-4 col-sm-12 text-right pr-0 mb-1">
                                                     <ul class="list-inline mb-0">
-                                                        <li><input id="AfterFollViewUserStory" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.AfterFollViewUserStory"></li>
+                                                        <li>
+                                                            <a onclick="showPaymentPopUp('AfterFollViewUserStory');">
+                                                                <input id="AfterFollViewUserStory" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.AfterFollViewUserStory">
+                                                            </a>
+                                                        </li>                                                       
                                                     </ul>
                                                     @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollViewUserStory)
                                                 </div>
@@ -615,7 +627,12 @@
                                                 
                                                 <div class="col-lg-4 col-md-4 col-sm-12 text-right pr-0 mb-1">
                                                     <ul class="list-inline mb-0">
-                                                        <li><input id="AfterFollCommentUserStory" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserStory"></li>
+                                                        <li>
+                                                            <a onclick="showPaymentPopUp('AfterFollCommentUserStory');">
+                                                                <input id="AfterFollCommentUserStory" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserStory">
+
+                                                            </a>
+                                                        </li>
                                                     </ul>
                                                     @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserStory)
                                                 </div>
@@ -626,7 +643,11 @@
                                                 
                                                 <div class="col-lg-4 col-md-4 col-sm-12 text-right pr-0 mb-1">
                                                     <ul class="list-inline mb-0">
-                                                        <li><input id="UnFollFollowersAfterMinDays" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays"></li>
+                                                        <li>
+                                                            <a onclick="showPaymentPopUp('UnFollFollowersAfterMinDays');">
+                                                                <input id="UnFollFollowersAfterMinDays" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays">
+                                                            </a>
+                                                        </li>                                                      
                                                     </ul>
                                                     @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays)
                                                 </div>
@@ -637,7 +658,12 @@
                                                 
                                                 <div class="col-lg-4 col-md-4 col-sm-12 text-right pr-0 mb-1">
                                                     <ul class="list-inline mb-0">
-                                                        <li><input id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.FollowOn"></li>
+                                                        <li>
+                                                            <a onclick="showPaymentPopUp('FollowOn');">
+                                                                <input id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@Model.SocialProfile_Instagram_TargetingInformation.FollowOn">
+
+                                                            </a>
+                                                         </li>
                                                     </ul>
                                                     @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowOn)
                                                 </div>
@@ -1032,7 +1058,7 @@
         var selectedPlanprice = '';
         var BrokerMode = @((Customer.IsBroker.HasValue && Customer.IsBroker.Value == true).ToString().ToLower());
         var customerid = '@Model.SocialProfile.CustomerId';
-
+        var currentPaymentPlan = '@planName';
         $('#formtarget').submit(function (e) {
             somethingChanged = false;
             document.getElementById("SocialProfile_Instagram_TargetingInformation_HashTagsToEngage").value = hashtagsengagebox.tagging("getTags").join(', ');
@@ -1063,7 +1089,28 @@
 
             
         });
-
+        function showPaymentPopUp(inputFieldId) {
+            
+            if (currentPaymentPlan == "FREE") {
+                 $('input[id="' + inputFieldId +'"]').prop('checked', true).change();
+                   swal({
+                          title: "",
+                          text: "UPGRADE to a paid plan to enable this service. ",
+                          icon: "info", /* type: "info", */
+                          buttons: [
+                            "No", /* showCancelButton: true, cancelButtonText: "No", */
+                            "UPGRADE NOW" /* confirmButtonText: "Yes", */
+                          ],
+                          focusConfirm: false,
+                          showCloseButton: true
+                   }).then((value) => {
+                       if (value) {
+                           $(".planSelect").click();
+                      }
+                  });
+            }
+             
+        }
         function isNumberKey(evt) {
             var charCode = (evt.which) ? evt.which : evt.keyCode
             if (charCode > 31 && (charCode < 48 || charCode > 57))
@@ -1136,37 +1183,37 @@
                 });
 
 
-                var FollowOn = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.FollowOn.HasValue && Model.SocialProfile_Instagram_TargetingInformation.FollowOn.Value ? "on" : "off")'
+                var FollowOn = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.FollowOn.HasValue && Model.SocialProfile_Instagram_TargetingInformation.FollowOn.Value && planName != "FREE" ? "on" : "off")'
                 $('#FollowOn').bootstrapToggle(FollowOn);
                 $('#FollowOn').change(function () {
                     $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowOn)').val($(this).prop('checked'));
                 });
 
-                var AfterFollLikeuserPosts = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts.HasValue && Model.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts.Value ? "on" : "off")'
+                var AfterFollLikeuserPosts = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts.HasValue && Model.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts.Value && planName != "FREE" ? "on" : "off")'
                 $('#AfterFollLikeuserPosts').bootstrapToggle(AfterFollLikeuserPosts);
                 $('#AfterFollLikeuserPosts').change(function () {
                     $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts)').val($(this).prop('checked'));
                 });
 
-                var AfterFollCommentUserPosts = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts.HasValue &&  Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts.Value ? "on" : "off")'
+                var AfterFollCommentUserPosts = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts.HasValue &&  Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts.Value && planName != "FREE" ? "on" : "off")'
                 $('#AfterFollCommentUserPosts').bootstrapToggle(AfterFollCommentUserPosts);
                 $('#AfterFollCommentUserPosts').change(function () {
                     $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts)').val($(this).prop('checked'));
                 });
 
-                var AfterFollViewUserStory = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.AfterFollViewUserStory.HasValue && Model.SocialProfile_Instagram_TargetingInformation.AfterFollViewUserStory.Value ? "on" : "off")'
+                var AfterFollViewUserStory = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.AfterFollViewUserStory.HasValue && Model.SocialProfile_Instagram_TargetingInformation.AfterFollViewUserStory.Value && planName != "FREE" ? "on" : "off")'
                 $('#AfterFollViewUserStory').bootstrapToggle(AfterFollViewUserStory);
                 $('#AfterFollViewUserStory').change(function () {
                     $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollViewUserStory)').val($(this).prop('checked'));
                 });
 
-                var AfterFollCommentUserStory = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserStory.HasValue && Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserStory.Value == true  ? "on" : "off")'
+                var AfterFollCommentUserStory = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserStory.HasValue && Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserStory.Value == true && planName != "FREE"  ? "on" : "off")'
                 $('#AfterFollCommentUserStory').bootstrapToggle(AfterFollCommentUserStory);
                 $('#AfterFollCommentUserStory').change(function () {
                     $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserStory)').val($(this).prop('checked'));
                 });
 
-                var UnFollFollowersAfterMinDays = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays.HasValue && Model.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays.Value ? "on" : "off")'
+                var UnFollFollowersAfterMinDays = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays.HasValue && Model.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays.Value && planName != "FREE" ? "on" : "off")'
                 $('#UnFollFollowersAfterMinDays').bootstrapToggle(UnFollFollowersAfterMinDays);
                 $('#UnFollFollowersAfterMinDays').change(function () {
                     $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays)').val($(this).prop('checked'));
@@ -1175,7 +1222,7 @@
 
 
 
-                var unFollowOn = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.UnFollowOn.HasValue && Model.SocialProfile_Instagram_TargetingInformation.UnFollowOn.Value ? "on" : "off")'
+                var unFollowOn = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.UnFollowOn.HasValue && Model.SocialProfile_Instagram_TargetingInformation.UnFollowOn.Value && planName != "FREE" ? "on" : "off")'
                 $('#unFollowOn').bootstrapToggle(unFollowOn);
                 $('#unFollowOn').change(function () {
                     $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollowOn)').val($(this).prop('checked'));
@@ -1303,7 +1350,7 @@
                     else if (isConfirm && existingStripeSubscriptionId != "") {
                         //swal.enableLoading();
                         //swal("OK", "It's safe.", "error");
-                        debugger;
+                        
                         fetch('/profile/CreateStripeCustomerSubscription', {
                             method: 'post',
                             headers: {
@@ -1548,7 +1595,6 @@
                     var phone = form.querySelector('#' + exampleName + '-phone');
 
 
-                    debugger;
                     createPaymentMethodAndCustomer(stripe, card, name.value, email.value, phone.value);
 
                     // Use Stripe.js to create a token. We only need to pass in one Element
@@ -1574,7 +1620,7 @@
 
 
             function createPaymentMethodAndCustomer(stripe, card, name, email, phone) {
-               debugger;
+              
 
                 var selectedPlanId = $('#selectedPlanId').val();
 
@@ -1722,8 +1768,7 @@
             }
         });
 
-
-
+ 
 
 
 
