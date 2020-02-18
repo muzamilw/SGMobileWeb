@@ -947,7 +947,7 @@ textarea:invalid {
 .welcome-area {
   position: relative;
   z-index: 2;
-  height: 100vh;
+  /*height: 100vh;*/
   background-color: #0811FB;
   overflow: hidden; }
   @media only screen and (min-width: 992px) and (max-width: 1199px) {
@@ -958,7 +958,9 @@ textarea:invalid {
       height: 650px; } }
   @media only screen and (max-width: 767px) {
     .welcome-area {
-      height: 820px; } }
+      /*height: 820px;*/
+
+    } }
   .welcome-area .background-image {
     position: absolute !important;
     width: 100%;
@@ -1216,7 +1218,7 @@ textarea:invalid {
           bottom: 10%; } }
     @media only screen and (max-width: 767px) {
       .welcome-area.hero3 .welcome-content {
-        margin-top: 90px; } }
+        margin-top: 170px; } }
     @media only screen and (max-width: 767px) {
       .welcome-area.hero3 .welcome-content h2 {
         background-color: #ffffff;
