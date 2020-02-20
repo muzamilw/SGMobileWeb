@@ -364,26 +364,26 @@
                                                     </td>
                                                     <td class="@displayClass ">
                                                         <a onclick="showPaymentPopUp(@item.SocialProfileId, 'F', '@item.SubscriptionName');">
-                                                            <input class="toggler" data-size="mini" id="followOn" data-profile-id="F@(item.SocialProfileId)" type="checkbox" data-toggle="toggle" checked data-onstyle="success" value="@(item.FollowOn == true && item.SubscriptionName != null ? "on" : "off")">
+                                                            <input class="toggler" data-size="mini" id="followOn" data-profile-id="F@(item.SocialProfileId)" type="checkbox" data-toggle="toggle" checked data-onstyle="success" value="@(item.FollowOn == true && item.SubscriptionName != null && item.SubscriptionName != "FREE" ? "on" : "off")">
 
                                                         </a>
 
                                                     </td>
                                                     <td class="@displayClass">
                                                         <a onclick="showPaymentPopUp(@item.SocialProfileId, 'U', '@item.SubscriptionName');">
-                                                            <input class="toggler" data-size="mini" id="followOn" data-profile-id="U@(item.SocialProfileId)" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.UnFollFollowersAfterMinDays == true && item.SubscriptionName != null ? "on" : "off")">
+                                                            <input class="toggler" data-size="mini" id="followOn" data-profile-id="U@(item.SocialProfileId)" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.UnFollFollowersAfterMinDays == true && item.SubscriptionName != null && item.SubscriptionName != "FREE" ? "on" : "off")">
 
                                                         </a>
                                                     </td>
                                                     <td class="@displayClass">
                                                         <a onclick="showPaymentPopUp(@item.SocialProfileId, 'L', '@item.SubscriptionName');">
-                                                            <input class="toggler" data-size="mini" id="followOn" data-profile-id="L@(item.SocialProfileId)" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollLikeuserPosts == true && item.SubscriptionName != null ? "on" : "off")">
+                                                            <input class="toggler" data-size="mini" id="followOn" data-profile-id="L@(item.SocialProfileId)" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollLikeuserPosts == true && item.SubscriptionName != null && item.SubscriptionName != "FREE" ? "on" : "off")">
 
                                                         </a>
                                                     </td>
                                                     <td class="@displayClass">
                                                         <a onclick="showPaymentPopUp(@item.SocialProfileId, 'S', '@item.SubscriptionName');">
-                                                            <input class="toggler" data-size="mini" id="followOn" data-profile-id="S@(item.SocialProfileId)" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollViewUserStory == true && item.SubscriptionName != null ? "on" : "off")">
+                                                            <input class="toggler" data-size="mini" id="followOn" data-profile-id="S@(item.SocialProfileId)" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollViewUserStory == true && item.SubscriptionName != null && item.SubscriptionName != "FREE" ? "on" : "off")">
 
                                                         </a>
                                                     </td>
