@@ -663,6 +663,10 @@
           <Parameter Name="dtFromDate" Type="date" Mode="In" />
           <Parameter Name="dtToDate" Type="date" Mode="In" />
         </Function>
+        <Function Name="SG2_usp_Report_GetProfileEvents" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="dtFromDate" Type="date" Mode="In" />
+          <Parameter Name="dtToDate" Type="date" Mode="In" />
+        </Function>
         <Function Name="SG2_usp_SocialProfile_GetNotificationsByStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="StatusId" Type="smallint" Mode="In" />
         </Function>
@@ -976,6 +980,10 @@
             <Parameter Name="rvcGUID" Mode="In" Type="String" />
             <Parameter Name="rvcLastLoginIP" Mode="In" Type="String" />
             <Parameter Name="rvcStatusId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SG2_usp_Report_GetProfileEvents" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Report_GetProfileEvents_Result)">
+            <Parameter Name="dtFromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="dtToDate" Mode="In" Type="DateTime" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="SG2_usp_Get_AllUser1_Result">
@@ -2211,6 +2219,13 @@
           <Property Type="Int32" Name="PaymentId" Nullable="true" />
           <Property Type="Int32" Name="DefaultSocialProfileId" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="SG2_usp_Report_GetProfileEvents_Result">
+          <Property Type="String" Name="eDate" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="Signups" Nullable="false" />
+          <Property Type="Int32" Name="Downgrades" Nullable="false" />
+          <Property Type="Int32" Name="Upgrades" Nullable="false" />
+          <Property Type="Int32" Name="Deletes" Nullable="false" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3186,6 +3201,17 @@
                 <ScalarProperty Name="PhoneCode" ColumnName="PhoneCode" />
                 <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
                 <ScalarProperty Name="DefaultSocialProfileId" ColumnName="DefaultSocialProfileId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SG2_usp_Report_GetProfileEvents" FunctionName="SocialGrowth2Entities.Store.SG2_usp_Report_GetProfileEvents">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_Report_GetProfileEvents_Result">
+                <ScalarProperty Name="eDate" ColumnName="eDate" />
+                <ScalarProperty Name="Signups" ColumnName="Signups" />
+                <ScalarProperty Name="Downgrades" ColumnName="Downgrades" />
+                <ScalarProperty Name="Upgrades" ColumnName="Upgrades" />
+                <ScalarProperty Name="Deletes" ColumnName="Deletes" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

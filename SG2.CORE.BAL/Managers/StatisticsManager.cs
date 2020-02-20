@@ -280,20 +280,7 @@ namespace SG2.CORE.BAL.Managers
 
         }
 
-        //public AdminReportViewModel GetAdminReports()
-        //{
-        //    try
-        //    {
-
-        //        var model = _statistics.GetAdminReports();
-        //        return model;
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+        
 
         //public AdminReportViewModel GetJVBoxandProxyIPsData(DateTime fromDate, DateTime toDate)
         //{
@@ -324,5 +311,21 @@ namespace SG2.CORE.BAL.Managers
                 throw ex;
             }
         }
+
+        public List<SG2_usp_Report_GetProfileEvents_Result> GetProfileEvents(DateTime fromDate, DateTime toDate)
+        {
+            try
+            {
+
+                var model = _statistics.GetProfileEvents(fromDate, toDate);
+                return model;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
     }
 }

@@ -1,0 +1,77 @@
+ 
+ 
+ --#######################################  2020-02-19 ################################################################################
+
+alter Procedure [dbo].[SG2_usp_Report_GetMostUsedProductData]   -- '2019-01-01', '2019-12-12'  
+(      
+  @dtFromDate Date,      
+  @dtToDate   Date      
+)      
+As      
+Begin       
+SET FMTONLY OFF;      
+      
+
+-- [SG2_usp_Report_GetMostUsedProductData]  '2019-01-01', '2020-02-20'  
+   DECLARE @iTotalPlan BIGINT      
+           
+   SELECT   @iTotalPlan =  count(t.PaymentPlanId)  
+   FROM [dbo].[SocialProfile] t   
+   where t.PaymentPlanId <> 1
+   --inner join     
+   --WHERE T.StartDate BETWEEN @dtFromDate AND @dtToDate      
+      
+   SELECT p.PlanName as PlanName, count(s.PaymentPlanId) PlanSold   , @iTotalPlan as TotalPlanSold 
+   
+    FROM [dbo].[SocialProfile] S    
+   inner join PaymentPlan p on s.PaymentPlanId = p.PaymentPlanId  
+   left outer join 
+   
+	(select max(sp.PaymentDateTime) paymentdatetime, SocialProfileId, PaymentPlanId  
+	from SocialProfile_Payments sp 
+	
+	group by  SocialProfileId, PaymentPlanId
+	) pp on pp.SocialProfileId = s.SocialProfileId and pp.PaymentPlanId = s.PaymentPlanId
+  WHERE pp.paymentdatetime BETWEEN @dtFromDate AND @dtToDate      
+   GROUP BY p.PlanName   
+      
+      
+End      
+
+
+GO
+
+
+      
+create Procedure [dbo].[SG2_usp_Report_GetProfileEvents]   -- '2019-01-01', '2019-12-12'  
+(      
+  @dtFromDate Date,      
+  @dtToDate   Date      
+)      
+As      
+Begin       
+SET FMTONLY OFF;      
+      
+
+-- [SG2_usp_Report_GetProfileEvents]  '2018-02-1', '2020-02-20'  
+   
+      
+   select isnull(sdata.eDate, edata.eDate) as eDate, isnull(sdata.Signups,0) Signups, isnull(edata.Downgrades,0) Downgrades , isnull(edata.Upgrades,0) Upgrades, 0 as Deletes from 
+
+(select CONVERT(date, CreatedOn) eDate, count(*) Signups from SocialProfile
+where CONVERT(date, CreatedOn) between @dtFromDate and @dtToDate
+group by CONVERT(date, CreatedOn) 
+) sdata
+full outer join (
+select CONVERT(date, p.PaymentDateTime) eDate, 0 as Signups, sum(case when p.PaymentPlanId = 1 then 1 else 0 end) as Downgrades,  sum(case when p.PaymentPlanId > 1 then 1 else 0 end) as Upgrades from SocialProfile_Payments p
+where CONVERT(date, p.PaymentDateTime) between @dtFromDate and @dtToDate
+group by CONVERT(date, p.PaymentDateTime)
+) edata on sdata.eDate = edata.eDate
+order by sdata.eDate, edata.eDate
+      
+      
+End      
+
+
+
+ --#######################################  2020-02-19 ################################################################################

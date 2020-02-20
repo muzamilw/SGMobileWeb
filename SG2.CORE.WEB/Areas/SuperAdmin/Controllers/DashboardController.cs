@@ -54,7 +54,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
 
                 //AdminReportViewModel jvVBoxandProxyIPsData = _statisticsManager.GetJVBoxandProxyIPsData(DateTime.Now.AddMonths(-3), DateTime.Now);
-                List<PlanListReportDTO> mostUsedProductData = _statisticsManager.GetMostUsedProductData(DateTime.Now.AddMonths(-3), DateTime.Now);
+                List<PlanListReportDTO> mostUsedProductData = _statisticsManager.GetMostUsedProductData(DateTime.Now.AddMonths(-3), DateTime.Now.AddDays(1));
 
                 StringBuilder planNames = new StringBuilder();
                 StringBuilder planNamesWithUsages = new StringBuilder();
@@ -97,8 +97,9 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                             PlanNamesWithUsages = mostUsedProductData,
                             NoOfAvailablePlans = noOfAvailablePlans
 
-                        }
-                    };
+                        },
+                        EventsData = _statisticsManager.GetProfileEvents(DateTime.Now.AddMonths(-3), DateTime.Now.AddDays(1))
+            };
                
 
             }

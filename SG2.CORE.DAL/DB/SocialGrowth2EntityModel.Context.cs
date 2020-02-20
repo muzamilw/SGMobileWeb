@@ -542,5 +542,18 @@ namespace SG2.CORE.DAL.DB
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_SignUp_Result>("SG2_usp_Customer_SignUp", rvcFirstNameParameter, rvcSurNameParameter, rvcEmailAddressParameter, rvcPasswordParameter, rvcCreatedByParameter, rvcGUIDParameter, rvcLastLoginIPParameter, rvcStatusIdParameter);
         }
+    
+        public virtual ObjectResult<SG2_usp_Report_GetProfileEvents_Result> SG2_usp_Report_GetProfileEvents(Nullable<System.DateTime> dtFromDate, Nullable<System.DateTime> dtToDate)
+        {
+            var dtFromDateParameter = dtFromDate.HasValue ?
+                new ObjectParameter("dtFromDate", dtFromDate) :
+                new ObjectParameter("dtFromDate", typeof(System.DateTime));
+    
+            var dtToDateParameter = dtToDate.HasValue ?
+                new ObjectParameter("dtToDate", dtToDate) :
+                new ObjectParameter("dtToDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Report_GetProfileEvents_Result>("SG2_usp_Report_GetProfileEvents", dtFromDateParameter, dtToDateParameter);
+        }
     }
 }
