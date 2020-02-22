@@ -42,8 +42,16 @@ End
 GO
 
 
+
+GO
+/****** Object:  StoredProcedure [dbo].[SG2_usp_Report_GetProfileEvents]    Script Date: 2/22/2020 5:30:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
       
-create Procedure [dbo].[SG2_usp_Report_GetProfileEvents]   -- '2019-01-01', '2019-12-12'  
+ALTER Procedure [dbo].[SG2_usp_Report_GetProfileEvents]   -- '2019-01-01', '2019-12-12'  
 (      
   @dtFromDate Date,      
   @dtToDate   Date      
@@ -56,7 +64,7 @@ SET FMTONLY OFF;
 -- [SG2_usp_Report_GetProfileEvents]  '2018-02-1', '2020-02-20'  
    
       
-   select isnull(sdata.eDate, edata.eDate) as eDate, isnull(sdata.Signups,0) Signups, isnull(edata.Downgrades,0) Downgrades , isnull(edata.Upgrades,0) Upgrades, 0 as Deletes from 
+   select cast( isnull(sdata.eDate, edata.eDate) as nvarchar(100)) as eDate, isnull(sdata.Signups,0) Signups, isnull(edata.Downgrades,0) Downgrades , isnull(edata.Upgrades,0) Upgrades, 0 as Deletes from 
 
 (select CONVERT(date, CreatedOn) eDate, count(*) Signups from SocialProfile
 where CONVERT(date, CreatedOn) between @dtFromDate and @dtToDate
@@ -71,7 +79,6 @@ order by sdata.eDate, edata.eDate
       
       
 End      
-
 
 
  --#######################################  2020-02-19 ################################################################################

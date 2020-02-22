@@ -447,6 +447,27 @@ namespace SG2.CORE.WEB.Controllers
                     paymentRec.PaymentDateTime = DateTime.Now;
 
                     _cm.InsertSocialProfilePayment(paymentRec);
+
+
+                    //updating the profile's flag to true after upgrade/purchase
+                    try
+                    {
+                        if (newPlan.PlanId != 1)
+                        {
+                            socialProfile.SocialProfile_Instagram_TargetingInformation.FollowOn = true;
+                            socialProfile.SocialProfile_Instagram_TargetingInformation.UnFollowOn = true;
+                            socialProfile.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts = true;
+                            socialProfile.SocialProfile_Instagram_TargetingInformation.AfterFollViewUserStory = true;
+
+                            _cm.UpdateTargetProfile(socialProfile, true);
+
+                        }
+                    }
+                    catch (Exception e)
+                    {
+
+                        throw;
+                    }
                    
 
                     var nt = new NotificationDTO()

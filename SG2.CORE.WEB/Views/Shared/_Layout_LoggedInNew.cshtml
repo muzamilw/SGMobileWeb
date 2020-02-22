@@ -358,14 +358,17 @@
                         type: "POST",
                         url: "/Account/ForgetPassword",
                         dataType: "json",
+                        data : $("#Form_ForgetPassword").serialize(),
                         success: function (Data) {
                             $("#ForgotPassSpiner").css("display", "none");
                             if (!$.isEmptyObject(Data)) {
                                 if (Data.ResultType == "Success") {
-                                    $("#forgotPassword-error").show().html("Your account has been successfully deleted.");
+                                    //$("#forgotPassword-error").show().html("Your account has been successfully deleted.");
+                                    $("#Modal_MessageBoxTitle").text("Success!");
+                                    $("#Modal_MessageBoxBody").text(Data.message);
                                     $("#Modal_Messagebox").modal("show");
                                 } else {
-                                    $("#forgotPassword-error").show().html(data.message);
+                                    $("#forgotPassword-error").show().html(Data.message);
                                 }
                             }
                         },

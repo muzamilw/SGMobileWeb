@@ -379,7 +379,7 @@ namespace SG2.CORE.WEB.Controllers
         //}
 
         [HttpPost]
-        public ActionResult ForgetPassword(string email)
+        public ActionResult ForgetPassword(string username)
         {
 
 
@@ -389,7 +389,7 @@ namespace SG2.CORE.WEB.Controllers
 
             var jr = new JsonResult();
 
-            var customer = _customerManager.GetCustomerByEmail(email);
+            var customer = _customerManager.GetCustomerByEmail(username);
 
             if (customer != null)
             {
@@ -419,7 +419,7 @@ namespace SG2.CORE.WEB.Controllers
 
 
                 //HttpContext.Items["isAuthentication"] = true;
-                jr.Data = new { ResultType = "Success", message = "Email sent successfully. Please check your inbox.", data = customer };
+                jr.Data = new { ResultType = "Success", message = "Email with password reset instructions sent successfully to the email address. Please check your inbox.", data = customer };
             }
             else
             {
