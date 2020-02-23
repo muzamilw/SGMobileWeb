@@ -207,18 +207,18 @@ namespace SG2.CORE.BAL.Managers
 
 
                     var date =  model[1].Date;
+                    var profile = _cm.GetSocialProfilesById(socialProfileId);
 
+                    var intervals = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Intervals>>(profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals).First();
 
                     var recs = _cm.ReturnLastActions(socialProfileId, 10000).Where(g => g.ActionDateTime.Value.Year == date.Year && g.ActionDateTime.Value.Month == date.Month && g.ActionDateTime.Value.Day == date.Day).OrderBy(g => g.ActionDateTime);
                     if (recs != null && recs.Count() >= 2)
                     {
                         var tDiff = recs.Last().ActionDateTime - recs.First().ActionDateTime;
-                        followersStatisticsViewModel.LastSessionIndex = (Double)recs.Count()/ Convert.ToDouble(tDiff.Value.TotalMinutes == 0 ?1.0 : tDiff.Value.TotalMinutes);
-                        var profile = _cm.GetSocialProfilesById(socialProfileId);
-                        var intervals = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Intervals>>(profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals).First();
-                                               
+                        followersStatisticsViewModel.LastSessionIndex = (Double)recs.Count() / Convert.ToDouble(tDiff.Value.TotalMinutes == 0 ? 1.0 : tDiff.Value.TotalMinutes);
+                        
                         followersStatisticsViewModel.FollowingToday = recs.Where(g => g.ActionID == 60).Count();
-                        followersStatisticsViewModel.FollowingTodayLimit = Convert.ToInt32( intervals.FollAccSearchTags);
+                        followersStatisticsViewModel.FollowingTodayLimit = Convert.ToInt32(intervals.FollAccSearchTags);
                         followersStatisticsViewModel.LikeToday = recs.Where(g => g.ActionID == 62).Count();
                         followersStatisticsViewModel.LikeLimit = Convert.ToInt32(intervals.LikeFollowingPosts);
                         followersStatisticsViewModel.UnFollowToday = recs.Where(g => g.ActionID == 61).Count();
@@ -228,7 +228,18 @@ namespace SG2.CORE.BAL.Managers
 
                     }
                     else
+                    {
                         followersStatisticsViewModel.LastSessionIndex = 0;
+
+                        followersStatisticsViewModel.FollowingToday = recs.Where(g => g.ActionID == 60).Count();
+                        followersStatisticsViewModel.FollowingTodayLimit = Convert.ToInt32(intervals.FollAccSearchTags);
+                        followersStatisticsViewModel.LikeToday = recs.Where(g => g.ActionID == 62).Count();
+                        followersStatisticsViewModel.LikeLimit = Convert.ToInt32(intervals.LikeFollowingPosts);
+                        followersStatisticsViewModel.UnFollowToday = recs.Where(g => g.ActionID == 61).Count();
+                        followersStatisticsViewModel.UnFollowLimit = Convert.ToInt32(intervals.UnFoll16DaysEngage);
+                        followersStatisticsViewModel.StoryViewToday = recs.Where(g => g.ActionID == 64).Count();
+                        followersStatisticsViewModel.StoryViewLimit = Convert.ToInt32(intervals.VwStoriesFollowing);
+                    }
 
                     
 
