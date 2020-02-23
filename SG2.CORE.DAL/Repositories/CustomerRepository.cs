@@ -830,41 +830,45 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
-        public (bool, string, int, bool, int ErrorCode, int CustomerId, bool IsBroker, int BlockCode, DateTime BlockDateTimeUTC, bool InitialStatsReceived) PerformMobileLogin(string SocialUserName, string Pin, string DeviceIMEI, bool ForceSwitchDevice)
+        public (bool, string, int, bool, int ErrorCode, int CustomerId, bool IsBroker, int BlockCode, DateTime BlockDateTimeUTC, bool InitialStatsReceived) PerformMobileLogin(MobileLoginRequest model)
         {
 
 
-            ForceSwitchDevice = true;//overrising the flag and always forcing login.
+            model.ForceSwitchDevice = true;//overrising the flag and always forcing login.
             using (var _db = new SocialGrowth2Connection())
             {
-                var profile = _db.SocialProfiles.Where(g => g.SocialUsername == SocialUserName && g.PinCode == Pin && g.PinCode == Pin).SingleOrDefault();
+                var profile = _db.SocialProfiles.Where(g => g.SocialUsername == model.Email && g.PinCode == model.Pin).SingleOrDefault();
                 if (profile != null)
                 {
                     var Customer = _db.Customers.Where(g => g.CustomerId == profile.CustomerId).Single();
 
                     if (string.IsNullOrEmpty(profile.DeviceIMEI))
                     {
-                        profile.DeviceIMEI = DeviceIMEI;
+                        profile.DeviceIMEI = model.IMEI;
                         profile.DeviceStatus = (int)DeviceStatus.Connected;
                         profile.LastConnectedDateTime = DateTime.Now;
+                        profile.AppTimeZoneOffSet = model.AppTimeZoneOffSet ?? "";
+                        profile.AppVersion = model.AppVersion ?? "";
                         _db.SaveChanges();
                         return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty( profile.SocialPassword),1, profile.CustomerId.Value, Customer.IsBroker.HasValue ? Customer.IsBroker.Value:false, profile.BlockedStatus??0, profile.BockedSinceDateTime.HasValue ? profile.BockedSinceDateTime.Value.ToUniversalTime():DateTime.MinValue , profile.InitialStatsReceived?? false);
                     }
-                    else if (profile.DeviceIMEI == DeviceIMEI)
+                    else if (profile.DeviceIMEI == model.IMEI)
                     {
-                        profile.DeviceIMEI = DeviceIMEI;
+                        profile.DeviceIMEI = model.IMEI;
                         profile.DeviceStatus = (int)DeviceStatus.Connected;
                         profile.LastConnectedDateTime = DateTime.Now;
+                        profile.AppTimeZoneOffSet = model.AppTimeZoneOffSet ?? "";
+                        profile.AppVersion = model.AppVersion ?? "";
                         _db.SaveChanges();
                         return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty(profile.SocialPassword),1, profile.CustomerId.Value, Customer.IsBroker.HasValue ? Customer.IsBroker.Value : false, profile.BlockedStatus ?? 0, profile.BockedSinceDateTime.HasValue ? profile.BockedSinceDateTime.Value.ToUniversalTime() : DateTime.MinValue, profile.InitialStatsReceived ?? false);
                     }
-                    else if (profile.DeviceIMEI != DeviceIMEI && ForceSwitchDevice == false)
+                    else if (profile.DeviceIMEI != model.IMEI && model.ForceSwitchDevice == false)
                     {
                         return (false, "Device IMEI does not match", profile.SocialProfileId,false,2,0,false,0,DateTime.MinValue,false);
                     }
-                    else if (profile.DeviceIMEI != DeviceIMEI && ForceSwitchDevice == true)
+                    else if (profile.DeviceIMEI != model.IMEI && model.ForceSwitchDevice == true)
                     {
-                        profile.DeviceIMEI = DeviceIMEI;
+                        profile.DeviceIMEI = model.IMEI;
                         profile.DeviceStatus = (int)DeviceStatus.Connected;
                         profile.LastConnectedDateTime = DateTime.Now;
                         _db.SaveChanges();

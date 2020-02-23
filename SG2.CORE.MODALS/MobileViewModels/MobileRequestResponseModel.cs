@@ -20,6 +20,10 @@ namespace SG2.CORE.MODAL.MobileViewModels
         [Required]
         public bool ForceSwitchDevice { get; set; }
 
+        public string AppVersion { get; set; }
+
+        public string AppTimeZoneOffSet { get; set; }
+
     }
 
     public class MobileLoginResponse

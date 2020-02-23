@@ -33,7 +33,7 @@ namespace SG2.CORE.WEB.APIController
             if (ModelState.IsValid)
             {
 
-                var res = _customerManager.PerformMobileLogin(model.Email, model.Pin, model.IMEI, model.ForceSwitchDevice);
+                var res = _customerManager.PerformMobileLogin(model);
                 if (res.LoginSuccessful)
                 {
 
@@ -135,7 +135,10 @@ namespace SG2.CORE.WEB.APIController
                     _customerManager.UpdateBasicSocialProfileSocialPassword(model.SocialPassword, model.SocialProfileId);
                 }
 
-                var stats = this._statsManager.GetStatistics(profile.SocialProfile.SocialProfileId);
+                //resetting the changed flag to false since we are sending the new manifest.
+                _customerManager.ResetSocialProfileManifestChangeFlag(false, model.SocialProfileId);
+
+                 var stats = this._statsManager.GetStatistics(profile.SocialProfile.SocialProfileId);
 
                 var whitelist = profile.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers;
                 var whilelistArray = new List<string>();
@@ -308,8 +311,12 @@ namespace SG2.CORE.WEB.APIController
                     if (FollowingCount > 0  || FollowingCountNet  > 0|| LikeCount > 0 || CommentCount > 0 || StoryCount > 0 || FollowCount > 0  || UnFollowCount > 0)
                         _statsManager.UpdateStatistics(model.First().SocialProfileId, FollowingCountNet, LikeCount, CommentCount, StoryCount, FollowCount, statsDate, UnFollowCount);
 
-                    if ( successCount == model.Count)
-                        return Ok(new MobileActionResponse { StatusCode = 1, StatusMessage = "Success" });
+                    if (successCount == model.Count)
+                    {
+
+                        var flag = _customerManager.GetSocialProfileManifestChangeFlag(model.First().SocialProfileId);
+                        return Ok(new MobileActionResponse { StatusCode = 1, StatusMessage = "{\"Result\":\"Success\", \"ManifestUpdatedSinceLastGet\":\"" + flag.ToString() + "\" }" });
+                    }
                     else
                         return Content(HttpStatusCode.BadRequest, "One or more actions could not be saved");
                 }

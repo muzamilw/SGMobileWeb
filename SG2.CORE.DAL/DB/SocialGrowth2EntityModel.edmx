@@ -184,6 +184,9 @@
           <Property Name="TrelloStatusId" Type="int" />
           <Property Name="InitialStatsReceived" Type="bit" />
           <Property Name="InitialStatsReceivedDateTime" Type="datetime" />
+          <Property Name="AppVersion" Type="nvarchar" MaxLength="100" />
+          <Property Name="AppTimeZoneOffSet" Type="nvarchar" MaxLength="100" />
+          <Property Name="ManifestUpdatedSinceLastGet" Type="bit" />
         </EntityType>
         <EntityType Name="SocialProfile_Actions">
           <Key>
@@ -262,6 +265,15 @@
           <Property Name="BlackListLocations" Type="nvarchar(max)" />
           <Property Name="BlackListHashtags" Type="nvarchar(max)" />
           <Property Name="BlackListWordsManual" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="SocialProfile_Logs">
+          <Key>
+            <PropertyRef Name="LogFileId" />
+          </Key>
+          <Property Name="LogFileId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SocialProfileId" Type="int" />
+          <Property Name="LogData" Type="ntext" />
+          <Property Name="LogDateTime" Type="datetime" />
         </EntityType>
         <EntityType Name="SocialProfile_Notification">
           <Key>
@@ -540,6 +552,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SocialProfile_Logs_SocialProfile_Logs">
+          <End Role="SocialProfile_Logs" Type="Self.SocialProfile_Logs" Multiplicity="1" />
+          <End Role="SocialProfile_Logs1" Type="Self.SocialProfile_Logs" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="SocialProfile_Logs">
+              <PropertyRef Name="LogFileId" />
+            </Principal>
+            <Dependent Role="SocialProfile_Logs1">
+              <PropertyRef Name="LogFileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SocialProfile_PaymentPlan">
           <End Role="PaymentPlan" Type="Self.PaymentPlan" Multiplicity="0..1" />
           <End Role="SocialProfile" Type="Self.SocialProfile" Multiplicity="*" />
@@ -702,6 +726,7 @@
           <EntitySet Name="SocialProfile_Actions" EntityType="Self.SocialProfile_Actions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SocialProfile_FollowedAccounts" EntityType="Self.SocialProfile_FollowedAccounts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SocialProfile_Instagram_TargetingInformation" EntityType="Self.SocialProfile_Instagram_TargetingInformation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SocialProfile_Logs" EntityType="Self.SocialProfile_Logs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SocialProfile_Notification" EntityType="Self.SocialProfile_Notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SocialProfile_Payments" EntityType="Self.SocialProfile_Payments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SocialProfile_Statistics" EntityType="Self.SocialProfile_Statistics" Schema="dbo" store:Type="Tables" />
@@ -754,6 +779,10 @@
           <AssociationSet Name="FK_SocialProfile_Instagram_TargetingInformation_Customer" Association="Self.FK_SocialProfile_Instagram_TargetingInformation_Customer">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="SocialProfile_Instagram_TargetingInformation" EntitySet="SocialProfile_Instagram_TargetingInformation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SocialProfile_Logs_SocialProfile_Logs" Association="Self.FK_SocialProfile_Logs_SocialProfile_Logs">
+            <End Role="SocialProfile_Logs" EntitySet="SocialProfile_Logs" />
+            <End Role="SocialProfile_Logs1" EntitySet="SocialProfile_Logs" />
           </AssociationSet>
           <AssociationSet Name="FK_SocialProfile_PaymentPlan" Association="Self.FK_SocialProfile_PaymentPlan">
             <End Role="PaymentPlan" EntitySet="PaymentPlan" />
@@ -985,6 +1014,11 @@
             <Parameter Name="dtFromDate" Mode="In" Type="DateTime" />
             <Parameter Name="dtToDate" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <EntitySet Name="SocialProfile_Logs" EntityType="SocialGrowth2Entities.SocialProfile_Logs" />
+          <AssociationSet Name="FK_SocialProfile_Logs_SocialProfile_Logs" Association="SocialGrowth2Entities.FK_SocialProfile_Logs_SocialProfile_Logs">
+            <End Role="SocialProfile_Logs" EntitySet="SocialProfile_Logs" />
+            <End Role="SocialProfile_Logs1" EntitySet="SocialProfile_Logs" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="SG2_usp_Get_AllUser1_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
@@ -1816,6 +1850,9 @@
           <NavigationProperty Name="SocialProfile_Instagram_TargetingInformation" Relationship="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Instagram_TargetingInformation" />
           <Property Name="InitialStatsReceived" Type="Boolean" />
           <Property Name="InitialStatsReceivedDateTime" Type="DateTime" Precision="3" />
+          <Property Name="AppVersion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AppTimeZoneOffSet" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ManifestUpdatedSinceLastGet" Type="Boolean" />
         </EntityType>
         <Association Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
           <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="1" />
@@ -2226,6 +2263,29 @@
           <Property Type="Int32" Name="Upgrades" Nullable="false" />
           <Property Type="Int32" Name="Deletes" Nullable="false" />
         </ComplexType>
+        <EntityType Name="SocialProfile_Logs">
+          <Key>
+            <PropertyRef Name="LogFileId" />
+          </Key>
+          <Property Name="LogFileId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SocialProfileId" Type="Int32" />
+          <Property Name="LogData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LogDateTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="SocialProfile_Logs1" Relationship="SocialGrowth2Entities.FK_SocialProfile_Logs_SocialProfile_Logs" FromRole="SocialProfile_Logs" ToRole="SocialProfile_Logs1" />
+          <NavigationProperty Name="SocialProfile_Logs2" Relationship="SocialGrowth2Entities.FK_SocialProfile_Logs_SocialProfile_Logs" FromRole="SocialProfile_Logs1" ToRole="SocialProfile_Logs" />
+        </EntityType>
+        <Association Name="FK_SocialProfile_Logs_SocialProfile_Logs">
+          <End Type="SocialGrowth2Entities.SocialProfile_Logs" Role="SocialProfile_Logs" Multiplicity="1" />
+          <End Type="SocialGrowth2Entities.SocialProfile_Logs" Role="SocialProfile_Logs1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="SocialProfile_Logs">
+              <PropertyRef Name="LogFileId" />
+            </Principal>
+            <Dependent Role="SocialProfile_Logs1">
+              <PropertyRef Name="LogFileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2909,6 +2969,9 @@
           <EntitySetMapping Name="SocialProfiles">
             <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile">
               <MappingFragment StoreEntitySet="SocialProfile">
+                <ScalarProperty Name="ManifestUpdatedSinceLastGet" ColumnName="ManifestUpdatedSinceLastGet" />
+                <ScalarProperty Name="AppTimeZoneOffSet" ColumnName="AppTimeZoneOffSet" />
+                <ScalarProperty Name="AppVersion" ColumnName="AppVersion" />
                 <ScalarProperty Name="InitialStatsReceivedDateTime" ColumnName="InitialStatsReceivedDateTime" />
                 <ScalarProperty Name="InitialStatsReceived" ColumnName="InitialStatsReceived" />
                 <ScalarProperty Name="TrelloStatusId" ColumnName="TrelloStatusId" />
@@ -3215,6 +3278,16 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="SocialProfile_Logs">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile_Logs">
+              <MappingFragment StoreEntitySet="SocialProfile_Logs">
+                <ScalarProperty Name="LogDateTime" ColumnName="LogDateTime" />
+                <ScalarProperty Name="LogData" ColumnName="LogData" />
+                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
+                <ScalarProperty Name="LogFileId" ColumnName="LogFileId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
