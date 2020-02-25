@@ -116,9 +116,9 @@ namespace SG2.CORE.BAL.Managers
 
         }
 
-        public (bool LoginSuccessful, string Message, int SocialProfileId, bool PasswordNeeded, int ErrorCode, int CustomerId, bool IsBroker, int BlockCode, DateTime BlockDateTimeUTC, bool InitialStatsReceived) PerformMobileLogin(string SocialUserName, string Pin, string DeviceIMEI, bool ForceSwitchDevice)
+        public (bool LoginSuccessful, string Message, int SocialProfileId, bool PasswordNeeded, int ErrorCode, int CustomerId, bool IsBroker, int BlockCode, DateTime BlockDateTimeUTC, bool InitialStatsReceived) PerformMobileLogin(MobileLoginRequest model)
         {
-            return _customerRepository.PerformMobileLogin(SocialUserName, Pin, DeviceIMEI, ForceSwitchDevice);
+            return _customerRepository.PerformMobileLogin(model);
         }
 
             public (bool, int, string) LoginUser(string username, string password, ref string errorMessage)
@@ -342,6 +342,37 @@ namespace SG2.CORE.BAL.Managers
             try
             {
                 return  _socialRepository.UpdateSocialProfileSocialPassword(SocialPassword, SocialProfileId);
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+
+            }
+        }
+
+        public bool ResetSocialProfileManifestChangeFlag(bool Flag, int SocialProfileId)
+        {
+            try
+            {
+                return _socialRepository.ResetSocialProfileManifestChangeFlag(Flag, SocialProfileId);
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+
+            }
+        }
+
+
+        public bool GetSocialProfileManifestChangeFlag(int SocialProfileId)
+        {
+            try
+            {
+                return _socialRepository.GetSocialProfileManifestChangeFlag(SocialProfileId);
 
             }
             catch (Exception e)

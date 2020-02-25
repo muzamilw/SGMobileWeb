@@ -78,6 +78,48 @@ namespace SG2.CORE.DAL.Repositories
 
         }
 
+        public bool ResetSocialProfileManifestChangeFlag(bool Flag, int SocialProfileId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+
+                    _db.Database.ExecuteSqlCommand("update SocialProfile set ManifestUpdatedSinceLastGet=0 where SocialProfileId=" + SocialProfileId.ToString(), 1);
+
+                    return true;
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        public bool GetSocialProfileManifestChangeFlag(int SocialProfileId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+
+                    return _db.Database.SqlQuery<bool>("select ManifestUpdatedSinceLastGet from SocialProfile where SocialProfileId=" + SocialProfileId.ToString(), 1).SingleOrDefault();
+
+                  
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
         public bool UpdateSocialProfileBlocks(BlockStatus blockStatus, int SocialProfileId)
         {
             try
@@ -218,11 +260,19 @@ namespace SG2.CORE.DAL.Repositories
                         //profile.IsSystem = isSystem;
 
                         _db.SaveChanges();
-					//}
+                    //}
 
-				
+                   
+                    //var sProfile = _db.SocialProfiles.Where(g => g.SocialProfileId == request.SocialProfile_Instagram_TargetingInformation.SocialProfileId).SingleOrDefault();
+                    //if (sProfile != null)
+                    //{
+                        _db.Database.ExecuteSqlCommand("update SocialProfile set ManifestUpdatedSinceLastGet=1 where SocialProfileId=" + request.SocialProfile_Instagram_TargetingInformation.SocialProfileId.ToString(), 1);
+                     
 
-					return true;
+
+
+
+                    return true;
 				}
 
 			}
