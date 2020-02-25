@@ -128,6 +128,7 @@ namespace SG2.CORE.WEB.APIController
 
               
                 DateTime commentCutOffDate = DateTime.Today.AddDays(-1);
+                DateTime unfollowCutOffDate = DateTime.Today.AddDays(-2);
 
                 var profile = _customerManager.GetSocialProfileById(model.SocialProfileId);
                 if (!String.IsNullOrEmpty( model.SocialPassword))
@@ -151,7 +152,7 @@ namespace SG2.CORE.WEB.APIController
                     CurrentPlan = mapper4.Map<MobilePaymentPlan>(  profile.CurrentPaymentPlan),
                     TargetInformation = mapper2.Map<MobileSocialProfile_Instagram_TargetingInformation>(profile.SocialProfile_Instagram_TargetingInformation),
                     // filter the unfollow list by the white list of users which is manually entered.
-                    FollowersToUnFollow = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime < commentCutOffDate && !whilelistArray.Contains(g.FollowedSocialUsername)).ToList()),
+                    FollowersToUnFollow = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.StatusId == 1 && g.FollowedDateTime < unfollowCutOffDate && !whilelistArray.Contains(g.FollowedSocialUsername)).ToList()),
                     //randomize the followers to comment list and only send 50
                     FollowersToComment = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime >= commentCutOffDate).OrderBy(x => Guid.NewGuid()).Take(50).ToList()),
                     FollowList = _customerManager.GetFollowList(model.SocialProfileId).Select( g=> new MobileSocialProfile_FollowedAccounts { FollowedSocialUsername = g.SocialUsername, FollowedDateTime = DateTime.Now }).Take(30).ToList(),
