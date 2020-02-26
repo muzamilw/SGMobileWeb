@@ -96,4 +96,16 @@ namespace SG2.CORE.MODAL.ViewModals.TargetPreferences
         public int? SocialAccAS { get; set; }
     }
 
+
+    public class ExecutionInterval
+    {
+        public string FollAccSearchTags { get; set; }
+        public string UnFoll16DaysEngage { get; set; }
+        public string LikeFollowingPosts { get; set; }
+        public string VwStoriesFollowing { get; set; }
+        public string CommFollowingPosts { get; set; }
+        public string starttime { get; set; }
+        public string endtime { get; set; }
+    }
+
 }

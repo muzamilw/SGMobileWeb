@@ -10,6 +10,8 @@ using AutoMapper;
 using SG2.CORE.MODAL;
 using static SG2.CORE.COMMON.GlobalEnums;
 using AutoMapper;
+using Newtonsoft.Json;
+using SG2.CORE.MODAL.ViewModals.TargetPreferences;
 
 namespace SG2.CORE.WEB.APIController
 {
@@ -143,8 +145,8 @@ namespace SG2.CORE.WEB.APIController
 
                 var whitelist = profile.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers;
                 var whilelistArray = new List<string>();
-                if (!string.IsNullOrEmpty( whitelist) )
-                    whilelistArray = whitelist.Split(',').ToList();
+                if (!string.IsNullOrEmpty(whitelist))
+                    whilelistArray = whitelist.Split(',').Select(uname => uname.Trim()).ToList();
 
                 var manifest = new MobileManifestResponse
                 {
@@ -152,11 +154,10 @@ namespace SG2.CORE.WEB.APIController
                     StatusCode = 1,
                     StatusMessage = "",
                     Profile = mapper.Map<MobileSocialProfile>(profile.SocialProfile),
-                    CurrentPlan = mapper4.Map<MobilePaymentPlan>(  profile.CurrentPaymentPlan),
+                    CurrentPlan = mapper4.Map<MobilePaymentPlan>(profile.CurrentPaymentPlan),
                     TargetInformation = mapper2.Map<MobileSocialProfile_Instagram_TargetingInformation>(profile.SocialProfile_Instagram_TargetingInformation),
                     // filter the unfollow list by the white list of users which is manually entered.
-                    FollowersToUnFollow = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.StatusId == 1 && g.FollowedDateTime < unfollowCutOffDate && !whilelistArray.Contains(g.FollowedSocialUsername)).ToList()),
-                    //randomize the followers to comment list and only send 50
+                    FollowersToUnFollow = null,//randomize the followers to comment list and only send 50
                     FollowersToComment = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime >= commentCutOffDate).OrderBy(x => Guid.NewGuid()).Take(50).ToList()),
                     FollowList = _customerManager.GetFollowList(model.SocialProfileId).Select( g=> new MobileSocialProfile_FollowedAccounts { FollowedSocialUsername = g.SocialUsername, FollowedDateTime = DateTime.Now }).Take(30).ToList(),
                     LikeList = _customerManager.GetFollowList(model.SocialProfileId).Select(g => new MobileSocialProfile_FollowedAccounts { FollowedSocialUsername = g.SocialUsername }).Take(30).ToList()
@@ -164,6 +165,11 @@ namespace SG2.CORE.WEB.APIController
                 //20 count Follow list is all paid instagram profile usernames which are already not in follower list.  and follow exchange checkbox true
                 //10 count Like list is all paid instagram profile usernames which are already not in follower list.  and like exchange checkbox true
                 };
+
+                var executionintervals = JsonConvert.DeserializeObject<List<ExecutionInterval>>(manifest.TargetInformation.ExecutionIntervals);
+                //; ExecutionInterval
+                manifest.FollowersToUnFollow = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g=> !whilelistArray.Contains(g.FollowedSocialUsername)).Where(g => g.StatusId == 1 && g.FollowedDateTime < unfollowCutOffDate).Take(Convert.ToInt32(executionintervals[0].UnFoll16DaysEngage)).ToList());
+                    
 
                 manifest.Profile.StatsFollowersIncrease = stats.FollowersTotal.Value - stats.FollowersInitial.Value;
                 manifest.Profile.StatsFollowingsIncrease = stats.FollowingsTotal.Value - stats.FollowingsInitial.Value;
