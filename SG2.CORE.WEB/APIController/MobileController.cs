@@ -322,7 +322,7 @@ namespace SG2.CORE.WEB.APIController
                     {
 
                         var flag = _customerManager.GetSocialProfileManifestChangeFlag(model.First().SocialProfileId);
-                        return Ok(new MobileActionResponse { StatusCode = 1, StatusMessage = "{\"Result\":\"Success\", \"ManifestUpdatedSinceLastGet\":\"" + flag.ToString() + "\" }" });
+                        return Ok(new MobileActionResponse { StatusCode = 1, StatusMessage = "Success", ManifestUpdated = flag });
                     }
                     else
                         return Content(HttpStatusCode.BadRequest, "One or more actions could not be saved");

@@ -61,6 +61,8 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public int StatusCode { get; set; }
         public string StatusMessage { get; set; }
 
+        public bool ManifestUpdated { get; set; }
+
     }
 
 
