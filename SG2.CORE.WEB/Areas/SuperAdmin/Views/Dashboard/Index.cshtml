@@ -53,6 +53,30 @@
                 </div>
 
             </div>
+            <div class="row">
+
+                <div class="col-md-12 col-sm-12 reportsDiv">
+                    <h3> Most Popular Product</h3>
+                    <br />
+                    <div id="MostPopularProductPiChart" style="width:100%; height:400px; align-content:center;"></div>
+                </div>
+            </div>
+            <div class="row  reportsDiv">
+                <div class="col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">New Sign Ups, Cancellations & Paid Plan counts</h4>
+
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+
+                                <div id="profileActions" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-md-12">
@@ -76,7 +100,7 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">Date</th>
-                                      
+
                                         <th scope="col">Notification</th>
                                         <th scope="col">Social Username</th>
                                         <th scope="col">Status</th>
@@ -95,7 +119,7 @@
             <table class="hidden mgr_innerHTML">
                 <tr>
                     <td>{{Date}}</td>
-                   
+
                     <td>{{Notification}}</td>
                     <td>{{SocialUserName}}</td>
                     <td>{{Status}}</td>
@@ -109,25 +133,7 @@
 
             <hr />
 
-            <div class="row">
-                <div class="col-sm-12">
-                    <h1>Reports</h1>
-                    <hr />
-                </div>
-                <div class="col-md-6 col-sm-12 reportsDiv">
-                    <h1> Most Popular Product ( last three months ) </h1>
-                    <br />
-                    <div id="MostPopularProductPiChart" style="width:100%; height:400px; align-content:center;"></div>
-                </div>
-                <div class="col-md-12 col-sm-12 reportsDiv">
-                    <h1> Profile Trends</h1>
-                    <br />
-                    <div id="profileActions" style="width:100%; height:400px; align-content:center;"></div>
-                </div>
 
-
-
-            </div>
 
         </div>
     </div>
@@ -605,74 +611,36 @@
             }
         }
 
-        function LoadAccountTrends(elem,ChartsData) {
-            //var dom = document.getElementById("JVServersPiChart");
-            var myChart = echarts.init(elem);
-            option = {
-                title: {
-                    text: '折线图堆叠'
-                },
-                tooltip: {
-                    trigger: 'axis'
-                },
-                legend: {
-                    data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                toolbox: {
-                    feature: {
-                        saveAsImage: {}
-                    }
-                },
-                xAxis: {
-                    type: 'category',
-                    boundaryGap: false,
-                    data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-                },
-                yAxis: {
-                    type: 'value'
-                },
-                series: [
-                    {
-                        name: '邮件营销',
-                        type: 'line',
-                        stack: '总量',
-                        data: [120, 132, 101, 134, 90, 230, 210]
-                    },
-                    {
-                        name: '联盟广告',
-                        type: 'line',
-                        stack: '总量',
-                        data: [220, 182, 191, 234, 290, 330, 310]
-                    },
-                    {
-                        name: '视频广告',
-                        type: 'line',
-                        stack: '总量',
-                        data: [150, 232, 201, 154, 190, 330, 410]
-                    },
-                    {
-                        name: '直接访问',
-                        type: 'line',
-                        stack: '总量',
-                        data: [320, 332, 301, 334, 390, 330, 320]
-                    },
-                    {
-                        name: '搜索引擎',
-                        type: 'line',
-                        stack: '总量',
-                        data: [820, 932, 901, 934, 1290, 1330, 1320]
-                    }
-                ]
-            };
-            if (option && typeof option === "object") {
-                myChart.setOption(option, true);
+        function LoadAccountTrends(elem, ChartsData) {
+
+            var morrisData = [];
+
+            for (i = 0; i < ChartsData.length; i++) {
+                morrisData.push({eDate: ChartsData[i].eDate, 'signups': ChartsData[i].Signups, 'downgrades': ChartsData[i].Downgrades, 'upgrades': ChartsData[i].Upgrades});
             }
+
+            $(elem).empty();
+            Morris.Bar({
+                element: elem,
+                data: morrisData,
+                xkey: 'eDate',
+                ykeys: ['signups', 'downgrades', 'upgrades'],
+                labels: ['signups', 'downgrades', 'upgrades'],
+                resize: true,
+                smooth: false,
+                pointSize: 3,
+                pointStrokeColors: ['#FF4558'],
+                gridLineColor: '#e3e3e3',
+                behaveLikeLine: true,
+                numLines: 6,
+                gridtextSize: 14,
+                lineWidth:2,
+                hideHover: 'auto',
+                lineColors: ['#FF4558'],
+                xLabelAngle: 45,
+                parseTime: false,
+                barColors: ["#6495ED", "#32CD32", "#FEC81B"],
+            });
 
         }
     </script>
@@ -718,8 +686,8 @@
         height: 360px;
         overflow-y: scroll;
     }
-    .main {
-    padding-top: 46px;
-}
 
+    .main {
+        padding-top: 46px;
+    }
 </style>
