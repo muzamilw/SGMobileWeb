@@ -299,10 +299,17 @@ namespace SG2.CORE.DAL.Repositories
                         }
                         else
                         {
-                            var delrec = _db.SocialProfile_FollowedAccounts.Where(g => g.FollowedSocialUsername == item.TargetSocialUserName && g.SocialProfileId == item.SocialProfileId).SingleOrDefault();
+                            var delrec = _db.SocialProfile_FollowedAccounts.Where(g => g.FollowedSocialUsername == item.TargetSocialUserName && g.SocialProfileId == item.SocialProfileId).ToList();
                             //if (delrec != null)
                             //    _db.SocialProfile_FollowedAccounts.Remove(delrec);
-                            delrec.StatusId = 2;
+                            if ( delrec != null && delrec.Count() > 0)
+                            {
+                                foreach (var citem in delrec)
+                                {
+                                    citem.StatusId = 2;
+                                }
+                            }
+                            
 
                         }
                     }
@@ -315,8 +322,8 @@ namespace SG2.CORE.DAL.Repositories
                 }
             catch (Exception e)
             {
-
-                throw e;
+                return true;
+                
             }
         }
 	}
