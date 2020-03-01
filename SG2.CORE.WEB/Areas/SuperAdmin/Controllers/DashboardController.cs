@@ -98,8 +98,9 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                             NoOfAvailablePlans = noOfAvailablePlans
 
                         },
-                        EventsData = _statisticsManager.GetProfileEvents(DateTime.Now.AddMonths(-3), DateTime.Now.AddDays(1))
-            };
+                        EventsData = _statisticsManager.GetProfileEvents(DateTime.Now.AddMonths(-3), DateTime.Now.AddDays(1)),
+                        ActionsData = _statisticsManager.GetActionReport(DateTime.Now.AddMonths(-3), DateTime.Now.AddDays(1))
+                    };
                
 
             }

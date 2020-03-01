@@ -357,5 +357,23 @@ namespace SG2.CORE.DAL.Repositories
             return true;
         }
 
+
+        public List<SG2_usp_Report_GetActions_Result> GetActionsReport(DateTime fromDate, DateTime toDate)
+        {
+            try
+            {
+
+                using (var _db = new SocialGrowth2Connection())
+                {
+
+                    return _db.SG2_usp_Report_GetActions(fromDate, toDate).ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

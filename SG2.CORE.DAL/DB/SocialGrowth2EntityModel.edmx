@@ -683,6 +683,10 @@
           <Parameter Name="riPageSize" Type="varchar" Mode="In" />
           <Parameter Name="riStatusId" Type="int" Mode="In" />
         </Function>
+        <Function Name="SG2_usp_Report_GetActions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="dtFromDate" Type="date" Mode="In" />
+          <Parameter Name="dtToDate" Type="date" Mode="In" />
+        </Function>
         <Function Name="SG2_usp_Report_GetMostUsedProductData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="dtFromDate" Type="date" Mode="In" />
           <Parameter Name="dtToDate" Type="date" Mode="In" />
@@ -1019,6 +1023,10 @@
             <End Role="SocialProfile_Logs" EntitySet="SocialProfile_Logs" />
             <End Role="SocialProfile_Logs1" EntitySet="SocialProfile_Logs" />
           </AssociationSet>
+          <FunctionImport Name="SG2_usp_Report_GetActions" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Report_GetActions_Result)">
+            <Parameter Name="dtFromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="dtToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="SG2_usp_Get_AllUser1_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
@@ -2286,6 +2294,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="SG2_usp_Report_GetActions_Result">
+          <Property Type="Int16" Name="EnumerationValueId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="ActionDate" Nullable="true" />
+          <Property Type="Int32" Name="Total" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3288,6 +3302,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SG2_usp_Report_GetActions" FunctionName="SocialGrowth2Entities.Store.SG2_usp_Report_GetActions">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SocialGrowth2Entities.SG2_usp_Report_GetActions_Result">
+                <ScalarProperty Name="EnumerationValueId" ColumnName="EnumerationValueId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ActionDate" ColumnName="ActionDate" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

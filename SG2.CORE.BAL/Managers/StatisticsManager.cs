@@ -337,6 +337,19 @@ namespace SG2.CORE.BAL.Managers
                 throw ex;
             }
         }
-        
+        public List<SG2_usp_Report_GetActions_Result> GetActionReport(DateTime fromDate, DateTime toDate)
+        {
+            try
+            {
+
+                var model = _statistics.GetActionsReport(fromDate, toDate);
+                return model;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
