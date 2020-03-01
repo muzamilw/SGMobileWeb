@@ -458,6 +458,7 @@ namespace SG2.CORE.WEB.Controllers
                             socialProfile.SocialProfile_Instagram_TargetingInformation.UnFollowOn = true;
                             socialProfile.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts = true;
                             socialProfile.SocialProfile_Instagram_TargetingInformation.AfterFollViewUserStory = true;
+                            socialProfile.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays = true;
 
                             _cm.UpdateTargetProfile(socialProfile, true);
 
