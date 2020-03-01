@@ -28,7 +28,7 @@
     <link href="~/Content/Theme-Enviro/css/magnific-popup.css" rel="stylesheet" />
     <link href="~/Content/Theme-Enviro/css/owl.carousel.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/Content/Theme-Enviro/css/style.css">
-
+    <link href="~/Content/Theme-Enviro/css/jquery.animatedheadline.css" rel="stylesheet" />
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -63,7 +63,7 @@
     </noscript>
 
     <script type="text/javascript">window.$crisp = []; window.CRISP_WEBSITE_ID = "096822b5-332a-4663-a979-1ae6af5f96b8"; (function () { d = document; s = d.createElement("script"); s.src = "https://client.crisp.chat/l.js"; s.async = 1; d.getElementsByTagName("head")[0].appendChild(s); })();</script>
-
+  
     </head>
 
 <body>
@@ -358,7 +358,7 @@
                         type: "POST",
                         url: "/Account/ForgetPassword",
                         dataType: "json",
-                        data : $("#Form_ForgetPassword").serialize(),
+                        data: $("#Form_ForgetPassword").serialize(),
                         success: function (Data) {
                             $("#ForgotPassSpiner").css("display", "none");
                             if (!$.isEmptyObject(Data)) {
@@ -413,7 +413,7 @@
     </script>
 
     <script type="text/javascript">
-        
+
 
         window.intercomSettings = {
             app_id: "xsl2s4e6"
