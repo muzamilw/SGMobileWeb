@@ -134,3 +134,23 @@ GO
 ALTER TABLE [dbo].[SocialProfile_Logs] CHECK CONSTRAINT [FK_SocialProfile_Logs_SocialProfile_Logs]
 GO
 
+
+ --#######################################  2020-03-03 ################################################################################
+ 
+CREATE PROCEDURE [dbo].[SG2_usp_Report_GetActions] 
+	 @dtFromDate Date,      
+	 @dtToDate   Date  
+AS
+
+	SELECT 
+	EnumerationValue.EnumerationValueId,
+	EnumerationValue.Name, 
+	CONVERT(date, SocialProfile_Actions.ActionDateTime) As ActionDate, 
+	Count(*) as Total 
+	FROM SocialProfile_Actions
+	JOIN EnumerationValue on SocialProfile_Actions.ActionID = EnumerationValue.EnumerationValueId
+	WHERE EnumerationValue.Name = 'Block 2' or EnumerationValue.Name = 'Block 3' or EnumerationValue.Name = 'Block 4' or EnumerationValue.Name = 'Password to be updated'
+	AND (CONVERT(date, SocialProfile_Actions.ActionDateTime) between @dtFromDate and @dtToDate)
+	GROUP BY EnumerationValue.EnumerationValueId,EnumerationValue.Name, CONVERT(date, SocialProfile_Actions.ActionDateTime)
+
+GO
