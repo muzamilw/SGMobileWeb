@@ -266,7 +266,9 @@ namespace SG2.CORE.DAL.Repositories
                     //var sProfile = _db.SocialProfiles.Where(g => g.SocialProfileId == request.SocialProfile_Instagram_TargetingInformation.SocialProfileId).SingleOrDefault();
                     //if (sProfile != null)
                     //{
-                        _db.Database.ExecuteSqlCommand("update SocialProfile set ManifestUpdatedSinceLastGet=1 where SocialProfileId=" + request.SocialProfile_Instagram_TargetingInformation.SocialProfileId.ToString(), 1);
+
+                    if (request.SocialProfile_Instagram_TargetingInformation.SocialProfileId.HasValue)
+                        _db.Database.ExecuteSqlCommand("update SocialProfile set ManifestUpdatedSinceLastGet = 1 where SocialProfileId = " + request.SocialProfile_Instagram_TargetingInformation.SocialProfileId.ToString(), 1);
                      
 
 
