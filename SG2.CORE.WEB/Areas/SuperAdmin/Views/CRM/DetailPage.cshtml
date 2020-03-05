@@ -518,7 +518,7 @@
 
 
 @section Scripts{
-    <script src="~/Content/app-assets/js/scripts/bootstrap-pincode-input.js"></script>
+
 
     <script src="~/content/app-assets/vendors/js/pickers/dateTime/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript">
@@ -535,7 +535,7 @@
         $(document).ready(function () {
 
 
-            $('#pincode').pincodeInput({ hidedigits: false, inputs: 6 }).disable();
+            $('#pincode').pincodeInput({ hidedigits: false, inputs: 6 });
 
             $(".editIcon").on("click", function (e) {
                 e.preventDefault();
@@ -644,142 +644,7 @@
 
             }
 
-            $('#AssignIpToPro').click(function (e) {
-                e.preventDefault(); // <------------------ stop default behaviour of button
-                var element = this;
-                $.ajax({
-                    url: GLB_BASEURL +"/CRM/AssignNearestIPToProfile",
-                    type: "POST",
-                    data: { customerId: glb_CustomerId, profileId: glb_SocialProfileId},
-                    dataType: "json",
-                    success: function (Data) {
-                        if (Data.ResultType == "Success") {
-                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
-                            $("#Modal_MessageBoxBody").text(Data.Data.message);
-                            $("#Modal_Messagebox").modal("show");
-
-                            //$(".JVboxName").text(Data.Data.User);
-                        } else {
-                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
-                            $("#Modal_MessageBoxBody").text(Data.Data.message);
-                            $("#Modal_Messagebox").modal("show");
-                        }
-                    },
-                    error: function () {
-                        alert("An error has occured!!!");
-                    }
-                });
-            });
-
-            $('#AssignJVTOProfile').click(function (e) {
-                e.preventDefault(); // <------------------ stop default behaviour of button
-                var element = this;
-                $.ajax({
-                    url: GLB_BASEURL + "/CRM/AssignJVBoxToCustomer",
-                    type: "POST",
-                    data: { customerId: glb_CustomerId, profileId: glb_SocialProfileId },
-                    dataType: "json",
-                    success: function (Data) {
-                        if (Data.ResultType == "Success") {
-                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
-                            $("#Modal_MessageBoxBody").text(Data.Data.message);
-                            $("#Modal_Messagebox").modal("show");
-
-                            $(".JVboxName").text(Data.Data.User);
-                        } else {
-                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
-                            $("#Modal_MessageBoxBody").text(Data.Data.message);
-                            $("#Modal_Messagebox").modal("show");
-                        }
-                    },
-                    error: function () {
-                        alert("An error has occured!!!");
-                    }
-                });
-            });
-
-            $('#btnSchedCall').click(function (e){
-                e.preventDefault();
-                var Schedule = $("#datetimepicker1").data("DateTimePicker").date().format("m/d/YYYY hh:mm A");
-                var Notes = $("#TypeNotes").val();
-                if ((Schedule == null) || (Schedule == ''))
-                 {
-                    alert("Please provide the date of Schedule call");
-                    return
-
-                 }
-                //alert($("#datetimepicker1").find("input").val());
-                //alert($("#TypeNotes").val());
-
-                $.ajax({
-                    url: GLB_BASEURL +"/CRM/ScheduleCall",
-                    type: "POST",
-                    data: { customerId: glb_CustomerId, schedule: Schedule, notes:Notes },
-                    dataType: "json",
-                    success: function (Data) {
-                        if (Data.ResultType == "Success") {
-                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
-                            $("#Modal_MessageBoxBody").text(Data.Data.message);
-                            $("#Modal_Messagebox").modal("show");
-                            $(element).closest("form").submit(); //<------------ submit form
-                        } else {
-                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
-                            $("#Modal_MessageBoxBody").text(Data.Data.message);
-                            $("#Modal_Messagebox").modal("show");
-                        }
-                    },
-                    error: function () {
-                        alert("An error has occured!!!");
-                    }
-                });
-
-            });
-
-            $("#input_Country").on("change", function () {
-                GetCity($(this).val())
-            });
-
-            $("#input_ResTeamMember").on("change", function () {
-                var selVal = $(this).val();
-                var username = "";
-                var userRole = "";
-                $.each(glb_user, function (index, res) {
-                    if (res.UserId == selVal) {
-                        username = res.UserName;
-                        userRole = res.RoleName;
-                    }
-                });
-
-                $("#RoleName-textBlock h2").text(userRole)
-            })
-
-            function GetCity(_countryId) {
-                var url = GLB_BASEURL +"/LikeAccts/GetCityByCountryId";
-                $("#input_City").html("");
-                $.ajax({
-                    url: url,
-                    data: { countryId: _countryId },
-                    type: "GET",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        $('#input_City').append($("<option>-- Select City --</option>"));
-                        $.each(data, function (i, e) {
-
-                            $('#input_City').append($("<option></option>").val(e.CityId).html(e.Name));
-                        });
-                    },
-                    error: function (reponse) {
-                        alert("error : " + reponse);
-                    }
-                });
-            }
-
-            $(document).on('click', '#backLink', function () {
-                history.go(-1);
-            });
-
-            $(function () {
+           $(function () {
                // $('#datetimepicker1').data("DateTimePicker").datetimepicker();
                 $('#datetimepicker1').datetimepicker();
 
@@ -794,10 +659,11 @@
 
 
             $(".btn_ShowRefundConfirmModal").on("click", function (e) {
-
+                
                 e.stopPropagation();
                 e.preventDefault();
                 $("#Modal_ConfirmRefund").modal("show");
+
             })
 
 
@@ -954,6 +820,7 @@
         });
 
     </script>
+    <script src="~/Content/app-assets/js/scripts/bootstrap-pincode-input.js"></script>
 }
 
 
