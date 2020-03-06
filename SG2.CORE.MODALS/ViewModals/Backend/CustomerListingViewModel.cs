@@ -28,5 +28,7 @@ namespace SG2.CORE.MODAL.ViewModals.Backend
         public Nullable<bool> UnFollFollowersAfterMinDays { get; set; }
         public Nullable<bool> AfterFollLikeuserPosts { get; set; }
         public Nullable<bool> AfterFollViewUserStory { get; set; }
+
+        public string BlockStatus { get; set; }
     }
 }

@@ -154,3 +154,197 @@ AS
 	GROUP BY EnumerationValue.EnumerationValueId,EnumerationValue.Name, CONVERT(date, SocialProfile_Actions.ActionDateTime)
 
 GO
+
+
+
+
+--############################################################# 2020-03-07 ################################################################################
+ 
+
+  
+alter Procedure [dbo].[SG2_usp_Get_EnumerationValue]  
+  
+As  
+Begin  
+   
+  
+ Select E.[Name] as Enumeration , EV.EnumerationValueId , EV.[Name], E.EnumerationId    
+   
+   
+  FROM  Enumeration E inner join EnumerationValue EV  
+      ON E.EnumerationId=EV.EnumerationId  
+  WHERE EV.IsVisible = 1  
+  order by Enumeration, SequenceNo   
+End  
+
+GO
+
+alter Procedure [dbo].[SG2_usp_GetUserDetailsForbackOffice]--   '',1,1,1,'','',1        
+  @rsSearchCrite Nvarchar(MAX),          
+  @riPageNumber Int,          
+  @riPageSize varchar(8),          
+  @riStatusId int=null,          
+  @riProductId varchar(250)=null,          
+  @riJVStatus varchar(250)=null,          
+  @riSubscription int=null,    
+  @profileType int = null ,
+  @BlockId int = null 
+          
+As          
+Begin          
+         -- [dbo].[SG2_usp_GetUserDetailsForbackOffice]   '',1,10,null,'','',null  
+ -- Searches for Products based on given parameters            
+ Declare @iFirstRow Int              
+ Declare @iLastRow Int           
+          
+ Declare @xmlSearchCriteria Xml          
+           
+ IF @riStatusId=''          
+ SET @riStatusId=NULL          
+          
+ IF @riJVStatus=''          
+ SET @riJVStatus=NULL          
+ --Set @xmlSearchCriteria = dbo.udf_UTL_UpdateWildcardInput(@rsSearchCriteria)          
+          
+ Set @iFirstRow  = (@riPageNumber-1) * @riPageSize + 1              
+ Set @iLastRow = @riPageSize + @iFirstRow - 1           
+           
+ Declare  @tbResult table(          
+ RowNumber     int ,          
+ InstaName     nvarchar(250),          
+ UserName      nvarchar(250),          
+ CustomerId    int,          
+ Products      nvarchar(250),          
+ ProxyIPNumber nvarchar(15),          
+ BoxName       nvarchar(250),          
+ [Status]      nvarchar(100),          
+ JVBoxStatus nvarchar(100),          
+ SocialProfileName  nvarchar(250),          
+ SocialProfileId   int,          
+ CustomerEmail    nvarchar(250),  
+ FollowOn bit,  
+UnFollFollowersAfterMinDays bit,  
+AfterFollLikeuserPosts bit,  
+AfterFollViewUserStory bit  ,
+BlockedStatus nvarchar(100)
+          
+ )           
+          
+ ;With CTE As          
+ (           
+  -- Get all Product information to create index          
+            
+  Select Distinct          
+   SP.[SocialUsername] as SocialAccountName,          
+   SP.[SocialProfileName] as SocialProfileName,          
+   SP.SocialProfileId,          
+   ISNULL(Customer.FirstName,'') + ' ' + ISNULL(Customer.SurName,'')  as [Name],          
+   Customer.CustomerId as CustomerId,          
+   SubS.PlanName as Products,          
+          
+   EV.[Name] as [Status],          
+   Customer.updatedon,          
+          
+   customer.[EmailAddress] as EmailAddress ,          
+            ROW_NUMBER() OVER (PARTITION BY SP.[SocialProfileId] ORDER BY SP.CreatedOn desc) AS RankId   ,  
+   TI.FollowOn,  
+   TI.UnFollFollowersAfterMinDays,  
+   TI.AfterFollLikeuserPosts,  
+   TI.AfterFollViewUserStory  ,
+   (case when isnull(sp.BlockedStatus,0) = 0 then 'Valid'  else BlockStatus.Name end) as BlockedStatus
+  
+  
+  From dbo.Customer Customer With (Nolock)           
+  Inner join [dbo].[SocialProfile] SP ON SP.CustomerId=Customer.CustomerId          
+        
+ left join [dbo].PaymentPlan SubS           
+  ON SubS.PaymentPlanId=isnull(SP.PaymentPlanId,1)           
+    --AND SubS.StatusId=25          
+ left join [dbo].[SocialProfile_Instagram_TargetingInformation] TI           
+  On TI.[SocialProfileId]=SP.[SocialProfileId]          
+ Left join dbo.EnumerationValue EV           
+  ON EV.EnumerationValueId=SP.StatusId --And EV.EnumerationId=4    
+  left outer join dbo.EnumerationValue BlockStatus on Sp.BlockedStatus = BlockStatus.EnumerationValueId
+ Where (          
+   ((@riStatusId is null) or Customer.StatusId = @riStatusId)          
+          
+   AND           
+     (((@riProductId is null) or @riProductId ='' ) or  SubS.[StripePlanId] = @riProductId)          
+  AND ((@riSubscription is null) or SubS.StatusId= @riSubscription)      
+  AND ((@profileType is null) or isnull(Customer.IsBroker,0)= @profileType)    
+  AND ((@BlockId is null or @BlockId = 69) or isnull(SP.BlockedStatus,0)= @BlockId)    
+          
+  And (           
+    (@rsSearchCrite is null or @rsSearchCrite = '')           
+    or (SP.[SocialProfileName] like '%' +@rsSearchCrite +'%'           
+    or Customer.UserName like '%' +@rsSearchCrite +'%'          
+     or SubS.PlanName like '%' +@rsSearchCrite +'%'           
+           
+     or EV.Name like '%' +@rsSearchCrite +'%'           
+     or Customer.FirstName like '%' +@rsSearchCrite +'%'          
+     or Customer.SurName like '%' +@rsSearchCrite +'%'          
+     or Customer.[EmailAddress] like '%' +@rsSearchCrite +'%'          
+     or SP.[SocialUsername] like '%' +@rsSearchCrite +'%'           
+               
+      )          
+   )          
+ )          
+       )          
+            
+Insert into @tbResult(          
+RowNumber  ,            
+InstaName  ,            
+UserName   ,            
+CustomerId ,            
+Products   ,            
+        
+[Status]   ,          
+        
+SocialProfileName,          
+SocialProfileId,          
+CustomerEmail,  
+FollowOn,  
+   UnFollFollowersAfterMinDays,  
+   AfterFollLikeuserPosts,  
+   AfterFollViewUserStory,
+   BlockedStatus
+          
+)          
+SELECT Distinct          
+ ROW_NUMBER() Over (            
+           Order By UpdatedOn desc          
+            ) As RowNumber,        
+SocialAccountName,[Name],CustomerId,Products,[Status],SocialProfileName,          
+SocialProfileId,EmailAddress,  
+FollowOn,  
+   UnFollFollowersAfterMinDays,  
+   AfterFollLikeuserPosts,  
+   AfterFollViewUserStory,
+   BlockedStatus
+ FROM CTE  where RankId=1          
+          
+ Select tb.UserName,            
+  InstaName,          
+  tb.CustomerId,          
+        Products,          
+     ProxyIPNumber,          
+     isnull(c.IsBroker,0) IsBroker,          
+[Status],          
+  JVBoxStatus,          
+  SocialProfileName,          
+  SocialProfileId,          
+  CustomerEmail,          
+  FollowOn,  
+   UnFollFollowersAfterMinDays,  
+   AfterFollLikeuserPosts,  
+   AfterFollViewUserStory,  
+   BlockedStatus,
+     (Select Count(1) From @tbResult) TotalRecord          
+ From @tbResult   tb       
+ inner join Customer c on tb.CustomerId = c.CustomerId       
+ Where RowNumber Between @iFirstRow And @iLastRow          
+           
+ Return @@Error           
+End 
+  
+  

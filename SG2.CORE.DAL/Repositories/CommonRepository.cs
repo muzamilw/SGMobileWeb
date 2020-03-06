@@ -27,6 +27,7 @@ namespace SG2.CORE.DAL.Repositories
                         statusDTO.StatusName = item.Enumeration;
                         statusDTO.StatusId = item.EnumerationValueId;
                         statusDTO.StatusValue = item.Name;
+                        statusDTO.EnumerastionId = item.EnumerationId;
                         statusDTOs.Add(statusDTO);
 
                     }

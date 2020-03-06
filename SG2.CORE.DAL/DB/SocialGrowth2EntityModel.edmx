@@ -663,6 +663,7 @@
           <Parameter Name="riJVStatus" Type="varchar" Mode="In" />
           <Parameter Name="riSubscription" Type="int" Mode="In" />
           <Parameter Name="profileType" Type="int" Mode="In" />
+          <Parameter Name="BlockId" Type="int" Mode="In" />
         </Function>
         <Function Name="SG2_usp_LikeyAccount_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="rsSearchCrite" Type="nvarchar(max)" Mode="In" />
@@ -848,6 +849,7 @@
             <Parameter Name="riJVStatus" Mode="In" Type="String" />
             <Parameter Name="riSubscription" Mode="In" Type="Int32" />
             <Parameter Name="profileType" Mode="In" Type="Int32" />
+            <Parameter Name="BlockId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SG2_usp_Login_Customers" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Login_Customers_Result)">
             <Parameter Name="rvcEmailAddress" Mode="In" Type="String" />
@@ -1244,6 +1246,7 @@
           <Property Type="Boolean" Name="UnFollFollowersAfterMinDays" Nullable="true" />
           <Property Type="Boolean" Name="AfterFollLikeuserPosts" Nullable="true" />
           <Property Type="Boolean" Name="AfterFollViewUserStory" Nullable="true" />
+          <Property Type="String" Name="BlockedStatus" Nullable="true" MaxLength="100" />
         </ComplexType>
         <ComplexType Name="SG2_usp_Login_Customers_Result">
           <Property Type="Int32" Name="CustomerId" Nullable="false" />
@@ -1420,6 +1423,7 @@
           <Property Type="String" Name="Enumeration" Nullable="false" MaxLength="50" />
           <Property Type="Int16" Name="EnumerationValueId" Nullable="false" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="Int16" Name="EnumerationId" Nullable="false" />
         </ComplexType>
         <ComplexType Name="SG2_usp_Customer_GetSocialProfileById_Result">
           <Property Type="Int32" Name="TargetingInformationId" Nullable="false" />
@@ -2442,6 +2446,7 @@
                 <ScalarProperty Name="UnFollFollowersAfterMinDays" ColumnName="UnFollFollowersAfterMinDays" />
                 <ScalarProperty Name="AfterFollLikeuserPosts" ColumnName="AfterFollLikeuserPosts" />
                 <ScalarProperty Name="AfterFollViewUserStory" ColumnName="AfterFollViewUserStory" />
+                <ScalarProperty Name="BlockedStatus" ColumnName="BlockedStatus" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -2619,6 +2624,7 @@
                 <ScalarProperty Name="Enumeration" ColumnName="Enumeration" />
                 <ScalarProperty Name="EnumerationValueId" ColumnName="EnumerationValueId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EnumerationId" ColumnName="EnumerationId" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -11,5 +11,7 @@ namespace SG2.CORE.MODAL.DTO.Customers
         public string StatusName { get; set; }
         public string StatusValue { get; set; }
         public int StatusId { get; set; }
+
+        public int EnumerastionId { get; set; }
     }
 }

@@ -377,7 +377,7 @@ namespace SG2.CORE.WEB.Controllers
                 {
                     var stripeCustomerCreateOptions = new CustomerCreateOptions
                     {
-                        Description = " Customer for Social Growth Labs" + this.CDT.EmailAddress + " with profile id " + model.socialProfileId,
+                        Description = " Regular Profile " + this.CDT.EmailAddress + " ---socialusername=" + socialProfile.SocialProfile.SocialUsername + " ---profileid=" + model.socialProfileId,
                         PaymentMethod = model.paymentmethod,
                         Name = this.CDT.FirstName + " " + this.CDT.SurName,
                         Email = this.CDT.EmailAddress,

@@ -21,7 +21,7 @@ namespace SG2.CORE.MODAL.ViewModals.Backend
         public int? StatusId { get; set; }
         public int PageNumber { get; set; }
         public string ProductId { get; set; }
-        public string JVStatus { get; set; }
+        public int? BlockStatus { get; set; }
 
         public int? Subscription { get; set; }
 

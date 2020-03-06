@@ -12,7 +12,7 @@
 
     List<SelectListItem> appStatus = new List<SelectListItem>();
 
-    List<SelectListItem> JarveeStatus = new List<SelectListItem>();
+    List<SelectListItem> BlockStatus = new List<SelectListItem>();
 
     List<SelectListItem> appProductIds = new List<SelectListItem>();
 
@@ -29,9 +29,17 @@
 
 
     }
-    foreach (var dr in Model.ApplicationStatuses.Where(x => x.StatusName == "JV"))
+
+    int[] blocks = new int[] { 66,
+67,
+68,
+69,
+70,
+71 };
+
+    foreach (var dr in Model.ApplicationStatuses.Where(x => x.EnumerastionId == 14 && blocks.Contains( x.StatusId) ))
     {
-        JarveeStatus.Add(new SelectListItem { Text = dr.StatusValue, Value = dr.StatusId.ToString() });
+        BlockStatus.Add(new SelectListItem { Text = dr.StatusValue, Value = dr.StatusId.ToString() });
     }
 
     foreach (var dr in Model.ApplicationStatuses.Where(x => x.StatusName == "Customer"))
@@ -90,103 +98,111 @@
         <div class="inner-colmn">
             @using (Html.BeginForm("Index", "CRM", FormMethod.Get, new { @id = "Form_SearchCriteria" }))
             {
-                <div class="row">
-                    <div class="col-md-3 col-sm-12 mb-2">
-                        <div class="search-wrap clearfix">
-                            @Html.TextBoxFor(model => model.SearchCriteria, htmlAttributes: new { @placeholder = "Search here", @type = "search", @class = "input" })
-                        </div>
+            <div class="row">
+                <div class="col-md-3 col-sm-12 mb-2">
+                    <div class="search-wrap clearfix">
+                        @Html.TextBoxFor(model => model.SearchCriteria, htmlAttributes: new { @placeholder = "Search here", @type = "search", @class = "input" })
                     </div>
-                    <div class="col-md-2 col-sm-12 mb-2">
-                        <div class="product">
-                            <label>Plan</label>
-                            <div class="select">
-                                @Html.DropDownListFor(model => model.ProductId, appProductIds, "Plan (All)")
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-2 col-sm-12 mb-2 hidden">
-                        <div class="product">
-                            <label>Subscription</label>
-                            <div class="select">
-                                @Html.DropDownListFor(model => model.Subscription, appSubscription, "Subscription (All)")
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-sm-12 mb-2">
-                        <div class="product">
-                            <fieldset>
-                                <div class="custom-control custom-radio">
-                                    @{
-
-                                        var aAttributes = new Dictionary<string, object>();
-                                        aAttributes.Add(@"class", "custom-control-input");
-                                        aAttributes.Add(@"id", "customRadio1");
-                                        aAttributes.Add("onchange ", "this.form.submit();");
-                                        if (Model.profileType == null)
-                                        {
-                                            aAttributes.Add("Checked", "checked");
-                                        }
-                                    }
-                                    @Html.RadioButtonFor(model => model.profileType, "", aAttributes)
-
-
-
-                                    <label class="custom-control-label" for="customRadio1">All</label>
-                                </div>
-                            </fieldset>
-                            <fieldset>
-                                <div class="custom-control custom-radio">
-                                    @{
-
-                                        var cAttributes = new Dictionary<string, object>();
-                                        cAttributes.Add(@"class", "custom-control-input");
-                                        cAttributes.Add(@"id", "customRadio2");
-                                        cAttributes.Add("onchange ", "this.form.submit();");
-
-                                        if (Model.profileType == 0)
-                                        {
-                                            cAttributes.Add("Checked", "checked");
-                                        }
-                                    }
-                                    @Html.RadioButtonFor(model => model.profileType, "0", cAttributes)
-                                    <label class="custom-control-label" for="customRadio2">Regular Profiles</label>
-                                </div>
-                            </fieldset>
-                            <fieldset>
-                                <div class="custom-control custom-radio">
-                                    @{
-
-                                        var bAttributes = new Dictionary<string, object>();
-                                        bAttributes.Add(@"class", "custom-control-input");
-                                        bAttributes.Add(@"id", "customRadio3");
-                                        bAttributes.Add("onchange ", "this.form.submit();");
-
-                                        if (Model.profileType == 0)
-                                        {
-                                            bAttributes.Add("Checked", "checked");
-                                        }
-                                    }
-                                    @Html.RadioButtonFor(model => model.profileType, "1", bAttributes)
-
-                                    <label class="custom-control-label" for="customRadio3">Broker Profiles</label>
-                                </div>
-                            </fieldset>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-12 ">
-                        <div class="product">
-                            <label class="d-block">&nbsp;</label>
-
-                            <a href="@BaseURl/crm" id="" class="btn btn-secondary d-inline-block">
-                                <i class="fa fa-times-circle"></i> Reset
-                            </a>
-                        </div>
-                    </div>
-
-
                 </div>
+                <div class="col-md-2 col-sm-12 mb-2">
+                    <div class="product">
+                        <label>Plan</label>
+                        <div class="select">
+                            @Html.DropDownListFor(model => model.ProductId, appProductIds, "Plan (All)")
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2 col-sm-12 mb-2 hidden">
+                    <div class="product">
+                        <label>Subscription</label>
+                        <div class="select">
+                            @Html.DropDownListFor(model => model.Subscription, appSubscription, "Subscription (All)")
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12 mb-2">
+                    <div class="product">
+                        <label>App Status</label>
+                        <div class="select">
+                            @Html.DropDownListFor(model => model.BlockStatus, BlockStatus, "Status (All)")
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12 mb-2">
+                    <div class="product">
+                        <fieldset>
+                            <div class="custom-control custom-radio">
+                                @{
+
+                                    var aAttributes = new Dictionary<string, object>();
+                                    aAttributes.Add(@"class", "custom-control-input");
+                                    aAttributes.Add(@"id", "customRadio1");
+                                    aAttributes.Add("onchange ", "this.form.submit();");
+                                    if (Model.profileType == null)
+                                    {
+                                        aAttributes.Add("Checked", "checked");
+                                    }
+                                }
+                                @Html.RadioButtonFor(model => model.profileType, "", aAttributes)
+
+
+
+                                <label class="custom-control-label" for="customRadio1">All</label>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <div class="custom-control custom-radio">
+                                @{
+
+                                    var cAttributes = new Dictionary<string, object>();
+                                    cAttributes.Add(@"class", "custom-control-input");
+                                    cAttributes.Add(@"id", "customRadio2");
+                                    cAttributes.Add("onchange ", "this.form.submit();");
+
+                                    if (Model.profileType == 0)
+                                    {
+                                        cAttributes.Add("Checked", "checked");
+                                    }
+                                }
+                                @Html.RadioButtonFor(model => model.profileType, "0", cAttributes)
+                                <label class="custom-control-label" for="customRadio2">Regular Profiles</label>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <div class="custom-control custom-radio">
+                                @{
+
+                                    var bAttributes = new Dictionary<string, object>();
+                                    bAttributes.Add(@"class", "custom-control-input");
+                                    bAttributes.Add(@"id", "customRadio3");
+                                    bAttributes.Add("onchange ", "this.form.submit();");
+
+                                    if (Model.profileType == 0)
+                                    {
+                                        bAttributes.Add("Checked", "checked");
+                                    }
+                                }
+                                @Html.RadioButtonFor(model => model.profileType, "1", bAttributes)
+
+                                <label class="custom-control-label" for="customRadio3">Broker Profiles</label>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-12 ">
+                    <div class="product">
+                        <label class="d-block">&nbsp;</label>
+
+                        <a href="@BaseURl/crm" id="" class="btn btn-secondary d-inline-block">
+                            <i class="fa fa-times-circle"></i> Reset
+                        </a>
+                    </div>
+                </div>
+
+
+            </div>
             }
         </div>
     </div>
@@ -206,8 +222,9 @@
                                 <th scope="col">L</th>
                                 <th scope="col">S</th>
                                 <th scope="col">Broker/Regular</th>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
+                                <th scope="col">App Status</th>
+                                <th scope="col">Plan</th>
+                               
                             </tr>
                         </thead>
                         <tbody>
@@ -250,21 +267,20 @@
                               <td >
                                     @{
                                         var statusclass = "";
-                                        switch (item.Status)
+                                        if (item.BlockStatus == "Valid")
                                         {
-                                            case "Valid": statusclass = "badge-primary"; break;
-                                            case "Action Blocked": statusclass = "badge-danger"; break;
-                                            case "Hard Blocked": statusclass = "badge-danger"; break;
-                                            case "Password Blocked": statusclass = "badge-danger"; break;
-                                            default:
-                                                statusclass = "badge-primary";
-                                                break;
+                                            statusclass = "badge-primary";
                                         }
+                                        else
+                                        {
+                                            statusclass = "badge-danger";
+                                        }
+                                    
                                     }
 
                                     <span class="badge @statusclass label-square mr-1 mb-1 display-inline">
 
-                                        <span>@item.Status</span>
+                                        <span>@item.BlockStatus</span>
                                     </span>
                                 </td>
 
@@ -306,7 +322,7 @@
                     return false;    //<---- Add this line
                 }
             });
-            $('#ProductId,#Subscription,#profileType').change(function () {
+            $('#ProductId,#Subscription,#profileType,#BlockStatus').change(function () {
                 this.form.submit();
             });
 
