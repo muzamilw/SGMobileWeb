@@ -348,3 +348,35 @@ FollowOn,
 End 
   
   
+
+
+  
+
+--############################################################# 2020-03-07 ################################################################################
+ 
+
+
+  
+GO
+/****** Object:  StoredProcedure [dbo].[SG2_usp_Report_GetActions]    Script Date: 3/7/2020 1:57:49 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[SG2_usp_Report_GetActions] 
+	 @dtFromDate Date,      
+	 @dtToDate   Date  
+AS
+--  [dbo].[SG2_usp_Report_GetActions]  '2020-01-01', '2020-03-07'
+	SELECT 
+	EnumerationValue.EnumerationValueId,
+	EnumerationValue.Name, 
+	CONVERT(date, SocialProfile_Actions.ActionDateTime) As ActionDate, 
+	Count(*) as Total 
+	FROM SocialProfile_Actions
+	JOIN EnumerationValue on SocialProfile_Actions.ActionID = EnumerationValue.EnumerationValueId
+	WHERE EnumerationValueId in (66,67,68,70,71)
+	AND (CONVERT(date, SocialProfile_Actions.ActionDateTime) between @dtFromDate and @dtToDate)
+	GROUP BY EnumerationValue.EnumerationValueId,EnumerationValue.Name, CONVERT(date, SocialProfile_Actions.ActionDateTime)
+
