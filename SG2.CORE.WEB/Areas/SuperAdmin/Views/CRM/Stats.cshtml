@@ -155,45 +155,7 @@
     <div class="content-wrapper">
 
         <section class="content-body">
-            <!-- Analytics spakline & chartjs  -->
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-12">
-                    <div class="card">
-                        <div class="card-header border-0-bottom">
-                            <h4 class="card-title">Insights & Stats Overview</h4>
 
-                        </div>
-                        <div class="card-content">
-                            <div class="card-body">
-                                <div class="row my-1">
-                                    <div class="col-lg-4 col-12">
-                                        <div class="text-center">
-                                            <h3>@(Math.Round(Model.LastSessionIndex ?? 0, 2))</h3>
-                                            <p class="text-muted">Last Session Index </p>
-                                            <div id="sp-tristate-bar-total-revenue"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-12">
-                                        <div class="text-center">
-                                            <h3>@Model.FollowersTotal</h3>
-                                            <p class="text-muted">Followers from start <span class="success"><i class="ft-arrow-up"></i> @Model.FollowersInitial</span></p>
-                                            <div id="sp-stacked-bar-total-sales"></div>
-                                        </div>
-                                    </div>
-                                    @*<div class="col-lg-4 col-12">
-                                            <div class="text-center">
-                                                <h3>@Model.FollowingsTotal</h3>
-                                                <p class="text-muted">Followings from start <span class="success"><i class="ft-arrow-up"></i> @Model.FollowingsInitial</span></p>
-                                                <div id="sp-bar-total-cost"></div>
-                                            </div>
-                                        </div>*@
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--/ Analytics spakline & chartjs  -->
             <!--stats-->
             <div><h4 class="mb-2 ml-1 text-uppercase" style="font-size: 1.12rem;">All Time Activity</h4></div>
             <div class="row">
@@ -270,6 +232,53 @@
                     </div>
                 </div>
             </div>
+            <!-- Analytics spakline & chartjs  -->
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="card">
+                        <div class="card-header border-0-bottom">
+                            <h4 class="card-title">Insights & Stats Overview</h4>
+
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="row my-1">
+                                    <div class="col-lg-4 col-12">
+                                        <div class="text-center">
+                                            <h3 class="success"><i class="ft-arrow-up"></i>@Model.FollowersTotal</h3>
+                                            <p class="text-muted">Followers from start</p>
+                                            <div id="sp-stacked-bar-total-sales"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <div class="text-center">
+                                            <h3 class="success"><i class="ft-arrow-up"></i>@Model.LikesTotal</h3>
+                                            <p class="text-muted">New likes from start</p>
+                                            <div id="sp-stacked-bar-total-sales"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <div class="text-center">
+                                            <h3>@(Math.Round(Model.LastSessionIndex ?? 0, 2))</h3>
+                                            <p class="text-muted">Last Session Index </p>
+                                            <div id="sp-tristate-bar-total-revenue"></div>
+                                        </div>
+                                    </div>
+
+                                    @*<div class="col-lg-4 col-12">
+            <div class="text-center">
+                <h3>@Model.FollowingsTotal</h3>
+                <p class="text-muted">Followings from start <span class="success"><i class="ft-arrow-up"></i> @Model.FollowingsInitial</span></p>
+                <div id="sp-bar-total-cost"></div>
+            </div>
+        </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ Analytics spakline & chartjs  -->
             <div><h4 class="mb-2 ml-1 text-uppercase" style="font-size: 1.12rem;">Today's Session Activity</h4></div>
             <div class="row">
                 <div class="col-xl-3 col-lg-6 col-12">
