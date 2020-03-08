@@ -665,7 +665,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                         };
                         stripeSubscription = subscriptionService.Update(profileDTO.SocialProfile.StripeSubscriptionId, subscriptionUpdateoptions);
-                        jr.Data = new { ResultType = "Success", message = "Free days successfully added to customer Current subscription.", User };
+                        jr.Data = new { ResultType = "Success", message = "Free days successfully added to customer Current subscription." };
                     }
 
                     else
@@ -706,28 +706,28 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                     if (profileDTO != null)
                     {
-                       
-                        if (profileDTO != null)
-                        {
-                            if (profileDTO.SocialProfile .StatusId != 18)
-                            {
-                                if (!string.IsNullOrEmpty(profileDTO.SocialProfile.StripeSubscriptionId))
-                                {
-                                    StripeConfiguration.SetApiKey(_stripeApiKey);
-                                    var service = new SubscriptionService();
-                                    var subscription = service.Cancel(profileDTO.SocialProfile.StripeSubscriptionId, null);
-                                }
-                                else
-                                {
-                                    SocialProfile_PaymentsDTO cancelledSub = new SocialProfile_PaymentsDTO();
-                                    cancelledSub = _customerManager.GetLastCancelledSubscription(profileDTO.SocialProfile .SocialProfileId, DateTime.Now);
-                                    profileDTO.SocialProfile.StripeSubscriptionId = cancelledSub.StripeSubscriptionId;
-                                    //profileDTO.StripeInvoiceId = cancelledSub.StripeInvoiceId;
+                       //not cancelling the subscription.
+                        //if (profileDTO != null)
+                        //{
+                        //    if (profileDTO.SocialProfile .StatusId != 18)
+                        //    {
+                        //        if (!string.IsNullOrEmpty(profileDTO.SocialProfile.StripeSubscriptionId))
+                        //        {
+                        //            StripeConfiguration.SetApiKey(_stripeApiKey);
+                        //            var service = new SubscriptionService();
+                        //            var subscription = service.Cancel(profileDTO.SocialProfile.StripeSubscriptionId, null);
+                        //        }
+                        //        else
+                        //        {
+                        //            SocialProfile_PaymentsDTO cancelledSub = new SocialProfile_PaymentsDTO();
+                        //            cancelledSub = _customerManager.GetLastCancelledSubscription(profileDTO.SocialProfile .SocialProfileId, DateTime.Now);
+                        //            profileDTO.SocialProfile.StripeSubscriptionId = cancelledSub.StripeSubscriptionId;
+                        //            //profileDTO.StripeInvoiceId = cancelledSub.StripeInvoiceId;
 
-                                }
+                        //        }
 
-                            }
-                        }
+                        //    }
+                        //}
 
                         Subscription subscriptionItemUpdate = subscriptionService.Get(profileDTO.SocialProfile.StripeSubscriptionId);
                         var invoiceService = new InvoiceService();
@@ -762,7 +762,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                             }
 
-                            jr.Data = new { ResultType = "Success", message = "Amount refunded successfully.", User };
+                            jr.Data = new { ResultType = "Success", message = "Amount refunded successfully." };
                         }
                         else
                         {
@@ -785,6 +785,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             {
 
                 messages = ex.Message;
+                jr.Data = new { ResultType = "Error", message = messages };
             }
             return Json(jr, JsonRequestBehavior.AllowGet);
         }
