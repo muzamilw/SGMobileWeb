@@ -1247,6 +1247,7 @@
           <Property Type="Boolean" Name="AfterFollLikeuserPosts" Nullable="true" />
           <Property Type="Boolean" Name="AfterFollViewUserStory" Nullable="true" />
           <Property Type="String" Name="BlockedStatus" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="BrokerAppName" Nullable="true" MaxLength="500" />
         </ComplexType>
         <ComplexType Name="SG2_usp_Login_Customers_Result">
           <Property Type="Int32" Name="CustomerId" Nullable="false" />
@@ -2447,6 +2448,7 @@
                 <ScalarProperty Name="AfterFollLikeuserPosts" ColumnName="AfterFollLikeuserPosts" />
                 <ScalarProperty Name="AfterFollViewUserStory" ColumnName="AfterFollViewUserStory" />
                 <ScalarProperty Name="BlockedStatus" ColumnName="BlockedStatus" />
+                <ScalarProperty Name="BrokerAppName" ColumnName="BrokerAppName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

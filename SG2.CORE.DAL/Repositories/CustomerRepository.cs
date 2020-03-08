@@ -817,6 +817,7 @@ namespace SG2.CORE.DAL.Repositories
                             customerListingViewModel.AfterFollLikeuserPosts = item.AfterFollLikeuserPosts;
                             customerListingViewModel.AfterFollViewUserStory = item.AfterFollViewUserStory;
                             customerListingViewModel.BlockStatus = item.BlockedStatus;
+                            customerListingViewModel.BrokerAppName = item.BrokerAppName;
 
                             customerListingViewModelsList.Add(customerListingViewModel);
                         }

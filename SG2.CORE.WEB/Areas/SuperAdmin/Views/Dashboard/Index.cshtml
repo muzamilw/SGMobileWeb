@@ -388,7 +388,7 @@
                 },
                 series: [
                     {
-                        name: 'MP Box',
+                        name: 'Plans',
                         type: 'pie',
                         radius: '45%',
                         center: ['50%', '60%'],
@@ -676,8 +676,8 @@
             for (i = 0; i < dateArray.length; i++) {
                 morrisData.push({
                     eDate: dateArray[i],
-                    'Block 4': ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Block 4') ? ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Block 4').Total : 0,
-                    'Block 5': ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Block 5') ? ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Block 5').Total: 0,
+                    //'Block 4': ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Block 4') ? ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Block 4').Total : 0,
+                    //'Block 5': ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Block 5') ? ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Block 5').Total: 0,
                     'Action Block': ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Action Block') ? ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Action Block').Total : 0,
                     'Hard Blocked': ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Hard Blocked') ? ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Hard Blocked').Total : 0,                   
                     'Password Block': ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Password Block') ? ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Password Block').Total : 0
@@ -688,8 +688,8 @@
               element: elem,
               data: morrisData,
               xkey: 'eDate',
-              ykeys: ['Block 4', 'Block 5', 'Action Block', 'Hard Blocked', 'Password Block'],
-              labels: ['block 4', 'block 5', 'action block', 'hard blocked', 'password block']
+              ykeys: ['Action Block', 'Hard Blocked', 'Password Block'],  //'Block 4', 'Block 5', 
+              labels: ['action block', 'hard blocked', 'password block']  //'block 4', 'block 5', 
             });
             //Morris.Bar({
             //    element: elem,

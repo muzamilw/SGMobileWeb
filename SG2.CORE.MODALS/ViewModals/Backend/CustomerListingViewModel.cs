@@ -30,5 +30,7 @@ namespace SG2.CORE.MODAL.ViewModals.Backend
         public Nullable<bool> AfterFollViewUserStory { get; set; }
 
         public string BlockStatus { get; set; }
+
+        public string BrokerAppName { get; set; }
     }
 }
