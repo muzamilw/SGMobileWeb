@@ -1482,7 +1482,7 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                   return  _db.SocialProfile_Actions.Where(g => g.SocialProfileId == socialProfileId && g.ActionID != 69).OrderByDescending(g => g.ActionDateTime).Take(NoOfActions).ToList();
+                   return  _db.SocialProfile_Actions.Where(g => g.SocialProfileId == socialProfileId).OrderByDescending(g => g.ActionDateTime).Take(NoOfActions).ToList();
                 }
             }
             catch (Exception e)

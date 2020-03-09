@@ -160,7 +160,7 @@ namespace SG2.CORE.WEB.Controllers
             ViewBag.CurrentUser = this.CDT;
             ViewBag.socialProfile = this._cm.GetSocialProfileById(socialProfileId).SocialProfile;
 
-            ViewBag.actions = this._cm.ReturnLastActions(socialProfileId, 500);
+            ViewBag.actions = this._cm.ReturnLastActions(socialProfileId, 500).Where(g => g.ActionID != 69);
             
 
             return View(this._statisticsManager.GetStatistics(socialProfileId));
