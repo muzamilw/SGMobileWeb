@@ -3407,6 +3407,7 @@
     <Content Include="Content\Theme-Enviro\fonts\LineIcons.eot" />
     <Content Include="Content\Theme-Enviro\fonts\LineIcons.ttf" />
     <Content Include="Content\Theme-Enviro\fonts\LineIcons.woff" />
+    <Content Include="Areas\SuperAdmin\Views\CRM\FollowList.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

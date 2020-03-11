@@ -184,6 +184,7 @@
 
             <div class="col-8">
                 <a class="btn btn-primary   mb-1" href="@BaseURl/crm/stats?id=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.SocialProfileId.ToString()))">Stats</a>
+                <a class="btn btn-primary mb-1" href="@BaseURl/crm/FollowList?id=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.SocialProfileId.ToString()))">Follow List</a>
                 <a class="btn btn-primary   mb-1" href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.SocialProfileId.ToString()))">Contact Details</a>
                 <a class="btn btn-primary  mb-1" href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.SocialProfileId.ToString()))">Order History</a>
                 <a class="btn btn-primary active mb-1" href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfile.SocialProfileId.ToString()))">Target Form</a>

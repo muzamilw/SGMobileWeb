@@ -1,0 +1,455 @@
+﻿@using SG2.CORE.MODAL.DTO.Customers;
+@using SG2.CORE.COMMON;
+@using SG2.CORE.MODAL;
+@using SG2.CORE.MODAL.ViewModals.Statistics;
+
+
+@{
+    var BaseURl = ViewBag.BaseUrl;
+    ViewBag.Title = "Insights & Statistics";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_LayoutNew.cshtml";
+    var custDto = (CustomerDTO)ViewBag.CustomerDTO;
+    var socialProfile = (SocialProfileDTO)ViewBag.socialProfile;
+
+
+
+
+    var ProfileStatus = "";
+    if (socialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
+    {
+        ProfileStatus = "Active (Free)";
+    }
+    else if (socialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.ActivePlan)
+    {
+        ProfileStatus = "Active (Plan)";
+    }
+    else if (socialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.canceled)
+    {
+        ProfileStatus = "Cancelled";
+    }
+    else if (socialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Unsubscribe)
+    {
+        ProfileStatus = "Unsubscribed";
+    }
+
+
+    var PlanStatus = "";
+
+
+    var statusclass = "btn-primary";
+
+    if (socialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
+    {
+        PlanStatus = "Active (Free)";
+    }
+    else if (socialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.ActivePlan)
+    {
+        PlanStatus = "Active (Plan)";
+    }
+    else if (socialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.canceled)
+    {
+        PlanStatus = "Cancelled";
+    }
+    else if (socialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Unsubscribe)
+    {
+        PlanStatus = "Unsubscribed";
+    }
+
+    switch (socialProfile.SocialProfile.BlockedStatus)
+    {
+        case null: ProfileStatus = "Valid"; statusclass = "btn-primary"; break;
+        case 0: ProfileStatus = "Valid"; statusclass = "btn-primary"; break;
+        case 66: ProfileStatus = "Action Blocked"; statusclass = "btn-danger"; break;
+        case 67: ProfileStatus = "Hard Blocked"; statusclass = "btn-danger"; break;
+        case 68: ProfileStatus = "Password Blocked"; statusclass = "btn-danger"; break;
+        default:
+            ProfileStatus = "Valid"; statusclass = "btn-primary";
+            break;
+    }
+}
+
+@section styles{
+
+
+    <style>
+        .information-wrap {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+               .information-wrap h3 {
+    font-size: 20pt;
+    color: black;
+}
+.information-wrap h3 {
+    font-size: 25px;
+    color: #000000;
+    display: inline-block;
+    vertical-align: top;
+    font-family: arial sans-serif;
+    font-weight: 400;
+}
+    .information-wrap span.right {
+    float: none;
+}
+.information-wrap span.right {
+    font-size: 15px;
+    color: black;
+    font-weight: 400;
+    float: right;
+}
+    .information-wrap span.right i {
+    color: black;
+    font-style: normal;
+}
+    .right {
+    float: right;
+}
+    .text-right {
+    text-align: right !important;
+}
+    br {
+    clear: both;
+}
+    </style>
+
+    <meta http-equiv="refresh" content="30">
+}
+
+<div class="information-wrap main" style="padding-top: 46px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <h3>
+                    <img src="/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="36">
+                    @(socialProfile.SocialProfile.SocialUsername ?? "--")
+                </h3>
+
+            </div>
+            <div class="col-md-6 col-xs-12 text-right">
+                <span class="right">Block Status: <i>@ProfileStatus</i></span><br />
+
+                <span class="right">Plan Status: <i>@PlanStatus</i></span>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="detail-page-contact">
+    <div class="container">
+        <div class="row mt-1">
+
+            <div class="col-8">
+                <a class="btn btn-primary   mb-1" href="@BaseURl/crm/stats?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Stats</a>
+                <a class="btn btn-primary mb-1 active" href="@BaseURl/crm/FollowList?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Follow List</a>
+                <a class="btn btn-primary mb-1" href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Contact Details</a>
+                <a class="btn btn-primary  mb-1" href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Order History</a>
+                <a class="btn btn-primary  mb-1" href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Target Form</a>
+                <a class="btn btn-primary mb-1" href="@BaseURl/crm/lists?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">White & Black Lists</a>
+            </div>
+            <div class="col-4 text-right"><a class=" btn btn-primary right" href="javascript:void(0);" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></div>
+
+        </div>
+    </div>
+</div>
+<div class="app-content container center-layout mt-2">
+    <div class="content-wrapper">
+
+        <section class="content-body">
+
+            
+            <div class="row match-height">
+
+                <div class="col-xl-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-header border-0">
+                            <h4 class="card-title">Follow History</h4>
+
+                        </div>
+                        <div class="card-content">
+
+
+                            <div class="table-responsive mt-4">
+                                <table class="table table-xl mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>IG Username</th>
+                                            <th>Status</th>
+                                            <th>Date/Time</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in socialProfile.SocialProfile_FollowedAccounts.OrderBy(g=> g.FollowedDateTime))
+                                        {
+                                            <tr>
+                                                <td scope="row">
+                                                    @item.FollowedSocialUsername
+                                                </td>
+
+
+                                                <td>
+                                                    @(item.StatusId == 1 ? "Followed" : "UnFollowed")
+                                                </td>
+                                                <td  style="color:@(item.FollowedDateTime.Value < DateTime.Now.AddDays(-2) && item.StatusId == 1 ? "red" : "black")" >
+                                                    @item.FollowedDateTime.Value.ToShortDateString()  @item.FollowedDateTime.Value.ToLongTimeString()
+                                                </td>
+
+
+
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ Bounce Rate & List -->
+
+        </section>
+    </div>
+
+</div>
+
+@section Scripts{
+    @*<script src="~/Content/app-assets/js/scripts/charts/morris/line.js"></script>*@
+
+    <script type="text/javascript">
+
+        $("document").ready(function () {
+            LoadCharts(1);
+
+           
+
+            $('#filterrange button').click(function () {
+                $(this).addClass('active').siblings().removeClass('active');
+
+                // TODO: insert whatever you want to do with $(this) here
+                var el = $(this);
+
+                var mode = $(this).data("mode"); //Theme2
+                LoadCharts(mode);
+            });
+
+        });
+
+
+        function LoadCharts(mode) {
+            $.ajax({
+                type: "GET",
+                url: "/sadmin/crm/Trends?socialProfileId=@socialProfile.SocialProfile.SocialProfileId&mode=" + mode,
+                dataType: "json",
+                success: function (Response) {
+
+
+                    if (!$.isEmptyObject(Response)) {
+                        if (Response.Data.ResultType == "Success") {
+
+
+                            LoadFollowersChart(Response.Data);
+                            LoadFollowingChart(Response.Data);
+                            LoadEngagementChart(Response.Data);
+                            //LoadAverageLikesChart(Response.Data);
+                            //LoadAverageLikesbyPostingTimeChart(Response.Data);
+
+                        } else {
+
+                        }
+                    }
+                },
+                failure: function (errMsg) {
+                    alert(errMsg);
+
+                }
+            });
+        }
+
+        function LoadFollowersChart(ChartsData) {
+
+            var morrisData = [];
+
+            for (i = 0; i < ChartsData.ResultData.Date.length; i++) {
+                morrisData.push({ 'Date': ChartsData.ResultData.Date[i], 'Followers': ChartsData.ResultData.Followers[i] });
+            }
+
+            //$.each(ChartsData.ResultData, function (Date, Followers) {
+            //    morrisData.push({ 'year': Date, 'Followers': Followers });
+            //});
+
+            $("#line-followers").empty();
+
+            Morris.Line({
+                element: 'line-followers',
+                data: morrisData,
+                xkey: 'Date',
+                ykeys: ['Followers'],
+                labels: ['Followers'],
+                resize: true,
+                smooth: false,
+                pointSize: 3,
+                pointStrokeColors: ['#FF4558'],
+                gridLineColor: '#e3e3e3',
+                behaveLikeLine: true,
+                numLines: 6,
+                gridtextSize: 14,
+                lineWidth: 3,
+                hideHover: 'auto',
+                lineColors: ['#FF4558'],
+                xLabelAngle: 45,
+                parseTime: false
+
+            });
+
+        }
+
+        function LoadFollowingChart(ChartsData) {
+
+
+            var morrisData = [];
+
+            for (i = 0; i < ChartsData.ResultData.Date.length; i++) {
+                morrisData.push({ 'year': ChartsData.ResultData.Date[i], 'Following': ChartsData.ResultData.FollowingsData[i], 'Likes': ChartsData.ResultData.AvgLikes[i], 'Unfollow': ChartsData.ResultData.Unfollow[i], 'StoryViews': ChartsData.ResultData.StoryViews[i]   });
+            }
+
+            //$.each(ChartsData.ResultData, function (Date, Followers) {
+            //    morrisData.push({ 'year': Date, 'Followers': Followers });
+            //});
+
+            $("#line-followings").empty();
+            Morris.Bar({
+                element: 'line-followings',
+                data: morrisData,
+                xkey: 'year',
+                ykeys: ['Following', 'Unfollow', 'Likes', 'StoryViews' ],
+                labels: ['Following', 'Unfollow', 'Likes', 'StoryViews'],
+                resize: true,
+                smooth: false,
+                pointSize: 3,
+                pointStrokeColors: ['#FF4558'],
+                gridLineColor: '#e3e3e3',
+                behaveLikeLine: true,
+                numLines: 6,
+                gridtextSize: 14,
+                lineWidth: 3,
+                hideHover: 'auto',
+                lineColors: ["#2685CB", "#4AD95A", "#7B91A3", "#E7F065"],
+                xLabelAngle: 45,
+                parseTime: false,
+                barColors: ["#2685CB", "#4AD95A", "#7B91A3", "#E7F065"],
+            });
+        }
+
+        function LoadEngagementChart(ChartsData) {
+
+            var morrisData = [];
+
+            for (i = 0; i < ChartsData.ResultData.Date.length; i++) {
+                morrisData.push({ 'year': ChartsData.ResultData.Date[i], 'Engagement': ChartsData.ResultData.Engagement[i] });
+            }
+
+            //$.each(ChartsData.ResultData, function (Date, Followers) {
+            //    morrisData.push({ 'year': Date, 'Followers': Followers });
+            //});
+
+            $("#line-engagement").empty();
+            Morris.Line({
+                element: 'line-engagement',
+                data: morrisData,
+                xkey: 'year',
+                ykeys: ['Engagement'],
+                labels: ['Engagement'],
+                resize: true,
+                smooth: false,
+                pointSize: 3,
+                pointStrokeColors: ['#FF4558'],
+                gridLineColor: '#e3e3e3',
+                behaveLikeLine: true,
+                numLines: 6,
+                gridtextSize: 14,
+                lineWidth: 3,
+                hideHover: 'auto',
+                lineColors: ['#FF4558'],
+                xLabelAngle: 45,
+                parseTime: false
+            });
+
+        }
+
+        function LoadAverageLikesChart(ChartsData) {
+
+            var morrisData = [];
+
+            for (i = 0; i < ChartsData.ResultData.Date.length; i++) {
+                morrisData.push({ 'year': ChartsData.ResultData.Date[i], 'AvgLikes': ChartsData.ResultData.AvgLikes[i] });
+            }
+
+            //$.each(ChartsData.ResultData, function (Date, Followers) {
+            //    morrisData.push({ 'year': Date, 'Followers': Followers });
+            //});
+
+            $("#line-likes").empty();
+            Morris.Line({
+                element: 'line-likes',
+                data: morrisData,
+                xkey: 'year',
+                ykeys: ['AvgLikes'],
+                labels: ['Avg Likes'],
+                resize: true,
+                smooth: false,
+                pointSize: 3,
+                pointStrokeColors: ['#FF4558'],
+                gridLineColor: '#e3e3e3',
+                behaveLikeLine: true,
+                numLines: 6,
+                gridtextSize: 14,
+                lineWidth: 3,
+                hideHover: 'auto',
+                lineColors: ['#FF4558'],
+                xLabelAngle: 45,
+                parseTime: false
+            });
+        }
+
+        function LoadAverageLikesbyPostingTimeChart(ChartsData) {
+
+            var morrisData = [];
+
+            for (i = 0; i < ChartsData.ResultData.Date.length; i++) {
+                morrisData.push({ 'year': ChartsData.ResultData.Date[i], 'AvgLikes': ChartsData.ResultData.AvgLikes[i] });
+            }
+
+            //$.each(ChartsData.ResultData, function (Date, Followers) {
+            //    morrisData.push({ 'year': Date, 'Followers': Followers });
+            //});
+
+            $("#line-posting").empty();
+            Morris.Line({
+                element: 'line-posting',
+                data: morrisData,
+                xkey: 'year',
+                ykeys: ['AvgLikes'],
+                labels: ['Avg Likes Posting Time'],
+                resize: true,
+                smooth: false,
+                pointSize: 3,
+                pointStrokeColors: ['#FF4558'],
+                gridLineColor: '#e3e3e3',
+                behaveLikeLine: true,
+                numLines: 6,
+                gridtextSize: 14,
+                lineWidth: 3,
+                hideHover: 'auto',
+                lineColors: ['#FF4558'],
+                xLabelAngle: 45,
+                parseTime: false
+            });
+
+
+
+        }
+
+
+    </script>
+}

@@ -476,6 +476,21 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
         }
 
+        public ActionResult FollowList(string id, string SPId)
+        {
+            int custId = Convert.ToInt32(CryptoEngine.Decrypt(id));
+            int socialProfileId = Convert.ToInt32(CryptoEngine.Decrypt(SPId));
+
+            ViewBag.socialProfileId = socialProfileId;
+            ViewBag.CurrentUser = this.CDT;
+            ViewBag.socialProfile = this._customerManager.GetSocialProfileById(socialProfileId);
+
+
+            return View(ViewBag.socialProfile);
+
+
+        }
+
         public ActionResult Trends(int socialProfileId, int mode)
         {
             var jr = new JsonResult();
