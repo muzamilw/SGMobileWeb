@@ -130,7 +130,9 @@ namespace SG2.CORE.WEB.APIController
 
               
                 DateTime commentCutOffDate = DateTime.Today.AddDays(-1);
-                DateTime unfollowCutOffDate = DateTime.Today.AddDays(-2);
+                DateTime unfollowCutOffDate = DateTime.Today.AddDays(-2); //-2
+
+                DateTime unfollowCutOffMaxDate = DateTime.Today.AddDays(-35); //-2
 
                 var profile = _customerManager.GetSocialProfileById(model.SocialProfileId);
                 if (!String.IsNullOrEmpty( model.SocialPassword))
@@ -168,8 +170,8 @@ namespace SG2.CORE.WEB.APIController
 
                 var executionintervals = JsonConvert.DeserializeObject<List<ExecutionInterval>>(manifest.TargetInformation.ExecutionIntervals);
                 //; ExecutionInterval
-                manifest.FollowersToUnFollow = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g=> !whilelistArray.Contains(g.FollowedSocialUsername)).Where(g => g.StatusId == 1 && g.FollowedDateTime < unfollowCutOffDate).Take(Convert.ToInt32(executionintervals[0].UnFoll16DaysEngage)).ToList());
-                    
+                manifest.FollowersToUnFollow = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g=> !whilelistArray.Contains(g.FollowedSocialUsername)).Where(g => g.StatusId == 1 && g.FollowedDateTime < unfollowCutOffDate && g.FollowedDateTime >= unfollowCutOffMaxDate).ToList());  //Convert.ToInt32(executionintervals[0].UnFoll16DaysEngage)
+
 
                 manifest.Profile.StatsFollowersIncrease = stats.FollowersTotal.Value - stats.FollowersInitial.Value;
                 manifest.Profile.StatsFollowingsIncrease = stats.FollowingsTotal.Value - stats.FollowingsInitial.Value;
