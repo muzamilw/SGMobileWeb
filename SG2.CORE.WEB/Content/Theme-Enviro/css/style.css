@@ -280,7 +280,9 @@ img {
       max-width: 700px; } }
   @media only screen and (max-width: 767px) {
     .modal-dialog {
-      max-width: 300px; } }
+        max-width: 300px;
+        margin: 10px auto;
+    } }
   @media only screen and (min-width: 480px) and (max-width: 767px) {
     .modal-dialog {
       max-width: 470px; } }
