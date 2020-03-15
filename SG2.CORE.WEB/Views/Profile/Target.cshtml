@@ -421,11 +421,11 @@
                                             </div>
                                             @*<div class="form-group">
 
-                                                    <label>Choose the hashtags you DO NOT want to engage (Optional):</label>
-                                                    <div id="hashtagsnotengage" class="edit-on-delete form-control" data-tags-input-name="wlextracted">@Model.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage</div>
-                                                    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage)
+            <label>Choose the hashtags you DO NOT want to engage (Optional):</label>
+            <div id="hashtagsnotengage" class="edit-on-delete form-control" data-tags-input-name="wlextracted">@Model.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage</div>
+            @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage)
 
-                                                </div>*@
+        </div>*@
                                             <div class="form-group">
                                                 @*<span style="display:block"> Please use this format for hashtags: #hashtag,#hashtag,#hashtag</span>*@
                                                 <label>Choose towns, cities and countries that are best suited for your account (cities work best):</label>
@@ -502,11 +502,14 @@
 
                                             @if (Customer.IsBroker.HasValue == false || Customer.IsBroker.Value == false)
                                             {
+
                                                 <div class="form-actions text-center" style="margin-top:0px">
                                                     <button type="submit" class="btn btn-primary">
                                                         <i class="fa fa-check-square-o"></i> Save
                                                     </button>
+
                                                 </div>
+                                                <div id="userErrorMesg" class="danger text-center"></div>
                                             }
 
                                         </div>
@@ -1060,6 +1063,7 @@
         var customerid = '@Model.SocialProfile.CustomerId';
         var currentPaymentPlan = '@planName';
         $('#formtarget').submit(function (e) {
+            
             somethingChanged = false;
             document.getElementById("SocialProfile_Instagram_TargetingInformation_HashTagsToEngage").value = hashtagsengagebox.tagging("getTags").join(', ');
 
@@ -1087,6 +1091,14 @@
                 $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals)').val(intverl);
             }
 
+            var hashtagsAdded = hashtagsengagebox.tagging("getTags");
+            var targetAccountsAdded = DirectCompetitorsbox.tagging("getTags");
+            if (!BrokerMode && (hashtagsAdded.length < 10 || targetAccountsAdded.length < 4)) {              
+                $("#userErrorMesg").html("Add atleast 10 hashtags and 4 targeted accounts to proceed.");
+                e.preventDefault();
+                return false;
+            }
+         
             
         });
         function showPaymentPopUp(inputFieldId) {
@@ -1565,6 +1577,7 @@
 
                 // Listen on the form's 'submit' handler...
                 form.addEventListener('submit', function (e) {
+                    
                     e.preventDefault();
 
                     // Trigger HTML5 validation UI on the form if any of the inputs fail
