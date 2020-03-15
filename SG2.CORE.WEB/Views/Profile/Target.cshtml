@@ -874,31 +874,31 @@
                                                             <div class="form-group row">
                                                                 <label class="col-md-9 label-control" for="userinput1">Follow new accounts by search tags</label>
                                                                 <div class="col-md-3">
-                                                                    <input type="text" class="form-control" placeholder="" name="FollAccSearchTags" onkeypress="return isNumberKey(event)">
+                                                                    <input type="text" class="form-control" placeholder="Max val 200" min="10" max="200" name="FollAccSearchTags" onkeypress="return isNumberKey(event)">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group row">
                                                                 <label class="col-md-9 label-control" for="userinput1">Un-Follow after 16 days of engaging</label>
                                                                 <div class="col-md-3">
-                                                                    <input type="text" class="form-control" placeholder="" name="UnFoll16DaysEngage" onkeypress="return isNumberKey(event)">
+                                                                    <input type="text" class="form-control" placeholder="Max val 200" min="10" max="200" name="UnFoll16DaysEngage" onkeypress="return isNumberKey(event)">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group row">
                                                                 <label class="col-md-9 label-control" for="userinput1">Like on followings posts per day</label>
                                                                 <div class="col-md-3">
-                                                                    <input type="text" class="form-control" placeholder="" name="LikeFollowingPosts" onkeypress="return isNumberKey(event)">
+                                                                    <input type="text" class="form-control" placeholder="Max val 200" min="10" max="200" name="LikeFollowingPosts" onkeypress="return isNumberKey(event)">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group row">
                                                                 <label class="col-md-9 label-control" for="userinput1">View stories by followings</label>
                                                                 <div class="col-md-3">
-                                                                    <input type="text" class="form-control" placeholder="" name="VwStoriesFollowing" onkeypress="return isNumberKey(event)">
+                                                                    <input type="text" class="form-control" placeholder="Max val 200" min="10" max="200" name="VwStoriesFollowing" onkeypress="return isNumberKey(event)">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group row">
                                                                 <label class="col-md-9 label-control" for="userinput1">Comment on following posts</label>
                                                                 <div class="col-md-3">
-                                                                    <input type="text" class="form-control" placeholder="" name="CommFollowingPosts" onkeypress="return isNumberKey(event)">
+                                                                    <input type="text" class="form-control" placeholder="Max val 200" min="10" max="200" name="CommFollowingPosts" onkeypress="return isNumberKey(event)">
                                                                 </div>
                                                             </div>
 
@@ -1085,6 +1085,7 @@
             }
 
             if (BrokerMode && repeater.repeaterVal()['group-a'].length > 0) {
+                
                 var intverl = JSON.stringify(repeater.repeaterVal()).replace('\"group-a\":', '');
                 intverl = intverl.slice(1).slice(0, -1);
                 console.log(intverl);
@@ -1259,6 +1260,15 @@
             if (BrokerMode) {
 
                 var IntEleCount = 0;
+
+                $(function () { $("input").not("[type=submit]").jqBootstrapValidation({
+                    submitError: function ($form, event, errors) { 
+                        //alert('Errors must be fixed before continuing.');
+
+                        swal("Validation Errors", "Correct values must be entered in highlighted fields to continue.", "error");
+                    }
+                  }); } );
+
                 // Custom Show / Hide Configurations
                 repeater = $('.file-repeater, .interval-repeater').repeater({
                     show: function () {
