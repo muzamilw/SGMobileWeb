@@ -786,14 +786,14 @@ namespace SG2.CORE.DAL.Repositories
 
         }
 
-        public IList<CustomerListingViewModel> GetUserData(string SearchCriteria, int PageNumber, string PageSize, int? Status, string ProductId, string JVStatus, int? Subscription, int? profileType, int? BlockId)
+        public IList<CustomerListingViewModel> GetUserData(string SearchCriteria, int PageNumber, string PageSize, int? Status, string ProductId, string JVStatus, int? Subscription, int? profileType, int? BlockId, int? AppConnStatus)
         {
             try
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
                     //-- TODO: Change proper sp
-                    var usrdata = _db.SG2_usp_GetUserDetailsForbackOffice(SearchCriteria, PageNumber, PageSize, Status, (ProductId), JVStatus, Subscription,profileType, BlockId).ToList();
+                    var usrdata = _db.SG2_usp_GetUserDetailsForbackOffice(SearchCriteria, PageNumber, PageSize, Status, (ProductId), JVStatus, Subscription,profileType, BlockId, AppConnStatus).ToList();
                     if (usrdata != null)
                     {
                         List<CustomerListingViewModel> customerListingViewModelsList = new List<CustomerListingViewModel>();
@@ -818,6 +818,7 @@ namespace SG2.CORE.DAL.Repositories
                             customerListingViewModel.AfterFollViewUserStory = item.AfterFollViewUserStory;
                             customerListingViewModel.BlockStatus = item.BlockedStatus;
                             customerListingViewModel.BrokerAppName = item.BrokerAppName;
+                            customerListingViewModel.AppConnStatus = item.AppConnStatus;
 
                             customerListingViewModelsList.Add(customerListingViewModel);
                         }
@@ -1403,10 +1404,11 @@ namespace SG2.CORE.DAL.Repositories
                             SubScriptionStatus = p.SubscriptionStatus,
                             SubscriptionName = p.SubscriptionName,
                             BlockedStatus =  p.BlockedStatus.HasValue == false || (p.BlockedStatus.HasValue && p.BlockedStatus.Value == 0) ? "Valid" : p.BlockedStatus.Value == 66 ? "Action Blocked": p.BlockedStatus.Value == 67 ?"Hard Blocked" : p.BlockedStatus.Value == 68?"Password Blocked":"Valid",
-                             AfterFollLikeuserPosts = p.AfterFollLikeuserPosts,
-                              AfterFollViewUserStory = p.AfterFollViewUserStory,
-                              FollowOn = p.FollowOn,
-                              UnFollFollowersAfterMinDays = p.UnFollFollowersAfterMinDays
+                            AfterFollLikeuserPosts = p.AfterFollLikeuserPosts,
+                            AfterFollViewUserStory = p.AfterFollViewUserStory,
+                            FollowOn = p.FollowOn,
+                            UnFollFollowersAfterMinDays = p.UnFollFollowersAfterMinDays,
+                            AppConnStatus =  p.AppConnStatus
 
                             
                         }).ToList();

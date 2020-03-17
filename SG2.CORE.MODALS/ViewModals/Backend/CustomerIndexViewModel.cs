@@ -23,6 +23,8 @@ namespace SG2.CORE.MODAL.ViewModals.Backend
         public string ProductId { get; set; }
         public int? BlockStatus { get; set; }
 
+        public int? AppConnStatus { get; set; }
+
         public int? Subscription { get; set; }
 
         public int? profileType { get; set; }

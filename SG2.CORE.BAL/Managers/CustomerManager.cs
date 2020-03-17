@@ -163,9 +163,9 @@ namespace SG2.CORE.BAL.Managers
 
       
 
-        public IList<CustomerListingViewModel> GetUserData(string SearchCriteria, string PageSize, int PageNumber, int? StatusId, string ProductId, string JVStatus, int? Subscription, int? profileType,int? BlockId)
+        public IList<CustomerListingViewModel> GetUserData(string SearchCriteria, string PageSize, int PageNumber, int? StatusId, string ProductId, string JVStatus, int? Subscription, int? profileType,int? BlockId, int? AppConnStatus)
         {
-            var Model = _customerRepository.GetUserData(SearchCriteria, PageNumber, PageSize, StatusId, ProductId, JVStatus, Subscription, profileType, BlockId);
+            var Model = _customerRepository.GetUserData(SearchCriteria, PageNumber, PageSize, StatusId, ProductId, JVStatus, Subscription, profileType, BlockId, AppConnStatus);
 
             return Model;
         }

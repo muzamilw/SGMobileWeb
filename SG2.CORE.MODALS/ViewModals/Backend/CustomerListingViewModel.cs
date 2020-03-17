@@ -32,5 +32,7 @@ namespace SG2.CORE.MODAL.ViewModals.Backend
         public string BlockStatus { get; set; }
 
         public string BrokerAppName { get; set; }
+
+        public string AppConnStatus { get; set; }
     }
 }
