@@ -29,5 +29,7 @@ namespace SG2.CORE.MODAL.DTO.Customers
         public Nullable<bool> AfterFollLikeuserPosts { get; set; }
         public Nullable<bool> AfterFollViewUserStory { get; set; }
 
+        public string AppConnStatus { get; set; }
+
     }
 }
