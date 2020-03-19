@@ -567,13 +567,88 @@ End
 
   
 
---############################################################# 2020-03-17 ################################################################################
+--############################################################# 2020-03-19 ################################################################################
  
 
+GO
+/****** Object:  StoredProcedure [dbo].[SG2_usp_Customer_GetSocialProfilesByCustomerId]    Script Date: 3/19/2020 1:09:19 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--   select * from Customer    
+    
+    
+-- =============================================              
+-- Author:  <Author,,Name>              
+-- Create date: <Create Date,,>              
+-- Description: <Description,,>             
+-- [SG2_usp_Customer_GetSocialProfilesByCustomerId]  60, 'muz',0,0,0    
+-- =============================================              
+ALTER PROCEDURE [dbo].[SG2_usp_Customer_GetSocialProfilesByCustomerId]               
+ @CustomerId int,    
+ @searchString nvarchar(200),    
+ @Plan int,    
+ @socialtype int,    
+ @block int          
+AS              
+BEGIN              
+ -- SET NOCOUNT ON added to prevent extra result sets from              
+ -- interfering with SELECT statements.              
+ SET NOCOUNT ON;              
+Declare @mindt datetime set @mindt = 0  
+
+	SELECT               
+			SP.SocialProfileId,              
+			SP.CustomerId,              
+			SP.SocialProfileTypeId,              
+			SP.StatusId,              
+			SP.StripeCustomerId,              
+			SP.SocialUsername,              
+			SP.SocialPassword,              
+			SP.SocialProfileName as ProfileName,              
+			EV.[Description] StatusName,              
+			EV2.[DESCRIPTION] SocialProfileTypeName,              
+              
+			CASE               
+			WHEN SP.StatusId = 19              
+			THEN 'Expired'              
+			ELSE               
+			'Active'              
+			End SubscriptionStatus,              
+			pplan.[PlanName] as SubscriptionName ,      
+			SP.BlockedStatus   ,
+			t.FollowOn,
+			t.UnFollFollowersAfterMinDays,
+			t.AfterFollLikeuserPosts,
+			t.AfterFollViewUserStory,
+			isnull(actions.AppStatus,'Offline') AppConnStatus
+	FROM [dbo].[SocialProfile] SP              
+         
+	INNER JOIN [dbo].[EnumerationValue] EV ON EV.[EnumerationValueId] = SP.STATUSID 
+	left outer join SocialProfile_Instagram_TargetingInformation t on sp.SocialProfileId = t.SocialProfileId
+	left outer join PaymentPlan pplan on pplan.PaymentPlanId = sp.PaymentPlanId           
+	LEFT JOIN [dbo].[EnumerationValue] EV2 ON EV2.[EnumerationValueId] = SP.SOCIALPROFILETYPEID             
+   
+	outer apply (
+		
+			select (case when DATEDIFF(minute, isnull(ActionDateTime,@mindt), getdate()) <= 3 then 'Online' else 'Offline' end ) as AppStatus from 
+			--select DATEDIFF(minute, isnull(ActionDateTime,@mindt),GETDATE()) as AppStatus from 
+			(
+				select top 1 a.ActionDateTime from SocialProfile_Actions a where a.SocialProfileId = SP.SocialProfileId order by ActionDateTime DESC
+			) d
+	) actions
+             
+	WHERE SP.CUSTOMERID = @CustomerId    
+		and (@searchString = '' or sp.SocialUsername like '%' + @searchString + '%')     
+		and (@Plan = 0 or isnull(sp.PaymentPlanId,1) = @Plan)            
+       
+		and (@socialtype = 0 or sp.SocialProfileTypeId = @socialtype)            
+END 
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[SG2_usp_GetUserDetailsForbackOffice]    Script Date: 3/17/2020 2:56:09 PM ******/
+/****** Object:  StoredProcedure [dbo].[SG2_usp_GetUserDetailsForbackOffice]    Script Date: 3/19/2020 1:10:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -595,7 +670,6 @@ Begin
          -- [dbo].[SG2_usp_GetUserDetailsForbackOffice]   '',1,10,null,'','',null,null,null,null
  -- Searches for Products based on given parameters       
  
- select @ConnStatus
  Declare @iFirstRow Int              
  Declare @iLastRow Int           
  Declare @mindt datetime set @mindt = 0         
@@ -765,81 +839,3 @@ AppConnStatus nvarchar(100)
 
  Return @@Error           
 End 
-
-
-
-GO
-/****** Object:  StoredProcedure [dbo].[SG2_usp_Customer_GetSocialProfilesByCustomerId]    Script Date: 3/18/2020 2:24:18 AM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
---   select * from Customer    
-    
-    
--- =============================================              
--- Author:  <Author,,Name>              
--- Create date: <Create Date,,>              
--- Description: <Description,,>             
--- [SG2_usp_Customer_GetSocialProfilesByCustomerId]  60, 'muz',0,0,0    
--- =============================================              
-ALTER PROCEDURE [dbo].[SG2_usp_Customer_GetSocialProfilesByCustomerId]               
- @CustomerId int,    
- @searchString nvarchar(200),    
- @Plan int,    
- @socialtype int,    
- @block int          
-AS              
-BEGIN              
- -- SET NOCOUNT ON added to prevent extra result sets from              
- -- interfering with SELECT statements.              
- SET NOCOUNT ON;              
-Declare @mindt datetime set @mindt = 0  
-
-	SELECT               
-			SP.SocialProfileId,              
-			SP.CustomerId,              
-			SP.SocialProfileTypeId,              
-			SP.StatusId,              
-			SP.StripeCustomerId,              
-			SP.SocialUsername,              
-			SP.SocialPassword,              
-			SP.SocialProfileName as ProfileName,              
-			EV.[Description] StatusName,              
-			EV2.[DESCRIPTION] SocialProfileTypeName,              
-              
-			CASE               
-			WHEN SP.StatusId = 19              
-			THEN 'Expired'              
-			ELSE               
-			'Active'              
-			End SubscriptionStatus,              
-			pplan.[PlanName] as SubscriptionName ,      
-			SP.BlockedStatus   ,
-			t.FollowOn,
-			t.UnFollFollowersAfterMinDays,
-			t.AfterFollLikeuserPosts,
-			t.AfterFollViewUserStory,
-			isnull(actions.AppStatus,'Offline') AppConnStatus
-	FROM [dbo].[SocialProfile] SP              
-         
-	INNER JOIN [dbo].[EnumerationValue] EV ON EV.[EnumerationValueId] = SP.STATUSID 
-	left outer join SocialProfile_Instagram_TargetingInformation t on sp.SocialProfileId = t.SocialProfileId
-	left outer join PaymentPlan pplan on pplan.PaymentPlanId = sp.PaymentPlanId           
-	LEFT JOIN [dbo].[EnumerationValue] EV2 ON EV2.[EnumerationValueId] = SP.SOCIALPROFILETYPEID             
-   
-	outer apply (
-		
-			select (case when DATEDIFF(minute, isnull(ActionDateTime,@mindt), getdate()) <= 3 then 'Online' else 'Offline' end ) as AppStatus from 
-			--select DATEDIFF(minute, isnull(ActionDateTime,@mindt),GETDATE()) as AppStatus from 
-			(
-				select top 1 a.ActionDateTime from SocialProfile_Actions a where a.SocialProfileId = SP.SocialProfileId order by ActionDateTime DESC
-			) d
-	) actions
-             
-	WHERE SP.CUSTOMERID = @CustomerId    
-		and (@searchString = '' or sp.SocialUsername like '%' + @searchString + '%')     
-		and (@Plan = 0 or isnull(sp.PaymentPlanId,1) = @Plan)            
-       
-		and (@socialtype = 0 or sp.SocialProfileTypeId = @socialtype)            
-END 
