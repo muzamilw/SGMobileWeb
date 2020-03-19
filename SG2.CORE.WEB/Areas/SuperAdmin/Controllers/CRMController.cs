@@ -15,6 +15,7 @@ using SG2.CORE.MODAL.DTO.Customers;
 using System.Collections.Generic;
 using SG2.CORE.MODAL.DTO.SystemSettings;
 using SG2.CORE.MODAL.ViewModals.Customers;
+using SG2.CORE.MODAL.ViewModals.CRM;
 
 namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 {
@@ -486,11 +487,35 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             ViewBag.socialProfile = this._customerManager.GetSocialProfileById(socialProfileId);
 
 
-            return View(ViewBag.socialProfile);
+            return View(new FollowListViewModel());
 
 
         }
+        [HttpPost]
+        public ActionResult FollowList(FollowListViewModel followListViewModel)
+        {
+            int custId = followListViewModel.CustomerId;
+            int socialProfileId = followListViewModel.SocialProfileId;
+            SocialProfileDTO socialProfileDTO = this._customerManager.GetSocialProfileById(socialProfileId);
+            ViewBag.socialProfileId = socialProfileId;
+            ViewBag.CurrentUser = this.CDT;
 
+            if (followListViewModel.FilterBy == "2") 
+            {
+                socialProfileDTO.SocialProfile_FollowedAccounts = socialProfileDTO.SocialProfile_FollowedAccounts.Where(s => s.StatusId == 1 && s.FollowedDateTime == DateTime.Now.AddDays(-33)).ToList();
+            }
+            if (followListViewModel.FilterBy == "3")
+            {
+                socialProfileDTO.SocialProfile_FollowedAccounts = socialProfileDTO.SocialProfile_FollowedAccounts.Where(s => s.StatusId != 1 && s.FollowedDateTime == DateTime.Now.AddDays(-33)).ToList();
+            }
+
+            ViewBag.socialProfile = socialProfileDTO;
+
+
+            return View(followListViewModel);
+
+
+        }
         public ActionResult Trends(int socialProfileId, int mode)
         {
             var jr = new JsonResult();

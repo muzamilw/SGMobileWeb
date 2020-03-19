@@ -314,6 +314,7 @@
     <Compile Include="ViewModals\Backend\TeamMember\TeamMemberProfileUpdateViewModal.cs" />
     <Compile Include="ViewModals\Backend\TeamMember\UpdateTeamMemberViewModal.cs" />
     <Compile Include="ViewModals\Backend\Proxy\UpdateProxyIPsViewModel.cs" />
+    <Compile Include="ViewModals\CRM\FollowListViewModel.cs" />
     <Compile Include="ViewModals\Customers\CustomerCardDetailViewModel.cs" />
     <Compile Include="ViewModals\Customers\CustomerLoginViewModel.cs" />
     <Compile Include="ViewModals\Customers\CustomerPaymentCardsViewModel.cs" />
