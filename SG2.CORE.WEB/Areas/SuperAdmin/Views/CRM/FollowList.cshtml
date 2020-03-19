@@ -1,16 +1,12 @@
 ﻿@using SG2.CORE.MODAL.DTO.Customers;
 @using SG2.CORE.COMMON;
-@using SG2.CORE.MODAL;
-@using SG2.CORE.MODAL.ViewModals.Statistics;
-
-
+@model SG2.CORE.MODAL.ViewModals.CRM.FollowListViewModel
 @{
     var BaseURl = ViewBag.BaseUrl;
     ViewBag.Title = "Insights & Statistics";
     Layout = "~/Areas/SuperAdmin/Views/Shared/_LayoutNew.cshtml";
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
     var socialProfile = (SocialProfileDTO)ViewBag.socialProfile;
-
 
 
 
@@ -68,6 +64,9 @@
             ProfileStatus = "Valid"; statusclass = "btn-primary";
             break;
     }
+    List<SelectListItem> followFilterList = new List<SelectListItem>();
+    followFilterList.Add(new SelectListItem { Text = "Follow in last 33 days", Value = "2" });
+    followFilterList.Add(new SelectListItem { Text = "UnFollow in last 33 days", Value = "3" });
 }
 
 @section styles{
@@ -78,39 +77,66 @@
             margin-top: 20px;
             margin-bottom: 20px;
         }
-               .information-wrap h3 {
-    font-size: 20pt;
-    color: black;
-}
-.information-wrap h3 {
-    font-size: 25px;
-    color: #000000;
-    display: inline-block;
-    vertical-align: top;
-    font-family: arial sans-serif;
-    font-weight: 400;
-}
-    .information-wrap span.right {
-    float: none;
-}
-.information-wrap span.right {
-    font-size: 15px;
-    color: black;
-    font-weight: 400;
-    float: right;
-}
-    .information-wrap span.right i {
-    color: black;
-    font-style: normal;
-}
-    .right {
-    float: right;
-}
-    .text-right {
-    text-align: right !important;
-}
-    br {
-    clear: both;
+
+            .information-wrap h3 {
+                font-size: 20pt;
+                color: black;
+            }
+
+            .information-wrap h3 {
+                font-size: 25px;
+                color: #000000;
+                display: inline-block;
+                vertical-align: top;
+                font-family: arial sans-serif;
+                font-weight: 400;
+            }
+
+            .information-wrap span.right {
+                float: none;
+            }
+
+            .information-wrap span.right {
+                font-size: 15px;
+                color: black;
+                font-weight: 400;
+                float: right;
+            }
+
+                .information-wrap span.right i {
+                    color: black;
+                    font-style: normal;
+                }
+
+        .right {
+            float: right;
+        }
+
+        .text-right {
+            text-align: right !important;
+        }
+
+        br {
+            clear: both;
+        }
+        
+select {
+    border: 1px solid #c8c5c5;
+    width: 100%;
+    border-radius: 5px;
+    height: 37px;
+    font-weight: 300;
+    font-size: 0.85rem;
+    padding-left: 8px;
+    background-image: url(/Content/ThemeAssets/Images/down-arrow.png);
+    background-repeat: no-repeat;
+    background-position: 97% 50%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    outline: 0;
+    color: #888
 }
     </style>
 
@@ -159,7 +185,7 @@
 
         <section class="content-body">
 
-            
+
             <div class="row match-height">
 
                 <div class="col-xl-12 col-lg-12">
@@ -168,7 +194,21 @@
                             <h4 class="card-title">Follow History</h4>
 
                         </div>
+
                         <div class="card-content">
+                            @using (Html.BeginForm("FollowList", "CRM", FormMethod.Post, new { @id = "Form_FollowFilter" }))
+                            {
+                                <div class="col-md-2 col-sm-12 mb-2">
+                                    <div class="product">
+                                        <label>Filter By</label>
+                                        <div class="select">
+                                            @Html.DropDownListFor(model => model.FilterBy, followFilterList, "All", new { onchange = "submit()" })
+                                        </div>
+                                    </div>
+                                </div>
+                                @Html.HiddenFor(model => model.SocialProfileId, new { id = "sProfileId", Value = @socialProfile.SocialProfile.SocialProfileId })
+                            }
+
 
 
                             <div class="table-responsive mt-4">
@@ -178,11 +218,11 @@
                                             <th>IG Username</th>
                                             <th>Status</th>
                                             <th>Date/Time</th>
-                                            
+
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach (var item in socialProfile.SocialProfile_FollowedAccounts.OrderBy(g=> g.FollowedDateTime))
+                                        @foreach (var item in socialProfile.SocialProfile_FollowedAccounts.OrderBy(g => g.FollowedDateTime))
                                         {
                                             <tr>
                                                 <td scope="row">
@@ -193,7 +233,7 @@
                                                 <td>
                                                     @(item.StatusId == 1 ? "Followed" : "UnFollowed")
                                                 </td>
-                                                <td  style="color:@(item.FollowedDateTime.Value < DateTime.Now.AddDays(-2) && item.StatusId == 1 ? "red" : "black")" >
+                                                <td style="color:@(item.FollowedDateTime.Value < DateTime.Now.AddDays(-2) && item.StatusId == 1 ? "red" : "black")">
                                                     @item.FollowedDateTime.Value.ToShortDateString()  @item.FollowedDateTime.Value.ToLongTimeString()
                                                 </td>
 
@@ -205,9 +245,9 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                                </div>
+                            </div>
+                        </div>
             <!--/ Bounce Rate & List -->
 
         </section>
@@ -223,7 +263,7 @@
         $("document").ready(function () {
             LoadCharts(1);
 
-           
+            @Model.SocialProfileId = '@socialProfile.SocialProfile.SocialProfileId';
 
             $('#filterrange button').click(function () {
                 $(this).addClass('active').siblings().removeClass('active');
@@ -234,7 +274,9 @@
                 var mode = $(this).data("mode"); //Theme2
                 LoadCharts(mode);
             });
-
+            $('#FilterBy').change(function () {
+                alert();
+            });
         });
 
 
