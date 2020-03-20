@@ -13,7 +13,8 @@
 
 
 
-
+    var appStatus = "Offline";
+    var appStatusClass = "offline-btn";
     var ProfileStatus = "";
     if (socialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
     {
@@ -68,6 +69,7 @@
             ProfileStatus = "Valid"; statusclass = "btn-primary";
             break;
     }
+    var totalEngagment = Model.FollowersTotal + Model.LikesTotal + Model.StoryViewsTotal + Model.UnFollowTotal + Model.PostsTotal;
 }
 
 @section styles{
@@ -112,6 +114,18 @@
     br {
     clear: both;
 }
+    .offline-btn {
+    background-color: #cb5050;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.online-btn {
+    background-color: green;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+}
     </style>
 
     <meta http-equiv="refresh" content="30">
@@ -130,6 +144,7 @@
             <div class="col-md-6 col-xs-12 text-right">
                 <div class="btn-group" style="margin-top:12px;">
                     <button class="btn btn-round btn-info" type="button"><i class="fa fa-dollar  "></i> @PlanStatus</button>
+                    <button class="btn @appStatusClass" type="button">@appStatus</button>
                     <button class="btn btn-round btn-primary" type="button"><i class="ft-activity pr-1"></i> @ProfileStatus</button>
 
                 </div>
@@ -138,19 +153,19 @@
     </div>
 </div>
 
-<div class="detail-page-contact">
-    <div class="container">
+<div class="detail-page-contact" style="background: #404E67;">
+    <div class="container" style="padding: 5px;">
         <div class="row mt-1">
 
-            <div class="col-8">
-                <a class="btn btn-primary active  mb-1" href="@BaseURl/crm/stats?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Stats</a>
-                <a class="btn btn-primary mb-1" href="@BaseURl/crm/FollowList?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Follow List</a>
-                <a class="btn btn-primary mb-1" href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Contact Details</a>
-                <a class="btn btn-primary  mb-1" href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Order History</a>
-                <a class="btn btn-primary  mb-1" href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Target Form</a>
-                <a class="btn btn-primary mb-1" href="@BaseURl/crm/lists?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">White & Black Lists</a>
+            <div class="col-9">
+                <a class="btn btn-primary active  mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/stats?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Stats</a>
+                <a class="btn btn-primary mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Contact Details</a>
+                <a class="btn btn-primary  mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Order History</a>
+                <a class="btn btn-primary  mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Target Form</a>
+                <a class="btn btn-primary mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/lists?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">White & Black Lists</a>
+                <a class="btn btn-primary mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/FollowList?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Follow List</a>
             </div>
-            <div class="col-4 text-right"><a class=" btn btn-primary right" href="javascript:void(0);" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></div>
+            <div class="col-3 text-right"><a class=" btn right" href="javascript:void(0);" style="color: #fff;line-height: 1;background-color: #6566A6; border-color: #6566A6;" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></div>
 
         </div>
     </div>
@@ -205,7 +220,7 @@
                             <div class="card-body">
                                 <div class="media">
                                     <div class="media-body text-left w-100">
-                                        <h3 class="success">@Model.LikesTotal </h3>  @*/ @Model.LikesInitial*@
+                                        <h3 class="success">@totalEngagment </h3>  @*/ @Model.LikesInitial*@
                                         <span>Total Like engagements </span>
                                     </div>
                                     <div class="media-right media-middle">

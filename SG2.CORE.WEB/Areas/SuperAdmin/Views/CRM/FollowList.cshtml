@@ -164,19 +164,19 @@ select {
     </div>
 </div>
 
-<div class="detail-page-contact">
-    <div class="container">
+<div class="detail-page-contact" style="background: #404E67;">
+    <div class="container" style="padding: 5px;">
         <div class="row mt-1">
 
-            <div class="col-8">
-                <a class="btn btn-primary   mb-1" href="@BaseURl/crm/stats?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Stats</a>
-                <a class="btn btn-primary mb-1 active" href="@BaseURl/crm/FollowList?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Follow List</a>
-                <a class="btn btn-primary mb-1" href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Contact Details</a>
-                <a class="btn btn-primary  mb-1" href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Order History</a>
-                <a class="btn btn-primary  mb-1" href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Target Form</a>
-                <a class="btn btn-primary mb-1" href="@BaseURl/crm/lists?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">White & Black Lists</a>
+            <div class="col-9">
+                <a class="btn btn-primary   mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/stats?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Stats</a>
+                <a class="btn btn-primary mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Contact Details</a>
+                <a class="btn btn-primary  mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Order History</a>
+                <a class="btn btn-primary  mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Target Form</a>
+                <a class="btn btn-primary mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/lists?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">White & Black Lists</a>
+                <a class="btn btn-primary mb-1 active" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/FollowList?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Follow List</a>
             </div>
-            <div class="col-4 text-right"><a class=" btn btn-primary right" href="javascript:void(0);" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></div>
+            <div class="col-3 text-right"><a class=" btn right" style="color: #fff;line-height: 1;background-color: #6566A6; border-color: #6566A6;"  href="javascript:void(0);" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></div>
 
         </div>
     </div>
