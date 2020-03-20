@@ -227,15 +227,15 @@
                                         </div>
 
                                     </td>
-                                    <td class="col-sm-1">
+                                    <td class="pr-0 col-sm-1" >
 
                                         <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@((item.FollowOn ?? false) == true ? "on": "off")">
                                     </td>
-                                    <td class="col-sm-1">
+                                    <td class="pr-0 col-sm-1">
 
                                         <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@((item.UnFollFollowersAfterMinDays ?? false) == true ? "on": "off")">
                                     </td>
-                                    <td class="col-sm-1">
+                                    <td class="pr-0 col-sm-1">
 
                                         <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollLikeuserPosts == true ? "on": "off")">
                                     </td>
@@ -244,7 +244,7 @@
                                         <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollViewUserStory == true ? "on": "off")">
                                     </td>
 
-                                    <td class="col-sm-2" data-label="Box">@Html.Raw(item.BrokerAccount ? "-" : "Regular")</td>
+                                    <td class="col-sm-2" data-label="Box">@Html.Raw(item.BrokerAccount ? item.BrokerAppName : "Regular")</td>
                                     <td class="col-sm-1">
                                         @{
                                             var connStatusclass = "";

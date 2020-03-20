@@ -24,7 +24,7 @@ using System.Threading.Tasks;
 //using SG2.CORE.MODAL;
 using System.Reflection;
 using System.Web.Configuration;
-
+using SG2.CORE.MODAL.ViewModals.CRM;
 namespace SG2.CORE.WEB.Controllers
 {
     [AuthorizeCustomer]
@@ -85,7 +85,7 @@ namespace SG2.CORE.WEB.Controllers
             return View(SocailProfile);
 
         }
-
+    
 
 
         [HttpPost]
@@ -1211,5 +1211,47 @@ namespace SG2.CORE.WEB.Controllers
             return Json(jr, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult FollowList(string id, string SPId)
+        {
+            int custId = Convert.ToInt32(id);
+
+            ViewBag.socialProfileId = SPId;
+            ViewBag.CurrentUser = this.CDT;
+            SocialProfileDTO spDto = this._customerManager.GetSocialProfileById(Convert.ToInt32(SPId));
+            ViewBag.socialProfile = spDto.SocialProfile;
+            ViewBag.socialProfileFollowedAccounts = spDto.SocialProfile_FollowedAccounts;
+
+
+            return View(new FollowListViewModel());
+
+
+        }
+
+        [HttpPost]
+        public ActionResult FollowList(FollowListViewModel followListViewModel)
+        {
+            int custId = followListViewModel.CustomerId;
+            int socialProfileId = followListViewModel.SocialProfileId;
+            SocialProfileDTO socialProfileDTO = this._customerManager.GetSocialProfileById(socialProfileId);
+            ViewBag.socialProfileId = socialProfileId;
+            ViewBag.CurrentUser = this.CDT;
+
+            if (followListViewModel.FilterBy == "2")
+            {
+                socialProfileDTO.SocialProfile_FollowedAccounts = socialProfileDTO.SocialProfile_FollowedAccounts.Where(s => s.StatusId == 1 && s.FollowedDateTime == DateTime.Now.AddDays(-33)).ToList();
+            }
+            if (followListViewModel.FilterBy == "3")
+            {
+                socialProfileDTO.SocialProfile_FollowedAccounts = socialProfileDTO.SocialProfile_FollowedAccounts.Where(s => s.StatusId != 1 && s.FollowedDateTime == DateTime.Now.AddDays(-33)).ToList();
+            }
+
+            ViewBag.socialProfile = socialProfileDTO.SocialProfile;
+            ViewBag.socialProfileFollowedAccounts = socialProfileDTO.SocialProfile_FollowedAccounts;
+
+
+            return View(followListViewModel);
+
+
+        }
     }
 }

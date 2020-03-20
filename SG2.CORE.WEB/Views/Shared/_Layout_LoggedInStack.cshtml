@@ -157,48 +157,56 @@
             <div class="navbar-container main-menu-content container center-layout" data-menu="menu-container">
                 <!-- include ../../../includes/mixins-->
             
-                    <ul class="nav navbar-nav" id="main-menu-navigation" data-menu="menu-navigation">
+                <ul class="nav navbar-nav" id="main-menu-navigation" data-menu="menu-navigation">
 
-                        <li class="nav-item">
-                    
-                                <a class="nav-link" href="~/Profile/stats?socialProfileId=@ViewBag.socialProfileId"><span class="btn btn-primary">Stats</span></a>
-
-                            
-
-                        </li>
-                        <li class="nav-item">
-                         
-                                <a class="nav-link" href="~/Profile/Basic?socialProfileId=@ViewBag.socialProfileId"><span class="btn btn-primary">IG Account Info</span></a>
-
-                           
-
-                        </li>
-                        <li class="nav-item">
-                         
-                                <a class="nav-link TargetingLink" href="~/Profile/target?socialProfileId=@ViewBag.socialProfileId"><span class="btn btn-primary">Targeting</span></a>
-
-                          
-
-                        </li>
-                        <li class="mega-dropdown nav-item">
-                        
-                                <a class="nav-link" href="~/Profile/lists?socialProfileId=@ViewBag.socialProfileId"><span class="btn btn-primary">White & Black Lists</span></a>
-
-
-                        </li>
-                        @*<li class="dropdown nav-item" data-menu="dropdown">
-                    <a class="nav-link" href="~/Profile/followings?socialProfileId=@custDto.DefaultSocialProfileId"><i class="ft-droplet"></i><span>New Followings</span></a>
-
-                </li>*@
                     <li class="nav-item">
-                    
-                            <a class="nav-link" href="~/Profile/history?socialProfileId=@ViewBag.socialProfileId"><span class="btn btn-primary">Order History</span></a>
 
-                        
+                        <a class="nav-link" href="~/Profile/stats?socialProfileId=@ViewBag.socialProfileId"><span class="btn btn-primary">Stats</span></a>
+
+
+
                     </li>
+                    <li class="nav-item">
+
+                        <a class="nav-link" href="~/Profile/Basic?socialProfileId=@ViewBag.socialProfileId"><span class="btn btn-primary">IG Account Info</span></a>
 
 
-                    </ul>
+
+                    </li>
+                    <li class="nav-item">
+
+                        <a class="nav-link TargetingLink" href="~/Profile/target?socialProfileId=@ViewBag.socialProfileId"><span class="btn btn-primary">Targeting</span></a>
+
+
+
+                    </li>
+                    <li class="mega-dropdown nav-item">
+
+                        <a class="nav-link" href="~/Profile/lists?socialProfileId=@ViewBag.socialProfileId"><span class="btn btn-primary">White & Black Lists</span></a>
+
+
+                    </li>
+                    @*<li class="dropdown nav-item" data-menu="dropdown">
+            <a class="nav-link" href="~/Profile/followings?socialProfileId=@custDto.DefaultSocialProfileId"><i class="ft-droplet"></i><span>New Followings</span></a>
+
+        </li>*@
+                    <li class="nav-item">
+
+                        <a class="nav-link" href="~/Profile/history?socialProfileId=@ViewBag.socialProfileId"><span class="btn btn-primary">Order History</span></a>
+
+
+                    </li>
+                    @if (custDto.IsBroker == true)
+                    {
+                        <li class="nav-item">
+
+                            <a class="nav-link" href="~/Profile/FollowList?id=@custDto.CustomerId&SPId=@ViewBag.socialProfileId"><span class="btn btn-primary">Follow List</span></a>
+
+
+                        </li>
+                    }
+
+                </ul>
                     <span class="navbar-text">
                         <a class="btn right" href="~/user/home" style="background-color: #6566A6; border-color: #6566A6;">
                             <i class="fa fa-backward"></i> Back</a>

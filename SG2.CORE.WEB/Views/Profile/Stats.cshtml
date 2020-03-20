@@ -18,7 +18,22 @@
 @section styles{
 
 
-   
+    <style>
+
+        .offline-btn {
+            background-color: #cb5050;
+            color: white;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .online-btn {
+            background-color: green;
+            color: white;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+    </style>
 
     <meta http-equiv="refresh" content="30 ">
 }
@@ -42,7 +57,7 @@
                             <div class="card-body">
                                 <div class="media">
                                     <div class="media-body text-left w-100">
-                                        <h3 class="primary">@Model.FollowingsTotal / @Model.FollowingsInitial</h3>  
+                                        <h3 class="primary">@Model.FollowingsTotal / @Model.FollowingsInitial</h3>
                                         <span>Current Followings / Initially </span>
                                     </div>
                                     <div class="media-right media-middle">
@@ -61,7 +76,7 @@
                                 <div class="media">
                                     <div class="media-body text-left w-100">
                                         <h3 class="danger">@Model.UnFollowTotal </h3>  @*/ @Model.UnFollowInitial*@
-                                    <span>Total UnFollows</span>
+                                        <span>Total UnFollows</span>
                                     </div>
                                     <div class="media-right media-middle">
                                         <i class="icon-dislike danger font-large-2 float-right"></i>
@@ -79,7 +94,7 @@
                                 <div class="media">
                                     <div class="media-body text-left w-100">
                                         <h3 class="success">@Model.LikesTotal </h3>  @*/ @Model.LikesInitial*@
-                                    <span>Total Like engagements </span>
+                                        <span>Total Like engagements </span>
                                     </div>
                                     <div class="media-right media-middle">
                                         <i class="icon-heart success font-large-2 float-right"></i>
@@ -97,7 +112,7 @@
                                 <div class="media">
                                     <div class="media-body text-left w-100">
                                         <h3 class="warning">@Model.StoryViewsTotal </h3>  @*/ @Model.StoryViewsInitial*@
-                                    <span>Total Story View engagements</span>
+                                        <span>Total Story View engagements</span>
                                     </div>
                                     <div class="media-right media-middle">
                                         <i class="icon-camera warning font-large-2 float-right"></i>
@@ -143,12 +158,12 @@
                                     </div>
 
                                     @*<div class="col-lg-4 col-12">
-            <div class="text-center">
-                <h3>@Model.FollowingsTotal</h3>
-                <p class="text-muted">Followings from start <span class="success"><i class="ft-arrow-up"></i> @Model.FollowingsInitial</span></p>
-                <div id="sp-bar-total-cost"></div>
-            </div>
-        </div>*@
+                                            <div class="text-center">
+                                                <h3>@Model.FollowingsTotal</h3>
+                                                <p class="text-muted">Followings from start <span class="success"><i class="ft-arrow-up"></i> @Model.FollowingsInitial</span></p>
+                                                <div id="sp-bar-total-cost"></div>
+                                            </div>
+                                        </div>*@
                                 </div>
                             </div>
                         </div>
@@ -314,51 +329,51 @@
             <!-- Bounce Rate & List -->
             @*<div class="row match-height">
 
-            <div class="col-xl-12 col-lg-12">
-                <div class="card">
-                    <div class="card-header border-0">
-                        <h4 class="card-title">Activity History</h4>
+                    <div class="col-xl-12 col-lg-12">
+                        <div class="card">
+                            <div class="card-header border-0">
+                                <h4 class="card-title">Activity History</h4>
 
-                    </div>
-                    <div class="card-content">
-
-
-                        <div class="table-responsive mt-4">
-                            <table class="table table-xl mb-0">
-                                <thead>
-                                    <tr>
-                                        <th>Action Date/Time</th>
-                                        <th>Action</th>
-                                        <th>Social User Name</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in (List<SocialProfile_ActionsViewModel>)ViewBag.actions)
-                                    {
-                                        <tr>
-                                            <td scope="row">
-                                                @item.ActionDateTime
-                                            </td>
+                            </div>
+                            <div class="card-content">
 
 
-                                            <td>
-                                                @item.Action
-                                            </td>
-                                            <td>
-                                                @item.TargetProfile
-                                            </td>
+                                <div class="table-responsive mt-4">
+                                    <table class="table table-xl mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Action Date/Time</th>
+                                                <th>Action</th>
+                                                <th>Social User Name</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in (List<SocialProfile_ActionsViewModel>)ViewBag.actions)
+                                            {
+                                                <tr>
+                                                    <td scope="row">
+                                                        @item.ActionDateTime
+                                                    </td>
 
 
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
+                                                    <td>
+                                                        @item.Action
+                                                    </td>
+                                                    <td>
+                                                        @item.TargetProfile
+                                                    </td>
+
+
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>*@
+                </div>*@
             <!--/ Bounce Rate & List -->
 
         </section>
