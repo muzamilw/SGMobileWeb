@@ -160,55 +160,30 @@
                     <ul class="nav navbar-nav" id="main-menu-navigation" data-menu="menu-navigation">
 
                         <li class="nav-item">
-                            @if (ViewBag.CurrentUser.IsBroker == true)
-                            {
-                                <a class="nav-link" href="~/Profile/stats?socialProfileId=@ViewBag.socialProfileId"><i class="ft-monitor"></i><span>Stats</span></a>
-
-                            }
-                            else
-                            {
+                    
                                 <a class="nav-link" href="~/Profile/stats?socialProfileId=@ViewBag.socialProfileId"><span class="btn btn-primary">Stats</span></a>
 
-                            }
+                            
 
                         </li>
                         <li class="nav-item">
-                            @if (ViewBag.CurrentUser.IsBroker == true)
-                            {
-                                <a class="nav-link" href="~/Profile/Basic?socialProfileId=@ViewBag.socialProfileId"><i class="ft-layout"></i><span>IG Account Info</span></a>
-
-                            }
-                            else
-                            {
+                         
                                 <a class="nav-link" href="~/Profile/Basic?socialProfileId=@ViewBag.socialProfileId"><span class="btn btn-primary">IG Account Info</span></a>
 
-                            }
+                           
 
                         </li>
                         <li class="nav-item">
-                            @if (ViewBag.CurrentUser.IsBroker == true)
-                            {
-                                <a class="nav-link TargetingLink" href="~/Profile/target?socialProfileId=@ViewBag.socialProfileId"><i class="ft-zap"></i><span>Targeting</span></a>
-
-                            }
-                            else
-                            {
+                         
                                 <a class="nav-link TargetingLink" href="~/Profile/target?socialProfileId=@ViewBag.socialProfileId"><span class="btn btn-primary">Targeting</span></a>
 
-                            }
+                          
 
                         </li>
                         <li class="mega-dropdown nav-item">
-                            @if (ViewBag.CurrentUser.IsBroker == true)
-                            {
-                                <a class="nav-link" href="~/Profile/lists?socialProfileId=@ViewBag.socialProfileId"><i class="ft-box"></i><span>White & Black Lists</span></a>
-
-                            }
-                            else
-                            {
+                        
                                 <a class="nav-link" href="~/Profile/lists?socialProfileId=@ViewBag.socialProfileId"><span class="btn btn-primary">White & Black Lists</span></a>
 
-                            }
 
                         </li>
                         @*<li class="dropdown nav-item" data-menu="dropdown">
@@ -216,23 +191,18 @@
 
                 </li>*@
                     <li class="nav-item">
-                        @if (ViewBag.CurrentUser.IsBroker == true)
-                        {
-                            <a class="nav-link" href="~/Profile/history?socialProfileId=@ViewBag.socialProfileId"><i class="ft-briefcase"></i><span>Order History</span></a>
-
-                        }
-                        else
-                        {
+                    
                             <a class="nav-link" href="~/Profile/history?socialProfileId=@ViewBag.socialProfileId"><span class="btn btn-primary">Order History</span></a>
 
-                        }
-
+                        
                     </li>
 
 
                     </ul>
                     <span class="navbar-text">
-                        <a class="nav-link" href="~/user/home"><i class="ft-arrow-left"></i>Back to Home</a>
+                        <a class="btn right" href="~/user/home" style="background-color: #6566A6; border-color: #6566A6;">
+                            <i class="fa fa-backward"></i> Back</a>
+                       
                     </span>
                 </div>
             <!-- /horizontal menu content-->
