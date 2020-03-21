@@ -19,5 +19,6 @@ namespace SG2.CORE.MODAL.DTO.Customers
 
         public List<SocialProfile_FollowedAccounts> SocialProfile_FollowedAccounts { get; set; }
 		public Customer socialcustomer { get; set; }
-	}
+        public string AppStatus { get; set; }
+    }
 }

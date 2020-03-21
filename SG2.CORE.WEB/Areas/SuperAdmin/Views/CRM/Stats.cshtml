@@ -13,7 +13,7 @@
 
 
 
-    var appStatus = "Offline";
+    var appStatus = socialProfile.AppStatus;
     var appStatusClass = "offline-btn";
     var ProfileStatus = "";
     if (socialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
@@ -70,6 +70,9 @@
             break;
     }
     var totalEngagment = Model.FollowersTotal + Model.LikesTotal + Model.StoryViewsTotal + Model.UnFollowTotal + Model.PostsTotal;
+    if (socialProfile.AppStatus == "Online") {
+        appStatusClass = "online-btn";
+    }
 }
 
 @section styles{

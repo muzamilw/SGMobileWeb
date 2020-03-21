@@ -48,7 +48,7 @@ namespace SG2.CORE.MODAL.ViewModals.Statistics
 
 
         public double? LastSessionIndex { get; set; }
-
+        public string AppStatus { get; set; }
     }
 
     public class Intervals

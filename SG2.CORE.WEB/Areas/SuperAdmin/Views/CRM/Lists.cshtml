@@ -38,7 +38,8 @@
 
     var PlanStatus = "";
     var SocialProfile = (SocialProfileDTO)ViewBag.SocailProfile;
-
+     var appStatus = SocialProfile.AppStatus;
+    var appStatusClass = "offline-btn";
     var statusclass = "btn-primary";
 
     if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
@@ -71,7 +72,9 @@
             ProfileStatus = "Valid"; statusclass = "btn-primary";
             break;
     }
-
+      if (SocialProfile.AppStatus == "Online") {
+        appStatusClass = "online-btn";
+    }
 }
 
 
@@ -135,6 +138,7 @@
             <div class="col-md-6 col-xs-12 text-right">
                 <div class="btn-group" style="margin-top:12px;">
                     <button class="btn btn-round btn-info" type="button"><i class="fa fa-dollar  "></i> @PlanStatus</button>
+                    <button class="btn @appStatusClass" type="button">@appStatus</button>
                     <button class="btn btn-round btn-primary" type="button"><i class="ft-activity pr-1"></i> @ProfileStatus</button>
 
                 </div>

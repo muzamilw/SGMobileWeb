@@ -11,5 +11,6 @@ namespace SG2.CORE.MODAL.ViewModals.CRM
         public string FilterBy { get; set; }
         public int SocialProfileId { get; set; }
         public int CustomerId { get; set; }
+        public string AppStatus { get; set; }
     }
 }

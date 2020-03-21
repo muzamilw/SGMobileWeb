@@ -7,7 +7,8 @@
     Layout = "~/Areas/SuperAdmin/Views/Shared/_LayoutNew.cshtml";
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
     var socialProfile = (SocialProfileDTO)ViewBag.socialProfile;
-
+     var appStatus = socialProfile.AppStatus;
+    var appStatusClass = "offline-btn";
 
 
     var ProfileStatus = "";
@@ -67,6 +68,9 @@
     List<SelectListItem> followFilterList = new List<SelectListItem>();
     followFilterList.Add(new SelectListItem { Text = "Follow in last 33 days", Value = "2" });
     followFilterList.Add(new SelectListItem { Text = "UnFollow in last 33 days", Value = "3" });
+      if (socialProfile.AppStatus == "Online") {
+        appStatusClass = "online-btn";
+    }
 }
 
 @section styles{
@@ -138,6 +142,18 @@ select {
     outline: 0;
     color: #888
 }
+        .offline-btn {
+    background-color: #cb5050;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.online-btn {
+    background-color: green;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+}
     </style>
 
     <meta http-equiv="refresh" content="30">
@@ -156,6 +172,7 @@ select {
             <div class="col-md-6 col-xs-12 text-right">
                 <div class="btn-group" style="margin-top:12px;">
                     <button class="btn btn-round btn-info" type="button"><i class="fa fa-dollar  "></i> @PlanStatus</button>
+                    <button class="btn @appStatusClass" type="button">@appStatus</button>
                     <button class="btn btn-round btn-primary" type="button"><i class="ft-activity pr-1"></i> @ProfileStatus</button>
 
                 </div>

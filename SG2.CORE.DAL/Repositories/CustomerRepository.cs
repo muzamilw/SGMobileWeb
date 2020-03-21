@@ -1550,11 +1550,25 @@ namespace SG2.CORE.DAL.Repositories
                                                           
                     profile.SocialProfile_FollowedAccounts = _db.SocialProfile_FollowedAccounts.Where(g => g.SocialProfileId == profileId).OrderByDescending(g => g.FollowedDateTime).ToList();
 					profile.socialcustomer = _db.Customers.Where(g => g.CustomerId == profile.SocialProfile.CustomerId).SingleOrDefault();
-                    
+                    profile.AppStatus = "Offline";
+                    if (profile.SocialProfile != null)
+                    {
+                      SocialProfile_Actions socialProfile_Actions =  _db.SocialProfile_Actions.Where(a => a.SocialProfileId == profile.SocialProfile.SocialProfileId).OrderBy(o => o.ActionDateTime).FirstOrDefault();
+                        if (socialProfile_Actions != null && socialProfile_Actions.ActionDateTime != null)
+                        {
+                            DateTime actionDateTime = Convert.ToDateTime(socialProfile_Actions.ActionDateTime);
+                            TimeSpan span = DateTime.Now.Subtract(actionDateTime);
+                            if (span.TotalMinutes <= 3) 
+                            {
+                                profile.AppStatus = "Online";
+                            }
+                        }
+                    }
                 }
 
                 if (profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals != null)
                    profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals = Regex.Unescape(Regex.Replace(profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals, @"\t|\n|\r", "")).Replace("\\",@"");
+               
 
                 return profile;
             }

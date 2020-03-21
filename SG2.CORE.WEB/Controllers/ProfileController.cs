@@ -160,10 +160,25 @@ namespace SG2.CORE.WEB.Controllers
             ViewBag.CurrentUser = this.CDT;
             ViewBag.socialProfile = this._cm.GetSocialProfileById(socialProfileId).SocialProfile;
 
-            ViewBag.actions = this._cm.ReturnLastActions(socialProfileId, 500).Where(g => g.ActionID != 69);
-            
+            List<SocialProfile_ActionsViewModel> actions = this._cm.ReturnLastActions(socialProfileId, 500).Where(g => g.ActionID != 69).ToList();
+            ViewBag.actions = actions;
+            StatisticsViewModel statisticsViewModel = this._statisticsManager.GetStatistics(socialProfileId);
+            statisticsViewModel.AppStatus = "Offline";
+            if (actions.Count > 0)
+            {
+                SocialProfile_ActionsViewModel socialProfile_Actions = actions.OrderBy(o => o.ActionDateTime).FirstOrDefault();
+                if (socialProfile_Actions != null && socialProfile_Actions.ActionDateTime != null)
+                {
+                    DateTime actionDateTime = Convert.ToDateTime(socialProfile_Actions.ActionDateTime);
+                    TimeSpan span = DateTime.Now.Subtract(actionDateTime);
+                    if (span.TotalMinutes <= 3)
+                    {
+                        statisticsViewModel.AppStatus = "Online";
+                    }
+                }
+            }
 
-            return View(this._statisticsManager.GetStatistics(socialProfileId));
+            return View(statisticsViewModel);
            
 
         }
@@ -1220,9 +1235,9 @@ namespace SG2.CORE.WEB.Controllers
             SocialProfileDTO spDto = this._customerManager.GetSocialProfileById(Convert.ToInt32(SPId));
             ViewBag.socialProfile = spDto.SocialProfile;
             ViewBag.socialProfileFollowedAccounts = spDto.SocialProfile_FollowedAccounts;
-
-
-            return View(new FollowListViewModel());
+            FollowListViewModel followList = new FollowListViewModel();
+            followList.AppStatus = spDto.AppStatus;
+            return View(followList);
 
 
         }
@@ -1248,7 +1263,7 @@ namespace SG2.CORE.WEB.Controllers
             ViewBag.socialProfile = socialProfileDTO.SocialProfile;
             ViewBag.socialProfileFollowedAccounts = socialProfileDTO.SocialProfile_FollowedAccounts;
 
-
+            followListViewModel.AppStatus = socialProfileDTO.AppStatus;
             return View(followListViewModel);
 
 
