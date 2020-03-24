@@ -839,6 +839,8 @@ namespace SG2.CORE.BAL.Managers
                         case 70: item.Action = "Block 4"; break;
                         case 71: item.Action = "Block 5"; break;
                         case 72: item.Action = "Initial Stats"; break;
+                        case 73: item.Action = "Follow Exchange"; break;
+                        case 74: item.Action = "Like Exchange"; break;
                         default:
                             break;
                     }

@@ -128,6 +128,9 @@
     <Compile Include="EnumerationValue.cs">
       <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="GetSocialProfilesWithoutExistingFollowers_Result.cs">
+      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="klaviyo\KlaviyoAPI.cs" />
     <Compile Include="klaviyo\KlaviyoDeleteProfileList.cs" />
     <Compile Include="klaviyo\KlaviyoList.cs" />

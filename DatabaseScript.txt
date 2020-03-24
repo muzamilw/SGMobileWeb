@@ -839,3 +839,46 @@ AppConnStatus nvarchar(100)
 
  Return @@Error           
 End 
+
+
+
+--############################################################# 2020-03-24 ################################################################################
+ 
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Name
+-- Create date: 
+-- Description:	
+-- =============================================
+CREATE PROCEDURE dbo.GetSocialProfilesWithoutExistingFollowers
+	-- Add the parameters for the stored procedure here
+	@socialProfileId int = 0
+	
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	select * from SocialProfile p where p.PaymentPlanid <> 1
+		and p.SocialUsername not in 
+		(select FollowedSocialUsername from SocialProfile_FollowedAccounts where SocialProfileId = @socialProfileId and StatusId = 1)
+		ORDER BY NEWID()
+END
+GO

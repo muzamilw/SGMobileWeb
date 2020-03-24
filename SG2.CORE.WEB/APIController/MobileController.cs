@@ -145,11 +145,7 @@ namespace SG2.CORE.WEB.APIController
 
                  var stats = this._statsManager.GetStatistics(profile.SocialProfile.SocialProfileId);
 
-                var whitelist = profile.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers;
-                var whilelistArray = new List<string>();
-                if (!string.IsNullOrEmpty(whitelist))
-                    whilelistArray = whitelist.Split(',').Select(uname => uname.Trim()).ToList();
-
+                
                 var manifest = new MobileManifestResponse
                 {
                     CustomerId = profile.SocialProfile.CustomerId.Value,
@@ -167,6 +163,12 @@ namespace SG2.CORE.WEB.APIController
                 //20 count Follow list is all paid instagram profile usernames which are already not in follower list.  and follow exchange checkbox true
                 //10 count Like list is all paid instagram profile usernames which are already not in follower list.  and like exchange checkbox true
                 };
+
+                var whitelist = profile.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers;
+                var whilelistArray = new List<string>();
+                if (!string.IsNullOrEmpty(whitelist))
+                    whilelistArray = whitelist.Split(',').Select(uname => uname.Trim()).ToList();
+
 
                 var executionintervals = JsonConvert.DeserializeObject<List<ExecutionInterval>>(manifest.TargetInformation.ExecutionIntervals);
                 //; ExecutionInterval
@@ -276,26 +278,27 @@ namespace SG2.CORE.WEB.APIController
                             successCount++;
                     }
 
-                    int[] BlockedStatuses = new int[] { 66, 67, 68, 69, 70, 71,72 };
+                    int[] BlockedStatuses = new int[] { 66, 67, 68, 69, 70, 71, 72 };
 
                     var BlockedActions = model.Where(g => BlockedStatuses.Contains(g.ActionId)).ToList();
-                    if (BlockedActions != null &&  BlockedActions.Count>0)
+                    if (BlockedActions != null && BlockedActions.Count > 0)
                     {
 
-                        _customerManager.UpdateBasicSocialProfileBlock( (BlockStatus )BlockedActions.First().ActionId, BlockedActions.First().SocialProfileId);
+                        _customerManager.UpdateBasicSocialProfileBlock((BlockStatus)BlockedActions.First().ActionId, BlockedActions.First().SocialProfileId);
                     }
 
                     //add the newly followed accounts 
-                    _customerManager.AddRemoveFollowAccounts(model.Where(g => g.ActionId == 60 || g.ActionId == 61).ToList());
+                    // 73 follow ex  74 like exchange
+                    _customerManager.AddRemoveFollowAccounts(model.Where(g => g.ActionId == 60 || g.ActionId == 61 || g.ActionId == 73).ToList());
 
                     
-                    var FollowingCount = model.Where(g => g.ActionId == 60).Count();
+                    var FollowingCount = model.Where(g => g.ActionId == 60 || g.ActionId == 73).Count();
 
                     var UnFollowCount = model.Where(g => g.ActionId == 61).Count();
                     //follow
                     var FollowingCountNet = FollowingCount;// - UnFollowCount;
 
-                    var LikeCount = model.Where(g => g.ActionId == 62).Count();
+                    var LikeCount = model.Where(g => g.ActionId == 62 || g.ActionId == 74).Count();
 
                     var CommentCount = model.Where(g => g.ActionId == 63).Count();
 

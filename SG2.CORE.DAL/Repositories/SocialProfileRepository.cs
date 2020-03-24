@@ -295,9 +295,13 @@ namespace SG2.CORE.DAL.Repositories
                 {
                     foreach (var item in list)
                     {
-                        if (item.ActionId == 60)
+                        if (item.ActionId == 60) 
                         {
                             _db.SocialProfile_FollowedAccounts.Add(new SocialProfile_FollowedAccounts { FollowedDateTime = String.IsNullOrEmpty( item.ActionDateTime) ? DateTime.Now : Convert.ToDateTime (item.ActionDateTime), FollowedSocialUsername = item.TargetSocialUserName, SocialProfileId = item.SocialProfileId, StatusId = 1 });
+                        }
+                        else if (item.ActionId == 73)
+                        {
+                            _db.SocialProfile_FollowedAccounts.Add(new SocialProfile_FollowedAccounts { FollowedDateTime = String.IsNullOrEmpty(item.ActionDateTime) ? DateTime.Now : Convert.ToDateTime(item.ActionDateTime), FollowedSocialUsername = item.TargetSocialUserName, SocialProfileId = item.SocialProfileId, StatusId = 3 });
                         }
                         else
                         {

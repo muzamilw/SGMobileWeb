@@ -1147,11 +1147,15 @@ namespace SG2.CORE.DAL.Repositories
                 List<CustomerSocialProfileDTO> profiles = null;
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    var profs = (from m in _db.SocialProfiles
-                                 join r in _db.SocialProfile_FollowedAccounts on socialProfileId equals r.SocialProfileId
-                                 where m.SocialUsername != r.FollowedSocialUsername && m.StatusId == 25 && m.SocialUsername != null
-                                 select m)
-                                 .OrderBy(x => Guid.NewGuid()).Take(20).ToList();
+                    //var profs = (from m in _db.SocialProfiles
+                    //             //join r in _db.SocialProfile_FollowedAccounts on socialProfileId equals r.SocialProfileId
+                    //             //where m.SocialUsername != r.FollowedSocialUsername && 
+                    //             where m.PaymentPlanId != null &&  m.PaymentPlanId != 1 && m.SocialUsername != null
+                    //             && _db.SocialProfile_FollowedAccounts.Contains(m.SocialUsername)
+                    //             select m)
+                    //             .OrderBy(x => Guid.NewGuid()).Take(20).ToList();
+
+                    var profs = _db.GetSocialProfilesWithoutExistingFollowers(socialProfileId);
 
                     if (profs != null)
                     {

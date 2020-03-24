@@ -577,5 +577,14 @@ namespace SG2.CORE.DAL.DB
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Report_GetActions_Result>("SG2_usp_Report_GetActions", dtFromDateParameter, dtToDateParameter);
         }
+    
+        public virtual ObjectResult<GetSocialProfilesWithoutExistingFollowers_Result> GetSocialProfilesWithoutExistingFollowers(Nullable<int> socialProfileId)
+        {
+            var socialProfileIdParameter = socialProfileId.HasValue ?
+                new ObjectParameter("socialProfileId", socialProfileId) :
+                new ObjectParameter("socialProfileId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSocialProfilesWithoutExistingFollowers_Result>("GetSocialProfilesWithoutExistingFollowers", socialProfileIdParameter);
+        }
     }
 }

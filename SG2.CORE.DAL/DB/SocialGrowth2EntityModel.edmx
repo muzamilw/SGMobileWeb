@@ -588,6 +588,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GetSocialProfilesWithoutExistingFollowers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="socialProfileId" Type="int" Mode="In" />
+        </Function>
         <Function Name="SG2_Delete_Customer_All" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="riCustomerId" Type="int" Mode="In" />
           <Parameter Name="riSocialProfileId" Type="int" Mode="In" />
@@ -1030,6 +1033,9 @@
           <FunctionImport Name="SG2_usp_Report_GetActions" ReturnType="Collection(SocialGrowth2Entities.SG2_usp_Report_GetActions_Result)">
             <Parameter Name="dtFromDate" Mode="In" Type="DateTime" />
             <Parameter Name="dtToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetSocialProfilesWithoutExistingFollowers" ReturnType="Collection(SocialGrowth2Entities.GetSocialProfilesWithoutExistingFollowers_Result)">
+            <Parameter Name="socialProfileId" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="SG2_usp_Get_AllUser1_Result">
@@ -2309,6 +2315,39 @@
           <Property Type="DateTime" Name="ActionDate" Nullable="true" />
           <Property Type="Int32" Name="Total" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="GetSocialProfilesWithoutExistingFollowers_Result">
+          <Property Type="Int32" Name="SocialProfileId" Nullable="false" />
+          <Property Type="Int32" Name="CustomerId" Nullable="true" />
+          <Property Type="Int32" Name="SocialProfileTypeId" Nullable="true" />
+          <Property Type="Int32" Name="StatusId" Nullable="true" />
+          <Property Type="String" Name="StripeSubscriptionId" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="StripeCustomerId" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="PaymentPlanId" Nullable="true" />
+          <Property Type="String" Name="SocialUsername" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="SocialPassword" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="SocialProfileName" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="CreatedOn" Nullable="false" Precision="23" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="UpdatedOn" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UpdatedBy" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="verificationCode" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="IsArchived" Nullable="true" />
+          <Property Type="String" Name="IMSI" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="DeviceIMEI" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="DeviceStatus" Nullable="true" />
+          <Property Type="String" Name="PinCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Comments" Nullable="true" />
+          <Property Type="DateTime" Name="LastConnectedDateTime" Nullable="true" Precision="23" />
+          <Property Type="String" Name="DeviceBinLocation" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="BlockedStatus" Nullable="true" />
+          <Property Type="DateTime" Name="BockedSinceDateTime" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="TrelloStatusId" Nullable="true" />
+          <Property Type="Boolean" Name="InitialStatsReceived" Nullable="true" />
+          <Property Type="DateTime" Name="InitialStatsReceivedDateTime" Nullable="true" Precision="23" />
+          <Property Type="String" Name="AppVersion" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="AppTimeZoneOffSet" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="ManifestUpdatedSinceLastGet" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3323,6 +3362,43 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ActionDate" ColumnName="ActionDate" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetSocialProfilesWithoutExistingFollowers" FunctionName="SocialGrowth2Entities.Store.GetSocialProfilesWithoutExistingFollowers">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SocialGrowth2Entities.GetSocialProfilesWithoutExistingFollowers_Result">
+                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="SocialProfileTypeId" ColumnName="SocialProfileTypeId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="StripeSubscriptionId" ColumnName="StripeSubscriptionId" />
+                <ScalarProperty Name="StripeCustomerId" ColumnName="StripeCustomerId" />
+                <ScalarProperty Name="PaymentPlanId" ColumnName="PaymentPlanId" />
+                <ScalarProperty Name="SocialUsername" ColumnName="SocialUsername" />
+                <ScalarProperty Name="SocialPassword" ColumnName="SocialPassword" />
+                <ScalarProperty Name="SocialProfileName" ColumnName="SocialProfileName" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="verificationCode" ColumnName="verificationCode" />
+                <ScalarProperty Name="IsArchived" ColumnName="IsArchived" />
+                <ScalarProperty Name="IMSI" ColumnName="IMSI" />
+                <ScalarProperty Name="DeviceIMEI" ColumnName="DeviceIMEI" />
+                <ScalarProperty Name="DeviceStatus" ColumnName="DeviceStatus" />
+                <ScalarProperty Name="PinCode" ColumnName="PinCode" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="LastConnectedDateTime" ColumnName="LastConnectedDateTime" />
+                <ScalarProperty Name="DeviceBinLocation" ColumnName="DeviceBinLocation" />
+                <ScalarProperty Name="BlockedStatus" ColumnName="BlockedStatus" />
+                <ScalarProperty Name="BockedSinceDateTime" ColumnName="BockedSinceDateTime" />
+                <ScalarProperty Name="TrelloStatusId" ColumnName="TrelloStatusId" />
+                <ScalarProperty Name="InitialStatsReceived" ColumnName="InitialStatsReceived" />
+                <ScalarProperty Name="InitialStatsReceivedDateTime" ColumnName="InitialStatsReceivedDateTime" />
+                <ScalarProperty Name="AppVersion" ColumnName="AppVersion" />
+                <ScalarProperty Name="AppTimeZoneOffSet" ColumnName="AppTimeZoneOffSet" />
+                <ScalarProperty Name="ManifestUpdatedSinceLastGet" ColumnName="ManifestUpdatedSinceLastGet" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
