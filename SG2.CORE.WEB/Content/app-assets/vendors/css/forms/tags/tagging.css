@@ -55,16 +55,3 @@
 .tagging .type-zone:focus {
 	outline: none;
 }
-.offline-btn {
-	background-color: #cb5050;
-	color: white;
-	padding-left: 20px;
-	padding-right: 20px;
-}
-
-.online-btn {
-	background-color: green;
-	color: white;
-	padding-left: 20px;
-	padding-right: 20px;
-}
