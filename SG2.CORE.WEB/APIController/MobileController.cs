@@ -354,6 +354,7 @@ namespace SG2.CORE.WEB.APIController
             {
                 try
                 {
+                    
                     if (_statsManager.SaveInitialStatistics(model))
                         return Ok(new MobileActionResponse { StatusCode = 1, StatusMessage = "Success" });
                     else

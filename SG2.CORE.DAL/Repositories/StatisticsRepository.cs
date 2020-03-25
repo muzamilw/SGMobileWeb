@@ -43,13 +43,25 @@ namespace SG2.CORE.DAL.Repositories
                     {
 
                         //check if we have stats
-                        var newStats = false;
-                        var stats = _db.SocialProfile_Statistics.Where(g => g.SocialProfileId == model.SocialProfileId).SingleOrDefault();
-                        if (stats == null)
+                        bool newStats = false;
+                        SocialProfile_Statistics stats = null;
+                        var statslist = _db.SocialProfile_Statistics.Where(g => g.SocialProfileId == model.SocialProfileId).OrderBy( g=> g.CreatedDate).ToList();
+                        if (statslist == null)
                         {
                             stats = new SocialProfile_Statistics();
                             newStats = true;
                         }
+                        else if (statslist.Count == 0)
+                        {
+                            stats = new SocialProfile_Statistics();
+                            newStats = true;
+                        }
+                        else
+                        {
+                            stats = statslist.First();
+                        }
+
+                       
 
                         stats.SocialProfileId = model.SocialProfileId;
                         //stats.Posts = (stats.Posts ?? 0) <> 0;
