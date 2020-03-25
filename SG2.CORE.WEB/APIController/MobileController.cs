@@ -306,9 +306,20 @@ namespace SG2.CORE.WEB.APIController
 
                     var FollowingEvent = model.Where(g => g.ActionId == 65).FirstOrDefault();
                     var FollowCount = 0;
+                    var Posts = 0;
                     if ( FollowingEvent != null)
                     {
-                        FollowCount = Convert.ToInt32(FollowingEvent.Message);
+
+                        var followingcount = JsonConvert.DeserializeObject<FollowlingCount>(FollowingEvent.Message);
+                        if (followingcount != null)
+                        {
+                            FollowCount = Convert.ToInt32(followingcount.InitialFollowers);
+                            FollowingCount = Convert.ToInt32(followingcount.InitialFollowings);
+                            Posts = Convert.ToInt32(followingcount.InitialPosts);
+                        }
+
+
+
                         //take diff with previous no and then update.
                     }
 
@@ -320,8 +331,8 @@ namespace SG2.CORE.WEB.APIController
                     }
 
                     //omny update stats if anything changes.
-                    if (FollowingCount > 0  || FollowingCountNet  > 0|| LikeCount > 0 || CommentCount > 0 || StoryCount > 0 || FollowCount > 0  || UnFollowCount > 0)
-                        _statsManager.UpdateStatistics(model.First().SocialProfileId, FollowingCountNet, LikeCount, CommentCount, StoryCount, FollowCount, statsDate, UnFollowCount);
+                    if (FollowingCount > 0  || FollowingCountNet  > 0|| LikeCount > 0 || CommentCount > 0 || StoryCount > 0 || FollowCount > 0  || UnFollowCount > 0 || Posts > 0)
+                        _statsManager.UpdateStatistics(model.First().SocialProfileId, FollowingCountNet, LikeCount, CommentCount, StoryCount, FollowCount, statsDate, UnFollowCount, Posts);
 
                     if (successCount == model.Count)
                     {
@@ -420,6 +431,14 @@ public class NullToZeroIntTypeConverter : ITypeConverter<int?, int?>
             else
                 return 0;
         }
+    }
+
+    public class FollowlingCount
+    {
+        public string InitialFollowings { get; set; }
+        public string InitialFollowers { get; set; }
+        public string InitialPosts { get; set; }
+        public int SocialProfileId { get; set; }
     }
 }
 

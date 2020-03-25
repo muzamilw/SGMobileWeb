@@ -66,7 +66,7 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public bool UpdateStatistics(int socialProfileId, int FollowingCount, int LikeCount, int CommentCount, int StoryCount, int FollowCount, DateTime UpdateDateTime, int UnFollowCount)
+        public bool UpdateStatistics(int socialProfileId, int FollowingCount, int LikeCount, int CommentCount, int StoryCount, int FollowCount, DateTime UpdateDateTime, int UnFollowCount, int PostCount)
         {
             try
             {
@@ -100,6 +100,8 @@ namespace SG2.CORE.BAL.Managers
                         prevStats.Unfollow = (prevStats.Unfollow ??0 ) + UnFollowCount;
                         prevStats.UnfollowTotal = (prevStats.UnfollowTotal ?? 0) + UnFollowCount;
 
+                        prevStats.Posts = PostCount;
+
 
                         _statistics.UpdateStatistics(prevStats);
                     }
@@ -121,6 +123,8 @@ namespace SG2.CORE.BAL.Managers
 
                         prevStats.Unfollow = UnFollowCount;
                         prevStats.UnfollowTotal =  UnFollowCount;
+
+                        prevStats.Posts = PostCount;
 
                         prevStats.Date = UpdateDateTime;
                         _statistics.InsertStatistics(prevStats);
@@ -152,6 +156,8 @@ namespace SG2.CORE.BAL.Managers
                     prevStats.FollowersTotal = FollowCount;
 
                     prevStats.Unfollow = UnFollowCount;
+
+                    prevStats.Posts = PostCount;
 
                     _statistics.InsertStatistics(prevStats);
                     

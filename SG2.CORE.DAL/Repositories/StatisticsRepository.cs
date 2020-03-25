@@ -160,6 +160,8 @@ namespace SG2.CORE.DAL.Repositories
                         stats.Follow = model.Follow;
                         stats.FollowTotal = model.FollowTotal;
 
+                        stats.Posts = model.Posts;
+
                         stats.UpdateDate = DateTime.Now;
 
                         _db.SaveChanges();
