@@ -65,13 +65,13 @@
                 <div class="col-md-12 col-sm-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">New Sign Ups, Cancellations & Paid Plan counts</h4>
+                            <h4 class="card-title">New Sign Ups counts</h4>
 
                         </div>
                         <div class="card-content collapse show">
                             <div class="card-body">
 
-                                <div id="profileActions" class="height-400"></div>
+                                <div id="profileSignUpsActions" class="height-400"></div>
                             </div>
                         </div>
                     </div>
@@ -79,13 +79,69 @@
                 <div class="col-md-12 col-sm-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Soft Blocks, Hard Blocks & Password Compromises</h4>
+                            <h4 class="card-title">Cancellations counts</h4>
 
                         </div>
                         <div class="card-content collapse show">
                             <div class="card-body">
 
-                                <div id="actionsRpt" class="height-400"></div>
+                                <div id="profileCancelationActions" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Paid Plan counts</h4>
+
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+
+                                <div id="profilePaidPlansActions" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Soft Blocks</h4>
+                           
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+
+                                <div id="softBlocksActionsRpt" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Hard Blocks</h4>
+
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+
+                                <div id="hardBlocksActionsRpt" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Password Compromises</h4>
+
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+
+                                <div id="passwordBlockActionsRpt" class="height-400"></div>
                             </div>
                         </div>
                     </div>
@@ -347,8 +403,8 @@
 
                             LoadTMostPopularProductPiChartPiChart(Response.Data.ResultData);
 
-                            LoadAccountTrends(document.getElementById('profileActions'), Response.Data.EventsData);
-                            LoadActions(document.getElementById('actionsRpt'), Response.Data.ActionsData);
+                            LoadAccountTrends(Response.Data.EventsData);
+                            LoadActions(Response.Data.ActionsData);
                             //LoadTotalUsedIPsPiChart(Response.Data.ResultData);
                         } else {
 
@@ -626,53 +682,50 @@
             }
         }
 
-        function LoadAccountTrends(elem, ChartsData) {
+        function LoadAccountTrends(ChartsData) {
 
             var morrisData = [];
 
             for (i = 0; i < ChartsData.length; i++) {
                 morrisData.push({eDate: ChartsData[i].eDate, 'signups': ChartsData[i].Signups, 'downgrades': ChartsData[i].Downgrades, 'upgrades': ChartsData[i].Upgrades});
             }
-
-            $(elem).empty();
+              
+            var elemSignUp = document.getElementById('profileSignUpsActions');
+            var elemCancellations = document.getElementById('profileCancelationActions');
+            var elemPaidPlans = document.getElementById('profilePaidPlansActions');
+            $(elemSignUp).empty();
+            $(elemCancellations).empty();
+            $(elemPaidPlans).empty();
             Morris.Line({
-              element: elem,
+              element: elemSignUp,
               data: morrisData,
               xkey: 'eDate',
-              ykeys: ['signups', 'downgrades', 'upgrades'],
-              labels: ['signups', 'downgrades', 'upgrades']
+              ykeys: ['signups'],
+              labels: ['signups']
             });
-            //Morris.Bar({
-            //    element: elem,
-            //    data: morrisData,
-            //    xkey: 'eDate',
-            //    ykeys: ['signups', 'downgrades', 'upgrades'],
-            //    labels: ['signups', 'downgrades', 'upgrades'],
-            //    resize: true,
-            //    smooth: false,
-            //    pointSize: 3,
-            //    pointStrokeColors: ['#FF4558'],
-            //    gridLineColor: '#e3e3e3',
-            //    behaveLikeLine: true,
-            //    numLines: 6,
-            //    gridtextSize: 14,
-            //    lineWidth:2,
-            //    hideHover: 'auto',
-            //    lineColors: ['#FF4558'],
-            //    xLabelAngle: 45,
-            //    parseTime: false,
-            //    barColors: ["#6495ED", "#32CD32", "#FEC81B"],
-            //});
-
+            Morris.Line({
+              element: elemCancellations,
+              data: morrisData,
+              xkey: 'eDate',
+              ykeys: ['downgrades'],
+              labels: ['downgrades']
+            });
+            Morris.Line({
+              element: elemPaidPlans,
+              data: morrisData,
+              xkey: 'eDate',
+              ykeys: ['upgrades'],
+              labels: ['upgrades']
+            });
         }
 
-        function LoadActions(elem, ChartsData) {
+        function LoadActions(ChartsData) {
             var morrisData = [];
             for (i = 0; i < ChartsData.length; i++) {
                 ChartsData[i].ActionDate = ChartsData[i].ActionDate.parseNETDate();
             }
             var dateArray = [...new Set(ChartsData.map(s => s.ActionDate))];  
-            debugger
+            
             for (i = 0; i < dateArray.length; i++) {
                 morrisData.push({
                     eDate: dateArray[i],
@@ -683,35 +736,35 @@
                     'Password Block': ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Password Block') ? ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Password Block').Total : 0
                 });
             }
-            $(elem).empty();
+
+            var elemSBlocks = document.getElementById('softBlocksActionsRpt');
+            var elemHBlocks = document.getElementById('hardBlocksActionsRpt');
+            var elemPBlocks = document.getElementById('passwordBlockActionsRpt');
+            $(elemSBlocks).empty();
+            $(elemHBlocks).empty();
+            $(elemPBlocks).empty();
               Morris.Line({
-              element: elem,
+              element: elemSBlocks,
               data: morrisData,
               xkey: 'eDate',
-              ykeys: ['Action Block', 'Hard Blocked', 'Password Block'],  //'Block 4', 'Block 5', 
-              labels: ['action block', 'hard blocked', 'password block']  //'block 4', 'block 5', 
+              ykeys: ['Action Block'],  //'Block 4', 'Block 5', 
+              labels: ['action block']  //'block 4', 'block 5', 
+              });
+              Morris.Line({
+              element: elemHBlocks,
+              data: morrisData,
+              xkey: 'eDate',
+              ykeys: ['Hard Blocked'],  //'Block 4', 'Block 5', 
+              labels: ['hard blocked']  //'block 4', 'block 5', 
+              });
+              Morris.Line({
+              element: elemPBlocks,
+              data: morrisData,
+              xkey: 'eDate',
+              ykeys: ['Password Block'],  //'Block 4', 'Block 5', 
+              labels: ['password block']  //'block 4', 'block 5', 
             });
-            //Morris.Bar({
-            //    element: elem,
-            //    data: morrisData,
-            //    xkey: 'eDate',
-            //    ykeys: ['Block 2', 'Block 3', 'Block 4', 'Password Compromises'],
-            //    labels: ['Block 2', 'Block 3', 'Block 4', 'Password Compromises'],
-            //    resize: true,
-            //    smooth: false,
-            //    pointSize: 3,
-            //    pointStrokeColors: ['#FF4558'],
-            //    gridLineColor: '#e3e3e3',
-            //    behaveLikeLine: true,
-            //    numLines: 6,
-            //    gridtextSize: 14,
-            //    lineWidth:2,
-            //    hideHover: 'auto',
-            //    lineColors: ['#FF4558'],
-            //    xLabelAngle: 45,
-            //    parseTime: false,
-            //    barColors: ["#6495ED", "#32CD32", "#FEC81B", '#DA70D6'],
-            //});
+         
         }
         if (!String.prototype.parseNETDate) {
                 String.prototype.parseNETDate = function () {
