@@ -14,66 +14,35 @@
 
     ViewBag.socialProfile = Model.SocialProfile;
    
-    var ProfileStatus = "";
-    if (Model.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
+    var onlineStatus = Model.AppStatus;
+    
+    var onlineStatusClass = "offline-btn";
+    var planStatusClass = "btn-primary";
+    string blockStatusClass = "";
+
+    var PlanName = "";
+    PlanName = Model.CurrentPaymentPlan == null ? "FREE" :  Model.CurrentPaymentPlan.PlanName;
+    if ( PlanName  == "FREE")
     {
-        ProfileStatus = "Active (Free)";
-    }
-    else if (Model.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.ActivePlan)
-    {
-        ProfileStatus = "Active (Plan)";
-    }
-    else if (Model.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.canceled)
-    {
-        ProfileStatus = "Cancelled";
-    }
-    else if (Model.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Unsubscribe)
-    {
-        ProfileStatus = "Unsubscribed";
+        planStatusClass = "btn-danger";
     }
 
-    var plans = (List<PlanInformationDTO>)ViewBag.Plans;
-    var paycards = (List<CustomerPaymentCardsViewModel>)ViewBag.paycards;
-
-
-    var PlanStatus = "";
-    var SocialProfile = (SocialProfileDTO)ViewBag.SocailProfile;
-     var appStatus = SocialProfile.AppStatus;
-    var appStatusClass = "offline-btn";
-    var statusclass = "btn-primary";
-
-    if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
+    string BlockStatus = Model.BlockStatus;
+    if (Model.SocialProfile.BlockedStatus == null)
     {
-        PlanStatus = "Active (Free)";
+        blockStatusClass = "btn-primary";
     }
-    else if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.ActivePlan)
+    else if (Model.SocialProfile.BlockedStatus == 0)
     {
-        PlanStatus = "Active (Plan)";
+        blockStatusClass = "btn-primary";
     }
-    else if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.canceled)
+    else
     {
-        PlanStatus = "Cancelled";
-    }
-    else if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Unsubscribe)
-    {
-        PlanStatus = "Unsubscribed";
+        blockStatusClass = "btn-danger";
     }
 
-    switch (SocialProfile.SocialProfile.BlockedStatus)
-    {
-        case null: ProfileStatus = "Valid"; statusclass = "btn-primary"; break;
-        case 0: ProfileStatus = "Valid"; statusclass = "btn-primary"; break;
-        case 66: ProfileStatus = "Action Blocked"; statusclass = "btn-danger"; break;
-        case 67: ProfileStatus = "Hard Blocked"; statusclass = "btn-danger"; break;
-        case 68: ProfileStatus = "Password Blocked"; statusclass = "btn-danger"; break;
-        case 70: ProfileStatus = "Block 4"; statusclass = "btn-danger"; break;
-        case 71: ProfileStatus = "Block 5"; statusclass = "btn-danger"; break;
-        default:
-            ProfileStatus = "Valid"; statusclass = "btn-primary";
-            break;
-    }
-      if (SocialProfile.AppStatus == "Online") {
-        appStatusClass = "online-btn";
+    if (Model.AppStatus == "Online") {
+        onlineStatusClass = "online-btn";
     }
 }
 
@@ -121,6 +90,19 @@
     br {
     clear: both;
 }
+
+            .offline-btn {
+    background-color: #cb5050;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.online-btn {
+    background-color: green;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+}
     </style>
 }
 
@@ -131,15 +113,15 @@
             <div class="col-md-6 col-xs-12">
                 <h3>
                     <img src="/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="36">
-                    @(SocialProfile.SocialProfile.SocialUsername ?? "--")
+                    @(Model.SocialProfile.SocialUsername ?? "--")
                 </h3>
 
             </div>
             <div class="col-md-6 col-xs-12 text-right">
                 <div class="btn-group" style="margin-top:12px;">
-                    <button class="btn btn-round btn-info" type="button"><i class="fa fa-dollar  "></i> @PlanStatus</button>
-                    <button class="btn @appStatusClass" type="button">@appStatus</button>
-                    <button class="btn btn-round btn-primary" type="button"><i class="ft-activity pr-1"></i> @ProfileStatus</button>
+                    <button class="btn btn-round @planStatusClass" type="button"><i class="fa fa-dollar  "></i> @PlanName</button>
+                    <button class="btn @onlineStatusClass" type="button">@onlineStatus</button>
+                    <button class="btn btn-round @blockStatusClass" type="button"><i class="ft-activity pr-1"></i> @BlockStatus</button>
 
                 </div>
             </div>

@@ -211,7 +211,7 @@
 
                             @foreach (var item in Model.CustomerListing)
                             {
-                                <tr class="row" data-href="@BaseURl/crm/TargettingInformation?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))">
+                                <tr class="row" data-href="@BaseURl/crm/detailpage?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))">
                                     <td class="col-sm-3" data-label="ID">
                                         <div style="width: 27px;    float: left;">
                                             <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="24">
@@ -285,13 +285,26 @@
                                     </td>
 
                                     <td class="col-sm-1">
+                                        @{
+                                            var planclass = "";
+                                            if (item.Products.ToLower() == "free")
+                                            {
+                                                planclass = "badge-danger";
+                                            }
+                                            else
+                                            {
+                                                planclass = "badge-primary";
+                                            }
+
+                                        }
+
                                         @if (item.Products != null)
                                         {
-                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: @item.Products</div>
+                                            <div class="badge @planclass label-square mr-1 mb-1 display-inline">Plan: @item.Products</div>
                                         }
                                         else
                                         {
-                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: FREE</div>
+                                            <div class="badge @planclass label-square mr-1 mb-1 display-inline">Free</div>
                                         }
                                     </td>
                                 </tr>
@@ -322,7 +335,7 @@
                 if (element.target.parentElement.nodeName.toLowerCase() === 'tr')
                     window.location = element.target.parentElement.getAttribute("data-href");
                 else if (element.target.parentElement.parentElement.nodeName.toLowerCase() === 'tr')
-                    window.location = element.target.parentElement.parentElement.getAttribute("data-hrefstats");
+                    window.location = element.target.parentElement.parentElement.getAttribute("data-href");
             });
 
 

@@ -11,71 +11,48 @@
     var BaseURl = ViewBag.BaseUrl;
     ViewBag.socialProfile = Model.SocialProfile;
     var currentUser = (Customer)ViewBag.CurrentUser;
-    var ProfileStatus = "";
-    if (Model.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
-    {
-        ProfileStatus = "Active (Free)";
-    }
-    else if (Model.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.ActivePlan)
-    {
-        ProfileStatus = "Active (Plan)";
-    }
-    else if (Model.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.canceled)
-    {
-        ProfileStatus = "Cancelled";
-    }
-    else if (Model.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Unsubscribe)
-    {
-        ProfileStatus = "Unsubscribed";
-    }
+
 
     var plans = (List<PlanInformationDTO>)ViewBag.Plans;
     var paycards = (List<CustomerPaymentCardsViewModel>)ViewBag.paycards;
 
 
-    var PlanStatus = "";
+   
     var SocialProfile = (SocialProfileDTO)ViewBag.SocailProfile;
-    var appStatus = SocialProfile.AppStatus;
-    var appStatusClass = "offline-btn";
-    var statusclass = "btn-primary";
+    var onlineStatus = SocialProfile.AppStatus;
+    
+    var onlineStatusClass = "offline-btn";
+    var planStatusClass = "btn-primary";
+    string blockStatusClass = "";
 
-    if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
+    var PlanName = "";
+    PlanName = SocialProfile.CurrentPaymentPlan == null ? "FREE" :  SocialProfile.CurrentPaymentPlan.PlanName;
+    if ( PlanName  == "FREE")
     {
-        PlanStatus = "Active (Free)";
-    }
-    else if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.ActivePlan)
-    {
-        PlanStatus = "Active (Plan)";
-    }
-    else if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.canceled)
-    {
-        PlanStatus = "Cancelled";
-    }
-    else if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Unsubscribe)
-    {
-        PlanStatus = "Unsubscribed";
+        planStatusClass = "btn-danger";
     }
 
-    switch (SocialProfile.SocialProfile.BlockedStatus)
+    string BlockStatus = SocialProfile.BlockStatus;
+    if (SocialProfile.SocialProfile.BlockedStatus == null)
     {
-        case null: ProfileStatus = "Valid"; statusclass = "btn-primary"; break;
-        case 0: ProfileStatus = "Valid"; statusclass = "btn-primary"; break;
-        case 66: ProfileStatus = "Action Blocked"; statusclass = "btn-danger"; break;
-        case 67: ProfileStatus = "Hard Blocked"; statusclass = "btn-danger"; break;
-        case 68: ProfileStatus = "Password Blocked"; statusclass = "btn-danger"; break;
-        case 70: ProfileStatus = "Block 4"; statusclass = "btn-danger"; break;
-        case 71: ProfileStatus = "Block 5"; statusclass = "btn-danger"; break;
-        default:
-            ProfileStatus = "Valid"; statusclass = "btn-primary";
-            break;
+        blockStatusClass = "btn-primary";
     }
-      if (SocialProfile.AppStatus == "Online") {
-        appStatusClass = "online-btn";
+    else if (SocialProfile.SocialProfile.BlockedStatus == 0)
+    {
+        blockStatusClass = "btn-primary";
+    }
+    else
+    {
+        blockStatusClass = "btn-danger";
+    }
+
+    if (SocialProfile.AppStatus == "Online") {
+        onlineStatusClass = "online-btn";
     }
 }
 
 
-@section styles{
+        @section styles{
 
     <link href="~/Content/app-assets/vendors/css/forms/tags/tagging.css" rel="stylesheet" />
     <link href="~/Content/app-assets/css/pincode.css" rel="stylesheet" />
@@ -148,6 +125,19 @@
     br {
     clear: both;
 }
+
+            .offline-btn {
+    background-color: #cb5050;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.online-btn {
+    background-color: green;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+}
     </style>
    
      
@@ -175,9 +165,9 @@
             </div>
             <div class="col-md-6 col-xs-12 text-right">
                 <div class="btn-group" style="margin-top:12px;">
-                    <button class="btn btn-round btn-info" type="button"><i class="fa fa-dollar  "></i> @PlanStatus</button>
-                    <button class="btn @appStatusClass" type="button">@appStatus</button>
-                    <button class="btn btn-round btn-primary" type="button"><i class="ft-activity pr-1"></i> @ProfileStatus</button>
+                    <button class="btn btn-round @planStatusClass" type="button"><i class="fa fa-dollar  "></i> @PlanName</button>
+                    <button class="btn @onlineStatusClass" type="button">@onlineStatus</button>
+                    <button class="btn btn-round @blockStatusClass" type="button"><i class="ft-activity pr-1"></i> @BlockStatus</button>
 
                 </div>
             </div>
@@ -957,7 +947,7 @@
                 $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts)').val($(this).prop('checked'));
             });
 
-            var AfterFollCommentUserPosts = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts.Value ? "on" : "off")'
+            var AfterFollCommentUserPosts = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts.HasValue && Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts.Value  == true? "on" : "off")'
             $('#AfterFollCommentUserPosts').bootstrapToggle(AfterFollCommentUserPosts);
             $('#AfterFollCommentUserPosts').change(function () {
                 $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts)').val($(this).prop('checked'));

@@ -204,6 +204,9 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public string BlackListHashtags { get; set; }
         public string BlackListWordsManual { get; set; }
 
+        public Nullable<int> LikeExchangeDailyLimit { get; set; }
+        public Nullable<int> FollowExchangeDailyLimit { get; set; }
+
     }
 
 

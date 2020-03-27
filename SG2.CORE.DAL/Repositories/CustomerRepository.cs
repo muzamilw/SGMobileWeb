@@ -1554,10 +1554,20 @@ namespace SG2.CORE.DAL.Repositories
                                                           
                     profile.SocialProfile_FollowedAccounts = _db.SocialProfile_FollowedAccounts.Where(g => g.SocialProfileId == profileId).OrderByDescending(g => g.FollowedDateTime).ToList();
 					profile.socialcustomer = _db.Customers.Where(g => g.CustomerId == profile.SocialProfile.CustomerId).SingleOrDefault();
+
+                    profile.BlockStatus = "Valid";
+                    if ( profile.SocialProfile.BlockedStatus.HasValue )
+                    {
+                        var blockstastus = _db.EnumerationValues.Where(g => g.EnumerationValueId == profile.SocialProfile.BlockedStatus.Value).SingleOrDefault();
+                        if (blockstastus != null)
+                            profile.BlockStatus = blockstastus.Name;
+                    }
+
+
                     profile.AppStatus = "Offline";
                     if (profile.SocialProfile != null)
                     {
-                      SocialProfile_Actions socialProfile_Actions =  _db.SocialProfile_Actions.Where(a => a.SocialProfileId == profile.SocialProfile.SocialProfileId).OrderBy(o => o.ActionDateTime).FirstOrDefault();
+                      SocialProfile_Actions socialProfile_Actions =  _db.SocialProfile_Actions.Where(a => a.SocialProfileId == profile.SocialProfile.SocialProfileId).OrderByDescending(o => o.ActionDateTime).FirstOrDefault();
                         if (socialProfile_Actions != null && socialProfile_Actions.ActionDateTime != null)
                         {
                             DateTime actionDateTime = Convert.ToDateTime(socialProfile_Actions.ActionDateTime);
