@@ -261,7 +261,7 @@
 
                                         <span class="badge @connStatusclass label-square mr-1 mb-1 display-inline">
 
-                                            <span>@item.AppConnStatus</span>
+                                            <span>@item.AppConnStatus @(string.IsNullOrWhiteSpace(item.AppVersion) ? "": "v"+item.AppVersion)</span>
                                         </span>
                                     </td>
                                     <td class="col-sm-1">

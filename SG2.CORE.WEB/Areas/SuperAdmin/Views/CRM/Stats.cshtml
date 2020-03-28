@@ -12,7 +12,7 @@
     var socialProfile = (SocialProfileDTO)ViewBag.socialProfile;
 
 
-    var onlineStatus = socialProfile.AppStatus;
+    var onlineStatus = socialProfile.AppStatus + " - v" + socialProfile.SocialProfile.AppVersion;
     
     var onlineStatusClass = "offline-btn";
     var planStatusClass = "btn-primary";
@@ -434,7 +434,7 @@
                 <div class="col-xl-12 col-lg-12">
                     <div class="card">
                         <div class="card-header border-0">
-                            <h4 class="card-title">Activity History</h4>
+                            <h4 class="card-title">Activity History (App Timezone offset : @socialProfile.SocialProfile.AppTimeZoneOffSet)</h4>
 
                         </div>
                         <div class="card-content">

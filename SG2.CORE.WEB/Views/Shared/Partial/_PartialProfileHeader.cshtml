@@ -8,7 +8,7 @@
 
     socialProfile = (SocialProfile)ViewBag.socialProfile;
 
-    var appStatus = Model.AppStatus;
+    var appStatus = Model.AppStatus + " - v"+Model.SocialProfile.AppVersion;
     var appStatusClass = "offline-btn";
     var ProfileStatus = "";
     var statusclass = "btn-primary";

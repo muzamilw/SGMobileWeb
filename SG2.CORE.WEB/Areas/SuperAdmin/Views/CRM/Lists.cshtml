@@ -14,7 +14,7 @@
 
     ViewBag.socialProfile = Model.SocialProfile;
    
-    var onlineStatus = Model.AppStatus;
+    var onlineStatus = Model.AppStatus + " - v" + Model.SocialProfile.AppVersion;
     
     var onlineStatusClass = "offline-btn";
     var planStatusClass = "btn-primary";

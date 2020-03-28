@@ -1035,7 +1035,7 @@
             <Parameter Name="dtToDate" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="GetSocialProfilesWithoutExistingFollowers" ReturnType="Collection(SocialGrowth2Entities.GetSocialProfilesWithoutExistingFollowers_Result)">
-            <Parameter Name="socialProfileId" Mode="In" Type="Int32" />
+          <Parameter Name="socialProfileId" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="SG2_usp_Get_AllUser1_Result">
@@ -1257,6 +1257,8 @@
           <Property Type="String" Name="BrokerAppName" Nullable="true" MaxLength="500" />
           <Property Type="String" Name="AppConnStatus" Nullable="true" MaxLength="100" />
           <Property Type="Int32" Name="TotalRecord" Nullable="true" />
+          <Property Type="String" Name="AppVersion" Nullable="true" MaxLength="100" />
+          <Property Type="Double" Name="AppTimeZoneOffSet" Nullable="true" />
         </ComplexType>
         <ComplexType Name="SG2_usp_Login_Customers_Result">
           <Property Type="Int32" Name="CustomerId" Nullable="false" />
@@ -2493,6 +2495,8 @@
                 <ScalarProperty Name="BrokerAppName" ColumnName="BrokerAppName" />
                 <ScalarProperty Name="AppConnStatus" ColumnName="AppConnStatus" />
                 <ScalarProperty Name="TotalRecord" ColumnName="TotalRecord" />
+                <ScalarProperty Name="AppVersion" ColumnName="AppVersion" />
+                <ScalarProperty Name="AppTimeZoneOffSet" ColumnName="AppTimeZoneOffSet" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

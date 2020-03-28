@@ -818,12 +818,25 @@ namespace SG2.CORE.BAL.Managers
 
                 var mapper = new Mapper(config);
 
-                var results =  _customerRepository.ReturnLastActions(socialProfileId, NoOfActions);
+                double appoffset = 0;
+                var serveroffset = DateTimeOffset.Now.Offset.Hours;//TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow);
+
+               
+
+                var results =  _customerRepository.ReturnLastActions(socialProfileId, NoOfActions, out appoffset);
+
+                // +3 +5 
+                double offset = 0;
+                if (serveroffset > 0)
+                    offset = appoffset - serveroffset;
+                else
+                    offset = appoffset + serveroffset;
 
                 var mapped =  mapper.Map<List<SocialProfile_ActionsViewModel>>(results);
 
                 foreach (var item in mapped)
                 {
+                    item.ActionDateTime = item.ActionDateTime.Value.AddHours(offset);
                     switch (item.ActionID)
                     {
                         case 60 : item.Action = "Following";break;

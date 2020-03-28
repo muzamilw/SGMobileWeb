@@ -216,8 +216,8 @@ namespace SG2.CORE.BAL.Managers
                     var profile = _cm.GetSocialProfilesById(socialProfileId);
 
                     var intervals = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Intervals>>(profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals).First();
-
-                    var recs = _cm.ReturnLastActions(socialProfileId, 10000).Where(g => g.ActionDateTime.Value.Year == date.Year && g.ActionDateTime.Value.Month == date.Month && g.ActionDateTime.Value.Day == date.Day).OrderBy(g => g.ActionDateTime);
+                    double TimezoneOffset = 0;
+                    var recs = _cm.ReturnLastActions(socialProfileId, 10000, out TimezoneOffset).Where(g => g.ActionDateTime.Value.Year == date.Year && g.ActionDateTime.Value.Month == date.Month && g.ActionDateTime.Value.Day == date.Day).OrderBy(g => g.ActionDateTime);
                     if (recs != null && recs.Count() >= 2)
                     {
                         var tDiff = recs.Last().ActionDateTime - recs.First().ActionDateTime;

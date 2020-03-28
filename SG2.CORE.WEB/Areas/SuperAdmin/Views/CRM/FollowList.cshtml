@@ -8,7 +8,7 @@
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
     var socialProfile = (SocialProfileDTO)ViewBag.socialProfile;
 
-    var onlineStatus = socialProfile.AppStatus;
+    var onlineStatus = socialProfile.AppStatus + " - v" + socialProfile.SocialProfile.AppVersion;
     
     var onlineStatusClass = "offline-btn";
     var planStatusClass = "btn-primary";

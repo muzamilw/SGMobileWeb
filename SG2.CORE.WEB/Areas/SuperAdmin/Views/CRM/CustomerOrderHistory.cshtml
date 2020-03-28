@@ -12,7 +12,7 @@
     
     var PlanStatus = "";
     var SocialProfile = (SocialProfileDTO)ViewBag.SocailProfile;
-    var onlineStatus = SocialProfile.AppStatus;
+    var onlineStatus = SocialProfile.AppStatus + " - v" + SocialProfile.SocialProfile.AppVersion;
     
     var onlineStatusClass = "offline-btn";
     var planStatusClass = "btn-primary";

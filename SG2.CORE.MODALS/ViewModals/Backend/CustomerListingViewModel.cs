@@ -34,5 +34,7 @@ namespace SG2.CORE.MODAL.ViewModals.Backend
         public string BrokerAppName { get; set; }
 
         public string AppConnStatus { get; set; }
+        public string AppVersion { get; set; }
+        public double AppTimeZoneOffSet { get; set; }
     }
 }

@@ -32,5 +32,7 @@ namespace SG2.CORE.MODAL
         public string BrokerAppName { get; set; }
         public string AppConnStatus { get; set; }
         public Nullable<int> TotalRecord { get; set; }
+        public string AppVersion { get; set; }
+        public Nullable<double> AppTimeZoneOffSet { get; set; }
     }
 }

@@ -819,6 +819,8 @@ namespace SG2.CORE.DAL.Repositories
                             customerListingViewModel.BlockStatus = item.BlockedStatus;
                             customerListingViewModel.BrokerAppName = item.BrokerAppName;
                             customerListingViewModel.AppConnStatus = item.AppConnStatus;
+                            customerListingViewModel.AppVersion = item.AppVersion;
+                            customerListingViewModel.AppTimeZoneOffSet = item.AppTimeZoneOffSet??0;
 
                             customerListingViewModelsList.Add(customerListingViewModel);
                         }
@@ -1481,14 +1483,16 @@ namespace SG2.CORE.DAL.Repositories
         }
 
 
-        public List<SocialProfile_Actions> ReturnLastActions(int socialProfileId, int NoOfActions)
+        public List<SocialProfile_Actions> ReturnLastActions(int socialProfileId, int NoOfActions, out double appTimeZoneOffset)
 
         {
             try
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                   return  _db.SocialProfile_Actions.Where(g => g.SocialProfileId == socialProfileId).OrderByDescending(g => g.ActionDateTime).Take(NoOfActions).ToList();
+                    var offset=  _db.SocialProfiles.Where(g => g.SocialProfileId == socialProfileId).Single().AppTimeZoneOffSet;
+                    appTimeZoneOffset = string.IsNullOrEmpty(offset) ? 0 : Convert.ToDouble(offset);
+                    return  _db.SocialProfile_Actions.Where(g => g.SocialProfileId == socialProfileId).OrderByDescending(g => g.ActionDateTime).Take(NoOfActions).ToList();
                 }
             }
             catch (Exception e)
