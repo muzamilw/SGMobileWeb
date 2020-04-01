@@ -876,6 +876,8 @@ namespace SG2.CORE.DAL.Repositories
                         profile.DeviceIMEI = model.IMEI;
                         profile.DeviceStatus = (int)DeviceStatus.Connected;
                         profile.LastConnectedDateTime = DateTime.Now;
+                        profile.AppTimeZoneOffSet = model.AppTimeZoneOffSet ?? "";
+                        profile.AppVersion = model.AppVersion ?? "";
                         _db.SaveChanges();
                         return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty(profile.SocialPassword),1, profile.CustomerId.Value, Customer.IsBroker.HasValue ? Customer.IsBroker.Value : false, profile.BlockedStatus ?? 0, profile.BockedSinceDateTime.HasValue ? profile.BockedSinceDateTime.Value.ToUniversalTime() : DateTime.MinValue, profile.InitialStatsReceived ?? false);
                     }

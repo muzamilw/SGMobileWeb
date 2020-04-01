@@ -182,6 +182,23 @@ namespace SG2.CORE.BAL.Managers
         { 
             try
             {
+
+
+                double appoffset = 0;
+                var serveroffset = DateTimeOffset.Now.Offset.Hours;//TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow);
+
+                var profile = _cm.GetSocialProfilesById(socialProfileId);
+                appoffset = Convert.ToDouble( profile.SocialProfile.AppTimeZoneOffSet);
+
+                // +3 +5 
+                double offset = 0;
+                if (serveroffset > 0)
+                    offset = appoffset - serveroffset;
+                else
+                    offset = appoffset + serveroffset;
+
+
+
                 StatisticsViewModel followersStatisticsViewModel = new StatisticsViewModel();
                 //followersStatisticsViewModel.StatisticsListing = _statistics.GetStatistics(socialProfileId, fromDate, ToDate).ToList();
                 var model = _statistics.GetStatisticsFirstAndRecent(socialProfileId);
@@ -208,12 +225,9 @@ namespace SG2.CORE.BAL.Managers
                     followersStatisticsViewModel.StoryViewsInitial = model[0].StoryViews.HasValue ? model[0].StoryViews.Value : 0;
                     followersStatisticsViewModel.StoryViewsTotal = model[1].StoryViewsTotal.HasValue ? model[1].StoryViewsTotal.Value :0;
 
-                    
-
-
 
                     var date =  model[1].Date;
-                    var profile = _cm.GetSocialProfilesById(socialProfileId);
+                    
 
                     var intervals = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Intervals>>(profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals).First();
                     double TimezoneOffset = 0;

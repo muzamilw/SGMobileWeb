@@ -504,7 +504,13 @@ namespace SG2.CORE.WEB.Controllers
                     var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
                     var _klavio_PayingSubscribeList = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_PayingSubscribeList").ToLower()).ConfigValue;
                     var _klavio_NonPayingSubscribeList = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_NonPayingSubscribeList").ToLower()).ConfigValue;
-                    klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_NonPayingSubscribeList);
+
+                    klaviyoProfile.email = this.CDT.EmailAddress;
+
+                    if (newPlan.PlanId != 1)  //upgrading hence remove.
+                        klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_NonPayingSubscribeList);
+                    else
+                        klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_NonPayingSubscribeList);
 
                     List<NotRequiredProperty> list = new List<NotRequiredProperty>()  {
                         new NotRequiredProperty("$email", this.CDT.EmailAddress),
@@ -517,12 +523,16 @@ namespace SG2.CORE.WEB.Controllers
                         new NotRequiredProperty("Card", ""),
                         new NotRequiredProperty("Address","")
                     };
-                    klaviyoProfile.email = this.CDT.EmailAddress;
+                    
 
 
 
                     klaviyoAPI.PeopleAPI(list, _klaviyoPublishKey);
-                    var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_PayingSubscribeList);
+
+                    if (newPlan.PlanId != 1)
+                        klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_PayingSubscribeList);
+                    else
+                        klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_PayingSubscribeList);
 
 
                     return this.Content(stripeSubscription.ToJson(), "application/json"); 

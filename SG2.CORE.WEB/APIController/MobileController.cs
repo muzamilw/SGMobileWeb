@@ -12,6 +12,7 @@ using static SG2.CORE.COMMON.GlobalEnums;
 using AutoMapper;
 using Newtonsoft.Json;
 using SG2.CORE.MODAL.ViewModals.TargetPreferences;
+using System.Text.RegularExpressions;
 
 namespace SG2.CORE.WEB.APIController
 {
@@ -316,9 +317,9 @@ namespace SG2.CORE.WEB.APIController
                         var followingcount = JsonConvert.DeserializeObject<FollowlingCount>(FollowingEvent.Message);
                         if (followingcount != null)
                         {
-                            FollowCount = Convert.ToInt32(followingcount.InitialFollowers);
-                            FollowingCount = Convert.ToInt32(followingcount.InitialFollowings);
-                            Posts = Convert.ToInt32(followingcount.InitialPosts);
+                            FollowCount = Convert.ToInt32(strotint(followingcount.InitialFollowers));
+                            FollowingCount = Convert.ToInt32(strotint(followingcount.InitialFollowings));
+                            Posts = Convert.ToInt32(strotint(followingcount.InitialPosts));
                         }
 
 
@@ -385,9 +386,25 @@ namespace SG2.CORE.WEB.APIController
                 return Content(HttpStatusCode.BadRequest, "Input params missing");
             }
         }
-    
 
-    [Route("ClearData")]
+        public int strotint(string s)
+        {
+            var resultString = string.Join(string.Empty, Regex.Matches(s, @"\d+([.,])?").OfType<Match>().Select(m => m.Value));
+            var multifactor = 1;
+            if (s.ToLower().Contains("k"))
+            {
+                multifactor = 1000;
+            }
+            else if (s.ToLower().Contains("m"))
+            {
+                multifactor = 1000000;
+            }
+
+            return Convert.ToInt32(Convert.ToDouble(resultString) * multifactor);
+        }
+
+
+        [Route("ClearData")]
     [HttpGet]
     public IHttpActionResult ClearData(int SocialProfileId)
     {
