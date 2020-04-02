@@ -396,11 +396,11 @@
                                             @Html.Raw(plan.PlanDescription.Replace("\n", "<br>"))
                                         </p>@if ((Model.SocialProfile.PaymentPlanId ?? 1) == plan.PlanId)
                                         {
-                                            <a href="#" class="btn btn-pink disabled">Current Plan</a>
+                                            <a href="#" class="btn btn-cyan disabled">Current Plan</a>
                                         }
                                         else
                                         {
-                                            <a href="#" class="btn btn-outline-pink planSelect" data-planId="@plan.PlanId" data-planname="@plan.PlanName" data-planprice="@plan.PlanPrice">Subscribe</a>
+                                            <a href="#" class="btn btn-outline-success planSelect" data-planId="@plan.PlanId" data-planname="@plan.PlanName" data-planprice="@plan.PlanPrice">Subscribe</a>
                                         }
 
                                     </div>
