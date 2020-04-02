@@ -188,7 +188,7 @@ namespace SG2.CORE.BAL.Managers
                 var serveroffset = DateTimeOffset.Now.Offset.Hours;//TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow);
 
                 var profile = _cm.GetSocialProfilesById(socialProfileId);
-                appoffset = Convert.ToDouble( profile.SocialProfile.AppTimeZoneOffSet);
+                appoffset = Convert.ToDouble(string.IsNullOrEmpty(profile.SocialProfile.AppTimeZoneOffSet) ? "0": profile.SocialProfile.AppTimeZoneOffSet) ;
 
                 // +3 +5 
                 double offset = 0;

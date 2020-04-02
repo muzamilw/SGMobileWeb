@@ -127,18 +127,14 @@ namespace SG2.CORE.WEB.Controllers
 
             ViewBag.Customer = customer;
 
-            ViewBag.Plans = _planManager.GetallIntagramPaymentPlans(customer.IsBroker.HasValue? customer.IsBroker.Value:false);
+            
 
             if (success.HasValue && success.Value == 1)
             {
                 ViewBag.success = 1;
             }
 
-            var _stripeApiKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
-            var _stripePublishKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue2;
-
-            ViewBag.stripeApiKey = _stripeApiKey;
-            ViewBag.stripePublishKey = _stripePublishKey;
+           
 
             return View(SocailProfile);
 
@@ -305,6 +301,18 @@ namespace SG2.CORE.WEB.Controllers
             ViewBag.socialProfileId = socialProfileId;
             ViewBag.CurrentUser = this.CDT;
             var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
+
+            var customer = _customerManager.GetCustomerByCustomerId(this.CDT.CustomerId);
+
+            ViewBag.Customer = customer;
+
+            ViewBag.Plans = _planManager.GetallIntagramPaymentPlans(customer.IsBroker.HasValue ? customer.IsBroker.Value : false);
+
+            var _stripeApiKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
+            var _stripePublishKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue2;
+
+            ViewBag.stripeApiKey = _stripeApiKey;
+            ViewBag.stripePublishKey = _stripePublishKey;
 
             return View(SocailProfile);
 

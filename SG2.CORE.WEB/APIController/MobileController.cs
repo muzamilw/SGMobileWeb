@@ -282,7 +282,7 @@ namespace SG2.CORE.WEB.APIController
                             successCount++;
                     }
 
-                    int[] BlockedStatuses = new int[] { 66, 67, 68, 69, 70, 71, 72 };
+                    int[] BlockedStatuses = new int[] { 66, 67, 68, 69  };   //70, 71, 72
 
                     var BlockedActions = model.Where(g => BlockedStatuses.Contains(g.ActionId)).ToList();
                     if (BlockedActions != null && BlockedActions.Count > 0)
