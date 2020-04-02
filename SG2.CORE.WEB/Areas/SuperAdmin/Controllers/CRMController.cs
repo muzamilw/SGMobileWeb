@@ -835,6 +835,22 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             var Cities = CommonManager.GetCities().Where(m => m.CountryId == countryId).ToList();
             return Json(Cities, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult AllStats(string id, string SPId)
+        {
+            int custId = Convert.ToInt32(CryptoEngine.Decrypt(id));
+            int socialProfileId = Convert.ToInt32(CryptoEngine.Decrypt(SPId));
+
+            ViewBag.socialProfileId = socialProfileId;
+            ViewBag.CurrentUser = this.CDT;
+            ViewBag.socialProfile = this._customerManager.GetSocialProfileById(socialProfileId);
+
+            ViewBag.actions = this._customerManager.ReturnLastActions(socialProfileId, 500);
+
+
+            return View(this._statisticsManager.GetStatistics(socialProfileId));
+
+
+        }
 
     }
 }

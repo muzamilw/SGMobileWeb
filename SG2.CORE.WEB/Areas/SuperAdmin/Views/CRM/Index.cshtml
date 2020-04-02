@@ -36,15 +36,6 @@
 
     }
 
-    int[] blocks = new int[] { 66,
-67,
-68,
-69 };
-
-    foreach (var dr in Model.ApplicationStatuses.Where(x => x.EnumerastionId == 14 && blocks.Contains(x.StatusId)))
-    {
-        BlockStatus.Add(new SelectListItem { Text = dr.StatusValue, Value = dr.StatusId.ToString() });
-    }
 
     foreach (var dr in Model.ApplicationStatuses.Where(x => x.StatusName == "Customer"))
     {
@@ -57,6 +48,11 @@
     
     AppConnStatus.Add(OnLineItem);
     AppConnStatus.Add(OfflineItem);
+
+    BlockStatus.Add(new SelectListItem { Text = "Action Block", Value = "66" });
+    BlockStatus.Add(new SelectListItem { Text = "Hard Blocked", Value =  "67" });
+    BlockStatus.Add(new SelectListItem { Text = "Password Block", Value =  "68" });
+    BlockStatus.Add(new SelectListItem { Text = "Clear Block", Value =  "69" });
 }
 @section styles{
     <link href="~/Content/ThemeAssets/css/backendcss.css" rel="stylesheet" />

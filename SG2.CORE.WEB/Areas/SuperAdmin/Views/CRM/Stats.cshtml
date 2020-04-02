@@ -132,15 +132,16 @@
     <div class="container" style="padding: 5px;">
         <div class="row mt-1">
 
-            <div class="col-9">
+            <div class="col-10">
                 <a class="btn btn-primary active  mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/stats?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Stats</a>
                 <a class="btn btn-primary mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Contact Details</a>
                 <a class="btn btn-primary  mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Order History</a>
                 <a class="btn btn-primary  mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Target Form</a>
                 <a class="btn btn-primary mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/lists?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">White & Black Lists</a>
                 <a class="btn btn-primary mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/FollowList?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Follow List</a>
+                <a class="btn btn-primary mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/allStats?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Latest Stats</a>
             </div>
-            <div class="col-3 text-right"><a class=" btn right" href="javascript:void(0);" style="color: #fff;line-height: 1;background-color: #6566A6; border-color: #6566A6;" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></div>
+            <div class="col-2 text-right"><a class=" btn right" href="javascript:void(0);" style="color: #fff;line-height: 1;background-color: #6566A6; border-color: #6566A6;" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></div>
 
         </div>
     </div>
