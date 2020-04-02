@@ -1,0 +1,900 @@
+﻿@using SG2.CORE.MODAL.DTO.Customers;
+@using SG2.CORE.COMMON;
+@using SG2.CORE.MODAL;
+@using SG2.CORE.MODAL.ViewModals.Statistics;
+@model SG2.CORE.MODAL.ViewModals.Statistics.StatisticsViewModel
+
+@{
+    var BaseURl = ViewBag.BaseUrl;
+    ViewBag.Title = "Insights & Statistics";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_LayoutNew.cshtml";
+    var custDto = (CustomerDTO)ViewBag.CustomerDTO;
+    var socialProfile = (SocialProfileDTO)ViewBag.socialProfile;
+
+
+    var onlineStatus = socialProfile.AppStatus + " - v" + socialProfile.SocialProfile.AppVersion;
+
+    var onlineStatusClass = "offline-btn";
+    var planStatusClass = "btn-primary";
+    string blockStatusClass = "";
+
+    var PlanName = "";
+    PlanName = socialProfile.CurrentPaymentPlan == null ? "FREE" : socialProfile.CurrentPaymentPlan.PlanName;
+    if (PlanName == "FREE")
+    {
+        planStatusClass = "btn-danger";
+    }
+
+    string BlockStatus = socialProfile.BlockStatus;
+    if (socialProfile.SocialProfile.BlockedStatus == null)
+    {
+        blockStatusClass = "btn-primary";
+    }
+    else if (socialProfile.SocialProfile.BlockedStatus == 0)
+    {
+        blockStatusClass = "btn-primary";
+    }
+    else
+    {
+        blockStatusClass = "btn-danger";
+    }
+
+    if (socialProfile.AppStatus == "Online")
+    {
+        onlineStatusClass = "online-btn";
+    }
+
+    var totalEngagment = Model.FollowersTotal + Model.LikesTotal + Model.StoryViewsTotal + Model.UnFollowTotal;
+
+}
+
+@section styles{
+
+
+    <style>
+        .information-wrap {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+            .information-wrap h3 {
+                font-size: 20pt;
+                color: black;
+            }
+
+            .information-wrap h3 {
+                font-size: 25px;
+                color: #000000;
+                display: inline-block;
+                vertical-align: top;
+                font-family: arial sans-serif;
+                font-weight: 400;
+            }
+
+            .information-wrap span.right {
+                float: none;
+            }
+
+            .information-wrap span.right {
+                font-size: 15px;
+                color: black;
+                font-weight: 400;
+                float: right;
+            }
+
+                .information-wrap span.right i {
+                    color: black;
+                    font-style: normal;
+                }
+
+        .right {
+            float: right;
+        }
+
+        .text-right {
+            text-align: right !important;
+        }
+
+        br {
+            clear: both;
+        }
+
+        .offline-btn {
+            background-color: #cb5050;
+            color: white;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .online-btn {
+            background-color: green;
+            color: white;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+    </style>
+
+    <meta http-equiv="refresh" content="30">
+}
+
+<div class="information-wrap main" style="padding-top: 26px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <h3>
+                    <img src="/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="36">
+                    @(socialProfile.SocialProfile.SocialUsername ?? "--")
+                </h3>
+
+            </div>
+            <div class="col-md-6 col-xs-12 text-right">
+                <div class="btn-group" style="margin-top:12px;">
+                    <button class="btn btn-round @planStatusClass" type="button"><i class="fa fa-dollar  "></i> @PlanName</button>
+                    <button class="btn @onlineStatusClass" type="button">@onlineStatus</button>
+                    <button class="btn btn-round @blockStatusClass" type="button"><i class="ft-activity pr-1"></i> @BlockStatus</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="detail-page-contact" style="background: #404E67;">
+    <div class="container" style="padding: 5px;">
+        <div class="row mt-1">
+
+            <div class="col-10">
+                <a class="btn btn-primary active  mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/stats?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Stats</a>
+                <a class="btn btn-primary mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Contact Details</a>
+                <a class="btn btn-primary  mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Order History</a>
+                <a class="btn btn-primary  mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Target Form</a>
+                <a class="btn btn-primary mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/lists?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">White & Black Lists</a>
+                <a class="btn btn-primary mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/FollowList?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Follow List</a>
+                <a class="btn btn-primary mb-1" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/allStats?id=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.CustomerId.ToString()))&SPId=@Url.Encode(CryptoEngine.Encrypt(socialProfile.SocialProfile.SocialProfileId.ToString()))">Latest Stats</a>
+            </div>
+            <div class="col-2 text-right"><a class=" btn right" href="javascript:void(0);" style="color: #fff;line-height: 1;background-color: #6566A6; border-color: #6566A6;" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></div>
+
+        </div>
+    </div>
+</div>
+<div class="app-content container center-layout mt-2">
+    <div class="content-wrapper">
+
+        <section class="content-body">
+            <div><h4 class="mb-2 ml-1 text-uppercase" style="font-size: 1.12rem;">Stats & Graphs</h4></div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="col-xl-2 col-lg-2 col-12 float-left">
+                                    <img src="/Content/ThemeAssets/Images/InstagramLogoTransparent.png" style="height: 155px;">
+                                </div>
+                                <div class="col-xl-10 col-lg-10 col-12 float-left">
+                                    <div>
+                                        <h3 class="float-left" style="font-weight:bold;">
+                                            @(socialProfile.SocialProfile.SocialUsername ?? "--")
+
+                                        </h3>
+                                        <span class="badge badge-primary label-square mr-1 display-inline float-left " style="margin-left:10px; margin-top:5px;">
+                                            <span>Business</span>
+                                        </span>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div style="color:grey;">
+                                        @(socialProfile.SocialProfile.SocialUsername ?? "--")
+
+                                    </div>
+                                    <p style="font-size:13px; margin-bottom:4px; margin-top:10px;"><span style="font-weight:bold;font-size:14px;">x</span> The original home cleaning product</p>
+                                    <p style="font-size:13px; margin-bottom:4px;"><span style="font-weight:bold;font-size:14px;">x</span> 100% Plastic free cleaning brushes</p>
+                                    <p style="font-size:13px; margin-bottom:4px;"><span style="font-weight:bold;font-size:14px;">x</span> Join the #freeResolution (We  togather)</p>
+                                    <a style="font-size:14px; color:#6FB5E6;">http://www.ecococonut.com</a>
+                                    <br />
+                                    <br />
+                                    <div class="mb-5">
+                                        <div class="col-3 float-left pl-0">
+                                            <span style="font-weight:bold;font-size:28px;">33.9k</span>
+                                            <span style="color:grey; font-size:24px;">Followers</span>
+                                        </div>
+                                        <div class="col-3 float-left">
+                                            <span style="font-weight:bold;font-size:28px;">2.6k</span>
+                                            <span style="color:grey; font-size:24px;">Followers</span>
+                                        </div>
+                                        <div class="col-3 float-left">
+                                            <span style="font-weight:bold;font-size:28px;">869</span>
+                                            <span style="color:grey; font-size:24px;">Posts</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Analytics spakline & chartjs  -->
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="row my-1">
+                                    <div class="col-lg-4 col-12">
+                                        <div class="text-center">
+                                            <h3 class="success"><i class="ft-arrow-up"></i>2066</h3>
+                                            <p class="text-muted">Followers change from start</p>
+                                            <div id="sp-stacked-bar-total-sales"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <div class="text-center">
+                                            <h3 class="success"><i class="ft-arrow-up"></i>5729</h3>
+                                            <p class="text-muted">Followings change from start</p>
+                                            <div id="sp-stacked-bar-total-sales"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <div class="text-center">
+                                            <h3 class="success"><i class="ft-arrow-up"></i>5729</h3>
+                                            <p class="text-muted">Average Like per Posts</p>
+                                            <div id="sp-tristate-bar-total-revenue"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 mb-2 text-right">
+                    <div id="filterrange" class="btn-group" role="group" aria-label="Filter Range">
+                        <!-- Button group with icons -->
+                        <button type="button" class="btn btn-primary active" data-mode="1">15 Days</button>
+                        <button type="button" class="btn btn-primary" data-mode="2">1 Months</button>
+                        <button type="button" class="btn btn-primary" data-mode="3">3 Months</button>
+                        <button type="button" class="btn btn-primary" data-mode="4">6 Months</button>
+                        <button type="button" class="btn btn-primary" data-mode="5">12 Months</button>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <h3 style="font-weight:bold;" class="mb-0">Total Followers</h3>
+                                <span style="color:grey; font-size:10px">Total count of followers during the selected timeframe</span>
+                                <div class="row my-1 mt-3">
+                                    <div class="col-lg-3 col-12">
+                                        <div>
+                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Followers</h3>
+                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">36,630</p>
+                                            <p style="color:gray;font-size:12px;">at last date</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div>
+                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Change</h3>
+                                            <p class="mb-0 success" style="font-size:25px;">+41</p>
+                                            <p style="color:gray;font-size:12px;">0% of total followers</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div>
+                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Max. growth</h3>
+                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">23</p>
+                                            <p style="color:gray;font-size:12px;">on Mar 22, 2020</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div>
+                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Avg. change</h3>
+                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">12</p>
+                                            <p style="color:gray;font-size:12px;">followers per day</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <h3 style="font-weight:bold;" class="mb-0">Total Likes</h3>
+                                <span style="color:grey; font-size:10px">Total count of likes during the selected timeframe</span>
+                                <div class="row my-1 mt-3">
+                                    <div class="col-lg-3 col-12">
+                                        <div>
+                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Likes</h3>
+                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">36,630</p>
+                                            <p style="color:gray;font-size:12px;">at last date</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div>
+                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Change</h3>
+                                            <p class="mb-0 success" style="font-size:25px;">+41</p>
+                                            <p style="color:gray;font-size:12px;">0% of total likes</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div>
+                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Max. growth</h3>
+                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">23</p>
+                                            <p style="color:gray;font-size:12px;">on Mar 22, 2020</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div>
+                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Avg. change</h3>
+                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">12</p>
+                                            <p style="color:gray;font-size:12px;">likes per day</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <img src="~/Content/Images/dum-img1.PNG" style="width:100%;" />
+                <img src="~/Content/Images/dum-img2.PNG" style="width:50%;" />
+                <img src="~/Content/Images/dum-img3.PNG" style="width:100%;" />
+                <img src="~/Content/Images/dum-img4.PNG" style="width:50%;" />
+            </div>
+            <div class="row">
+                <div class="col-12 mb-2 text-right">
+                    <div id="filterrange" class="btn-group" role="group" aria-label="Filter Range">
+                        <!-- Button group with icons -->
+                        <button type="button" class="btn btn-primary active" data-mode="1">15 Days</button>
+                        <button type="button" class="btn btn-primary" data-mode="2">1 Months</button>
+                        <button type="button" class="btn btn-primary" data-mode="3">3 Months</button>
+                        <button type="button" class="btn btn-primary" data-mode="4">6 Months</button>
+                        <button type="button" class="btn btn-primary" data-mode="5">12 Months</button>
+
+                    </div>
+                </div>
+            </div>
+            <!--/stats-->
+            <!--Followings Line Chart-->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Engagement Actions</h4>
+
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+
+                                <div id="line-followings" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/Followings Line Chart-->
+            <!--Engagement Rate Line Chart-->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Engagement Rate</h4>
+
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+
+                                <div id="line-engagement" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/Engagement Rate Line Chart-->
+            <!--/ Analytics spakline & chartjs  -->
+            <div><h4 class="mb-2 ml-1 text-uppercase" style="font-size: 1.12rem;">Today Engagement activities</h4></div>
+            <div class="row">
+                <div class="col-xl-3 col-lg-6 col-12">
+                    <div class="card">
+
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body text-left w-100">
+                                        <h3 class="primary">@Model.FollowingToday / @Model.FollowingTodayLimit</h3>
+                                        <span>Following</span>
+                                    </div>
+                                    <div class="media-right media-middle">
+                                        <i class="icon-user-follow primary font-large-2 float-right"></i>
+                                    </div>
+                                </div>
+                                <div class="progress progress-sm mt-1 mb-0">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: @(Model.FollowingTodayLimit == 0 ? 0 : (Model.FollowingToday / Model.FollowingTodayLimit * 100))%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body text-left w-100">
+                                        <h3 class="danger">@Model.UnFollowToday / @Model.UnFollowLimit</h3>
+                                        <span>UnFollow</span>
+                                    </div>
+                                    <div class="media-right media-middle">
+                                        <i class="icon-dislike danger font-large-2 float-right"></i>
+                                    </div>
+                                </div>
+                                <div class="progress progress-sm mt-1 mb-0">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: @(Model.UnFollowLimit == 0 ? 0 : (Model.UnFollowToday / Model.UnFollowLimit * 100))%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body text-left w-100">
+                                        <h3 class="success">@Model.LikeToday / @Model.LikeLimit</h3>
+                                        <span>Like </span>
+                                    </div>
+                                    <div class="media-right media-middle">
+                                        <i class="icon-heart success font-large-2 float-right"></i>
+                                    </div>
+                                </div>
+                                <div class="progress progress-sm mt-1 mb-0">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: @(Model.LikeLimit == 0 ? 0 : (Model.LikeToday / Model.LikeLimit * 100))%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body text-left w-100">
+                                        <h3 class="warning">@Model.StoryViewToday / @Model.StoryViewLimit</h3>
+                                        <span>Story Views</span>
+                                    </div>
+                                    <div class="media-right media-middle">
+                                        <i class="icon-camera warning font-large-2 float-right"></i>
+                                    </div>
+                                </div>
+                                <div class="progress progress-sm mt-1 mb-0">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: @(Model.StoryViewLimit == 0 ? 0 : (Model.StoryViewToday / Model.StoryViewLimit * 100))%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div><h4 class="mb-2 ml-1 text-uppercase" style="font-size: 1.12rem;">Growth Summary</h4></div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-3 col-12">
+                                        <div>
+                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">36,630 <span class="danger" style="font-weight:bold; font-size:12px;">-35.44%</span></p>
+                                            <p style="color:gray;font-size:12px;">Followers last month</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div>
+                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">183 <span class="success" style="font-weight:bold; font-size:12px;">+9.48%</span></p>
+                                            <p style="color:gray;font-size:12px;">Followers last week</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div>
+                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">27 <span class="success" style="font-weight:bold; font-size:12px;">+7.41%</span></p>
+                                            <p style="color:gray;font-size:12px;">Daily growth</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div>
+                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">869 <span class="danger" style="font-weight:bold; font-size:12px;">-44.48%</span></p>
+                                            <p style="color:gray;font-size:12px;">Monthly growth</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-12">
+                                        <div>
+                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">810</p>
+                                            <p style="color:gray;font-size:12px;">Growth next 30 days</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div>
+                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">4,860 </p>
+                                            <p style="color:gray;font-size:12px;">Growth next 6 months</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div>
+                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">274 <span class="danger" style="font-weight:bold; font-size:12px;">-40.41%</span></p>
+                                            <p style="color:gray;font-size:12px;">Avg likes / Posts</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div>
+                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">6 <span class="success" style="font-weight:bold; font-size:12px;">+500.48%</span></p>
+                                            <p style="color:gray;font-size:12px;">Avg. comments / Posts</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div><h4 class="mb-2 ml-1 text-uppercase" style="font-size: 1.12rem;">Daily Activity Summary</h4></div>
+            <div class="col-xl-12 col-lg-12">
+                <div class="row card">
+                    <div class="card-content">
+                        <div class="table-responsive">
+                            <table class="table table-xl mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Followers</th>
+                                        <th>Followings</th>
+                                        <th>Posts</th>
+                                        <th>Engagment Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td scope="row">
+                                            Oct 2, 2019
+                                        </td>
+                                        <td>
+                                            33,94 <span class="success ml-2">+14</span>
+                                        </td>
+                                        <td>
+                                            2,554 <span class="success ml-2">+8</span>
+                                        </td>
+                                        <td>
+                                            869 <span class="success ml-2">+1</span>
+                                        </td>
+                                        <td>
+                                            0.89% <span class="danger ml-2">-0.07%</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row">
+                                            Oct 1, 2019
+                                        </td>
+                                        <td>
+                                            33,94 <span class="success ml-2">+14</span>
+                                        </td>
+                                        <td>
+                                            2,554 <span class="success ml-2">+8</span>
+                                        </td>
+                                        <td>
+                                            869 <span class="success ml-2">+1</span>
+                                        </td>
+                                        <td>
+                                            0.89% <span class="danger ml-2">-0.07%</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div><h4 class="mb-2 ml-1 text-uppercase" style="font-size: 1.12rem;">Activity Log</h4></div>
+            <!-- Bounce Rate & List -->
+            <div class="row match-height">
+
+                <div class="col-xl-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-content">
+
+
+                            <div class="table-responsive">
+                                <table class="table table-xl mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Action Date/Time</th>
+                                            <th>Action</th>
+                                            <th>Social User Name</th>
+                                            <th>Message</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in (List<SocialProfile_ActionsViewModel>)ViewBag.actions)
+                                        {
+                                            <tr>
+                                                <td scope="row">
+                                                    @item.ActionDateTime
+                                                </td>
+
+
+                                                <td>
+                                                    @item.Action
+                                                </td>
+                                                <td>
+                                                    @item.TargetProfile
+                                                </td>
+                                                <td>
+                                                    @item.Message
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ Bounce Rate & List -->
+
+        </section>
+    </div>
+
+</div>
+
+@section Scripts{
+    @*<script src="~/Content/app-assets/js/scripts/charts/morris/line.js"></script>*@
+
+    <script type="text/javascript">
+
+        $("document").ready(function () {
+            LoadCharts(1);
+
+
+
+            $('#filterrange button').click(function () {
+                $(this).addClass('active').siblings().removeClass('active');
+
+                // TODO: insert whatever you want to do with $(this) here
+                var el = $(this);
+
+                var mode = $(this).data("mode"); //Theme2
+                LoadCharts(mode);
+            });
+
+        });
+
+
+        function LoadCharts(mode) {
+            $.ajax({
+                type: "GET",
+                url: "/sadmin/crm/Trends?socialProfileId=@socialProfile.SocialProfile.SocialProfileId&mode=" + mode,
+                dataType: "json",
+                success: function (Response) {
+
+
+                    if (!$.isEmptyObject(Response)) {
+                        if (Response.Data.ResultType == "Success") {
+
+
+                            LoadFollowersChart(Response.Data);
+                            LoadFollowingChart(Response.Data);
+                            LoadEngagementChart(Response.Data);
+                            //LoadAverageLikesChart(Response.Data);
+                            //LoadAverageLikesbyPostingTimeChart(Response.Data);
+
+                        } else {
+
+                        }
+                    }
+                },
+                failure: function (errMsg) {
+                    alert(errMsg);
+
+                }
+            });
+        }
+
+        function LoadFollowersChart(ChartsData) {
+
+            var morrisData = [];
+
+            for (i = 0; i < ChartsData.ResultData.Date.length; i++) {
+                morrisData.push({ 'Date': ChartsData.ResultData.Date[i], 'Followers': ChartsData.ResultData.Followers[i] });
+            }
+
+            //$.each(ChartsData.ResultData, function (Date, Followers) {
+            //    morrisData.push({ 'year': Date, 'Followers': Followers });
+            //});
+
+            $("#line-followers").empty();
+
+            Morris.Line({
+                element: 'line-followers',
+                data: morrisData,
+                xkey: 'Date',
+                ykeys: ['Followers'],
+                labels: ['Followers'],
+                resize: true,
+                smooth: false,
+                pointSize: 3,
+                pointStrokeColors: ['#FF4558'],
+                gridLineColor: '#e3e3e3',
+                behaveLikeLine: true,
+                numLines: 6,
+                gridtextSize: 14,
+                lineWidth: 3,
+                hideHover: 'auto',
+                lineColors: ['#FF4558'],
+                xLabelAngle: 45,
+                parseTime: false
+
+            });
+
+        }
+
+        function LoadFollowingChart(ChartsData) {
+
+
+            var morrisData = [];
+
+            for (i = 0; i < ChartsData.ResultData.Date.length; i++) {
+                morrisData.push({ 'year': ChartsData.ResultData.Date[i], 'Following': ChartsData.ResultData.FollowingsData[i], 'Likes': ChartsData.ResultData.AvgLikes[i], 'Unfollow': ChartsData.ResultData.Unfollow[i], 'StoryViews': ChartsData.ResultData.StoryViews[i]   });
+            }
+
+            //$.each(ChartsData.ResultData, function (Date, Followers) {
+            //    morrisData.push({ 'year': Date, 'Followers': Followers });
+            //});
+
+            $("#line-followings").empty();
+            Morris.Bar({
+                element: 'line-followings',
+                data: morrisData,
+                xkey: 'year',
+                ykeys: ['Following', 'Unfollow', 'Likes', 'StoryViews' ],
+                labels: ['Following', 'Unfollow', 'Likes', 'StoryViews'],
+                resize: true,
+                smooth: false,
+                pointSize: 3,
+                pointStrokeColors: ['#FF4558'],
+                gridLineColor: '#e3e3e3',
+                behaveLikeLine: true,
+                numLines: 6,
+                gridtextSize: 14,
+                lineWidth: 3,
+                hideHover: 'auto',
+                lineColors: ["#2685CB", "#4AD95A", "#7B91A3", "#E7F065"],
+                xLabelAngle: 45,
+                parseTime: false,
+                barColors: ["#2685CB", "#4AD95A", "#7B91A3", "#E7F065"],
+            });
+        }
+
+        function LoadEngagementChart(ChartsData) {
+
+            var morrisData = [];
+
+            for (i = 0; i < ChartsData.ResultData.Date.length; i++) {
+                morrisData.push({ 'year': ChartsData.ResultData.Date[i], 'Engagement': ChartsData.ResultData.Engagement[i] });
+            }
+
+            //$.each(ChartsData.ResultData, function (Date, Followers) {
+            //    morrisData.push({ 'year': Date, 'Followers': Followers });
+            //});
+
+            $("#line-engagement").empty();
+            Morris.Line({
+                element: 'line-engagement',
+                data: morrisData,
+                xkey: 'year',
+                ykeys: ['Engagement'],
+                labels: ['Engagement'],
+                resize: true,
+                smooth: false,
+                pointSize: 3,
+                pointStrokeColors: ['#FF4558'],
+                gridLineColor: '#e3e3e3',
+                behaveLikeLine: true,
+                numLines: 6,
+                gridtextSize: 14,
+                lineWidth: 3,
+                hideHover: 'auto',
+                lineColors: ['#FF4558'],
+                xLabelAngle: 45,
+                parseTime: false
+            });
+
+        }
+
+        function LoadAverageLikesChart(ChartsData) {
+
+            var morrisData = [];
+
+            for (i = 0; i < ChartsData.ResultData.Date.length; i++) {
+                morrisData.push({ 'year': ChartsData.ResultData.Date[i], 'AvgLikes': ChartsData.ResultData.AvgLikes[i] });
+            }
+
+            //$.each(ChartsData.ResultData, function (Date, Followers) {
+            //    morrisData.push({ 'year': Date, 'Followers': Followers });
+            //});
+
+            $("#line-likes").empty();
+            Morris.Line({
+                element: 'line-likes',
+                data: morrisData,
+                xkey: 'year',
+                ykeys: ['AvgLikes'],
+                labels: ['Avg Likes'],
+                resize: true,
+                smooth: false,
+                pointSize: 3,
+                pointStrokeColors: ['#FF4558'],
+                gridLineColor: '#e3e3e3',
+                behaveLikeLine: true,
+                numLines: 6,
+                gridtextSize: 14,
+                lineWidth: 3,
+                hideHover: 'auto',
+                lineColors: ['#FF4558'],
+                xLabelAngle: 45,
+                parseTime: false
+            });
+        }
+
+        function LoadAverageLikesbyPostingTimeChart(ChartsData) {
+
+            var morrisData = [];
+
+            for (i = 0; i < ChartsData.ResultData.Date.length; i++) {
+                morrisData.push({ 'year': ChartsData.ResultData.Date[i], 'AvgLikes': ChartsData.ResultData.AvgLikes[i] });
+            }
+
+            //$.each(ChartsData.ResultData, function (Date, Followers) {
+            //    morrisData.push({ 'year': Date, 'Followers': Followers });
+            //});
+
+            $("#line-posting").empty();
+            Morris.Line({
+                element: 'line-posting',
+                data: morrisData,
+                xkey: 'year',
+                ykeys: ['AvgLikes'],
+                labels: ['Avg Likes Posting Time'],
+                resize: true,
+                smooth: false,
+                pointSize: 3,
+                pointStrokeColors: ['#FF4558'],
+                gridLineColor: '#e3e3e3',
+                behaveLikeLine: true,
+                numLines: 6,
+                gridtextSize: 14,
+                lineWidth: 3,
+                hideHover: 'auto',
+                lineColors: ['#FF4558'],
+                xLabelAngle: 45,
+                parseTime: false
+            });
+
+
+
+        }
+
+
+    </script>
+}
