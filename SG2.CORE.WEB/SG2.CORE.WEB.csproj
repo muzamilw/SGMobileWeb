@@ -2607,6 +2607,10 @@
     <Content Include="Content\Images\agency.png" />
     <Content Include="Content\Images\bg_image.gif" />
     <Content Include="Content\Images\boho.png" />
+    <Content Include="Content\Images\dum-img1.PNG" />
+    <Content Include="Content\Images\dum-img2.PNG" />
+    <Content Include="Content\Images\dum-img3.PNG" />
+    <Content Include="Content\Images\dum-img4.PNG" />
     <Content Include="Content\Images\ecocoonut.png" />
     <Content Include="Content\Images\free.png" />
     <Content Include="Content\Images\glitzgamom.png" />
@@ -3408,6 +3412,7 @@
     <Content Include="Content\Theme-Enviro\fonts\LineIcons.ttf" />
     <Content Include="Content\Theme-Enviro\fonts\LineIcons.woff" />
     <Content Include="Areas\SuperAdmin\Views\CRM\FollowList.cshtml" />
+    <Content Include="Areas\SuperAdmin\Views\CRM\AllStats.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

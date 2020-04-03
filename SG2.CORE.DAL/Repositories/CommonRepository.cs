@@ -217,7 +217,28 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
-     
+        public static List<AppBlockDTO> GetAppBlocks()
+        {
+            using (var _db = new SocialGrowth2Connection())
+            {
+                int[] blockIds = new int[] { 66,67,68,69};
+                var usrdata = _db.EnumerationValues.Where(e => blockIds.Contains(e.EnumerationValueId)).ToList();
+                if (usrdata != null)
+                {
+                    List<AppBlockDTO> blocksDTOs = new List<AppBlockDTO>();
+                    foreach (var item in usrdata)
+                    {
+                        AppBlockDTO blockDTO = new AppBlockDTO();
+                        blockDTO.BlockId = item.EnumerationValueId;
+                        blockDTO.Name = item.Name;
+                        blocksDTOs.Add(blockDTO);
 
+                    }
+                    return blocksDTOs;
+
+                }
+                return null;
+            }
+        }
     }
 }

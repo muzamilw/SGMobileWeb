@@ -49,6 +49,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             {
                 var customers = _customerManager.GetUserData(SearchCriteria, _PageSize, page, StatusId, ProductId, JVStatus, Subscription, profileType, BlockStatus, AppConnStatus);
                 var ProductIds = _customerManager.GetProductIds();
+                var AppBlockIds = CommonManager.GetAppBlocks();
                 var totatRecord = customers.FirstOrDefault()?.TotalRecord ?? 0;
                 IPagedList<CustomerListingViewModel> pageOrders = new StaticPagedList<CustomerListingViewModel>(customers, page, Convert.ToInt32(_PageSize), totatRecord);
                 var PageSize = pageOrders.PageCount;
@@ -63,7 +64,8 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                     SearchCriteria = SearchCriteria,
                     ProductId = ProductId,
                     StatusId = StatusId,
-                    BlockStatus = BlockStatus
+                    BlockStatus = BlockStatus,
+                    AppBlockList = AppBlockIds
 
 
                 };

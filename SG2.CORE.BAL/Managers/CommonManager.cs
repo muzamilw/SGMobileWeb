@@ -99,6 +99,9 @@ namespace SG2.CORE.BAL.Managers
             }
             return returnValue;
         }
-
+        public static List<AppBlockDTO> GetAppBlocks()
+        {
+            return CommonRepository.GetAppBlocks();
+        }
     }
 }
