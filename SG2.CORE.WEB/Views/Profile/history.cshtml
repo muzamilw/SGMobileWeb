@@ -396,11 +396,11 @@
                                             @Html.Raw(plan.PlanDescription.Replace("\n", "<br>"))
                                         </p>@if ((Model.SocialProfile.PaymentPlanId ?? 1) == plan.PlanId)
                                         {
-                                            <a href="#" class="btn btn-cyan disabled">Current Plan</a>
+                                            <a href="#" class="btn btn-grey-blue disabled">Current Plan</a>
                                         }
                                         else
                                         {
-                                            <a href="#" class="btn btn-outline-success planSelect" data-planId="@plan.PlanId" data-planname="@plan.PlanName" data-planprice="@plan.PlanPrice">Subscribe</a>
+                                            <a href="#" class="btn btn-outline-primary planSelect" data-planId="@plan.PlanId" data-planname="@plan.PlanName" data-planprice="@plan.PlanPrice">Subscribe</a>
                                         }
 
                                     </div>
@@ -414,12 +414,7 @@
 
                     }
                 </div>
-                <div class="row">
-                    <div class="col-12 text-center">
-                        <button class=" btn btn-danger mb-2 text-center" id="btnDeleteSubscription">Delete subscription & profile</button>
-                    </div>
-                    
-                </div>
+
 
                 <div class="row">
                     <div class="col-md-12">
@@ -458,8 +453,8 @@
                                                         @item.PaymentPlanName
                                                     </td>
                                                     @*<td>
-                                                            @item.Price
-                                                        </td>*@
+                                                @item.Price
+                                            </td>*@
                                                     <td>
                                                         <div class="badge badge-primary label-square">
                                                             <i class="fa fa-paperclip font-medium-2"></i>
@@ -477,6 +472,12 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button class=" btn btn-danger mb-2 text-center" id="btnDeleteSubscription">Delete subscription & profile</button>
+                    </div>
+
+                </div>
             </section>
             <!-- // Basic form layout section end -->
         </div>
