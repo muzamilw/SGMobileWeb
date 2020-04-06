@@ -88,7 +88,7 @@
         }
 
         .example.example1 fieldset {
-            margin: 0 15px 20px;
+            margin: 0 15px 0px;
             padding: 0;
             border-style: none;
             /*background-color: #7795f8;*/
@@ -237,10 +237,12 @@
             display: -webkit-flex;
             display: -ms-flexbox;
             display: flex;
+             margin-bottom:3px;
         }
 
         .FormFieldInput-IconsIcon {
             padding-right: 4px;
+           
         }
     </style>
 }
@@ -388,19 +390,27 @@
                                         }
                                     }
 
-                                    <img class="card-img-top img-fluid" src="~/content/Images/@filename" alt="Card image cap">
+                                    @*<img class="card-img-top img-fluid" src="~/content/Images/@filename" alt="Card image cap">*@
                                     <div class="card-body">
-                                        <h4 class="card-title">@plan.PlanName</h4>
-                                        <h4 style="font-size:0.8rem" class="card-title">$@plan.PlanPrice per month</h4>
-                                        <p class="card-text">
-                                            @Html.Raw(plan.PlanDescription.Replace("\n", "<br>"))
-                                        </p>@if ((Model.SocialProfile.PaymentPlanId ?? 1) == plan.PlanId)
+                                        @if ((Model.SocialProfile.PaymentPlanId ?? 1) == plan.PlanId)
                                         {
-                                            <a href="#" class="btn btn-grey-blue disabled">Current Plan</a>
+                                            <h1 class="card-title" style="font-weight:bold; font-size:2.2em;">@plan.PlanName</h1>
                                         }
                                         else
                                         {
-                                            <a href="#" class="btn btn-outline-primary planSelect" data-planId="@plan.PlanId" data-planname="@plan.PlanName" data-planprice="@plan.PlanPrice">Subscribe</a>
+                                            <h1 class="card-title" style="font-size:1.8em">@plan.PlanName</h1>
+                                        }
+                                        <h4 style="font-size:0.8rem" class="card-title">$@plan.PlanPrice per month</h4>
+                                        <p class="card-text">
+                                            @Html.Raw(plan.PlanDescription.Replace("\n", "<br>"))
+                                        </p>
+                                        @if ((Model.SocialProfile.PaymentPlanId ?? 1) == plan.PlanId)
+                                        {
+                                            <a href="#" class="btn btn-grey-blue disabled btn-lg">Current Plan</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="#" class="btn btn-outline-primary planSelect btn-lg" data-planId="@plan.PlanId" data-planname="@plan.PlanName" data-planprice="@plan.PlanPrice">Subscribe</a>
                                         }
 
                                     </div>
