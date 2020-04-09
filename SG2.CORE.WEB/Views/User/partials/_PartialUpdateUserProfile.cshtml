@@ -1,6 +1,6 @@
 ﻿@model SG2.CORE.MODAL.ViewModals.Customers.CustomerProfileUpdateViewModel
 @{
-    
+
 }
 
 
@@ -49,6 +49,48 @@
     </div>
 
     <div class="form-group">
+        @Html.LabelFor(m => m.AddressLine1, new { @class = "" })
+        @Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.AddressLine1, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.AddressLine2, new { @class = "" })
+        @Html.TextBoxFor(m => m.AddressLine2, new { @class = "form-control"})
+        @Html.ValidationMessageFor(model => model.AddressLine2, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.City, new { @class = "" })
+        @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.State, new { @class = "" })
+        @Html.TextBoxFor(m => m.State, new { @class = "form-control"})
+        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Country, new { @class = "" })
+        @Html.TextBoxFor(m => m.Country, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.PostCode, new { @class = "" })
+        @Html.TextBoxFor(m => m.PostCode, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.PostCode, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Notes, new { @class = "" })
+        @Html.TextAreaFor(m => m.Notes, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
         <button type="button" id="btn_UpdateUserProfile" class="btn btn-lg btn-primary">
             Update &nbsp;
             <i id="spn_updateUserProfile" style="display:none" class="fa fa-spinner fa-spin"></i>
@@ -63,6 +105,4 @@
         display: inline;
         border: 1px solid #cccccc !important;
     }
-
-    
 </style>

@@ -29,6 +29,20 @@ namespace SG2.CORE.MODAL.DTO.Customers
         public string UserName { get; set; }
         public string PhoneNumber { get; set; }
         public string PhoneCode { get; set; }
+
+        public string AddressLine1 { get; set; }
+        public string AddressLine2 { get; set; }
+
+        public string State { get; set; }
+
+        public string City { get; set; }
+
+        public string Country { get; set; }
+
+        public string PostCode { get; set; }
+
+        public string Notes { get; set; }
+
         public bool IsOptedEducationalEmailSeries { get; set; }
         public bool IsOptedMarketingEmail { get; set; }
         public string StripeCustomerId { get; set; }

@@ -161,10 +161,18 @@ namespace SG2.CORE.WEB.Controllers
                 FirstName = user.FirstName,
                 SurName = user.SurName,
                 EmailAddress = user.EmailAddress,
-               
-                PhoneNumber = "+"+user.PhoneCode + user.PhoneNumber,
+
+                PhoneNumber = "+" + user.PhoneCode + user.PhoneNumber,
                 UserName = user.UserName,
-                Countries = CommonManager.GetCountries()
+                Countries = CommonManager.GetCountries(),
+                AddressLine1 = user.AddressLine1,
+                AddressLine2 = user.AddressLine2,
+                City = user.City,
+                State = user.State,
+                Country = user.Country,
+                PostCode = user.PostCode,
+                Notes = user.Notes
+
             };
 
             var model = new CustomerProfileViewModel();
@@ -350,13 +358,31 @@ namespace SG2.CORE.WEB.Controllers
                         SurName = model.SurName,
                         UserName = model.UserName,
                         PhoneNumber = model.PhoneNumber,
-                        PhoneCode = model.PhoneCode
+                        PhoneCode = model.PhoneCode,
+                        AddressLine1 = model.AddressLine1,
+                        AddressLine2 = model.AddressLine2,
+                        City = model.City,
+                        State = model.State,
+                        Country = model.Country,
+                        PostCode = model.PostCode,
+                        Notes = model.Notes
                     });
                     this.CDT.UserName = model.UserName;
                     this.CDT.FirstName = model.FirstName;
                     this.CDT.SurName = model.SurName;
                     this.CDT.PhoneCode = model.PhoneCode;
                     this.CDT.PhoneNumber = model.PhoneNumber;
+
+                    this.CDT.AddressLine2 = model.AddressLine2;
+                    this.CDT.AddressLine1 = model.AddressLine1;
+                    this.CDT.City = model.City;
+                    this.CDT.State = model.State;
+                    this.CDT.Country = model.Country;
+                    this.CDT.PostCode = model.PostCode;
+                    this.CDT.Notes = model.Notes;
+
+
+
                     _sessionManager.Set(SessionConstants.Customer, this.CDT);
                     jr.Data = new { ResultType = "Success", message = "Profile updated successfully." };
                 }

@@ -141,6 +141,15 @@ namespace SG2.CORE.DAL.Repositories
                         {
                             contact.PhoneNumber = entity.PhoneNumber;
                             contact.PhoneCode = entity.PhoneCode;
+                            contact.AddressLine1 = entity.AddressLine1;
+                            contact.AddressLine2 = entity.AddressLine2;
+                            contact.City = entity.City;
+                            contact.Sate = entity.State;
+                            contact.PostalCode = entity.PostCode;
+                            contact.Country = entity.Country;
+                            contact.Notes = entity.Notes;
+
+
                             _db.SaveChanges();
                         }
 
@@ -951,6 +960,18 @@ namespace SG2.CORE.DAL.Repositories
                             DefaultSocialProfileId = usr.DefaultSocialProfileId.Value,
                             
                         };
+
+                        var contact = _db.Customer_ContactDetail.Where(g => g.CustomerId == usr.CustomerId).FirstOrDefault();
+                        if (contact != null)
+                        {
+                            cst.AddressLine1 = contact.AddressLine1;
+                            cst.AddressLine2 = contact.AddressLine2;
+                            cst.City = contact.City;
+                            cst.State = contact.Sate;
+                            cst.Country = contact.Country;
+                            cst.PostCode = contact.PostalCode;
+                            cst.Notes = contact.Notes;
+                        }
 
                         var cust = _db.Customers.Where(g => g.CustomerId == usr.CustomerId).SingleOrDefault();
                         if (cust != null)
