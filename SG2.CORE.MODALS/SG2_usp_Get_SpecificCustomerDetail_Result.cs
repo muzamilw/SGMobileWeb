@@ -20,7 +20,6 @@ namespace SG2.CORE.MODAL
         public string LastName { get; set; }
         public string Tel { get; set; }
         public string Mobile { get; set; }
-        public string AddressLine { get; set; }
         public string Town { get; set; }
         public string City { get; set; }
         public string PostalCode { get; set; }
@@ -39,5 +38,9 @@ namespace SG2.CORE.MODAL
         public string SocialProfileName { get; set; }
         public short CustomerStatus { get; set; }
         public bool IsArchived { get; set; }
+        public string AddressLine1 { get; set; }
+        public string AddressLine2 { get; set; }
+        public string Notes { get; set; }
+        public string State { get; set; }
     }
 }

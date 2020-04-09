@@ -1199,12 +1199,11 @@
         <ComplexType Name="SG2_usp_Get_SpecificCustomerDetail_Result">
           <Property Type="Int32" Name="Id" Nullable="false" />
           <Property Type="String" Name="Name" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="LastName" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="LastName" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Tel" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Mobile" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="AddressLine" Nullable="true" MaxLength="255" />
           <Property Type="String" Name="Town" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="City" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="PostalCode" Nullable="true" MaxLength="50" />
@@ -1223,6 +1222,10 @@
           <Property Type="String" Name="SocialProfileName" Nullable="true" MaxLength="50" />
           <Property Type="Int16" Name="CustomerStatus" Nullable="false" />
           <Property Type="Boolean" Name="IsArchived" Nullable="false" />
+          <Property Type="String" Name="AddressLine1" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="AddressLine2" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Notes" Nullable="true" />
+          <Property Type="String" Name="State" Nullable="true" MaxLength="50" />
         </ComplexType>
         <ComplexType Name="SG2_usp_Get_CustomerOrderHistory_Result">
           <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
@@ -2434,7 +2437,6 @@
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="Tel" ColumnName="Tel" />
                 <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="AddressLine" ColumnName="AddressLine" />
                 <ScalarProperty Name="Town" ColumnName="Town" />
                 <ScalarProperty Name="City" ColumnName="City" />
                 <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
@@ -2453,6 +2455,10 @@
                 <ScalarProperty Name="SocialProfileName" ColumnName="SocialProfileName" />
                 <ScalarProperty Name="CustomerStatus" ColumnName="CustomerStatus" />
                 <ScalarProperty Name="IsArchived" ColumnName="IsArchived" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="State" ColumnName="State" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

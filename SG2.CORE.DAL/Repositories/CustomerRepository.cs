@@ -274,7 +274,7 @@ namespace SG2.CORE.DAL.Repositories
                             }
                         }
                     }
-                    else if ((fieldName == "firstName") || (fieldName == "LastName") || (fieldName == "Source") || (fieldName == "Comment") || (fieldName == "Title") || (fieldName == "ResTeamMember") || (fieldName == "AvaToEveryOne") || (fieldName == "CustomerStatus"))
+                    else if ((fieldName == "firstName") || (fieldName == "LastName") || (fieldName == "Source") || (fieldName == "Comment") || (fieldName == "Title") || (fieldName == "ResTeamMember") || (fieldName == "AvaToEveryOne") || (fieldName == "CustomerStatus") )
                     {
                         var user = _db.Customers.FirstOrDefault(x => x.CustomerId == customerId);
 
@@ -335,7 +335,7 @@ namespace SG2.CORE.DAL.Repositories
                         }
 
                     }
-                    else if ((fieldName == "Tel") || (fieldName == "Town") || (fieldName == "Country") || (fieldName == "Mobile") || (fieldName == "PostalCode") || (fieldName == "AddressLine"))
+                    else if ((fieldName == "Tel") || (fieldName == "City") || (fieldName == "Country") || (fieldName == "Mobile") || (fieldName == "PostalCode") || (fieldName == "AddressLine1") || (fieldName == "AddressLine2") || (fieldName == "Notes") || (fieldName == "State"))
                     {
                         var user = _db.Customer_ContactDetail.FirstOrDefault(x => x.CustomerId == customerId);
                         if (user != null)
@@ -347,7 +347,7 @@ namespace SG2.CORE.DAL.Repositories
                                 return true;
 
                             }
-                            else if (fieldName == "Town")
+                            else if (fieldName == "City")
                             {
                                 user.City = value;
                                 _db.SaveChanges();
@@ -374,9 +374,28 @@ namespace SG2.CORE.DAL.Repositories
                                 return true;
 
                             }
-                            else if (fieldName == "AddressLine")
+                            else if (fieldName == "State")
+                            {
+                                user.Sate = value;
+                                _db.SaveChanges();
+                                return true;
+
+                            }
+                            else if (fieldName == "AddressLine1")
                             {
                                 user.AddressLine1 = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "AddressLine2")
+                            {
+                                user.AddressLine2 = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "Notes")
+                            {
+                                user.Notes = value;
                                 _db.SaveChanges();
                                 return true;
                             }
@@ -654,7 +673,10 @@ namespace SG2.CORE.DAL.Repositories
                         customerDetailViewModel.InstaPassword = actiondata.InstaPassword;
                         customerDetailViewModel.AvaToEveryOne = actiondata.AvaToEveryOne;
                         customerDetailViewModel.Country = actiondata.Country;
-                        customerDetailViewModel.AddressLine = actiondata.AddressLine;
+                        customerDetailViewModel.AddressLine1 = actiondata.AddressLine1;
+                        customerDetailViewModel.AddressLine2 = actiondata.AddressLine2;
+                        customerDetailViewModel.State = actiondata.State;
+                        customerDetailViewModel.Notes = actiondata.Notes;
                         customerDetailViewModel.Tel = actiondata.Tel;
                         customerDetailViewModel.SocialProfileId = Convert.ToString(profileId);
                         customerDetailViewModel.SocialProfileName = actiondata.SocialProfileName;

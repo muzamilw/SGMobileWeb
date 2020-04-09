@@ -854,6 +854,7 @@ namespace SG2.CORE.BAL.Managers
                         case 72: item.Action = "Initial Stats"; break;
                         case 73: item.Action = "Follow Exchange"; break;
                         case 74: item.Action = "Like Exchange"; break;
+                        case 86: item.Action = "Bad Hash Tag for Removal"; break;
                         default:
                             break;
                     }
@@ -919,6 +920,12 @@ namespace SG2.CORE.BAL.Managers
         public bool AddRemoveFollowAccounts(List<MobileActionRequest> list)
         {
             return _socialRepository.AddRemoveFollowAccounts(list);
+        }
+
+
+        public bool RemoveBadTags(List<MobileActionRequest> list)
+        {
+            return _socialRepository.RemoveBagTags(list);
         }
     }
 }

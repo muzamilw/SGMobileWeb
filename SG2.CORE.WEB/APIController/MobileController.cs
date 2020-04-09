@@ -295,7 +295,9 @@ namespace SG2.CORE.WEB.APIController
                     // 73 follow ex  74 like exchange
                     _customerManager.AddRemoveFollowAccounts(model.Where(g => g.ActionId == 60 || g.ActionId == 61 || g.ActionId == 73).ToList());
 
-                    
+                    _customerManager.RemoveBadTags(model.Where(g => g.ActionId == 86).ToList());
+
+
                     var FollowingCount = model.Where(g => g.ActionId == 60 || g.ActionId == 73).Count();
 
                     var UnFollowCount = model.Where(g => g.ActionId == 61).Count();

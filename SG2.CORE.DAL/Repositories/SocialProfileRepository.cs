@@ -332,5 +332,42 @@ namespace SG2.CORE.DAL.Repositories
                 
             }
         }
-	}
+
+
+        public bool RemoveBagTags(List<MobileActionRequest> list)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    foreach (var item in list)
+                    {
+                        var target = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.SocialProfileId == item.SocialProfileId).SingleOrDefault();
+                        if ( target != null)
+                        {
+                            var tags = target.HashTagsToEngage.Split(',');
+
+                            string tag = item.TargetSocialUserName.Trim().ToLower();
+
+                            var newtags = tags.Where(g => !g.Contains(tag)).ToList();
+
+                            target.HashTagsToEngage =  string.Join(",", newtags);  
+
+                        }
+
+                    }
+
+                    _db.SaveChanges();
+
+                    return true;
+                }
+
+            }
+            catch (Exception e)
+            {
+                return true;
+
+            }
+        }
+    }
 }

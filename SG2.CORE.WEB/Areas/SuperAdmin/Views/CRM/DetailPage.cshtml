@@ -63,7 +63,7 @@
     //var Role=Model.usersList.Where(m=>m.RoleName.ToString()==)
 
     var SocialProfile = (SocialProfileDTO)ViewBag.SocailProfile;
-    
+
     var DeviceStatus = "Not Connected";
 
     var DeviceIMEI = "Not Connected";
@@ -80,14 +80,14 @@
 
 
     var onlineStatus = SocialProfile.AppStatus + " - v" + SocialProfile.SocialProfile.AppVersion;
-    
+
     var onlineStatusClass = "offline-btn";
     var planStatusClass = "btn-primary";
     string blockStatusClass = "";
 
     var PlanName = "";
-    PlanName = SocialProfile.CurrentPaymentPlan == null ? "FREE" :  SocialProfile.CurrentPaymentPlan.PlanName;
-    if ( PlanName  == "FREE")
+    PlanName = SocialProfile.CurrentPaymentPlan == null ? "FREE" : SocialProfile.CurrentPaymentPlan.PlanName;
+    if (PlanName == "FREE")
     {
         planStatusClass = "btn-danger";
     }
@@ -106,7 +106,8 @@
         blockStatusClass = "btn-danger";
     }
 
-    if (SocialProfile.AppStatus == "Online") {
+    if (SocialProfile.AppStatus == "Online")
+    {
         onlineStatusClass = "online-btn";
     }
 
@@ -265,265 +266,424 @@
                         </div>
 
                         @*<div class="col-md-4 col-sm-4 col-xs-12">
-                                <div class="user-inner">
-                                    <label>Social Password</label>
-                                    <div class="displayBlock" id="Password-textBlock">
-                                        <h2 class="displayText">@(string.IsNullOrEmpty(SocialProfile.SocialProfile.SocialPassword) ? "--" : SocialProfile.SocialProfile.SocialPassword)</h2>
+                <div class="user-inner">
+                    <label>Social Password</label>
+                    <div class="displayBlock" id="Password-textBlock">
+                        <h2 class="displayText">@(string.IsNullOrEmpty(SocialProfile.SocialProfile.SocialPassword) ? "--" : SocialProfile.SocialProfile.SocialPassword)</h2>
 
-                                    </div>
+                    </div>
 
+                </div>
+
+
+
+
+
+            </div>*@
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="user-inner">
+                                <label>Address Line 1</label>
+                                <div class="displayBlock" id="address1-textBlock">
+                                    <h2 class="displayText">@(string.IsNullOrEmpty(Model.AddressLine1) ? "--" : Model.AddressLine1)</h2>
+                                    <a href="#" text-block="address1-textBlock" edit-Block="address1-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
                                 </div>
+                                <div class="editBlock" id="address1-editBlock" style="display:none">
+                                    <input type="text" value="@Model.AddressLine1" id="input_address1" class="" name="AddressLine1" />
+                                    <a href="#" text-block="address1-textBlock" edit-Block="address1-editBlock" control-id="input_address1" class="btn_savedata"><i class="fa fa-save"></i> | </a>
+                                    <a href="#" text-block="address1-textBlock" edit-Block="address1-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
 
 
 
 
 
-                            </div>*@
+                        </div>
+
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="user-inner">
+                                <label>Address Line 2</label>
+                                <div class="displayBlock" id="address2-textBlock">
+                                    <h2 class="displayText">@(string.IsNullOrEmpty(Model.AddressLine2) ? "--" : Model.AddressLine2)</h2>
+                                    <a href="#" text-block="address2-textBlock" edit-Block="address2-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div class="editBlock" id="address2-editBlock" style="display:none">
+                                    <input type="text" value="@Model.AddressLine2" id="input_address2" class="" name="AddressLine2" />
+                                    <a href="#" text-block="address2-textBlock" edit-Block="address2-editBlock" control-id="input_address2" class="btn_savedata"><i class="fa fa-save"></i> | </a>
+                                    <a href="#" text-block="address2-textBlock" edit-Block="address2-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="user-inner">
+                                <label>Town/City</label>
+                                <div class="displayBlock" id="City-textBlock">
+                                    <h2 class="displayText">@(string.IsNullOrEmpty(Model.City) ? "--" : Model.City)</h2>
+                                    <a href="#" text-block="City-textBlock" edit-Block="City-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div class="editBlock" id="City-editBlock" style="display:none">
+                                    <input type="text" value="@Model.City" id="input_City" class="" name="City" />
+                                    <a href="#" text-block="City-textBlock" edit-Block="City-editBlock" control-id="input_City" class="btn_savedata"><i class="fa fa-save"></i> | </a>
+                                    <a href="#" text-block="City-textBlock" edit-Block="City-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
                     </div>
-                </div>
+
+                    <div class="row">
+
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="user-inner">
+                                <label>State</label>
+                                <div class="displayBlock" id="State-textBlock">
+                                    <h2 class="displayText">@(string.IsNullOrEmpty(Model.State) ? "--" : Model.State)</h2>
+                                    <a href="#" text-block="State-textBlock" edit-Block="State-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div class="editBlock" id="State-editBlock" style="display:none">
+                                    <input type="text" value="@Model.State" id="input_State" class="" name="State" />
+                                    <a href="#" text-block="State-textBlock" edit-Block="State-editBlock" control-id="input_State" class="btn_savedata"><i class="fa fa-save"></i> | </a>
+                                    <a href="#" text-block="State-textBlock" edit-Block="State-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
 
 
 
 
-            </div>
-        </div>
 
-        <br />
+                        </div>
+
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="user-inner">
+                                <label>Country</label>
+                                <div class="displayBlock" id="Country-textBlock">
+                                    <h2 class="displayText">@(string.IsNullOrEmpty(Model.Country) ? "--" : Model.Country)</h2>
+                                    <a href="#" text-block="Country-textBlock" edit-Block="Country-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div class="editBlock" id="Country-editBlock" style="display:none">
+                                    <input type="text" value="@Model.Country" id="input_Country" class="" name="Country" />
+                                    <a href="#" text-block="Country-textBlock" edit-Block="Country-editBlock" control-id="input_Country" class="btn_savedata"><i class="fa fa-save"></i> | </a>
+                                    <a href="#" text-block="Country-textBlock" edit-Block="Country-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="user-inner">
+                                <label>PostalCode / Zipcode</label>
+                                <div class="displayBlock" id="PostalCode-textBlock">
+                                    <h2 class="displayText">@(string.IsNullOrEmpty(Model.PostalCode) ? "--" : Model.PostalCode)</h2>
+                                    <a href="#" text-block="PostalCode-textBlock" edit-Block="PostalCode-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div class="editBlock" id="PostalCode-editBlock" style="display:none">
+                                    <input type="text" value="@Model.PostalCode" id="input_PostalCode" class="" name="PostalCode" />
+                                    <a href="#" text-block="PostalCode-textBlock" edit-Block="PostalCode-editBlock" control-id="input_PostalCode" class="btn_savedata"><i class="fa fa-save"></i> | </a>
+                                    <a href="#" text-block="PostalCode-textBlock" edit-Block="PostalCode-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
 
 
 
 
-        <div class="source">
-            <div class="row">
 
-                <div class="col-md-4 col-sm-4 col-xs-6 inner-colm">
-                    <div class="user-inner">
-                        <span>Registered</span>
-                        <h2>@Html.DisplayFor(m => m.UpdatedOn)</h2>
+                        </div>
                     </div>
-                </div>
+
+                    <div class="row">
+
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="user-inner">
+                                <label>Delivery Contact Number</label>
+                                <div class="displayBlock" id="State-textBlock">
+                                    <h2 class="displayText">@(string.IsNullOrEmpty(Model.Mobile) ? "--" : Model.Mobile)</h2>
+                                    <a href="#" text-block="Mobile-textBlock" edit-Block="Mobile-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div class="editBlock" id="Mobile-editBlock" style="display:none">
+                                    <input type="text" value="@Model.Mobile" id="input_Mobile" class="" name="Mobile" />
+                                    <a href="#" text-block="Mobile-textBlock" edit-Block="Mobile-editBlock" control-id="input_Mobile" class="btn_savedata"><i class="fa fa-save"></i> | </a>
+                                    <a href="#" text-block="Mobile-textBlock" edit-Block="Mobile-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
 
 
 
-                <div class="col-md-4 col-sm-4 col-xs-6 inner-colm">
-                    <div class="user-inner" style="display:none">
-                        <span>Cancelled Date</span>
-                        <h2>@Html.DisplayFor(m => m.UpdatedOn)</h2>
+
+
+                        </div>
+
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="user-inner">
+                                <label>Delivery Instructions</label>
+                                <div class="displayBlock" id="Notes-textBlock">
+                                    <h2 class="displayText">@(string.IsNullOrEmpty(Model.Notes) ? "--" : Model.Notes)</h2>
+                                    <a href="#" text-block="Notes-textBlock" edit-Block="Notes-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div class="editBlock" id="Notes-editBlock" style="display:none">
+                                    <textarea id="input_Notes" class="input_Notes" name="Notes">@Model.Notes</textarea>
+                                    <a href="#" text-block="Notes-textBlock" edit-Block="Notes-editBlock" control-id="input_Notes" class="btn_savedata"><i class="fa fa-save"></i> | </a>
+                                    <a href="#" text-block="Notes-textBlock" edit-Block="Notes-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        
                     </div>
+
+
                 </div>
-
-
             </div>
-        </div>
 
-        <div class="delete-user">
-            <div class="row">
-                <div class="col-sm-12 col-lg-2">
-                    <a href="#" class="delete btn_ShowDeleteConfrimModal">Delete profile Permanently</a>
-                </div>
-                <div class="col-sm-12 col-lg-2">
-                    <a href="#" class="delete btn_ShowRefundConfirmModal" style="background-color:blueviolet">Refund First Month Charge</a>
-                </div>
+            <br />
 
-                <div class="col-sm-12 col-lg-4">
-                    <a href="#" class="delete btn_ShowTwoWeekConfirmModal" style="background-color:blueviolet">Give 2 Week Free Service (Delay Next Billing by 14 days)</a>
-                </div>
 
-                <div class="col-sm-12 col-lg-2">
-                    <a href="#" class="delete btn_ShowOneWeekConfirmModal" style="background-color:blueviolet">Give 7 Day Free Service</a>
-                </div>
 
-                <div class="col-sm-12 col-lg-2">
-                    <a href="#" class="delete btn_ShowThreeDaysConfirmModal" style="background-color:blueviolet">Give 3 Day Free Service</a>
-                </div>
 
+            <div class="source">
+                <div class="row">
+
+                    <div class="col-md-4 col-sm-4 col-xs-6 inner-colm">
+                        <div class="user-inner">
+                            <span>Registered</span>
+                            <h2>@Html.DisplayFor(m => m.UpdatedOn)</h2>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-4 col-sm-4 col-xs-6 inner-colm">
+                        <div class="user-inner" style="display:none">
+                            <span>Cancelled Date</span>
+                            <h2>@Html.DisplayFor(m => m.UpdatedOn)</h2>
+                        </div>
+                    </div>
+
+
+                </div>
             </div>
-        </div>
-        <h4 class="form-section mt-3"><i class="ft-user"></i>Device Push Notifications (Coming Soon)</h4>
-        <div class="delete-user">
-            <div class="row">
-                <div class="col-sm-12 col-lg-3">
-                    <a href="#" class="btn btn-block btn-primary btn-lg " style="width:100%">Alert</a>
+
+            <div class="delete-user">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-2">
+                        <a href="#" class="delete btn_ShowDeleteConfrimModal">Delete profile Permanently</a>
+                    </div>
+                    <div class="col-sm-12 col-lg-2">
+                        <a href="#" class="delete btn_ShowRefundConfirmModal" style="background-color:blueviolet">Refund First Month Charge</a>
+                    </div>
+
+                    <div class="col-sm-12 col-lg-4">
+                        <a href="#" class="delete btn_ShowTwoWeekConfirmModal" style="background-color:blueviolet">Give 2 Week Free Service (Delay Next Billing by 14 days)</a>
+                    </div>
+
+                    <div class="col-sm-12 col-lg-2">
+                        <a href="#" class="delete btn_ShowOneWeekConfirmModal" style="background-color:blueviolet">Give 7 Day Free Service</a>
+                    </div>
+
+                    <div class="col-sm-12 col-lg-2">
+                        <a href="#" class="delete btn_ShowThreeDaysConfirmModal" style="background-color:blueviolet">Give 3 Day Free Service</a>
+                    </div>
+
                 </div>
+            </div>
+            <h4 class="form-section mt-3"><i class="ft-user"></i>Device Push Notifications (Coming Soon)</h4>
+            <div class="delete-user">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-3">
+                        <a href="#" class="btn btn-block btn-primary btn-lg " style="width:100%">Alert</a>
+                    </div>
 
 
-                <div class="col-sm-12 col-lg-3">
-                    <a href="#" class="btn btn-block btn-primary btn-lg " style="background-color:blueviolet;width:100%">Play Alarm</a>
+                    <div class="col-sm-12 col-lg-3">
+                        <a href="#" class="btn btn-block btn-primary btn-lg " style="background-color:blueviolet;width:100%">Play Alarm</a>
+                    </div>
+
+                    <div class="col-sm-12 col-lg-3">
+                        <a href="#" class="btn btn-block btn-primary btn-lg " style="background-color:blueviolet;width:100%">Get latest Log</a>
+                    </div>
+
+                    <div class="col-sm-12 col-lg-3">
+                        <a href="#" class="btn btn-block btn-primary btn-lg " style="background-color:blueviolet;width:100%">Restart App</a>
+                    </div>
+
                 </div>
-
-                <div class="col-sm-12 col-lg-3">
-                    <a href="#" class="btn btn-block btn-primary btn-lg " style="background-color:blueviolet;width:100%">Get latest Log</a>
-                </div>
-
-                <div class="col-sm-12 col-lg-3">
-                    <a href="#" class="btn btn-block btn-primary btn-lg " style="background-color:blueviolet;width:100%">Restart App</a>
-                </div>
-
             </div>
         </div>
     </div>
-</div>
 
-<div id="Modal_ConfirmDeletion" class="modal fade" data-backdrop="static" role="dialog">
-    <div class="modal-dialog">
+    <div id="Modal_ConfirmDeletion" class="modal fade" data-backdrop="static" role="dialog">
+        <div class="modal-dialog">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title text-left">Delete Profile Confirmation!</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-left">Delete Profile Confirmation!</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
 
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete the item.</p>
+                    <h3 style="color:red">This will delete all CRM records, Profiles and user data Permanently</h3>
+                    <input type="hidden" id="hdn_DeleteItemId" value="" />
+                    <input type="text" id="deleteConfirmation" placeholder="Type in 'Delete This Profile' to continue" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn_ConfirmDelete">Delete Permanently</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete the item.</p>
-                <h3 style="color:red">This will delete all CRM records, Profiles and user data Permanently</h3>
-                <input type="hidden" id="hdn_DeleteItemId" value="" />
-                <input type="text" id="deleteConfirmation" placeholder="Type in 'Delete This Profile' to continue" />
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary btn_ConfirmDelete">Delete Permanently</button>
-            </div>
+
         </div>
-
     </div>
-</div>
 
-<div id="Modal_ConfirmRefund" class="modal fade" data-backdrop="static" role="dialog">
-    <div class="modal-dialog">
+    <div id="Modal_ConfirmRefund" class="modal fade" data-backdrop="static" role="dialog">
+        <div class="modal-dialog">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title text-left">Refund Confirmation!</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-left">Refund Confirmation!</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
 
+                </div>
+                <div class="modal-body" style="padding:15px 30px">
+                    @*<h3 style="color:red">Refund will be initiated </h3>*@
+                    <br />
+                    <br />
+                    <label>Please Enter Password to proceed for Refund</label>
+                    <input type="password" id="RefundPassword" value="" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn_ConfirmRefund">Confirm</button>
+                </div>
             </div>
-            <div class="modal-body" style="padding:15px 30px">
-                @*<h3 style="color:red">Refund will be initiated </h3>*@
-                <br />
-                <br />
-                <label>Please Enter Password to proceed for Refund</label>
-                <input type="password" id="RefundPassword" value="" />
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary btn_ConfirmRefund">Confirm</button>
-            </div>
+
         </div>
-
     </div>
-</div>
 
-<div id="Modal_ConfirmAddFreeDaysService" class="modal fade" data-backdrop="static" role="dialog">
-    <div class="modal-dialog">
+    <div id="Modal_ConfirmAddFreeDaysService" class="modal fade" data-backdrop="static" role="dialog">
+        <div class="modal-dialog">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title text-left">Add Free Days Confirmation!</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-left">Add Free Days Confirmation!</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
 
+                </div>
+                <div class="modal-body" style="padding:15px 30px">
+                    @*  <h3 style="color:red">Give 2 Week Free Service (Delay Next Billing by 14 days)</h3>*@
+                    <br /><br />
+                    <label>Please Enter Password to add Free Days </label>
+                    <input type="password" id="AddFreeDays_Password" value="" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn_AddFreeDaysService">Confirm</button>
+                </div>
             </div>
-            <div class="modal-body" style="padding:15px 30px">
-                @*  <h3 style="color:red">Give 2 Week Free Service (Delay Next Billing by 14 days)</h3>*@
-                <br /><br />
-                <label>Please Enter Password to add Free Days </label>
-                <input type="password" id="AddFreeDays_Password" value="" />
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary btn_AddFreeDaysService">Confirm</button>
-            </div>
+
         </div>
-
     </div>
-</div>
 
-<style type="text/css">
-    .editBlock input {
-        width: 90%;
-        display: inline;
-        margin: 10px 0;
-    }
-
-    .editBlock a {
-        color: white;
-        margin-top: 12px;
-        float: none
-    }
-
-    .user-inner a {
-        color: white;
-        margin-top: 12px;
-    }
-
-    .form-first .user-inner a {
-        color: #555;
-        margin-top: 12px;
-    }
-
-    .form-first .user-inner label {
-        color: #555;
-        font-size: 1.2rem;
-    }
-
-    .form-first .user-inner h2 {
-        color: black;
-        font-size: 0.85rem;
-    }
-
-    .form-first .user-inner {
-        padding: 5px;
-        margin: 10px 5px;
-    }
-
-        .form-first .user-inner label {
-            display: block;
-            border-bottom: 1px solid lightgray;
+    <style type="text/css">
+        .editBlock input {
+            width: 90%;
+            display: inline;
+            margin: 10px 0;
         }
 
-    .source .user-inner span {
-        border-bottom: 1px solid lightgray;
-        padding-bottom: 5px;
-        margin-bottom: 5px;
-    }
+        .editBlock a {
+            color: white;
+            margin-top: 12px;
+            float: none
+        }
 
-    .source .user-inner {
-        padding: 0 10px;
-    }
+        .user-inner a {
+            color: white;
+            margin-top: 12px;
+        }
 
-    .user-inner input, .user-inner select {
-        width: 85%
-    }
+        .form-first .user-inner a {
+            color: #555;
+            margin-top: 12px;
+        }
 
-    .source a {
-        color: #5c5c5c
-    }
+        .form-first .user-inner label {
+            color: #555;
+            font-size: 1.2rem;
+        }
 
-    .information-wrap span.right {
-        float: none
-    }
+        .form-first .user-inner h2 {
+            color: black;
+            font-size: 0.85rem;
+        }
 
-    .information-wrap h3 {
-        font-size: 20pt;
-        color: black;
-    }
+        .form-first .user-inner {
+            padding: 5px;
+            margin: 10px 5px;
+        }
 
-    .delete-user a {
-        padding: 10px;
-        font-size: 11pt;
-        font-weight: 500;
-        width: auto;
-    }
-</style>
+            .form-first .user-inner label {
+                display: block;
+                border-bottom: 1px solid lightgray;
+            }
+
+        .source .user-inner span {
+            border-bottom: 1px solid lightgray;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+        }
+
+        .source .user-inner {
+            padding: 0 10px;
+        }
+
+        .user-inner input, .user-inner select {
+            width: 85%
+        }
+
+        .source a {
+            color: #5c5c5c
+        }
+
+        .information-wrap span.right {
+            float: none
+        }
+
+        .information-wrap h3 {
+            font-size: 20pt;
+            color: black;
+        }
+
+        .delete-user a {
+            padding: 10px;
+            font-size: 11pt;
+            font-weight: 500;
+            width: auto;
+        }
+    </style>
 
 
-@section Scripts{
+    @section Scripts{
 
 
-    <script src="~/content/app-assets/vendors/js/pickers/dateTime/bootstrap-datetimepicker.min.js"></script>
-    <script type="text/javascript">
+        <script src="~/content/app-assets/vendors/js/pickers/dateTime/bootstrap-datetimepicker.min.js"></script>
+        <script type="text/javascript">
 
         var glb_CustomerId = "@Url.Encode(CryptoEngine.Encrypt(Model.Id))";
         var glb_SocialProfileId = "@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))";
@@ -821,9 +981,9 @@
             });
         });
 
-    </script>
-    <script src="~/Content/app-assets/js/scripts/bootstrap-pincode-input.js"></script>
-}
+        </script>
+        <script src="~/Content/app-assets/js/scripts/bootstrap-pincode-input.js"></script>
+    }
 
 
 

@@ -129,14 +129,14 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             var model = _customerManager.GetSpecificUserData(custId1, socialProfileId);
             ViewBag.SocailProfile = this._customerManager.GetSocialProfileById(socialProfileId);
             //model.Countries = CommonManager.GetCountries();
-            if (!string.IsNullOrEmpty(model.Country))
-            {
-                model.cities = CommonManager.GetCities().Where(m => m.CountryId == Convert.ToInt16(model.Country)).ToList();
-            }
-            else
-            {
-                model.cities = CommonManager.GetCities();
-            }
+            //if (!string.IsNullOrEmpty(model.Country))
+            //{
+            //    model.cities = CommonManager.GetCities().Where(m => m.CountryId == Convert.ToInt16(model.Country)).ToList();
+            //}
+            //else
+            //{
+            //    model.cities = CommonManager.GetCities();
+            //}
             model.usersList = CommonManager.GetTeamMembers();
             model.CustomerTitles = CommonManager.GetTitle();
             model.statusDTOs = this.ApplicationStatuses;
