@@ -49,6 +49,12 @@ namespace SG2.CORE.MODAL.ViewModals.Statistics
 
         public double? LastSessionIndex { get; set; }
         public string AppStatus { get; set; }
+        public double? FollowersGrowthRate { get; set; }
+        public double? LikesGrowthRate { get; set; }
+        public double? FollowersChange { get; set; }
+        public double? LikesChange { get; set; }
+        public double? FollowersAverageChange { get; set; }
+        public double? LikesAverageChange { get; set; }
     }
 
     public class Intervals
