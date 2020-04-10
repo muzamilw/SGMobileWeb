@@ -45,7 +45,7 @@
     }
 
     var totalEngagment = Model.FollowersTotal + Model.LikesTotal + Model.StoryViewsTotal + Model.UnFollowTotal;
-
+    var currentDate = DateTime.Now.ToString("MMMM, dd yyyy");
 }
 
 @section styles{
@@ -193,15 +193,15 @@
                                     <br />
                                     <div class="mb-5">
                                         <div class="col-3 float-left pl-0">
-                                            <span style="font-weight:bold;font-size:28px;">33.9k</span>
+                                            <span style="font-weight:bold;font-size:28px;">@Model.FollowersTotal</span>
                                             <span style="color:grey; font-size:24px;">Followers</span>
                                         </div>
                                         <div class="col-3 float-left">
-                                            <span style="font-weight:bold;font-size:28px;">2.6k</span>
-                                            <span style="color:grey; font-size:24px;">Followers</span>
+                                            <span style="font-weight:bold;font-size:28px;">@Model.FollowingsTotal</span>
+                                            <span style="color:grey; font-size:24px;">Followings</span>
                                         </div>
                                         <div class="col-3 float-left">
-                                            <span style="font-weight:bold;font-size:28px;">869</span>
+                                            <span style="font-weight:bold;font-size:28px;">@Model.PostsTotal</span>
                                             <span style="color:grey; font-size:24px;">Posts</span>
                                         </div>
                                     </div>
@@ -220,21 +220,21 @@
                                 <div class="row my-1">
                                     <div class="col-lg-4 col-12">
                                         <div class="text-center">
-                                            <h3 class="success"><i class="ft-arrow-up"></i>2066</h3>
+                                            <h3 class="success"><i class="ft-arrow-up"></i>@Model.FollowersInitial</h3>
                                             <p class="text-muted">Followers change from start</p>
                                             <div id="sp-stacked-bar-total-sales"></div>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-12">
                                         <div class="text-center">
-                                            <h3 class="success"><i class="ft-arrow-up"></i>5729</h3>
+                                            <h3 class="success"><i class="ft-arrow-up"></i>@Model.FollowingsInitial</h3>
                                             <p class="text-muted">Followings change from start</p>
                                             <div id="sp-stacked-bar-total-sales"></div>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-12">
                                         <div class="text-center">
-                                            <h3 class="success"><i class="ft-arrow-up"></i>5729</h3>
+                                            <h3 class="success"><i class="ft-arrow-up"></i>@Model.LikesTotal</h3>
                                             <p class="text-muted">Average Like per Posts</p>
                                             <div id="sp-tristate-bar-total-revenue"></div>
                                         </div>
@@ -269,28 +269,28 @@
                                     <div class="col-lg-3 col-12">
                                         <div>
                                             <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Followers</h3>
-                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">36,630</p>
+                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">@Model.FollowersTotal</p>
                                             <p style="color:gray;font-size:12px;">at last date</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
                                             <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Change</h3>
-                                            <p class="mb-0 success" style="font-size:25px;">+41</p>
+                                            <p class="mb-0 success" style="font-size:25px;">@Model.FollowersChange</p>
                                             <p style="color:gray;font-size:12px;">0% of total followers</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
                                             <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Max. growth</h3>
-                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">23</p>
-                                            <p style="color:gray;font-size:12px;">on Mar 22, 2020</p>
+                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">@Model.FollowersGrowthRate</p>
+                                            <p style="color:gray;font-size:12px;">on @currentDate</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
                                             <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Avg. change</h3>
-                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">12</p>
+                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">@Model.FollowersAverageChange</p>
                                             <p style="color:gray;font-size:12px;">followers per day</p>
                                         </div>
                                     </div>
@@ -311,28 +311,28 @@
                                     <div class="col-lg-3 col-12">
                                         <div>
                                             <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Likes</h3>
-                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">36,630</p>
+                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">@Model.LikesTotal</p>
                                             <p style="color:gray;font-size:12px;">at last date</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
                                             <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Change</h3>
-                                            <p class="mb-0 success" style="font-size:25px;">+41</p>
+                                            <p class="mb-0 success" style="font-size:25px;">@Model.LikesChange</p>
                                             <p style="color:gray;font-size:12px;">0% of total likes</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
                                             <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Max. growth</h3>
-                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">23</p>
-                                            <p style="color:gray;font-size:12px;">on Mar 22, 2020</p>
+                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">@Model.LikesGrowthRate</p>
+                                            <p style="color:gray;font-size:12px;">on @currentDate</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
                                             <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Avg. change</h3>
-                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">12</p>
+                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">@Model.LikesAverageChange</p>
                                             <p style="color:gray;font-size:12px;">likes per day</p>
                                         </div>
                                     </div>
@@ -662,12 +662,7 @@
     @*<script src="~/Content/app-assets/js/scripts/charts/morris/line.js"></script>*@
 
     <script type="text/javascript">
-
-        $("document").ready(function () {
-            LoadCharts(1);
-
-
-
+         $("document").ready(function () {
             $('#filterrange button').click(function () {
                 $(this).addClass('active').siblings().removeClass('active');
 
@@ -677,9 +672,11 @@
                 var mode = $(this).data("mode"); //Theme2
                 LoadCharts(mode);
             });
-
         });
 
+        function kFormatter(num) {
+            return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'k' : Math.sign(num)*Math.abs(num)
+        }
 
         function LoadCharts(mode) {
             $.ajax({

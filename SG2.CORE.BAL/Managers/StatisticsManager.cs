@@ -204,6 +204,7 @@ namespace SG2.CORE.BAL.Managers
                 var model = _statistics.GetStatisticsFirstAndRecent(socialProfileId);
                 if (model != null && model.Count == 2)
                 {
+                    
                     followersStatisticsViewModel.FollowersInitial = model[0].Followers.HasValue ? model[0].Followers.Value : 0;
                     followersStatisticsViewModel.FollowersTotal = model[1].FollowersTotal.HasValue ? model[1].FollowersTotal.Value :0;
 
@@ -223,9 +224,13 @@ namespace SG2.CORE.BAL.Managers
                     followersStatisticsViewModel.UnFollowTotal = model[1].UnfollowTotal.HasValue ? model[1].UnfollowTotal.Value : 0;
 
                     followersStatisticsViewModel.StoryViewsInitial = model[0].StoryViews.HasValue ? model[0].StoryViews.Value : 0;
-                    followersStatisticsViewModel.StoryViewsTotal = model[1].StoryViewsTotal.HasValue ? model[1].StoryViewsTotal.Value :0;
-
-
+                    followersStatisticsViewModel.StoryViewsTotal = model[1].StoryViewsTotal.HasValue ? model[1].StoryViewsTotal.Value : 0;
+                    followersStatisticsViewModel.FollowersGrowthRate = (model[0].Followers > 0 && model[1].Followers > 0) ? (model[0].Followers / model[1].Followers) * 100 : 0;
+                    followersStatisticsViewModel.LikesGrowthRate = (model[0].Like > 0 && model[1].Like > 0) ? (model[0].Like / model[1].Like) * 100 : 0;
+                    followersStatisticsViewModel.FollowersChange = model[0].Followers - model[1].Followers;
+                    followersStatisticsViewModel.LikesChange = model[0].Like - model[1].Like;
+                    followersStatisticsViewModel.FollowersAverageChange = (model[0].Followers + model[1].Followers) / 2;
+                    followersStatisticsViewModel.LikesAverageChange = (model[0].Like + model[1].Like) / 2;
                     var date =  model[1].Date;
                     
 
@@ -286,6 +291,12 @@ namespace SG2.CORE.BAL.Managers
 
                     followersStatisticsViewModel.StoryViewsInitial = 0;
                     followersStatisticsViewModel.StoryViewsTotal = 0;
+                    followersStatisticsViewModel.FollowersGrowthRate = 0;
+                    followersStatisticsViewModel.LikesGrowthRate = 0;
+                    followersStatisticsViewModel.FollowersChange = 0;
+                    followersStatisticsViewModel.LikesChange = 0;
+                    followersStatisticsViewModel.FollowersAverageChange = 0;
+                    followersStatisticsViewModel.LikesAverageChange = 0;
                 }
                 return followersStatisticsViewModel;
 
