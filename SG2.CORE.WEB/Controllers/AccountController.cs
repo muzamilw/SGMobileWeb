@@ -76,7 +76,7 @@ namespace SG2.CORE.WEB.Controllers
                         FirstName = model.FirstName,
                         SurName = model.UserName,
                         EmailAddress = model.EmailAddress,
-                        StatusId = (int)CustomersStatus.Active,
+                        StatusId = (int)CustomersStatus.EmailverificationRequired,
                         GUID = Guid.NewGuid().ToString(),
                         LastLoginIP = HttpContext.Request.UserHostAddress,
                         Password = model.Password,
@@ -119,7 +119,7 @@ namespace SG2.CORE.WEB.Controllers
                             var _klavio_NonPayingSubscribeList = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_NonPayingSubscribeList").ToLower()).ConfigValue;
 
                             klaviyoAPI.PeopleAPI(list, _klaviyoPublishKey);
-                            var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_NonPayingSubscribeList);
+                            //var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_NonPayingSubscribeList);
                         });
 
                     }
