@@ -392,57 +392,61 @@
 
                                                     </a>
                                                 </td>
-                                                <td>
-                                                    @{
-                                                        var statusclass = "";
-                                                        switch (item.BlockedStatus)
-                                                        {
-                                                            case "Valid": statusclass = "badge-primary"; break;
-                                                            case "Action Blocked": statusclass = "badge-danger"; break;
-                                                            case "Hard Blocked": statusclass = "badge-danger"; break;
-                                                            case "Password Blocked": statusclass = "badge-danger"; break;
-                                                            default:
-                                                                statusclass = "badge-primary";
-                                                                break;
+                                                @if (Customer.IsBroker == true)
+                                                {
+                                                    <td>
+                                                        @{
+                                                            var statusclass = "";
+                                                            switch (item.BlockedStatus)
+                                                            {
+                                                                case "Valid": statusclass = "badge-primary"; break;
+                                                                case "Action Blocked": statusclass = "badge-danger"; break;
+                                                                case "Hard Blocked": statusclass = "badge-danger"; break;
+                                                                case "Password Blocked": statusclass = "badge-danger"; break;
+                                                                default:
+                                                                    statusclass = "badge-primary";
+                                                                    break;
+                                                            }
                                                         }
-                                                    }
 
-                                                    <span class="badge @statusclass label-square mr-1 mb-1 display-inline">
+                                                        <span class="badge @statusclass label-square mr-1 mb-1 display-inline">
 
-                                                        <span>@item.BlockedStatus</span>
-                                                    </span>
-                                                </td>
-                                                <td class="">
-                                                    @{
-                                                        var connStatusclass = "";
-                                                        if (item.AppConnStatus == "Online")
+                                                            <span>@item.BlockedStatus</span>
+                                                        </span>
+                                                    </td>
+
+
+                                                    <td class="">
+                                                        @{
+                                                            var connStatusclass = "";
+                                                            if (item.AppConnStatus == "Online")
+                                                            {
+                                                                connStatusclass = "badge-success";
+                                                            }
+                                                            else
+                                                            {
+                                                                connStatusclass = "badge-danger";
+                                                            }
+
+                                                        }
+
+                                                        <span class="badge @connStatusclass label-square mr-1 mb-1 display-inline">
+
+                                                            <span>@item.AppConnStatus</span>
+                                                        </span>
+                                                    </td>
+                                                            }
+                                                    <td class="align-middle">
+                                                        @if (item.SubscriptionName != null)
                                                         {
-                                                            connStatusclass = "badge-success";
+                                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: @item.SubscriptionName</div>
                                                         }
                                                         else
                                                         {
-                                                            connStatusclass = "badge-danger";
+                                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: FREE</div>
                                                         }
-
-                                                    }
-
-                                                    <span class="badge @connStatusclass label-square mr-1 mb-1 display-inline">
-
-                                                        <span>@item.AppConnStatus</span>
-                                                    </span>
-                                                </td>
-
-                                                <td class="align-middle">
-                                                    @if (item.SubscriptionName != null)
-                                                    {
-                                                        <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: @item.SubscriptionName</div>
-                                                    }
-                                                    else
-                                                    {
-                                                        <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: FREE</div>
-                                                    }
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                </tr>
                                                 rowCounter++;
                                             }
                                         </tbody>
