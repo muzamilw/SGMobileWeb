@@ -118,6 +118,7 @@
     <Compile Include="DTO\QueueLogger\QueueAuditDetialListViewDTO.cs" />
     <Compile Include="DTO\QueueLogger\QueueAuditDTO.cs" />
     <Compile Include="DTO\Statistics\StatisticsDTO.cs" />
+    <Compile Include="DTO\Statistics\StatsDailyActivityDTO.cs" />
     <Compile Include="DTO\SystemSettings\SystemSettingsDTO.cs" />
     <Compile Include="DTO\TargetPreferences\TargetPreferencesDTO.cs" />
     <Compile Include="DTO\TeamMember\SystemRoleDTO.cs" />
@@ -146,6 +147,9 @@
       <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="S2_usp_Stats_GrowthSummary_Result.cs">
+      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SG2_usp_Customers_Get_Result.cs">
       <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
     </Compile>

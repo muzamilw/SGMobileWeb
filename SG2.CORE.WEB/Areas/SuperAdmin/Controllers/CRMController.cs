@@ -847,12 +847,9 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             ViewBag.socialProfile = this._customerManager.GetSocialProfileById(socialProfileId);
 
             ViewBag.actions = this._customerManager.ReturnLastActions(socialProfileId, 500);
-
-
+            ViewBag.growthSummary = this._statisticsManager.GetStatsGrowthSummary(socialProfileId);
+            ViewBag.dailyStatsActivity = this._statisticsManager.GetStatsDailyActivity(socialProfileId, -15);
             return View(this._statisticsManager.GetStatistics(socialProfileId));
-
-
         }
-
     }
 }

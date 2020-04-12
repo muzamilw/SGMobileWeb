@@ -1,4 +1,5 @@
-﻿using SG2.CORE.DAL.Repositories;
+﻿using SG2.CORE.DAL.DB;
+using SG2.CORE.DAL.Repositories;
 using SG2.CORE.MODAL;
 using SG2.CORE.MODAL.DTO.Statistics;
 using SG2.CORE.MODAL.MobileViewModels;
@@ -376,6 +377,57 @@ namespace SG2.CORE.BAL.Managers
                 var model = _statistics.GetActionsReport(fromDate, toDate);
                 return model;
 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public S2_usp_Stats_GrowthSummary_Result GetStatsGrowthSummary(int socialProfileId)
+        {
+            try
+            {
+
+                return _statistics.GetStatsGrowthSummary(socialProfileId);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<StatsDailyActivityDTO> GetStatsDailyActivity(int socialProfileId, int days)
+        {
+            try
+            {
+                List<StatsDailyActivityDTO> statsDailyActivityDTOs = new List<StatsDailyActivityDTO>();
+                List<SocialProfile_Statistics> profile_Statistics = _statistics.GetStatsByProfileIdAndDays(socialProfileId, days);
+                SocialProfile_Statistics previousRec = null;
+                foreach (SocialProfile_Statistics stats in profile_Statistics) 
+                {
+                    if (previousRec == null)
+                        previousRec = stats;
+                    else if (previousRec.SocialStatisticsId != stats.SocialStatisticsId)
+                        previousRec = stats;
+                    StatsDailyActivityDTO statsDailyActivityDTO = new StatsDailyActivityDTO
+                    {
+
+                        Date = stats.Date,
+                        Followers = stats.FollowersTotal ?? 0,
+                        Followings = stats.FollowingsTotal ?? 0,
+                        Posts = stats.PostsTotal ?? 0,
+                        FollowersDiff = stats.FollowersTotal ?? 0 - previousRec.FollowersTotal ?? 0,
+                        FollowingsDiff = stats.FollowingsTotal ?? 0 - previousRec.FollowingsTotal ?? 0,
+                        PostDiff = stats.PostsTotal ?? 0 - previousRec.PostsTotal ?? 0,
+
+                    };
+                    statsDailyActivityDTO.EngagmentRate = statsDailyActivityDTO.Followers + statsDailyActivityDTO.Followings + statsDailyActivityDTO.Posts;
+                    statsDailyActivityDTO.EngagmentRatePercentage = statsDailyActivityDTO.FollowersDiff + statsDailyActivityDTO.FollowingsDiff + statsDailyActivityDTO.PostDiff;
+                    statsDailyActivityDTOs.Add(statsDailyActivityDTO);
+                }
+                return statsDailyActivityDTOs;
             }
             catch (Exception ex)
             {

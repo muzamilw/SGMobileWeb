@@ -2,6 +2,7 @@
 @using SG2.CORE.COMMON;
 @using SG2.CORE.MODAL;
 @using SG2.CORE.MODAL.ViewModals.Statistics;
+@using SG2.CORE.MODAL.DTO.Statistics;
 @model SG2.CORE.MODAL.ViewModals.Statistics.StatisticsViewModel
 
 @{
@@ -10,8 +11,8 @@
     Layout = "~/Areas/SuperAdmin/Views/Shared/_LayoutNew.cshtml";
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
     var socialProfile = (SocialProfileDTO)ViewBag.socialProfile;
-
-
+    var growthSummary = ViewBag.growthSummary;
+    var dailyActivity = ViewBag.dailyStatsActivity;
     var onlineStatus = socialProfile.AppStatus + " - v" + socialProfile.SocialProfile.AppVersion;
 
     var onlineStatusClass = "offline-btn";
@@ -493,25 +494,25 @@
                                 <div class="row">
                                     <div class="col-lg-3 col-12">
                                         <div>
-                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">36,630 <span class="danger" style="font-weight:bold; font-size:12px;">-35.44%</span></p>
+                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">@growthSummary.FollowersLastMonth @*<span class="danger" style="font-weight:bold; font-size:12px;">-35.44%</span>*@</p>
                                             <p style="color:gray;font-size:12px;">Followers last month</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
-                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">183 <span class="success" style="font-weight:bold; font-size:12px;">+9.48%</span></p>
+                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">@growthSummary.FollowesLastWeek @*<span class="success" style="font-weight:bold; font-size:12px;">+9.48%</span>*@</p>
                                             <p style="color:gray;font-size:12px;">Followers last week</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
-                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">27 <span class="success" style="font-weight:bold; font-size:12px;">+7.41%</span></p>
+                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">@growthSummary.DailyGrowth <span class="success" style="font-weight:bold; font-size:12px;">@growthSummary.DailyGrowthPercentage%</span></p>
                                             <p style="color:gray;font-size:12px;">Daily growth</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
-                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">869 <span class="danger" style="font-weight:bold; font-size:12px;">-44.48%</span></p>
+                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">@growthSummary.MonthlyGrowth <span class="danger" style="font-weight:bold; font-size:12px;">@growthSummary.MonthlyGrowthPercentage%</span></p>
                                             <p style="color:gray;font-size:12px;">Monthly growth</p>
                                         </div>
                                     </div>
@@ -519,25 +520,25 @@
                                 <div class="row">
                                     <div class="col-lg-3 col-12">
                                         <div>
-                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">810</p>
+                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">@growthSummary.GrowthNextThirtyDays</p>
                                             <p style="color:gray;font-size:12px;">Growth next 30 days</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
-                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">4,860 </p>
+                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">@growthSummary.GrowthNextSixMonth</p>
                                             <p style="color:gray;font-size:12px;">Growth next 6 months</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
-                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">274 <span class="danger" style="font-weight:bold; font-size:12px;">-40.41%</span></p>
+                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">@growthSummary.AvgLikePost @*<span class="danger" style="font-weight:bold; font-size:12px;">-40.41%</span>*@</p>
                                             <p style="color:gray;font-size:12px;">Avg likes / Posts</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
-                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">6 <span class="success" style="font-weight:bold; font-size:12px;">+500.48%</span></p>
+                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">@growthSummary.AvgCommentPost @*<span class="success" style="font-weight:bold; font-size:12px;">+500.48%</span>*@</p>
                                             <p style="color:gray;font-size:12px;">Avg. comments / Posts</p>
                                         </div>
                                     </div>
@@ -564,40 +565,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td scope="row">
-                                            Oct 2, 2019
-                                        </td>
-                                        <td>
-                                            33,94 <span class="success ml-2">+14</span>
-                                        </td>
-                                        <td>
-                                            2,554 <span class="success ml-2">+8</span>
-                                        </td>
-                                        <td>
-                                            869 <span class="success ml-2">+1</span>
-                                        </td>
-                                        <td>
-                                            0.89% <span class="danger ml-2">-0.07%</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td scope="row">
-                                            Oct 1, 2019
-                                        </td>
-                                        <td>
-                                            33,94 <span class="success ml-2">+14</span>
-                                        </td>
-                                        <td>
-                                            2,554 <span class="success ml-2">+8</span>
-                                        </td>
-                                        <td>
-                                            869 <span class="success ml-2">+1</span>
-                                        </td>
-                                        <td>
-                                            0.89% <span class="danger ml-2">-0.07%</span>
-                                        </td>
-                                    </tr>
+                                    @foreach (var item in (List<StatsDailyActivityDTO>)ViewBag.dailyStatsActivity)
+                                    {
+                                        <tr>
+                                            <td scope="row">
+                                                @item.Date
+                                            </td>
+                                            <td>
+                                                @item.Followers <span class="success ml-2">@item.FollowersDiff</span>
+                                            </td>
+                                            <td>
+                                                @item.Followings <span class="success ml-2">@item.FollowingsDiff</span>
+                                            </td>
+                                            <td>
+                                                @item.Posts <span class="success ml-2">@item.PostDiff </span>
+                                            </td>
+                                            <td>
+                                                @item.EngagmentRate <span class="danger ml-2">@item.EngagmentRate%</span>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>

@@ -389,5 +389,39 @@ namespace SG2.CORE.DAL.Repositories
                 throw ex;
             }
         }
+
+        public S2_usp_Stats_GrowthSummary_Result GetStatsGrowthSummary(int socialProfileId)
+        {
+            try
+            {
+
+                using (var _db = new SocialGrowth2Connection())
+                {
+
+                    return _db.S2_usp_Stats_GrowthSummary(socialProfileId).FirstOrDefault();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<SocialProfile_Statistics> GetStatsByProfileIdAndDays(int socialProfileId, int Days)
+        {
+            try
+            {
+                DateTime date = DateTime.Now.AddDays(Days);
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    return _db.SocialProfile_Statistics.Where(s => s.SocialProfileId == socialProfileId && s.Date <= date).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

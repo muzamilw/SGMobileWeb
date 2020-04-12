@@ -55,6 +55,8 @@ namespace SG2.CORE.MODAL.ViewModals.Statistics
         public double? LikesChange { get; set; }
         public double? FollowersAverageChange { get; set; }
         public double? LikesAverageChange { get; set; }
+
+        
     }
 
     public class Intervals

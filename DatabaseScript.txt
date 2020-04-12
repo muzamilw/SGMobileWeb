@@ -1151,3 +1151,70 @@ Begin
  where C.CustomerId=@riCustomerId    
 End    
     
+--############################################################# 2020-04-12 ################################################################################
+CREATE PROCEDURE [dbo].[S2_usp_Stats_GrowthSummary]
+@socialProfileId Int
+AS
+BEGIN
+
+ DECLARE @GrowthSummaryTBL TABLE
+	(
+		FollowersLastMonth int, 
+		FollowesLastWeek int, 
+		DailyGrowth int, 
+		DailyGrowthPercentage int,
+		MonthlyGrowthPercentage int,
+		MonthlyMonth int, 
+		GrowthNextThirtyDays int, 
+		GrowthNextSixMonth int, 
+		AvgLikePost int, 
+		AvgCommentPost int
+	)
+ 
+	DECLARE @FollowersLastMonth int
+	DECLARE @FollowersLastWeek int
+	DECLARE @DailyGrowth int
+	DECLARE @DailyGrowthPercentage int
+	DECLARE @MonthlyGrowth int
+	DECLARE @MonthlyGrowthPercentage int
+	DECLARE @GrowthNextThirtyDays int
+	DECLARE @GrowthNextSixMonth int
+	DECLARE @AvgLikes int
+	DECLARE @AvgPost int
+	DECLARE @RecentFollowers int
+	DECLARE @CurrentFollowers int
+	DECLARE @LastMonthFollowersTotal int
+	DECLARE @CurrentFollowersTotal int
+	DECLARE @RecentLikes int
+	DECLARE @CurrentLikes int
+	DECLARE @RecentComments int
+	DECLARE @CurrentComments int
+	
+	set @RecentFollowers = (SELECT Followers FROM (SELECT row_number() OVER (ORDER BY SocialStatisticsId desc) r, * FROM SocialProfile_Statistics) q WHERE r = 2)
+	set @CurrentFollowers = (SELECT Followers FROM (SELECT row_number() OVER (ORDER BY SocialStatisticsId desc) r, * FROM SocialProfile_Statistics) q WHERE r = 1)
+	set @LastMonthFollowersTotal = (SELECT FollowersTotal FROM  SocialProfile_Statistics WHERE SocialProfile_Statistics.Date = DATEADD(day,-30,GETDATE())  and SocialProfileId = 28)
+	set @CurrentFollowersTotal = (SELECT TOP 1  FollowersTotal FROM  SocialProfile_Statistics WHERE  SocialProfileId = 28 order by SocialStatisticsId desc)
+	set @RecentLikes =  (SELECT [Like] FROM (SELECT row_number() OVER (ORDER BY SocialStatisticsId desc) r, * FROM SocialProfile_Statistics) q WHERE r = 2)
+	set @CurrentLikes = (SELECT [Like] FROM (SELECT row_number() OVER (ORDER BY SocialStatisticsId desc) r, * FROM SocialProfile_Statistics) q WHERE r = 1)
+	set @RecentComments =  (SELECT Comment FROM (SELECT row_number() OVER (ORDER BY SocialStatisticsId desc) r, * FROM SocialProfile_Statistics) q WHERE r = 2)
+	set @CurrentComments = (SELECT Comment FROM (SELECT row_number() OVER (ORDER BY SocialStatisticsId desc) r, * FROM SocialProfile_Statistics) q WHERE r = 1)
+	
+
+    set @FollowersLastMonth = (SELECT COUNT(Followers) FROM  SocialProfile_Statistics WHERE SocialProfile_Statistics.Date >= DATEADD(day,-30,GETDATE()) and SocialProfile_Statistics.Date <= getdate() and SocialProfileId = 28)
+	set @FollowersLastWeek = (SELECT COUNT(Followers) FROM  SocialProfile_Statistics WHERE SocialProfile_Statistics.Date >= DATEADD(day,-7,GETDATE()) and SocialProfile_Statistics.Date <= getdate() and SocialProfileId = 28)
+	set @DailyGrowth = @CurrentFollowers - @RecentFollowers
+	set @DailyGrowthPercentage = ((@CurrentFollowers - @RecentFollowers) / @RecentFollowers) * 100
+	set @MonthlyGrowth = @CurrentFollowersTotal - @LastMonthFollowersTotal
+	set @MonthlyGrowthPercentage = ((@CurrentFollowersTotal - @LastMonthFollowersTotal) / @LastMonthFollowersTotal) * 100
+	set @GrowthNextThirtyDays = @DailyGrowth * 30
+	set @GrowthNextSixMonth = @DailyGrowth * 30 * 6
+	set @AvgLikes = (@RecentLikes + @CurrentLikes) / 2
+	set @AvgPost = (@RecentComments + @CurrentComments) / 2
+
+	INSERT INTO @GrowthSummaryTBL VALUES(@FollowersLastMonth,@FollowersLastWeek,@DailyGrowth,@DailyGrowthPercentage
+	,@MonthlyGrowth,@MonthlyGrowthPercentage,@GrowthNextThirtyDays,@GrowthNextSixMonth,@AvgLikes,@AvgPost)
+
+	SELECT * FROM @GrowthSummaryTBL
+END
+GO
+ 
