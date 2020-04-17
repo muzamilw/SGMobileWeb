@@ -123,8 +123,17 @@ namespace SG2.CORE.WEB.Controllers
                             ev.CustomerProperties.FirstName = customer.FirstName;
                             ev.CustomerProperties.LastName = customer.SurName;
 
+                            klaviyoProfile.email = customer.EmailAddress;
+
                             var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
+                            var Klavio_NewSignups = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_NewSignups").ToLower()).ConfigValue;
+                            var Klavio_FreeCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_FreeCustomers").ToLower()).ConfigValue;
+                            
                             klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
+
+                            klaviyoAPI.Klaviyo_DeleteFromList(customer.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_NewSignups);
+                            var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_FreeCustomers);
+
 
                             model.CustomerId = customer.CustomerId;
                             ViewBag.CustomerDTO = customer;
@@ -219,7 +228,7 @@ namespace SG2.CORE.WEB.Controllers
 
         public ActionResult ResetPassword(string token)
         {
-            
+
 
             ResetUserPasswordViewModel model = new ResetUserPasswordViewModel();
             try
@@ -228,28 +237,43 @@ namespace SG2.CORE.WEB.Controllers
                 {
                     var decryptData = CryptoEngine.Decrypt(token);
                     var splitdata = decryptData.Split('#');
+                    if (string.IsNullOrWhiteSpace(splitdata[0]))
+                    {
+                        ViewBag.Success = "Error";
+                        ViewBag.Message = "Incorrect Token, Customer information missing";
+
+                        return View(model);
+                    }
+
                     int customerId = Convert.ToInt32(splitdata[0]);
 
 
-                    
+
                     //DateTime sessionDateTime = DateTime.ParseExact(splitdata[1], "MM/dd/yyyy hh:mm:ss", CultureInfo.InvariantCulture); // Convert.ToDateTime(splitdata[1]);
                     //DateTime currentDate = DateTime.Now;
                     //var totalHours = (currentDate - sessionDateTime).TotalHours;
                     //if (totalHours <= 2)
                     //{
 
-                        var customer = _customerManager.GetCustomerDTOByCustomerId(customerId);
-                        ViewBag.CustomerDTO = customer;
-                        model.CustomerId = customer.CustomerId;
+                    var customer = _customerManager.GetCustomerDTOByCustomerId(customerId);
+                    if (customer == null)
+                    {
+                        ViewBag.Success = "Error";
+                        ViewBag.Message = "Customer not found";
+
+                        return View(model);
+                    }
+                    ViewBag.CustomerDTO = customer;
+                    model.CustomerId = customer.CustomerId;
 
                     //    if (!string.IsNullOrEmpty((string)TempData["Success"]))
                     //    {
-                            ViewBag.Success = (string)TempData["Success"];
-                            ViewBag.Message = TempData["Message"];
+                    ViewBag.Success = (string)TempData["Success"];
+                    ViewBag.Message = TempData["Message"];
                     //    }
                     //    // model.Password = customer;
                     //}
-                   
+
                 }
             }
             catch (Exception exp)

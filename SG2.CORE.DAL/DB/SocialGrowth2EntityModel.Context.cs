@@ -578,15 +578,6 @@ namespace SG2.CORE.DAL.DB
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Report_GetActions_Result>("SG2_usp_Report_GetActions", dtFromDateParameter, dtToDateParameter);
         }
     
-        public virtual ObjectResult<GetSocialProfilesWithoutExistingFollowers_Result> GetSocialProfilesWithoutExistingFollowers(Nullable<int> socialProfileId)
-        {
-            var socialProfileIdParameter = socialProfileId.HasValue ?
-                new ObjectParameter("socialProfileId", socialProfileId) :
-                new ObjectParameter("socialProfileId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSocialProfilesWithoutExistingFollowers_Result>("GetSocialProfilesWithoutExistingFollowers", socialProfileIdParameter);
-        }
-    
         public virtual ObjectResult<S2_usp_Stats_GrowthSummary_Result> S2_usp_Stats_GrowthSummary(Nullable<int> socialProfileId)
         {
             var socialProfileIdParameter = socialProfileId.HasValue ?
@@ -594,6 +585,15 @@ namespace SG2.CORE.DAL.DB
                 new ObjectParameter("socialProfileId", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<S2_usp_Stats_GrowthSummary_Result>("S2_usp_Stats_GrowthSummary", socialProfileIdParameter);
+        }
+    
+        public virtual ObjectResult<GetSocialProfilesWithoutExistingFollowers_Result> GetSocialProfilesWithoutExistingFollowers(Nullable<int> socialProfileId)
+        {
+            var socialProfileIdParameter = socialProfileId.HasValue ?
+                new ObjectParameter("socialProfileId", socialProfileId) :
+                new ObjectParameter("socialProfileId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSocialProfilesWithoutExistingFollowers_Result>("GetSocialProfilesWithoutExistingFollowers", socialProfileIdParameter);
         }
     }
 }

@@ -588,6 +588,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GetSocialProfilesWithoutExistingFollowers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="socialProfileId" Type="int" Mode="In" />
+        </Function>
         <Function Name="S2_usp_Stats_GrowthSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="socialProfileId" Type="int" Mode="In" />
         </Function>
@@ -1034,10 +1037,10 @@
             <Parameter Name="dtFromDate" Mode="In" Type="DateTime" />
             <Parameter Name="dtToDate" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="GetSocialProfilesWithoutExistingFollowers" ReturnType="Collection(SocialGrowth2Entities.GetSocialProfilesWithoutExistingFollowers_Result)">
+          <FunctionImport Name="S2_usp_Stats_GrowthSummary" ReturnType="Collection(SocialGrowth2Entities.S2_usp_Stats_GrowthSummary_Result)">
           <Parameter Name="socialProfileId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="S2_usp_Stats_GrowthSummary" ReturnType="Collection(SocialGrowth2Entities.S2_usp_Stats_GrowthSummary_Result)">
+          <FunctionImport Name="GetSocialProfilesWithoutExistingFollowers" ReturnType="Collection(SocialGrowth2Entities.GetSocialProfilesWithoutExistingFollowers_Result)">
             <Parameter Name="socialProfileId" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
@@ -3403,6 +3406,43 @@
                 <ScalarProperty Name="GrowthNextSixMonth" ColumnName="GrowthNextSixMonth" />
                 <ScalarProperty Name="AvgLikePost" ColumnName="AvgLikePost" />
                 <ScalarProperty Name="AvgCommentPost" ColumnName="AvgCommentPost" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetSocialProfilesWithoutExistingFollowers" FunctionName="SocialGrowth2Entities.Store.GetSocialProfilesWithoutExistingFollowers">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SocialGrowth2Entities.GetSocialProfilesWithoutExistingFollowers_Result">
+                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="SocialProfileTypeId" ColumnName="SocialProfileTypeId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="StripeSubscriptionId" ColumnName="StripeSubscriptionId" />
+                <ScalarProperty Name="StripeCustomerId" ColumnName="StripeCustomerId" />
+                <ScalarProperty Name="PaymentPlanId" ColumnName="PaymentPlanId" />
+                <ScalarProperty Name="SocialUsername" ColumnName="SocialUsername" />
+                <ScalarProperty Name="SocialPassword" ColumnName="SocialPassword" />
+                <ScalarProperty Name="SocialProfileName" ColumnName="SocialProfileName" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="verificationCode" ColumnName="verificationCode" />
+                <ScalarProperty Name="IsArchived" ColumnName="IsArchived" />
+                <ScalarProperty Name="IMSI" ColumnName="IMSI" />
+                <ScalarProperty Name="DeviceIMEI" ColumnName="DeviceIMEI" />
+                <ScalarProperty Name="DeviceStatus" ColumnName="DeviceStatus" />
+                <ScalarProperty Name="PinCode" ColumnName="PinCode" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="LastConnectedDateTime" ColumnName="LastConnectedDateTime" />
+                <ScalarProperty Name="DeviceBinLocation" ColumnName="DeviceBinLocation" />
+                <ScalarProperty Name="BlockedStatus" ColumnName="BlockedStatus" />
+                <ScalarProperty Name="BockedSinceDateTime" ColumnName="BockedSinceDateTime" />
+                <ScalarProperty Name="TrelloStatusId" ColumnName="TrelloStatusId" />
+                <ScalarProperty Name="InitialStatsReceived" ColumnName="InitialStatsReceived" />
+                <ScalarProperty Name="InitialStatsReceivedDateTime" ColumnName="InitialStatsReceivedDateTime" />
+                <ScalarProperty Name="AppVersion" ColumnName="AppVersion" />
+                <ScalarProperty Name="AppTimeZoneOffSet" ColumnName="AppTimeZoneOffSet" />
+                <ScalarProperty Name="ManifestUpdatedSinceLastGet" ColumnName="ManifestUpdatedSinceLastGet" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -76,7 +76,7 @@ namespace SG2.CORE.WEB.Controllers
                         FirstName = model.FirstName,
                         SurName = model.UserName,
                         EmailAddress = model.EmailAddress,
-                        StatusId = (int)CustomersStatus.EmailverificationRequired,
+                        StatusId = (int)CustomersStatus.Active,
                         GUID = Guid.NewGuid().ToString(),
                         LastLoginIP = HttpContext.Request.UserHostAddress,
                         Password = model.Password,
@@ -116,10 +116,20 @@ namespace SG2.CORE.WEB.Controllers
                             klaviyoProfile.email = model.EmailAddress;
 
                             var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
-                            var _klavio_NonPayingSubscribeList = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_NonPayingSubscribeList").ToLower()).ConfigValue;
+                            var Klavio_NewSignups = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_NewSignups").ToLower()).ConfigValue;
 
                             klaviyoAPI.PeopleAPI(list, _klaviyoPublishKey);
-                            //var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_NonPayingSubscribeList);
+                            var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_NewSignups);
+
+                            //KlaviyoEvent ev = new KlaviyoEvent();
+
+                            //ev.Event = "Email Verified";
+                            //ev.Properties.NotRequiredProperties = list;
+                            //ev.CustomerProperties.Email = CDT.EmailAddress;
+                            //ev.CustomerProperties.FirstName = CDT.FirstName;
+                            //ev.CustomerProperties.LastName = CDT.EmailAddress;
+
+                            //klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
                         });
 
                     }
