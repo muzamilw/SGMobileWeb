@@ -318,7 +318,25 @@ namespace SG2.CORE.BAL.Managers
                 throw ex;
             }
         }
-		public bool UpdateBasicSocialProfile(SocialProfileDTO model) {
+
+
+        public bool UpdateSocialProfilePhonePackageDetails(DateTime PurchaseDate, string PhonePackagePurchaseSessionID, int SocialProfileId)
+        {
+            try
+            {
+                var socialprofile = _socialRepository.UpdateSocialProfilePhonePackageDetails(PurchaseDate, PhonePackagePurchaseSessionID, SocialProfileId);
+                return socialprofile;
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+
+            }
+        }
+
+        public bool UpdateBasicSocialProfile(SocialProfileDTO model) {
 			try
 			{
 				var socialprofile = _socialRepository.UpdateSocialProfile(model.SocialProfile.DeviceBinLocation,model.SocialProfile.SocialUsername,model.SocialProfile.SocialProfileId);

@@ -474,8 +474,8 @@ namespace SG2.CORE.WEB.Controllers
                         //}
                         Subscription subscriptionItemUpdate = subscriptionService.Get(customer.StripeSubscriptionId);
 
-                        var items = new List<SubscriptionItemUpdateOption> {
-                                        new SubscriptionItemUpdateOption {
+                        var items = new List<SubscriptionItemOptions> {
+                                        new SubscriptionItemOptions {
                                         Id= subscriptionItemUpdate.Items.Data[0].Id,
                                         Plan = newPlan.StripePlanId,
                                         Quantity= 1,
@@ -496,8 +496,8 @@ namespace SG2.CORE.WEB.Controllers
                     }
                     else
                     {
-                        var stripeItems = new List<SubscriptionItemOption> {
-                                      new SubscriptionItemOption {
+                        var stripeItems = new List<SubscriptionItemOptions> {
+                                      new SubscriptionItemOptions {
                                         Plan = newPlan.StripePlanId,
                                         Quantity= 1
                                       }
@@ -536,8 +536,8 @@ namespace SG2.CORE.WEB.Controllers
 
 
 
-                    var stripeItems = new List<SubscriptionItemOption> {
-                      new SubscriptionItemOption {
+                    var stripeItems = new List<SubscriptionItemOptions> {
+                      new SubscriptionItemOptions {
                         Plan = newPlan.StripePlanId,
                         Quantity= 1
                       }

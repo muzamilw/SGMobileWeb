@@ -237,12 +237,11 @@
             display: -webkit-flex;
             display: -ms-flexbox;
             display: flex;
-             margin-bottom:3px;
+            margin-bottom: 3px;
         }
 
         .FormFieldInput-IconsIcon {
             padding-right: 4px;
-           
         }
     </style>
 }
@@ -425,6 +424,28 @@
                     }
                 </div>
 
+                @if (Model.SocialProfile.PhonePackagePurchased.HasValue == false)
+                {
+                    <div class="row">
+                        <div class="col-12 mt-1 mb-1">
+                            <h4 class="text-uppercase">Purchase a dedicated Mobile for social growth</h4>
+                        </div>
+                    </div>
+
+                    <div class="row match-height">
+
+                        <div class="col-xl-12 col-md-12 col-sm-12">
+                            <div class="card">
+                                <div class="card-content center">
+                                    <img id="btnBuyMobile" src="~/Content/Images/dedicated_device.PNG" style="cursor:pointer" />
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
 
                 <div class="row">
                     <div class="col-md-12">
@@ -463,8 +484,8 @@
                                                         @item.PaymentPlanName
                                                     </td>
                                                     @*<td>
-                                                @item.Price
-                                            </td>*@
+                                                            @item.Price
+                                                        </td>*@
                                                     <td>
                                                         <div class="badge badge-primary label-square">
                                                             <i class="fa fa-paperclip font-medium-2"></i>
@@ -562,7 +583,7 @@
         var BrokerMode = @((Customer.IsBroker.HasValue && Customer.IsBroker.Value == true).ToString().ToLower());
         var customerid = '@Model.SocialProfile.CustomerId';
         var currentPaymentPlan = '@planName';
-       
+
         function showPaymentPopUp(inputFieldId) {
 
             if (currentPaymentPlan == "FREE") {
@@ -592,7 +613,11 @@
             return true;
         }
 
-          $(document).ready(function () {
+        $(document).ready(function () {
+
+             @if (ViewBag.purchasesuccess == 1) {
+                @:swal("Success!", "You have successfully purchased the Phone Package. Instructions are being sent to you by email about delivery!", "success");
+            }
             /*******************************
             *       Simple Options         *
             *******************************/
@@ -767,6 +792,51 @@
                         //swal("OK", "It's safe.", "error");
                     }
                 });
+
+
+            });
+
+            $("#btnBuyMobile").on("click", function () {
+
+                var sSessionId = ''
+                var stripe = Stripe('@ViewBag.stripePublishKey');
+
+                fetch('/profile/BuyPhone', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        socialprofileid : '@Model.SocialProfile.SocialProfileId.ToString()',
+                        email: '@Model.socialcustomer.EmailAddress',
+                        pageUrl : window.location.href
+
+                    })
+
+                })
+
+                    .then(response => {
+                    //alert(response)
+                    return response.text();
+                })
+                    .then(subscription => {
+
+                        sSessionId = subscription
+                        //alert('final then ssid ' + sSessionId);
+
+                        stripe.redirectToCheckout({
+                            // Make the id field from the Checkout Session creation API response
+                            // available to this file, so you can provide it as parameter here
+                            // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
+                            sessionId: sSessionId
+                        }).then(function (result) {
+                            // If `redirectToCheckout` fails due to a browser or network
+                            // error, display the localized error message to your customer
+                            // using `result.error.message`.
+                            alert(result);
+                        });
+                });
+
 
 
             });
@@ -1089,7 +1159,7 @@
             stripeElements('@ViewBag.stripePublishKey');
 
 
-           
+
         });
 
 

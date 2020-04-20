@@ -55,6 +55,9 @@ namespace SG2.CORE.MODAL
         public string AppVersion { get; set; }
         public string AppTimeZoneOffSet { get; set; }
         public Nullable<bool> ManifestUpdatedSinceLastGet { get; set; }
+        public Nullable<bool> PhonePackagePurchased { get; set; }
+        public Nullable<System.DateTime> PhonePackagePurchaseDate { get; set; }
+        public string PhonePackagePurchaseSessionID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SocialProfile_Statistics> SocialProfile_Statistics { get; set; }

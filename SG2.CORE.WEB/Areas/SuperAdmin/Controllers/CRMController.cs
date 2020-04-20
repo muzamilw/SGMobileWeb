@@ -685,8 +685,8 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                         Subscription subscriptionItemUpdate = subscriptionService.Get(profileDTO.SocialProfile.StripeSubscriptionId);
 
 
-                        var items = new List<SubscriptionItemUpdateOption> {
-                                        new SubscriptionItemUpdateOption {
+                        var items = new List<SubscriptionItemOptions> {
+                                        new SubscriptionItemOptions {
                                         Id= subscriptionItemUpdate.Items.Data[0].Id,
                                         Plan = subscriptionItemUpdate.Plan.Id,
                                         Quantity= 1,

@@ -25,6 +25,10 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.Web.Configuration;
 using SG2.CORE.MODAL.ViewModals.CRM;
+using Stripe.Checkout;
+using Stripe.Infrastructure;
+
+
 namespace SG2.CORE.WEB.Controllers
 {
     [AuthorizeCustomer]
@@ -296,7 +300,7 @@ namespace SG2.CORE.WEB.Controllers
         }
 
 
-        public ActionResult History(int socialProfileId)
+        public ActionResult History(int socialProfileId, string buy = "", string buysession= "")
         {
             ViewBag.socialProfileId = socialProfileId;
             ViewBag.CurrentUser = this.CDT;
@@ -314,9 +318,62 @@ namespace SG2.CORE.WEB.Controllers
             ViewBag.stripeApiKey = _stripeApiKey;
             ViewBag.stripePublishKey = _stripePublishKey;
 
+            if (buysession  != "")
+            {
+                ViewBag.purchasesuccess = 1;
+            }
+
             return View(SocailProfile);
 
         }
+
+        public ActionResult BuyPhone(string socialprofileid,string email,string pageUrl)
+        {
+            // Set your secret key. Remember to switch to your live secret key in production!
+            // See your keys here: https://dashboard.stripe.com/account/apikeys
+            var _stripeApiKey = SystemConfig.GetConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
+            StripeConfiguration.ApiKey = _stripeApiKey;
+
+            var options = new SessionCreateOptions
+            {
+                CustomerEmail = email,
+                BillingAddressCollection = "auto",
+                PaymentMethodTypes = new List<string> {
+                "card",
+            },
+
+            ShippingAddressCollection = new SessionShippingAddressCollectionOptions
+            {
+                AllowedCountries = new List<string> {
+                    "US",
+                    "CA",
+                    },
+               
+            },
+            
+            LineItems = new List<SessionLineItemOptions> {
+            new SessionLineItemOptions {
+                Name = "Social Growth Mobile",
+                Description = "Dedicated mobile phone for growth",
+                Amount = 4000,
+                Currency = "usd",
+                Quantity = 1
+                    
+            },
+            },
+                SuccessUrl = pageUrl + "&buysession={CHECKOUT_SESSION_ID}",
+                CancelUrl = pageUrl + "&buy=cancel",
+
+            };
+
+            var service = new SessionService();
+            Session session = service.Create(options);
+            session.ClientReferenceId = socialprofileid;
+            
+
+            return this.Content(session.Id) ;
+        }
+
 
         [HttpPost]
         public ActionResult CreateStripeCustomerSubscription(NewSubscriptionRequestModel model)
@@ -354,8 +411,9 @@ namespace SG2.CORE.WEB.Controllers
                         //}
                         Subscription subscriptionItemUpdate = subscriptionService.Get(socialProfile.SocialProfile.StripeSubscriptionId);
 
-                        var items = new List<SubscriptionItemUpdateOption> {
-                                        new SubscriptionItemUpdateOption {
+                        var items = new List<SubscriptionItemOptions> {
+                                        new SubscriptionItemOptions {
+                                        
                                         Id= subscriptionItemUpdate.Items.Data[0].Id,
                                         Plan = newPlan.StripePlanId,
                                         Quantity= 1,
@@ -364,7 +422,7 @@ namespace SG2.CORE.WEB.Controllers
 
                         var subscriptionUpdateoptions = new SubscriptionUpdateOptions
                         {
-                            Items = items,
+                            Items = items.ToList(),
 
                             Prorate = true,
                             ProrationDate = DateTime.Now,
@@ -376,8 +434,8 @@ namespace SG2.CORE.WEB.Controllers
                     }
                     else
                     {
-                        var stripeItems = new List<SubscriptionItemOption> {
-                                      new SubscriptionItemOption {
+                        var stripeItems = new List<SubscriptionItemOptions> {
+                                      new SubscriptionItemOptions {
                                         Plan = newPlan.StripePlanId,
                                         Quantity= 1
                                       }
@@ -415,8 +473,8 @@ namespace SG2.CORE.WEB.Controllers
                    
 
                     
-                    var stripeItems = new List<SubscriptionItemOption> {
-                      new SubscriptionItemOption {
+                    var stripeItems = new List<SubscriptionItemOptions> {
+                      new SubscriptionItemOptions {
                         Plan = newPlan.StripePlanId,
                         Quantity= 1
                       }

@@ -51,6 +51,34 @@ namespace SG2.CORE.DAL.Repositories
 
 		}
 
+        public bool UpdateSocialProfilePhonePackageDetails(DateTime PurchaseDate, string PhonePackagePurchaseSessionID, int SocialProfileId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+
+                    var profile = _db.SocialProfiles.Where(g => g.SocialProfileId == SocialProfileId).SingleOrDefault();
+                    
+                    profile.PhonePackagePurchaseSessionID = PhonePackagePurchaseSessionID;
+                    profile.PhonePackagePurchaseDate = PurchaseDate;
+                    profile.PhonePackagePurchased = true;
+
+
+                    _db.SaveChanges();
+
+                    return true;
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
         public bool UpdateSocialProfileSocialPassword(string SocialPassword, int SocialProfileId)
         {
             try

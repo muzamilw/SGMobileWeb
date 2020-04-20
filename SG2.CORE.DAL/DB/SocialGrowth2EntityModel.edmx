@@ -187,6 +187,9 @@
           <Property Name="AppVersion" Type="nvarchar" MaxLength="100" />
           <Property Name="AppTimeZoneOffSet" Type="nvarchar" MaxLength="100" />
           <Property Name="ManifestUpdatedSinceLastGet" Type="bit" />
+          <Property Name="PhonePackagePurchased" Type="bit" />
+          <Property Name="PhonePackagePurchaseDate" Type="datetime" />
+          <Property Name="PhonePackagePurchaseSessionID" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="SocialProfile_Actions">
           <Key>
@@ -1041,7 +1044,7 @@
           <Parameter Name="socialProfileId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetSocialProfilesWithoutExistingFollowers" ReturnType="Collection(SocialGrowth2Entities.GetSocialProfilesWithoutExistingFollowers_Result)">
-            <Parameter Name="socialProfileId" Mode="In" Type="Int32" />
+          <Parameter Name="socialProfileId" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="SG2_usp_Get_AllUser1_Result">
@@ -1887,6 +1890,9 @@
           <Property Name="AppVersion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="AppTimeZoneOffSet" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ManifestUpdatedSinceLastGet" Type="Boolean" />
+          <Property Name="PhonePackagePurchased" Type="Boolean" />
+          <Property Name="PhonePackagePurchaseDate" Type="DateTime" Precision="3" />
+          <Property Name="PhonePackagePurchaseSessionID" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
           <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="1" />
@@ -3064,6 +3070,9 @@
           <EntitySetMapping Name="SocialProfiles">
             <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile">
               <MappingFragment StoreEntitySet="SocialProfile">
+                <ScalarProperty Name="PhonePackagePurchaseSessionID" ColumnName="PhonePackagePurchaseSessionID" />
+                <ScalarProperty Name="PhonePackagePurchaseDate" ColumnName="PhonePackagePurchaseDate" />
+                <ScalarProperty Name="PhonePackagePurchased" ColumnName="PhonePackagePurchased" />
                 <ScalarProperty Name="ManifestUpdatedSinceLastGet" ColumnName="ManifestUpdatedSinceLastGet" />
                 <ScalarProperty Name="AppTimeZoneOffSet" ColumnName="AppTimeZoneOffSet" />
                 <ScalarProperty Name="AppVersion" ColumnName="AppVersion" />

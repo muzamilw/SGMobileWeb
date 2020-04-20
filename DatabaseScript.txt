@@ -1338,3 +1338,9 @@ SELECT 1
        
 End  
   
+
+
+alter table dbo.SocialProfile
+add column PhonePackagePurchased	bit null, 
+PhonePackagePurchaseDate	datetime	null,
+PhonePackagePurchaseSessionID	nvarchar(500)	null

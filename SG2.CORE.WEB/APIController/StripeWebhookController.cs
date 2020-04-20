@@ -17,6 +17,8 @@ using Stripe;
 using System.Web.Http;
 using System.Web;
 using SG2.CORE.MODAL.DTO.Customers;
+using SG2.CORE.MODAL.DTO.Notification;
+
 
 namespace SG2.CORE.WEB.APIController
 {
@@ -27,6 +29,7 @@ namespace SG2.CORE.WEB.APIController
         private readonly string _PageSize = string.Empty;
         protected readonly CustomerManager _customerManager;
         protected readonly List<SystemSettingsDTO> SystemConfigs;
+        protected readonly NotificationManager _notManager;
 
         public StripeWebHookController()
         {
@@ -34,7 +37,8 @@ namespace SG2.CORE.WEB.APIController
             _PageSize = WebConfigurationManager.AppSettings["PageSize"];
             _teamMemberManager = new TeamMemberManager();
             SystemConfigs = SystemConfig.GetConfigs;
-          
+            _notManager = new NotificationManager();
+
         }
 
         [AllowAnonymous]
@@ -169,6 +173,13 @@ namespace SG2.CORE.WEB.APIController
                         _customerManager.UpdateSocialProfileStripeCustomer(profile.SocialProfileId, invoice.CustomerId, invoice.SubscriptionId, 1, GlobalEnums.PlanSubscription.Active);
                     }
                 }
+                else if (stripeEvent.Type == Events.CheckoutSessionCompleted)
+                {
+                    var session = stripeEvent.Data.Object as Stripe.Checkout.Session;
+                    
+                    // Fulfill the purchase...
+                    HandleCheckoutSession(session);
+                }
                 // ... handle other event types
                 else
                 {
@@ -181,6 +192,68 @@ namespace SG2.CORE.WEB.APIController
             {
                 return BadRequest();
             }
+        }
+
+
+        private bool HandleCheckoutSession(Stripe.Checkout.Session session)
+        {
+            try
+            {
+                var profile = _customerManager.GetSocialProfileById(Convert.ToInt32( session.ClientReferenceId));
+                if (profile != null)
+                {
+                    profile.SocialProfile.PhonePackagePurchased = true;
+                    profile.SocialProfile.PhonePackagePurchaseDate = DateTime.Now;
+                    profile.SocialProfile.PhonePackagePurchaseSessionID = session.Id;
+
+                    _customerManager.UpdateSocialProfilePhonePackageDetails(DateTime.Now, session.Id, Convert.ToInt32(session.ClientReferenceId));
+
+                    var nt = new NotificationDTO()
+                    {
+                        Notification = string.Format(GlobalEnums.NotificationMessages[(int)GlobalEnums.NotificationMessagesIndexes.PlanSubscribe], "Phone Delivery Plan"),
+                        CreatedBy = "stripe",
+                        CreatedOn = System.DateTime.Now,
+                        Updatedby = "stripe",
+                        UpdateOn = DateTime.Now,
+                        SocialProfileId = Convert.ToInt32(session.ClientReferenceId),
+                        StatusId = (int)GlobalEnums.GeneralStatus.Unread,
+                        Mode = "Auto"
+                    };
+                    _notManager.AddNotification(nt);
+
+                    KlaviyoAPI klaviyoAPI = new KlaviyoAPI();
+                    KlaviyoEvent ev = new KlaviyoEvent();
+                    var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
+                    List<NotRequiredProperty> list = new List<NotRequiredProperty>()  {
+                        new NotRequiredProperty("$email", profile.socialcustomer.EmailAddress),
+                        new NotRequiredProperty("$first_name ", profile.socialcustomer.FirstName),
+                        new NotRequiredProperty("$last_name ", profile.socialcustomer.SurName),
+                        //new NotRequiredProperty("URL", URL),
+                        new NotRequiredProperty("PhonePackageInvoiceDate",DateTime.Now.ToString("dd MMMM yyyy") ),
+                        new NotRequiredProperty("PhonePackagePlanName", "Phone Delivery Plan"),
+                        new NotRequiredProperty("PhonePackagePrice",  "$" + session.PaymentIntent.AmountReceived),
+                        new NotRequiredProperty("Card", ""),
+                        new NotRequiredProperty("Address","")
+                    };
+                    ev.Event = "Phone Package Purchased";
+
+                    ev.Properties.NotRequiredProperties = list;
+                    ev.CustomerProperties.Email = profile.socialcustomer.EmailAddress;
+                    ev.CustomerProperties.FirstName = profile.socialcustomer.FirstName;
+                    ev.CustomerProperties.LastName = profile.socialcustomer.SurName;
+
+                    klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
+                    return true;
+                }
+                else
+                    return false;
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+            return true;
         }
 
     }
