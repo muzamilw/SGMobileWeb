@@ -355,7 +355,7 @@ namespace SG2.CORE.WEB.Controllers
             new SessionLineItemOptions {
                 Name = "Social Growth Mobile",
                 Description = "Dedicated mobile phone for growth",
-                Amount = 4000,
+                Amount = 5000,
                 Currency = "usd",
                 Quantity = 1
                     

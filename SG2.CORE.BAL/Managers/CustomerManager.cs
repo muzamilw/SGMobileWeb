@@ -480,6 +480,23 @@ namespace SG2.CORE.BAL.Managers
 
         }
 
+        public CustomerDTO GetContactDetails(int CustomerId)
+        {
+            try
+            {
+                var Customer = _customerRepository.GetContactDetails(CustomerId);
+
+                return Customer;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
         public CustomerDTO UpdateCustomerEmailSubscription(CustomerDTO model)
         {
             try

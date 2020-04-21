@@ -990,6 +990,43 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
+        public CustomerDTO GetContactDetails(int CustomerId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    //-- TODO: Change sp to propername
+
+                    var cst = new CustomerDTO();
+
+
+                    var contact = _db.Customer_ContactDetail.Where(g => g.CustomerId == CustomerId).FirstOrDefault();
+                    if (contact != null)
+                    {
+                        cst.PhoneCode = contact.PhoneCode;
+                        cst.PhoneNumber = contact.PhoneNumber;
+
+                        cst.AddressLine1 = contact.AddressLine1;
+                        cst.AddressLine2 = contact.AddressLine2;
+                        cst.City = contact.City;
+                        cst.State = contact.Sate;
+                        cst.Country = contact.Country;
+                        cst.PostCode = contact.PostalCode;
+                        cst.Notes = contact.Notes;
+                    }
+
+
+                    return cst;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public bool ScheduleCall(int customerId, DateTime schedule, string notes)
         {
             try

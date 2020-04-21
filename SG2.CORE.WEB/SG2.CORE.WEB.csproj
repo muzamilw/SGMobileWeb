@@ -2618,7 +2618,9 @@
     <Content Include="Content\Images\agency.png" />
     <Content Include="Content\Images\bg_image.gif" />
     <Content Include="Content\Images\boho.png" />
-    <Content Include="Content\Images\dedicated_device.PNG" />
+    <Content Include="Content\Images\dedicated_device_1.jpeg" />
+    <Content Include="Content\Images\dedicated_device_2.jpeg" />
+    <Content Include="Content\Images\dedicated_device_3.jpeg" />
     <Content Include="Content\Images\dum-img1.PNG" />
     <Content Include="Content\Images\dum-img2.PNG" />
     <Content Include="Content\Images\dum-img3.PNG" />

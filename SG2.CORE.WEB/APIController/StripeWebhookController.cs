@@ -208,6 +208,25 @@ namespace SG2.CORE.WEB.APIController
 
                     _customerManager.UpdateSocialProfilePhonePackageDetails(DateTime.Now, session.Id, Convert.ToInt32(session.ClientReferenceId));
 
+                    var contact  = _customerManager.GetContactDetails(profile.socialcustomer.CustomerId);
+
+                    _customerManager.UpdateCustomerProfile(new CustomerDTO()
+                    {
+                        CustomerId = profile.socialcustomer.CustomerId,
+                        FirstName = profile.socialcustomer.FirstName,
+                        SurName = profile.socialcustomer.SurName,
+                        UserName = profile.socialcustomer.UserName,
+                        PhoneNumber = contact.PhoneNumber,
+                        PhoneCode = contact.PhoneCode,
+                        AddressLine1 = contact.AddressLine1,
+                        AddressLine2 = contact.AddressLine2,
+                        City = contact.City,
+                        State = contact.State,
+                        Country = contact.Country,
+                        PostCode = contact.PostCode,
+                        Notes = contact.Notes
+                    });
+
                     var nt = new NotificationDTO()
                     {
                         Notification = string.Format(GlobalEnums.NotificationMessages[(int)GlobalEnums.NotificationMessagesIndexes.PlanSubscribe], "Phone Delivery Plan"),

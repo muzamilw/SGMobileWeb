@@ -45,6 +45,10 @@
     <link href="~/Content/app-assets/css/stripe.css" rel="stylesheet" />
 
     <style type="text/css">
+        .btnBuyMobile
+        {
+            width:33%;
+        }
         .weekDays-selector1 {
             margin-top: 10px;
         }
@@ -437,8 +441,10 @@
                         <div class="col-xl-12 col-md-12 col-sm-12">
                             <div class="card">
                                 <div class="card-content center">
-                                    <img id="btnBuyMobile" src="~/Content/Images/dedicated_device.PNG" style="cursor:pointer" />
-                                    
+                                    <img class="btnBuyMobile" src="~/Content/Images/dedicated_device_1.jpeg" style="cursor:pointer" />
+                                    <img class="btnBuyMobile" src="~/Content/Images/dedicated_device_2.jpeg" style="cursor:pointer" />
+                                    <img class="btnBuyMobile" src="~/Content/Images/dedicated_device_3.jpeg" style="cursor:pointer" />
+
                                 </div>
                             </div>
                         </div>
@@ -796,7 +802,7 @@
 
             });
 
-            $("#btnBuyMobile").on("click", function () {
+            $(".btnBuyMobile").on("click", function () {
 
                 var sSessionId = ''
                 var stripe = Stripe('@ViewBag.stripePublishKey');
