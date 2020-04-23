@@ -43,7 +43,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
         }
 
         // GET: SuperAdmin/CRM
-        public ActionResult Index(int page = 1, string SearchCriteria = "", int? StatusId = null, string ProductId = null, string JVStatus = null, int? Subscription=null, int ? profileType = null, int? BlockStatus = null, int? AppConnStatus = null)
+        public ActionResult Index(int page = 1, string SearchCriteria = "", int? StatusId = null, string ProductId = null, string JVStatus = null, int? Subscription = null, int? profileType = null, int? BlockStatus = null, int? AppConnStatus = null)
         {
             try
             {
@@ -186,7 +186,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                     //int custId = Convert.ToInt32(CryptoEngine.Decrypt(customerId.ToString()));
                     int custId = Convert.ToInt32((CryptoEngine.Decrypt(Cus)));
 
-                    var User = _customerManager.ScheduleCall(custId,Convert.ToDateTime(  schedule), notes);
+                    var User = _customerManager.ScheduleCall(custId, Convert.ToDateTime(schedule), notes);
                     if (User)
                     {
 
@@ -291,7 +291,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                 int socialProfileId = Convert.ToInt32((CryptoEngine.Decrypt(SPId)));
 
                 SocialProfileDTO profileDTO = _customerManager.GetSocialProfileById(socialProfileId);
-           
+
                 var _stripeApiKey = SystemConfig.GetConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
                 if (profileDTO != null)
                 {
@@ -306,7 +306,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                             var subscription = service.Cancel(sub.Id, null);
 
-                          
+
 
                             jr.Data = new { ResultType = "Success", message = "User has successfully Unsubscribe." };
                         }
@@ -323,7 +323,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                     }
                 }
-               
+
                 if (_customerManager.DeleteProfile(0, socialProfileId))
                 {
                     {
@@ -385,7 +385,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
 
             ViewBag.socialProfileId = socialProfileId;
-            
+
             var SocailProfile = this._customerManager.GetSocialProfileById(socialProfileId);
             ViewBag.SocailProfile = SocailProfile;
             var customer = _customerManager.GetCustomerByCustomerId(SocailProfile.SocialProfile.CustomerId.Value);
@@ -442,7 +442,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
             ViewBag.socialProfileId = socialProfileId;
             ViewBag.CurrentUser = this.CDT;
-           
+
 
             if (success.HasValue && success.Value == 1)
             {
@@ -502,7 +502,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             ViewBag.socialProfileId = socialProfileId;
             ViewBag.CurrentUser = this.CDT;
 
-            if (followListViewModel.FilterBy == "2") 
+            if (followListViewModel.FilterBy == "2")
             {
                 socialProfileDTO.SocialProfile_FollowedAccounts = socialProfileDTO.SocialProfile_FollowedAccounts.Where(s => s.StatusId == 1 && s.FollowedDateTime == DateTime.Now.AddDays(-33)).ToList();
             }
@@ -551,7 +551,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                     item.FollowersTotal = item.FollowersTotal.HasValue ? item.FollowersTotal : 0;
                     item.Followings = item.Followings.HasValue ? item.Followings : 0;
                     item.Like = item.Like.HasValue ? item.Like : 0;
-                    item.Engagement = (item.FollowersTotal ?? 1) * 100 / ((item.Followings ??1) == 0 ? 1: item.Followings);
+                    item.Engagement = (item.FollowersTotal ?? 1) * 100 / ((item.Followings ?? 1) == 0 ? 1 : item.Followings);
                     item.Unfollow = (item.Unfollow ?? 0);
                     item.StoryViews = (item.StoryViews ?? 0);
                 }
@@ -614,14 +614,15 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             var jr = new JsonResult();
             try
             {
-                DateTime startdate = DateTime.Today.AddDays(-15);   //1 week
+                DateTime startdate = DateTime.Today.AddDays(-15);   //15 week
                 DateTime enddate = DateTime.Today.AddHours(24);
+
 
                 if (mode == 2)
                 {
                     startdate = DateTime.Today.AddDays(-30);  //1 months
                 }
-                if (mode == 3)
+                else if (mode == 3)
                 {
                     startdate = DateTime.Today.AddMonths(-3);  //3 months
                 }
@@ -634,18 +635,67 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                     startdate = DateTime.Today.AddMonths(-12); //12 months
                 }
 
-
                 var trends = _statisticsManager.GetProfileTrends(socialProfileId, startdate, enddate);
+
+                var firstRecord = trends.FirstOrDefault();
+                var lastRecord = trends.LastOrDefault();
+
+                long? totalFollowers = 0;
+                long? followersChange = 0;
+                long? followersAvgChange = 0;
+                long? followersMaxGrowth = 0;
+                string followersMaxGrowthDate = "";
+                long? followersChangePer = 0;
+                long? totalLikes = 0;
+                long? likesChange = 0;
+                long? likesChangePer = 0;
+                long? likesAvgChange = 0;
+                long? likesMaxGrowth = 0;
+                string likesMaxGrowthDate = "";
+
+
+                if (firstRecord != null && lastRecord != null)
+                {
+                    totalFollowers = (lastRecord.FollowersTotal.HasValue ? lastRecord.FollowersTotal : 0);
+                    totalLikes = (lastRecord.LikeTotal.HasValue ? lastRecord.LikeTotal : 0);
+                    followersChange = totalFollowers - (firstRecord.FollowersTotal.HasValue ? firstRecord.FollowersTotal : 0);
+                    likesChange = totalLikes - (firstRecord.LikeTotal.HasValue ? firstRecord.LikeTotal : 0);
+                    followersAvgChange = (followersChange / (DateTime.Today - startdate).Days);
+                    likesAvgChange = (likesChange / (DateTime.Today - startdate).Days);
+
+                    if (totalFollowers > 0 && followersChange > 0)
+                    {
+                        followersChangePer = ((followersChange * 100 / totalFollowers));
+                    }
+
+                    if (totalLikes > 0 && likesChange > 0)
+                    {
+                        likesChangePer = (likesChange * 100 / totalLikes);
+                    }
+                }
+
+
+                int count = 1;
 
                 foreach (var item in trends)
                 {
-                    
+
                     item.Followers = item.Followers.HasValue ? item.Followers : 0;
                     item.FollowersTotal = item.FollowersTotal.HasValue ? item.FollowersTotal : 0;
                     item.FollowingsTotal = item.FollowingsTotal.HasValue ? item.Followings : 0;
                     item.Posts = item.Posts.HasValue ? item.Posts : 0;
-                    item.AverageLikes = ((item.Like.HasValue ? item.Like : 0) / ((item.Posts.HasValue && item.Posts > 0) ? item.Posts : 1));  
-                   
+                    item.AverageLikes = ((item.Like.HasValue ? item.Like : 0) / ((item.Posts.HasValue && item.Posts > 0) ? item.Posts : 1));
+                    count++;
+                    if (count > 1 && item.Followers > followersMaxGrowth)
+                    {
+                        followersMaxGrowth = item.Followers;
+                        followersMaxGrowthDate = item.Date.ToString("on MMMM dd, yyyy ");
+                    }
+                    if (count > 1 && item.Like > likesMaxGrowth)
+                    {
+                        likesMaxGrowth = item.Like;
+                        likesMaxGrowthDate = item.Date.ToString("on MMMM dd, yyyy ");
+                    }
                 }
 
 
@@ -657,13 +707,25 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                         message = "",
                         ResultData = new
                         {
-                            
+
                             Date = trends.Select(x => x.Date.ToString("dd-MMM-yyyy")).ToArray(),
                             Followers = trends.Select(x => x.Followers.ToString()).ToArray(),
                             FollowersTotal = trends.Select(x => x.FollowersTotal.ToString()).ToArray(),
                             FollowingsTotal = trends.Select(x => x.FollowingsTotal.ToString()).ToArray(),
                             Post = trends.Select(x => x.Posts.ToString()).ToArray(),
-                            AverageLikes = trends.Select(x => x.AverageLikes.ToString()).ToArray()
+                            AverageLikes = trends.Select(x => x.AverageLikes.ToString()).ToArray(),
+                            TotalFollowers = totalFollowers.ToString(),
+                            FollowersChange = followersChange.ToString(),
+                            FollowersChangePer = followersChangePer.ToString(),
+                            FollowersMaxGrowth = followersMaxGrowth.ToString(),
+                            FollowersMaxGrowthDate = followersMaxGrowthDate,
+                            FollowersAvgChange = followersAvgChange,
+                            TotalLikes = totalLikes,
+                            LikesChange = likesChange,
+                            LikesChangePer = likesChangePer,
+                            LikesMaxGrowth = likesMaxGrowth,
+                            LikesMaxGrowthDate = likesMaxGrowthDate,
+                            LikesAvgChange = likesAvgChange,
                         }
                     };
                 }
@@ -733,7 +795,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                             Likes = trends.Select(x => x.Like.ToString()).ToArray(),
                             StoryViews = trends.Select(x => x.StoryViews.ToString()).ToArray(),
                             Unfollow = trends.Select(x => x.Unfollow.ToString()).ToArray()
-                            
+
                         }
                     };
                 }
@@ -777,7 +839,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
             ViewBag.stripeApiKey = _stripeApiKey;
             ViewBag.stripePublishKey = _stripePublishKey;
-            
+
 
 
             return View(SocailProfile);
@@ -789,7 +851,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
         {
 
             this._customerManager.UpdateTargetProfile(request);
-            return RedirectToAction("GlobalTarget", "CRM", new {success = 1 });
+            return RedirectToAction("GlobalTarget", "CRM", new { success = 1 });
         }
 
         public ActionResult UserDetail()
@@ -870,7 +932,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             return Json(jr, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult RefundToCustomer(string customerId,string profileId)
+        public ActionResult RefundToCustomer(string customerId, string profileId)
         {
 
             var _stripeApiKey = SystemConfig.GetConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
@@ -891,7 +953,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                     if (profileDTO != null)
                     {
-                       //not cancelling the subscription.
+                        //not cancelling the subscription.
                         //if (profileDTO != null)
                         //{
                         //    if (profileDTO.SocialProfile .StatusId != 18)
@@ -942,7 +1004,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                                 //int custId = Convert.ToInt32(CryptoEngine.Decrypt(customerId.ToString()));
                                 int custId = Convert.ToInt32((CryptoEngine.Decrypt(Cus)));
-                                var User = _customerManager.SaveUpdateUserDataIndividually(value, "Comment", custId, profileDTO.SocialProfile. SocialProfileId);
+                                var User = _customerManager.SaveUpdateUserDataIndividually(value, "Comment", custId, profileDTO.SocialProfile.SocialProfileId);
 
 
                             }

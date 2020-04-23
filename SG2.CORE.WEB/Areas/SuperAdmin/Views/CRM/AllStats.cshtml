@@ -51,6 +51,8 @@
 
     var totalEngagment = Model.FollowersTotal + Model.LikesTotal + Model.StoryViewsTotal + Model.UnFollowTotal;
     var currentDate = DateTime.Now.ToString("MMMM, dd yyyy");
+
+
 }
 
 @section styles{
@@ -197,15 +199,15 @@
                                     <br />
                                     <br />
                                     <div class="mb-5">
-                                        <div class="col-3 float-left pl-0">
+                                        <div class="col-lg-4 col-12 float-left pl-0">
                                             <span style="font-weight:bold;font-size:28px;">@Model.FollowersTotal</span>
                                             <span style="color:grey; font-size:24px;">Followers</span>
                                         </div>
-                                        <div class="col-3 float-left">
+                                        <div class="col-lg-4 col-12 float-left">
                                             <span style="font-weight:bold;font-size:28px;">@Model.FollowingsTotal</span>
                                             <span style="color:grey; font-size:24px;">Followings</span>
                                         </div>
-                                        <div class="col-3 float-left">
+                                        <div class="col-lg-4 col-12 float-left">
                                             <span style="font-weight:bold;font-size:28px;">@Model.PostsTotal</span>
                                             <span style="color:grey; font-size:24px;">Posts</span>
                                         </div>
@@ -225,14 +227,14 @@
                                 <div class="row my-1">
                                     <div class="col-lg-4 col-12">
                                         <div class="text-center">
-                                            <h3 class="success"><i class="ft-arrow-up"></i>@Model.FollowersInitial</h3>
+                                            <h3 class="success"><i class="ft-arrow-up"></i>@Model.FollowersChange</h3>
                                             <p class="text-muted">Followers change from start</p>
                                             <div id="sp-stacked-bar-total-sales"></div>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-12">
                                         <div class="text-center">
-                                            <h3 class="success"><i class="ft-arrow-up"></i>@Model.FollowingsInitial</h3>
+                                            <h3 class="success"><i class="ft-arrow-up"></i>@Model.FollowingsChange</h3>
                                             <p class="text-muted">Followings change from start</p>
                                             <div id="sp-stacked-bar-total-sales"></div>
                                         </div>
@@ -274,28 +276,28 @@
                                     <div class="col-lg-3 col-12">
                                         <div>
                                             <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Followers</h3>
-                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">@Model.FollowersTotal</p>
+                                            <p class="mb-0 total-followers" style="color:#5A5A5A;font-size:25px;">0</p>
                                             <p style="color:gray;font-size:12px;">at last date</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
                                             <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Change</h3>
-                                            <p class="mb-0 success" style="font-size:25px;">@Model.FollowersChange</p>
-                                            <p style="color:gray;font-size:12px;">0% of total followers</p>
+                                            <p class="mb-0 success followers-change" style="font-size:25px;">0</p>
+                                            <p style="color:gray;font-size:12px;"><span class="followers-change-per">0</span>% of total followers</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
                                             <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Max. growth</h3>
-                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">@Model.FollowersGrowthRate</p>
-                                            <p style="color:gray;font-size:12px;">on @currentDate</p>
+                                            <p class="mb-0 followers-maxgrowth" style="color:#5A5A5A;font-size:25px;">0</p>
+                                            <p class="followers-maxgrowth-date" style="color:gray;font-size:12px;"></p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
                                             <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Avg. change</h3>
-                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">@Model.FollowersAverageChange</p>
+                                            <p class="mb-0 followers-avg-change" style="color:#5A5A5A;font-size:25px;">@Model.FollowersAverageChange</p>
                                             <p style="color:gray;font-size:12px;">followers per day</p>
                                         </div>
                                     </div>
@@ -316,28 +318,28 @@
                                     <div class="col-lg-3 col-12">
                                         <div>
                                             <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Likes</h3>
-                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">@Model.LikesTotal</p>
+                                            <p class="mb-0 total-likes" style="color:#5A5A5A;font-size:25px;">0</p>
                                             <p style="color:gray;font-size:12px;">at last date</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
                                             <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Change</h3>
-                                            <p class="mb-0 success" style="font-size:25px;">@Model.LikesChange</p>
-                                            <p style="color:gray;font-size:12px;">0% of total likes</p>
+                                            <p class="mb-0 success likes-change" style="font-size:25px;">0</p>
+                                            <p style="color:gray;font-size:12px;"><span class="likes-change-per">0</span>% of total likes</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
                                             <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Max. growth</h3>
-                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">@Model.LikesGrowthRate</p>
-                                            <p style="color:gray;font-size:12px;">on @currentDate</p>
+                                            <p class="mb-0 likes-max-growth" style="color:#5A5A5A;font-size:25px;">0</p>
+                                            <p class="likes-maxgrowth-date" style="color:gray;font-size:12px;"></p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
                                             <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Avg. change</h3>
-                                            <p class="mb-0" style="color:#5A5A5A;font-size:25px;">@Model.LikesAverageChange</p>
+                                            <p class="mb-0 likes-avg-change" style="color:#5A5A5A;font-size:25px;">0</p>
                                             <p style="color:gray;font-size:12px;">likes per day</p>
                                         </div>
                                     </div>
@@ -432,18 +434,18 @@
                 <div class="col-lg-6 col-md-6 col-12 mb-2 text-left">
                     <h4 class="mb-2 ml-1 t-2" style="font-size: 1.12rem;">Engagement activities</h4>
                 </div>
-                    <div class="col-lg-6 col-md-6 col-12 mb-2 text-right">
-                        <div id="filterrangeengagement" class="btn-group" role="group" aria-label="Filter Range">
-                            <!-- Button group with icons -->
-                            <button type="button" class="btn btn-primary active" data-mode="1">15 Days</button>
-                            <button type="button" class="btn btn-primary" data-mode="2">1 Months</button>
-                            <button type="button" class="btn btn-primary" data-mode="3">3 Months</button>
-                            <button type="button" class="btn btn-primary" data-mode="4">6 Months</button>
-                            <button type="button" class="btn btn-primary" data-mode="5">12 Months</button>
+                <div class="col-lg-6 col-md-6 col-12 mb-2 text-right">
+                    <div id="filterrangeengagement" class="btn-group" role="group" aria-label="Filter Range">
+                        <!-- Button group with icons -->
+                        <button type="button" class="btn btn-primary active" data-mode="1">15 Days</button>
+                        <button type="button" class="btn btn-primary" data-mode="2">1 Months</button>
+                        <button type="button" class="btn btn-primary" data-mode="3">3 Months</button>
+                        <button type="button" class="btn btn-primary" data-mode="4">6 Months</button>
+                        <button type="button" class="btn btn-primary" data-mode="5">12 Months</button>
 
-                        </div>
                     </div>
                 </div>
+            </div>
             <!--/stats-->
             <!--Followings Line Chart-->
             <div class="row">
@@ -728,18 +730,19 @@
 </div>
 
 @section Scripts{
-    @*<script src="~/Content/app-assets/js/scripts/charts/morris/line.js"></script>*@
+    @*
+        <script src="~/Content/app-assets/js/scripts/charts/morris/line.js"></script>*@
 
     <script type="text/javascript">
         $("document").ready(function () {
 
             LoadFollowersSection(1);
             LoadEngagementSection(1);
-            
+
 
             $('#filterrangetotalfollowes button').click(function () {
                 $(this).addClass('active').siblings().removeClass('active');
-                var mode = $(this).data("mode"); 
+                var mode = $(this).data("mode");
                 LoadFollowersSection(mode);
             });
 
@@ -800,7 +803,8 @@
                             LoadFollowingLineChart(Response.Data);
                             LoadAverageLikesLineChart(Response.Data);
                             LoadPostBarChart(Response.Data);
-                        } 
+                            LoadFollowersSectionData(Response.Data);
+                        }
                     }
                 },
                 failure: function (errMsg) {
@@ -817,13 +821,12 @@
                 dataType: "json",
                 success: function (Response) {
 
-
                     if (!$.isEmptyObject(Response)) {
                         if (Response.Data.ResultType == "Success") {
                             LoadEngagementLineChart(Response.Data);
                             LoadEngagementActionChart(Response.Data);
-                           
-                        } 
+
+                        }
                     }
                 },
                 failure: function (errMsg) {
@@ -834,6 +837,24 @@
         }
 
 
+        function LoadFollowersSectionData(ChartsData) {
+            var followersChange = '';
+            var likeChange = '';
+            $(".total-followers").html(ChartsData.ResultData.TotalFollowers);
+            $(".followers-change").html(followersChange.concat(ChartsData.ResultData.FollowersChange > 0 ? '+' : '', ChartsData.ResultData.FollowersChange));
+            $(".followers-change-per").html(ChartsData.ResultData.FollowersChangePer);
+            $(".followers-maxgrowth").html(ChartsData.ResultData.FollowersMaxGrowth);
+            $(".followers-maxgrowth-date").html(ChartsData.ResultData.FollowersMaxGrowthDate);
+            $(".followers-avg-change").html(ChartsData.ResultData.FollowersAvgChange);
+            $(".total-likes").html(ChartsData.ResultData.TotalLikes);
+            $(".likes-change").html(likeChange.concat(ChartsData.ResultData.LikesChange > 0 ? '+' : '', ChartsData.ResultData.LikesChange));
+            $(".likes-change-per").html(ChartsData.ResultData.LikesChangePer);
+            $(".likes-max-growth").html(ChartsData.ResultData.LikesMaxGrowth);
+            $(".likes-maxgrowth-date").html(ChartsData.ResultData.LikesMaxGrowthDate);
+            $(".likes-avg-change").html(ChartsData.ResultData.LikesAvgChange);
+        }
+
+
         function LoadFollowersLineChart(ChartsData) {
 
             var morrisData = [];
@@ -841,31 +862,33 @@
             for (i = 0; i < ChartsData.ResultData.Date.length; i++) {
                 morrisData.push({ 'Date': ChartsData.ResultData.Date[i], 'Followers': ChartsData.ResultData.FollowersTotal[i] });
             }
-            
+
 
             $("#line-followers").empty();
+            if (morrisData.length > 0) {
+                Morris.Line({
+                    element: 'line-followers',
+                    data: morrisData,
+                    xkey: 'Date',
+                    ykeys: ['Followers'],
+                    labels: ['Followers'],
+                    resize: true,
+                    smooth: false,
+                    pointSize: 3,
+                    pointStrokeColors: ['#FF4558'],
+                    gridLineColor: '#e3e3e3',
+                    behaveLikeLine: true,
+                    numLines: 6,
+                    gridtextSize: 14,
+                    lineWidth: 3,
+                    hideHover: 'auto',
+                    lineColors: ['#FF4558'],
+                    xLabelAngle: 45,
+                    parseTime: false
 
-            Morris.Line({
-                element: 'line-followers',
-                data: morrisData,
-                xkey: 'Date',
-                ykeys: ['Followers'],
-                labels: ['Followers'],
-                resize: true,
-                smooth: false,
-                pointSize: 3,
-                pointStrokeColors: ['#FF4558'],
-                gridLineColor: '#e3e3e3',
-                behaveLikeLine: true,
-                numLines: 6,
-                gridtextSize: 14,
-                lineWidth: 3,
-                hideHover: 'auto',
-                lineColors: ['#FF4558'],
-                xLabelAngle: 45,
-                parseTime: false
+                });
+            }
 
-            });
 
         }
         function LoadFollowersBarChart(ChartsData) {
@@ -876,30 +899,33 @@
             for (i = 0; i < ChartsData.ResultData.Date.length; i++) {
                 morrisData.push({ 'Date': ChartsData.ResultData.Date[i], 'Followers': ChartsData.ResultData.Followers[i] });
             }
-            
+
 
             $("#bar-followers").empty();
-            Morris.Bar({
-                element: 'bar-followers',
-                data: morrisData,
-                xkey: 'Date',
-                ykeys: ['Followers'],
-                labels: ['Followers'],
-                resize: true,
-                smooth: false,
-                pointSize: 3,
-                pointStrokeColors: ['#FF4558'],
-                gridLineColor: '#e3e3e3',
-                behaveLikeLine: true,
-                numLines: 6,
-                gridtextSize: 14,
-                lineWidth: 3,
-                hideHover: 'auto',
-                lineColors: ["#2685CB"],
-                xLabelAngle: 45,
-                parseTime: false,
-                barColors: ["#2685CB"],
-            });
+            if (morrisData.length > 0) {
+                Morris.Bar({
+                    element: 'bar-followers',
+                    data: morrisData,
+                    xkey: 'Date',
+                    ykeys: ['Followers'],
+                    labels: ['Followers'],
+                    resize: true,
+                    smooth: false,
+                    pointSize: 3,
+                    pointStrokeColors: ['#FF4558'],
+                    gridLineColor: '#e3e3e3',
+                    behaveLikeLine: true,
+                    numLines: 6,
+                    gridtextSize: 14,
+                    lineWidth: 3,
+                    hideHover: 'auto',
+                    lineColors: ["#2685CB"],
+                    xLabelAngle: 45,
+                    parseTime: false,
+                    barColors: ["#2685CB"],
+                });
+            }
+
         }
 
         function LoadFollowingLineChart(ChartsData) {
@@ -910,29 +936,32 @@
             for (i = 0; i < ChartsData.ResultData.Date.length; i++) {
                 morrisData.push({ 'Date': ChartsData.ResultData.Date[i], 'FollowingsTotal': ChartsData.ResultData.Followers[i] });
             }
-            
+
             $("#line-followings").empty();
-            Morris.Bar({
-                element: 'line-followings',
-                data: morrisData,
-                xkey: 'Date',
-                ykeys: ['FollowingsTotal'],
-                labels: ['FollowingsTotal'],
-                resize: true,
-                smooth: false,
-                pointSize: 3,
-                pointStrokeColors: ['#FF4558'],
-                gridLineColor: '#e3e3e3',
-                behaveLikeLine: true,
-                numLines: 6,
-                gridtextSize: 14,
-                lineWidth: 3,
-                hideHover: 'auto',
-                lineColors: ["#2685CB"],
-                xLabelAngle: 45,
-                parseTime: false,
-                barColors: ["#2685CB"],
-            });
+            if (morrisData.length > 0) {
+                Morris.Bar({
+                    element: 'line-followings',
+                    data: morrisData,
+                    xkey: 'Date',
+                    ykeys: ['FollowingsTotal'],
+                    labels: ['FollowingsTotal'],
+                    resize: true,
+                    smooth: false,
+                    pointSize: 3,
+                    pointStrokeColors: ['#FF4558'],
+                    gridLineColor: '#e3e3e3',
+                    behaveLikeLine: true,
+                    numLines: 6,
+                    gridtextSize: 14,
+                    lineWidth: 3,
+                    hideHover: 'auto',
+                    lineColors: ["#2685CB"],
+                    xLabelAngle: 45,
+                    parseTime: false,
+                    barColors: ["#2685CB"],
+                });
+            }
+
         }
 
         function LoadAverageLikesLineChart(ChartsData) {
@@ -945,27 +974,30 @@
             }
 
             $("#line-averagelikes").empty();
-            Morris.Bar({
-                element: 'line-averagelikes',
-                data: morrisData,
-                xkey: 'Date',
-                ykeys: ['AverageLikes'],
-                labels: ['Average Likes'],
-                resize: true,
-                smooth: false,
-                pointSize: 3,
-                pointStrokeColors: ['#FF4558'],
-                gridLineColor: '#e3e3e3',
-                behaveLikeLine: true,
-                numLines: 6,
-                gridtextSize: 14,
-                lineWidth: 3,
-                hideHover: 'auto',
-                lineColors: ["#2685CB"],
-                xLabelAngle: 45,
-                parseTime: false,
-                barColors: ["#2685CB"],
-            });
+            if (morrisData.length > 0) {
+                Morris.Bar({
+                    element: 'line-averagelikes',
+                    data: morrisData,
+                    xkey: 'Date',
+                    ykeys: ['AverageLikes'],
+                    labels: ['Average Likes'],
+                    resize: true,
+                    smooth: false,
+                    pointSize: 3,
+                    pointStrokeColors: ['#FF4558'],
+                    gridLineColor: '#e3e3e3',
+                    behaveLikeLine: true,
+                    numLines: 6,
+                    gridtextSize: 14,
+                    lineWidth: 3,
+                    hideHover: 'auto',
+                    lineColors: ["#2685CB"],
+                    xLabelAngle: 45,
+                    parseTime: false,
+                    barColors: ["#2685CB"],
+                });
+            }
+
         }
 
         function LoadPostBarChart(ChartsData) {
@@ -979,27 +1011,30 @@
 
 
             $("#bar-post").empty();
-            Morris.Bar({
-                element: 'bar-post',
-                data: morrisData,
-                xkey: 'Date',
-                ykeys: ['Post'],
-                labels: ['Posts'],
-                resize: true,
-                smooth: false,
-                pointSize: 3,
-                pointStrokeColors: ['#FF4558'],
-                gridLineColor: '#e3e3e3',
-                behaveLikeLine: true,
-                numLines: 6,
-                gridtextSize: 14,
-                lineWidth: 3,
-                hideHover: 'auto',
-                lineColors: ["#2685CB"],
-                xLabelAngle: 45,
-                parseTime: false,
-                barColors: ["#2685CB"],
-            });
+            if (morrisData.length > 0) {
+                Morris.Bar({
+                    element: 'bar-post',
+                    data: morrisData,
+                    xkey: 'Date',
+                    ykeys: ['Post'],
+                    labels: ['Posts'],
+                    resize: true,
+                    smooth: false,
+                    pointSize: 3,
+                    pointStrokeColors: ['#FF4558'],
+                    gridLineColor: '#e3e3e3',
+                    behaveLikeLine: true,
+                    numLines: 6,
+                    gridtextSize: 14,
+                    lineWidth: 3,
+                    hideHover: 'auto',
+                    lineColors: ["#2685CB"],
+                    xLabelAngle: 45,
+                    parseTime: false,
+                    barColors: ["#2685CB"],
+                });
+            }
+
         }
 
         function LoadEngagementLineChart(ChartsData) {
@@ -1009,32 +1044,35 @@
             for (i = 0; i < ChartsData.ResultData.Date.length; i++) {
                 morrisData.push({ 'Date': ChartsData.ResultData.Date[i], 'Engagement': ChartsData.ResultData.Engagement[i] });
             }
-            
+
 
             $("#line-engagement").empty();
-            Morris.Line({
-                element: 'line-engagement',
-                data: morrisData,
-                xkey: 'Date',
-                ykeys: ['Engagement'],
-                labels: ['Engagement'],
-                resize: true,
-                smooth: false,
-                pointSize: 3,
-                pointStrokeColors: ['#FF4558'],
-                gridLineColor: '#e3e3e3',
-                behaveLikeLine: true,
-                numLines: 6,
-                gridtextSize: 14,
-                lineWidth: 3,
-                hideHover: 'auto',
-                lineColors: ['#FF4558'],
-                xLabelAngle: 45,
-                parseTime: false
-            });
+            if (morrisData.length > 0) {
+                Morris.Line({
+                    element: 'line-engagement',
+                    data: morrisData,
+                    xkey: 'Date',
+                    ykeys: ['Engagement'],
+                    labels: ['Engagement'],
+                    resize: true,
+                    smooth: false,
+                    pointSize: 3,
+                    pointStrokeColors: ['#FF4558'],
+                    gridLineColor: '#e3e3e3',
+                    behaveLikeLine: true,
+                    numLines: 6,
+                    gridtextSize: 14,
+                    lineWidth: 3,
+                    hideHover: 'auto',
+                    lineColors: ['#FF4558'],
+                    xLabelAngle: 45,
+                    parseTime: false
+                });
+            }
+
 
         }
-        
+
         function LoadEngagementActionChart(ChartsData) {
 
 
@@ -1043,33 +1081,36 @@
             for (i = 0; i < ChartsData.ResultData.Date.length; i++) {
                 morrisData.push({ 'Date': ChartsData.ResultData.Date[i], 'Following': ChartsData.ResultData.Followings[i], 'Unfollow': ChartsData.ResultData.Unfollow[i], 'Likes': ChartsData.ResultData.Likes[i], 'StoryViews': ChartsData.ResultData.StoryViews[i] });
             }
-            
+
 
             $("#line-engagementaction").empty();
-            Morris.Bar({
-                element: 'line-engagementaction',
-                data: morrisData,
-                xkey: 'Date',
-                ykeys: ['Following', 'Unfollow', 'Likes', 'StoryViews' ],
-                labels: ['Following', 'Unfollow', 'Likes', 'StoryViews'],
-                resize: true,
-                smooth: false,
-                pointSize: 3,
-                pointStrokeColors: ['#FF4558'],
-                gridLineColor: '#e3e3e3',
-                behaveLikeLine: true,
-                numLines: 6,
-                gridtextSize: 14,
-                lineWidth: 3,
-                hideHover: 'auto',
-                lineColors: ["#2685CB", "#4AD95A", "#7B91A3", "#E7F065"],
-                xLabelAngle: 45,
-                parseTime: false,
-                barColors: ["#2685CB", "#4AD95A", "#7B91A3", "#E7F065"],
-            });
+            if (morrisData.length > 0) {
+                Morris.Bar({
+                    element: 'line-engagementaction',
+                    data: morrisData,
+                    xkey: 'Date',
+                    ykeys: ['Following', 'Unfollow', 'Likes', 'StoryViews'],
+                    labels: ['Following', 'Unfollow', 'Likes', 'StoryViews'],
+                    resize: true,
+                    smooth: false,
+                    pointSize: 3,
+                    pointStrokeColors: ['#FF4558'],
+                    gridLineColor: '#e3e3e3',
+                    behaveLikeLine: true,
+                    numLines: 6,
+                    gridtextSize: 14,
+                    lineWidth: 3,
+                    hideHover: 'auto',
+                    lineColors: ["#2685CB", "#4AD95A", "#7B91A3", "#E7F065"],
+                    xLabelAngle: 45,
+                    parseTime: false,
+                    barColors: ["#2685CB", "#4AD95A", "#7B91A3", "#E7F065"],
+                });
+            }
+
         }
 
-       
+
 
 
     </script>

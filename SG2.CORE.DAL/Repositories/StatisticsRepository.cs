@@ -39,13 +39,13 @@ namespace SG2.CORE.DAL.Repositories
                     var profile = _db.SocialProfiles.Where(g => g.SocialProfileId == model.SocialProfileId).Single();
 
                     //only save initial stats if old one does not exists. skip if any older stats exists.
-                    if ((profile.InitialStatsReceived.HasValue == false || profile.InitialStatsReceived.Value == false ))
+                    if ((profile.InitialStatsReceived.HasValue == false || profile.InitialStatsReceived.Value == false))
                     {
 
                         //check if we have stats
                         bool newStats = false;
                         SocialProfile_Statistics stats = null;
-                        var statslist = _db.SocialProfile_Statistics.Where(g => g.SocialProfileId == model.SocialProfileId).OrderBy( g=> g.CreatedDate).ToList();
+                        var statslist = _db.SocialProfile_Statistics.Where(g => g.SocialProfileId == model.SocialProfileId).OrderBy(g => g.CreatedDate).ToList();
                         if (statslist == null)
                         {
                             stats = new SocialProfile_Statistics();
@@ -61,13 +61,13 @@ namespace SG2.CORE.DAL.Repositories
                             stats = statslist.First();
                         }
 
-                       
+
 
                         stats.SocialProfileId = model.SocialProfileId;
                         //stats.Posts = (stats.Posts ?? 0) <> 0;
                         stats.PostsTotal = strotint(model.InitialPosts);
 
-                        stats.Followers =  strotint(model.InitialFollowers);
+                        stats.Followers = strotint(model.InitialFollowers);
                         stats.FollowersTotal = strotint(model.InitialFollowers);
 
                         stats.Followings = strotint(model.InitialFollowings);
@@ -76,20 +76,20 @@ namespace SG2.CORE.DAL.Repositories
                         stats.Unfollow = 0;
                         stats.UnfollowTotal = 0;
 
-                            stats.Date = DateTime.Now.AddDays(-1);
-                            stats.CreatedDate = DateTime.Now;
-                            stats.UpdateDate = DateTime.Now;
-                            _db.SocialProfile_Statistics.Add(stats);
-                       
+                        stats.Date = DateTime.Now.AddDays(-1);
+                        stats.CreatedDate = DateTime.Now;
+                        stats.UpdateDate = DateTime.Now;
+                        _db.SocialProfile_Statistics.Add(stats);
+
                         //else update the existing
-                        
+
                         profile.InitialStatsReceived = true;
                         profile.InitialStatsReceivedDateTime = DateTime.Now;
 
                         var act = new SocialProfile_Actions();
                         act.SocialProfileId = model.SocialProfileId;
                         act.ActionID = 72;
-                        act.Message = "Initial Posts : " + model.InitialPosts + ", Initial Followers : " + model.InitialFollowers + ", Initial Following" + model.InitialFollowings ;
+                        act.Message = "Initial Posts : " + model.InitialPosts + ", Initial Followers : " + model.InitialFollowers + ", Initial Following" + model.InitialFollowings;
                         act.TargetProfile = "";
                         act.ActionDateTime = DateTime.Now;
 
@@ -116,7 +116,7 @@ namespace SG2.CORE.DAL.Repositories
         {
             var resultString = string.Join(string.Empty, Regex.Matches(s, @"\d+([.,])?").OfType<Match>().Select(m => m.Value));
             var multifactor = 1;
-            if ( s.ToLower().Contains("k"))
+            if (s.ToLower().Contains("k"))
             {
                 multifactor = 1000;
             }
@@ -125,7 +125,7 @@ namespace SG2.CORE.DAL.Repositories
                 multifactor = 1000000;
             }
 
-            return Convert.ToInt32( Convert.ToDouble(resultString) * multifactor);
+            return Convert.ToInt32(Convert.ToDouble(resultString) * multifactor);
         }
 
 
@@ -230,16 +230,16 @@ namespace SG2.CORE.DAL.Repositories
             return true;
         }
 
-        public IList<SocialProfile_Statistics>  GetProfileTrends(int socialProfileId, DateTime fromDate, DateTime ToDate)
+        public IList<SocialProfile_Statistics> GetProfileTrends(int socialProfileId, DateTime fromDate, DateTime ToDate)
         {
             try
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                   
-                    var statsData = _db.SocialProfile_Statistics.Where (g=> g.SocialProfileId ==  socialProfileId && g.Date >= fromDate && g.Date <= ToDate).ToList();
 
-                  
+                    var statsData = _db.SocialProfile_Statistics.Where(g => g.SocialProfileId == socialProfileId && g.Date >= fromDate && g.Date <= ToDate).OrderBy(g => g.Date).ToList();
+
+
                     return statsData;
 
                 }
@@ -258,7 +258,7 @@ namespace SG2.CORE.DAL.Repositories
                 using (var _db = new SocialGrowth2Connection())
                 {
 
-                    var statsData = _db.SocialProfile_Statistics.Where(g => g.SocialProfileId == socialProfileId).OrderByDescending( g=> g.Date).FirstOrDefault();
+                    var statsData = _db.SocialProfile_Statistics.Where(g => g.SocialProfileId == socialProfileId).OrderByDescending(g => g.Date).FirstOrDefault();
 
                     return statsData;
 
@@ -278,11 +278,11 @@ namespace SG2.CORE.DAL.Repositories
                 {
                     List<SocialProfile_Statistics> lstStatisticsDTO = new List<SocialProfile_Statistics>();
                     var first = _db.SocialProfile_Statistics.Where(g => g.SocialProfileId == socialProfileId).OrderBy(g => g.Date).FirstOrDefault();
-                    if (first != null) ;
+                    if (first != null)
                         lstStatisticsDTO.Add(first); ///very first record
 
                     var recent = _db.SocialProfile_Statistics.Where(g => g.SocialProfileId == socialProfileId).OrderByDescending(g => g.Date).FirstOrDefault();
-                    if ( recent!= null )
+                    if (recent != null)
                         lstStatisticsDTO.Add(recent); ///recent record
                     return lstStatisticsDTO;
                 }
@@ -332,12 +332,12 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-               
+
                 using (var _db = new SocialGrowth2Connection())
                 {
 
                     return _db.SG2_usp_Report_GetProfileEvents(fromDate, toDate).ToList();
-                   
+
                 }
             }
             catch (Exception ex)

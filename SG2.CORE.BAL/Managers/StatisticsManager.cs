@@ -25,9 +25,9 @@ namespace SG2.CORE.BAL.Managers
             _cm = new CustomerRepository();
         }
 
-       
+
         public void SaveStatistics(string data)
-        { 
+        {
             try
             {
                 _statistics.SaveStatistics(data);
@@ -53,7 +53,7 @@ namespace SG2.CORE.BAL.Managers
 
         }
 
-            public IList<SocialProfile_Statistics> GetProfileTrends(int socialProfileId, DateTime fromDate, DateTime ToDate)
+        public IList<SocialProfile_Statistics> GetProfileTrends(int socialProfileId, DateTime fromDate, DateTime ToDate)
         {
             try
             {
@@ -71,22 +71,22 @@ namespace SG2.CORE.BAL.Managers
         {
             try
             {
-                var prevStats =  _statistics.GetLatestStatistics(socialProfileId);
+                var prevStats = _statistics.GetLatestStatistics(socialProfileId);
                 if (prevStats != null)
                 {
 
-                
-                    
 
-                    if (prevStats.Date.Date.CompareTo(UpdateDateTime.Date)  == 0)
+
+
+                    if (prevStats.Date.Date.CompareTo(UpdateDateTime.Date) == 0)
                     {
                         prevStats.Followings = (prevStats.Followings ?? 0) + FollowingCount;
-                        prevStats.FollowingsTotal = (prevStats.FollowingsTotal ?? 0 ) + FollowingCount;
+                        prevStats.FollowingsTotal = (prevStats.FollowingsTotal ?? 0) + FollowingCount;
 
                         prevStats.Like = (prevStats.Like ?? 0) + LikeCount;
                         prevStats.LikeTotal = (prevStats.LikeTotal ?? 0) + LikeCount;
 
-                        prevStats.Comment = (prevStats.Comment ?? 0 )+ CommentCount;
+                        prevStats.Comment = (prevStats.Comment ?? 0) + CommentCount;
 
 
                         prevStats.StoryViews = (prevStats.StoryViews ?? 0) + StoryCount;
@@ -98,7 +98,7 @@ namespace SG2.CORE.BAL.Managers
                             prevStats.FollowersTotal = FollowCount;
                         }
 
-                        prevStats.Unfollow = (prevStats.Unfollow ??0 ) + UnFollowCount;
+                        prevStats.Unfollow = (prevStats.Unfollow ?? 0) + UnFollowCount;
                         prevStats.UnfollowTotal = (prevStats.UnfollowTotal ?? 0) + UnFollowCount;
 
                         prevStats.Posts = PostCount;
@@ -108,10 +108,10 @@ namespace SG2.CORE.BAL.Managers
                     }
                     else
                     {
-                        prevStats.Followings =  FollowingCount;
+                        prevStats.Followings = FollowingCount;
                         prevStats.FollowingsTotal = (prevStats.FollowingsTotal ?? 0) + FollowingCount;
 
-                        prevStats.Like =  LikeCount;
+                        prevStats.Like = LikeCount;
                         prevStats.LikeTotal = (prevStats.LikeTotal ?? 0) + LikeCount;
 
                         prevStats.Comment = CommentCount;
@@ -123,7 +123,7 @@ namespace SG2.CORE.BAL.Managers
                         prevStats.FollowersTotal = FollowCount;
 
                         prevStats.Unfollow = UnFollowCount;
-                        prevStats.UnfollowTotal =  UnFollowCount;
+                        prevStats.UnfollowTotal = UnFollowCount;
 
                         prevStats.Posts = PostCount;
 
@@ -135,14 +135,14 @@ namespace SG2.CORE.BAL.Managers
                 }
                 else
                 {
-                    
+
 
                     prevStats = new SocialProfile_Statistics();
                     prevStats.Date = UpdateDateTime;
                     prevStats.SocialProfileId = socialProfileId;
 
                     prevStats.Followings = FollowingCount;
-                    prevStats.FollowingsTotal = (prevStats.FollowingsTotal ?? 0 )+ FollowingCount;
+                    prevStats.FollowingsTotal = (prevStats.FollowingsTotal ?? 0) + FollowingCount;
 
                     prevStats.Like = LikeCount;
                     prevStats.LikeTotal = (prevStats.LikeTotal ?? 0) + LikeCount;
@@ -161,7 +161,7 @@ namespace SG2.CORE.BAL.Managers
                     prevStats.Posts = PostCount;
 
                     _statistics.InsertStatistics(prevStats);
-                    
+
                 }
 
 
@@ -179,8 +179,8 @@ namespace SG2.CORE.BAL.Managers
 
 
 
-            public StatisticsViewModel GetStatistics(int socialProfileId)
-        { 
+        public StatisticsViewModel GetStatistics(int socialProfileId)
+        {
             try
             {
 
@@ -189,7 +189,7 @@ namespace SG2.CORE.BAL.Managers
                 var serveroffset = DateTimeOffset.Now.Offset.Hours;//TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow);
 
                 var profile = _cm.GetSocialProfilesById(socialProfileId);
-                appoffset = Convert.ToDouble(string.IsNullOrEmpty(profile.SocialProfile.AppTimeZoneOffSet) ? "0": profile.SocialProfile.AppTimeZoneOffSet) ;
+                appoffset = Convert.ToDouble(string.IsNullOrEmpty(profile.SocialProfile.AppTimeZoneOffSet) ? "0" : profile.SocialProfile.AppTimeZoneOffSet);
 
                 // +3 +5 
                 double offset = 0;
@@ -205,14 +205,17 @@ namespace SG2.CORE.BAL.Managers
                 var model = _statistics.GetStatisticsFirstAndRecent(socialProfileId);
                 if (model != null && model.Count == 2)
                 {
-                    
+
                     followersStatisticsViewModel.FollowersInitial = model[0].Followers.HasValue ? model[0].Followers.Value : 0;
-                    followersStatisticsViewModel.FollowersTotal = model[1].FollowersTotal.HasValue ? model[1].FollowersTotal.Value :0;
+                    followersStatisticsViewModel.FollowersTotal = model[1].FollowersTotal.HasValue ? model[1].FollowersTotal.Value : 0;
+                    followersStatisticsViewModel.FollowersChange = (followersStatisticsViewModel.FollowersTotal - (model[0].FollowersTotal.HasValue ? model[0].FollowersTotal.Value : 0));
 
                     followersStatisticsViewModel.FollowingsInitial = model[0].Followings;
                     followersStatisticsViewModel.FollowingsTotal = model[1].FollowingsTotal.HasValue ? model[1].FollowingsTotal.Value : 0;
+                    followersStatisticsViewModel.FollowingsChange = (followersStatisticsViewModel.FollowingsTotal - (model[0].FollowingsTotal.HasValue ? model[0].FollowingsTotal.Value : 0));
 
-                    followersStatisticsViewModel.PostsInitial = model[0].Posts.HasValue ? model[0].Posts.Value:0;
+
+                    followersStatisticsViewModel.PostsInitial = model[0].Posts.HasValue ? model[0].Posts.Value : 0;
                     followersStatisticsViewModel.PostsTotal = model[1].PostsTotal.HasValue ? model[1].PostsTotal.Value : 0;
 
                     followersStatisticsViewModel.FollowsRecent = model[1].Follow.HasValue ? model[1].Follow.Value : 0;
@@ -228,12 +231,12 @@ namespace SG2.CORE.BAL.Managers
                     followersStatisticsViewModel.StoryViewsTotal = model[1].StoryViewsTotal.HasValue ? model[1].StoryViewsTotal.Value : 0;
                     followersStatisticsViewModel.FollowersGrowthRate = (model[0].Followers > 0 && model[1].Followers > 0) ? (model[0].Followers / model[1].Followers) * 100 : 0;
                     followersStatisticsViewModel.LikesGrowthRate = (model[0].Like > 0 && model[1].Like > 0) ? (model[0].Like / model[1].Like) * 100 : 0;
-                    followersStatisticsViewModel.FollowersChange = model[0].Followers - model[1].Followers;
+
                     followersStatisticsViewModel.LikesChange = model[0].Like - model[1].Like;
                     followersStatisticsViewModel.FollowersAverageChange = (model[0].Followers + model[1].Followers) / 2;
                     followersStatisticsViewModel.LikesAverageChange = (model[0].Like + model[1].Like) / 2;
-                    var date =  model[1].Date;
-                    
+                    var date = model[1].Date;
+
 
                     var intervals = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Intervals>>(profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals).First();
                     double TimezoneOffset = 0;
@@ -242,7 +245,7 @@ namespace SG2.CORE.BAL.Managers
                     {
                         var tDiff = recs.Last().ActionDateTime - recs.First().ActionDateTime;
                         followersStatisticsViewModel.LastSessionIndex = (Double)recs.Count() / Convert.ToDouble(tDiff.Value.TotalMinutes == 0 ? 1.0 : tDiff.Value.TotalMinutes);
-                        
+
                         followersStatisticsViewModel.FollowingToday = recs.Where(g => g.ActionID == 60).Count();
                         followersStatisticsViewModel.FollowingTodayLimit = Convert.ToInt32(intervals.FollAccSearchTags);
                         followersStatisticsViewModel.LikeToday = recs.Where(g => g.ActionID == 62).Count();
@@ -267,7 +270,7 @@ namespace SG2.CORE.BAL.Managers
                         followersStatisticsViewModel.StoryViewLimit = Convert.ToInt32(intervals.VwStoriesFollowing);
                     }
 
-                    
+
 
                 }
                 else
@@ -275,10 +278,10 @@ namespace SG2.CORE.BAL.Managers
                     followersStatisticsViewModel.FollowersInitial = 0;
                     followersStatisticsViewModel.FollowersTotal = 0;
 
-                    followersStatisticsViewModel.FollowingsInitial =0;
+                    followersStatisticsViewModel.FollowingsInitial = 0;
                     followersStatisticsViewModel.FollowingsTotal = 0;
 
-                    followersStatisticsViewModel.PostsInitial =0;
+                    followersStatisticsViewModel.PostsInitial = 0;
                     followersStatisticsViewModel.PostsTotal = 0;
 
                     followersStatisticsViewModel.FollowsRecent = 0;
@@ -323,7 +326,7 @@ namespace SG2.CORE.BAL.Managers
 
         }
 
-        
+
 
         //public AdminReportViewModel GetJVBoxandProxyIPsData(DateTime fromDate, DateTime toDate)
         //{
@@ -405,7 +408,7 @@ namespace SG2.CORE.BAL.Managers
                 List<StatsDailyActivityDTO> statsDailyActivityDTOs = new List<StatsDailyActivityDTO>();
                 List<SocialProfile_Statistics> profile_Statistics = _statistics.GetStatsByProfileIdAndDays(socialProfileId, days);
                 SocialProfile_Statistics previousRec = null;
-                foreach (SocialProfile_Statistics stats in profile_Statistics) 
+                foreach (SocialProfile_Statistics stats in profile_Statistics)
                 {
                     if (previousRec == null)
                         previousRec = stats;

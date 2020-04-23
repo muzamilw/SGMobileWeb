@@ -51,12 +51,13 @@ namespace SG2.CORE.MODAL.ViewModals.Statistics
         public string AppStatus { get; set; }
         public double? FollowersGrowthRate { get; set; }
         public double? LikesGrowthRate { get; set; }
-        public double? FollowersChange { get; set; }
+        public long? FollowersChange { get; set; }
+        public long? FollowingsChange { get; set; }
         public double? LikesChange { get; set; }
         public double? FollowersAverageChange { get; set; }
         public double? LikesAverageChange { get; set; }
 
-        
+
     }
 
     public class Intervals
@@ -82,6 +83,6 @@ namespace SG2.CORE.MODAL.ViewModals.Statistics
         public Nullable<System.DateTime> ActionDateTime { get; set; }
         public string Message { get; set; }
 
-       
+
     }
 }
