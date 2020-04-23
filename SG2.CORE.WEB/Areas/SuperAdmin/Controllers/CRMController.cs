@@ -608,6 +608,149 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             return Json(jr, JsonRequestBehavior.AllowGet);
         }
 
+
+        public ActionResult GetFollowersSection(int socialProfileId, int mode)
+        {
+            var jr = new JsonResult();
+            try
+            {
+                DateTime startdate = DateTime.Today.AddDays(-15);   //1 week
+                DateTime enddate = DateTime.Today.AddHours(24);
+
+                if (mode == 2)
+                {
+                    startdate = DateTime.Today.AddDays(-30);  //1 months
+                }
+                if (mode == 3)
+                {
+                    startdate = DateTime.Today.AddMonths(-3);  //3 months
+                }
+                else if (mode == 4)
+                {
+                    startdate = DateTime.Today.AddMonths(-6); //6 months
+                }
+                else if (mode == 5)
+                {
+                    startdate = DateTime.Today.AddMonths(-12); //12 months
+                }
+
+
+                var trends = _statisticsManager.GetProfileTrends(socialProfileId, startdate, enddate);
+
+                foreach (var item in trends)
+                {
+                    
+                    item.Followers = item.Followers.HasValue ? item.Followers : 0;
+                    item.FollowersTotal = item.FollowersTotal.HasValue ? item.FollowersTotal : 0;
+                    item.FollowingsTotal = item.FollowingsTotal.HasValue ? item.Followings : 0;
+                    item.Posts = item.Posts.HasValue ? item.Posts : 0;
+                    item.AverageLikes = ((item.Like.HasValue ? item.Like : 0) / ((item.Posts.HasValue && item.Posts > 0) ? item.Posts : 1));  
+                   
+                }
+
+
+                if (trends != null)
+                {
+                    jr.Data = new
+                    {
+                        ResultType = "Success",
+                        message = "",
+                        ResultData = new
+                        {
+                            
+                            Date = trends.Select(x => x.Date.ToString("dd-MMM-yyyy")).ToArray(),
+                            Followers = trends.Select(x => x.Followers.ToString()).ToArray(),
+                            FollowersTotal = trends.Select(x => x.FollowersTotal.ToString()).ToArray(),
+                            FollowingsTotal = trends.Select(x => x.FollowingsTotal.ToString()).ToArray(),
+                            Post = trends.Select(x => x.Posts.ToString()).ToArray(),
+                            AverageLikes = trends.Select(x => x.AverageLikes.ToString()).ToArray()
+                        }
+                    };
+                }
+                else
+                {
+                    jr.Data = new { ResultType = "Error", message = "" };
+                }
+
+            }
+            catch (Exception exp)
+            {
+                throw exp;
+            }
+
+            return Json(jr, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetEngagementSection(int socialProfileId, int mode)
+        {
+            var jr = new JsonResult();
+            try
+            {
+                DateTime startdate = DateTime.Today.AddDays(-15);   //1 week
+                DateTime enddate = DateTime.Today.AddHours(24);
+
+                if (mode == 2)
+                {
+                    startdate = DateTime.Today.AddDays(-30);  //1 months
+                }
+                if (mode == 3)
+                {
+                    startdate = DateTime.Today.AddMonths(-3);  //3 months
+                }
+                else if (mode == 4)
+                {
+                    startdate = DateTime.Today.AddMonths(-6); //6 months
+                }
+                else if (mode == 5)
+                {
+                    startdate = DateTime.Today.AddMonths(-12); //12 months
+                }
+
+
+                var trends = _statisticsManager.GetProfileTrends(socialProfileId, startdate, enddate);
+
+                foreach (var item in trends)
+                {
+                    item.Followings = item.Followings.HasValue ? item.Followings : 0;
+                    item.Unfollow = item.Unfollow.HasValue ? item.Unfollow : 0;
+                    item.Like = item.Like.HasValue ? item.Like : 0;
+                    item.StoryViews = item.StoryViews.HasValue ? item.StoryViews : 0;
+                    item.Engagement = (item.FollowersTotal ?? 1) * 100 / ((item.Followings ?? 1) == 0 ? 1 : item.Followings);
+                }
+
+
+                if (trends != null)
+                {
+                    jr.Data = new
+                    {
+                        ResultType = "Success",
+                        message = "",
+                        ResultData = new
+                        {
+                            Date = trends.Select(x => x.Date.ToString("dd-MMM-yyyy")).ToArray(),
+                            Followings = trends.Select(x => x.Followings.ToString()).ToArray(),
+                            Engagement = trends.Select(x => x.Engagement.ToString()).ToArray(),
+                            Likes = trends.Select(x => x.Like.ToString()).ToArray(),
+                            StoryViews = trends.Select(x => x.StoryViews.ToString()).ToArray(),
+                            Unfollow = trends.Select(x => x.Unfollow.ToString()).ToArray()
+                            
+                        }
+                    };
+                }
+                else
+                {
+                    jr.Data = new { ResultType = "Error", message = "" };
+                }
+
+            }
+            catch (Exception exp)
+            {
+                throw exp;
+            }
+
+            return Json(jr, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult GlobalTarget(int? success)
         {
 
