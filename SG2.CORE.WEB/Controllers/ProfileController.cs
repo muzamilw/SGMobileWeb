@@ -327,7 +327,23 @@ namespace SG2.CORE.WEB.Controllers
 
         }
 
-        public ActionResult BuyPhone(string socialprofileid,string email,string pageUrl)
+        public ActionResult UpdatePhone(string socialprofileid, string Phone)
+        {
+            try
+            {
+                _customerManager.UpdateCustomerContactPhone(Phone, Convert.ToInt32(socialprofileid));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return this.Content("ok");
+            
+        }
+
+            public ActionResult BuyPhone(string socialprofileid,string email,string pageUrl)
         {
             // Set your secret key. Remember to switch to your live secret key in production!
             // See your keys here: https://dashboard.stripe.com/account/apikeys
@@ -335,7 +351,7 @@ namespace SG2.CORE.WEB.Controllers
             StripeConfiguration.ApiKey = _stripeApiKey;
 
             var options = new SessionCreateOptions
-            {
+            { ClientReferenceId = socialprofileid,
                 CustomerEmail = email,
                 BillingAddressCollection = "auto",
                 PaymentMethodTypes = new List<string> {
@@ -347,14 +363,15 @@ namespace SG2.CORE.WEB.Controllers
                 AllowedCountries = new List<string> {
                     "US",
                     "CA",
+                    "AU","NZ","GB","IE"
                     },
                
             },
             
             LineItems = new List<SessionLineItemOptions> {
             new SessionLineItemOptions {
-                Name = "Social Growth Mobile",
-                Description = "Dedicated mobile phone for growth",
+                Name = "Dedicated android device",
+                Description = "Dedicated android device pre-installed with social growth labs app delivered to your shipping address",
                 Amount = 5000,
                 Currency = "usd",
                 Quantity = 1

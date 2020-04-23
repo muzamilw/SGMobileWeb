@@ -45,10 +45,10 @@
     <link href="~/Content/app-assets/css/stripe.css" rel="stylesheet" />
 
     <style type="text/css">
-        .btnBuyMobile
-        {
-            width:33%;
+        .btnBuyMobile {
+            width: 100%
         }
+
         .weekDays-selector1 {
             margin-top: 10px;
         }
@@ -432,19 +432,39 @@
                 {
                     <div class="row">
                         <div class="col-12 mt-1 mb-1">
-                            <h4 class="text-uppercase">Purchase a dedicated Mobile for social growth</h4>
+                            <h4 class="text-uppercase">YOU REQUIRE A DEDICATED ANDROID MOBILE DEVICE FOR SOCIAL GROWTH, PURCHASE ONE FOR $50 OR USE YOUR OWN (ANDROID 6.0+ REQUIRED)</h4>
                         </div>
                     </div>
 
-                    <div class="row match-height">
+                    <div class="row">
 
-                        <div class="col-xl-12 col-md-12 col-sm-12">
+                        <div class="col-xl-4 col-md-6 col-sm-12">
                             <div class="card">
-                                <div class="card-content center">
-                                    <img class="btnBuyMobile" src="~/Content/Images/dedicated_device_1.jpeg" style="cursor:pointer" />
-                                    <img class="btnBuyMobile" src="~/Content/Images/dedicated_device_2.jpeg" style="cursor:pointer" />
-                                    <img class="btnBuyMobile" src="~/Content/Images/dedicated_device_3.jpeg" style="cursor:pointer" />
+                                <div class="card-content">
+                                    <div class="card-body" style="padding:0px;">
+                                        <img class="btnBuyMobile" src="~/Content/Images/dedicated_device_1.jpeg" style="cursor:pointer" />
 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-md-6 col-sm-12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-body" style="padding:0px;">
+
+                                        <img class="btnBuyMobile" src="~/Content/Images/dedicated_device_2.jpeg" style="cursor:pointer;" />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-md-6 col-sm-12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-body" style="padding:0px;">
+                                        <img class="btnBuyMobile" src="~/Content/Images/dedicated_device_3.jpeg" style="cursor:pointer" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -579,6 +599,7 @@
     <script src="~/Content/app-assets/vendors/js/forms/validation/jqBootstrapValidation.js"></script>
     <script src="~/Content/app-assets/vendors/js/extensions/sweetalert.min.js"></script>
     <script src="~/Content/app-assets/js/scripts/extensions/sweet-alerts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <!-- END: Page Vendor JS-->
     <script type="text/javascript">
@@ -621,9 +642,60 @@
 
         $(document).ready(function () {
 
-             @if (ViewBag.purchasesuccess == 1) {
-                @:swal("Success!", "You have successfully purchased the Phone Package. Instructions are being sent to you by email about delivery!", "success");
-            }
+            var showssuccess = '@ViewBag.purchasesuccess';
+            if (showssuccess == 1) {
+
+                //swal("Success!", "You have successfully purchased the Phone Package. Instructions are being sent to you by email about delivery!", "success");
+
+                const { value: ipAddress } = Swal.fire({
+                    title: 'Complete Purchase',
+                    text: 'Please enter your phone number below to complete your device purchase',
+                    input: 'text',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+
+                    showCancelButton: false,
+                    inputValidator: (value) => {
+                        if (!value) {
+                            return 'Phone number is mandatory!'
+                        }
+                    }
+                })
+                    .then((result) => {
+                        if (result.value) {
+                            fetch('/profile/UpdatePhone', {
+                                method: 'post',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    socialprofileid: '@Model.SocialProfile.SocialProfileId.ToString()',
+                                    Phone: result.value,
+
+
+                                })
+
+                            })
+
+                                .then(response => {
+                                    
+                                    Swal.fire(
+                                        'Success!',
+                                        'Your phone number is updated!',
+                                        'success'
+                                    );
+                                })
+
+                        }
+                            
+                        
+                    })
+                }
+
+
+
+
+            
             /*******************************
             *       Simple Options         *
             *******************************/

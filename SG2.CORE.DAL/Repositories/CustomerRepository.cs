@@ -163,6 +163,34 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
+        public bool UpdateCustomerPhone(int SocialProfileId, string Phone)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    var socialprofile = _db.SocialProfiles.Where(g => g.SocialProfileId == SocialProfileId).SingleOrDefault();
+                    if (socialprofile != null)
+                    {
+
+                        var contact = _db.Customer_ContactDetail.Where(g => g.CustomerId == socialprofile.CustomerId).SingleOrDefault();
+                        if (contact != null)
+                        {
+                            contact.PhoneNumber = Phone;
+
+                            _db.SaveChanges();
+                        }
+
+                    }
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public CustomerDTO UpdateCustomerEmailSubscription(CustomerDTO entity)
         {
             try

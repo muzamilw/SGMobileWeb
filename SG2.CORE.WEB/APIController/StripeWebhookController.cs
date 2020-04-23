@@ -53,7 +53,7 @@ namespace SG2.CORE.WEB.APIController
 
             try
             {
-                var stripeEvent = EventUtility.ParseEvent(json);
+                var stripeEvent = EventUtility.ParseEvent(json, throwOnApiVersionMismatch: false);
 
                 // Handle the event
                 if (stripeEvent.Type == Events.InvoicePaymentSucceeded)
@@ -81,12 +81,12 @@ namespace SG2.CORE.WEB.APIController
                         paymentRec.PaymentDateTime = DateTime.Now;
 
                         _customerManager.InsertSocialProfilePayment(paymentRec);
-                    }
+                    } 
                     
                     
                     //handlePaymentIntentSucceeded(paymentIntent);
                 }
-                else if (stripeEvent.Type == Events.InvoicePaymentFailed)
+                else if (stripeEvent.Type == Events.InvoicePaymentFailed) 
                 {
                     var invoice = stripeEvent.Data.Object as Invoice;
 
@@ -190,7 +190,7 @@ namespace SG2.CORE.WEB.APIController
             }
             catch (StripeException e)
             {
-                return BadRequest();
+                return Ok(e.ToString());//BadRequest();
             }
         }
 
@@ -199,70 +199,75 @@ namespace SG2.CORE.WEB.APIController
         {
             try
             {
-                var profile = _customerManager.GetSocialProfileById(Convert.ToInt32( session.ClientReferenceId));
-                if (profile != null)
+                if (session.ClientReferenceId != null)
                 {
-                    profile.SocialProfile.PhonePackagePurchased = true;
-                    profile.SocialProfile.PhonePackagePurchaseDate = DateTime.Now;
-                    profile.SocialProfile.PhonePackagePurchaseSessionID = session.Id;
-
-                    _customerManager.UpdateSocialProfilePhonePackageDetails(DateTime.Now, session.Id, Convert.ToInt32(session.ClientReferenceId));
-
-                    var contact  = _customerManager.GetContactDetails(profile.socialcustomer.CustomerId);
-
-                    _customerManager.UpdateCustomerProfile(new CustomerDTO()
+                    var profile = _customerManager.GetSocialProfileById(Convert.ToInt32(session.ClientReferenceId));
+                    if (profile != null)
                     {
-                        CustomerId = profile.socialcustomer.CustomerId,
-                        FirstName = profile.socialcustomer.FirstName,
-                        SurName = profile.socialcustomer.SurName,
-                        UserName = profile.socialcustomer.UserName,
-                        PhoneNumber = contact.PhoneNumber,
-                        PhoneCode = contact.PhoneCode,
-                        AddressLine1 = contact.AddressLine1,
-                        AddressLine2 = contact.AddressLine2,
-                        City = contact.City,
-                        State = contact.State,
-                        Country = contact.Country,
-                        PostCode = contact.PostCode,
-                        Notes = contact.Notes
-                    });
+                        profile.SocialProfile.PhonePackagePurchased = true;
+                        profile.SocialProfile.PhonePackagePurchaseDate = DateTime.Now;
+                        profile.SocialProfile.PhonePackagePurchaseSessionID = session.Id;
 
-                    var nt = new NotificationDTO()
-                    {
-                        Notification = string.Format(GlobalEnums.NotificationMessages[(int)GlobalEnums.NotificationMessagesIndexes.PlanSubscribe], "Phone Delivery Plan"),
-                        CreatedBy = "stripe",
-                        CreatedOn = System.DateTime.Now,
-                        Updatedby = "stripe",
-                        UpdateOn = DateTime.Now,
-                        SocialProfileId = Convert.ToInt32(session.ClientReferenceId),
-                        StatusId = (int)GlobalEnums.GeneralStatus.Unread,
-                        Mode = "Auto"
-                    };
-                    _notManager.AddNotification(nt);
+                        _customerManager.UpdateSocialProfilePhonePackageDetails(DateTime.Now, session.Id, Convert.ToInt32(session.ClientReferenceId));
 
-                    KlaviyoAPI klaviyoAPI = new KlaviyoAPI();
-                    KlaviyoEvent ev = new KlaviyoEvent();
-                    var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
-                    List<NotRequiredProperty> list = new List<NotRequiredProperty>()  {
+                        var contact = _customerManager.GetContactDetails(profile.socialcustomer.CustomerId);
+
+                        _customerManager.UpdateCustomerProfile(new CustomerDTO()
+                        {
+                            CustomerId = profile.socialcustomer.CustomerId,
+                            FirstName = profile.socialcustomer.FirstName,
+                            SurName = profile.socialcustomer.SurName,
+                            UserName = profile.socialcustomer.UserName,
+                            PhoneNumber = contact.PhoneNumber,
+                            PhoneCode = contact.PhoneCode,
+                            AddressLine1 = session.Shipping.Address.Line1,
+                            AddressLine2 = session.Shipping.Address.Line2,
+                            City = session.Shipping.Address.City,
+                            State = session.Shipping.Address.State,
+                            Country = session.Shipping.Address.Country,
+                            PostCode = session.Shipping.Address.PostalCode,
+                            Notes = contact.Notes + session.Shipping.Name
+                        });
+
+                        var nt = new NotificationDTO()
+                        {
+                            Notification = string.Format(GlobalEnums.NotificationMessages[(int)GlobalEnums.NotificationMessagesIndexes.PlanSubscribe], "Phone Delivery Plan"),
+                            CreatedBy = "stripe",
+                            CreatedOn = System.DateTime.Now,
+                            Updatedby = "stripe",
+                            UpdateOn = DateTime.Now,
+                            SocialProfileId = Convert.ToInt32(session.ClientReferenceId),
+                            StatusId = (int)GlobalEnums.GeneralStatus.Unread,
+                            Mode = "Auto"
+                        };
+                        _notManager.AddNotification(nt);
+
+                        KlaviyoAPI klaviyoAPI = new KlaviyoAPI();
+                        KlaviyoEvent ev = new KlaviyoEvent();
+                        var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
+                        List<NotRequiredProperty> list = new List<NotRequiredProperty>()  {
                         new NotRequiredProperty("$email", profile.socialcustomer.EmailAddress),
                         new NotRequiredProperty("$first_name ", profile.socialcustomer.FirstName),
                         new NotRequiredProperty("$last_name ", profile.socialcustomer.SurName),
                         //new NotRequiredProperty("URL", URL),
                         new NotRequiredProperty("PhonePackageInvoiceDate",DateTime.Now.ToString("dd MMMM yyyy") ),
                         new NotRequiredProperty("PhonePackagePlanName", "Phone Delivery Plan"),
-                        new NotRequiredProperty("PhonePackagePrice",  "$" + session.PaymentIntent.AmountReceived),
+                        new NotRequiredProperty("PhonePackagePrice",  "$50"),
                         new NotRequiredProperty("Card", ""),
                         new NotRequiredProperty("Address","")
                     };
-                    ev.Event = "Phone Package Purchased";
+                        ev.Event = "Phone Package Purchased";
 
-                    ev.Properties.NotRequiredProperties = list;
-                    ev.CustomerProperties.Email = profile.socialcustomer.EmailAddress;
-                    ev.CustomerProperties.FirstName = profile.socialcustomer.FirstName;
-                    ev.CustomerProperties.LastName = profile.socialcustomer.SurName;
+                        ev.Properties.NotRequiredProperties = list;
+                        ev.CustomerProperties.Email = profile.socialcustomer.EmailAddress;
+                        ev.CustomerProperties.FirstName = profile.socialcustomer.FirstName;
+                        ev.CustomerProperties.LastName = profile.socialcustomer.SurName;
 
-                    klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
-                    return true;
+                        klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
+                        return true;
+                    }
+                    else
+                        return false;
                 }
                 else
                     return false;
@@ -270,8 +275,9 @@ namespace SG2.CORE.WEB.APIController
             catch (Exception e)
             {
 
-                throw;
+                throw e;
             }
+
             return true;
         }
 

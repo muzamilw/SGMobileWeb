@@ -336,6 +336,21 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
+        public bool UpdateCustomerContactPhone(string Phone, int SocialProfileId)
+        {
+            try
+            {
+                return _customerRepository.UpdateCustomerPhone(SocialProfileId, Phone);
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+
+            }
+        }
+
         public bool UpdateBasicSocialProfile(SocialProfileDTO model) {
 			try
 			{
