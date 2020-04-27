@@ -2645,6 +2645,7 @@
     <Content Include="Content\Images\pro.png" />
     <Content Include="Content\Images\signature.gif" />
     <Content Include="Content\Images\social_growth.png" />
+    <Content Include="Content\stylefont.css" />
     <Content Include="Content\Theme-Enviro\css\animate.css" />
     <Content Include="Content\Theme-Enviro\css\bootstrap.min.css" />
     <Content Include="Content\Theme-Enviro\css\default\classy-nav.min.css" />
