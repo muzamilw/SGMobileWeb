@@ -1344,3 +1344,127 @@ alter table dbo.SocialProfile
 add PhonePackagePurchased	bit null, 
 PhonePackagePurchaseDate	datetime	null,
 PhonePackagePurchaseSessionID	nvarchar(500)	null
+
+
+
+USE [sg_dev]
+GO
+/****** Object:  StoredProcedure [dbo].[S2_usp_Stats_GrowthSummary]    Script Date: 27/04/2020 12:14:52 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[S2_usp_Stats_GrowthSummary]
+@socialProfileId Int
+AS
+BEGIN
+
+ DECLARE @GrowthSummaryTBL TABLE
+	(
+		FollowersLastMonth int, 
+		LastMonthGrowthPercentage float,
+		FollowesLastWeek int, 
+		LastWeekGrowthPercentage float,
+		DailyGrowth int, 
+		DailyGrowthPercentage float,
+		MonthlyGrowth int, 
+		MonthlyGrowthPercentage float,
+		GrowthNextThirtyDays int, 
+		GrowthNextSixMonth int, 
+		AvgLikePost int, 
+		AvgCommentPost int
+	)
+ 
+	
+
+DECLARE @CurrentMonthStart Date
+DECLARE @LastMonthStart Date
+DECLARE @secondLastMonthStart Date
+DECLARE @CurrentWeekStart Date
+DECLARE @LastWeekStart Date
+DECLARE @SecondLastWeekStart Date
+
+Set @CurrentMonthStart = (SELECT DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0))
+Set @LastMonthStart = (DATEADD(month,-1,@CurrentMonthStart))
+Set @secondLastMonthStart = (DATEADD(month,-1,@LastMonthStart))
+Set @CurrentWeekStart = (dateadd(day,((datediff(day,'17530101',dateadd(day,0,DateAdd(day,2,getdate())))/7)*7),'17530101'))
+Set @LastWeekStart = (DATEADD(day,-7,@CurrentWeekStart))
+Set @SecondLastWeekStart = (DATEADD(day,-7,@LastWeekStart))
+
+
+DECLARE @FollowersLastMonth int
+DECLARE @FollowersLastMonthDiv int = 1
+DECLARE @FollowersSecondLastMonth int
+DECLARE @FollowersSecondLastMonthDiv int = 1
+DECLARE @FollowersLastWeek int
+DECLARE @FollowersSecondLastWeek int
+DECLARE @FollowersSecondLastWeekDiv int = 1
+DECLARE @CurrentFollowers int
+DECLARE @YesterdayFollowers int
+DECLARE @YesterdayFollowersDiv int = 1
+DECLARE @FollowersCurrentMonth int
+DECLARE @DailyGrowth int
+DECLARE @GrowthNextThirtyDays int
+DECLARE @GrowthNextSixMonth int
+DECLARE @CurrentTotalLikes int
+DECLARE @CurrentTotalPosts int
+DECLARE @CurrentTotalPostsdividor int = 1
+DECLARE @AvgLikePost int
+DECLARE @CurrentTotalCommet  int
+DECLARE @AvgCommentPost int
+DECLARE @LastMonthGrowthPercentage decimal(12,2)
+DECLARE @LastWeekGrowthPercentage decimal(12,2)
+DECLARE @DailyGrowthPercentage decimal(12,2)
+DECLARE @MonthlyGrowthPercentage decimal(12,2)
+
+
+set @CurrentTotalPosts = ISNULL((SELECT top 1 PostsTotal FROM  SocialProfile_Statistics WHERE SocialProfileId = @socialProfileId order by SocialProfile_Statistics.Date desc),0)
+	IF @CurrentTotalPosts > 0
+		BEGIN
+			Set @CurrentTotalPostsdividor = @CurrentTotalPosts
+		END
+set @FollowersSecondLastMonth = ISNULL((SELECT Sum(Followers) FROM  SocialProfile_Statistics WHERE SocialProfile_Statistics.Date >= @secondLastMonthStart and SocialProfile_Statistics.Date < @LastMonthStart and SocialProfileId = @socialProfileId),0)
+	IF @FollowersSecondLastMonth > 0
+		BEGIN
+			Set @FollowersSecondLastMonthDiv = @FollowersSecondLastMonth
+		END
+
+set @FollowersSecondLastWeek = ISNULL((SELECT Sum(Followers) FROM  SocialProfile_Statistics WHERE SocialProfile_Statistics.Date >= @SecondLastWeekStart and SocialProfile_Statistics.Date < @LastWeekStart and SocialProfileId = @socialProfileId),0)
+	IF @FollowersSecondLastWeek > 0
+		BEGIN
+			Set @FollowersSecondLastWeekDiv = @FollowersSecondLastWeek
+		END
+
+set @YesterdayFollowers = ISNULL((SELECT SUM(Followers) FROM  SocialProfile_Statistics WHERE CAST(SocialProfile_Statistics.Date as date) = CAST(DateAdd(day,-1,GETDATE()) as date) and SocialProfileId = @socialProfileId ),0)
+	IF @YesterdayFollowers > 0
+		BEGIN
+			Set @YesterdayFollowersDiv = @YesterdayFollowers
+		END
+
+set @FollowersLastMonth = ISNULL((SELECT Sum(Followers) FROM  SocialProfile_Statistics WHERE SocialProfile_Statistics.Date >= @LastMonthStart and SocialProfile_Statistics.Date < @CurrentMonthStart and SocialProfileId = @socialProfileId),0)
+	IF @FollowersLastMonth > 0
+		BEGIN
+			Set @FollowersLastMonthDiv = @FollowersLastMonth
+		END
+
+set @CurrentFollowers = ISNULL((SELECT SUM(Followers) FROM  SocialProfile_Statistics WHERE CAST(SocialProfile_Statistics.Date as date) = CAST(GETDATE() as date) and SocialProfileId = @socialProfileId ),0)
+set @FollowersCurrentMonth = ISNULL((SELECT Sum(Followers) FROM  SocialProfile_Statistics WHERE SocialProfile_Statistics.Date >= @CurrentMonthStart and SocialProfile_Statistics.Date <= GETDATE() and SocialProfileId = @socialProfileId),0)
+set @FollowersLastWeek = ISNULL((SELECT Sum(Followers) FROM  SocialProfile_Statistics WHERE SocialProfile_Statistics.Date >= @LastWeekStart and SocialProfile_Statistics.Date < @CurrentWeekStart and SocialProfileId = @socialProfileId),0)
+set @DailyGrowth = CEILING(CAST(@FollowersCurrentMonth AS float) / CAST(DAY(GETDATE()) AS float))
+set @GrowthNextThirtyDays = @DailyGrowth * 30
+set @GrowthNextSixMonth = @DailyGrowth * 30 * 6
+set @CurrentTotalLikes = ISNULL((SELECT top 1 LikeTotal FROM  SocialProfile_Statistics WHERE SocialProfileId = @socialProfileId order by SocialProfile_Statistics.Date desc),0)
+Set @AvgLikePost = CEILING(CAST(@CurrentTotalLikes AS float) / CAST(@CurrentTotalPostsdividor AS float))
+Set @CurrentTotalCommet = ISNULL((SELECT Sum(Comment) FROM  SocialProfile_Statistics WHERE SocialProfileId = @socialProfileId),0)
+Set @AvgCommentPost = CEILING(CAST(@CurrentTotalCommet AS float) / CAST(@CurrentTotalPostsdividor AS float))
+Set @LastMonthGrowthPercentage = ((CAST(@FollowersLastMonth AS float) - CAST(@FollowersSecondLastMonth AS float)) / CAST(@FollowersSecondLastMonthDiv AS float)) * 100
+Set @LastWeekGrowthPercentage = ((CAST(@FollowersLastWeek AS float) - CAST(@FollowersSecondLastWeek AS float)) / CAST(@FollowersSecondLastWeekDiv AS float)) * 100
+Set @DailyGrowthPercentage = ((CAST(@CurrentFollowers AS float) - CAST(@YesterdayFollowers AS float)) / CAST(@YesterdayFollowersDiv AS float)) * 100
+Set @MonthlyGrowthPercentage = ((CAST(@FollowersCurrentMonth AS float) - CAST(@FollowersLastMonth AS float)) / CAST(@FollowersLastMonthDiv AS float)) * 100
+
+INSERT INTO @GrowthSummaryTBL VALUES(@FollowersLastMonth,@LastMonthGrowthPercentage,@FollowersLastWeek
+,@LastWeekGrowthPercentage,@CurrentFollowers,@DailyGrowthPercentage,@FollowersCurrentMonth
+,@MonthlyGrowthPercentage,@GrowthNextThirtyDays,@GrowthNextSixMonth,@AvgLikePost,@AvgCommentPost)
+
+	SELECT * FROM @GrowthSummaryTBL
+END

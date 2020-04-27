@@ -408,29 +408,53 @@ namespace SG2.CORE.BAL.Managers
                 List<StatsDailyActivityDTO> statsDailyActivityDTOs = new List<StatsDailyActivityDTO>();
                 List<SocialProfile_Statistics> profile_Statistics = _statistics.GetStatsByProfileIdAndDays(socialProfileId, days);
                 SocialProfile_Statistics previousRec = null;
+                int count = 1;
                 foreach (SocialProfile_Statistics stats in profile_Statistics)
                 {
-                    if (previousRec == null)
-                        previousRec = stats;
-                    else if (previousRec.SocialStatisticsId != stats.SocialStatisticsId)
-                        previousRec = stats;
-                    StatsDailyActivityDTO statsDailyActivityDTO = new StatsDailyActivityDTO
+                    stats.FollowersTotal = stats.FollowersTotal.HasValue ? stats.FollowersTotal.Value : 0;
+                    stats.FollowingsTotal = stats.FollowingsTotal.HasValue ? stats.FollowingsTotal.Value : 0;
+                    stats.PostsTotal = stats.PostsTotal.HasValue ? stats.PostsTotal.Value : 0;
+                    if (count == 1)
                     {
+                        StatsDailyActivityDTO statsDailyActivityDTO = new StatsDailyActivityDTO
+                        {
 
-                        Date = stats.Date,
-                        Followers = stats.FollowersTotal ?? 0,
-                        Followings = stats.FollowingsTotal ?? 0,
-                        Posts = stats.PostsTotal ?? 0,
-                        FollowersDiff = stats.FollowersTotal ?? 0 - previousRec.FollowersTotal ?? 0,
-                        FollowingsDiff = stats.FollowingsTotal ?? 0 - previousRec.FollowingsTotal ?? 0,
-                        PostDiff = stats.PostsTotal ?? 0 - previousRec.PostsTotal ?? 0,
+                            Date = stats.Date,
+                            Followers = stats.FollowersTotal,
+                            Followings = stats.FollowingsTotal,
+                            Posts = stats.PostsTotal,
+                            FollowersDiff = stats.Followers ?? 0,
+                            FollowingsDiff = stats.Followings ?? 0,
+                            PostDiff = stats.Posts ?? 0,
 
-                    };
-                    statsDailyActivityDTO.EngagmentRate = statsDailyActivityDTO.Followers + statsDailyActivityDTO.Followings + statsDailyActivityDTO.Posts;
-                    statsDailyActivityDTO.EngagmentRatePercentage = statsDailyActivityDTO.FollowersDiff + statsDailyActivityDTO.FollowingsDiff + statsDailyActivityDTO.PostDiff;
-                    statsDailyActivityDTOs.Add(statsDailyActivityDTO);
+                        };
+                        statsDailyActivityDTO.EngagmentRate = statsDailyActivityDTO.Followers + statsDailyActivityDTO.Followings + statsDailyActivityDTO.Posts;
+                        statsDailyActivityDTO.EngagmentRatePercentage = statsDailyActivityDTO.FollowersDiff + statsDailyActivityDTO.FollowingsDiff + statsDailyActivityDTO.PostDiff;
+                        statsDailyActivityDTOs.Add(statsDailyActivityDTO);
+                    }
+                    else
+                    {
+                        StatsDailyActivityDTO statsDailyActivityDTO = new StatsDailyActivityDTO
+                        {
+
+                            Date = stats.Date,
+                            Followers = stats.FollowersTotal,
+                            Followings = stats.FollowingsTotal,
+                            Posts = stats.PostsTotal,
+                            FollowersDiff = stats.FollowersTotal  - previousRec.FollowersTotal,
+                            FollowingsDiff = stats.FollowingsTotal  - previousRec.FollowingsTotal,
+                            PostDiff = stats.PostsTotal  - previousRec.PostsTotal,
+
+                        };
+                        statsDailyActivityDTO.EngagmentRate = statsDailyActivityDTO.Followers + statsDailyActivityDTO.Followings + statsDailyActivityDTO.Posts;
+                        statsDailyActivityDTO.EngagmentRatePercentage = statsDailyActivityDTO.FollowersDiff + statsDailyActivityDTO.FollowingsDiff + statsDailyActivityDTO.PostDiff;
+                        statsDailyActivityDTOs.Add(statsDailyActivityDTO);
+                    }
+                   
+                    count++;
+                    previousRec = stats;
                 }
-                return statsDailyActivityDTOs;
+                return statsDailyActivityDTOs.OrderByDescending(x => x.Date).ToList();
             }
             catch (Exception ex)
             {
