@@ -275,28 +275,30 @@
                                 <div class="row my-1 mt-3">
                                     <div class="col-lg-3 col-12">
                                         <div>
-                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Followers</h3>
+                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">
+                                                <i class="icon-Follower"></i> Followers
+                                            </h3>
                                             <p class="mb-0 total-followers" style="color:#5A5A5A;font-size:25px;">0</p>
                                             <p style="color:gray;font-size:12px;">at last date</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
-                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Change</h3>
+                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;"><i class="icon-Change"></i> Change</h3>
                                             <p class="mb-0 success followers-change" style="font-size:25px;">0</p>
                                             <p style="color:gray;font-size:12px;"><span class="followers-change-per">0</span>% of total followers</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
-                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Max. growth</h3>
+                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;"><i class="icon-Growth"></i> Max. growth</h3>
                                             <p class="mb-0 followers-maxgrowth" style="color:#5A5A5A;font-size:25px;">0</p>
                                             <p class="followers-maxgrowth-date" style="color:gray;font-size:12px;"></p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
-                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Avg. change</h3>
+                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;"><i class="icon-Average"></i>  Avg. change</h3>
                                             <p class="mb-0 followers-avg-change" style="color:#5A5A5A;font-size:25px;">@Model.FollowersAverageChange</p>
                                             <p style="color:gray;font-size:12px;">followers per day</p>
                                         </div>
@@ -317,30 +319,31 @@
                                 <div class="row my-1 mt-3">
                                     <div class="col-lg-3 col-12">
                                         <div>
-                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Likes</h3>
+                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;"><i class="icon-Follower"></i> Likes</h3>
                                             <p class="mb-0 total-likes" style="color:#5A5A5A;font-size:25px;">0</p>
                                             <p style="color:gray;font-size:12px;">at last date</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
-                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Change</h3>
+                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;"><i class="icon-Change"></i> Change</h3>
                                             <p class="mb-0 success likes-change" style="font-size:25px;">0</p>
-                                            <p style="color:gray;font-size:12px;"><span class="likes-change-per">0</span>% of total likes</p>
+                                            <p style="color:gray;font-size:12px;"><span class="likes-change-per">0</span>% of total likes received</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
-                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Max. growth</h3>
+                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;"><i class="icon-Growth"></i> Max. growth</h3>
                                             <p class="mb-0 likes-max-growth" style="color:#5A5A5A;font-size:25px;">0</p>
                                             <p class="likes-maxgrowth-date" style="color:gray;font-size:12px;"></p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
-                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;">Avg. change</h3>
+                                            <h3 class="mb-0" style="color:#5A5A5A; font-size:20px;"><i class="icon-Average"></i>  Avg. change</h3>
                                             <p class="mb-0 likes-avg-change" style="color:#5A5A5A;font-size:25px;">0</p>
-                                            <p style="color:gray;font-size:12px;">likes per day</p>
+                                            <p style="color:gray;font-size:12px;">likes received per day</p>
+                                        </div>
                                         </div>
                                     </div>
                                 </div>
@@ -578,13 +581,13 @@
                                 <div class="row">
                                     <div class="col-lg-3 col-12">
                                         <div>
-                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">@growthSummary.FollowersLastMonth @*<span class="danger" style="font-weight:bold; font-size:12px;">-35.44%</span>*@</p>
+                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">@growthSummary.FollowersLastMonth <span class="danger" style="font-weight:bold; font-size:12px;">@growthSummary.LastMonthGrowthPercentage%</span></p>
                                             <p style="color:gray;font-size:12px;">Followers last month</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div>
-                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">@growthSummary.FollowesLastWeek @*<span class="success" style="font-weight:bold; font-size:12px;">+9.48%</span>*@</p>
+                                            <p class="mb-0" style="color:#000000;font-size:18px;font-weight:bold;">@growthSummary.FollowesLastWeek <span class="success" style="font-weight:bold; font-size:12px;">+@growthSummary.LastWeekGrowthPercentage%</span></p>
                                             <p style="color:gray;font-size:12px;">Followers last week</p>
                                         </div>
                                     </div>
@@ -757,38 +760,13 @@
             return (Math.abs(num) > 999 ? Math.sign(num) * ((Math.abs(num) / 1000).toFixed(1)) + 'k' : Math.sign(num) * Math.abs(num)).toString();
         }
 
-        function LoadCharts(mode) {
-            $.ajax({
-                type: "GET",
-                url: "/sadmin/crm/Trends?socialProfileId=@socialProfile.SocialProfile.SocialProfileId&mode=" + mode,
-                dataType: "json",
-                success: function (Response) {
-
-
-                    if (!$.isEmptyObject(Response)) {
-                        if (Response.Data.ResultType == "Success") {
-
-
-                            //LoadFollowersChart(Response.Data);
-                            LoadFollowingChart(Response.Data);
-                            LoadEngagementChart(Response.Data);
-                            //LoadAverageLikesChart(Response.Data);
-                            //LoadAverageLikesbyPostingTimeChart(Response.Data);
-
-                        } else {
-
-                        }
-                    }
-                },
-                failure: function (errMsg) {
-                    alert(errMsg);
-
-                }
-            });
-        }
-
+        
 
         function LoadFollowersSection(mode) {
+            if (mode > 1) {
+                localStorage.setItem('TestModeValue', mode);
+            }
+
             $.ajax({
                 type: "GET",
                 url: "/sadmin/crm/GetFollowersSection?socialProfileId=@socialProfile.SocialProfile.SocialProfileId&mode=" + mode,

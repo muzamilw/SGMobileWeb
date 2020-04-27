@@ -16,12 +16,14 @@ namespace SG2.CORE.MODAL
         public Nullable<int> FollowersLastMonth { get; set; }
         public Nullable<int> FollowesLastWeek { get; set; }
         public Nullable<int> DailyGrowth { get; set; }
-        public Nullable<int> DailyGrowthPercentage { get; set; }
+        public Nullable<double> DailyGrowthPercentage { get; set; }
         public Nullable<int> MonthlyGrowth { get; set; }
-        public Nullable<int> MonthlyGrowthPercentage { get; set; }
+        public Nullable<double> MonthlyGrowthPercentage { get; set; }
         public Nullable<int> GrowthNextThirtyDays { get; set; }
         public Nullable<int> GrowthNextSixMonth { get; set; }
         public Nullable<int> AvgLikePost { get; set; }
         public Nullable<int> AvgCommentPost { get; set; }
+        public Nullable<double> LastMonthGrowthPercentage { get; set; }
+        public Nullable<double> LastWeekGrowthPercentage { get; set; }
     }
 }

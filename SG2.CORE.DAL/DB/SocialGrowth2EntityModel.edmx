@@ -2369,13 +2369,15 @@
           <Property Type="Int32" Name="FollowersLastMonth" Nullable="true" />
           <Property Type="Int32" Name="FollowesLastWeek" Nullable="true" />
           <Property Type="Int32" Name="DailyGrowth" Nullable="true" />
-          <Property Type="Int32" Name="DailyGrowthPercentage" Nullable="true" />
+          <Property Type="Double" Name="DailyGrowthPercentage" Nullable="true" />
           <Property Type="Int32" Name="MonthlyGrowth" Nullable="true" />
-          <Property Type="Int32" Name="MonthlyGrowthPercentage" Nullable="true" />
+          <Property Type="Double" Name="MonthlyGrowthPercentage" Nullable="false" />
           <Property Type="Int32" Name="GrowthNextThirtyDays" Nullable="true" />
           <Property Type="Int32" Name="GrowthNextSixMonth" Nullable="true" />
           <Property Type="Int32" Name="AvgLikePost" Nullable="true" />
           <Property Type="Int32" Name="AvgCommentPost" Nullable="true" />
+		  <Property Type="Double" Name="LastMonthGrowthPercentage" Nullable="false" />
+		  <Property Type="Double" Name="LastWeekGrowthPercentage" Nullable="false" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3407,6 +3409,8 @@
               <ComplexTypeMapping TypeName="SocialGrowth2Entities.S2_usp_Stats_GrowthSummary_Result">
                 <ScalarProperty Name="FollowersLastMonth" ColumnName="FollowersLastMonth" />
                 <ScalarProperty Name="FollowesLastWeek" ColumnName="FollowesLastWeek" />
+				<ScalarProperty Name="LastMonthGrowthPercentage" ColumnName="LastMonthGrowthPercentage" />
+                <ScalarProperty Name="LastWeekGrowthPercentage" ColumnName="LastWeekGrowthPercentage" />
                 <ScalarProperty Name="DailyGrowth" ColumnName="DailyGrowth" />
                 <ScalarProperty Name="DailyGrowthPercentage" ColumnName="DailyGrowthPercentage" />
                 <ScalarProperty Name="MonthlyGrowth" ColumnName="MonthlyGrowth" />
