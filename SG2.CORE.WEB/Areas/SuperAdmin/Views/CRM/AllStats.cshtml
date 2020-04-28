@@ -763,21 +763,22 @@
 
     <script type="text/javascript">
         $("document").ready(function () {
-            
-            LoadFollowersSection(1);
-            LoadEngagementSection(1);
+
+
+            LoadFollowersSection(1, true);
+            LoadEngagementSection(1, true);
 
 
             $('#filterrangetotalfollowes button').click(function () {
                 $(this).addClass('active').siblings().removeClass('active');
                 var mode = $(this).data("mode");
-                LoadFollowersSection(mode);
+                LoadFollowersSection(mode,false);
             });
 
             $('#filterrangeengagement button').click(function () {
                 $(this).addClass('active').siblings().removeClass('active');
                 var mode = $(this).data("mode");
-                LoadEngagementSection(mode);
+                LoadEngagementSection(mode, false);
             });
         });
 
@@ -787,8 +788,22 @@
 
         
 
-        function LoadFollowersSection(mode) {
+        function LoadFollowersSection(mode,first) {
+
+            
+            if (performance.navigation.type == 1 && first) {
+                if (mode == 1) {
+                    var val = localStorage.getItem('followersMode');
+                    if (val != undefined) {
+                        mode = val;
+                    }
+                }
+                
+            } 
            
+            localStorage.setItem('followersMode', mode);
+           
+            
             $.ajax({
                 type: "GET",
                 url: "/sadmin/crm/GetFollowersSection?socialProfileId=@socialProfile.SocialProfile.SocialProfileId&mode=" + mode,
@@ -814,7 +829,20 @@
             });
         }
 
-        function LoadEngagementSection(mode) {
+        function LoadEngagementSection(mode, first) {
+
+            if (performance.navigation.type == 1 && first) {
+                if (mode == 1) {
+                    var val = localStorage.getItem('engagementMode');
+                    if (val != undefined) {
+                        mode = val;
+                    }
+                }
+
+            }
+
+            localStorage.setItem('engagementMode', mode);
+
             $.ajax({
                 type: "GET",
                 url: "/sadmin/crm/GetEngagementSection?socialProfileId=@socialProfile.SocialProfile.SocialProfileId&mode=" + mode,
