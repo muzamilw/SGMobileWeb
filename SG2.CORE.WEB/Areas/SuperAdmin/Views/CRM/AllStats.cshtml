@@ -962,7 +962,7 @@
             var morrisData = [];
 
             for (i = 0; i < ChartsData.ResultData.Date.length; i++) {
-                morrisData.push({ 'Date': ChartsData.ResultData.Date[i], 'FollowingsTotal': ChartsData.ResultData.Followers[i] });
+                morrisData.push({ 'Date': ChartsData.ResultData.Date[i], 'FollowingsTotal': ChartsData.ResultData.FollowingsTotal[i] });
             }
 
             $("#line-followings").empty();
