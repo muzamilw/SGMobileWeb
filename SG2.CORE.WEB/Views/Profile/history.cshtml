@@ -615,7 +615,7 @@
 
             if (currentPaymentPlan == "FREE") {
                  $('input[id="' + inputFieldId +'"]').prop('checked', true).change();
-                   swal({
+                   Swal.fire({
                           title: "",
                           text: "UPGRADE to a paid plan to enable this service. ",
                           icon: "info", /* type: "info", */
@@ -734,28 +734,16 @@
                     return;
                  }
 
-                swal({
+                Swal.fire({
                     title: ChangeType,
                     text: ChangeMsg,
                     icon: "info",
                     showLoaderOnConfirm: true,
                     closeOnClickOutside:false,
-                    buttons: {
-                        cancel: {
-                            text: "Close",
-                            value: null,
-                            visible: true,
-                            className: "",
-                            closeModal: true,
-                        },
-                        confirm: {
-                            text: ChangeBtn,
-                            value: true,
-                            visible: true,
-                            className: "",
-                            closeModal: false
-                        }
-                    },
+                    showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: ChangeBtn,
                     //preConfirm: (login) => {
                     //    return fetch('//api.github.com/users/muzamilw')
                     //        .then(response => {
@@ -770,12 +758,12 @@
                     //            )
                     //        })
                     //},
-                }).then(isConfirm => {
-                    if (isConfirm && existingStripeSubscriptionId == "") {
-                        swal.close();
+                }).then(result => {
+                    if (result.value && existingStripeSubscriptionId == "") {
+                        Swal.close();
                         $("#planSubscriptionModal").modal("show");
                     }
-                    else if (isConfirm && existingStripeSubscriptionId != "") {
+                    else if (result.value && existingStripeSubscriptionId != "") {
                         //swal.enableLoading();
                         //swal("OK", "It's safe.", "error");
 
@@ -799,8 +787,8 @@
                             })
                             .then(subscription => {
                                 //handleSubscription(subscription);.
-                                swal.close();
-                                swal("Success!", "Your subscription has been successfully updated;", "success")
+                                Swal.close();
+                                Swal.fire("Success!", "Your subscription has been successfully updated;", "success")
                                     .then(function () {
                                         window.location = "/User/Home/";
                                     });;
@@ -821,28 +809,16 @@
 
 
 
-                swal({
+                Swal.fire({
                     title: "Delete subscription!",
                     text: "Are you sure you want to delete your profile and subscription ? This action is not reversible!",
                     icon: "error",
                     showLoaderOnConfirm: true,
                     closeOnClickOutside: false,
-                    buttons: {
-                        cancel: {
-                            text: "Close",
-                            value: null,
-                            visible: true,
-                            className: "",
-                            closeModal: true,
-                        },
-                        confirm: {
-                            text: "Delete subscription & profile",
-                            value: true,
-                            visible: true,
-                            className: "btn-warning",
-                            closeModal: false
-                        }
-                    },
+                    showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: "Yes Delete!",
 
                 }).then(isConfirm => {
                     if (isConfirm) {
@@ -859,8 +835,8 @@
                         })
                             .then(subscription => {
                                 //handleSubscription(subscription);.
-                                swal.close();
-                                swal("Success!", "Your subscription & profile has been deleted successfully;", "success")
+                                Swal.close();
+                                Swal.fire("Success!", "Your subscription & profile has been deleted successfully;", "success")
                                     .then(function () {
                                         window.location = "/User/Home/";
                                     });;
