@@ -1600,8 +1600,12 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    var offset=  _db.SocialProfiles.Where(g => g.SocialProfileId == socialProfileId).Single().AppTimeZoneOffSet;
-                    appTimeZoneOffset = string.IsNullOrEmpty(offset) ? 0 : Convert.ToDouble(offset);
+                    var offset =  _db.SocialProfiles.Where(g => g.SocialProfileId == socialProfileId).Single().AppTimeZoneOffSet;
+                    appTimeZoneOffset = 0;           
+                    if (!string.IsNullOrEmpty(offset))
+                    {
+                         Double.TryParse(offset, out appTimeZoneOffset);
+                    }
                     return  _db.SocialProfile_Actions.Where(g => g.SocialProfileId == socialProfileId).OrderByDescending(g => g.ActionDateTime).Take(NoOfActions).ToList();
                 }
             }
@@ -1611,6 +1615,24 @@ namespace SG2.CORE.DAL.Repositories
                 throw e;
             }
            
+        }
+
+        public SocialProfile GetAppTimeZoneOffSet(int socialProfileId)
+
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    return _db.SocialProfiles.Where(g => g.SocialProfileId == socialProfileId).FirstOrDefault();
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+
         }
 
         public SocialProfile GetSocialProfileByStripeSubscriptionId(string StripeSubscriptionId)
@@ -1685,7 +1707,21 @@ namespace SG2.CORE.DAL.Repositories
                         if (socialProfile_Actions != null && socialProfile_Actions.ActionDateTime != null)
                         {
                             DateTime actionDateTime = Convert.ToDateTime(socialProfile_Actions.ActionDateTime);
-                            TimeSpan span = DateTime.Now.Subtract(actionDateTime);
+                            DateTime currentDate = DateTime.UtcNow;
+
+                            if (profile.SocialProfile != null)
+                            {
+                                double number = 0;
+                                if (!string.IsNullOrEmpty(profile.SocialProfile.AppTimeZoneOffSet))
+                                {
+                                    Double.TryParse(profile.SocialProfile.AppTimeZoneOffSet, out number);
+                                    if (number != 0)
+                                    {
+                                        currentDate = currentDate.AddHours(number);
+                                    }
+                                }
+                            }
+                            TimeSpan span = currentDate.Subtract(actionDateTime);
                             if (span.TotalMinutes <= 3) 
                             {
                                 profile.AppStatus = "Online";

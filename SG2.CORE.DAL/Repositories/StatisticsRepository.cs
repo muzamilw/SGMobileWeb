@@ -412,7 +412,6 @@ namespace SG2.CORE.DAL.Repositories
         {
             try
             {
-                DateTime date = DateTime.Now.AddDays(Days);
                 using (var _db = new SocialGrowth2Connection())
                 {
                     return _db.SocialProfile_Statistics.Where(s => s.SocialProfileId == socialProfileId).OrderBy(g => g.Date).ToList();

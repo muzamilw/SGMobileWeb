@@ -274,6 +274,22 @@ namespace SG2.CORE.WEB.APIController
                 try
                 {
 
+                    DateTime currentDate = DateTime.UtcNow;
+                    if(model != null && model.Count > 0)
+                    {
+                        double offSet = _customerManager.GetAppTimeZoneOffSet(model.First().SocialProfileId);
+                        if(offSet != 0)
+                        {
+                            currentDate = currentDate.AddHours(offSet);
+                        }
+                    }
+
+                    foreach (var item in model)
+                    {
+                        item.ActionDateTime = currentDate.ToString();
+                    }
+
+
                     int successCount = 0;
 
                     foreach (var item in model)
@@ -287,8 +303,7 @@ namespace SG2.CORE.WEB.APIController
                     var BlockedActions = model.Where(g => BlockedStatuses.Contains(g.ActionId)).ToList();
                     if (BlockedActions != null && BlockedActions.Count > 0)
                     {
-
-                        _customerManager.UpdateBasicSocialProfileBlock((BlockStatus)BlockedActions.First().ActionId, BlockedActions.First().SocialProfileId);
+                        _customerManager.UpdateBasicSocialProfileBlock((BlockStatus)BlockedActions.First().ActionId, BlockedActions.First().SocialProfileId, currentDate);
                     }
 
                     //add the newly followed accounts 
@@ -323,22 +338,15 @@ namespace SG2.CORE.WEB.APIController
                             FollowingCount = Convert.ToInt32(strotint(followingcount.InitialFollowings));
                             Posts = Convert.ToInt32(strotint(followingcount.InitialPosts));
                         }
-
-
-
+                        
                         //take diff with previous no and then update.
                     }
 
-                    DateTime statsDate = DateTime.Now;
-
-                    if (!string.IsNullOrEmpty(model.First().ActionDateTime))
-                    {
-                        statsDate = Convert.ToDateTime(model.First().ActionDateTime);
-                    }
+                    
 
                     //omny update stats if anything changes.
                     if (FollowingCount > 0  || FollowingCountNet  > 0|| LikeCount > 0 || CommentCount > 0 || StoryCount > 0 || FollowCount > 0  || UnFollowCount > 0 || Posts > 0)
-                        _statsManager.UpdateStatistics(model.First().SocialProfileId, FollowingCountNet, LikeCount, CommentCount, StoryCount, FollowCount, statsDate, UnFollowCount, Posts);
+                        _statsManager.UpdateStatistics(model.First().SocialProfileId, FollowingCountNet, LikeCount, CommentCount, StoryCount, FollowCount, currentDate, UnFollowCount, Posts);
 
                     if (successCount == model.Count)
                     {

@@ -416,11 +416,11 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public bool UpdateBasicSocialProfileBlock(BlockStatus blockStatus, int SocialProfileId)
+        public bool UpdateBasicSocialProfileBlock(BlockStatus blockStatus, int SocialProfileId, DateTime currentDate)
         {
             try
             {
-                var socialprofile = _socialRepository.UpdateSocialProfileBlocks(blockStatus, SocialProfileId);
+                var socialprofile = _socialRepository.UpdateSocialProfileBlocks(blockStatus, SocialProfileId, currentDate);
                 return socialprofile;
 
             }
@@ -846,9 +846,6 @@ namespace SG2.CORE.BAL.Managers
             {
                 var result = _customerRepository.SaveMobileAppActions(model);
                 
-
-
-
                 return result;
             }
             catch (Exception ex)
@@ -872,21 +869,20 @@ namespace SG2.CORE.BAL.Managers
                 var serveroffset = DateTimeOffset.Now.Offset.Hours;//TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow);
 
                
-
                 var results =  _customerRepository.ReturnLastActions(socialProfileId, NoOfActions, out appoffset);
 
                 // +3 +5 
                 double offset = 0;
-                if (serveroffset > 0)
-                    offset = appoffset - serveroffset;
-                else
-                    offset = appoffset + serveroffset;
+                offset = serveroffset - appoffset;
 
                 var mapped =  mapper.Map<List<SocialProfile_ActionsViewModel>>(results);
 
                 foreach (var item in mapped)
                 {
-                    item.ActionDateTime = item.ActionDateTime.Value.AddHours(offset);
+                    if(offset != 0)
+                    {
+                        item.ActionDateTime = item.ActionDateTime.Value.AddHours(offset);
+                    }
                     switch (item.ActionID)
                     {
                         case 60 : item.Action = "Following";break;
@@ -939,6 +935,22 @@ namespace SG2.CORE.BAL.Managers
             var Model = _customerRepository.GetTrelloStatuses();
 
             return Model;
+        }
+
+        public double GetAppTimeZoneOffSet(int socialProfileId)
+        {
+            double number = 0;
+            var vm = _customerRepository.GetAppTimeZoneOffSet(socialProfileId);
+            if(vm != null)
+            {
+                
+                if (!string.IsNullOrEmpty(vm.AppTimeZoneOffSet))
+                {
+                    Double.TryParse(vm.AppTimeZoneOffSet, out number);
+                }
+            }
+            return number;
+            
         }
 
 

@@ -119,6 +119,7 @@ namespace SG2.CORE.BAL.Managers
                         prevStats.StoryViews = StoryCount;
                         prevStats.StoryViewsTotal = (prevStats.StoryViewsTotal ?? 0) + StoryCount;
 
+                        
                         prevStats.Followers = FollowCount;
                         prevStats.FollowersTotal = FollowCount;
 
@@ -185,18 +186,18 @@ namespace SG2.CORE.BAL.Managers
             {
 
 
-                double appoffset = 0;
-                var serveroffset = DateTimeOffset.Now.Offset.Hours;//TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow);
+                //double appoffset = 0;
+                //var serveroffset = DateTimeOffset.Now.Offset.Hours;//TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow);
 
                 var profile = _cm.GetSocialProfilesById(socialProfileId);
-                appoffset = Convert.ToDouble(string.IsNullOrEmpty(profile.SocialProfile.AppTimeZoneOffSet) ? "0" : profile.SocialProfile.AppTimeZoneOffSet);
+                //appoffset = Convert.ToDouble(string.IsNullOrEmpty(profile.SocialProfile.AppTimeZoneOffSet) ? "0" : profile.SocialProfile.AppTimeZoneOffSet);
 
                 // +3 +5 
-                double offset = 0;
-                if (serveroffset > 0)
-                    offset = appoffset - serveroffset;
-                else
-                    offset = appoffset + serveroffset;
+                //double offset = 0;
+                //if (serveroffset > 0)
+                 //   offset = appoffset - serveroffset;
+                //else
+                //    offset = appoffset + serveroffset;
 
 
 

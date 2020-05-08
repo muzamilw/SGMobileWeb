@@ -614,25 +614,27 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             var jr = new JsonResult();
             try
             {
-                DateTime startdate = DateTime.Today.AddDays(-15);   //15 week
-                DateTime enddate = DateTime.Today.AddHours(24);
+                double offSet = this._customerManager.GetAppTimeZoneOffSet(socialProfileId);
+                DateTime offSetDate = DateTime.UtcNow.AddHours(offSet).Date;
+                DateTime startdate = offSetDate.AddDays(-15);   //15 week
+                DateTime enddate = offSetDate.AddHours(24);
 
 
                 if (mode == 2)
                 {
-                    startdate = DateTime.Today.AddDays(-30);  //1 months
+                    startdate = offSetDate.AddMonths(-1);  //1 months
                 }
                 else if (mode == 3)
                 {
-                    startdate = DateTime.Today.AddMonths(-3);  //3 months
+                    startdate = offSetDate.AddMonths(-3);  //3 months
                 }
                 else if (mode == 4)
                 {
-                    startdate = DateTime.Today.AddMonths(-6); //6 months
+                    startdate = offSetDate.AddMonths(-6); //6 months
                 }
                 else if (mode == 5)
                 {
-                    startdate = DateTime.Today.AddMonths(-12); //12 months
+                    startdate = offSetDate.AddMonths(-12); //12 months
                 }
 
                 var trends = _statisticsManager.GetProfileTrends(socialProfileId, startdate, enddate);
@@ -660,8 +662,8 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                     totalLikes = (lastRecord.LikeTotal.HasValue ? lastRecord.LikeTotal : 0);
                     followersChange = totalFollowers - (firstRecord.FollowersTotal.HasValue ? firstRecord.FollowersTotal : 0);
                     likesChange = totalLikes - (firstRecord.LikeTotal.HasValue ? firstRecord.LikeTotal : 0);
-                    followersAvgChange = (followersChange / (DateTime.Today - startdate).Days);
-                    likesAvgChange = (likesChange / (DateTime.Today - startdate).Days);
+                    followersAvgChange = (followersChange / (offSetDate - startdate).Days);
+                    likesAvgChange = (likesChange / (offSetDate - startdate).Days);
 
                     if (totalFollowers > 0 && followersChange > 0)
                     {
@@ -748,24 +750,27 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             var jr = new JsonResult();
             try
             {
-                DateTime startdate = DateTime.Today.AddDays(-15);   //1 week
-                DateTime enddate = DateTime.Today.AddHours(24);
+                double offSet = this._customerManager.GetAppTimeZoneOffSet(socialProfileId);
+                DateTime offSetDate = DateTime.UtcNow.AddHours(offSet).Date;
+                DateTime startdate = offSetDate.AddDays(-15);   //15 week
+                DateTime enddate = offSetDate.AddHours(24);
+
 
                 if (mode == 2)
                 {
-                    startdate = DateTime.Today.AddDays(-30);  //1 months
+                    startdate = offSetDate.AddMonths(-1);  //1 months
                 }
-                if (mode == 3)
+                else if (mode == 3)
                 {
-                    startdate = DateTime.Today.AddMonths(-3);  //3 months
+                    startdate = offSetDate.AddMonths(-3);  //3 months
                 }
                 else if (mode == 4)
                 {
-                    startdate = DateTime.Today.AddMonths(-6); //6 months
+                    startdate = offSetDate.AddMonths(-6); //6 months
                 }
                 else if (mode == 5)
                 {
-                    startdate = DateTime.Today.AddMonths(-12); //12 months
+                    startdate = offSetDate.AddMonths(-12); //12 months
                 }
 
 

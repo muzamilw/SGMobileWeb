@@ -148,7 +148,7 @@ namespace SG2.CORE.DAL.Repositories
 
         }
 
-        public bool UpdateSocialProfileBlocks(BlockStatus blockStatus, int SocialProfileId)
+        public bool UpdateSocialProfileBlocks(BlockStatus blockStatus, int SocialProfileId, DateTime currentDate)
         {
             try
             {
@@ -156,15 +156,15 @@ namespace SG2.CORE.DAL.Repositories
                 {
 
                     var profile = _db.SocialProfiles.Where(g => g.SocialProfileId == SocialProfileId).SingleOrDefault();
+
+                    profile.BockedSinceDateTime = currentDate;
                     if (blockStatus == BlockStatus.Clear)
                     {
                         profile.BlockedStatus = 0;
-                        profile.BockedSinceDateTime = DateTime.Now;
                     }
                     else
                     {
                         profile.BlockedStatus = (int)blockStatus;
-                        profile.BockedSinceDateTime = DateTime.Now;
                     }
                     
                     profile.UpdatedBy = "User";
@@ -325,11 +325,11 @@ namespace SG2.CORE.DAL.Repositories
                     {
                         if (item.ActionId == 60) 
                         {
-                            _db.SocialProfile_FollowedAccounts.Add(new SocialProfile_FollowedAccounts { FollowedDateTime = String.IsNullOrEmpty( item.ActionDateTime) ? DateTime.Now : Convert.ToDateTime (item.ActionDateTime), FollowedSocialUsername = item.TargetSocialUserName, SocialProfileId = item.SocialProfileId, StatusId = 1 });
+                            _db.SocialProfile_FollowedAccounts.Add(new SocialProfile_FollowedAccounts { FollowedDateTime = String.IsNullOrEmpty( item.ActionDateTime) ? DateTime.UtcNow : Convert.ToDateTime (item.ActionDateTime), FollowedSocialUsername = item.TargetSocialUserName, SocialProfileId = item.SocialProfileId, StatusId = 1 });
                         }
                         else if (item.ActionId == 73)
                         {
-                            _db.SocialProfile_FollowedAccounts.Add(new SocialProfile_FollowedAccounts { FollowedDateTime = String.IsNullOrEmpty(item.ActionDateTime) ? DateTime.Now : Convert.ToDateTime(item.ActionDateTime), FollowedSocialUsername = item.TargetSocialUserName, SocialProfileId = item.SocialProfileId, StatusId = 3 });
+                            _db.SocialProfile_FollowedAccounts.Add(new SocialProfile_FollowedAccounts { FollowedDateTime = String.IsNullOrEmpty(item.ActionDateTime) ? DateTime.UtcNow : Convert.ToDateTime(item.ActionDateTime), FollowedSocialUsername = item.TargetSocialUserName, SocialProfileId = item.SocialProfileId, StatusId = 3 });
                         }
                         else
                         {
