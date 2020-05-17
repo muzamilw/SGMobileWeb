@@ -4,9 +4,7 @@
 
                 var custDto = (CustomerDTO)ViewBag.CustomerDTO;
 }
-@{
-    var _intercomPublishKey = SG2.CORE.WEB.Architecture.SystemConfig.GetConfigs.First(x => x.ConfigKey == "Intercom").ConfigValue;
-}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +18,7 @@
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Social Growth</title>
+    <title>@ViewBag.Title - SocialPlannerPro</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="~/Content/ThemeAssets/css/Home.css" rel="stylesheet" />
     <link href="~/Content/ThemeAssets/css/style.css" rel="stylesheet" type="text/css">
@@ -38,7 +36,7 @@
         }
     </style>
 
-    <script>
+    @*<script>
         !function (f, b, e, v, n, t, s) {
             if (f.fbq) return; n = f.fbq = function () {
                 n.callMethod ?
@@ -59,7 +57,7 @@
         <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2899883190056318&ev=PageView&noscript=1" />
         <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=722023768308766&ev=PageView&noscript=1" />
         <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=433629843942100&ev=PageView&noscript=1" />
-    </noscript>
+    </noscript>*@
 
 
 </head>
@@ -71,7 +69,7 @@
 
             <nav class="navbar navbar-expand-md navbar-light">
                 <a href="/Profile/Basic?socialProfileId=@custDto.DefaultSocialProfileId" class="navbar-brand">
-                    <img src="~/Content/ThemeAssets/images/social-growth.png" height="28" alt="Social Growth">
+                    <img src="~/Content/ThemeAssets/images/social-growth.png" height="28" alt="SocialPlannerPro">
                 </a>
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                     <span class="navbar-toggler-icon"></span>
@@ -114,7 +112,7 @@
         </div>
         <div class="row">
             <div class="col text-center">
-                <img src="~/Content/ThemeAssets/images/social-growth.png" height="28" alt="Social Growth">
+                <img src="~/Content/ThemeAssets/images/social-growth.png" height="28" alt="SocialPlannerPro">
             </div>
         </div>
 
@@ -147,11 +145,7 @@
         <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Content/ThemeAssets/js/owl.carousel.min.js"></script>
     <script src="~/Content/ThemeAssets/js/functions.js"></script>
-    <script type="text/javascript">
-        var glb_intercomKey = '@_intercomPublishKey';
-    </script>
-
-    @Scripts.Render("~/Scripts/Intercom1.1.js")
+    
 
 
     <script type="text/javascript">

@@ -16,9 +16,7 @@
     var hmac = BitConverter.ToString(hash).Replace("-", "").ToLower();
 
 }
-@{
-    var _intercomPublishKey = SG2.CORE.WEB.Architecture.SystemConfig.GetConfigs.First(x => x.ConfigKey == "Intercom").ConfigValue;
-}
+
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
 <!-- BEGIN: Head-->
@@ -37,7 +35,7 @@
     <meta name="description" content="Stack admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
     <meta name="keywords" content="admin template, stack admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="PIXINVENT">
-    <title>@ViewBag.Title - Social Growth</title>
+    <title>@ViewBag.Title - SocialPlannerPro</title>
     <link rel="apple-touch-icon" href="~/Content/app-assets/images/ico/apple-icon-120.png">
     <link rel="shortcut icon" type="image/x-icon" href="~/Content/app-assets/images/ico/favicon.ico">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i%7COpen+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
@@ -65,7 +63,7 @@
 
     @RenderSection("styles", required: false)
 
-    <script>
+    @*<script>
         !function (f, b, e, v, n, t, s) {
             if (f.fbq) return; n = f.fbq = function () {
                 n.callMethod ?
@@ -86,7 +84,7 @@
         <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2899883190056318&ev=PageView&noscript=1" />
         <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=722023768308766&ev=PageView&noscript=1" />
         <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=433629843942100&ev=PageView&noscript=1" />
-    </noscript>
+    </noscript>*@
 
 
     <!-- END: Custom CSS-->
@@ -108,7 +106,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="navbar-brand" href="~/user/home">
-                            <img class="brand-logo" style="width:90px" alt="Social Growth Logo" src="~/Content/ThemeAssets/images/social-growth.png">
+                            <img class="brand-logo" style="width:90px" alt="SocialPlannerPro Logo" src="~/Content/ThemeAssets/images/socialplannerpro.png">
 
                         </a>
                     </li>
@@ -224,7 +222,7 @@
     <div class="drag-target"></div>
     <!-- BEGIN: Footer-->
     <footer class="footer footer-static footer-light navbar-shadow">
-        <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2 container center-layout"><span class="float-md-left d-block d-md-inline-block">Copyright &copy; 2019 <a class="text-bold-800 grey darken-2" href="https://wwww.socialgrowthlabs.com" target="_blank">Social Growth Labs Inc.</a></span></p>
+        <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2 container center-layout"><span class="float-md-left d-block d-md-inline-block">Copyright &copy; 2019 <a class="text-bold-800 grey darken-2" href="https://wwww.socialgrowthlabs.com" target="_blank">SocialPlannerPro Inc.</a></span></p>
     </footer>
     <!-- END: Footer-->
     <!-- BEGIN: Vendor JS-->
@@ -264,31 +262,6 @@
 
     }
 
-    <script>
-
-        window.intercomSettings = {
-            app_id: "xsl2s4e6",
-            name: "@(custDto.FirstName + " " + custDto.SurName )", // Full name
-            email: "@custDto.EmailAddress", // Email address,
-            user_hash: "@hmac",
-            created_at: "@unixTime" // Signup date as a Unix timestamp
-        };
-    </script>
-
-    <script>(function () { var w = window; var ic = w.Intercom; if (typeof ic === "function") { ic('reattach_activator'); ic('update', w.intercomSettings); } else { var d = document; var i = function () { i.c(arguments); }; i.q = []; i.c = function (args) { i.q.push(args); }; w.Intercom = i; var l = function () { var s = d.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'https://widget.intercom.io/widget/xsl2s4e6'; var x = d.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x); }; if (w.attachEvent) { w.attachEvent('onload', l); } else { w.addEventListener('load', l, false); } } })();</script>
-    <script src="//app.helphero.co/embed/6CV63hgJQlu"></script>
-    @if (ViewBag.socialProfileId != null)
-    {
-        <script>
-         HelpHero.identify('@ViewBag.socialProfileId');
-        </script>
-    }
-    else
-    {
-        <script>
-         HelpHero.identify('@custDto.EmailAddress');
-        </script>
-    }
 </body>
 <!-- END: Body-->
 </html>

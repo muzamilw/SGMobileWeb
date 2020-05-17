@@ -4,9 +4,6 @@
 
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
 }
-@{
-    var _intercomPublishKey = SG2.CORE.WEB.Architecture.SystemConfig.GetConfigs.First(x => x.ConfigKey == "Intercom").ConfigValue;
-}
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +13,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags-->
     <!-- Title-->
-    <title>@ViewBag.Title - Social Growth Labs</title>
+    <title>@ViewBag.Title - SocialPlannerPro</title>
     <!-- Core Stylesheet-->
 
     <link href="~/Content/Theme-Enviro/css/bootstrap.min.css" rel="stylesheet" />
@@ -36,34 +33,7 @@
     <link rel="manifest" href="/site.webmanifest">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
-    <script>
-
-        var glb_intercomKey = "xsl2s4e6";
-
-        !function (f, b, e, v, n, t, s) {
-            if (f.fbq) return; n = f.fbq = function () {
-                n.callMethod ?
-                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-            }; if (!f._fbq) f._fbq = n;
-            n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0;
-            t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
-        }(window,
-            document, 'script', '//connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '1185819604852319');
-        fbq('init', '2899883190056318');
-        fbq('init', '722023768308766');
-        fbq('init', '433629843942100');
-        fbq('track', 'PageView'); //tracks a PageView to both initialized pixels
-    </script>
-    <noscript>
-        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1185819604852319&ev=PageView&noscript=1" />
-        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2899883190056318&ev=PageView&noscript=1" />
-        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=722023768308766&ev=PageView&noscript=1" />
-        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=433629843942100&ev=PageView&noscript=1" />
-    </noscript>
-
-    <script type="text/javascript">window.$crisp = []; window.CRISP_WEBSITE_ID = "096822b5-332a-4663-a979-1ae6af5f96b8"; (function () { d = document; s = d.createElement("script"); s.src = "https://client.crisp.chat/l.js"; s.async = 1; d.getElementsByTagName("head")[0].appendChild(s); })();</script>
-  
+    
     </head>
 
 <body>
@@ -72,7 +42,7 @@
             <div class="container">
                 <div class="classy-nav-container breakpoint-off">
                     <nav class="classy-navbar justify-content-between" id="radixNav">
-                        <!-- Logo--><a class="nav-brand mr-5" href="/Home"><img src="~/Content/Theme-Enviro/img/core-img/logo_SM.png" alt="" class="logo-height-50"></a>
+                        <!-- Logo--><a class="nav-brand mr-5" href="/Home"><img src="~/Content/Theme-Enviro/img/core-img/socialplannerpro.png" alt="" class="logo-height-50"></a>
                         <!-- Navbar Toggler-->
                         <div class="classy-navbar-toggler"><span class="navbarToggler"><span></span><span></span><span></span><span></span></span></div>
                         <!-- Menu-->
@@ -115,7 +85,7 @@
                 <!-- Footer Widget Area-->
                 <div class="col-12 col-sm-10 col-lg-4">
                     <div class="footer-widget-area mb-70">
-                        <a class="d-block mb-4" href="/Home"><img src="~/Content/Theme-Enviro/img/core-img/logo_SM.png" class="logo-height-50" alt=""></a>
+                        <a class="d-block mb-4" href="/Home"><img src="~/Content/Theme-Enviro/img/core-img/socialplannerpro.png" class="logo-height-50" alt=""></a>
 
                         <div class="footer-social-icon d-flex align-items-center"><a href="#" data-toggle="tooltip" data-placement="top" title="Facbook"><i class="fa fa-facebook"></i></a><a href="#" data-toggle="tooltip" data-placement="top" title="Twitter"><i class="fa fa-twitter"></i></a><a href="#" data-toggle="tooltip" data-placement="top" title="Instagram"><i class="fa fa-instagram"></i></a><a href="#" data-toggle="tooltip" data-placement="top" title="Linkedin"><i class="fa fa-linkedin"></i></a><a href="#" data-toggle="tooltip" data-placement="top" title="Youtube"><i class="fa fa-youtube"></i></a></div>
                     </div>
@@ -149,7 +119,7 @@
                 <div class="col-12 col-md-6 col-lg-5">
                     <!-- Copywrite Text-->
                     <div class="footer--content-text">
-                        <p class="mb-0">All rights reserved by &nbsp; <a href="/Home">Social Growth Lab Inc.</a></p>
+                        <p class="mb-0">All rights reserved by &nbsp; <a href="/Home">SocialPlannerPro Lab Inc.</a></p>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-7">
@@ -198,11 +168,8 @@
     <script src="~/Content/Theme-Enviro/js/default/mail.js"></script>
     <script src="~/Content/Theme-Enviro/js/default/active.js"></script>
     @Scripts.Render("~/scripts/js")
-    <script type="text/javascript">
-        var glb_intercomKey = '@_intercomPublishKey';
-    </script>
 
-    @Scripts.Render("~/Scripts/Intercom1.1.js")
+
 
     <script type="text/javascript">
 
@@ -412,15 +379,6 @@
 
     </script>
 
-    <script type="text/javascript">
-
-
-        window.intercomSettings = {
-            app_id: "xsl2s4e6"
-        };
-    </script>
-
-    <script>(function () { var w = window; var ic = w.Intercom; if (typeof ic === "function") { ic('reattach_activator'); ic('update', w.intercomSettings); } else { var d = document; var i = function () { i.c(arguments); }; i.q = []; i.c = function (args) { i.q.push(args); }; w.Intercom = i; var l = function () { var s = d.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'https://widget.intercom.io/widget/xsl2s4e6'; var x = d.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x); }; if (w.attachEvent) { w.attachEvent('onload', l); } else { w.addEventListener('load', l, false); } } })();</script>
 
 
 

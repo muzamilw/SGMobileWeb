@@ -38,8 +38,8 @@ namespace SG2.CORE.WEB.App_Start
             
             bundles.Add(new ScriptBundle("~/scripts/js").Include(
                       "~/Scripts/jquery.validate.min.js",
-                      "~/Scripts/jquery.validate.unobtrusive.min.js",
-                      "~/Scripts/Intercom1.1.js"
+                      "~/Scripts/jquery.validate.unobtrusive.min.js"
+                     /* "~/Scripts/Intercom1.1.js"*/
                       )
                      );
             bundles.Add(new ScriptBundle("~/socialgrowthengine/js").Include(

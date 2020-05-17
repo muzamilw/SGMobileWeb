@@ -520,7 +520,7 @@ namespace SG2.CORE.WEB.Controllers
                 {
                     var stripeCustomerCreateOptions = new CustomerCreateOptions
                     {
-                        Description = " Afilliate Customer for Social Growth Labs " + this.CDT.EmailAddress + " with Customer id " + model.socialProfileId,
+                        Description = " Afilliate Customer for SocialPlannerPro " + this.CDT.EmailAddress + " with Customer id " + model.socialProfileId,
                         PaymentMethod = model.paymentmethod,
                         Name = this.CDT.FirstName + " " + this.CDT.SurName,
                         Email = this.CDT.EmailAddress,
@@ -995,7 +995,7 @@ namespace SG2.CORE.WEB.Controllers
 
         //            var customerCreateOptions = new CustomerCreateOptions
         //            {
-        //                Description = " Customer for Social Growth" + this.CDT.EmailAddress,
+        //                Description = " Customer for SocialPlannerPro" + this.CDT.EmailAddress,
         //                //SourceToken = "tok_visa",
         //                Address = new AddressOptions
         //                {

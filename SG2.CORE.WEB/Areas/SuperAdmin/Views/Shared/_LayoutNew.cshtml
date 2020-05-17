@@ -9,9 +9,7 @@
     var userDto = (SystemUserDTO)ViewBag.SystemUserDTO;
 
 }
-@{
-    var _intercomPublishKey = SG2.CORE.WEB.Architecture.SystemConfig.GetConfigs.First(x => x.ConfigKey == "Intercom").ConfigValue;
-}
+
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
 <!-- BEGIN: Head-->
@@ -22,7 +20,7 @@
     <meta name="description" content="Stack admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
     <meta name="keywords" content="admin template, stack admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="PIXINVENT">
-    <title>@ViewBag.Title - Social Growth</title>
+    <title>@ViewBag.Title - SocialPlannerPro</title>
     <link rel="apple-touch-icon" href="~/Content/app-assets/images/ico/apple-icon-120.png">
     <link rel="shortcut icon" type="image/x-icon" href="~/Content/app-assets/images/ico/favicon.ico">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i%7COpen+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
@@ -52,7 +50,7 @@
 
     @RenderSection("styles", required: false)
 
-    <script>
+    @*<script>
         !function (f, b, e, v, n, t, s) {
             if (f.fbq) return; n = f.fbq = function () {
                 n.callMethod ?
@@ -73,7 +71,7 @@
         <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2899883190056318&ev=PageView&noscript=1" />
         <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=722023768308766&ev=PageView&noscript=1" />
         <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=433629843942100&ev=PageView&noscript=1" />
-    </noscript>
+    </noscript>*@
 
     <!-- END: Custom CSS-->
 </head>
@@ -88,7 +86,7 @@
                     <li class="nav-item mobile-menu d-md-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu font-large-1"></i></a></li>
                     @*<li class="nav-item">
                             <a class="navbar-brand" href="~/sadmin">
-                                <img class="brand-logo" style="width:90px" alt="Social Growth Logo" src="~/Content/ThemeAssets/images/social-growth.png">
+                                <img class="brand-logo" style="width:90px" alt="SocialPlannerPro Logo" src="~/Content/ThemeAssets/images/social-growth.png">
 
                             </a>
                         </li>*@
@@ -101,7 +99,7 @@
                         @*<li class="nav-item d-none d-md-block"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu"></i></a></li>*@
                         <li class="nav-item">
                             <a class="navbar-brand" href="~/sadmin/CRM">
-                                <img class="brand-logo" style="width:90px" alt="Social Growth Logo" src="~/Content/ThemeAssets/images/social-growth.png">
+                                <img class="brand-logo" style="width:90px" alt="SocialPlannerPro Logo" src="~/Content/ThemeAssets/images/social-growth.png">
 
                             </a>
                         </li>
@@ -204,7 +202,7 @@
     <div class="drag-target"></div>
     <!-- BEGIN: Footer-->
     <footer class="footer  footer-light navbar-shadow">
-        <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2 container center-layout"><span class="float-md-left d-block d-md-inline-block">Copyright &copy; 2019 <a class="text-bold-800 grey darken-2" href="https://wwww.socialgrowthlabs.com" target="_blank">Social Growth Labs Inc.</a></span></p>
+        <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2 container center-layout"><span class="float-md-left d-block d-md-inline-block">Copyright &copy; 2019 <a class="text-bold-800 grey darken-2" href="https://wwww.socialgrowthlabs.com" target="_blank">SocialPlannerPro Inc.</a></span></p>
     </footer>
     <div class="modal" id="Modal_Messagebox" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">

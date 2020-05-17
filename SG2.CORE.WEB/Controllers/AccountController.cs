@@ -300,7 +300,7 @@ namespace SG2.CORE.WEB.Controllers
         //        //-- Create Customer into stripe
         //        var customerCreateOptions = new CustomerCreateOptions
         //        {
-        //            Description = "Customer for Social Growth" + this.CDT.EmailAddress,
+        //            Description = "Customer for SocialPlannerPro" + this.CDT.EmailAddress,
         //            //SourceToken = model.stripeToken,
         //            Name = this.CDT.FirstName + " " + this.CDT.SurName,
         //            Email = this.CDT.EmailAddress,

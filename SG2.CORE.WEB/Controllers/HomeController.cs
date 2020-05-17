@@ -68,7 +68,7 @@ namespace SG2.CORE.WEB.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Social Growth";
+            ViewBag.Message = "SocialPlannerPro";
 
             return View();
         }

@@ -371,7 +371,7 @@ namespace SG2.CORE.WEB.Controllers
             LineItems = new List<SessionLineItemOptions> {
             new SessionLineItemOptions {
                 Name = "Dedicated android device",
-                Description = "Dedicated android device pre-installed with social growth labs app delivered to your shipping address",
+                Description = "Dedicated android device pre-installed with SocialPlannerPro app delivered to your shipping address",
                 Amount = 5000,
                 Currency = "usd",
                 Quantity = 1
