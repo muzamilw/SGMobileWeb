@@ -77,6 +77,40 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             }
         }
 
+        public ActionResult Index1(int page = 1, string SearchCriteria = "", int? StatusId = null, string ProductId = null, string JVStatus = null, int? Subscription = null, int? profileType = null, int? BlockStatus = null, int? AppConnStatus = null)
+        {
+            try
+            {
+                var customers = _customerManager.GetUserData(SearchCriteria, _PageSize, page, StatusId, ProductId, JVStatus, Subscription, profileType, BlockStatus, AppConnStatus);
+                var ProductIds = _customerManager.GetProductIds();
+                var AppBlockIds = CommonManager.GetAppBlocks();
+                var totatRecord = customers.FirstOrDefault()?.TotalRecord ?? 0;
+                IPagedList<CustomerListingViewModel> pageOrders = new StaticPagedList<CustomerListingViewModel>(customers, page, Convert.ToInt32(_PageSize), totatRecord);
+                var PageSize = pageOrders.PageCount;
+                var PageNumber = pageOrders.PageNumber;
+                var model = new CustomerIndexViewModel()
+                {
+                    CustomerListing = pageOrders,
+                    ApplicationStatuses = this.ApplicationStatuses,
+                    ProductIds = ProductIds,
+                    TotalRecord = PageSize,
+                    PageNumber = PageNumber,
+                    SearchCriteria = SearchCriteria,
+                    ProductId = ProductId,
+                    StatusId = StatusId,
+                    BlockStatus = BlockStatus,
+                    AppBlockList = AppBlockIds
+
+
+                };
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public ActionResult CustomerOrderHistory(string id, string SPId, int page = 1)
         {
 

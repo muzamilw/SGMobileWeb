@@ -1,0 +1,365 @@
+﻿@using PagedList.Mvc
+@using PagedList;
+@using SG2.CORE.MODAL.ViewModals.Backend;
+@using SG2.CORE.COMMON;
+@model SG2.CORE.MODAL.ViewModals.Backend.CustomerIndexViewModel
+@{
+    /**/
+
+    ViewBag.Title = "User Listing";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layoutnew.cshtml";
+    var BaseURl = ViewBag.BaseUrl;
+
+    List<SelectListItem> appStatus = new List<SelectListItem>();
+
+    List<SelectListItem> BlockStatus = new List<SelectListItem>();
+
+    List<SelectListItem> AppConnStatus = new List<SelectListItem>();
+
+    List<SelectListItem> appProductIds = new List<SelectListItem>();
+
+    List<SelectListItem> appSubscription = new List<SelectListItem>();
+
+    List<SelectListItem> accounts = new List<SelectListItem>();
+    accounts.Add(new SelectListItem() { Value = "0", Text = "Regular Profiles" });
+    accounts.Add(new SelectListItem() { Value = "1", Text = "Broker Profiles" });
+
+    SelectListItem ActiveItem = new SelectListItem() { Value = "25", Text = "Active Scbscription" };
+    SelectListItem InActiveItem = new SelectListItem() { Value = "27", Text = "InActive Scbscription" };
+    appSubscription.Add(ActiveItem);
+    appSubscription.Add(InActiveItem);
+
+    foreach (var item in Model.ProductIds)
+    {
+        appProductIds.Add(new SelectListItem { Text = item.Name, Value = item.StripePlanId.ToString() });
+
+
+    }
+
+    foreach (var item in Model.AppBlockList)
+    {
+        BlockStatus.Add(new SelectListItem { Text = item.Name, Value = item.BlockId.ToString() });
+
+
+    }
+
+    foreach (var dr in Model.ApplicationStatuses.Where(x => x.StatusName == "Customer"))
+    {
+        appStatus.Add(new SelectListItem { Text = dr.StatusValue, Value = dr.StatusId.ToString() });
+    }
+
+
+    SelectListItem OnLineItem = new SelectListItem() { Value = "1", Text = "Online" };
+    SelectListItem OfflineItem = new SelectListItem() { Value = "2", Text = "Offline" };
+
+    AppConnStatus.Add(OnLineItem);
+    AppConnStatus.Add(OfflineItem);
+
+}
+@section styles{
+    <link href="~/Content/ThemeAssets/css/backendcss.css" rel="stylesheet" />
+    <link href="~/Content/ThemeAssets/css/style.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+    <style type="text/css">
+
+        .form-wrap .search-wrap input[type=search] {
+            font-size: 0.85rem;
+            line-height: 22px;
+            height: 35px;
+        }
+
+        input[type=search] {
+            border-bottom: 2px solid #eceffb;
+            font-style: normal;
+            padding: 0px 24px 10px;
+        }
+
+        button.searchBtn {
+            height: 37px;
+        }
+
+        button.width {
+            width: 60px;
+        }
+
+        .product-list-inner {
+            background-color: #fff;
+        }
+
+        .pagination {
+            float: right;
+        }
+
+        .product-listing-sec table tr {
+            padding: 5px;
+            background-color: #fff;
+            border: 0px solid #fff;
+            border-bottom: 0px solid #e1e0df;
+            padding-top: 0px;
+        }
+
+        .table th, .table td {
+            border-bottom: 0px solid #e3ebf3 !important;
+        }
+    </style>
+}
+
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>CRM</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-wrap">
+    <div class="container">
+        <div class="inner-colmn">
+            @using (Html.BeginForm("Index", "CRM", FormMethod.Get, new { @id = "Form_SearchCriteria" }))
+            {
+                <div class="row">
+                    <div class="col-md-3 col-sm-12 mb-2">
+                        <div class="search-wrap clearfix">
+                            @Html.TextBoxFor(model => model.SearchCriteria, htmlAttributes: new { @placeholder = "Search here", @type = "search", @class = "input" })
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-12 mb-2">
+                        <div class="product">
+                            <label>Direct/Broker Account</label>
+                            <div class="select">
+                                @Html.DropDownListFor(model => model.profileType, accounts, "All")
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 col-sm-12 mb-2 hidden">
+                        <div class="product">
+                            <label>Subscription</label>
+                            <div class="select">
+                                @Html.DropDownListFor(model => model.Subscription, appSubscription, "Subscription (All)")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-12 mb-2">
+                        <div class="product">
+                            <label>App Conn Status</label>
+                            <div class="select">
+                                @Html.DropDownListFor(model => model.AppConnStatus, AppConnStatus, "Status (All)")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-12 mb-2">
+                        <div class="product">
+                            <label>App Block Status</label>
+                            <div class="select">
+                                @Html.DropDownListFor(model => model.BlockStatus, BlockStatus, "Status (All)")
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 col-sm-12 mb-2">
+                        <div class="product">
+                            <label>Plan</label>
+                            <div class="select">
+                                @Html.DropDownListFor(model => model.ProductId, appProductIds, "Plan (All)")
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-1 col-sm-12 ">
+                        <div class="product">
+                            <label class="d-block">&nbsp;</label>
+
+                            <a href="@BaseURl/crm" id="" class="btn btn-secondary d-inline-block">
+                                Reset
+                            </a>
+                        </div>
+                    </div>
+
+
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="product-listing-sec">
+    <div class="container">
+        <div class="product-list-inner">
+            <div class="row">
+                <div class="col-xs-12 container-fluid">
+                    <table id="ResponsiveTable" class="table table-xl mb-0 table-hover">
+                        <thead>
+                            <tr class="row">
+                                <th scope="col" class="col-sm-3">Name</th>
+                                <th scope="col" class="col-sm-1">F</th>
+                                <th scope="col" class="col-sm-1">U</th>
+                                <th scope="col" class="col-sm-1">L</th>
+                                <th scope="col" class="col-sm-1">S</th>
+                                <th scope="col" class="col-sm-2">Broker/Regular<br />Broker Name</th>
+                                <th scope="col" class="col-sm-1">App Conn <br />Status</th>
+                                <th scope="col" class="col-sm-1">App Block <br /> Status</th>
+                                <th scope="col" class="col-sm-1">Plan</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model.CustomerListing)
+                            {
+                                <tr class="row" data-href="@BaseURl/crm/detailpage?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))">
+                                    <td class="col-sm-3" data-label="ID">
+                                        <div style="width: 27px;    float: left;">
+                                            <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="24">
+                                        </div>
+                                        <div style="    float: left;    width: 20px;">
+                                            <a style="color:black;" href="@BaseURl/crm/detailpage?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))">
+                                                @(string.IsNullOrEmpty(item.InstaUsrName) ? "--" : item.InstaUsrName)
+                                                <br />
+                                                @(string.IsNullOrEmpty(item.CustomerEmail) ? "--" : item.CustomerEmail) <br />
+                                            </a>
+
+
+                                        </div>
+
+                                    </td>
+                                    <td class="pr-0 col-sm-1">
+
+                                        <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@((item.FollowOn ?? false) == true ? "on": "off")">
+                                    </td>
+                                    <td class="pr-0 col-sm-1">
+
+                                        <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@((item.UnFollFollowersAfterMinDays ?? false) == true ? "on": "off")">
+                                    </td>
+                                    <td class="pr-0 col-sm-1">
+
+                                        <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollLikeuserPosts == true ? "on": "off")">
+                                    </td>
+                                    <td class="col-sm-1">
+
+                                        <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollViewUserStory == true ? "on": "off")">
+                                    </td>
+
+                                    <td class="col-sm-2" data-label="Box">@Html.Raw(item.BrokerAccount ? item.BrokerAppName : "Regular")</td>
+                                    <td class="col-sm-1">
+                                        @{
+                                            var connStatusclass = "";
+                                            if (item.AppConnStatus == "Online")
+                                            {
+                                                connStatusclass = "badge-success";
+                                            }
+                                            else
+                                            {
+                                                connStatusclass = "badge-danger";
+                                            }
+
+                                        }
+
+                                        <span class="badge @connStatusclass label-square mr-1 mb-1 display-inline">
+
+                                            <span>@item.AppConnStatus @(string.IsNullOrWhiteSpace(item.AppVersion) ? "" : "v" + item.AppVersion)</span>
+                                        </span>
+                                    </td>
+                                    <td class="col-sm-1">
+                                        @{
+                                            var statusclass = "";
+                                            if (item.BlockStatus == "Valid")
+                                            {
+                                                statusclass = "badge-primary";
+                                            }
+                                            else
+                                            {
+                                                statusclass = "badge-danger";
+                                            }
+
+                                        }
+
+                                        <span class="badge @statusclass label-square mr-1 mb-1 display-inline">
+
+                                            <span>@item.BlockStatus</span>
+                                        </span>
+                                    </td>
+
+                                    <td class="col-sm-1">
+                                        @{
+                                            var planclass = "";
+                                            if (item.Products.ToLower() == "free")
+                                            {
+                                                planclass = "badge-danger";
+                                            }
+                                            else
+                                            {
+                                                planclass = "badge-primary";
+                                            }
+
+                                        }
+
+                                        @if (item.Products != null)
+                                        {
+                                            <div class="badge @planclass label-square mr-1 mb-1 display-inline">Plan: @item.Products</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="badge @planclass label-square mr-1 mb-1 display-inline">Free</div>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="pagination-wrap">
+            Page @(Model.TotalRecord < Model.PageNumber ? 0 : Model.PageNumber)
+            of @Model.TotalRecord   @Html.PagedListPager((IPagedList<CustomerListingViewModel>)Model.CustomerListing, page => Url.Action("Index", new { page, Model.SearchCriteria, Model.StatusId, Model.ProductId }))
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts{
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#ResponsiveTable > tbody > tr').click(function (element) {
+
+                if (element.target.parentElement.nodeName.toLowerCase() === 'tr')
+                    window.location = element.target.parentElement.getAttribute("data-href");
+                else if (element.target.parentElement.parentElement.nodeName.toLowerCase() === 'tr')
+                    window.location = element.target.parentElement.parentElement.getAttribute("data-href");
+            });
+
+
+            $('.input').keypress(function (e) {
+                if (e.which == 13) {
+                    $('#Form_SearchCriteria').submit();
+                    return false;    //<---- Add this line
+                }
+            });
+            $('#ProductId,#Subscription,#profileType,#BlockStatus,#AppConnStatus ').change(function () {
+                this.form.submit();
+            });
+
+            $('.toggler').each(function (index, currentElement) {
+                var vali = $(this).val();
+                if (vali == "on")
+                    $(this).prop('checked', true).change();
+                else
+                    $(this).prop('checked', false).change();
+
+                $(this).attr("disabled", true);
+            });
+        });
+
+
+
+    </script>
+
+}

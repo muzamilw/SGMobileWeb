@@ -792,9 +792,9 @@ textarea:invalid {
   @media only screen and (max-width: 767px) {
     .header-area .is-sticky .classy-navbar {
       height: 60px; } }
-
+  
 .header-area .is-sticky .main-header {
-  background-color: #0811FB;
+  background-color: #44347a;
   box-shadow: 0 0.25rem 0.5rem 0 rgba(15, 15, 15, 0.125); }
 
 .header-area.header2 .is-sticky .main-header {

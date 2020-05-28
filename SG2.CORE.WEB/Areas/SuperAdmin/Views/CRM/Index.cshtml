@@ -7,7 +7,7 @@
     /**/
 
     ViewBag.Title = "User Listing";
-    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layoutnew.cshtml";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_LayoutHomenew.cshtml";
     var BaseURl = ViewBag.BaseUrl;
 
     List<SelectListItem> appStatus = new List<SelectListItem>();
@@ -48,14 +48,16 @@
         appStatus.Add(new SelectListItem { Text = dr.StatusValue, Value = dr.StatusId.ToString() });
     }
 
-    
+
     SelectListItem OnLineItem = new SelectListItem() { Value = "1", Text = "Online" };
     SelectListItem OfflineItem = new SelectListItem() { Value = "2", Text = "Offline" };
-    
+
     AppConnStatus.Add(OnLineItem);
     AppConnStatus.Add(OfflineItem);
 
 }
+
+
 @section styles{
     <link href="~/Content/ThemeAssets/css/backendcss.css" rel="stylesheet" />
     <link href="~/Content/ThemeAssets/css/style.css" rel="stylesheet" type="text/css">
@@ -119,67 +121,67 @@
         <div class="inner-colmn">
             @using (Html.BeginForm("Index", "CRM", FormMethod.Get, new { @id = "Form_SearchCriteria" }))
             {
-            <div class="row">
-                <div class="col-md-3 col-sm-12 mb-2">
-                    <div class="search-wrap clearfix">
-                        @Html.TextBoxFor(model => model.SearchCriteria, htmlAttributes: new { @placeholder = "Search here", @type = "search", @class = "input" })
-                    </div>
-                </div>
-                <div class="col-md-2 col-sm-12 mb-2">
-                    <div class="product">
-                        <label>Direct/Broker Account</label>
-                        <div class="select">
-                            @Html.DropDownListFor(model => model.profileType, accounts, "All")
+                <div class="row">
+                    <div class="col-md-3 col-sm-12 mb-2">
+                        <div class="search-wrap clearfix">
+                            @Html.TextBoxFor(model => model.SearchCriteria, htmlAttributes: new { @placeholder = "Search here", @type = "search", @class = "input" })
                         </div>
                     </div>
-                </div>
-
-                <div class="col-md-2 col-sm-12 mb-2 hidden">
-                    <div class="product">
-                        <label>Subscription</label>
-                        <div class="select">
-                            @Html.DropDownListFor(model => model.Subscription, appSubscription, "Subscription (All)")
+                    <div class="col-md-2 col-sm-12 mb-2">
+                        <div class="product">
+                            <label>Direct/Broker Account</label>
+                            <div class="select">
+                                @Html.DropDownListFor(model => model.profileType, accounts, "All")
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-2 col-sm-12 mb-2">
-                    <div class="product">
-                        <label>App Conn Status</label>
-                        <div class="select">
-                            @Html.DropDownListFor(model => model.AppConnStatus, AppConnStatus, "Status (All)")
+
+                    <div class="col-md-2 col-sm-12 mb-2 hidden">
+                        <div class="product">
+                            <label>Subscription</label>
+                            <div class="select">
+                                @Html.DropDownListFor(model => model.Subscription, appSubscription, "Subscription (All)")
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-2 col-sm-12 mb-2">
-                    <div class="product">
-                        <label>App Block Status</label>
-                        <div class="select">
-                            @Html.DropDownListFor(model => model.BlockStatus, BlockStatus, "Status (All)")
+                    <div class="col-md-2 col-sm-12 mb-2">
+                        <div class="product">
+                            <label>App Conn Status</label>
+                            <div class="select">
+                                @Html.DropDownListFor(model => model.AppConnStatus, AppConnStatus, "Status (All)")
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="col-md-2 col-sm-12 mb-2">
-                    <div class="product">
-                        <label>Plan</label>
-                        <div class="select">
-                            @Html.DropDownListFor(model => model.ProductId, appProductIds, "Plan (All)")
+                    <div class="col-md-2 col-sm-12 mb-2">
+                        <div class="product">
+                            <label>App Block Status</label>
+                            <div class="select">
+                                @Html.DropDownListFor(model => model.BlockStatus, BlockStatus, "Status (All)")
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-md-1 col-sm-12 ">
-                    <div class="product">
-                        <label class="d-block">&nbsp;</label>
-
-                        <a href="@BaseURl/crm" id="" class="btn btn-secondary d-inline-block">
-                            Reset
-                        </a>
+                    <div class="col-md-2 col-sm-12 mb-2">
+                        <div class="product">
+                            <label>Plan</label>
+                            <div class="select">
+                                @Html.DropDownListFor(model => model.ProductId, appProductIds, "Plan (All)")
+                            </div>
+                        </div>
                     </div>
+
+                    <div class="col-md-1 col-sm-12 ">
+                        <div class="product">
+                            <label class="d-block">&nbsp;</label>
+
+                            <a href="@BaseURl/crm" id="" class="btn btn-secondary d-inline-block">
+                                Reset
+                            </a>
+                        </div>
+                    </div>
+
+
                 </div>
-
-
-            </div>
             }
         </div>
     </div>
@@ -217,15 +219,15 @@
                                         <div style="    float: left;    width: 20px;">
                                             <a style="color:black;" href="@BaseURl/crm/detailpage?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))">
                                                 @(string.IsNullOrEmpty(item.InstaUsrName) ? "--" : item.InstaUsrName)
-                                                                                        <br />
-                                                                                        @(string.IsNullOrEmpty(item.CustomerEmail) ? "--" : item.CustomerEmail) <br />
-                                                                                    </a>
-                                           
+                                                <br />
+                                                @(string.IsNullOrEmpty(item.CustomerEmail) ? "--" : item.CustomerEmail) <br />
+                                            </a>
+
 
                                         </div>
 
                                     </td>
-                                    <td class="pr-0 col-sm-1" >
+                                    <td class="pr-0 col-sm-1">
 
                                         <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@((item.FollowOn ?? false) == true ? "on": "off")">
                                     </td>
@@ -259,7 +261,7 @@
 
                                         <span class="badge @connStatusclass label-square mr-1 mb-1 display-inline">
 
-                                            <span>@item.AppConnStatus @(string.IsNullOrWhiteSpace(item.AppVersion) ? "": "v"+item.AppVersion)</span>
+                                            <span>@item.AppConnStatus @(string.IsNullOrWhiteSpace(item.AppVersion) ? "" : "v" + item.AppVersion)</span>
                                         </span>
                                     </td>
                                     <td class="col-sm-1">
@@ -318,6 +320,7 @@
         </div>
     </div>
 </div>
+
 
 
 
