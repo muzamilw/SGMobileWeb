@@ -7,7 +7,7 @@
 @{
 
     ViewBag.Title = "Subscription & Order History";
-    Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
+    Layout = "~/Views/Shared/_Layout_LoggedInStackSPPro.cshtml";
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
 
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
@@ -247,11 +247,15 @@
         .FormFieldInput-IconsIcon {
             padding-right: 4px;
         }
+
+        .badge-primary {
+            background-color: #00b5b8;
+        }
     </style>
 }
 
 @section profileheader{
-    @Html.Partial("Partial/_PartialProfileHeader", Model)
+    @Html.Partial("Partial/_PartialProfileHeaderButton", Model)
 }
 
 <div class="modal fade text-left" id="planSubscriptionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
@@ -362,7 +366,7 @@
 </div>
 
 <!-- BEGIN: Content-->
-<div class="app-content container center-layout mt-2">
+<div class="app-content  center-layout mt-2">
     <div class="content-wrapper">
 
         <div class="content-body">
@@ -529,7 +533,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row form-actions">
                     <div class="col-12 text-center">
                         <button class=" btn btn-danger mb-2 text-center" id="btnDeleteSubscription">Delete subscription & profile</button>
                     </div>
@@ -678,7 +682,7 @@
                             })
 
                                 .then(response => {
-                                    
+
                                     Swal.fire(
                                         'Success!',
                                         'Your phone number is updated!',
@@ -687,15 +691,15 @@
                                 })
 
                         }
-                            
-                        
+
+
                     })
                 }
 
 
 
 
-            
+
             /*******************************
             *       Simple Options         *
             *******************************/

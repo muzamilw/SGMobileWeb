@@ -455,6 +455,7 @@
     <Content Include="Content\app-assets\css\core\mixins\main-menu-mixin.min.css" />
     <Content Include="Content\app-assets\css\core\mixins\transitions.css" />
     <Content Include="Content\app-assets\css\core\mixins\transitions.min.css" />
+    <Content Include="Content\app-assets\css\customstyles.css" />
     <Content Include="Content\app-assets\css\demo.css" />
     <Content Include="Content\app-assets\css\intlTelInput.min.css" />
     <Content Include="Content\app-assets\css\pages\app-chat.css" />
@@ -3879,6 +3880,8 @@
     <Content Include="Views\User\EditorTemplates\Boolean.cshtml" />
     <Content Include="Views\Shared\_Layout_LoggedInNew.cshtml" />
     <Content Include="Views\Shared\_Layout_LoggedInNewSP.cshtml" />
+    <Content Include="Views\Shared\_Layout_LoggedInStackSPPro.cshtml" />
+    <Content Include="Views\Shared\Partial\_PartialProfileHeaderButton.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\animate.css" />
@@ -4252,6 +4255,8 @@
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Home\Agency.cshtml" />
     <Content Include="Views\Profile\FollowList.cshtml" />
+    <Content Include="Views\Profile\WhiteList.cshtml" />
+    <Content Include="Views\Profile\BlackList.cshtml" />
     <None Include="Views\Shared\Partial\_PartialForgetPasswordPopup.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialSignupPopup.cshtml" />
     <Content Include="Views\User\Home.cshtml" />

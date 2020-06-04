@@ -471,6 +471,45 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
+        public bool UpdateTargetProfileWhiteList(SocialProfileDTO model)
+        {
+            try
+            {
+                var socialprofile = _socialRepository.UpdateTargetProfileWhiteList (model);
+                if (socialprofile)
+                {
+                    _sessionManager.Set(SessionConstants.SocialProfile, socialprofile);
+                }
+                return socialprofile;
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+
+            }
+        }
+
+        public bool UpdateTargetProfileBlackList(SocialProfileDTO model)
+        {
+            try
+            {
+                var socialprofile = _socialRepository.UpdateTargetProfileBlackLists(model);
+                if (socialprofile)
+                {
+                    _sessionManager.Set(SessionConstants.SocialProfile, socialprofile);
+                }
+                return socialprofile;
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+
+            }
+        }
         public CustomerDTO UpdateCustomerProfile(CustomerDTO model)
         {
             try

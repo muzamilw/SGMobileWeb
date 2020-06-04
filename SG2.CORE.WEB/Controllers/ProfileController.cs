@@ -113,7 +113,47 @@ namespace SG2.CORE.WEB.Controllers
             return View(SocailProfile);
 
         }
+        public ActionResult BlackList(int socialProfileId, int? success)
+        {
+            ViewBag.socialProfileId = socialProfileId;
+            ViewBag.CurrentUser = this.CDT;
+            var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
 
+            if (success.HasValue && success.Value == 1)
+            {
+                ViewBag.success = 1;
+            }
+
+            return View(SocailProfile);
+
+        }
+        public ActionResult WhiteList(int socialProfileId, int? success)
+        {
+            ViewBag.socialProfileId = socialProfileId;
+            ViewBag.CurrentUser = this.CDT;
+            var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
+
+            if (success.HasValue && success.Value == 1)
+            {
+                ViewBag.success = 1;
+            }
+
+            return View(SocailProfile);
+
+        }
+        [HttpPost]
+        public ActionResult WhiteList(SocialProfileDTO request)
+        {
+            this._cm.UpdateTargetProfileWhiteList(request);
+            return RedirectToAction("WhiteList", "Profile", new { socialProfileId = request.SocialProfile_Instagram_TargetingInformation.SocialProfileId, success = 1 });
+        }
+
+        [HttpPost]
+        public ActionResult BlackList(SocialProfileDTO request)
+        {
+            this._cm.UpdateTargetProfileBlackList(request);
+            return RedirectToAction("BlackList", "Profile", new { socialProfileId = request.SocialProfile_Instagram_TargetingInformation.SocialProfileId, success = 1 });
+        }
 
         [HttpPost]
         public ActionResult Lists(SocialProfileDTO request)

@@ -7,7 +7,7 @@
 @{
 
     ViewBag.Title = "Match Filter";
-    Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
+    Layout = "~/Views/Shared/_Layout_LoggedInStackSPPro.cshtml";
     ViewBag.socialProfile = Model.SocialProfile;
     var planName = ViewBag.PlanName = Model.CurrentPaymentPlan == null ? "FREE" : Model.CurrentPaymentPlan.PlanName;
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
@@ -87,12 +87,42 @@
         .FormFieldInput-IconsIcon {
             padding-right: 4px;
         }
+        .btn-success {
+            border-color: #11a578 !important;
+            background-color: #16d39a !important;
+            color: #FFFFFF;
+        }
 
+            .btn-success:hover {
+                border-color: #14bc89 !important;
+                background-color: #1be7aa !important;
+                color: #FFF !important;
+            }
+
+            .btn-success:focus, .btn-success:active {
+                border-color: #11a578 !important;
+                background-color: #0f8e67 !important;
+                color: #FFF !important;
+            }
+
+        .btn-light {
+            background-color: #babfc7;
+        }
+        .toggle-handle {
+            position: relative;
+            margin: 0 auto;
+            padding-top: 0;
+            padding-bottom: 0;
+            height: 100%;
+            width: 0;
+            border-width: 0 1px;
+            background-color: #fff;
+        }
     </style>
 }
 
 @section profileheader{
-    @Html.Partial("Partial/_PartialProfileHeader", Model)
+    @Html.Partial("Partial/_PartialProfileHeaderButton", Model)
 }
 
 
@@ -100,14 +130,21 @@
         Launch Modal
     </button>*@
 <!-- Modal -->
-
+    <div class="heading-wrapper">
+        <h1>Target Audience Filters</h1>
+        <span class="navbar-text">
+            <a class="btn btn-black" href="/user/home">
+                Back
+            </a>
+        </span>
+    </div>
 
 <form class="form" id="formtarget" method="post" action="Target" novalidate>
     @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.SocialProfileId)
     @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.TargetingInformationId)
 
     <!-- BEGIN: Content-->
-    <div class="app-content container center-layout mt-2">
+    <div class="app-content  center-layout mt-2">
         <div class="content-wrapper">
 
 
@@ -120,7 +157,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
-                                <div class="card-header">
+                                @*<div class="card-header">
                                     <div class="card-title col-lg-5 col-sm-12 float-left mt-1 row" id="horz-layout-basic">
                                         <h4 >Targeting</h4>
                                     </div>
@@ -136,7 +173,7 @@
 
                                       
                                     </div>
-                                </div>
+                                </div>*@
                                 <div class="card-content collpase show">
                                     <div class="card-body">
 
@@ -533,14 +570,14 @@
                                         <div class="form-group col-12 mb-2 interval-repeater">
                                             <div data-repeater-list="group-a">
                                                 <div data-repeater-item>
-                                                    <div class="row hidden">
+                                                    <div  class="row hidden">
                                                         <div class="col-12">
                                                             <h3>Session <span name="ecounter"></span></h3>
                                                             <p>Execute Between</p>
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-5 col-xs-12 hidden">
+                                                        <div  class="col-md-5 col-xs-12 hidden">
                                                             <div class="row">
                                                                 <input type="hidden" name="starttime" value="" />
                                                                 <input type="hidden" name="endtime" value="" />
@@ -556,7 +593,7 @@
 
                                                         <div class="col-md-7 col-xs-12">
 
-                                                            <div class="form-group row">
+                                                            <div class="form-group row" style="margin-top:25px;">
                                                                 <label class="col-md-9 label-control" for="userinput1">Follow new accounts by search tags</label>
                                                                 <div class="col-md-3">
                                                                     <input type="text" class="form-control" placeholder="Max val 200" min="10" max="200" name="FollAccSearchTags" onkeypress="return isNumberKey(event)">

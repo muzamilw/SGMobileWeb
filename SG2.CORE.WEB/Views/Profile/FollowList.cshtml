@@ -5,11 +5,12 @@
 @{
 
     ViewBag.Title = "Basic Profile";
-    Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
+    Layout = "~/Views/Shared/_Layout_LoggedInStackSPPro.cshtml";
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
     SocialProfile socialProfile = null;
 
     socialProfile = ViewBag.socialProfile;
+    
     var socialProfileAccounts = (List<SocialProfile_FollowedAccounts>)ViewBag.socialProfileFollowedAccounts;
     var ProfileStatus = "";
 
@@ -74,26 +75,27 @@
 
 @section styles{
 
-    <link href="~/Content/app-assets/vendors/css/forms/tags/tagging.css" rel="stylesheet" />
+    @*<link href="~/Content/app-assets/vendors/css/forms/tags/tagging.css" rel="stylesheet" />
     <link href="~/Content/app-assets/css/pincode.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/plugins/forms/validation/form-validation.css">
-    <style>
-        .pincode-input-text {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/plugins/forms/validation/form-validation.css" />
+    *@
 }
 
 @section profileheader{
-    @Html.Partial("Partial/_PartialProfileHeader", Model)
+    @Html.Partial("Partial/_PartialProfileHeaderButton", Model)
 }
 
-
+<div class="heading-wrapper">
+    <h1>Follow History</h1>
+    <span class="navbar-text">
+        <a class="btn btn-black" href="/user/home">
+            Back
+        </a>
+    </span>
+</div>
     <!-- BEGIN: Content-->
-    <div class="app-content container center-layout mt-2">
+<div class="app-content center-layout mt-2">
+    
         <div class="content-wrapper">
 
             <div class="content-body">
@@ -102,20 +104,26 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title" id="horz-layout-basic">Follow History</h4>
-
-                                </div>
+                               
                                 <div class="card-content collpase show">
+                                    
                                     <div class="card-body">
-
+                                        <div class="col-md-12 col-sm-12 mb-12">
+                                            <div class="product">
+                                                <label>
+                                                    Result from 3rd party automation growth & engagement API tools.
+                                                </label>
+                                                
+                                            </div>
+                                        </div>
                                         @using (Html.BeginForm("FollowList", "Profile", FormMethod.Post, new { @id = "Form_FollowFilter" }))
                                         {
                                             <div class="col-md-2 col-sm-12 mb-2">
                                                 <div class="product">
+                                                    
                                                     <label>Filter By</label>
-                                                    <div class="select">
-                                                        @Html.DropDownListFor(model => model.FilterBy, followFilterList, "All", new { onchange = "submit()" })
+                                                    <div class="class=" custom-select form-control"">
+                                                        @Html.DropDownListFor(model => model.FilterBy, followFilterList, "All", new { onchange = "submit()", @class = "custom-select form-control" })
                                                     </div>
                                                 </div>
                                             </div>
