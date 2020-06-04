@@ -258,6 +258,14 @@
     @Html.Partial("Partial/_PartialProfileHeaderButton", Model)
 }
 
+    <div class="heading-wrapper">
+        <h1>Select Your Growth Plan</h1>
+        <span class="navbar-text">
+            <a class="btn btn-black" href="/user/home">
+                Back
+            </a>
+        </span>
+    </div>
 <div class="modal fade text-left" id="planSubscriptionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -373,11 +381,7 @@
             <!-- Basic form layout section start -->
             <section id="horizontal-form-layouts">
 
-                <div class="row">
-                    <div class="col-12 mt-1 mb-1">
-                        <h4 class="text-uppercase">Select a Plan</h4>
-                    </div>
-                </div>
+                
                 <div class="row match-height">
                     @foreach (var plan in plans)
                     {
