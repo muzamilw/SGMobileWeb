@@ -250,3 +250,11 @@ header .dropdown-menu.dropdown-lg {
     }
 }
 
+
+.modal {
+    top : 50px;
+}
+
+.bg-primary {
+    color : #fff;
+}
