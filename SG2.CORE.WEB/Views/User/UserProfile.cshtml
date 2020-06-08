@@ -2,7 +2,7 @@
 @using SG2.CORE.MODAL.DTO.Customers;
 @{
     ViewBag.Title = "Profile";
-    Layout = "~/Views/Shared/_Layout_LoggedInstack.cshtml";
+    Layout = "~/Views/Shared/_Layout_LoggedInStackHomeMainSPPro.cshtml";
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
 }
 
@@ -115,24 +115,14 @@
     </style>
 }
 
+<div class="heading-wrapper">
+    <h1>User Profile</h1>
 
+</div>
 <!-- BEGIN: Content-->
-<div class="app-content container center-layout mt-2">
+<div class="app-content  center-layout mt-2">
     <div class="content-wrapper">
-        <div class="content-header row">
-            <div class="content-header-left col-md-6 col-12 mb-2">
-                <h3 class="content-header-title mb-0">User Profile</h3>
-
-            </div>
-            <div class="content-header-right col-md-6 col-12">
-                <div class="media width-250 float-right">
-                    <div class="media-right text-right">
-                        @*<div id="sp-bar-total-sales"></div>*@
-                    </div>
-
-                </div>
-            </div>
-        </div>
+        
         <div class="content-body">
             <!-- Extra large table start -->
             <div class="row match-height">
@@ -162,7 +152,7 @@
                                 <div class="container">
                                     <div class="information-form-inner">
                                         <div class="row">
-                                            <div class="col-md-12">
+                                            <div class=" col-md-12">
                                                 <p>I'd like to receive to the following emails:</p>
                                                 @using (Html.BeginForm("UpdateUserEmailSubscription", "User", FormMethod.Post, new { @id = "form_UpdateUserSubscription" }))
                                                 {
@@ -178,7 +168,12 @@
                                                         <span class="chkmark"></span>
                                                     </label>
                                                     <br />
-                                                    <input type="button" class="btn btn-primary" id="btn_SaveEmailSubscription" value="Update" />
+                                                    <div class="form-group form-actions">
+                                                        <button type="button" id="btn_SaveEmailSubscription" class="btn btn-lg btn-primary">
+                                                            Update &nbsp;
+                                                            <i id="spn_updateUserProfile" style="display:none" class="fa fa-spinner fa-spin"></i>
+                                                        </button>
+                                                    </div>
                                                 }
                                             </div>
                                         </div>

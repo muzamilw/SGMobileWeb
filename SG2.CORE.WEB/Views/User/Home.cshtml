@@ -4,7 +4,7 @@
 @{
 
     ViewBag.Title = "Dashboard";
-    Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
+    Layout = "~/Views/Shared/_Layout_LoggedInStackHomeSPPro.cshtml";
 
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
     var Customer = (Customer)ViewBag.Customer;
@@ -210,6 +210,9 @@
         {
             padding: 1.25rem 1rem !important;
         }
+        .btn-light {
+            background-color: #babfc7;
+        }
     </style>
     <link href="~/Content/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet" />
     <link href="~/Content/app-assets/css/stripe.css" rel="stylesheet" />
@@ -217,20 +220,29 @@
 
 }
 
-
+    <div class="heading-wrapper">
+        <h1>Select Your Growth Plan</h1>
+        
+    </div>
 <!-- BEGIN: Content-->
-<div class="app-content container center-layout mt-2">
+<div class="app-content  center-layout mt-2">
     <div class="content-wrapper">
         <div class="content-header row">
-            <div class="content-header-left col-md-6 col-12 mb-2">
+            <div class="content-header-left col-md-12 col-12 mb-2">
                 <h3 class="content-header-title mb-0">Click on a profile to set growth engine preferences</h3>
 
             </div>
-            <div class="content-header-right col-md-6 col-12">
+            <div class="content-header-right col-md-12 col-12">
                 <div class="media width-250 float-right">
+
                     <div class="media-right text-right">
-                        @*<div id="sp-bar-total-sales"></div>*@
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-create" data-toggle="modal" data-target="#newProfile"><i class="fa fa-plus"></i> Social Profile</button>
+
+
+                        </div>
                     </div>
+                    
 
                 </div>
             </div>
@@ -238,9 +250,9 @@
         <div class="content-body">
             <!-- Extra large table start -->
             <div class="row match-height">
-                <div class="col-xl-9 col-md-6 col-sm-12">
+                <div class="col-xl-12 col-md-12 col-sm-12">
                     <div class="card">
-                        <div class="card-header">
+                        @*<div class="card-header">
                             <h4 class="card-title col-lg-7 col-sm-12 float-left mt-1 row">Social media profiles</h4>
                             <div id="SocialProfileBtnCnt" class="col-lg-5 col-sm-12 float-right text-right pr-0">
                                 <div class="btn-group">
@@ -250,12 +262,12 @@
                                 </div>
 
                             </div>
-                        </div>
+                        </div>*@
                         <div class="card-content collapse show">
                             <div class="card-body card-dashboard">
                                 <form class="form" id="formbasic" method="post">
                                     <div class="form-row">
-                                        <div class="col-xl-3 col-sm-12">
+                                        <div class="col-xl-3 col-md-3 col-sm-12">
                                             <input type="search" class="form-control mb-1" id="searchString" name="searchString" placeholder="Search profiles" value="@Model.searchString">
                                         </div>
                                         @{
@@ -265,12 +277,12 @@
                                             mlist.Add(new SelectListItem { Text = "LinkedIn", Value = "31" });
                                             mlist.Add(new SelectListItem { Text = "Facebook", Value = "32" });
                                         }
-                                        <div class="col-xl-3 col-sm-12">
+                                        <div class="col-xl-3 col-md-3 col-sm-12">
                                             @Html.DropDownListFor(n => n.SocialType, new SelectList(mlist, "Value", "Text", 0), new { @class = "custom-select block mb-1" })
                                         </div>
                                         @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true && 1 == 0)
                                         {
-                                            <div class="col-xl-3 col-sm-12">
+                                            <div class="col-xl-3 col-md-3 col-sm-12">
                                                 @{
                                                     List<SelectListItem> blist = new List<SelectListItem>();
                                                     blist.Add(new SelectListItem { Text = "Select Block Type (All)", Value = "99" });
@@ -282,7 +294,7 @@
                                                 @Html.DropDownListFor(n => n.Block, new SelectList(blist, "Value", "Text", 0), new { @class = "custom-select block mb-1" })
                                             </div>
                                         }
-                                        <div class="col-xl-3 col-sm-12">
+                                        <div class="col-xl-3 col-md-3 col-sm-12">
                                             @{
                                                 List<SelectListItem> plist = new List<SelectListItem>();
                                                 plist.Add(new SelectListItem { Text = "Plans (All)", Value = "0" });
@@ -465,7 +477,7 @@
                     </div>
                 </div>
 
-                <div class="col-xl-3 col-md-6 col-sm-12">
+                @*<div class="col-xl-3 col-md-6 col-sm-12">
                     <div class="card">
                         <div class="card-content">
                             <img class="card-img-top img-fluid" src="~/Content/Images/agency.png" alt="Card image cap">
@@ -481,9 +493,7 @@
 
                                         <a href="~/user/AgencyInstagramTarget" class="btn btn-success btn-block">Instagram Default Filters</a>
 
-                                        @*<a href="#" class="btn btn-success btn-block">LinkedIn Default Filters</a>
-
-                                            <a href="#" class="btn btn-success btn-block">Twitter Default Filters</a>*@
+                                        
 
                                         <a href="#" class="btn btn-success btn-block" id="btnAfilliateBilling" data-toggle="modal" data-target="#BillingHistoryModal">View Billing History</a>
 
@@ -503,7 +513,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>*@
             </div>
             <!-- Extra large table end -->
         </div>
