@@ -704,6 +704,19 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
+        public List<SocialProfile_FollowedAccounts> GetAllFollowedAccounts(int socialProfileId)
+        {
+            try
+            {
+                return _customerRepository.GetAllFollowedAccounts(socialProfileId);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public async Task<SocialProfile_PaymentsDTO> InsertCustomerPayment(SocialProfile_PaymentsDTO sG2_Subscription)
         {
             try

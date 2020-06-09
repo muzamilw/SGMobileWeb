@@ -160,7 +160,7 @@ namespace SG2.CORE.WEB.APIController
                     FollowersToComment = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime >= commentCutOffDate).OrderBy(x => Guid.NewGuid()).Take(50).ToList()),
                     FollowList = _customerManager.GetFollowList(model.SocialProfileId).Select( g=> new MobileSocialProfile_FollowedAccounts { FollowedSocialUsername = g.SocialUsername, FollowedDateTime = DateTime.Now }).Take(10).ToList(),
                     LikeList = _customerManager.GetFollowList(model.SocialProfileId).Select(g => new MobileSocialProfile_FollowedAccounts { FollowedSocialUsername = g.SocialUsername }).Take(10).ToList()
-
+                    
                 //20 count Follow list is all paid instagram profile usernames which are already not in follower list.  and follow exchange checkbox true
                 //10 count Like list is all paid instagram profile usernames which are already not in follower list.  and like exchange checkbox true
                 };
@@ -178,6 +178,7 @@ namespace SG2.CORE.WEB.APIController
                 //; ExecutionInterval
                 manifest.FollowersToUnFollow = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g=> !whilelistArray.Contains(g.FollowedSocialUsername)).Where(g => g.StatusId == 1 && g.FollowedDateTime < unfollowCutOffDate && g.FollowedDateTime >= unfollowCutOffMaxDate).ToList());  //Convert.ToInt32(executionintervals[0].UnFoll16DaysEngage)
 
+                manifest.AllFollowedAccounts = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(_customerManager.GetAllFollowedAccounts(model.SocialProfileId));
 
                 manifest.Profile.StatsFollowersIncrease = stats.FollowersTotal.Value - stats.FollowersInitial.Value;
                 manifest.Profile.StatsFollowingsIncrease = stats.FollowingsTotal.Value - stats.FollowingsInitial.Value;
