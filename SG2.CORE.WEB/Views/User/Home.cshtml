@@ -932,9 +932,9 @@
 
 
                                 //fB pixel event
-                                if (SocialProfileCount > 0) {
-                                    fbq('track', 'MultipleAccount');
-                                }
+                                //if (SocialProfileCount > 0) {
+                                //    fbq('track', 'MultipleAccount');
+                                //}
 
                                 swal("Success!", "You have successfully created a social profile. Please activate the payment plan to start using it with your mobile device!", "success")
                                     .then((value) => {
@@ -1233,7 +1233,7 @@
                 card.on('focus', function () {
                     var el = document.getElementById('card-element');
                     el.classList.add('focused');
-                    fbq('track', 'AddPaymentInfo');
+                    //fbq('track', 'AddPaymentInfo');
                 });
 
                 card.on('blur', function () {
@@ -1482,10 +1482,10 @@
                 example.classList.remove('submitting');
                 example.classList.add('submitted');
 
-                fbq('track', 'Purchase', {
-                    value: 299,
-                    currency: 'USD',
-                });
+                //fbq('track', 'Purchase', {
+                //    value: 299,
+                //    currency: 'USD',
+                //});
 
 
                 //alert(subscriptionJson);
