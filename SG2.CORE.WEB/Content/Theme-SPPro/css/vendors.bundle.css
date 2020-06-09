@@ -5096,7 +5096,7 @@ a.close.disabled {
   outline: 0; }
 
 .modal-backdrop {
-  position: fixed;
+  position: inherit !important;
   top: 0;
   left: 0;
   z-index: 2040;
