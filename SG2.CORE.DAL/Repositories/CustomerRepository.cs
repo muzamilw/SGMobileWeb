@@ -1251,6 +1251,23 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
+        public  List<SocialProfile_FollowedAccounts> GetAllFollowedAccounts(int socialProfileId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    return _db.SocialProfile_FollowedAccounts.Where(g => g.SocialProfileId == socialProfileId && g.StatusId == 1).ToList();
+                }
+
+                }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
 
         public List<CustomerSocialProfileDTO> GetSocialProfilesWithoutExistingFollowers(int socialProfileId)
         {
