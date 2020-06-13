@@ -177,16 +177,16 @@
                             @*<span class="d-inline-block text-truncate text-truncate-sm">Toronto, Canada</span>*@
                         </div>
                         <img src="~/Content/Theme-SPPro/img/card-backgrounds/cover-2-lg.png" class="cover" alt="cover">
-                        <a href="#" onclick="return false;" class="pull-trigger-btn"  data-class="list-filter-active" data-target=".page-sidebar" data-focus="nav_filter_input">
+                        <a href="#" onclick="return false;" class="pull-trigger-btn" data-class="list-filter-active" data-target=".page-sidebar" data-focus="nav_filter_input">
                             <i class="fal fa-angle-down"></i>
                         </a>
                     </div>
                     <!--
-    TIP: The menu items are not auto translated. You must have a residing lang file associated with the menu saved inside dist/media/data with reference to each 'data-i18n' attribute.
-    -->
+                    TIP: The menu items are not auto translated. You must have a residing lang file associated with the menu saved inside dist/media/data with reference to each 'data-i18n' attribute.
+                    -->
                     @RenderSection("profileheader", required: false)
-                    
-                    
+
+
                     <ul id="js-nav-menu" class="nav-menu">
 
                         <li>
@@ -263,7 +263,7 @@
 
                     <div class="ml-auto d-flex">
 
-                       
+
                         <!-- app settings -->
                         <div class="d-flex align-items-center justify-content-center p-relative">
                             <a href="#" data-toggle="dropdown" class="header-icon d-flex align-items-center justify-content-center ml-2">
@@ -285,7 +285,7 @@
                                 </a>
                             </div>
                         </div>
-                        
+
 
 
 
@@ -320,7 +320,6 @@
     <!-- BEGIN Quick Menu -->
     <!-- to add more items, please make sure to change the variable '$menu-items: number;' in your _page-components-shortcut.scss -->
     <!-- BEGIN Page Settings -->
-    
     <!-- END Page Settings -->
     <!-- base vendor bundle:
          DOC: if you remove pace.js from core please note on Internet Explorer some CSS animations may execute before a page is fully loaded, resulting 'jump' animations
@@ -339,6 +338,227 @@
 
     <script src="~/Content/Theme-SPPro/js/vendors.bundle.js"></script>
     <script src="~/Content/Theme-SPPro/js/app.bundle.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('body').css('padding-right', '0');
+
+            $("#Form_Login").validate({
+                rules: {
+                    EmailAddress: {
+                        required: true,
+                        email: true
+                    },
+                    Password: {
+                        required: true,
+                    }
+                },
+                messages: {
+                    EmailAddress: {
+                        required: "Email required"
+                    },
+                    Password: {
+                        required: "Password required"
+                    }
+                }
+            });
+
+            $("#Form_ForgetPassword").validate({
+                rules: {
+                    EmailAddress: {
+                        required: true,
+                        email: true
+                    }
+                },
+                messages: {
+                    EmailAddress: {
+                        required: "Email required."
+                    }
+                }
+            });
+
+            $("#Form_Signup").validate({
+                rules: {
+                    FirstName: {
+                        required: true,
+                    },
+                    SurName: {
+                        required: true,
+                    },
+                    EmailAddress: {
+                        required: true,
+                        email: true,
+                        remote: {
+                            type: "GET",
+                            url: "/account/IsEmailExist?" + $("#Modal_SignupPopup input#SignEmailAddress").val(),
+                        }
+                    },
+                    Password: {
+                        required: true,
+                    },
+                    Re_Password: {
+                        equalTo: "#SignupPassword"
+                    }
+                },
+                messages: {
+                    FirstName: {
+                        required: "Firstname required."
+                    },
+                    SurName: {
+                        required: "Lastname required."
+                    },
+                    EmailAddress: {
+                        required: "Email required.",
+                        remote: "Email already exists"
+                    },
+                    Password: {
+                        required: "Password required."
+                    },
+                    Re_Password: {
+                        equalTo: "Password not matched."
+                    }
+                }
+            });
+
+            $("a.lnk_ShowLoginModal").on("click", function (e) {
+                $("#login-error").hide().html("");
+                $("#forgetpassword-error").hide().html("");
+
+                $("#Form_Login").validate().resetForm();
+
+                $("#Form_ForgetPassword").validate().resetForm();
+                $(".Modal-LoginStep").removeClass("hide");
+
+                $(".Modal-ForgetPasswordStep").addClass("hide");
+
+                $("#forgetPassowrdMessage").hide();
+                $(".forgetPasswordFields").show();
+                $("#Form_ForgetPassword").trigger("reset");
+                $("#Form_Login").trigger("reset");
+
+                $("#Modal_SignupPopup").modal("hide");
+                $("#Modal_LoginPopup").modal("show");
+
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            $("a.lnk_ShowFrogetPasswordModal").on("click", function (e) {
+                $(".Modal-LoginStep").addClass("hide");
+                $(".Modal-ForgetPasswordStep").removeClass("hide");
+
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            $("a.lnk_ShowSignupModal").on("click", function (e) {
+                $("h1.signup-success-message").addClass("hide");
+                $("#Form_Signup").show();
+                $("#Form_Signup").validate().resetForm();
+
+                $("#Modal_LoginPopup").modal("hide");
+                $("#Modal_SignupPopup").modal("show");
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            $(".btn_formLogin").on("click", function (e) {
+                $("#login-error").html("");
+                if ($("#Form_Login").valid()) {
+                    $("#LoginSpiner").show();
+                    var frmData = $("#Form_Login").serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "/account/Login",
+                        data: frmData,
+                        dataType: "json",
+                        success: function (data) {
+                            if (!$.isEmptyObject(data)) {
+                                if (data.ResultType == "Success") {
+                                    //window.location = "/Profile/Target?socialProfileId=" + data.ResultData;
+                                    window.location = "/User/Home";
+                                } else {
+                                    $("#LoginSpiner").hide();
+                                    $("#login-error").show().html(data.message);
+                                }
+                            }
+                        },
+                        failure: function (errMsg) {
+                            $("#LoginSpiner").hide();
+                        }
+                    });
+                }
+
+            });
+
+            $(".btn_forgetPassword").on("click", function (e) {
+                $("#forgetpassword-error").html("");
+                if ($("#Form_ForgetPassword").valid()) {
+                    $("#ForgotPassSpiner").show();
+                    var data = $("#Form_ForgetPassword").serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "/account/forgetpassword",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            $("#ForgotPassSpiner").hide();
+                            if (!$.isEmptyObject(data)) {
+                                $("#ForgotPassSpiner").hide();
+                                if (data.ResultType == "Success") {
+                                    $("#forgetPassowrdMessage").show();
+                                    $(".forgetPasswordFields").hide();
+                                } else {
+                                    $("#forgetpassword-error").show().html(data.message);
+                                }
+                            }
+                        },
+                        failure: function (errMsg) {
+                            $("#ForgotPassSpiner").hide();
+                        }
+                    });
+
+                }
+
+            });
+
+            $(".btn_formSignup").on("click", function (e) {
+                if ($("#Form_Signup").valid()) {
+                    $("#SignUpSpinner").show();
+                    var data = $("#Form_Signup").serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "/account/SignUp",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (!$.isEmptyObject(data)) {
+                                if (data.ResultType == "Success") {
+                                    $("#SignUpSpinner").hide();
+                                    $("#Modal_SignupPopup").modal("hide");
+                                    $("#Modal_MessageBoxTitle").text("Account Created Succesfully.!");
+                                    $("#Modal_MessageBoxBody").text("Congratulation! Your account has successfully created. Please check your inbox for verification.!");
+                                    fbq('track', 'CompleteRegistration');
+                                    $("#Modal_Messagebox").modal("show");
+                                } else {
+                                    $("#signup-error").show().html(data.message);
+                                    $("#SignUpSpinner").hide();
+                                }
+                            }
+                        },
+                        failure: function (errMsg) {
+                            $("#SignUpSpinner").hide();
+                        }
+                    });
+                    $("#SignUpSpinner").hide();
+                }
+            });
+
+        });
+
+    </script>
 
     @RenderSection("scripts", required: false)
     <!-- END: Page JS-->
