@@ -299,3 +299,10 @@ body.modal-open::after {
     }
 
 
+.card {
+    margin-bottom: 1.875rem;
+}
+
+.modal {
+    padding-bottom: 60px;
+}

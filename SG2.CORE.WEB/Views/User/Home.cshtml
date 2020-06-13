@@ -213,6 +213,73 @@
         .btn-light {
             background-color: #babfc7;
         }
+
+        form .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .position-relative {
+            position: relative !important;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .has-icon-left .form-control {
+            padding-right: 1rem;
+            padding-left: -webkit-calc(2.75rem + 2px);
+            padding-left: -moz-calc(2.75rem + 2px);
+            padding-left: calc(2.75rem + 2px);
+        }
+
+        .position-relative .form-control {
+            padding-right: -webkit-calc(2.75rem + 2px);
+            padding-right: -moz-calc(2.75rem + 2px);
+            padding-right: calc(2.75rem + 2px);
+        }
+
+        .has-icon-left .form-control {
+            padding-left: 2.5rem;
+        }
+
+        form .form-control {
+            border: 1px solid #ccd6e6;
+            color: #000000;
+            font-size: 0.85rem;
+        }
+
+        .has-icon-left .form-control-position {
+            right: auto;
+            left: inherit;
+        }
+
+        .form-control-position {
+            position: absolute;
+            top: 4px;
+            right: 0;
+            z-index: 2;
+            display: block;
+            width: 2.5rem;
+            height: 2.5rem;
+            line-height: 2.5rem;
+            text-align: center;
+        }
+
+        .icon-align {
+            margin-top: 0.6rem;
+            margin-left: 0.5rem;
+        }
+
+        .font-medium-5 {
+            font-size: 1.2rem !important;
+        }
+
+        .text-muted {
+             color: #404e67 !important; 
+        }
+
+        
+
     </style>
     <link href="~/Content/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet" />
     <link href="~/Content/app-assets/css/stripe.css" rel="stylesheet" />
@@ -346,7 +413,7 @@
                                             {
 
 
-                                            <tr class='clickable-row' data-href='/Profile/Basic?socialProfileId=@item.SocialProfileId' data-hrefstats='/Profile/stats?socialProfileId=@item.SocialProfileId'>
+                                            <tr class='clickable-row' data-href='/Profile/Basic?socialProfileId=@item.SocialProfileId' data-hrefstats='/Profile/allstats?socialProfileId=@item.SocialProfileId'>
 
                                                 <td scope="row" class="align-middle fit profile@(rowCounter)">
 
@@ -654,8 +721,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="Close">
-                    <input type="submit" class="btn btn-outline-primary btn-lg" value="Update Agency App Skin">
+                    <button type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-outline-primary btn-lg">Update Agency App Skin</button>
+                    
                 </div>
             </form>
         </div>

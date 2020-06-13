@@ -3984,6 +3984,7 @@
     <Content Include="Views\Profile\FollowList.cshtml" />
     <Content Include="Views\Profile\WhiteList.cshtml" />
     <Content Include="Views\Profile\BlackList.cshtml" />
+    <Content Include="Views\Profile\AllStats.cshtml" />
     <None Include="Views\Shared\Partial\_PartialForgetPasswordPopup.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialSignupPopup.cshtml" />
     <Content Include="Views\User\Home.cshtml" />
@@ -4053,7 +4054,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>false</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>56019</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
