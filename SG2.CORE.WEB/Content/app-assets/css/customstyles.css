@@ -253,8 +253,56 @@ header .dropdown-menu.dropdown-lg {
 
 .modal {
     top : 50px;
+    bottom: 50px;
+    margin-bottom:100px;
 }
 
 .bg-primary {
     color : #fff;
+}
+
+body.modal-open {
+    height: 100vh;
+    position: relative;
+    overflow-y: hidden;
+}
+
+body.modal-open::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    background-color: rgba(0,0, 0, 0.4);
+    pointer-events:none;
+
+}
+    /*.modal-backdrop {
+    opacity: 0.2 !important;
+}*/
+
+    body.modal-open .content-wrapper {
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
+    body.modal-open .page-sidebar {
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
+    body.modal-open .page-header {
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
+
+.card {
+    margin-bottom: 1.875rem;
+}
+
+.modal {
+    padding-bottom: 60px;
 }

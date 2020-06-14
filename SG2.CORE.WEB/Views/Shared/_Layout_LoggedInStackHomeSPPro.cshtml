@@ -35,15 +35,18 @@
 
     <link rel="stylesheet" type="text/css" href="~/Content/Theme-SPPro/css/vendors.bundle.css">
 
-    @*<link id="vendorsbundle" rel="stylesheet" media="screen, print" href="css/vendors.bundle.css">*@
+    @*
+    <link id="vendorsbundle" rel="stylesheet" media="screen, print" href="css/vendors.bundle.css">*@
     <link rel="stylesheet" type="text/css" href="~/Content/Theme-SPPro/css/app.bundle.css">
 
-    @*<link id="appbundle" rel="stylesheet" media="screen, print" href="css/app.bundle.css">*@
+    @*
+    <link id="appbundle" rel="stylesheet" media="screen, print" href="css/app.bundle.css">*@
     <link id="mytheme" rel="stylesheet" media="screen, print" href="#">
 
     <link rel="stylesheet" type="text/css" href="~/Content/Theme-SPPro/css/skins/skin-master.css">
 
-    @*<link id="myskin" rel="stylesheet" media="screen, print" href="css/skins/skin-master.css">*@
+    @*
+    <link id="myskin" rel="stylesheet" media="screen, print" href="css/skins/skin-master.css">*@
     <!-- Place favicon.ico in the root directory -->
     <link rel="apple-touch-icon" sizes="180x180" href="~/Content/Theme-SPPro/img/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="~/Content/Theme-SPPro/img/favicon/favicon-32x32.png">
@@ -53,89 +56,105 @@
     <link href="~/Content/app-assets/css/customstyles.css" rel="stylesheet" />
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    @*<link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/vendors.min.css">
-        <link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/charts/jquery-jvectormap-2.0.3.css">
-        <link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/charts/morris.css">
-        <link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/extensions/unslider.css">
-        <link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/weather-icons/climacons.min.css">*@
+    @*
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/charts/jquery-jvectormap-2.0.3.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/charts/morris.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/extensions/unslider.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/weather-icons/climacons.min.css">*@
     <!-- END: Vendor CSS-->
     <!-- BEGIN: Theme CSS-->
-    @*<link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/bootstrap.css">
-        <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/bootstrap-extended.css">*@
-    @*<link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/weather-icons/climacons.min.css">
-        <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/colors.css">
-        <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/components.css">*@
+    @*
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/bootstrap-extended.css">*@
+    @*
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/weather-icons/climacons.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/colors.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/components.css">*@
     <!-- END: Theme CSS-->
     <!-- BEGIN: Page CSS-->
-    @*<link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/core/menu/menu-types/horizontal-menu.css">
-        <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/core/colors/palette-gradient.css">*@
+    @*
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/core/menu/menu-types/horizontal-menu.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/core/colors/palette-gradient.css">*@
 
     @RenderSection("styles", required: false)
 
 
     <!-- END: Custom CSS-->
+
     <script>
-            /**
-             *	This script should be placed right after the body tag for fast execution
-             *	Note: the script is written in pure javascript and does not depend on thirdparty library
-             **/
-            'use strict';
 
-            var classHolder = document.getElementsByTagName("BODY")[0],
-                /**
-                 * Load from localstorage
-                 **/
-                themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) :
+        var glb_intercomKey = "xsl2s4e6";
+
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            }; if (!f._fbq) f._fbq = n;
+            n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
+        }(window,
+            document, 'script', '//connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1185819604852319');
+        fbq('init', '2899883190056318');
+        fbq('init', '722023768308766');
+        fbq('init', '433629843942100');
+        fbq('track', 'PageView'); //tracks a PageView to both initialized pixels
+    </script>
+    <script>
+        /**
+         *	This script should be placed right after the body tag for fast execution
+         *	Note: the script is written in pure javascript and does not depend on thirdparty library
+         **/
+        'use strict';
+
+        var classHolder = document.getElementsByTagName("BODY")[0],
+            /**
+             * Load from localstorage
+             **/
+            themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) :
                 {},
-                themeURL = themeSettings.themeURL || '',
-                themeOptions = themeSettings.themeOptions || '';
-            /**
-             * Load theme options
-             **/
-            if (themeSettings.themeOptions)
-            {
-                classHolder.className = themeSettings.themeOptions;
-                console.log("%c✔ Theme settings loaded", "color: #148f32");
-            }
-            else
-            {
-                console.log("%c✔ Heads up! Theme settings is empty or does not exist, loading default settings...", "color: #ed1c24");
-            }
-            if (themeSettings.themeURL && !document.getElementById('mytheme'))
-            {
-                var cssfile = document.createElement('link');
-                cssfile.id = 'mytheme';
-                cssfile.rel = 'stylesheet';
-                cssfile.href = themeURL;
-                document.getElementsByTagName('head')[0].appendChild(cssfile);
+            themeURL = themeSettings.themeURL || '',
+            themeOptions = themeSettings.themeOptions || '';
+        /**
+         * Load theme options
+         **/
+        if (themeSettings.themeOptions) {
+            classHolder.className = themeSettings.themeOptions;
+            console.log("%c✔ Theme settings loaded", "color: #148f32");
+        }
+        else {
+            console.log("%c✔ Heads up! Theme settings is empty or does not exist, loading default settings...", "color: #ed1c24");
+        }
+        if (themeSettings.themeURL && !document.getElementById('mytheme')) {
+            var cssfile = document.createElement('link');
+            cssfile.id = 'mytheme';
+            cssfile.rel = 'stylesheet';
+            cssfile.href = themeURL;
+            document.getElementsByTagName('head')[0].appendChild(cssfile);
 
-            }
-            else if (themeSettings.themeURL && document.getElementById('mytheme'))
-            {
-                document.getElementById('mytheme').href = themeSettings.themeURL;
-            }
-            /**
-             * Save to localstorage
-             **/
-            var saveSettings = function()
-            {
-                themeSettings.themeOptions = String(classHolder.className).split(/[^\w-]+/).filter(function(item)
-                {
-                    return /^(nav|header|footer|mod|display)-/i.test(item);
-                }).join(' ');
-                if (document.getElementById('mytheme'))
-                {
-                    themeSettings.themeURL = document.getElementById('mytheme').getAttribute("href");
-                };
-                localStorage.setItem('themeSettings', JSON.stringify(themeSettings));
-            }
-            /**
-             * Reset settings
-             **/
-            var resetSettings = function()
-            {
-                localStorage.setItem("themeSettings", "");
-            }
+        }
+        else if (themeSettings.themeURL && document.getElementById('mytheme')) {
+            document.getElementById('mytheme').href = themeSettings.themeURL;
+        }
+        /**
+         * Save to localstorage
+         **/
+        var saveSettings = function () {
+            themeSettings.themeOptions = String(classHolder.className).split(/[^\w-]+/).filter(function (item) {
+                return /^(nav|header|footer|mod|display)-/i.test(item);
+            }).join(' ');
+            if (document.getElementById('mytheme')) {
+                themeSettings.themeURL = document.getElementById('mytheme').getAttribute("href");
+            };
+            localStorage.setItem('themeSettings', JSON.stringify(themeSettings));
+        }
+        /**
+         * Reset settings
+         **/
+        var resetSettings = function () {
+            localStorage.setItem("themeSettings", "");
+        }
 
     </script>
 </head>
@@ -173,8 +192,8 @@
                         </a>
                     </div>
                     <!--
-    TIP: The menu items are not auto translated. You must have a residing lang file associated with the menu saved inside dist/media/data with reference to each 'data-i18n' attribute.
-    -->
+                    TIP: The menu items are not auto translated. You must have a residing lang file associated with the menu saved inside dist/media/data with reference to each 'data-i18n' attribute.
+                    -->
                     @RenderSection("profileheader", required: false)
 
 
@@ -194,27 +213,27 @@
                     <div class="btn-group btn-sidebar" style="margin-top:12px;">
                         <a href="#" class="btn btn-round btn-danger " id="btnCancelAfilliate">Cancel Agency Plan</a>
                     </div>
-                                    }
-                                    else
-                                    {
-                                    @*<div>
-                <h4 class="card-title">Take your Agency to the next level</h4>
-                <p class="card-text">
-                    Join the most powerful Social Growth tool for agencies in 2020. Access advanced tools & white label your own app.
+                    }
+                    else
+                    {
+                    @*<div>
+                        <h4 class="card-title">Take your Agency to the next level</h4>
+                        <p class="card-text">
+                            Join the most powerful Social Growth tool for agencies in 2020. Access advanced tools & white label your own app.
 
-                </p>
-            </div>*@
-                                    <div class="btn-group btn-sidebar" style="margin-top:12px;">
+                        </p>
+                    </div>*@
+                    <div class="btn-group btn-sidebar" style="margin-top:12px;">
 
-                                        <a href="#" class="btn btn-round btn-agency-info" id="btnAfilliate">Start an Agency Account</a>
-
-
-                                    </div>
-                                    }
+                        <a href="#" class="btn btn-round btn-agency-info" id="btnAfilliate">Start an Agency Account</a>
 
 
-                                    <div class="filter-message js-filter-message bg-success-600"></div>
-</nav>
+                    </div>
+                    }
+
+
+                    <div class="filter-message js-filter-message bg-success-600"></div>
+                </nav>
                 <!-- END PRIMARY NAVIGATION -->
 
             </aside>
@@ -244,8 +263,8 @@
 
 
                                 @*<a href="#" class="dropdown-item" data-action="app-reset">
-                                        <span data-i18n="drpdwn.reset_layout">Reset Layout</span>
-                                    </a>*@
+                                    <span data-i18n="drpdwn.reset_layout">Reset Layout</span>
+                                </a>*@
 
                             </div>
                             <div class="ml-5 logout-btn">
@@ -307,6 +326,227 @@
 
     <script src="~/Content/Theme-SPPro/js/vendors.bundle.js"></script>
     <script src="~/Content/Theme-SPPro/js/app.bundle.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('body').css('padding-right', '0');
+
+            $("#Form_Login").validate({
+                rules: {
+                    EmailAddress: {
+                        required: true,
+                        email: true
+                    },
+                    Password: {
+                        required: true,
+                    }
+                },
+                messages: {
+                    EmailAddress: {
+                        required: "Email required"
+                    },
+                    Password: {
+                        required: "Password required"
+                    }
+                }
+            });
+
+            $("#Form_ForgetPassword").validate({
+                rules: {
+                    EmailAddress: {
+                        required: true,
+                        email: true
+                    }
+                },
+                messages: {
+                    EmailAddress: {
+                        required: "Email required."
+                    }
+                }
+            });
+
+            $("#Form_Signup").validate({
+                rules: {
+                    FirstName: {
+                        required: true,
+                    },
+                    SurName: {
+                        required: true,
+                    },
+                    EmailAddress: {
+                        required: true,
+                        email: true,
+                        remote: {
+                            type: "GET",
+                            url: "/account/IsEmailExist?" + $("#Modal_SignupPopup input#SignEmailAddress").val(),
+                        }
+                    },
+                    Password: {
+                        required: true,
+                    },
+                    Re_Password: {
+                        equalTo: "#SignupPassword"
+                    }
+                },
+                messages: {
+                    FirstName: {
+                        required: "Firstname required."
+                    },
+                    SurName: {
+                        required: "Lastname required."
+                    },
+                    EmailAddress: {
+                        required: "Email required.",
+                        remote: "Email already exists"
+                    },
+                    Password: {
+                        required: "Password required."
+                    },
+                    Re_Password: {
+                        equalTo: "Password not matched."
+                    }
+                }
+            });
+
+            $("a.lnk_ShowLoginModal").on("click", function (e) {
+                $("#login-error").hide().html("");
+                $("#forgetpassword-error").hide().html("");
+
+                $("#Form_Login").validate().resetForm();
+
+                $("#Form_ForgetPassword").validate().resetForm();
+                $(".Modal-LoginStep").removeClass("hide");
+
+                $(".Modal-ForgetPasswordStep").addClass("hide");
+
+                $("#forgetPassowrdMessage").hide();
+                $(".forgetPasswordFields").show();
+                $("#Form_ForgetPassword").trigger("reset");
+                $("#Form_Login").trigger("reset");
+
+                $("#Modal_SignupPopup").modal("hide");
+                $("#Modal_LoginPopup").modal("show");
+
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            $("a.lnk_ShowFrogetPasswordModal").on("click", function (e) {
+                $(".Modal-LoginStep").addClass("hide");
+                $(".Modal-ForgetPasswordStep").removeClass("hide");
+
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            $("a.lnk_ShowSignupModal").on("click", function (e) {
+                $("h1.signup-success-message").addClass("hide");
+                $("#Form_Signup").show();
+                $("#Form_Signup").validate().resetForm();
+
+                $("#Modal_LoginPopup").modal("hide");
+                $("#Modal_SignupPopup").modal("show");
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            $(".btn_formLogin").on("click", function (e) {
+                $("#login-error").html("");
+                if ($("#Form_Login").valid()) {
+                    $("#LoginSpiner").show();
+                    var frmData = $("#Form_Login").serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "/account/Login",
+                        data: frmData,
+                        dataType: "json",
+                        success: function (data) {
+                            if (!$.isEmptyObject(data)) {
+                                if (data.ResultType == "Success") {
+                                    //window.location = "/Profile/Target?socialProfileId=" + data.ResultData;
+                                    window.location = "/User/Home";
+                                } else {
+                                    $("#LoginSpiner").hide();
+                                    $("#login-error").show().html(data.message);
+                                }
+                            }
+                        },
+                        failure: function (errMsg) {
+                            $("#LoginSpiner").hide();
+                        }
+                    });
+                }
+
+            });
+
+            $(".btn_forgetPassword").on("click", function (e) {
+                $("#forgetpassword-error").html("");
+                if ($("#Form_ForgetPassword").valid()) {
+                    $("#ForgotPassSpiner").show();
+                    var data = $("#Form_ForgetPassword").serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "/account/forgetpassword",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            $("#ForgotPassSpiner").hide();
+                            if (!$.isEmptyObject(data)) {
+                                $("#ForgotPassSpiner").hide();
+                                if (data.ResultType == "Success") {
+                                    $("#forgetPassowrdMessage").show();
+                                    $(".forgetPasswordFields").hide();
+                                } else {
+                                    $("#forgetpassword-error").show().html(data.message);
+                                }
+                            }
+                        },
+                        failure: function (errMsg) {
+                            $("#ForgotPassSpiner").hide();
+                        }
+                    });
+
+                }
+
+            });
+
+            $(".btn_formSignup").on("click", function (e) {
+                if ($("#Form_Signup").valid()) {
+                    $("#SignUpSpinner").show();
+                    var data = $("#Form_Signup").serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "/account/SignUp",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (!$.isEmptyObject(data)) {
+                                if (data.ResultType == "Success") {
+                                    $("#SignUpSpinner").hide();
+                                    $("#Modal_SignupPopup").modal("hide");
+                                    $("#Modal_MessageBoxTitle").text("Account Created Succesfully.!");
+                                    $("#Modal_MessageBoxBody").text("Congratulation! Your account has successfully created. Please check your inbox for verification.!");
+                                    fbq('track', 'CompleteRegistration');
+                                    $("#Modal_Messagebox").modal("show");
+                                } else {
+                                    $("#signup-error").show().html(data.message);
+                                    $("#SignUpSpinner").hide();
+                                }
+                            }
+                        },
+                        failure: function (errMsg) {
+                            $("#SignUpSpinner").hide();
+                        }
+                    });
+                    $("#SignUpSpinner").hide();
+                }
+            });
+
+        });
+
+    </script>
 
     @RenderSection("scripts", required: false)
     <!-- END: Page JS-->

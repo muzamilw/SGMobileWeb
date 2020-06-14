@@ -7,7 +7,7 @@
 @{
 
     ViewBag.Title = "Agency Instagram Default Filters";
-    Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
+    Layout = "~/Views/Shared/_Layout_LoggedInStackHomeMainSPPro.cshtml";
 
 
 
@@ -48,10 +48,25 @@
         .l-h12-social-profile {
             line-height: 1.2;
         }
+
+        .btn-light {
+            background-color: #babfc7;
+        }
+        .toggle-handle {
+            background-color: #fff;
+        }
     </style>
 }
 
 
+    <div class="heading-wrapper">
+        <h1>Agency Instagram Default Filters</h1>
+        <span class="navbar-text">
+            <a class="btn btn-black" href="/user/home">
+                Back
+            </a>
+        </span>
+    </div>
 
 
 @*<button type="button" class="btn btn-outline-primary block btn-lg" data-toggle="modal" data-target="#planSubscriptionModal">
@@ -65,7 +80,7 @@
     @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.TargetingInformationId)
 
     <!-- BEGIN: Content-->
-    <div class="app-content container center-layout mt-2">
+    <div class="app-content  center-layout mt-2">
         <div class="content-wrapper">
 
 
@@ -78,15 +93,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
-                                <div class="card-header">
-                                    <div class="card-title col-lg-7 col-sm-12 float-left mt-1 row"><h4 class="card-title" id="horz-layout-basic">Agency Instagram Default Filters</h4>
-                                        </div>
-                                     <div class="col-lg-5 col-sm-12 float-right text-right pr-0">
-
-                                        <a href="~/user/home" class="btn btn-primary"><i class="ft-arrow-left"></i>Back to Home</a>
-                                      
-                                    </div>
-                                </div>
+                               
                                 <div class="card-content collpase show">
                                     <div class="card-body">
 

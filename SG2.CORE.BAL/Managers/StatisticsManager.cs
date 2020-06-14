@@ -202,6 +202,8 @@ namespace SG2.CORE.BAL.Managers
 
 
                 StatisticsViewModel followersStatisticsViewModel = new StatisticsViewModel();
+
+                followersStatisticsViewModel.AppStatus = profile.AppStatus;
                 //followersStatisticsViewModel.StatisticsListing = _statistics.GetStatistics(socialProfileId, fromDate, ToDate).ToList();
                 var model = _statistics.GetStatisticsFirstAndRecent(socialProfileId);
                 if (model != null && model.Count == 2)

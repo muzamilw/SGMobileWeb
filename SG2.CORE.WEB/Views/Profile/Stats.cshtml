@@ -7,7 +7,7 @@
 @{
 
     ViewBag.Title = "Insights & Statistics";
-    Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
+    Layout = "~/Views/Shared/_Layout_LoggedInStackSPPro.cshtml";
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
     var socialProfile = (SocialProfile)ViewBag.socialProfile;
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
@@ -17,6 +17,8 @@
 
 @section styles{
 
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/charts/jquery-jvectormap-2.0.3.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/charts/morris.css">
 
     <style>
 
@@ -43,7 +45,7 @@
 }
 
 
-<div class="app-content container center-layout mt-2">
+<div class="app-content  center-layout mt-2">
     <div class="content-wrapper">
 
         <section class="content-body">
@@ -158,12 +160,12 @@
                                     </div>
 
                                     @*<div class="col-lg-4 col-12">
-                                    <div class="text-center">
-                                        <h3>@Model.FollowingsTotal</h3>
-                                        <p class="text-muted">Followings from start <span class="success"><i class="ft-arrow-up"></i> @Model.FollowingsInitial</span></p>
-                                        <div id="sp-bar-total-cost"></div>
-                                    </div>
-                                </div>*@
+                                            <div class="text-center">
+                                                <h3>@Model.FollowingsTotal</h3>
+                                                <p class="text-muted">Followings from start <span class="success"><i class="ft-arrow-up"></i> @Model.FollowingsInitial</span></p>
+                                                <div id="sp-bar-total-cost"></div>
+                                            </div>
+                                        </div>*@
                                 </div>
                             </div>
                         </div>
@@ -311,81 +313,88 @@
                 </div>
                 <!--/Followings Line Chart-->
             }
-                <!--Engagement Rate Line Chart-->
-                <div class="row">
-                    <div class="col-12">
+            <!--Engagement Rate Line Chart-->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Engagement Rate</h4>
+
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+
+                                <div id="line-engagement" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/Engagement Rate Line Chart-->
+            <!-- Bounce Rate & List -->
+            @*<div class="row match-height">
+
+                    <div class="col-xl-12 col-lg-12">
                         <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Engagement Rate</h4>
+                            <div class="card-header border-0">
+                                <h4 class="card-title">Activity History</h4>
 
                             </div>
-                            <div class="card-content collapse show">
-                                <div class="card-body">
+                            <div class="card-content">
 
-                                    <div id="line-engagement" class="height-400"></div>
+
+                                <div class="table-responsive mt-4">
+                                    <table class="table table-xl mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Action Date/Time</th>
+                                                <th>Action</th>
+                                                <th>Social User Name</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in (List<SocialProfile_ActionsViewModel>)ViewBag.actions)
+                                            {
+                                                <tr>
+                                                    <td scope="row">
+                                                        @item.ActionDateTime
+                                                    </td>
+
+
+                                                    <td>
+                                                        @item.Action
+                                                    </td>
+                                                    <td>
+                                                        @item.TargetProfile
+                                                    </td>
+
+
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!--/Engagement Rate Line Chart-->
-                <!-- Bounce Rate & List -->
-                @*<div class="row match-height">
+                </div>*@
+            <!--/ Bounce Rate & List -->
 
-                <div class="col-xl-12 col-lg-12">
-                    <div class="card">
-                        <div class="card-header border-0">
-                            <h4 class="card-title">Activity History</h4>
-
-                        </div>
-                        <div class="card-content">
-
-
-                            <div class="table-responsive mt-4">
-                                <table class="table table-xl mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>Action Date/Time</th>
-                                            <th>Action</th>
-                                            <th>Social User Name</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in (List<SocialProfile_ActionsViewModel>)ViewBag.actions)
-                                        {
-                                            <tr>
-                                                <td scope="row">
-                                                    @item.ActionDateTime
-                                                </td>
-
-
-                                                <td>
-                                                    @item.Action
-                                                </td>
-                                                <td>
-                                                    @item.TargetProfile
-                                                </td>
-
-
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>*@
-                <!--/ Bounce Rate & List -->
-
-            </section>
+        </section>
     </div>
 
 </div>
 
 @section Scripts{
     @*<script src="~/Content/app-assets/js/scripts/charts/morris/line.js"></script>*@
+    <script src="~/Content/app-assets/vendors/js/charts/jquery.sparkline.min.js"></script>
+    <script src="~/Content/app-assets/vendors/js/charts/raphael-min.js"></script>
+    <script src="~/Content/app-assets/vendors/js/charts/morris.min.js"></script>
+    <script src="~/Content/app-assets/vendors/js/charts/jvector/jquery-jvectormap-2.0.3.min.js"></script>
+    <script src="~/Content/app-assets/vendors/js/charts/jvector/jquery-jvectormap-world-mill.js"></script>
+    <script src="~/Content/app-assets/vendors/js/charts/chart.min.js"></script>
+    <script src="~/Content/app-assets/vendors/js/charts/jquery.sparkline.min.js"></script>
 
     <script type="text/javascript">
 
