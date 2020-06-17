@@ -306,3 +306,29 @@ body.modal-open::after {
 .modal {
     padding-bottom: 60px;
 }
+
+    .non-broker-tile
+    {
+        color : #fff;
+    }
+
+    .non-broker-tile .tile-h3 {
+        margin-top: 15px;
+        font-size: 25px;
+        font-weight: 500;
+    }
+
+    .non-broker-tile .tile-h1 {
+        font-size: 50px;
+        font-weight: bold;
+    }
+
+    .non-broker-tile .tile-ul {
+        font-weight: 500;
+        font-size: 12px;
+        padding-top: 20px;
+    }
+        .non-broker-tile .tile-li {
+            padding-bottom: 5px;
+            list-style: disc;
+        }

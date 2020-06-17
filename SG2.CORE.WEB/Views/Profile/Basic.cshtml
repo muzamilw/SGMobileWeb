@@ -113,6 +113,14 @@
                                                         </div>
                                                     </div>
 
+                                                    
+
+
+                                                </div>
+
+                                                <div class="row">
+                                                   
+
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="label-control" for="projectinput2">Device Bin Location</label>
@@ -121,14 +129,7 @@
 
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="label-control" for="projectinput2">Device Bin Location</label>
-
-                                                            @Html.EditorFor(m => m.SocialProfile.DeviceBinLocation, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter in where your mobile device is usually located when in operation" } })
-
-                                                        </div>
-                                                    </div>
+                                                    
 
 
                                                 </div>
@@ -148,16 +149,16 @@
                                                     </div>
                                                 </div>
                                                 @*@if (Model.socialcustomer.IsBroker.HasValue && Model.socialcustomer.IsBroker.Value == true)
-                                                {
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="label-control" for="projectinput2">Instagram Password</label>
+            {
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="label-control" for="projectinput2">Instagram Password</label>
 
-                                                            <input type="text" class="form-control" id="firstName1" readonly="readonly" value="@Model.SocialProfile.SocialPassword">
+                        <input type="text" class="form-control" id="firstName1" readonly="readonly" value="@Model.SocialProfile.SocialPassword">
 
-                                                        </div>
-                                                    </div>
-                                                }*@
+                    </div>
+                </div>
+            }*@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6 pincodecontainer">
@@ -174,8 +175,8 @@
                                                 <div class="col-md-12 text-center">
                                                     <div class="form-actions">
                                                         @*<button type="button" class="btn btn-warning mr-1">
-                                                                <i class="ft-x"></i> Cancel
-                                                            </button>*@
+                        <i class="ft-x"></i> Cancel
+                    </button>*@
                                                         <button type="submit" class="btn btn-primary">
                                                             <i class="fa fa-check-square-o"></i> Save
                                                         </button>
@@ -184,28 +185,28 @@
                                             </div>
 
                                             @*@if (Model.socialcustomer.IsBroker.HasValue && Model.socialcustomer.IsBroker.Value == true)
-                                            {
-                                                <h4 class="form-section"><i class="ft-user"></i>Device Push Notifications (Coming Soon)</h4>
-                                                <div class="row">
-                                                    <div class="col-sm-12 col-lg-3 mb-1">
-                                                        <a href="#" class="btn btn-block btn-primary " style="width:100%">Alert</a>
-                                                    </div>
+        {
+            <h4 class="form-section"><i class="ft-user"></i>Device Push Notifications (Coming Soon)</h4>
+            <div class="row">
+                <div class="col-sm-12 col-lg-3 mb-1">
+                    <a href="#" class="btn btn-block btn-primary " style="width:100%">Alert</a>
+                </div>
 
 
-                                                    <div class="col-sm-12 col-lg-3 mb-1">
-                                                        <a href="#" class="btn btn-block btn-primary  " style="background-color:blueviolet;width:100%">Play Alarm</a>
-                                                    </div>
+                <div class="col-sm-12 col-lg-3 mb-1">
+                    <a href="#" class="btn btn-block btn-primary  " style="background-color:blueviolet;width:100%">Play Alarm</a>
+                </div>
 
-                                                    <div class="col-sm-12 col-lg-3 mb-1">
-                                                        <a href="#" class="btn btn-block btn-primary  " style="background-color:blueviolet;width:100%">Get latest Log</a>
-                                                    </div>
+                <div class="col-sm-12 col-lg-3 mb-1">
+                    <a href="#" class="btn btn-block btn-primary  " style="background-color:blueviolet;width:100%">Get latest Log</a>
+                </div>
 
-                                                    <div class="col-sm-12 col-lg-3 mb-1">
-                                                        <a href="#" class="btn btn-block btn-primary  " style="background-color:blueviolet;width:100%">Restart App</a>
-                                                    </div>
+                <div class="col-sm-12 col-lg-3 mb-1">
+                    <a href="#" class="btn btn-block btn-primary  " style="background-color:blueviolet;width:100%">Restart App</a>
+                </div>
 
-                                                </div>
-                                            }*@
+            </div>
+        }*@
 
                                         </div>
 

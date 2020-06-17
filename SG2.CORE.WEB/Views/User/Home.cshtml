@@ -391,18 +391,13 @@
                                     <table id="ResponsiveTable" class="table table-xl mb-0 table-hover">
 
                                         <thead>
-                                        <th>
-                                        </th>
-                                        <th class="@displayClass">
-                                            F
-                                        </th>
-                                        <th class="@displayClass">
-                                            U
-                                        </th>
-                                        <th class="@displayClass">L</th>
-                                        <th class="@displayClass">S</th>
-                                        <th></th>
-                                        <th></th>
+                                            <tr>
+                                                <th class="col-4"></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        
                                         </thead>
                                         <tbody>
                                             @{
@@ -413,108 +408,87 @@
                                             {
 
 
-                                            <tr class='clickable-row' data-href='/Profile/Basic?socialProfileId=@item.SocialProfileId' data-hrefstats='/Profile/allstats?socialProfileId=@item.SocialProfileId'>
+                                                <tr class='clickable-row' data-href='/Profile/Basic?socialProfileId=@item.SocialProfileId' data-hrefstats='/Profile/allstats?socialProfileId=@item.SocialProfileId'>
 
-                                                <td scope="row" class="align-middle fit profile@(rowCounter)">
+                                                    <td scope="row" class="align-middle fit profile@(rowCounter)">
 
-                                                    @if (item.SocialProfileTypeId == 30)
+                                                        @if (item.SocialProfileTypeId == 30)
+                                                        {
+
+
+
+                                                            <picture>
+                                                                <!-- Extra Large Desktops -->
+                                                                <source media="(min-width: 75em)"
+                                                                        srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
+
+                                                                <!-- Desktops -->
+                                                                <source media="(min-width: 62em)"
+                                                                        srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
+
+                                                                <!-- Tablets -->
+                                                                <source media="(min-width: 48em)"
+                                                                        srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
+
+                                                                <!-- Landscape Phones -->
+                                                                <source media="(min-width: 34em)"
+                                                                        srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png">
+
+                                                                <!-- Portrait Phones -->
+                                                                <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png"
+                                                                     srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png">
+                                                            </picture>
+                                                        }
+                                                        <a style="display:inline-block" href="/Profile/Basic?socialProfileId=@item.SocialProfileId">@item.SocialUsername</a>
+                                                    </td>
+
+
+
+
+                                                    @if (Customer.IsBroker == true)
                                                     {
+                                                        <td>
+                                                            @{
+                                                                var statusclass = "";
+                                                                switch (item.BlockedStatus)
+                                                                {
+                                                                    case "Valid": statusclass = "badge-primary"; break;
+                                                                    case "Action Blocked": statusclass = "badge-danger"; break;
+                                                                    case "Hard Blocked": statusclass = "badge-danger"; break;
+                                                                    case "Password Blocked": statusclass = "badge-danger"; break;
+                                                                    default:
+                                                                        statusclass = "badge-primary";
+                                                                        break;
+                                                                }
+                                                            }
+
+                                                            <span class="badge @statusclass label-square mr-1 mb-1 display-inline">
+
+                                                                <span>@item.BlockedStatus</span>
+                                                            </span>
+                                                        </td>
 
 
+                                                        <td class="">
+                                                            @{
+                                                                var connStatusclass = "";
+                                                                if (item.AppConnStatus == "Online")
+                                                                {
+                                                                    connStatusclass = "badge-success";
+                                                                }
+                                                                else
+                                                                {
+                                                                    connStatusclass = "badge-danger";
+                                                                }
 
-                                                        <picture>
-                                                            <!-- Extra Large Desktops -->
-                                                            <source media="(min-width: 75em)"
-                                                                    srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
+                                                            }
 
-                                                            <!-- Desktops -->
-                                                            <source media="(min-width: 62em)"
-                                                                    srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
+                                                            <span class="badge @connStatusclass label-square mr-1 mb-1 display-inline">
 
-                                                            <!-- Tablets -->
-                                                            <source media="(min-width: 48em)"
-                                                                    srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
-
-                                                            <!-- Landscape Phones -->
-                                                            <source media="(min-width: 34em)"
-                                                                    srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png">
-
-                                                            <!-- Portrait Phones -->
-                                                            <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png"
-                                                                 srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png">
-                                                        </picture>
+                                                                <span>@item.AppConnStatus</span>
+                                                            </span>
+                                                        </td>
                                                     }
-                                                    <a style="display:inline-block" href="/Profile/Basic?socialProfileId=@item.SocialProfileId">@item.SocialUsername</a>
-                                                </td>
-                                                <td class="@displayClass ">
-                                                    <a onclick="showPaymentPopUp(@item.SocialProfileId, 'F', '@item.SubscriptionName');">
-                                                        <input class="toggler" data-size="mini" id="followOn" data-profile-id="F@(item.SocialProfileId)" type="checkbox" data-toggle="toggle" checked data-onstyle="success" value="@(item.FollowOn == true && item.SubscriptionName != null && item.SubscriptionName != "FREE" ? "on" : "off")">
-
-                                                    </a>
-
-                                                </td>
-                                                <td class="@displayClass">
-                                                    <a onclick="showPaymentPopUp(@item.SocialProfileId, 'U', '@item.SubscriptionName');">
-                                                        <input class="toggler" data-size="mini" id="followOn" data-profile-id="U@(item.SocialProfileId)" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.UnFollFollowersAfterMinDays == true && item.SubscriptionName != null && item.SubscriptionName != "FREE" ? "on" : "off")">
-
-                                                    </a>
-                                                </td>
-                                                <td class="@displayClass">
-                                                    <a onclick="showPaymentPopUp(@item.SocialProfileId, 'L', '@item.SubscriptionName');">
-                                                        <input class="toggler" data-size="mini" id="followOn" data-profile-id="L@(item.SocialProfileId)" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollLikeuserPosts == true && item.SubscriptionName != null && item.SubscriptionName != "FREE" ? "on" : "off")">
-
-                                                    </a>
-                                                </td>
-                                                <td class="@displayClass">
-                                                    <a onclick="showPaymentPopUp(@item.SocialProfileId, 'S', '@item.SubscriptionName');">
-                                                        <input class="toggler" data-size="mini" id="followOn" data-profile-id="S@(item.SocialProfileId)" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollViewUserStory == true && item.SubscriptionName != null && item.SubscriptionName != "FREE" ? "on" : "off")">
-
-                                                    </a>
-                                                </td>
-                                                @if (Customer.IsBroker == true)
-                                                {
-                                                    <td>
-                                                        @{
-                                                            var statusclass = "";
-                                                            switch (item.BlockedStatus)
-                                                            {
-                                                                case "Valid": statusclass = "badge-primary"; break;
-                                                                case "Action Blocked": statusclass = "badge-danger"; break;
-                                                                case "Hard Blocked": statusclass = "badge-danger"; break;
-                                                                case "Password Blocked": statusclass = "badge-danger"; break;
-                                                                default:
-                                                                    statusclass = "badge-primary";
-                                                                    break;
-                                                            }
-                                                        }
-
-                                                        <span class="badge @statusclass label-square mr-1 mb-1 display-inline">
-
-                                                            <span>@item.BlockedStatus</span>
-                                                        </span>
-                                                    </td>
-
-
-                                                    <td class="">
-                                                        @{
-                                                            var connStatusclass = "";
-                                                            if (item.AppConnStatus == "Online")
-                                                            {
-                                                                connStatusclass = "badge-success";
-                                                            }
-                                                            else
-                                                            {
-                                                                connStatusclass = "badge-danger";
-                                                            }
-
-                                                        }
-
-                                                        <span class="badge @connStatusclass label-square mr-1 mb-1 display-inline">
-
-                                                            <span>@item.AppConnStatus</span>
-                                                        </span>
-                                                    </td>
-                                                            }
                                                     <td class="align-middle">
                                                         @if (item.SubscriptionName != null)
                                                         {
