@@ -301,9 +301,25 @@ namespace SG2.CORE.DAL.Repositories
                     profile.GenderEngagmentPref = request.SocialProfile_Instagram_TargetingInformation.GenderEngagmentPref;
                     profile.IncludeBusinessAccounts = request.SocialProfile_Instagram_TargetingInformation.IncludeBusinessAccounts;
 
+                    profile.AfterFollLikeuserPosts = request.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts;
+                    profile.AfterFollCommentUserPosts = request.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts;
+                    profile.AfterFollViewUserStory = request.SocialProfile_Instagram_TargetingInformation.AfterFollViewUserStory;
+                    profile.AfterFollCommentUserStory = request.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserStory;
+                    profile.UnFollFollowersAfterMinDays = request.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays;
+                    profile.FollowOn = request.SocialProfile_Instagram_TargetingInformation.FollowOn;
+                    profile.ExecutionIntervals = request.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals;
+
+                    profile.MonOper = request.SocialProfile_Instagram_TargetingInformation.MonOper;
+                    profile.TueOper = request.SocialProfile_Instagram_TargetingInformation.TueOper;
+                    profile.WedOper = request.SocialProfile_Instagram_TargetingInformation.WedOper;
+                    profile.ThuOper = request.SocialProfile_Instagram_TargetingInformation.ThuOper;
+                    profile.FriOper = request.SocialProfile_Instagram_TargetingInformation.FriOper;
+                    profile.SatOper = request.SocialProfile_Instagram_TargetingInformation.SatOper;
+                    profile.SunOper = request.SocialProfile_Instagram_TargetingInformation.SunOper;
+
                     if (SaveFullTargetProfile)
                     {
-                        profile.FollowOn = request.SocialProfile_Instagram_TargetingInformation.FollowOn;
+                        
 
                         profile.FollUserProfileImage = request.SocialProfile_Instagram_TargetingInformation.FollUserProfileImage;
                         profile.FollUserMinPosts = request.SocialProfile_Instagram_TargetingInformation.FollUserMinPosts;
@@ -315,17 +331,17 @@ namespace SG2.CORE.DAL.Repositories
                         profile.FollDoNotFollowUsernamewithdigits = request.SocialProfile_Instagram_TargetingInformation.FollDoNotFollowUsernamewithdigits;
                         profile.FollDoNotFollowUsernamewithdigitsVal = request.SocialProfile_Instagram_TargetingInformation.FollDoNotFollowUsernamewithdigitsVal;
 
-                        profile.AfterFollLikeuserPosts = request.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts;
-                        profile.AfterFollCommentUserPosts = request.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts;
+                        
+                        
 
                         profile.AfterFollMuteUser = request.SocialProfile_Instagram_TargetingInformation.AfterFollMuteUser;
                         profile.FollUserLangs = request.SocialProfile_Instagram_TargetingInformation.FollUserLangs;
                         profile.FollUserLangsList = request.SocialProfile_Instagram_TargetingInformation.FollUserLangsList;
-                        profile.AfterFollViewUserStory = request.SocialProfile_Instagram_TargetingInformation.AfterFollViewUserStory;
-                        profile.AfterFollCommentUserStory = request.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserStory;
+                       
+                        
 
                         profile.UnFollowOn = request.SocialProfile_Instagram_TargetingInformation.UnFollowOn;
-                        profile.UnFollFollowersAfterMinDays = request.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays;
+                        
                         profile.UnFollFollowersAfterMinDaysVal = request.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDaysVal;
                         profile.UnFollDoNotUnFollowLikersOfPosts = request.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowLikersOfPosts;
                         profile.UnFollDoNotUnFollowLikersOfPostsCount = request.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowLikersOfPostsCount;
@@ -333,15 +349,9 @@ namespace SG2.CORE.DAL.Repositories
                         profile.UnFollDoNotUnFollowCommThatCommentedCount = request.SocialProfile_Instagram_TargetingInformation.UnFollDoNotUnFollowCommThatCommentedCount;
                         profile.UnFollUseWhiteList = request.SocialProfile_Instagram_TargetingInformation.UnFollUseWhiteList;
 
-                        profile.MonOper = request.SocialProfile_Instagram_TargetingInformation.MonOper;
-                        profile.TueOper = request.SocialProfile_Instagram_TargetingInformation.TueOper;
-                        profile.WedOper = request.SocialProfile_Instagram_TargetingInformation.WedOper;
-                        profile.ThuOper = request.SocialProfile_Instagram_TargetingInformation.ThuOper;
-                        profile.FriOper = request.SocialProfile_Instagram_TargetingInformation.FriOper;
-                        profile.SatOper = request.SocialProfile_Instagram_TargetingInformation.SatOper;
-                        profile.SunOper = request.SocialProfile_Instagram_TargetingInformation.SunOper;
+                        
 
-                        profile.ExecutionIntervals = request.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals;
+                        
                     }
 
 
