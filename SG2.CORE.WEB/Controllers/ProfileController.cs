@@ -285,6 +285,7 @@ namespace SG2.CORE.WEB.Controllers
                     item.Engagement = (item.FollowersTotal ?? 1) * 100 / ((item.Followings ?? 1) == 0 ? 1: (item.Followings ?? 1));
                     item.Unfollow = (item.Unfollow ?? 0);
                     item.StoryViews = (item.StoryViews ?? 0);
+                    item.Comment = (item.Comment ?? 0);
                 }
 
 
@@ -311,8 +312,8 @@ namespace SG2.CORE.WEB.Controllers
 
                             AvgLikes = trends.Select(x => x.Like.ToString()).ToArray(),
                             StoryViews = trends.Select(x => x.StoryViews.ToString()).ToArray(),
-                            Unfollow = trends.Select(x => x.Unfollow.ToString()).ToArray()
-
+                            Unfollow = trends.Select(x => x.Unfollow.ToString()).ToArray(),
+                            Comment = trends.Select(x => x.Comment.ToString()).ToArray()
 
                             //TotalComment = statisticsViewModel.TotalComment.ToString(),
                             //TotalEngagement = statisticsViewModel.TotalEngagement.ToString(),
@@ -1606,6 +1607,8 @@ namespace SG2.CORE.WEB.Controllers
                     item.Like = item.Like.HasValue ? item.Like : 0;
                     item.StoryViews = item.StoryViews.HasValue ? item.StoryViews : 0;
                     item.Engagement = (item.FollowersTotal ?? 1) * 100 / ((item.Followings ?? 1) == 0 ? 1 : item.Followings);
+                    item.Comment = (item.Comment ?? 0);
+
                 }
 
 
@@ -1622,7 +1625,8 @@ namespace SG2.CORE.WEB.Controllers
                             Engagement = trends.Select(x => x.Engagement.ToString()).ToArray(),
                             Likes = trends.Select(x => x.Like.ToString()).ToArray(),
                             StoryViews = trends.Select(x => x.StoryViews.ToString()).ToArray(),
-                            Unfollow = trends.Select(x => x.Unfollow.ToString()).ToArray()
+                            Unfollow = trends.Select(x => x.Unfollow.ToString()).ToArray(),
+                            Comment = trends.Select(x => x.Comment.ToString()).ToArray()
 
                         }
                     };
