@@ -74,10 +74,7 @@ namespace SG2.CORE.BAL.Managers
                 var prevStats = _statistics.GetLatestStatistics(socialProfileId);
                 if (prevStats != null)
                 {
-
-
-
-
+                    
                     if (prevStats.Date.Date.CompareTo(UpdateDateTime.Date) == 0)
                     {
                         prevStats.Followings = (prevStats.Followings ?? 0) + FollowingCount;
@@ -94,6 +91,7 @@ namespace SG2.CORE.BAL.Managers
 
                         if (FollowCount > 0)
                         {
+                            var secondPrevStats = _statistics.GetSecondLatestStatistics(socialProfileId,prevStats.SocialStatisticsId);
                             prevStats.Followers = FollowCount;
                             prevStats.FollowersTotal = FollowCount;
                         }
@@ -119,9 +117,18 @@ namespace SG2.CORE.BAL.Managers
                         prevStats.StoryViews = StoryCount;
                         prevStats.StoryViewsTotal = (prevStats.StoryViewsTotal ?? 0) + StoryCount;
 
-                        
-                        prevStats.Followers = FollowCount;
-                        prevStats.FollowersTotal = FollowCount;
+                        if (FollowCount > 0)
+                        {
+                            prevStats.Followers = FollowCount;
+                            prevStats.FollowersTotal = FollowCount;
+                        }
+                        else
+                        {
+                            prevStats.Followers = prevStats.Followers;
+                            prevStats.FollowersTotal = prevStats.FollowersTotal;
+                        }
+
+                       
 
                         prevStats.Unfollow = UnFollowCount;
                         prevStats.UnfollowTotal = UnFollowCount;

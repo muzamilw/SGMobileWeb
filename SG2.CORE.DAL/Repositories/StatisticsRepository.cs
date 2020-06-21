@@ -251,6 +251,25 @@ namespace SG2.CORE.DAL.Repositories
         }
 
 
+        public SocialProfile_Statistics GetSecondLatestStatistics(int socialProfileId, long socialStatisticsId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+
+                    var statsData = _db.SocialProfile_Statistics.Where(g => g.SocialProfileId == socialProfileId && g.SocialStatisticsId != socialStatisticsId).OrderByDescending(g => g.Date).FirstOrDefault();
+
+                    return statsData;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public SocialProfile_Statistics GetLatestStatistics(int socialProfileId)
         {
             try
