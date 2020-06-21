@@ -37,7 +37,7 @@
         }
     </style>
 
-    <meta http-equiv="refresh" content="30 ">
+    <meta http-equiv="refresh" content="60">
 }
 
 @section profileheader{
@@ -503,8 +503,8 @@
                 element: 'line-followings',
                 data: morrisData,
                 xkey: 'year',
-                ykeys: ['Following','Unfollow', 'Likes',  'StoryViews' ],
-                labels: ['Following','Unfollow', 'Likes',  'StoryViews'],
+                ykeys: ['Following','Unfollow', 'Likes',  'StoryViews','Comment' ],
+                labels: ['Following','Unfollow', 'Likes',  'StoryViews','Comment'],
                 resize: true,
                 smooth: false,
                 pointSize: 3,
@@ -515,10 +515,10 @@
                 gridtextSize: 14,
                 lineWidth: 3,
                 hideHover: 'auto',
-                lineColors: ["#2685CB", "#4AD95A", "#7B91A3", "#E7F065"],
+                lineColors: ["#2685CB", "#4AD95A", "#7B91A3", "#E7F065",'#F7F565'],
                 xLabelAngle: 45,
                 parseTime: false,
-                barColors: ["#2685CB", "#4AD95A", "#7B91A3", "#E7F065"],
+                barColors: ["#2685CB", "#4AD95A", "#7B91A3", "#E7F065",'#F7F565'],
             });
         }
 
