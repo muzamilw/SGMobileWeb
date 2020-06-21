@@ -92,7 +92,7 @@ namespace SG2.CORE.BAL.Managers
                         if (FollowCount > 0)
                         {
                             var secondPrevStats = _statistics.GetSecondLatestStatistics(socialProfileId,prevStats.SocialStatisticsId);
-                            prevStats.Followers = FollowCount;
+                            prevStats.Followers = FollowCount - secondPrevStats.FollowersTotal ;
                             prevStats.FollowersTotal = FollowCount;
                         }
 
@@ -119,13 +119,12 @@ namespace SG2.CORE.BAL.Managers
 
                         if (FollowCount > 0)
                         {
-                            prevStats.Followers = FollowCount;
+                            prevStats.Followers = FollowCount - prevStats.FollowersTotal;
                             prevStats.FollowersTotal = FollowCount;
                         }
                         else
                         {
-                            prevStats.Followers = prevStats.Followers;
-                            prevStats.FollowersTotal = prevStats.FollowersTotal;
+                            prevStats.Followers = 0;
                         }
 
                        

@@ -1508,7 +1508,8 @@ namespace SG2.CORE.WEB.Controllers
 
                     item.Followers = item.Followers.HasValue ? item.Followers : 0;
                     item.FollowersTotal = item.FollowersTotal.HasValue ? item.FollowersTotal : 0;
-                    item.FollowingsTotal = item.FollowingsTotal.HasValue ? item.Followings : 0;
+                    item.Followings = item.Followings.HasValue ? item.Followings : 0;
+                    item.FollowingsTotal = item.FollowingsTotal.HasValue ? item.FollowingsTotal : 0;
                     item.Posts = item.Posts.HasValue ? item.Posts : 0;
                     item.AverageLikes = ((item.Like.HasValue ? item.Like : 0) / ((item.Posts.HasValue && item.Posts > 0) ? item.Posts : 1));
                     count++;
@@ -1538,6 +1539,7 @@ namespace SG2.CORE.WEB.Controllers
                             Followers = trends.Select(x => x.Followers.ToString()).ToArray(),
                             FollowersTotal = trends.Select(x => x.FollowersTotal.ToString()).ToArray(),
                             FollowingsTotal = trends.Select(x => x.FollowingsTotal.ToString()).ToArray(),
+                            Followings = trends.Select(x => x.Followings.ToString()).ToArray(),
                             Post = trends.Select(x => x.Posts.ToString()).ToArray(),
                             AverageLikes = trends.Select(x => x.AverageLikes.ToString()).ToArray(),
                             TotalFollowers = totalFollowers.ToString(),
