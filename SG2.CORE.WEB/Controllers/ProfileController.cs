@@ -1608,9 +1608,9 @@ namespace SG2.CORE.WEB.Controllers
                     item.Unfollow = item.Unfollow.HasValue ? item.Unfollow : 0;
                     item.Like = item.Like.HasValue ? item.Like : 0;
                     item.StoryViews = item.StoryViews.HasValue ? item.StoryViews : 0;
-                    item.Engagement = (item.FollowersTotal ?? 1) * 100 / ((item.Followings ?? 1) == 0 ? 1 : item.Followings);
                     item.Comment = (item.Comment ?? 0);
-
+                    item.Engagement = ((item.StoryViewsTotal ?? 0) + (item.LikeTotal ?? 0) + item.Comment + (item.FollowingsTotal ?? 0) - (item.Unfollow ?? 0)) / ((item.FollowersTotal ?? 1) == 0 ? 1 : item.FollowersTotal);
+                    
                 }
 
 
