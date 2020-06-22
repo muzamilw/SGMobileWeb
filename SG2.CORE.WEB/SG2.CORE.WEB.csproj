@@ -17,7 +17,7 @@
     <AssemblyName>SG2.CORE.WEB</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort>44361</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -2647,6 +2647,49 @@
     <Content Include="Content\Images\signature.gif" />
     <Content Include="Content\Images\social_growth.png" />
     <Content Include="Content\stylefont.css" />
+    <Content Include="Content\Theme-CA\css\animate.css" />
+    <Content Include="Content\Theme-CA\css\bootstrap.min.css" />
+    <Content Include="Content\Theme-CA\css\font-awesome.min.css" />
+    <Content Include="Content\Theme-CA\css\ionicons.min.css" />
+    <Content Include="Content\Theme-CA\css\magnific-popup.css" />
+    <Content Include="Content\Theme-CA\css\owl.carousel.min.css" />
+    <Content Include="Content\Theme-CA\css\responsive.css" />
+    <Content Include="Content\Theme-CA\css\slick.css" />
+    <Content Include="Content\Theme-CA\css\themify-icons.css" />
+    <Content Include="Content\Theme-CA\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Theme-CA\fonts\ionicons.svg" />
+    <Content Include="Content\Theme-CA\fonts\themify.svg" />
+    <Content Include="Content\Theme-CA\img\bg-img\client-1.jpg" />
+    <Content Include="Content\Theme-CA\img\bg-img\client-2.jpg" />
+    <Content Include="Content\Theme-CA\img\bg-img\client-3.jpg" />
+    <Content Include="Content\Theme-CA\img\bg-img\mobile-1.jpg" />
+    <Content Include="Content\Theme-CA\img\bg-img\special.png" />
+    <Content Include="Content\Theme-CA\img\bg-img\video.jpg" />
+    <Content Include="Content\Theme-CA\img\bg-img\welcome-bg.png" />
+    <Content Include="Content\Theme-CA\img\bg-img\welcome-img.png" />
+    <Content Include="Content\Theme-CA\img\core-img\favicon.ico" />
+    <Content Include="Content\Theme-CA\img\IG_2x.png" />
+    <Content Include="Content\Theme-CA\img\LinkedIn_2x.png" />
+    <Content Include="Content\Theme-CA\img\scr-img\app-1.jpg" />
+    <Content Include="Content\Theme-CA\img\scr-img\app-2.jpg" />
+    <Content Include="Content\Theme-CA\img\scr-img\app-3.jpg" />
+    <Content Include="Content\Theme-CA\img\scr-img\app-4.jpg" />
+    <Content Include="Content\Theme-CA\img\scr-img\app-5.jpg" />
+    <Content Include="Content\Theme-CA\img\scr-img\sppro_screen.PNG" />
+    <Content Include="Content\Theme-CA\img\team-img\team-1.jpg" />
+    <Content Include="Content\Theme-CA\img\team-img\team-2.jpg" />
+    <Content Include="Content\Theme-CA\img\team-img\team-3.jpg" />
+    <Content Include="Content\Theme-CA\img\team-img\team-4.jpg" />
+    <Content Include="Content\Theme-CA\img\TikTok_2x.png" />
+    <Content Include="Content\Theme-CA\index.html" />
+    <Content Include="Content\Theme-CA\js\active.js" />
+    <Content Include="Content\Theme-CA\js\bootstrap.min.js" />
+    <Content Include="Content\Theme-CA\js\footer-reveal.min.js" />
+    <Content Include="Content\Theme-CA\js\jquery-2.2.4.min.js" />
+    <Content Include="Content\Theme-CA\js\plugins.js" />
+    <Content Include="Content\Theme-CA\js\popper.min.js" />
+    <Content Include="Content\Theme-CA\js\slick.min.js" />
+    <Content Include="Content\Theme-CA\style.css" />
     <Content Include="Content\Theme-Enviro\css\animate.css" />
     <Content Include="Content\Theme-Enviro\css\bootstrap.min.css" />
     <Content Include="Content\Theme-Enviro\css\default\classy-nav.min.css" />
@@ -3584,6 +3627,17 @@
     <Content Include="Content\Theme-SPPro\css\vendors.bundle.css.map" />
     <Content Include="Content\Theme-SPPro\img\favicon\site.webmanifest" />
     <Content Include="Areas\SuperAdmin\Views\Shared\_LayoutNewSPPro.cshtml" />
+    <Content Include="Content\Theme-CA\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Theme-CA\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Theme-CA\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Theme-CA\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\Theme-CA\fonts\FontAwesome.otf" />
+    <Content Include="Content\Theme-CA\fonts\ionicons.eot" />
+    <Content Include="Content\Theme-CA\fonts\ionicons.ttf" />
+    <Content Include="Content\Theme-CA\fonts\ionicons.woff" />
+    <Content Include="Content\Theme-CA\fonts\themify.eot" />
+    <Content Include="Content\Theme-CA\fonts\themify.ttf" />
+    <Content Include="Content\Theme-CA\fonts\themify.woff" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -3609,6 +3663,8 @@
     <Content Include="Views\Shared\_Layout_LoggedInNewSP.cshtml" />
     <Content Include="Views\Shared\_Layout_LoggedInStackSPPro.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialProfileHeaderButton.cshtml" />
+    <Content Include="Views\Shared\_Layout_LoggedInStackHomeMainSPPro.cshtml" />
+    <Content Include="Views\Shared\_Layout_LoggedInStackHomeSPPro.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\animate.css" />
