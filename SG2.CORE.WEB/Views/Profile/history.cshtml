@@ -822,8 +822,8 @@
 
 
                 Swal.fire({
-                    title: "Delete subscription!",
-                    text: "Are you sure you want to delete your profile and subscription ? This action is not reversible!",
+                    title: "Cancel subscription!",
+                    text: "Are you sure you want to cancel your campaign and subscription ? This action is not reversible!",
                     icon: "error",
                     showLoaderOnConfirm: true,
                     closeOnClickOutside: false,
@@ -848,7 +848,7 @@
                             .then(subscription => {
                                 //handleSubscription(subscription);.
                                 Swal.close();
-                                Swal.fire("Success!", "Your subscription & profile has been deleted successfully;", "success")
+                                Swal.fire("Success!", "Your subscription & campaign has been deleted successfully;", "success")
                                     .then(function () {
                                         window.location = "/User/Home/";
                                     });;
