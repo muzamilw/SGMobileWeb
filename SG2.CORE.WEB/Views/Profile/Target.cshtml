@@ -404,6 +404,26 @@
                                                     @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowOn)
                                                 </div>
                                             </div>
+                                            <div class="form-group row border-bottom-social-profile col-md-12 ml-0 mr-0 row mt-1">
+                                                <h4 class="col-lg-11 col-md-11 col-sm-12 card-title form-section pl-0 mb-0" style="border-bottom:0px;">
+                                                    Only follow users who have posted in The last <b>XX</b> Days (max 60 days)
+                                                </h4>
+
+                                                <div class="col-lg-1 col-md-1 col-sm-12 text-right pr-0 mb-1">
+                                                    <input type="text" class="form-control" placeholder="Max val 60" min="10" max="60" name="InputPostInLastXXDays" onkeypress="return isNumberKey(event)">
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group row border-bottom-social-profile col-md-12 ml-0 mr-0 row mt-1">
+                                                <h4 class="col-lg-11 col-md-11 col-sm-12 card-title form-section pl-0 mb-0" style="border-bottom:0px;">
+                                                    Do not reengage with users who we followed & then unfollowed until after <b>XX</b> Days (max 60 days)
+                                                </h4>
+
+                                                <div class="col-lg-1 col-md-1 col-sm-12 text-right pr-0 mb-1">
+                                                    <input type="text" class="form-control" placeholder="Max val 60" min="10" max="60" name="InputFollUnFollInLastXXDays" onkeypress="return isNumberKey(event)">
+
+                                                </div>
+                                            </div>
                                             @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals)
 
                                             <div class="col-md-12">
@@ -838,6 +858,8 @@
                         dailyvlist[0].CommUserStories = $(this).find("input[name*='InputCommUserStories']").val();
                         dailyvlist[0].UnFoll16DaysEngage = $(this).find("input[name*='InputUnFoll16DaysEngage']").val();
                         dailyvlist[0].FollAccSearchTags = $(this).find("input[name*='InputFollAccSearchTags']").val();
+                        dailyvlist[0].PostInLastXXDays = $(this).find("input[name*='InputPostInLastXXDays']").val();
+                        dailyvlist[0].FollUnFollInLastXXDays = $(this).find("input[name*='InputFollUnFollInLastXXDays']").val();
                         dailyvlist[0].starttime = $(this).find("input[name*='sc']").val();
                     }
                     
@@ -1035,6 +1057,8 @@
                     $(this).find("input[name*='InputCommUserStories']").val(dailyvlist[0].CommUserStories);
                     $(this).find("input[name*='InputUnFoll16DaysEngage']").val(dailyvlist[0].UnFoll16DaysEngage);
                     $(this).find("input[name*='InputFollAccSearchTags']").val(dailyvlist[0].FollAccSearchTags);
+                    $(this).find("input[name*='InputPostInLastXXDays']").val(dailyvlist[0].PostInLastXXDays);
+                    $(this).find("input[name*='InputFollUnFollInLastXXDays']").val(dailyvlist[0].FollUnFollInLastXXDays);
                     $(this).find("input[name*='sc']").val(dailyvlist[0].starttime);
                    
                 }
