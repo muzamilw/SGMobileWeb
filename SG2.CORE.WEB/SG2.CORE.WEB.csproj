@@ -2659,6 +2659,7 @@
     <Content Include="Content\Theme-CA\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\Theme-CA\fonts\ionicons.svg" />
     <Content Include="Content\Theme-CA\fonts\themify.svg" />
+    <Content Include="Content\Theme-CA\img\api-driven.png" />
     <Content Include="Content\Theme-CA\img\bg-img\client-1.jpg" />
     <Content Include="Content\Theme-CA\img\bg-img\client-2.jpg" />
     <Content Include="Content\Theme-CA\img\bg-img\client-3.jpg" />
@@ -2667,20 +2668,38 @@
     <Content Include="Content\Theme-CA\img\bg-img\video.jpg" />
     <Content Include="Content\Theme-CA\img\bg-img\welcome-bg.png" />
     <Content Include="Content\Theme-CA\img\bg-img\welcome-img.png" />
+    <Content Include="Content\Theme-CA\img\BoY_braces.png" />
+    <Content Include="Content\Theme-CA\img\Cool_boy.png" />
+    <Content Include="Content\Theme-CA\img\Cool_Woman.png" />
     <Content Include="Content\Theme-CA\img\core-img\favicon.ico" />
+    <Content Include="Content\Theme-CA\img\Happy_man.png" />
     <Content Include="Content\Theme-CA\img\IG_2x.png" />
+    <Content Include="Content\Theme-CA\img\instagram-logo.png" />
+    <Content Include="Content\Theme-CA\img\Lady_finger.png" />
+    <Content Include="Content\Theme-CA\img\linked-in-logo.png" />
     <Content Include="Content\Theme-CA\img\LinkedIn_2x.png" />
+    <Content Include="Content\Theme-CA\img\peer.png" />
+    <Content Include="Content\Theme-CA\img\Red_man.png" />
+    <Content Include="Content\Theme-CA\img\roi-stats.png" />
     <Content Include="Content\Theme-CA\img\scr-img\app-1.jpg" />
     <Content Include="Content\Theme-CA\img\scr-img\app-2.jpg" />
     <Content Include="Content\Theme-CA\img\scr-img\app-3.jpg" />
     <Content Include="Content\Theme-CA\img\scr-img\app-4.jpg" />
     <Content Include="Content\Theme-CA\img\scr-img\app-5.jpg" />
     <Content Include="Content\Theme-CA\img\scr-img\sppro_screen.PNG" />
+    <Content Include="Content\Theme-CA\img\softblocks.png" />
+    <Content Include="Content\Theme-CA\img\Suit_woman.png" />
+    <Content Include="Content\Theme-CA\img\Supplier_man.png" />
+    <Content Include="Content\Theme-CA\img\Suprise_boy.png" />
     <Content Include="Content\Theme-CA\img\team-img\team-1.jpg" />
     <Content Include="Content\Theme-CA\img\team-img\team-2.jpg" />
     <Content Include="Content\Theme-CA\img\team-img\team-3.jpg" />
     <Content Include="Content\Theme-CA\img\team-img\team-4.jpg" />
+    <Content Include="Content\Theme-CA\img\Tech_man.png" />
+    <Content Include="Content\Theme-CA\img\tikTok-logo.png" />
     <Content Include="Content\Theme-CA\img\TikTok_2x.png" />
+    <Content Include="Content\Theme-CA\img\tools.png" />
+    <Content Include="Content\Theme-CA\img\unlimited-clients.png" />
     <Content Include="Content\Theme-CA\index.html" />
     <Content Include="Content\Theme-CA\js\active.js" />
     <Content Include="Content\Theme-CA\js\bootstrap.min.js" />
@@ -4110,11 +4129,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>56019</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://sg2</IISUrl>
+          <IISUrl>http://sg2</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -140,6 +140,10 @@ img {
     margin-top: 150px;
 }
 
+.pt-150 {
+    padding-top: 150px;
+}
+
 .mr-15 {
     margin-right: 15px;
 }
@@ -253,6 +257,7 @@ p {
 
 .line-shape {
     margin-left: calc(50% - 40px);
+    margin-bottom:23px;
 }
 
 .table {
@@ -444,10 +449,10 @@ p {
 }
 
 .welcome-thumb {
-    width: 32%;
+    width: 45%;
     position: absolute;
-    bottom: 56px;
-    right: 399px;
+    bottom: -130px;
+    right: 85px;
     z-index: 9;
 }
 
@@ -457,7 +462,7 @@ p {
 }
 
 .wellcome-heading > h2 {
-    font-size: 100px;
+    font-size: 95px;
     color: #ffffff;
     font-weight: 700;
     position: relative;
@@ -1232,7 +1237,7 @@ p {
 
 .footer-text > h2 {
     color: #5b32b4;
-    font-size: 72px;
+    font-size: 52px;
     font-weight: 700;
 }
 
