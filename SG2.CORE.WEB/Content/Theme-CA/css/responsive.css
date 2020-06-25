@@ -224,6 +224,20 @@
     .cool_facts_area .col-12:last-of-type .single-cool-fact {
         margin-bottom: 0;
     }
+
+    .membership-description 
+    {
+        text-align:center;
+    }
+
+    .get-started-button{
+        text-align:center;
+    }
+
+    .our-monthly-membership{
+        padding-top:40px;
+        padding-bottom:40px;
+    }
 }
 
 @media (min-width: 480px) and (max-width: 767px) {
