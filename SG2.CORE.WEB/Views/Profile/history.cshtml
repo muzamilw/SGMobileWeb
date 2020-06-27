@@ -36,6 +36,9 @@
     var plans = (List<PlanInformationDTO>)ViewBag.Plans;
     var paycards = (List<CustomerPaymentCardsViewModel>)ViewBag.paycards;
 
+    var Plan1 = plans.Where(x => x.PlanName.ToLower() == "free").FirstOrDefault();
+    var plan2 = (Customer.IsBroker ?? false) ? plans.Where(x => x.PlanName.ToUpper() == "A PRO").FirstOrDefault() : plans.Where(x => x.PlanName.ToUpper() == "PRO").FirstOrDefault(); ;
+
 }
 
 
@@ -254,7 +257,93 @@
         .card {
             margin-bottom: 1.875rem;
         }
+        .match-height {
+            display: flex;
+        }
+        .match-height .card {
+                flex-basis: 100%;
+                margin-left: 15px;
+                margin-right: 15px;
+                color : #222;
+         }
+            .match-height .card h1 {
+                font-size: 2em;
+                font-weight: normal;
+                margin-bottom: 30px;
+            }
+            .match-height .card h4 {
+                font-size: 1.4em;
+                margin-bottom: 30px;
+                font-weight: normal;
+                text-transform : uppercase;
+            }
+            .match-height .card .special-item {
+                margin-top : 55px;
+                margin-bottom : 25px;
+                display:flex;
+                justify-content : space-between
+            }
+            .match-height .card .plan-ul {
+                margin:0;
+                padding:0;
+                margin-left: 20px;
 
+             }
+
+            .match-height .card .plan-ul li{
+                margin-bottom : 16px;
+                list-style-type : disc;
+            }
+
+            .match-height .card .non-broker-tile .plan-ull {
+                font-weight: 500;
+                font-size: 12px;
+            }
+
+            .match-height .card .non-broker-tile .plan-ull li {
+                    margin-bottom: 8px;
+                    list-style: disc;
+             }
+        .match-height .card p {
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+
+            @@media (min-width: 769px) {
+                .match-height .card {
+                    flex: 1;
+                }
+            }
+
+        
+        .match-height .card .non-broker-tile .tile-h3 {
+            margin-top: 15px;
+            font-size: 25px;
+            font-weight: 500;
+        }
+        .match-height .card .non-broker-tile .tile-h1 {
+            font-size: 50px;
+            font-weight: bold;
+        }
+
+        .match-height .card .btn-plan-group {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+            .match-height .card .btn-plan-group a {
+                background-color: black;
+                color: #fff;
+                border-color: black;
+                border-radius: 20px;
+            }
+
+                .match-height .card .btn-plan-group a:hover {
+                    background-color: #fff;
+                    color: black;
+                    border-color: black;
+                    border-radius: 20px;
+                }
     </style>
 }
 
@@ -385,62 +474,180 @@
             <!-- Basic form layout section start -->
             <section id="horizontal-form-layouts">
 
-                
+
                 <div class="row match-height">
-                    @foreach (var plan in plans)
+
+
+                    <div class="card">
+                        <div class="card-content">
+
+
+                            <div class="card-body">
+
+                                <h1 class="card-title">Growth Planner</h1>
+
+                                <h4 class="card-title">@Plan1.PlanName</h4>
+                                <p class="card-text">
+                                    Create multiple Social Campaigns on Instagram, TikTok & LinedIn.
+                                </p>
+                                <p class="card-text">
+                                    Save hastags and growth black list words and white list preferences.
+                                </p>
+                                @if ((Model.SocialProfile.PaymentPlanId ?? 1) == Plan1.PlanId)
+                                {
+                                    <a href="#" style="color:#fff;background-color:#6c7484;" class="btn disabled planSelect btn-lg">Current Plan</a>
+                                }
+                                else
+                                {
+                                    <a href="#" class="btn btn-outline-primary planSelect btn-lg" data-planId="@Plan1.PlanId" data-planname="@Plan1.PlanName" data-planprice="@Plan1.PlanPrice">Subscribe</a>
+                                }
+
+
+                                <div class="special-item flex-1">
+                                    <img width="60" class="" src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png">
+                                    <img width="60" class="" src="~/Content/app-assets/images/linkedin-logo-icon.png">
+                                    <img width="60" class="" src="~/Content/app-assets/images/tiktokicon.png">
+
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="card">
+                        <div class="card-content">
+
+
+                            <div class="card-body">
+
+                                <h1 class="card-title">Growth @plan2.PlanName API</h1>
+
+                                <h4 style="color:#75729b" class="card-title">$@plan2.PlanPrice Per Month</h4>
+                                <p class="card-text">
+
+                                    Connect to FREE 3rd part API & AI tools that organically increase your followers, likes and engagement with your targets fan bases.
+
+                                </p>
+                                <ul class="plan-ul">
+                                    <li>
+                                        Instagram OR LinkedIN or TikTok
+                                    </li>
+                                    <li>
+                                        Cancel Antime, No Contracts
+                                    </li>
+                                    <li>
+                                        30 Day Money Back Guarantee
+                                    </li>
+                                    <li>
+                                        Hook up to FREE 3rd Party API Automation Growth & Engagement Tools
+                                    </li>
+                                </ul>
+                                @if ((Model.SocialProfile.PaymentPlanId ?? 1) == plan2.PlanId)
+                                {
+                                    <a href="#" style="color:#fff;background-color:#6c7484;" class="btn disabled planSelect btn-lg">Current Plan</a>
+                                }
+                                else
+                                {
+                                    <a href="#" class="btn btn-outline-primary planSelect btn-lg" data-planId="@plan2.PlanId" data-planname="@plan2.PlanName" data-planprice="@plan2.PlanPrice">Subscribe</a>
+                                }
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    @if (Customer.IsBroker == false)
                     {
-                        <div class="col-xl-4 col-md-6 col-sm-12">
-                            <div class="card">
-                                <div class="card-content">
-                                    @{
-                                        var filename = "";
-                                        switch (plan.PlanId)
-                                        {
-                                            case 1: filename = "free.png"; break;
-                                            case 2: filename = "platinum.png"; break;
-                                            case 7: filename = "agency.png"; break;
-                                            case 4: filename = "pro.png"; break;
-                                            default:
-                                                break;
-                                        }
-                                    }
+                        <div style="background-color:#544b7d;" class="card">
 
-                                    @*<img class="card-img-top img-fluid" src="~/content/Images/@filename" alt="Card image cap">*@
-                                    <div class="card-body">
-                                        @if ((Model.SocialProfile.PaymentPlanId ?? 1) == plan.PlanId)
-                                        {
-                                            <h1 class="card-title" style="font-weight:bold; font-size:2.2em;">@plan.PlanName</h1>
-                                        }
-                                        else
-                                        {
-                                            <h1 class="card-title" style="font-size:1.8em">@plan.PlanName</h1>
-                                        }
-                                        <h4 style="font-size:0.8rem" class="card-title">$@plan.PlanPrice per month</h4>
-                                        <p class="card-text">
-                                            @Html.Raw(plan.PlanDescription.Replace("\n", "<br>"))
-                                        </p>
-                                        @if ((Model.SocialProfile.PaymentPlanId ?? 1) == plan.PlanId)
-                                        {
-                                            <a href="#" class="btn btn-grey-blue disabled btn-lg">Current Plan</a>
-                                        }
-                                        else
-                                        {
-                                            <a href="#" class="btn btn-outline-primary planSelect btn-lg" data-planId="@plan.PlanId" data-planname="@plan.PlanName" data-planprice="@plan.PlanPrice">Subscribe</a>
+
+                            <div class="non-broker-tile">
+                                <h3 class="tile-h3 text-center">Upgrade to Agency</h3>
+                                <h1 class="tile-h1 text-center">Save 75%</h1>
+                                <ul class="plan-ull ml-5">
+                                    <li class="tile-li">Create Growth Profiles for only $19/pm</li>
+                                    <li class="tile-li">Access to private Growth Expert Forum</li>
+                                    <li class="tile-li">Gigital Marketing Trends & Growth Hacks</li>
+                                    <li class="tile-li">24 / 7 Chat Support</li>
+                                    <li class="tile-li">Includes 20 FREE Profiles</li>
+                                    <li class="tile-li">All for only &299/pm</li>
+                                </ul>
+                            </div>
+                            <div class="btn-plan-group">
+
+                                <a href="#" class="btn btn-outline-primary btn-plan-agency-info btn-lg btn btn-round" id="btnAfilliate">Upgrade Now</a>
+
+                            </div>
+
+
+                        </div>
+                    }
+
+                </div>
+                @if (1 == 2)
+                {
+                    <div class="row match-height">
+                        @foreach (var plan in plans)
+                        {
+                            <div class="col-xl-4 col-md-6 col-sm-12">
+                                <div class="card">
+                                    <div class="card-content">
+                                        @{
+                                            var filename = "";
+                                            switch (plan.PlanId)
+                                            {
+                                                case 1: filename = "free.png"; break;
+                                                case 2: filename = "platinum.png"; break;
+                                                case 7: filename = "agency.png"; break;
+                                                case 4: filename = "pro.png"; break;
+                                                default:
+                                                    break;
+                                            }
                                         }
 
+                                        @*<img class="card-img-top img-fluid" src="~/content/Images/@filename" alt="Card image cap">*@
+                                        <div class="card-body">
+                                            @if ((Model.SocialProfile.PaymentPlanId ?? 1) == plan.PlanId)
+                                            {
+                                                <h1 class="card-title" style="font-weight:bold; font-size:2.2em;">@plan.PlanName</h1>
+                                            }
+                                            else
+                                            {
+                                                <h1 class="card-title" style="font-size:1.8em">@plan.PlanName</h1>
+                                            }
+                                            <h4 style="font-size:0.8rem" class="card-title">$@plan.PlanPrice per month</h4>
+                                            <p class="card-text">
+                                                @Html.Raw(plan.PlanDescription.Replace("\n", "<br>"))
+                                            </p>
+                                            @if ((Model.SocialProfile.PaymentPlanId ?? 1) == plan.PlanId)
+                                            {
+                                                <a href="#" class="btn btn-grey-blue disabled btn-lg">Current Plan</a>
+                                            }
+                                            else
+                                            {
+                                                <a href="#" class="btn btn-outline-primary planSelect btn-lg" data-planId="@plan.PlanId" data-planname="@plan.PlanName" data-planprice="@plan.PlanPrice">Subscribe</a>
+                                            }
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
 
 
 
 
-                    }
-                </div>
+                        }
+                    </div>
+                }
 
-                @if (1==2)//(Model.SocialProfile.PhonePackagePurchased.HasValue == false)
+
+                @if (1 == 2)//(Model.SocialProfile.PhonePackagePurchased.HasValue == false)
                 {
                     <div class="row">
                         <div class="col-12 mt-1 mb-1">
@@ -522,8 +729,8 @@
                                                         @item.PaymentPlanName
                                                     </td>
                                                     @*<td>
-                                                            @item.Price
-                                                        </td>*@
+                                                @item.Price
+                                            </td>*@
                                                     <td>
                                                         <div class="badge badge-primary label-square">
                                                             <i class="fa fa-paperclip font-medium-2"></i>
@@ -711,7 +918,8 @@
             /*******************************
             *       Simple Options         *
             *******************************/
-
+            
+            
 
             $(".planSelect").on("click", function () {
                 $(".selectedPlanName").text($(this).attr("data-planname"));

@@ -328,7 +328,9 @@ body.modal-open::after {
         font-size: 12px;
         padding-top: 20px;
     }
-        .non-broker-tile .tile-li {
+    .non-broker-tile .tile-li {
             padding-bottom: 5px;
             list-style: disc;
-        }
+    }
+
+
