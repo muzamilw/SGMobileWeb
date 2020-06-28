@@ -453,7 +453,7 @@
                             </svg>
                         </div>
                         <h3 class="title" data-tid="elements_examples.success.title">Success</h3>
-                        <p class="message" style="font-size:16px;color:green"><span id="cmessage" data-tid="elements_examples.success.message">Subscription has been created successfully and payment has been processed. You can now connect the mobile app and start growing.</span></p>
+                        <p class="message" style="font-size:16px;color:green"><span id="cmessage" data-tid="elements_examples.success.message"></span></p>
                         <a class="btn btn-primary btn-lg btn-block" style="padding:14px;" href="~/User/Home/">Continue</a>
                     </div>
                 </div>
@@ -918,13 +918,22 @@
             /*******************************
             *       Simple Options         *
             *******************************/
-            
-            
+
+
 
             $(".planSelect").on("click", function () {
                 $(".selectedPlanName").text($(this).attr("data-planname"));
                 $(".selectedPlanPrice").text( "for $"  + $(this).attr("data-planprice") + " per month");
                 $("#selectedPlanId").val($(this).attr("data-planId"));
+
+                $("#existingStripeCustomerId").val(@Model.SocialProfile.StripeCustomerId);
+                 $("#existingStripeSubscriptionId").val(@Model.SocialProfile.StripeSubscriptionId);
+                $("#existingPlanId").val(@Model.SocialProfile.PaymentPlanId);
+
+
+                $("#cmessage").text('Subscription has been created successfully and payment has been processed. You can now connect the mobile app and start growing.');
+
+                
 
                 selectedPlanName = $(".selectedPlanName").text();
                 selectedPlanprice = $(".selectedPlanPrice").text();
@@ -1009,6 +1018,113 @@
                                 //handleSubscription(subscription);.
                                 Swal.close();
                                 Swal.fire("Success!", "Your subscription has been successfully updated;", "success")
+                                    .then(function () {
+                                        window.location = "/User/Home/";
+                                    });;
+                            });
+                    }
+                    else {
+                        //swal("OK", "It's safe.", "error");
+                    }
+                });
+
+
+            });
+
+
+             $("#btnAfilliate").on("click", function () {
+                $(".selectedPlanName").text('Monthly Agency Plan');
+                $(".selectedPlanPrice").text('for $299 per month');
+                $("#selectedPlanId").val(5);
+                 $("#existingStripeCustomerId").val(@currentUser.StripeCustomerId);
+                 $("#existingStripeSubscriptionId").val(@currentUser.StripeSubscriptionId);
+                 $("#existingPlanId").val(@currentUser.BrokerPaymentPlanID);
+
+                 $("#cmessage").text('Agency Subscription has been created successfully and payment has been processed. Complete the Agency profile and create social profiles.');
+
+
+                selectedPlanName = $(".selectedPlanName").text();
+                selectedPlanprice = 299;
+                var customerId = '@Customer.CustomerId';
+
+                 $("#myModalLabel1").text('Subscribe to Agency plan');
+                var ChangeType = "";
+                var ChangeMsg = "";
+                var ChangeBtn = "";
+                var newplan = $("#selectedPlanId").val();
+                var existingPlan = $("#existingPlanId").val();
+                var existingStripeSubscriptionId = $("#existingStripeSubscriptionId").val();
+
+                if (newplan == 1) {
+                    var ChangeType = "Downgrade to Free Plan";
+                    var ChangeMsg = "Are you sure you want to downgrade to Free Plan? Free plan does not let the app connect and grow!";
+                    var ChangeBtn = "Yes, Let's Downgrade to Free";
+                } else if (existingPlan != undefined && newplan < existingPlan) {
+                    var ChangeType = "Downgrade to " + selectedPlanName + "!";
+                    var ChangeMsg = "Are you sure you want to downgrade your plan ?";
+                    var ChangeBtn = "Yes, Let's Downgrade";
+                }
+                else {
+                    var ChangeType = "Subscribe to " + selectedPlanName + "";
+                    var ChangeMsg = "Are you sure you want to subscribe for $" + selectedPlanprice +" per month?";
+                    var ChangeBtn = "Yes, Let's Subscribe";
+                }
+
+                 swal.fire({
+                    title: ChangeType,
+                    text: ChangeMsg,
+                    icon: "info",
+                    showLoaderOnConfirm: true,
+                    closeOnClickOutside: false,
+                     showCancelButton: true,
+                     confirmButtonColor: '#3085d6',
+                     cancelButtonColor: '#d33',
+                     confirmButtonText: ChangeBtn,
+                    //preConfirm: (login) => {
+                    //    return fetch('//api.github.com/users/muzamilw')
+                    //        .then(response => {
+                    //            if (!response.ok) {
+                    //                throw new Error(response.statusText)
+                    //            }
+                    //            return response.json()
+                    //        })
+                    //        .catch(error => {
+                    //            Swal.showValidationMessage(
+                    //                'Request failed: ${error}'
+                    //            )
+                    //        })
+                    //},
+                 }).then(result => {
+                     if (result.value && existingStripeSubscriptionId == "") {
+                         Swal.close();
+                         $("#planSubscriptionModal").modal("show");
+                     }
+                     else if (result.value && existingStripeSubscriptionId != "") {
+                        //swal.enableLoading();
+                        //swal("OK", "It's safe.", "error");
+
+                        fetch('/profile/CreateStripeCustomerSubscription', {
+                            method: 'post',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                NewSubs: false,
+                                email: '',
+                                paymentmethod: '',
+                                selectedPlanId: newplan,
+                                customerid: customerId,
+                                socialProfileId: 0
+
+                            })
+                        })
+                            .then(response => {
+                                return response.json();
+                            })
+                            .then(subscription => {
+                                //handleSubscription(subscription);.
+                                swal.close();
+                                swal.fire("Success!", "Your subscription has been successfully updated;", "success")
                                     .then(function () {
                                         window.location = "/User/Home/";
                                     });;
