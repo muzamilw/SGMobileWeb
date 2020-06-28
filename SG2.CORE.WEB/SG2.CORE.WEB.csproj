@@ -1581,6 +1581,7 @@
     <Content Include="Content\app-assets\images\jqueryui\calendar.png" />
     <Content Include="Content\app-assets\images\jqueryui\ui-anim_basic_16x16.gif" />
     <Content Include="Content\app-assets\images\jqueryui\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\app-assets\images\linkedin-logo-icon.png" />
     <Content Include="Content\app-assets\images\logo\stack-80x80.png" />
     <Content Include="Content\app-assets\images\logo\stack-logo-dark-big.png" />
     <Content Include="Content\app-assets\images\logo\stack-logo-dark.png" />
@@ -1712,6 +1713,7 @@
     <Content Include="Content\app-assets\images\slider\slider-6.png" />
     <Content Include="Content\app-assets\images\svg\cd-arrow.svg" />
     <Content Include="Content\app-assets\images\svg\magnifier.svg" />
+    <Content Include="Content\app-assets\images\tiktokicon.png" />
     <Content Include="Content\app-assets\js\core\app-menu.js" />
     <Content Include="Content\app-assets\js\core\app-menu.min.js" />
     <Content Include="Content\app-assets\js\core\app.js" />
