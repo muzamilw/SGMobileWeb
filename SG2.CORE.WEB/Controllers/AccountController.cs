@@ -17,6 +17,7 @@ using SG2.CORE.MODAL.DTO.Notification;
 using System.Configuration;
 using System.Threading.Tasks;
 
+
 namespace SG2.CORE.WEB.Controllers
 {
     public class AccountController : Controller
@@ -113,14 +114,16 @@ namespace SG2.CORE.WEB.Controllers
                                 new NotRequiredProperty("RESEND", false),
                                 new NotRequiredProperty("ISEMAILVERIFIED", false)
                             };
-                            klaviyoProfile.email = model.EmailAddress;
+                            /*klaviyoProfile.email = model.EmailAddress;
 
                             var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
                             var Klavio_NewSignups = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_NewSignups").ToLower()).ConfigValue;
 
                             klaviyoAPI.PeopleAPI(list, _klaviyoPublishKey);
                             var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_NewSignups);
+*/
 
+                            BAL.Managers.EmailManager.SendEmail(model.EmailAddress, model.FirstName, EmailManager.EmailType.EmailVerify);
                             //KlaviyoEvent ev = new KlaviyoEvent();
 
                             //ev.Event = "Email Verified";
@@ -181,6 +184,7 @@ namespace SG2.CORE.WEB.Controllers
 
                     if (resp.Item1)
                     {
+                        BAL.Managers.EmailManager.SendEmail(model.EmailAddress, model.EmailAddress, EmailManager.EmailType.EmailVerify);
                         var usr = (CustomerDTO)_sessionManager.Get(SessionConstants.Customer);
                         HttpContext.Items["isAuthentication"] = true;
                         jr.Data = new { ResultType = "Success", message = "User successfully autheticated.", ResultData = usr.DefaultSocialProfileId };
