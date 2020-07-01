@@ -9,6 +9,8 @@ using System.Data;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace SG2.CORE.BAL.Managers
 {
@@ -99,6 +101,10 @@ namespace SG2.CORE.BAL.Managers
             }
             return returnValue;
         }
+
+
+
+       
         public static List<AppBlockDTO> GetAppBlocks()
         {
             return CommonRepository.GetAppBlocks();
