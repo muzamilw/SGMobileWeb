@@ -262,7 +262,7 @@
         }
         .match-height .card {
                 flex-basis: 100%;
-                margin-left: 15px;
+                
                 margin-right: 15px;
                 color : #222;
          }
@@ -318,11 +318,11 @@
         
         .match-height .card .non-broker-tile .tile-h3 {
             margin-top: 15px;
-            font-size: 25px;
+            font-size: 30px;
             font-weight: 500;
         }
         .match-height .card .non-broker-tile .tile-h1 {
-            font-size: 50px;
+            font-size: 60px;
             font-weight: bold;
         }
 
@@ -344,6 +344,26 @@
                     border-color: black;
                     border-radius: 20px;
                 }
+        .modal-body h3
+        {
+            text-align : center;
+        }
+        .modal-body input[type=text] {
+            height: 47px;
+            width: 100%;
+            max-width: 100%;
+            border: 1px solid #c8c5c5;
+            border-radius: 5px;
+            background-color: #fff;
+            display: block;
+            margin-bottom: 20px;
+            padding: 10px;
+            cursor: text;
+            font-size: 1.0rem;
+            font-weight: 300;
+            color: #666;
+            margin-top: 20px;
+        }
     </style>
 }
 
@@ -503,12 +523,12 @@
                                 }
 
 
-                                <div class="special-item flex-1">
-                                    <img width="60" class="" src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png">
-                                    <img width="60" class="" src="~/Content/app-assets/images/linkedin-logo-icon.png">
-                                    <img width="60" class="" src="~/Content/app-assets/images/tiktokicon.png">
+                                    <div class="special-item flex-1">
+                                        <img width="100" class="" src="~/Content/Theme-CA/img/IG_2x.png">
+                                        <img width="100" class="" src="~/Content/Theme-CA/img/LinkedIn_2x.png">
+                                        <img width="100" class="" src="~/Content/Theme-CA/img/TikTok_2x.png">
 
-                                </div>
+                                    </div>
 
 
 
@@ -802,8 +822,53 @@
         </div>
     </div>
 </div>
+<div id="Modal_ConfirmDeletion" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
 
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-left">Cancel subscription Confirmation!</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
 
+            </div>
+            <div class="modal-body">
+               
+                <h3 style="color:red">Are you sure you want to cancel your campaign and subscription ? This action is not reversible!</h3>
+                <input type="hidden" id="hdn_DeleteItemId" value="" />
+                <input type="text" id="deleteConfirmation" placeholder="Type in 'DELETE ME' to continue" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn_ConfirmDelete">Delete Permanently</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="Modal_ConfirmDowngrade" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-left">Downgrade Plan Confirmation!</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+            <div class="modal-body">
+               
+                <h3 style="color:red">Are you sure you want to downgrade your plan?</h3>
+                <input type="text" id="downgradeConfirmation" placeholder="Type in 'DOWNGRADE ME' to continue" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn_ConfirmDowngrade">Downgrade Plan</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 
 @section Scripts{
@@ -829,6 +894,16 @@
         var BrokerMode = @((Customer.IsBroker.HasValue && Customer.IsBroker.Value == true).ToString().ToLower());
         var customerid = '@Model.SocialProfile.CustomerId';
         var currentPaymentPlan = '@planName';
+
+        var existingStripeCustomerIdVal = '@(Model.SocialProfile.StripeCustomerId)';
+        var existingStripeSubscriptionIdVal = '@(Model.SocialProfile.StripeSubscriptionId)';
+        var existingPlanIdVal = '@(Model.SocialProfile.PaymentPlanId)';
+
+         var existingStripeCustomerIdValSub = '@(@currentUser.StripeCustomerId)';
+        var existingStripeSubscriptionIdValSub = '@(@currentUser.StripeSubscriptionId)';
+        var existingPlanIdValSub = '@( @currentUser.BrokerPaymentPlanID)';
+
+        
 
         function showPaymentPopUp(inputFieldId) {
 
@@ -926,14 +1001,15 @@
                 $(".selectedPlanPrice").text( "for $"  + $(this).attr("data-planprice") + " per month");
                 $("#selectedPlanId").val($(this).attr("data-planId"));
 
-                $("#existingStripeCustomerId").val(@Model.SocialProfile.StripeCustomerId);
-                 $("#existingStripeSubscriptionId").val(@Model.SocialProfile.StripeSubscriptionId);
-                $("#existingPlanId").val(@Model.SocialProfile.PaymentPlanId);
+                
+                $("#existingStripeCustomerId").val(existingStripeCustomerIdVal);
+                $("#existingStripeSubscriptionId").val(existingStripeSubscriptionIdVal);
+                $("#existingPlanId").val(existingPlanIdVal);
 
 
                 $("#cmessage").text('Subscription has been created successfully and payment has been processed. You can now connect the mobile app and start growing.');
 
-                
+
 
                 selectedPlanName = $(".selectedPlanName").text();
                 selectedPlanprice = $(".selectedPlanPrice").text();
@@ -995,33 +1071,8 @@
                     else if (result.value && existingStripeSubscriptionId != "") {
                         //swal.enableLoading();
                         //swal("OK", "It's safe.", "error");
-
-                        fetch('/profile/CreateStripeCustomerSubscription', {
-                            method: 'post',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                NewSubs: false,
-                                email: '',
-                                paymentmethod: '',
-                                selectedPlanId: newplan,
-                                customerid: customerid,
-                                socialProfileId: socialProfileId
-
-                            })
-                        })
-                            .then(response => {
-                                return response.json();
-                            })
-                            .then(subscription => {
-                                //handleSubscription(subscription);.
-                                Swal.close();
-                                Swal.fire("Success!", "Your subscription has been successfully updated;", "success")
-                                    .then(function () {
-                                        window.location = "/User/Home/";
-                                    });;
-                            });
+                        $("#Modal_ConfirmDowngrade").modal("show");
+                        
                     }
                     else {
                         //swal("OK", "It's safe.", "error");
@@ -1031,15 +1082,58 @@
 
             });
 
+            $(".btn_ConfirmDowngrade").on("click", function () {
+
+                if ($("#downgradeConfirmation").val() != "DOWNGRADE ME") {
+                    var options = {};
+                    $("#downgradeConfirmation").effect("bounce", options, 500, null);
+                    return false;
+                }
+
+                var newplan = $("#selectedPlanId").val();
+                var existingPlan = $("#existingPlanId").val();
+                var existingStripeSubscriptionId = $("#existingStripeSubscriptionId").val();
+                fetch('/profile/CreateStripeCustomerSubscription', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        NewSubs: false,
+                        email: '',
+                        paymentmethod: '',
+                        selectedPlanId: newplan,
+                        customerid: customerid,
+                        socialProfileId: socialProfileId
+
+                    })
+                })
+                    .then(response => {
+                        //return response.json();
+                    })
+                    .then(subscription => {
+                        //handleSubscription(subscription);
+                        $("#Modal_ConfirmDowngrade").modal("hide");
+                        Swal.close();
+                        Swal.fire("Success!", "Your subscription has been successfully updated;", "success")
+                            .then(function () {
+                                window.location = "/User/Home/";
+                            });
+                    });
+                  
+            });
+
+
 
              $("#btnAfilliate").on("click", function () {
                 $(".selectedPlanName").text('Monthly Agency Plan');
                 $(".selectedPlanPrice").text('for $299 per month');
-                $("#selectedPlanId").val(5);
-                 $("#existingStripeCustomerId").val(@currentUser.StripeCustomerId);
-                 $("#existingStripeSubscriptionId").val(@currentUser.StripeSubscriptionId);
-                 $("#existingPlanId").val(@currentUser.BrokerPaymentPlanID);
-
+                 $("#selectedPlanId").val(5);
+                 
+                 $("#existingstripecustomerid").val(existingStripeCustomerIdValSub);
+                 $("#existingstripesubscriptionid").val(existingStripeSubscriptionIdValSub);
+                 $("#existingplanid").val(existingPlanIdValSub);
+                 
                  $("#cmessage").text('Agency Subscription has been created successfully and payment has been processed. Complete the Agency profile and create social profiles.');
 
 
@@ -1144,7 +1238,6 @@
                 e.stopPropagation();
 
 
-
                 Swal.fire({
                     title: "Cancel subscription!",
                     text: "Are you sure you want to cancel your campaign and subscription ? This action is not reversible!",
@@ -1157,10 +1250,44 @@
                       confirmButtonText: "Yes Delete!",
 
                 }).then(isConfirm => {
-                    if (isConfirm) {
+                    if (isConfirm.value) {
+
+                         $("#Modal_ConfirmDeletion").modal("show");
+                        //fetch('/profile/Confirmdelete', {
+                        //    method: 'post',
+                        //    headers: {
+                        //        'Content-Type': 'application/json'
+                        //    },
+                        //    body: JSON.stringify({
+                        //        socialProfileId: socialProfileId
+                        //    })
+                        //})
+                        //    .then(subscription => {
+                        //        //handleSubscription(subscription);.
+                        //        Swal.close();
+                        //        Swal.fire("Success!", "Your subscription & campaign has been deleted successfully;", "success")
+                        //            .then(function () {
+                        //                window.location = "/User/Home/";
+                        //            });;
+                        //    });
+                    }
+                    else {
+                        //swal("OK", "It's safe.", "error");
+                    }
+                });
 
 
-                        fetch('/profile/Confirmdelete', {
+            });
+
+
+            $(".btn_ConfirmDelete").on("click", function () {
+
+                if ($("#deleteConfirmation").val() != "DELETE ME") {
+                    var options = {};
+                    $("#deleteConfirmation").effect("bounce", options, 500, null);
+                    return false;
+                }
+                fetch('/profile/Confirmdelete', {
                             method: 'post',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -1171,19 +1298,15 @@
                         })
                             .then(subscription => {
                                 //handleSubscription(subscription);.
+                                $("#Modal_ConfirmDeletion").modal("hide");
                                 Swal.close();
                                 Swal.fire("Success!", "Your subscription & campaign has been deleted successfully;", "success")
                                     .then(function () {
                                         window.location = "/User/Home/";
-                                    });;
+                                    });
                             });
-                    }
-                    else {
-                        //swal("OK", "It's safe.", "error");
-                    }
-                });
 
-
+           
             });
 
             $(".btnBuyMobile").on("click", function () {
