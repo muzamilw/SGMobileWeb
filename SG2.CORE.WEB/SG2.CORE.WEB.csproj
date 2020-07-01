@@ -2965,6 +2965,9 @@
     <Content Include="Content\Theme-SPPro\webfonts\fa-solid-900.svg" />
     <Content Include="Content\Theme-SPPro\webfonts\nextgen-icons.svg" />
     <Content Include="Content\ThemeAssets\Images\afilliate.jpg" />
+    <Content Include="emails\verify your email - Copy - Copy.html" />
+    <Content Include="emails\verify your email - Copy.html" />
+    <Content Include="emails\verify your email.html" />
     <Content Include="favicon-16x16.png" />
     <Content Include="favicon-32x32.png" />
     <Content Include="mstile-150x150.png" />

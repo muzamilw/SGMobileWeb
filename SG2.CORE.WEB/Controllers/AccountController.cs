@@ -123,7 +123,14 @@ namespace SG2.CORE.WEB.Controllers
                             var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_NewSignups);
 */
 
-                            BAL.Managers.EmailManager.SendEmail(model.EmailAddress, model.FirstName, EmailManager.EmailType.EmailVerify);
+                            var dynamicTemplateData = new Dictionary<string, string>
+                        {
+                            {"name",model.FirstName},
+                            {"verifyemail", URL},
+                            {"senddate", DateTime.Today.ToLongDateString()}
+
+                        };
+                            BAL.Managers.EmailManager.SendEmail(model.EmailAddress, model.FirstName, EmailManager.EmailType.EmailVerify, dynamicTemplateData);
                             //KlaviyoEvent ev = new KlaviyoEvent();
 
                             //ev.Event = "Email Verified";
@@ -184,10 +191,20 @@ namespace SG2.CORE.WEB.Controllers
 
                     if (resp.Item1)
                     {
-                        BAL.Managers.EmailManager.SendEmail(model.EmailAddress, model.EmailAddress, EmailManager.EmailType.EmailVerify);
+                        
+                        
                         var usr = (CustomerDTO)_sessionManager.Get(SessionConstants.Customer);
                         HttpContext.Items["isAuthentication"] = true;
                         jr.Data = new { ResultType = "Success", message = "User successfully autheticated.", ResultData = usr.DefaultSocialProfileId };
+
+                        var dynamicTemplateData = new Dictionary<string, string>
+                        {
+                            {"name",usr.FirstName},
+                            {"verifyemail", "http://sppro.com/verify"},
+                            {"senddate", DateTime.Today.ToLongDateString()}
+
+                        };
+                        BAL.Managers.EmailManager.SendEmail(model.EmailAddress, usr.FirstName, EmailManager.EmailType.EmailVerify, dynamicTemplateData);
                     }
                     else
                     {
