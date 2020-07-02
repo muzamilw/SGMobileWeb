@@ -1611,3 +1611,9 @@ where SocialProfileid is null and IsSystem = 1;
 
 -- update pro plan price
 update PaymentPlan set DisplayPrice = 59 , StripePlanPrice = 59 where PlanName = 'PRO';
+
+
+-- update default SocialProfile_Instagram_TargetingInformation value as per board
+update SocialProfile_Instagram_TargetingInformation set 
+ExecutionIntervals = '[{"FollAccSearchTags":"300","UnFoll16DaysEngage":"330","LikeFollowingPosts":"150","VwStoriesFollowing":"100","CommFollowingPosts":"100","CommUserStories":"10","PostInLastXXDays":"10","FollUnFollInLastXXDays":"10","starttime":"17:00","endtime":"18:00"}]'
+where SocialProfileid is null and IsSystem = 1;

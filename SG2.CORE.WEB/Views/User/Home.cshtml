@@ -206,10 +206,10 @@
             padding-right: 4px;
         }
 
-        .table.table-xl th, .table.table-xl td
-        {
+        .table.table-xl th, .table.table-xl td {
             padding: 1.25rem 1rem !important;
         }
+
         .btn-light {
             background-color: #babfc7;
         }
@@ -225,6 +225,7 @@
         .form-group {
             margin-bottom: 1rem;
         }
+
         .has-icon-left .form-control {
             padding-right: 1rem;
             padding-left: -webkit-calc(2.75rem + 2px);
@@ -275,11 +276,29 @@
         }
 
         .text-muted {
-             color: #404e67 !important; 
+            color: #404e67 !important;
         }
 
-        
+        .modal-body h3 {
+            text-align: center;
+        }
 
+        .modal-body input[type=text] {
+            height: 47px;
+            width: 100%;
+            max-width: 100%;
+            border: 1px solid #c8c5c5;
+            border-radius: 5px;
+            background-color: #fff;
+            display: block;
+            margin-bottom: 20px;
+            padding: 10px;
+            cursor: text;
+            font-size: 1.0rem;
+            font-weight: 300;
+            color: #666;
+            margin-top: 20px;
+        }
     </style>
     <link href="~/Content/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet" />
     <link href="~/Content/app-assets/css/stripe.css" rel="stylesheet" />
@@ -287,10 +306,10 @@
 
 }
 
-    <div class="heading-wrapper">
-        <h1>Select Your Growth Plan</h1>
-        
-    </div>
+<div class="heading-wrapper">
+    <h1>Select Your Growth Plan</h1>
+
+</div>
 <!-- BEGIN: Content-->
 <div class="app-content  center-layout mt-2">
     <div class="content-wrapper">
@@ -309,7 +328,7 @@
 
                         </div>
                     </div>
-                    
+
 
                 </div>
             </div>
@@ -320,16 +339,16 @@
                 <div class="col-xl-12 col-md-12 col-sm-12">
                     <div class="card">
                         @*<div class="card-header">
-                            <h4 class="card-title col-lg-7 col-sm-12 float-left mt-1 row">Social media profiles</h4>
-                            <div id="SocialProfileBtnCnt" class="col-lg-5 col-sm-12 float-right text-right pr-0">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-blue" data-toggle="modal" data-target="#newProfile"><i class="fa fa-plus"></i> Social Profile</button>
+                                <h4 class="card-title col-lg-7 col-sm-12 float-left mt-1 row">Social media profiles</h4>
+                                <div id="SocialProfileBtnCnt" class="col-lg-5 col-sm-12 float-right text-right pr-0">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-blue" data-toggle="modal" data-target="#newProfile"><i class="fa fa-plus"></i> Social Profile</button>
 
+
+                                    </div>
 
                                 </div>
-
-                            </div>
-                        </div>*@
+                            </div>*@
                         <div class="card-content collapse show">
                             <div class="card-body card-dashboard">
                                 <form class="form" id="formbasic" method="post">
@@ -397,7 +416,7 @@
                                                 <th></th>
                                                 <th></th>
                                             </tr>
-                                        
+
                                         </thead>
                                         <tbody>
                                             @{
@@ -510,7 +529,7 @@
                             {
 
                                 <p class="card-text text-center">
-                                Now profiles found matching your criteria. Please try again with different criteria.
+                                    Now profiles found matching your criteria. Please try again with different criteria.
                                 </p>
 
                             }
@@ -519,42 +538,42 @@
                 </div>
 
                 @*<div class="col-xl-3 col-md-6 col-sm-12">
-                    <div class="card">
-                        <div class="card-content">
-                            <img class="card-img-top img-fluid" src="~/Content/Images/agency.png" alt="Card image cap">
-                            <div class="card-body">
+                        <div class="card">
+                            <div class="card-content">
+                                <img class="card-img-top img-fluid" src="~/Content/Images/agency.png" alt="Card image cap">
+                                <div class="card-body">
 
 
-                                @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true)
-                                {
-                                    <p class="card-text">
+                                    @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true)
+                                    {
+                                        <p class="card-text">
 
 
-                                        <a href="#" class="btn btn-success btn-block" id="btnAfilliateProfile">Update App Skin</a>
+                                            <a href="#" class="btn btn-success btn-block" id="btnAfilliateProfile">Update App Skin</a>
 
-                                        <a href="~/user/AgencyInstagramTarget" class="btn btn-success btn-block">Instagram Default Filters</a>
+                                            <a href="~/user/AgencyInstagramTarget" class="btn btn-success btn-block">Instagram Default Filters</a>
 
-                                        
 
-                                        <a href="#" class="btn btn-success btn-block" id="btnAfilliateBilling" data-toggle="modal" data-target="#BillingHistoryModal">33View Billing History</a>
 
-                                        <a href="#" class="btn btn-danger btn-block" id="btnCancelAfilliate">Cancel Agency Plan x</a>
+                                            <a href="#" class="btn btn-success btn-block" id="btnAfilliateBilling" data-toggle="modal" data-target="#BillingHistoryModal">33View Billing History</a>
 
-                                    </p>
-                                }
-                                else
-                                {
-                                    <h4 class="card-title">Take your Agency to the next level</h4>
-                                    <p class="card-text">
-                                        Join the most powerful Social Growth tool for agencies in 2020. Access advanced tools & white label your own app.
+                                            <a href="#" class="btn btn-danger btn-block" id="btnCancelAfilliate">Cancel Agency Plan x</a>
 
-                                    </p>
-                                    <a href="#" class="btn btn-success mt-1" id="btnAfilliate">Start an Agency Account</a>
-                                }
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <h4 class="card-title">Take your Agency to the next level</h4>
+                                        <p class="card-text">
+                                            Join the most powerful Social Growth tool for agencies in 2020. Access advanced tools & white label your own app.
+
+                                        </p>
+                                        <a href="#" class="btn btn-success mt-1" id="btnAfilliate">Start an Agency Account</a>
+                                    }
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>*@
+                    </div>*@
             </div>
             <!-- Extra large table end -->
         </div>
@@ -697,7 +716,7 @@
                 <div class="modal-footer">
                     <button type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-outline-primary btn-lg">Update Agency App Skin</button>
-                    
+
                 </div>
             </form>
         </div>
@@ -872,6 +891,31 @@
     </div>
 </div>
 
+<div id="Modal_CancelAfilliate" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-left">Cancel Agency Subscription Confirmation!</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+            <div class="modal-body">
+
+                <h3 style="color:red">Are you sure you want to Cancel your Agency Subscription? This action will reset plans for all profiles to Free Plan!</h3>
+
+                <input type="text" id="cancelAfilliateConfirmation" placeholder="Type in 'NO AGENCY' to continue" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn_CancelAfilliate">Cancel Agency Subscription</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 <!-- END: Content-->
 @section Scripts{
     <script src="https://js.stripe.com/v3/"></script>
@@ -882,6 +926,9 @@
     <script src="~/Scripts/bootstrap-colorpicker.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+    
+
+
     <script>
 
         $('#ResponsiveTable > tbody > tr').click(function (element) {
@@ -1077,7 +1124,6 @@
                 e.preventDefault();
                 e.stopPropagation();
 
-                var customerId = '@Customer.CustomerId';
 
                 swal({
                     title: "Cancel Agency Subscription!",
@@ -1104,25 +1150,9 @@
 
                 }).then(isConfirm => {
                     if (isConfirm) {
+                        swal.close();
+                        $("#Modal_CancelAfilliate").modal("show");
 
-
-                        fetch('/User/ConfirmCancelAfilliateSubscription', {
-                            method: 'post',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                customerId: customerId
-                            })
-                        })
-                            .then(subscription => {
-                                //handleSubscription(subscription);.
-                                swal.close();
-                                swal("Downgraded!", "Your Broker Agency Subscription & profiles have been downgraded;", "success")
-                                    .then(function () {
-                                        window.location = "/User/Home/";
-                                    });;
-                            });
                     }
                     else {
                         //swal("OK", "It's safe.", "error");
@@ -1132,6 +1162,40 @@
 
             });
 
+
+            $(".btn_CancelAfilliate").on("click", function () {
+                
+                if ($("#cancelAfilliateConfirmation").val() != "NO AGENCY") {
+                   
+                    var options = {};
+                    $("#cancelAfilliateConfirmation").effect("bounce", options, 500, null);
+                    return false;
+                }
+
+                var customerId = '@Customer.CustomerId';
+
+
+                 fetch('/User/ConfirmCancelAfilliateSubscription', {
+                            method: 'post',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                customerId: customerId
+                            })
+                        })
+                            .then(subscription => {
+                                //handleSubscription(subscription);
+                                $("#Modal_CancelAfilliate").modal("hide");
+                                swal.close();
+                                swal("Downgraded!", "Your Broker Agency Subscription & profiles have been downgraded;", "success")
+                                    .then(function () {
+                                        window.location = "/User/Home/";
+                                    });
+                            });
+
+
+            });
 
             $("#btnAfilliate").on("click", function () {
                 $(".selectedPlanName").text('Monthly Agency Plan');

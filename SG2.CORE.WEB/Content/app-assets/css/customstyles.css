@@ -333,4 +333,11 @@ body.modal-open::after {
             list-style: disc;
     }
 
-
+.btn-group .btn-simple {
+    color: #000;
+}
+.btn-group .btn-simple:hover {
+    border: 1px solid #fff;
+    border-right: 1px solid #fff !important;
+    border-left: 1px solid #fff !important;
+}
