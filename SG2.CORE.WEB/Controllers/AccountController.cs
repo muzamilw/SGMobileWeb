@@ -428,25 +428,34 @@ namespace SG2.CORE.WEB.Controllers
                 var encryptData = CryptoEngine.Encrypt(customer.CustomerId + "#" + System.DateTime.Now.Date);
                 string URL = HttpContext.Request.Url.Scheme.ToString() + "://" + HttpContext.Request.Url.Authority.ToString() + "/Home/ResetPassword?token=" + Url.Encode(encryptData);
 
-                List<NotRequiredProperty> list = new List<NotRequiredProperty>
-                    {
-                        new NotRequiredProperty("$email", customer.EmailAddress),
-                        new NotRequiredProperty("$first_name ", customer.FirstName),
-                        new NotRequiredProperty("$last_name ", customer.SurName),
-                        new NotRequiredProperty("RESEND", false),
-                        new NotRequiredProperty("ISEMAILVERIFIED", true),
-                        new NotRequiredProperty("ResetPasswordURL", URL)
-                    };
-                ev.Event = "Forget Password";
-                ev.Properties.NotRequiredProperties = list;
-                ev.CustomerProperties.Email = customer.EmailAddress;
-                ev.CustomerProperties.FirstName = customer.FirstName;
-                ev.CustomerProperties.LastName = customer.SurName;
+                //List<NotRequiredProperty> list = new List<NotRequiredProperty>
+                //    {
+                //        new NotRequiredProperty("$email", customer.EmailAddress),
+                //        new NotRequiredProperty("$first_name ", customer.FirstName),
+                //        new NotRequiredProperty("$last_name ", customer.SurName),
+                //        new NotRequiredProperty("RESEND", false),
+                //        new NotRequiredProperty("ISEMAILVERIFIED", true),
+                //        new NotRequiredProperty("ResetPasswordURL", URL)
+                //    };
+                //ev.Event = "Forget Password";
+                //ev.Properties.NotRequiredProperties = list;
+                //ev.CustomerProperties.Email = customer.EmailAddress;
+                //ev.CustomerProperties.FirstName = customer.FirstName;
+                //ev.CustomerProperties.LastName = customer.SurName;
 
-                var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
-                // update  Profile
-                klaviyoAPI.PeopleAPI(list, _klaviyoPublishKey);
-                klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
+                //var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
+                //// update  Profile
+                //klaviyoAPI.PeopleAPI(list, _klaviyoPublishKey);
+                //klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
+
+                var dynamicTemplateData = new Dictionary<string, string>
+                        {
+                            {"name",customer.FirstName},
+                            {"resetpassword", URL},
+                            {"senddate", DateTime.Today.ToLongDateString()}
+
+                        };
+                BAL.Managers.EmailManager.SendEmail(customer.EmailAddress, customer.FirstName, EmailManager.EmailType.ForgotPassword, dynamicTemplateData);
 
 
                 //HttpContext.Items["isAuthentication"] = true;
