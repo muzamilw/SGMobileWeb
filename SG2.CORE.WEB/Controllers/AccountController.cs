@@ -106,14 +106,14 @@ namespace SG2.CORE.WEB.Controllers
                             string URL = HttpContext.Request.Url.Scheme.ToString() + "://" + HttpContext.Request.Url.Authority.ToString() + "/Home/VerifyEmail?token=" + Url.Encode(encryptData);
 
                             //eventAPI();
-                            List<NotRequiredProperty> list = new List<NotRequiredProperty>() {
+                            /*List<NotRequiredProperty> list = new List<NotRequiredProperty>() {
                                 new NotRequiredProperty("$email", model.EmailAddress),
                                 new NotRequiredProperty("$first_name ", model.FirstName),
                                 new NotRequiredProperty("$last_name ", model.SurName),
                                 new NotRequiredProperty("URL", URL),
                                 new NotRequiredProperty("RESEND", false),
                                 new NotRequiredProperty("ISEMAILVERIFIED", false)
-                            };
+                            };*/
                             /*klaviyoProfile.email = model.EmailAddress;
 
                             var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
@@ -197,14 +197,7 @@ namespace SG2.CORE.WEB.Controllers
                         HttpContext.Items["isAuthentication"] = true;
                         jr.Data = new { ResultType = "Success", message = "User successfully autheticated.", ResultData = usr.DefaultSocialProfileId };
 
-                        var dynamicTemplateData = new Dictionary<string, string>
-                        {
-                            {"name",usr.FirstName},
-                            {"verifyemail", "http://sppro.com/verify"},
-                            {"senddate", DateTime.Today.ToLongDateString()}
-
-                        };
-                        BAL.Managers.EmailManager.SendEmail(model.EmailAddress, usr.FirstName, EmailManager.EmailType.EmailVerify, dynamicTemplateData);
+                       
                     }
                     else
                     {

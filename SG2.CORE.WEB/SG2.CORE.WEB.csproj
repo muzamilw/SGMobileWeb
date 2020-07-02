@@ -2969,6 +2969,8 @@
     <Content Include="emails\verify your email - Copy %282%29.html" />
     <Content Include="emails\verify your email - Copy - Copy.html" />
     <Content Include="emails\password reset.html" />
+    <Content Include="emails\Plan Upgrade.html" />
+    <Content Include="emails\Welcome- Account Active.html" />
     <Content Include="emails\verify your email.html" />
     <Content Include="favicon-16x16.png" />
     <Content Include="favicon-32x32.png" />

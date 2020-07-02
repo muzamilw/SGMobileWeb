@@ -107,33 +107,43 @@ namespace SG2.CORE.WEB.Controllers
                         if (customer != null)
                         {
 
-                            KlaviyoEvent ev = new KlaviyoEvent();
+                            //KlaviyoEvent ev = new KlaviyoEvent();
 
-                            List<NotRequiredProperty> list = new List<NotRequiredProperty>
+                            //List<NotRequiredProperty> list = new List<NotRequiredProperty>
+                            //{
+                            //    new NotRequiredProperty("$email", customer.EmailAddress),
+                            //    new NotRequiredProperty("$first_name ", customer.FirstName),
+                            //    new NotRequiredProperty("$last_name ", customer.SurName),
+                            //    new NotRequiredProperty("RESEND", false),
+                            //    new NotRequiredProperty("ISEMAILVERIFIED", true)
+                            //};
+                            //ev.Event = "Email Verified";
+                            //ev.Properties.NotRequiredProperties = list;
+                            //ev.CustomerProperties.Email = customer.EmailAddress;
+                            //ev.CustomerProperties.FirstName = customer.FirstName;
+                            //ev.CustomerProperties.LastName = customer.SurName;
+
+                            //klaviyoProfile.email = customer.EmailAddress;
+
+                            //var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
+                            //var Klavio_NewSignups = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_NewSignups").ToLower()).ConfigValue;
+                            //var Klavio_FreeCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_FreeCustomers").ToLower()).ConfigValue;
+
+                            //klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
+
+                            //klaviyoAPI.Klaviyo_DeleteFromList(customer.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_NewSignups);
+                            //var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_FreeCustomers);
+
+                            var dynamicTemplateData = new Dictionary<string, string>
                             {
-                                new NotRequiredProperty("$email", customer.EmailAddress),
-                                new NotRequiredProperty("$first_name ", customer.FirstName),
-                                new NotRequiredProperty("$last_name ", customer.SurName),
-                                new NotRequiredProperty("RESEND", false),
-                                new NotRequiredProperty("ISEMAILVERIFIED", true)
+                                {"name",customer.FirstName},
+                                {"videolink", "https://www.youtube.com/embed/MB70ADGaC30?autoplay=1"},
+                                {"senddate", DateTime.Today.ToLongDateString() },
+                                {"winapp","https://megaload.com/win.zip" },
+                                {"macapp","https://megaload.com/mac.zip" }
+
                             };
-                            ev.Event = "Email Verified";
-                            ev.Properties.NotRequiredProperties = list;
-                            ev.CustomerProperties.Email = customer.EmailAddress;
-                            ev.CustomerProperties.FirstName = customer.FirstName;
-                            ev.CustomerProperties.LastName = customer.SurName;
-
-                            klaviyoProfile.email = customer.EmailAddress;
-
-                            var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
-                            var Klavio_NewSignups = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_NewSignups").ToLower()).ConfigValue;
-                            var Klavio_FreeCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_FreeCustomers").ToLower()).ConfigValue;
-                            
-                            klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
-
-                            klaviyoAPI.Klaviyo_DeleteFromList(customer.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_NewSignups);
-                            var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_FreeCustomers);
-
+                            BAL.Managers.EmailManager.SendEmail(customer.EmailAddress, customer.FirstName, EmailManager.EmailType.Welcome, dynamicTemplateData);
 
                             model.CustomerId = customer.CustomerId;
                             ViewBag.CustomerDTO = customer;

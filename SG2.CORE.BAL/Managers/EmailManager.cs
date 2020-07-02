@@ -34,8 +34,14 @@ namespace SG2.CORE.BAL.Managers
                     templateId = "d-259189b77ced40279e9ba28011714ff2";
                 else if (emailType == EmailType.ForgotPassword)
                     templateId = "d-df269fcb384a426cafbfaecac7b7e775";
-                else if (emailType == EmailType.UpgradeSubscription)
-                    templateId = "";
+                else if (emailType == EmailType.Welcome)
+                    templateId = "d-6f3d377bdcaf4c548e9298b01268edf1";
+                else if (emailType == EmailType.PlanUpgrade)
+                    templateId = "d-877a1d5ca7aa43eb80fb284cf2a1681a";
+                else if (emailType == EmailType.PlanDowngrade)
+                    templateId = "d-1da290de356a45118ed0ee53819545b7";
+
+
 
                 var to = new EmailAddress(toEmail, toEmailName);
                 var msg = MailHelper.CreateSingleTemplateEmail(from, to, templateId, dynamicTemplateData);
@@ -55,8 +61,9 @@ namespace SG2.CORE.BAL.Managers
         {
             EmailVerify =1,
             ForgotPassword = 2,
-            Invoice = 3,
-            UpgradeSubscription = 4
+            PlanUpgrade = 3,
+            PlanDowngrade = 4,
+            Welcome = 5
         }
     }
 }
