@@ -75,7 +75,7 @@ namespace SG2.CORE.WEB.Controllers
                     {
                         CustomerId = model.CustomerId,
                         FirstName = model.FirstName,
-                        SurName = model.UserName,
+                        SurName = model.FirstName,
                         EmailAddress = model.EmailAddress,
                         StatusId = (int)CustomersStatus.Active,
                         GUID = Guid.NewGuid().ToString(),
