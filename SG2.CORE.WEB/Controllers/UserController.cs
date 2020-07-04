@@ -192,9 +192,9 @@ namespace SG2.CORE.WEB.Controllers
             try
             {
 
-                KlaviyoAPI klaviyoAPI = new KlaviyoAPI();
-                KlaviyoProfile klaviyoProfile = new KlaviyoProfile();
-                KlaviyoEvent ev = new KlaviyoEvent();
+                //KlaviyoAPI klaviyoAPI = new KlaviyoAPI();
+                //KlaviyoProfile klaviyoProfile = new KlaviyoProfile();
+                //KlaviyoEvent ev = new KlaviyoEvent();
 
                 SG2.CORE.MODAL.Customer customer = _customerManager.GetCustomerByCustomerId(customerId);
 
@@ -270,26 +270,26 @@ namespace SG2.CORE.WEB.Controllers
                                 _notManager.AddNotification(nt);
 
 
-                                List<NotRequiredProperty> list = new List<NotRequiredProperty>()
-                        {
-                            new NotRequiredProperty("$email", this.CDT.EmailAddress),
-                            new NotRequiredProperty("$first_name ", this.CDT.FirstName),
-                            new NotRequiredProperty("$last_name ", this.CDT.SurName),
-                            new NotRequiredProperty("PlanName", "A LICENSE"),
-                        };
-                                ev.Event = "Afilliate Cancelled";
-                                ev.Properties.NotRequiredProperties = list;
-                                ev.CustomerProperties.Email = CDT.EmailAddress;
-                                ev.CustomerProperties.FirstName = CDT.FirstName;
-                                ev.CustomerProperties.LastName = CDT.EmailAddress;
+                        //        List<NotRequiredProperty> list = new List<NotRequiredProperty>()
+                        //{
+                        //    new NotRequiredProperty("$email", this.CDT.EmailAddress),
+                        //    new NotRequiredProperty("$first_name ", this.CDT.FirstName),
+                        //    new NotRequiredProperty("$last_name ", this.CDT.SurName),
+                        //    new NotRequiredProperty("PlanName", "A LICENSE"),
+                        //};
+                        //        ev.Event = "Afilliate Cancelled";
+                        //        ev.Properties.NotRequiredProperties = list;
+                        //        ev.CustomerProperties.Email = CDT.EmailAddress;
+                        //        ev.CustomerProperties.FirstName = CDT.FirstName;
+                        //        ev.CustomerProperties.LastName = CDT.EmailAddress;
 
-                                var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
-                                var Klavio_FreeCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_FreeCustomers").ToLower()).ConfigValue;
-                                var Klavio_PayingCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_PayingCustomers").ToLower()).ConfigValue;
+                        //        var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
+                        //        var Klavio_FreeCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_FreeCustomers").ToLower()).ConfigValue;
+                        //        var Klavio_PayingCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_PayingCustomers").ToLower()).ConfigValue;
 
-                                klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
-                                klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_PayingCustomers);
-                                var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_FreeCustomers);
+                        //        klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
+                        //        klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_PayingCustomers);
+                        //        var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_FreeCustomers);
                             });
 
                             jr.Data = new { ResultType = "Success", message = "User has successfully Unsubscribe." };
@@ -608,40 +608,53 @@ namespace SG2.CORE.WEB.Controllers
 
 
                     //--TODO: Update Klaviyo Web API Key
-                    var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
-                    var Klavio_FreeCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_FreeCustomers").ToLower()).ConfigValue;
-                    var Klavio_PayingCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_PayingCustomers").ToLower()).ConfigValue;
+                    //var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
+                    //var Klavio_FreeCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_FreeCustomers").ToLower()).ConfigValue;
+                    //var Klavio_PayingCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_PayingCustomers").ToLower()).ConfigValue;
 
 
-                    //klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_NonPayingSubscribeList);
+                    ////klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_NonPayingSubscribeList);
 
-                    List<NotRequiredProperty> list = new List<NotRequiredProperty>()  {
-                        new NotRequiredProperty("$email", this.CDT.EmailAddress),
-                        new NotRequiredProperty("$first_name ", this.CDT.FirstName),
-                        new NotRequiredProperty("$last_name ", this.CDT.SurName),
-                        //new NotRequiredProperty("URL", URL),
-                        new NotRequiredProperty("InvoiceDate",paymentRec.StartDate.ToString("dd MMMM yyyy") ),
-                        new NotRequiredProperty("PlanName", paymentRec.Name),
-                        new NotRequiredProperty("Price",  "$" + paymentRec.Price/100),
-                        new NotRequiredProperty("Card", ""),
-                        new NotRequiredProperty("Address","")
-                    };
-                    klaviyoProfile.email = this.CDT.EmailAddress;
+                    //List<NotRequiredProperty> list = new List<NotRequiredProperty>()  {
+                    //    new NotRequiredProperty("$email", this.CDT.EmailAddress),
+                    //    new NotRequiredProperty("$first_name ", this.CDT.FirstName),
+                    //    new NotRequiredProperty("$last_name ", this.CDT.SurName),
+                    //    //new NotRequiredProperty("URL", URL),
+                    //    new NotRequiredProperty("InvoiceDate",paymentRec.StartDate.ToString("dd MMMM yyyy") ),
+                    //    new NotRequiredProperty("PlanName", paymentRec.Name),
+                    //    new NotRequiredProperty("Price",  "$" + paymentRec.Price/100),
+                    //    new NotRequiredProperty("Card", ""),
+                    //    new NotRequiredProperty("Address","")
+                    //};
+                    //klaviyoProfile.email = this.CDT.EmailAddress;
 
 
 
-                    klaviyoAPI.PeopleAPI(list, _klaviyoPublishKey);
-                    klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_FreeCustomers);
-                    var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_PayingCustomers);
+                    //klaviyoAPI.PeopleAPI(list, _klaviyoPublishKey);
+                    //klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_FreeCustomers);
+                    //var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_PayingCustomers);
 
-                    KlaviyoEvent ev = new KlaviyoEvent();
-                    ev.Event = "Afilliate Subscribed";
-                    ev.Properties.NotRequiredProperties = list;
-                    ev.CustomerProperties.Email = this.CDT.EmailAddress;
-                    ev.CustomerProperties.FirstName = this.CDT.FirstName;
-                    ev.CustomerProperties.LastName = this.CDT.SurName;
+                    //KlaviyoEvent ev = new KlaviyoEvent();
+                    //ev.Event = "Afilliate Subscribed";
+                    //ev.Properties.NotRequiredProperties = list;
+                    //ev.CustomerProperties.Email = this.CDT.EmailAddress;
+                    //ev.CustomerProperties.FirstName = this.CDT.FirstName;
+                    //ev.CustomerProperties.LastName = this.CDT.SurName;
 
-                    klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
+                    //klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
+
+                    var dynamicTemplateData = new Dictionary<string, string>
+                        {
+                            {"name",this.CDT.FirstName},
+                            {"email", this.CDT.EmailAddress},
+                            {"senddate", DateTime.Today.ToLongDateString()},
+                            {"invoicedate", paymentRec.StartDate.ToString("dd MMMM yyyy")},
+                            {"planname", paymentRec.Name},
+                             {"price", "$" + paymentRec.Price/100},
+                              {"total", "$" + paymentRec.Price/100}
+
+                        };
+                    BAL.Managers.EmailManager.SendEmail(this.CDT.EmailAddress, this.CDT.FirstName, EmailManager.EmailType.PlanUpgrade, dynamicTemplateData);
 
 
                     return this.Content(stripeSubscription.ToJson(), "application/json");
