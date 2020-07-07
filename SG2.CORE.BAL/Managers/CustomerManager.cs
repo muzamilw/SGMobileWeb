@@ -643,7 +643,11 @@ namespace SG2.CORE.BAL.Managers
         {
             try
             {
-                return _customerRepository.UpdateCustomerStripeCustomerId(CustomerId, StripCustomerId, StripeSubscriptionId, PaymentPlanId);
+                var res =  _customerRepository.UpdateCustomerStripeCustomerId(CustomerId, StripCustomerId, StripeSubscriptionId, PaymentPlanId);
+
+                _sessionManager.Set(SessionConstants.Customer, _customerRepository. GetCustomerRefresh(CustomerId));
+
+                return res;
             }
             catch (Exception ex)
             {

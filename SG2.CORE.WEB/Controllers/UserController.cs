@@ -44,7 +44,7 @@ namespace SG2.CORE.WEB.Controllers
 
         }
 
-        public ActionResult Home()
+        public ActionResult Home(string refresh = "")
         {
             ProfilesSearchRequest model = new ProfilesSearchRequest { Block = 99, Plan = 0, searchString= "", SocialType = 0 };
             ViewBag.CurrentUser = this.CDT;
@@ -650,8 +650,8 @@ namespace SG2.CORE.WEB.Controllers
                             {"senddate", DateTime.Today.ToLongDateString()},
                             {"invoicedate", paymentRec.StartDate.ToString("dd MMMM yyyy")},
                             {"planname", paymentRec.Name},
-                             {"price", "$" + paymentRec.Price/100},
-                              {"total", "$" + paymentRec.Price/100}
+                             {"price", "$" + paymentRec.Price},
+                              {"total", "$" + paymentRec.Price}
 
                         };
                     BAL.Managers.EmailManager.SendEmail(this.CDT.EmailAddress, this.CDT.FirstName, EmailManager.EmailType.PlanUpgrade, dynamicTemplateData);

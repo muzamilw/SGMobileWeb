@@ -609,119 +609,6 @@
     </div>
 </div>
 
-<div class="modal fade text-left" id="AfilliateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel34" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-primary white">
-                <h3 class="modal-title" id="myModalLabel34">Agency App Skin</h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form id="AfilliateProfileForm">
-                <input type="hidden" name="cid" value="@Customer.CustomerId" />
-                <div class="modal-body p-3">
-                    <label>Following information will be used to white label the modile app for your profiles.</label>
-                    <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="App Name" class="form-control foo position-inside-maxlength" name="BrokerAppName" value="@Customer.BrokerAppName" maxlength="100">
-                        <div class="form-control-position">
-                            <i class="fa fa-file font-medium-5 line-height-1 text-muted icon-align"></i>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="Strap Line" class="form-control position-inside-maxlength" name="BrokerStrapLine" value="@Customer.BrokerStrapLine" maxlength="500">
-                        <div class="form-control-position">
-                            <i class="fa fa-file-text font-medium-5 line-height-1 text-muted icon-align"></i>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="App Aspect Color" class="form-control position-inside-maxlength" name="BrokerAspectColor" value="@Customer.BrokerAspectColor" id="BrokerAspectColor" maxlength="50">
-                        <div class="form-control-position">
-                            <i class="fa fa-pencil font-medium-5 line-height-1 text-muted icon-align"></i>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group position-relative has-icon-left">
-                        <input type="url" pattern="https://.*" placeholder="https:// Training Link" class="form-control position-inside-maxlength" name="BrokerTrainingLink" value="@Customer.BrokerTrainingLink" maxlength="500">
-                        <div class="form-control-position">
-                            <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group position-relative has-icon-left">
-                        <input type="url" pattern="https://.*" placeholder="https:// Terms Of Use Link" class="form-control position-inside-maxlength" name="BrokerTermsOfUse" value="@Customer.BrokerTermsOfUse" maxlength="500">
-                        <div class="form-control-position">
-                            <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group position-relative has-icon-left">
-                        <input type="url" pattern="https://.*" placeholder="https:// Privacy Policy Link" class="form-control position-inside-maxlength" name="BrokerPrivacyPolicy" value="@Customer.BrokerPrivacyPolicy" maxlength="500">
-                        <div class="form-control-position">
-                            <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group position-relative has-icon-left">
-                        <input type="url" pattern="https://.*" placeholder="https:// Feedback Page Link" class="form-control position-inside-maxlength" name="BrokerFeedbackPage" value="@Customer.BrokerFeedbackPage" maxlength="500">
-                        <div class="form-control-position">
-                            <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group position-relative has-icon-left">
-                        <input type="url" pattern="https://.*" placeholder="https:// Home Page Link" class="form-control position-inside-maxlength" name="BrokerHomePage" value="@Customer.BrokerHomePage" maxlength="500">
-                        <div class="form-control-position">
-                            <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
-                        </div>
-
-                    </div>
-                    <label>Trust Pilot Code </label>
-                    <div class="form-group position-relative has-icon-left">
-                        <textarea type="text" placeholder="Trust Pilot Code" class="form-control position-inside-maxlength" name="BrokerTrustPilotCode" maxlength="5000">@Customer.BrokerTrustPilotCode</textarea>
-                        <div class="form-control-position">
-                            <i class="fa fa-file-text font-medium-5 line-height-1 text-muted icon-align"></i>
-                        </div>
-                    </div>
-                    <label>Upload Logo Image (600 x 600 px)</label>
-                    @if (!string.IsNullOrEmpty(Customer.BrokerLogo))
-                    {
-                        var numsi = new Random();
-
-
-                        <div class="form-group position-relative">
-                            <img src="@(Customer.BrokerLogo +"?"+ numsi.NextDouble().ToString()) " style="max-width:200px;" />
-                        </div>
-                    }
-                    <div class="form-group position-relative has-icon-left">
-                        <input type="file" class="form-control-file" id="uploadImage" onchange="selectFile()">
-
-                        <input type="hidden" name="BrokerLogoUpload" id="BrokerLogoUpload" />
-                        @*<input type="text" placeholder="Home Page Link" class="form-control position-inside-maxlength" name="BrokerLogo" value="@Customer.BrokerLogo"  maxlength="500">
-                            <div class="form-control-position">
-                                <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
-                            </div>*@
-
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-outline-primary btn-lg">Update Agency App Skin</button>
-
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 <div class="modal fade text-left" id="planSubscriptionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -818,8 +705,8 @@
                             </svg>
                         </div>
                         <h3 class="title" data-tid="elements_examples.success.title">Success</h3>
-                        <p class="message"><span id="cmessage" data-tid="elements_examples.success.message">Agency Subscription has been created successfully and payment has been processed. Complete the Agency profile and create social profiles.</span></p>
-                        <a class="btn btn-primary btn-lg btn-block" style="color:white;padding:14px;" id="btnCompleteAfilliateProfile">Complete Agency Profile</a>
+                        <p class="message"><span id="cmessage" data-tid="elements_examples.success.message">Agency Subscription has been created successfully and payment has been processed. Create the additional profiles to get started.</span></p>
+                        <a class="btn btn-primary btn-lg btn-block" style="color:white;padding:14px;" href="~/User/Home?Refresh=1" >Continue</a>
                     </div>
                 </div>
             </div>
@@ -1111,13 +998,13 @@
             }
 
 
-            $("#btnAfilliateProfile").on("click", function () {
-                OpenAfilliate("update");
-            });
+            //$("#btnAfilliateProfile").on("click", function () {
+            //    OpenAfilliate("update");
+            //});
 
-            $("#btnCompleteAfilliateProfile").on("click", function () {
-                OpenAfilliate("new");
-            });
+            //$("#btnCompleteAfilliateProfile").on("click", function () {
+            //    OpenAfilliate("new");
+            //});
 
             $("#btnCancelAfilliate").on("click", function (e) {
 

@@ -191,8 +191,8 @@ namespace SG2.CORE.WEB.Controllers
 
                     if (resp.Item1)
                     {
-                        
-                        
+
+
                         var usr = (CustomerDTO)_sessionManager.Get(SessionConstants.Customer);
                         HttpContext.Items["isAuthentication"] = true;
                         jr.Data = new { ResultType = "Success", message = "User successfully autheticated.", ResultData = usr.DefaultSocialProfileId };

@@ -1018,6 +1018,64 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
+        public CustomerDTO GetCustomerRefresh(int CustomerId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    //-- TODO: Change sp to propername
+                    var usr = _db.Customers.Where(g => g.CustomerId == CustomerId).SingleOrDefault();
+                    if (usr != null)
+                    {
+                        CustomerDTO cst = new CustomerDTO()
+                        {
+                            GUID = usr.GUID,
+                            CustomerId = usr.CustomerId,
+                            FirstName = usr.FirstName,
+                            EmailAddress = usr.EmailAddress,
+                            SurName = usr.SurName,
+                            PhoneCode = "",
+                            PhoneNumber = "",
+                            Password = usr.Password,
+                            StripeCustomerId = usr.StripeCustomerId,
+                            IsOptedEducationalEmailSeries = Convert.ToBoolean(usr.IsOptedEducationalEmailSeries),
+                            IsOptedMarketingEmail = Convert.ToBoolean(usr.IsOptedMarketingEmail),
+                            StatusId = usr.StatusId,
+                            StripeSubscriptionId = usr.StripeSubscriptionId,
+                            DefaultSocialProfileId = 0,
+
+                        };
+
+                        var contact = _db.Customer_ContactDetail.Where(g => g.CustomerId == usr.CustomerId).FirstOrDefault();
+                        if (contact != null)
+                        {
+                            cst.AddressLine1 = contact.AddressLine1;
+                            cst.AddressLine2 = contact.AddressLine2;
+                            cst.City = contact.City;
+                            cst.State = contact.Sate;
+                            cst.Country = contact.Country;
+                            cst.PostCode = contact.PostalCode;
+                            cst.Notes = contact.Notes;
+                        }
+
+                        var cust = _db.Customers.Where(g => g.CustomerId == usr.CustomerId).SingleOrDefault();
+                        if (cust != null)
+                        {
+                            cst.IsBroker = cust.IsBroker;
+                            cst.BrokerPaymentPlanID = cust.BrokerPaymentPlanID;
+                        }
+                        return cst;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public CustomerDTO GetContactDetails(int CustomerId)
         {
             try
