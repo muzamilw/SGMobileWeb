@@ -2918,6 +2918,7 @@
     <Content Include="Content\Theme-SPPro\img\card-backgrounds\cover-6-lg.png" />
     <Content Include="Content\Theme-SPPro\img\card-backgrounds\cover-7-lg.png" />
     <Content Include="Content\Theme-SPPro\img\card-backgrounds\cover-8-lg.jpg" />
+    <Content Include="Content\Theme-SPPro\img\card-backgrounds\happy-man.png" />
     <Content Include="Content\Theme-SPPro\img\clouds.png" />
     <Content Include="Content\Theme-SPPro\img\core-img\SPProWhite.png" />
     <Content Include="Content\Theme-SPPro\img\favicon\android-chrome-144x144.png" />
@@ -3670,6 +3671,7 @@
     <Content Include="Content\Theme-CA\fonts\themify.eot" />
     <Content Include="Content\Theme-CA\fonts\themify.ttf" />
     <Content Include="Content\Theme-CA\fonts\themify.woff" />
+    <Content Include="Areas\SuperAdmin\Views\Shared\_Layout_LoggedInNewSP.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

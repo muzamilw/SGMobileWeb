@@ -37,7 +37,7 @@
     var paycards = (List<CustomerPaymentCardsViewModel>)ViewBag.paycards;
 
     var Plan1 = plans.Where(x => x.PlanName.ToLower() == "free").FirstOrDefault();
-    var plan2 = (Customer.IsBroker ?? false) ? plans.Where(x => x.PlanName.ToUpper() == "A PRO").FirstOrDefault() : plans.Where(x => x.PlanName.ToUpper() == "PRO").FirstOrDefault(); ;
+    var plan2 = (Customer.IsBroker ?? false) ? plans.Where(x => x.PlanId == 4).FirstOrDefault() : plans.Where(x => x.PlanId == 2).FirstOrDefault(); ;
 
 }
 
@@ -512,9 +512,9 @@
 
                             <div class="card-body">
 
-                                <h1 class="card-title">Growth Planner</h1>
+                                <h1 class="card-title" style="font-weight:600;font-size:2.5em">Growth Planner</h1>
 
-                                <h4 class="card-title">@Plan1.PlanName</h4>
+                                <h4 class="card-title" >@Plan1.PlanName</h4>
                                 <p class="card-text">
                                     Create multiple Social Campaigns on Instagram, TikTok & LinedIn.
                                 </p>
@@ -530,13 +530,15 @@
                                     <a href="#" class="btn btn-outline-primary planSelect btn-lg" data-planId="@Plan1.PlanId" data-planname="@Plan1.PlanName" data-planprice="@Plan1.PlanPrice">Subscribe</a>
                                 }
 
+                            <div class=" col-12 align-items-center">
 
-                                <div class="special-item flex-1">
-                                    <img style="width:100px;height:70px;" class="" src="~/Content/Theme-CA/img/IG_2x.png">
-                                    <img style="width:100px;height:70px;" class="" src="~/Content/Theme-CA/img/LinkedIn_2x.png">
-                                    <img style="width:100px;height:70px;" class="" src="~/Content/Theme-CA/img/TikTok_2x.png">
+                                <div class="text-center " >
+                                    <img style="width:150px;height:100px;" class="" src="~/Content/Theme-CA/img/IG_2x.png">
+                                    <img style="width:150px;height:100px;" class="" src="~/Content/Theme-CA/img/LinkedIn_2x.png">
+                                    <img style="width:150px;height:100px;" class="" src="~/Content/Theme-CA/img/TikTok_2x.png">
 
                                 </div>
+                            </div>
 
 
 
@@ -552,7 +554,7 @@
 
                             <div class="card-body">
 
-                                <h1 class="card-title">Growth @plan2.PlanName API</h1>
+                                <h1 class="card-title" style="font-weight:600;font-size:2.5em">@plan2.PlanName</h1>
 
                                 <h4 style="color:#75729b" class="card-title">$@plan2.PlanPrice Per Month</h4>
                                 <p class="card-text">
@@ -1142,7 +1144,7 @@
                  $("#existingstripesubscriptionid").val(existingStripeSubscriptionIdValSub);
                  $("#existingplanid").val(existingPlanIdValSub);
 
-                 $("#cmessage").text('Agency Subscription has been created successfully and payment has been processed. Complete the Agency profile and create social profiles.');
+                 $("#cmessage").text('Agency Subscription has been created successfully and payment has been processed. Create social profiles to continue.');
 
 
                 selectedPlanName = $(".selectedPlanName").text();

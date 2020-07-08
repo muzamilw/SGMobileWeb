@@ -82,7 +82,7 @@
 
     <!-- END: Custom CSS-->
 
-    <script>
+    @*<script>
 
         var glb_intercomKey = "xsl2s4e6";
 
@@ -100,7 +100,7 @@
         fbq('init', '722023768308766');
         fbq('init', '433629843942100');
         fbq('track', 'PageView'); //tracks a PageView to both initialized pixels
-    </script>
+    </script>*@
     <script>
         /**
          *	This script should be placed right after the body tag for fast execution
@@ -186,7 +186,7 @@
                     </div>
                     <div class="info-card">
 
-                        <img src="~/Content/Theme-SPPro/img/card-backgrounds/cover-8-lg.jpg" class="cover" alt="cover">
+                        <img src="~/Content/Theme-SPPro/img/card-backgrounds/happy-man.png" class="cover" alt="cover">
                         <a href="#" onclick="return false;" class="pull-trigger-btn" data-class="list-filter-active" data-target=".page-sidebar" data-focus="nav_filter_input">
                             <i class="fal fa-angle-down"></i>
                         </a>
@@ -534,7 +534,7 @@
                                     $("#Modal_SignupPopup").modal("hide");
                                     $("#Modal_MessageBoxTitle").text("Account Created Succesfully.!");
                                     $("#Modal_MessageBoxBody").text("Congratulation! Your account has successfully created. Please check your inbox for verification.!");
-                                    fbq('track', 'CompleteRegistration');
+                                    //fbq('track', 'CompleteRegistration');
                                     $("#Modal_Messagebox").modal("show");
                                 } else {
                                     $("#signup-error").show().html(data.message);
