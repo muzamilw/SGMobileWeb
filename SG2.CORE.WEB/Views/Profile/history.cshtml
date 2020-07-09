@@ -405,6 +405,7 @@
                                 <h1 class="text-center selectedPlanName mt-1"></h1>
                                 <h1 class="text-center selectedPlanPrice mt-1"></h1>
                                 <input type="hidden" id="selectedPlanId" />
+                                <input type="hidden" id="selectedPlanType" />
                                 <input type="hidden" id="existingStripeCustomerId" value="@Model.SocialProfile.StripeCustomerId" />
                                 <input type="hidden" id="existingStripeSubscriptionId" value="@Model.SocialProfile.StripeSubscriptionId" />
                                 <input type="hidden" id="existingPlanId" value="@Model.SocialProfile.PaymentPlanId" />
@@ -1015,6 +1016,7 @@
                 $("#existingStripeCustomerId").val(existingStripeCustomerIdVal);
                 $("#existingStripeSubscriptionId").val(existingStripeSubscriptionIdVal);
                 $("#existingPlanId").val(existingPlanIdVal);
+                $("#selectedPlanType").val('ProfileUpgrade');
 
 
                 $("#cmessage").text('Subscription has been created successfully and payment has been processed. You can now connect the mobile app and start growing.');
@@ -1143,6 +1145,7 @@
                  $("#existingstripecustomerid").val(existingStripeCustomerIdValSub);
                  $("#existingstripesubscriptionid").val(existingStripeSubscriptionIdValSub);
                  $("#existingplanid").val(existingPlanIdValSub);
+                 $("#selectedPlanType").val('AgencyUpgrade');
 
                  $("#cmessage").text('Agency Subscription has been created successfully and payment has been processed. Create social profiles to continue.');
 
@@ -1553,7 +1556,12 @@
                     .then(function (result) {
                         if (result.error) {
                             showCardError(result.error);
-                        } else {
+                        }
+                        else if ($("#selectedPlanType").val() == 'AgencyUpgrade')
+                        {
+                            createCustomerSub(result.paymentMethod.id, email, selectedPlanId, customerid, name, phone);
+                        }
+                        else {
                             createCustomer(result.paymentMethod.id, email, selectedPlanId, customerid, socialProfileId,name,phone);
                         }
                     });
@@ -1582,6 +1590,31 @@
                         handleSubscription(subscription);
                     });
             }
+
+            async function createCustomerSub(paymentMethod, cardholderEmail, selectedPlanId, customerid, name, phone) {
+                return fetch('/User/CreateStripeCustomerSubscription', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        NewSubs: true,
+                        email: cardholderEmail,
+                        paymentmethod: paymentMethod,
+                        selectedPlanId: selectedPlanId,
+                        customerid: customerid,
+                        socialProfileId: 0
+
+                    })
+                })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(subscription => {
+                        handleSubscription(subscription);
+                    });
+            }
+
 
             function handleSubscription(subscription) {
                 const { latest_invoice } = subscription;
