@@ -49,6 +49,7 @@ namespace SG2.CORE.MODAL.ViewModals.Customers
 
         public string Country { get; set; }
 
+        [Display(Name = "Zip/Postal Code")]
         public string PostCode { get; set; }
 
         public string Notes { get; set; }

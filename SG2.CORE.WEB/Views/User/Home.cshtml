@@ -382,7 +382,7 @@
                                             mlist.Add(new SelectListItem { Text = "Select Type (All)", Value = "0" });
                                             mlist.Add(new SelectListItem { Text = "Instagram", Value = "30" });
                                             mlist.Add(new SelectListItem { Text = "LinkedIn", Value = "31" });
-                                            mlist.Add(new SelectListItem { Text = "Facebook", Value = "32" });
+                                            mlist.Add(new SelectListItem { Text = "TikTok", Value = "32" });
                                         }
                                         <div class="col-xl-3 col-md-3 col-sm-12">
                                             @Html.DropDownListFor(n => n.SocialType, new SelectList(mlist, "Value", "Text", 0), new { @class = "custom-select block mb-1" })
@@ -408,12 +408,12 @@
                                                 plist.Add(new SelectListItem { Text = "FREE", Value = "1" });
                                                 if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true)
                                                 {
-                                                    plist.Add(new SelectListItem { Text = "A PRO", Value = "4" });
+                                                    plist.Add(new SelectListItem { Text = "Growth Pro API", Value = "4" });
                                                 }
                                                 else
                                                 {
-                                                    plist.Add(new SelectListItem { Text = "PRO", Value = "2" });
-                                                    plist.Add(new SelectListItem { Text = "PLATINUM", Value = "3" });
+                                                    plist.Add(new SelectListItem { Text = "Growth Pro API", Value = "2" });
+                                                    
 
                                                 }
                                             }
