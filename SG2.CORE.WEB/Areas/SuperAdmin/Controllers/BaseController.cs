@@ -22,7 +22,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            ViewBag.BaseURL = "/sadmin";
+            ViewBag.BaseURL = "/sa";
             // ViewBag.SetMenuActiveClass = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
             CDT = (SystemUserDTO)_sessionManager.Get(SessionConstants.SystemUser);
             if (HttpContext.Application["ApplicationStatuses"] != null)

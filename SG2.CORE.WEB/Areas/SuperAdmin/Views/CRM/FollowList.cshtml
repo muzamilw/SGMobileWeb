@@ -4,7 +4,7 @@
 @{
     var BaseURl = ViewBag.BaseUrl;
     ViewBag.Title = "Insights & Statistics";
-    Layout = "~/Areas/SuperAdmin/Views/Shared/_LayoutNewSPPro.cshtml";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_LayoutNew.cshtml";
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
     var socialProfile = (SocialProfileDTO)ViewBag.socialProfile;
 
@@ -274,7 +274,7 @@ select {
         function LoadCharts(mode) {
             $.ajax({
                 type: "GET",
-                url: "/sadmin/crm/Trends?socialProfileId=@socialProfile.SocialProfile.SocialProfileId&mode=" + mode,
+                url: "/sa/crm/Trends?socialProfileId=@socialProfile.SocialProfile.SocialProfileId&mode=" + mode,
                 dataType: "json",
                 success: function (Response) {
 

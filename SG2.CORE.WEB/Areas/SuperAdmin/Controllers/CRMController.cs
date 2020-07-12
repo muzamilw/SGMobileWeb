@@ -458,7 +458,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
             this._customerManager.UpdateTargetProfile(request);
             //return RedirectToAction("targettinginformation", "crm", new { id = Url.Encode(CryptoEngine.Encrypt(Convert.ToString(request.SocialProfile.CustomerId))), SPId= Url.Encode(CryptoEngine.Encrypt(request.SocialProfile.SocialProfileId.ToString())), success = 1 });
-            return Redirect("/sadmin/crm/targettinginformation?id=" + Url.Encode(CryptoEngine.Encrypt(Convert.ToString(request.SocialProfile.CustomerId))) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(request.SocialProfile_Instagram_TargetingInformation.SocialProfileId.ToString())) + "&success=1");
+            return Redirect("/sa/crm/targettinginformation?id=" + Url.Encode(CryptoEngine.Encrypt(Convert.ToString(request.SocialProfile.CustomerId))) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(request.SocialProfile_Instagram_TargetingInformation.SocialProfileId.ToString())) + "&success=1");
         }
 
 
@@ -492,7 +492,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
         public ActionResult Lists(SocialProfileDTO request)
         {
             this._customerManager.UpdateTargetProfileLists(request);
-            return Redirect("/sadmin/crm/lists?id=" + Url.Encode(CryptoEngine.Encrypt(Convert.ToString(0))) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(request.SocialProfile_Instagram_TargetingInformation.SocialProfileId.ToString())) + "&success=1");
+            return Redirect("/sa/crm/lists?id=" + Url.Encode(CryptoEngine.Encrypt(Convert.ToString(0))) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(request.SocialProfile_Instagram_TargetingInformation.SocialProfileId.ToString())) + "&success=1");
         }
 
 
