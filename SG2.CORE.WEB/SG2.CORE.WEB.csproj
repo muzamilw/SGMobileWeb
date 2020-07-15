@@ -2920,6 +2920,7 @@
     <Content Include="Content\Theme-SPPro\img\card-backgrounds\cover-8-lg.jpg" />
     <Content Include="Content\Theme-SPPro\img\card-backgrounds\happy-man.png" />
     <Content Include="Content\Theme-SPPro\img\clouds.png" />
+    <Content Include="Content\Theme-SPPro\img\core-img\social-planner-pro-black.png" />
     <Content Include="Content\Theme-SPPro\img\core-img\SPProWhite.png" />
     <Content Include="Content\Theme-SPPro\img\favicon\android-chrome-144x144.png" />
     <Content Include="Content\Theme-SPPro\img\favicon\apple-touch-icon.png" />
@@ -3761,11 +3762,8 @@
     <Content Include="Content\ThemeAssets\Images\Real_People2.png" />
     <Content Include="Content\ThemeAssets\Images\relax.jpg" />
     <Content Include="Content\ThemeAssets\Images\search-icon.png" />
-    <Content Include="Content\ThemeAssets\Images\SGLOGO.png" />
     <Content Include="Content\ThemeAssets\Images\Simple_Social_Growth.png" />
     <Content Include="Content\ThemeAssets\Images\sky12.png" />
-    <Content Include="Content\ThemeAssets\Images\social-growth-footer-logo.jpg" />
-    <Content Include="Content\ThemeAssets\Images\social-growth.png" />
     <Content Include="Content\ThemeAssets\Images\Social_Growth_team1.png" />
     <Content Include="Content\ThemeAssets\Images\Thumbs_Up.png" />
     <Content Include="Content\ThemeAssets\Images\Thumbs_Up_W.png" />

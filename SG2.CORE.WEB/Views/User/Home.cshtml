@@ -291,13 +291,13 @@
             border-radius: 5px;
             background-color: #fff;
             display: block;
-            margin-bottom: 20px;
+            margin-bottom: 0px;
             padding: 10px;
             cursor: text;
             font-size: 1.0rem;
             font-weight: 300;
             color: #666;
-            margin-top: 20px;
+            margin-top: 0px;
         }
 
     @@media (min-width: 567px) {
@@ -604,7 +604,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary white">
-                <h3 class="modal-title" id="myModalLabel34">Create Social Growth Profiles</h3>
+                @*<h3 class="modal-title" id="myModalLabel34">Create Social Growth Profiles</h3>*@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -614,10 +614,11 @@
 
                 <div class="modal-body container-fluid">
                     <div class="row  text-center">
-                        <div class="col-sm-12 col-md-4" >
+                        <h1 class="col-sm-12 col-md-12 font-large-1">Create a Social Growth Profile</h1>
+                        <div class="col-sm-12 col-md-4">
                             <img style="width:150px;height:100px;" class="" src="~/Content/Theme-CA/img/IG_2x.png">
                             <div class="form-group position-relative">
-                                <input type="text" placeholder="Instagram Username" class="form-control" name="IntagramUserName">
+                                <input type="text" placeholder="Instagram Username" class="form-control" name="IntagramUserName" style="margin-top:20px;margin-bottom:20px;">
                                 <button type="submit" class="btn btn-outline-primary  w-100">Create Instagram Growth Profile</button>
                             </div>
 
@@ -625,7 +626,7 @@
                         <div class="col-sm-12 col-md-4">
                             <img style="width:150px;height:100px;" class="" src="~/Content/Theme-CA/img/LinkedIn_2x.png">
                             <div class="form-group position-relative">
-                                <input disabled type="text"  class="form-control" >
+                                <input disabled type="text" class="form-control" style="margin-top:20px;margin-bottom:20px;">
                                 <button disabled type="submit" class="btn btn-outline-comingsoon  w-100">Coming Soon</button>
                             </div>
 
@@ -633,7 +634,7 @@
                         <div class="col-sm-12 col-md-4">
                             <img style="width:150px;height:100px;" class="" src="~/Content/Theme-CA/img/TikTok_2x.png">
                             <div class="form-group position-relative">
-                                <input disabled type="text" class="form-control">
+                                <input disabled type="text" class="form-control" style="margin-top:20px;margin-bottom:20px;">
                                 <button disabled type="submit" class="btn btn-outline-comingsoon  w-100">Coming Soon</button>
                             </div>
                         </div>
@@ -664,7 +665,7 @@
                     <form method="post" id="payment-form">
                         <fieldset>
                             <div class="row" style="display:inline">
-                                <h2 class="text-center">You are subscribing to a monthly plan :</h2>
+                                @*<h2 class="text-center">You are subscribing to a monthly plan :</h2>*@
                                 <h1 class="text-center selectedPlanName mt-2"></h1>
                                 <h4 class="text-center selectedPlanPrice mt-1"></h4>
                                 <input type="hidden" id="selectedPlanId" />
@@ -733,7 +734,7 @@
                             <span id="button-text">Subscribe to the Plan</span>
                         </button>
                         <fieldset class="text-center mt-1">
-                            <a class="Link Link--primary text-center " style="color:#909090" href="https://stripe.com" target="_blank"><span class="Text Text-color--gray400 Text-fontSize--12 Text-fontWeight--400"><span>Powered by <img src="https://js.stripe.com/v3/fingerprinted/img/stripe-8ad2522ef8799d5985038700f8a07027.svg" alt="stripe" class="Icon Footer-PoweredBy-Icon Icon--md"></span></span></a>
+                            <a class="Link Link--primary text-center " style="color:#909090" href="https://stripe.com" target="_blank"><span class="Text Text-color--gray400 Text-fontSize--12 Text-fontWeight--400"><span>Powered by <img style="width:45px;" src="https://js.stripe.com/v3/fingerprinted/img/stripe-8ad2522ef8799d5985038700f8a07027.svg" alt="stripe" class="Icon Footer-PoweredBy-Icon Icon--md"></span></span></a>
                         </fieldset>
 
                     </form>

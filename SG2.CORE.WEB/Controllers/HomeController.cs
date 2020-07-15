@@ -137,10 +137,10 @@ namespace SG2.CORE.WEB.Controllers
                             var dynamicTemplateData = new Dictionary<string, string>
                             {
                                 {"name",customer.FirstName},
-                                {"videolink", "https://www.youtube.com/embed/MB70ADGaC30?autoplay=1"},
+                                {"videolink", "https://www.youtube.com/watch?v=MB70ADGaC30"},
                                 {"senddate", DateTime.Today.ToLongDateString() },
-                                {"winapp","https://megaload.com/win.zip" },
-                                {"macapp","https://megaload.com/mac.zip" }
+                                {"winapp",SystemConfigs.First(x => x.ConfigKey.ToLower() == ("winapp").ToLower()).ConfigValue },
+                                {"macapp",SystemConfigs.First(x => x.ConfigKey.ToLower() == ("macapp").ToLower()).ConfigValue }
 
                             };
                             BAL.Managers.EmailManager.SendEmail(customer.EmailAddress, customer.FirstName, EmailManager.EmailType.Welcome, dynamicTemplateData);

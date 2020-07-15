@@ -364,13 +364,13 @@
             border-radius: 5px;
             background-color: #fff;
             display: block;
-            margin-bottom: 20px;
+            margin-bottom: 0px;
             padding: 10px;
             cursor: text;
             font-size: 1.0rem;
             font-weight: 300;
             color: #666;
-            margin-top: 20px;
+            margin-top: 0px;
         }
     </style>
 }
@@ -401,7 +401,7 @@
                     <form method="post" id="payment-form">
                         <fieldset>
                             <div class="row" style="display:inline">
-                                <h2 class="text-center">You are subscribing to a monthly plan :</h2>
+                                @*<h2 class="text-center">You are subscribing to a monthly plan :</h2>*@
                                 <h1 class="text-center selectedPlanName mt-1"></h1>
                                 <h1 class="text-center selectedPlanPrice mt-1"></h1>
                                 <input type="hidden" id="selectedPlanId" />
@@ -471,7 +471,7 @@
                             <span id="button-text">Subscribe to the Plan</span>
                         </button>
                         <fieldset class="text-center mt-1">
-                            <a class="Link Link--primary text-center " style="color:#909090" href="https://stripe.com" target="_blank"><span class="Text Text-color--gray400 Text-fontSize--12 Text-fontWeight--400"><span>Powered by <img src="https://js.stripe.com/v3/fingerprinted/img/stripe-8ad2522ef8799d5985038700f8a07027.svg" alt="stripe" class="Icon Footer-PoweredBy-Icon Icon--md"></span></span></a>
+                            <a class="Link Link--primary text-center " style="color:#909090" href="https://stripe.com" target="_blank"><span class="Text Text-color--gray400 Text-fontSize--12 Text-fontWeight--400"><span>Powered by <img src="https://js.stripe.com/v3/fingerprinted/img/stripe-8ad2522ef8799d5985038700f8a07027.svg" alt="stripe" style="width:45px;" class="Icon Footer-PoweredBy-Icon Icon--md"></span></span></a>
                         </fieldset>
                     </form>
                     <div class="success">
@@ -524,7 +524,7 @@
                                 </p>
                                 @if ((Model.SocialProfile.PaymentPlanId ?? 1) == Plan1.PlanId)
                                 {
-                                    <a href="#" style="color:#fff;background-color:#6c7484;" class="btn disabled planSelect btn-lg">Current Plan</a>
+                                    <a href="#" style="color:#fff;" class="btn btn-success disabled planSelect btn-lg">Current Plan</a>
                                 }
                                 else
                                 {
@@ -579,7 +579,7 @@
                                 </ul>
                                 @if ((Model.SocialProfile.PaymentPlanId ?? 1) == plan2.PlanId)
                                 {
-                                    <a href="#" style="color:#fff;background-color:#6c7484;" class="btn disabled planSelect btn-lg">Current Plan</a>
+                                    <a href="#" style="color:#fff" class="btn btn-success disabled planSelect btn-lg">Current Plan</a>
                                 }
                                 else
                                 {
