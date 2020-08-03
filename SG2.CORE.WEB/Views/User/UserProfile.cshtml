@@ -2,7 +2,7 @@
 @using SG2.CORE.MODAL.DTO.Customers;
 @{
     ViewBag.Title = "Profile";
-    Layout = "~/Views/Shared/_Layout_LoggedInstack.cshtml";
+    Layout = "~/Views/Shared/_Layout_LoggedInStackHomeMainSPPro.cshtml";
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
 }
 
@@ -11,13 +11,14 @@
     <link href="~/Content/app-assets/css/intlTelInput.min.css" rel="stylesheet" />
 
 
-   
+
 
 
     <style type="text/css">
         .iti {
             width: 100%;
         }
+
         #error-msg {
             color: red;
         }
@@ -50,7 +51,7 @@
             padding-left: 30px;
             margin-bottom: 12px;
             cursor: pointer;
-            font-size: 1.6rem;
+            font-size: 1.3rem;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
@@ -69,7 +70,7 @@
         /* Create a custom checkbox */
         .chkmark {
             position: absolute;
-            top: 0;
+            top: 3px;
             left: 0;
             height: 20px;
             width: 20px;
@@ -114,24 +115,18 @@
     </style>
 }
 
-
+    <div class="heading-wrapper">
+        <h1>User Profile</h1>
+        <span class="navbar-text">
+            <a class="btn btn-black" href="/user/home">
+                Back
+            </a>
+        </span>
+    </div>
 <!-- BEGIN: Content-->
-<div class="app-content container center-layout mt-2">
+<div class="app-content  center-layout mt-2">
     <div class="content-wrapper">
-        <div class="content-header row">
-            <div class="content-header-left col-md-6 col-12 mb-2">
-                <h3 class="content-header-title mb-0">User Profile</h3>
-
-            </div>
-            <div class="content-header-right col-md-6 col-12">
-                <div class="media width-250 float-right">
-                    <div class="media-right text-right">
-                        @*<div id="sp-bar-total-sales"></div>*@
-                    </div>
-
-                </div>
-            </div>
-        </div>
+        
         <div class="content-body">
             <!-- Extra large table start -->
             <div class="row match-height">
@@ -161,9 +156,8 @@
                                 <div class="container">
                                     <div class="information-form-inner">
                                         <div class="row">
-                                            <div class="col-md-12">
-                                                <p>I'd like to receive to the following emails:</p>
-                                                <br />
+                                            <div class=" col-md-12">
+                                                <p>I'd like to receive to the emails:</p>
                                                 @using (Html.BeginForm("UpdateUserEmailSubscription", "User", FormMethod.Post, new { @id = "form_UpdateUserSubscription" }))
                                                 {
                                                     <label class="form-Checkbox">
@@ -178,7 +172,12 @@
                                                         <span class="chkmark"></span>
                                                     </label>
                                                     <br />
-                                                    <input type="button" class="btn btn-primary" id="btn_SaveEmailSubscription" value="Update" />
+                                                    <div class="form-group form-actions">
+                                                        <button type="button" id="btn_SaveEmailSubscription" class="btn btn-lg btn-primary">
+                                                            Update &nbsp;
+                                                            <i id="spn_updateUserProfile" style="display:none" class="fa fa-spinner fa-spin"></i>
+                                                        </button>
+                                                    </div>
                                                 }
                                             </div>
                                         </div>
@@ -205,6 +204,10 @@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Content/app-assets/js/scripts/intlTelInput.min.js"></script>
+    <script src="~/Content/app-assets/vendors/js/extensions/sweetalert.min.js"></script>
+    <script src="~/Content/app-assets/js/scripts/extensions/sweet-alerts.js"></script>
+    <script src="~/Content/app-assets/vendors/js/extensions/toastr.min.js"></script>
+
     <script type="text/javascript">
         $("document").ready(function () {
             var input = document.querySelector(".phoneNumber"),
@@ -262,13 +265,17 @@
                             if (!$.isEmptyObject(data)) {
 
                                 if (data.ResultType == "Success") {
-                                    $("#Modal_MessageBoxTitle").text("Message");
-                                    $("#Modal_MessageBoxBody").text(data.message);
-                                    $("#Modal_Messagebox").modal("show");
+                                    //$("#Modal_MessageBoxTitle").text("Message");
+                                    //$("#Modal_MessageBoxBody").text(data.message);
+                                    //$("#Modal_Messagebox").modal("show");
+
+                                    toastr.success(data.message, 'Success');
+                                    window.location.href = "/user/home";
                                 } else {
-                                    $("#Modal_MessageBoxTitle").text("Message");
-                                    $("#Modal_MessageBoxBody").text(data.message);
-                                    $("#Modal_Messagebox").modal("show");
+                                    //$("#Modal_MessageBoxTitle").text("Message");
+                                    //$("#Modal_MessageBoxBody").text(data.message);
+                                    //$("#Modal_Messagebox").modal("show");
+                                    toastr.success(data.message, 'Error');
                                 }
                             }
                         },
@@ -276,6 +283,9 @@
                             $("#spn_updateUserProfile").hide();
                         }
                     });
+                }
+                else {
+                    toastr.error('Phone number is not in correct format', 'Error');
                 }
             });
 
@@ -291,13 +301,16 @@
                     success: function (data) {
                         if (!$.isEmptyObject(data)) {
                             if (data.ResultType == "Success") {
-                                $("#Modal_MessageBoxTitle").text("Message");
-                                $("#Modal_MessageBoxBody").text(data.message);
-                                $("#Modal_Messagebox").modal("show");
+                                //$("#Modal_MessageBoxTitle").text("Message");
+                                //$("#Modal_MessageBoxBody").text(data.message);
+                                //$("#Modal_Messagebox").modal("show");
+                                toastr.success(data.message, 'Success');
+                                window.location.href = "/user/home";
                             } else {
-                                $("#Modal_MessageBoxTitle").text("Message");
-                                $("#Modal_MessageBoxBody").text(data.message);
-                                $("#Modal_Messagebox").modal("show");
+                                //$("#Modal_MessageBoxTitle").text("Message");
+                                //$("#Modal_MessageBoxBody").text(data.message);
+                                //$("#Modal_Messagebox").modal("show");
+                                toastr.success(data.message, 'Error');
                             }
                         }
                     },
@@ -310,8 +323,8 @@
             });
 
 
-            $(".btn_UpdatePassword").on("click", function () {
-
+            $("#btn_UpdatePassword").on("click", function () {
+                debugger
                 if ($("#Form_UpdatePassword").valid()) {
                     $("#spn_UpdatePassword").show();
                     var data = $("#Form_UpdatePassword").serialize();
@@ -321,18 +334,22 @@
                         data: data,
                         dataType: "json",
                         success: function (data) {
-                            $("#spn_UpdatePassword").hide();
-                            if (!$.isEmptyObject(data)) {
-                                if (data.ResultType == "Success") {
-                                    $("#Modal_MessageBoxTitle").text("Message");
-                                    $("#Modal_MessageBoxBody").text(data.message);
-                                    $("#Modal_Messagebox").modal("show");
-                                } else {
-                                    $("#Modal_MessageBoxTitle").text("Message");
-                                    $("#Modal_MessageBoxBody").text(data.message);
-                                    $("#Modal_Messagebox").modal("show");
+                            setTimeout(function () {
+                                $("#spn_UpdatePassword").hide();
+                                if (!$.isEmptyObject(data)) {
+                                    if (data.ResultType == "Success") {
+                                        swal("Success!", "You have successfully updated your password!", "success");
+                                        window.location.href = "/user/home";
+                                    } else {
+                                        //$("#Modal_MessageBoxTitle").text("Message");
+                                        //$("#Modal_MessageBoxBody").text(data.message);
+                                        //$("#Modal_Messagebox").modal("show");
+
+                                        toastr.success(data.message, 'Error');
+                                    }
                                 }
-                            }
+                            }, 50);
+
                         },
                         failure: function (errMsg) {
                             $("#spn_UpdatePassword").hide();

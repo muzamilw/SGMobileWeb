@@ -62,27 +62,7 @@
     var RoleName = Model.usersList.Where(m => m.UserId == Model.ResTeamMember).FirstOrDefault();
     //var Role=Model.usersList.Where(m=>m.RoleName.ToString()==)
 
-
-
-    var PlanStatus = "";
     var SocialProfile = (SocialProfileDTO)ViewBag.SocailProfile;
-    if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
-    {
-        PlanStatus = "Active (Free)";
-    }
-    else if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.ActivePlan)
-    {
-        PlanStatus = "Active (Plan)";
-    }
-    else if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.canceled)
-    {
-        PlanStatus = "Cancelled";
-    }
-    else if (SocialProfile.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Unsubscribe)
-    {
-        PlanStatus = "Unsubscribed";
-    }
-
 
     var DeviceStatus = "Not Connected";
 
@@ -99,25 +79,52 @@
     }
 
 
-    var ProfileStatus = "";
-    var statusclass = "btn-primary";
+    var onlineStatus = SocialProfile.AppStatus + " - v" + SocialProfile.SocialProfile.AppVersion;
 
-    switch (SocialProfile.SocialProfile.BlockedStatus)
+    var onlineStatusClass = "offline-btn";
+    var planStatusClass = "btn-primary";
+    string blockStatusClass = "";
+
+    var PlanName = "";
+    PlanName = SocialProfile.CurrentPaymentPlan == null ? "FREE" : SocialProfile.CurrentPaymentPlan.PlanName;
+    if (PlanName == "FREE")
     {
-        case null: ProfileStatus = "Valid"; statusclass = "btn-primary"; break;
-        case 0: ProfileStatus = "Valid"; statusclass = "btn-primary"; break;
-        case 66: ProfileStatus = "Action Blocked"; statusclass = "btn-danger"; break;
-        case 67: ProfileStatus = "Hard Blocked"; statusclass = "btn-danger"; break;
-        case 68: ProfileStatus = "Password Blocked"; statusclass = "btn-danger"; break;
-        default:
-            ProfileStatus = "Valid"; statusclass = "btn-primary";
-            break;
+        planStatusClass = "btn-danger";
     }
+
+    string BlockStatus = SocialProfile.BlockStatus;
+    if (SocialProfile.SocialProfile.BlockedStatus == null)
+    {
+        blockStatusClass = "btn-primary";
+    }
+    else if (SocialProfile.SocialProfile.BlockedStatus == 0)
+    {
+        blockStatusClass = "btn-primary";
+    }
+    else
+    {
+        blockStatusClass = "btn-danger";
+    }
+
+    if (SocialProfile.AppStatus == "Online")
+    {
+        onlineStatusClass = "online-btn";
+    }
+
 
 }
 @section styles{
     <link href="~/Content/ThemeAssets/css/backendcss.css" rel="stylesheet" />
     <link href="~/Content/ThemeAssets/css/style.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/app-assets/css/pincode.css" rel="stylesheet" />
+    <style>
+        .pincode-input-text {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
 }
 
 @if (!string.IsNullOrEmpty(ViewBag.Success))
@@ -149,46 +156,72 @@
 
             </div>
             <div class="col-md-6 col-xs-12 text-right">
-                <span class="right">Block Status: <i>@ProfileStatus</i></span><br />
+                <div class="btn-group" style="margin-top:12px;">
+                    <button class="btn btn-round @planStatusClass" type="button"><i class="fa fa-dollar  "></i> @PlanName</button>
+                    <button class="btn @onlineStatusClass" type="button">@onlineStatus</button>
+                    <button class="btn btn-round @blockStatusClass" type="button"><i class="ft-activity pr-1"></i> @BlockStatus</button>
 
-                <span class="right">Plan Status: <i>@PlanStatus</i></span>
-
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="detail-page-contact">
-    <div class="container">
+
+<div class="detail-page-contact mb-2" style="background: #404E67;">
+    <div class="container" style="padding: 20px;">
         <div class="row">
 
-            <div class="col-6">
-                <a class="btn btn-primary active" href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Contact Details</a>
-                <a class="btn btn-primary" href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Order History</a>
-                <a class="btn btn-primary" href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Target Form</a>
+            <div class="col-10">
+                <a class="btn btn-primary" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/stats?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Stats</a>
+                <a class="btn btn-primary" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Contact Details</a>
+                <a class="btn btn-primary active" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Order History</a>
+                <a class="btn btn-primary" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Target Form</a>
+                <a class="btn btn-primary" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/lists?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">White & Black Lists</a>
+                <a class="btn btn-primary" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/FollowList?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Follow List</a>
+                <a class="btn btn-primary" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/allStats?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Latest Stats</a>
             </div>
-            <div class="col-6"><a class=" btn btn-primary right" href="javascript:void(0);" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></div>
+            <div class="col-2"><a class=" btn right" href="javascript:void(0);" style="color: #fff;line-height: 1;background-color: #6566A6; border-color: #6566A6;" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></div>
 
         </div>
     </div>
 </div>
-<div class="container">
+<div class="container mb-2">
     <div class="information-form-detail">
         <div class="information-form-inner detail">
             <div class="row">
                 <div class="col-md-4 col-xs-6">
-                    <ul>
-                        <li>Last Connected <span class="JVboxName">@DeviceStatus</span></li>
 
-                    </ul>
+                    <div class="user-inner">
+                        <label style="border-bottom: 1px solid lightgray;font-size:1.2rem">Device Status</label>
+                        <div class="displayBlock" id="firstName-textBlock">
+                            <h2 class="displayText" style="color:black;font-size: 0.85rem;">@DeviceStatus</h2>
+
+                        </div>
+
+                    </div>
                 </div>
                 <div class="col-md-4 col-xs-6">
-                    <ul>
-                        <li>E-mail: <span class="email">@Html.DisplayFor(m => m.Email)</span></li>
-                    </ul>
-                    <!--<h4>E-mail<br><span>kardio.tvister@yanex.com</span></h4>-->
+
+                    <div class="user-inner">
+                        <label style="border-bottom: 1px solid lightgray;font-size:1.2rem">Email</label>
+                        <div class="displayBlock" id="firstName-textBlock">
+                            <h2 class="displayText" style="color:black;font-size: 0.85rem;">@Html.DisplayFor(m => m.Email)</h2>
+
+                        </div>
+
+                    </div>
                 </div>
                 <div class="col-md-4 col-xs-6">
+
+                    <div class="user-inner">
+                        <label style="border-bottom: 1px solid lightgray;font-size:1.2rem">Pin Code</label>
+                        <div class="displayBlock" id="firstName-textBlock">
+                            <input readonly type="text" class="form-control" id="pincode" value="@SocialProfile.SocialProfile.PinCode">
+
+                        </div>
+
+                    </div>
                 </div>
             </div>
             <hr />
@@ -232,14 +265,74 @@
 
                         </div>
 
+                        @*<div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="user-inner">
+                    <label>Social Password</label>
+                    <div class="displayBlock" id="Password-textBlock">
+                        <h2 class="displayText">@(string.IsNullOrEmpty(SocialProfile.SocialProfile.SocialPassword) ? "--" : SocialProfile.SocialProfile.SocialPassword)</h2>
+
+                    </div>
+
+                </div>
+
+
+
+
+
+            </div>*@
+                    </div>
+
+                    <div class="row">
+
                         <div class="col-md-4 col-sm-4 col-xs-12">
                             <div class="user-inner">
-                                <label>Social Password</label>
-                                <div class="displayBlock" id="LastName-textBlock">
-                                    <h2 class="displayText">@(string.IsNullOrEmpty(SocialProfile.SocialProfile.SocialPassword) ? "--" : SocialProfile.SocialProfile.SocialPassword)</h2>
-                                    
+                                <label>Address Line 1</label>
+                                <div class="displayBlock" id="address1-textBlock">
+                                    <h2 class="displayText">@(string.IsNullOrEmpty(Model.AddressLine1) ? "--" : Model.AddressLine1)</h2>
+                                    <a href="#" text-block="address1-textBlock" edit-Block="address1-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
                                 </div>
-                             
+                                <div class="editBlock" id="address1-editBlock" style="display:none">
+                                    <input type="text" value="@Model.AddressLine1" id="input_address1" class="" name="AddressLine1" />
+                                    <a href="#" text-block="address1-textBlock" edit-Block="address1-editBlock" control-id="input_address1" class="btn_savedata"><i class="fa fa-save"></i> | </a>
+                                    <a href="#" text-block="address1-textBlock" edit-Block="address1-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="user-inner">
+                                <label>Address Line 2</label>
+                                <div class="displayBlock" id="address2-textBlock">
+                                    <h2 class="displayText">@(string.IsNullOrEmpty(Model.AddressLine2) ? "--" : Model.AddressLine2)</h2>
+                                    <a href="#" text-block="address2-textBlock" edit-Block="address2-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div class="editBlock" id="address2-editBlock" style="display:none">
+                                    <input type="text" value="@Model.AddressLine2" id="input_address2" class="" name="AddressLine2" />
+                                    <a href="#" text-block="address2-textBlock" edit-Block="address2-editBlock" control-id="input_address2" class="btn_savedata"><i class="fa fa-save"></i> | </a>
+                                    <a href="#" text-block="address2-textBlock" edit-Block="address2-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="user-inner">
+                                <label>Town/City</label>
+                                <div class="displayBlock" id="City-textBlock">
+                                    <h2 class="displayText">@(string.IsNullOrEmpty(Model.City) ? "--" : Model.City)</h2>
+                                    <a href="#" text-block="City-textBlock" edit-Block="City-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div class="editBlock" id="City-editBlock" style="display:none">
+                                    <input type="text" value="@Model.City" id="input_City" class="" name="City" />
+                                    <a href="#" text-block="City-textBlock" edit-Block="City-editBlock" control-id="input_City" class="btn_savedata"><i class="fa fa-save"></i> | </a>
+                                    <a href="#" text-block="City-textBlock" edit-Block="City-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
                             </div>
 
 
@@ -248,226 +341,349 @@
 
                         </div>
                     </div>
-                </div>
 
-              
+                    <div class="row">
+
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="user-inner">
+                                <label>State</label>
+                                <div class="displayBlock" id="State-textBlock">
+                                    <h2 class="displayText">@(string.IsNullOrEmpty(Model.State) ? "--" : Model.State)</h2>
+                                    <a href="#" text-block="State-textBlock" edit-Block="State-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div class="editBlock" id="State-editBlock" style="display:none">
+                                    <input type="text" value="@Model.State" id="input_State" class="" name="State" />
+                                    <a href="#" text-block="State-textBlock" edit-Block="State-editBlock" control-id="input_State" class="btn_savedata"><i class="fa fa-save"></i> | </a>
+                                    <a href="#" text-block="State-textBlock" edit-Block="State-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
 
 
-            </div>
-        </div>
-
-        <br />
 
 
 
+                        </div>
 
-        <div class="source">
-            <div class="row">
-                
-                <div class="col-md-4 col-sm-4 col-xs-6 inner-colm">
-                    <div class="user-inner">
-                        <span>Registered</span>
-                        <h2>@Html.DisplayFor(m => m.UpdatedOn)</h2>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="user-inner">
+                                <label>Country</label>
+                                <div class="displayBlock" id="Country-textBlock">
+                                    <h2 class="displayText">@(string.IsNullOrEmpty(Model.Country) ? "--" : Model.Country)</h2>
+                                    <a href="#" text-block="Country-textBlock" edit-Block="Country-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div class="editBlock" id="Country-editBlock" style="display:none">
+                                    <input type="text" value="@Model.Country" id="input_Country" class="" name="Country" />
+                                    <a href="#" text-block="Country-textBlock" edit-Block="Country-editBlock" control-id="input_Country" class="btn_savedata"><i class="fa fa-save"></i> | </a>
+                                    <a href="#" text-block="Country-textBlock" edit-Block="Country-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="user-inner">
+                                <label>PostalCode / Zipcode</label>
+                                <div class="displayBlock" id="PostalCode-textBlock">
+                                    <h2 class="displayText">@(string.IsNullOrEmpty(Model.PostalCode) ? "--" : Model.PostalCode)</h2>
+                                    <a href="#" text-block="PostalCode-textBlock" edit-Block="PostalCode-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div class="editBlock" id="PostalCode-editBlock" style="display:none">
+                                    <input type="text" value="@Model.PostalCode" id="input_PostalCode" class="" name="PostalCode" />
+                                    <a href="#" text-block="PostalCode-textBlock" edit-Block="PostalCode-editBlock" control-id="input_PostalCode" class="btn_savedata"><i class="fa fa-save"></i> | </a>
+                                    <a href="#" text-block="PostalCode-textBlock" edit-Block="PostalCode-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
                     </div>
-                </div>
-                
-                
 
-                <div class="col-md-4 col-sm-4 col-xs-6 inner-colm">
-                    <div class="user-inner" style="display:none">
-                        <span>Cancelled Date</span>
-                        <h2>@Html.DisplayFor(m => m.UpdatedOn)</h2>
+                    <div class="row">
+
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="user-inner">
+                                <label>Delivery Contact Number</label>
+                                <div class="displayBlock" id="State-textBlock">
+                                    <h2 class="displayText">@(string.IsNullOrEmpty(Model.Mobile) ? "--" : Model.Mobile)</h2>
+                                    <a href="#" text-block="Mobile-textBlock" edit-Block="Mobile-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div class="editBlock" id="Mobile-editBlock" style="display:none">
+                                    <input type="text" value="@Model.Mobile" id="input_Mobile" class="" name="Mobile" />
+                                    <a href="#" text-block="Mobile-textBlock" edit-Block="Mobile-editBlock" control-id="input_Mobile" class="btn_savedata"><i class="fa fa-save"></i> | </a>
+                                    <a href="#" text-block="Mobile-textBlock" edit-Block="Mobile-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="user-inner">
+                                <label>Delivery Instructions</label>
+                                <div class="displayBlock" id="Notes-textBlock">
+                                    <h2 class="displayText">@(string.IsNullOrEmpty(Model.Notes) ? "--" : Model.Notes)</h2>
+                                    <a href="#" text-block="Notes-textBlock" edit-Block="Notes-editBlock" class="editIcon"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div class="editBlock" id="Notes-editBlock" style="display:none">
+                                    <textarea id="input_Notes" class="input_Notes" name="Notes">@Model.Notes</textarea>
+                                    <a href="#" text-block="Notes-textBlock" edit-Block="Notes-editBlock" control-id="input_Notes" class="btn_savedata"><i class="fa fa-save"></i> | </a>
+                                    <a href="#" text-block="Notes-textBlock" edit-Block="Notes-editBlock" class="canceleditIcon"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        
                     </div>
+
+
                 </div>
-
-
             </div>
-        </div>
 
-        <div class="delete-user">
-            <div class="row">
-                <div class="col-2">
-                    <a href="#" class="delete btn_ShowDeleteConfrimModal">Delete profile Permanently</a>
-                </div>
-                <div class="col-2">
-                    <a href="#" class="delete btn_ShowRefundConfirmModal" style="background-color:blueviolet">Refund First Month Charge</a>
-                </div>
+            <br />
 
-                <div class="col-4">
-                    <a href="#" class="delete btn_ShowTwoWeekConfirmModal" style="background-color:blueviolet">Give 2 Week Free Service (Delay Next Billing by 14 days)</a>
-                </div>
 
-                <div class="col-2">
-                    <a href="#" class="delete btn_ShowOneWeekConfirmModal" style="background-color:blueviolet">Give 7 Day Free Service</a>
-                </div>
 
-                <div class="col-2">
-                    <a href="#" class="delete btn_ShowThreeDaysConfirmModal" style="background-color:blueviolet">Give 3 Day Free Service</a>
+
+            <div class="source">
+                <div class="row">
+
+                    <div class="col-md-4 col-sm-4 col-xs-6 inner-colm">
+                        <div class="user-inner">
+                            <span>Registered</span>
+                            <h2>@Html.DisplayFor(m => m.UpdatedOn)</h2>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-4 col-sm-4 col-xs-6 inner-colm">
+                        <div class="user-inner" style="display:none">
+                            <span>Cancelled Date</span>
+                            <h2>@Html.DisplayFor(m => m.UpdatedOn)</h2>
+                        </div>
+                    </div>
+
+
                 </div>
-               
+            </div>
+
+            <div class="delete-user">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-2">
+                        <a href="#" class="delete btn_ShowDeleteConfrimModal">Delete profile Permanently</a>
+                    </div>
+                    <div class="col-sm-12 col-lg-2">
+                        <a href="#" class="delete btn_ShowRefundConfirmModal" style="background-color:blueviolet">Refund First Month Charge</a>
+                    </div>
+
+                    <div class="col-sm-12 col-lg-4">
+                        <a href="#" class="delete btn_ShowTwoWeekConfirmModal" style="background-color:blueviolet">Give 2 Week Free Service (Delay Next Billing by 14 days)</a>
+                    </div>
+
+                    <div class="col-sm-12 col-lg-2">
+                        <a href="#" class="delete btn_ShowOneWeekConfirmModal" style="background-color:blueviolet">Give 7 Day Free Service</a>
+                    </div>
+
+                    <div class="col-sm-12 col-lg-2">
+                        <a href="#" class="delete btn_ShowThreeDaysConfirmModal" style="background-color:blueviolet">Give 3 Day Free Service</a>
+                    </div>
+
+                </div>
+            </div>
+            <h4 class="form-section mt-3"><i class="ft-user"></i>Device Push Notifications (Coming Soon)</h4>
+            <div class="delete-user">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-3">
+                        <a href="#" class="btn btn-block btn-primary btn-lg " style="width:100%">Alert</a>
+                    </div>
+
+
+                    <div class="col-sm-12 col-lg-3">
+                        <a href="#" class="btn btn-block btn-primary btn-lg " style="background-color:blueviolet;width:100%">Play Alarm</a>
+                    </div>
+
+                    <div class="col-sm-12 col-lg-3">
+                        <a href="#" class="btn btn-block btn-primary btn-lg " style="background-color:blueviolet;width:100%">Get latest Log</a>
+                    </div>
+
+                    <div class="col-sm-12 col-lg-3">
+                        <a href="#" class="btn btn-block btn-primary btn-lg " style="background-color:blueviolet;width:100%">Restart App</a>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div id="Modal_ConfirmDeletion" class="modal fade" data-backdrop="static" role="dialog">
-    <div class="modal-dialog">
+    <div id="Modal_ConfirmDeletion" class="modal fade" data-backdrop="static" role="dialog">
+        <div class="modal-dialog">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title text-left">Delete Profile Confirmation!</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-left">Delete Profile Confirmation!</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
 
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete the item.</p>
+                    <h3 style="color:red">This will delete all CRM records, Profiles and user data Permanently</h3>
+                    <input type="hidden" id="hdn_DeleteItemId" value="" />
+                    <input type="text" id="deleteConfirmation" placeholder="Type in 'Delete This Profile' to continue" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn_ConfirmDelete">Delete Permanently</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete the item.</p>
-                <h3 style="color:red">This will delete all CRM records, Profiles and user data Permanently</h3>
-                <input type="hidden" id="hdn_DeleteItemId" value="" />
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary btn_ConfirmDelete">Delete Permanently</button>
-            </div>
+
         </div>
-
     </div>
-</div>
 
-<div id="Modal_ConfirmRefund" class="modal fade" data-backdrop="static" role="dialog">
-    <div class="modal-dialog">
+    <div id="Modal_ConfirmRefund" class="modal fade" data-backdrop="static" role="dialog">
+        <div class="modal-dialog">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title text-left">Refund Confirmation!</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-left">Refund Confirmation!</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
 
+                </div>
+                <div class="modal-body" style="padding:15px 30px">
+                    @*<h3 style="color:red">Refund will be initiated </h3>*@
+                    <br />
+                    <br />
+                    <label>Please Enter Password to proceed for Refund</label>
+                    <input type="password" id="RefundPassword" value="" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn_ConfirmRefund">Confirm</button>
+                </div>
             </div>
-            <div class="modal-body" style="padding:15px 30px">
-                @*<h3 style="color:red">Refund will be initiated </h3>*@
-                <br />
-                <br />
-                <label>Please Enter Password to proceed for Refund</label>
-                <input type="password" id="RefundPassword" value="" />
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary btn_ConfirmRefund">Confirm</button>
-            </div>
+
         </div>
-
     </div>
-</div>
 
-<div id="Modal_ConfirmAddFreeDaysService" class="modal fade" data-backdrop="static" role="dialog">
-    <div class="modal-dialog">
+    <div id="Modal_ConfirmAddFreeDaysService" class="modal fade" data-backdrop="static" role="dialog">
+        <div class="modal-dialog">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title text-left">Add Free Days Confirmation!</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-left">Add Free Days Confirmation!</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
 
+                </div>
+                <div class="modal-body" style="padding:15px 30px">
+                    @*  <h3 style="color:red">Give 2 Week Free Service (Delay Next Billing by 14 days)</h3>*@
+                    <br /><br />
+                    <label>Please Enter Password to add Free Days </label>
+                    <input type="password" id="AddFreeDays_Password" value="" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn_AddFreeDaysService">Confirm</button>
+                </div>
             </div>
-            <div class="modal-body" style="padding:15px 30px">
-                @*  <h3 style="color:red">Give 2 Week Free Service (Delay Next Billing by 14 days)</h3>*@
-                <br /><br />
-                <label>Please Enter Password to add Free Days </label>
-                <input type="password" id="AddFreeDays_Password" value="" />
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary btn_AddFreeDaysService">Confirm</button>
-            </div>
+
         </div>
-
     </div>
-</div>
 
-<style type="text/css">
-    .editBlock input {
-        width: 90%;
-        display: inline;
-        margin: 10px 0;
-    }
-
-    .editBlock a {
-        color: white;
-        margin-top: 12px;
-        float: none
-    }
-
-    .user-inner a {
-        color: white;
-        margin-top: 12px;
-    }
-
-    .form-first .user-inner a {
-        color: #555;
-        margin-top: 12px;
-    }
-
-    .form-first .user-inner label {
-        color: #555;
-        font-size: 1.2rem;
-    }
-
-    .form-first .user-inner h2 {
-        color: #ff4a65;
-        font-size: 1.0rem
-    }
-
-    .form-first .user-inner {
-        padding: 5px;
-        margin: 10px 5px;
-    }
-
-        .form-first .user-inner label {
-            display: block;
-            border-bottom: 1px solid lightgray;
+    <style type="text/css">
+        .editBlock input {
+            width: 90%;
+            display: inline;
+            margin: 10px 0;
         }
 
-    .source .user-inner span {
-        border-bottom: 1px solid lightgray;
-        padding-bottom: 5px;
-        margin-bottom: 5px;
-    }
+        .editBlock a {
+            color: white;
+            margin-top: 12px;
+            float: none
+        }
 
-    .source .user-inner {
-        padding: 0 10px;
-    }
+        .user-inner a {
+            color: white;
+            margin-top: 12px;
+        }
 
-    .user-inner input, .user-inner select {
-        width: 88%
-    }
+        .form-first .user-inner a {
+            color: #555;
+            margin-top: 12px;
+        }
 
-    .source a {
-        color: #5c5c5c
-    }
+        .form-first .user-inner label {
+            color: #555;
+            font-size: 1.2rem;
+        }
 
-    .information-wrap span.right {
-        float: none
-    }
+        .form-first .user-inner h2 {
+            color: black;
+            font-size: 0.85rem;
+        }
 
-    .information-wrap h3 {
-        font-size: 22pt;
-        color: crimson;
-    }
+        .form-first .user-inner {
+            padding: 5px;
+            margin: 10px 5px;
+        }
 
-    .delete-user a {
-        padding: 10px;
-        font-size: 11pt;
-        font-weight: 500;
-        width: auto;
-    }
-</style>
+            .form-first .user-inner label {
+                display: block;
+                border-bottom: 1px solid lightgray;
+            }
+
+        .source .user-inner span {
+            border-bottom: 1px solid lightgray;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+        }
+
+        .source .user-inner {
+            padding: 0 10px;
+        }
+
+        .user-inner input, .user-inner select {
+            width: 85%
+        }
+
+        .source a {
+            color: #5c5c5c
+        }
+
+        .information-wrap span.right {
+            float: none
+        }
+
+        .information-wrap h3 {
+            font-size: 20pt;
+            color: black;
+        }
+
+        .delete-user a {
+            padding: 10px;
+            font-size: 11pt;
+            font-weight: 500;
+            width: auto;
+        }
+    </style>
 
 
-@section Scripts{
+    @section Scripts{
 
-    <script src="~/content/app-assets/vendors/js/pickers/dateTime/bootstrap-datetimepicker.min.js"></script>
-    <script type="text/javascript">
+
+        <script src="~/content/app-assets/vendors/js/pickers/dateTime/bootstrap-datetimepicker.min.js"></script>
+        <script type="text/javascript">
 
         var glb_CustomerId = "@Url.Encode(CryptoEngine.Encrypt(Model.Id))";
         var glb_SocialProfileId = "@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))";
@@ -480,6 +696,8 @@
 
         $(document).ready(function () {
 
+
+            $('#pincode').pincodeInput({ hidedigits: false, inputs: 6 });
 
             $(".editIcon").on("click", function (e) {
                 e.preventDefault();
@@ -588,142 +806,7 @@
 
             }
 
-            $('#AssignIpToPro').click(function (e) {
-                e.preventDefault(); // <------------------ stop default behaviour of button
-                var element = this;
-                $.ajax({
-                    url: GLB_BASEURL +"/CRM/AssignNearestIPToProfile",
-                    type: "POST",
-                    data: { customerId: glb_CustomerId, profileId: glb_SocialProfileId},
-                    dataType: "json",
-                    success: function (Data) {
-                        if (Data.ResultType == "Success") {
-                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
-                            $("#Modal_MessageBoxBody").text(Data.Data.message);
-                            $("#Modal_Messagebox").modal("show");
-
-                            //$(".JVboxName").text(Data.Data.User);
-                        } else {
-                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
-                            $("#Modal_MessageBoxBody").text(Data.Data.message);
-                            $("#Modal_Messagebox").modal("show");
-                        }
-                    },
-                    error: function () {
-                        alert("An error has occured!!!");
-                    }
-                });
-            });
-
-            $('#AssignJVTOProfile').click(function (e) {
-                e.preventDefault(); // <------------------ stop default behaviour of button
-                var element = this;
-                $.ajax({
-                    url: GLB_BASEURL + "/CRM/AssignJVBoxToCustomer",
-                    type: "POST",
-                    data: { customerId: glb_CustomerId, profileId: glb_SocialProfileId },
-                    dataType: "json",
-                    success: function (Data) {
-                        if (Data.ResultType == "Success") {
-                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
-                            $("#Modal_MessageBoxBody").text(Data.Data.message);
-                            $("#Modal_Messagebox").modal("show");
-
-                            $(".JVboxName").text(Data.Data.User);
-                        } else {
-                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
-                            $("#Modal_MessageBoxBody").text(Data.Data.message);
-                            $("#Modal_Messagebox").modal("show");
-                        }
-                    },
-                    error: function () {
-                        alert("An error has occured!!!");
-                    }
-                });
-            });
-
-            $('#btnSchedCall').click(function (e){
-                e.preventDefault();
-                var Schedule = $("#datetimepicker1").data("DateTimePicker").date().format("m/d/YYYY hh:mm A");
-                var Notes = $("#TypeNotes").val();
-                if ((Schedule == null) || (Schedule == ''))
-                 {
-                    alert("Please provide the date of Schedule call");
-                    return
-
-                 }
-                //alert($("#datetimepicker1").find("input").val());
-                //alert($("#TypeNotes").val());
-
-                $.ajax({
-                    url: GLB_BASEURL +"/CRM/ScheduleCall",
-                    type: "POST",
-                    data: { customerId: glb_CustomerId, schedule: Schedule, notes:Notes },
-                    dataType: "json",
-                    success: function (Data) {
-                        if (Data.ResultType == "Success") {
-                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
-                            $("#Modal_MessageBoxBody").text(Data.Data.message);
-                            $("#Modal_Messagebox").modal("show");
-                            $(element).closest("form").submit(); //<------------ submit form
-                        } else {
-                            $("#Modal_MessageBoxTitle").text(Data.Data.ResultType);
-                            $("#Modal_MessageBoxBody").text(Data.Data.message);
-                            $("#Modal_Messagebox").modal("show");
-                        }
-                    },
-                    error: function () {
-                        alert("An error has occured!!!");
-                    }
-                });
-
-            });
-
-            $("#input_Country").on("change", function () {
-                GetCity($(this).val())
-            });
-
-            $("#input_ResTeamMember").on("change", function () {
-                var selVal = $(this).val();
-                var username = "";
-                var userRole = "";
-                $.each(glb_user, function (index, res) {
-                    if (res.UserId == selVal) {
-                        username = res.UserName;
-                        userRole = res.RoleName;
-                    }
-                });
-
-                $("#RoleName-textBlock h2").text(userRole)
-            })
-
-            function GetCity(_countryId) {
-                var url = GLB_BASEURL +"/LikeAccts/GetCityByCountryId";
-                $("#input_City").html("");
-                $.ajax({
-                    url: url,
-                    data: { countryId: _countryId },
-                    type: "GET",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        $('#input_City').append($("<option>-- Select City --</option>"));
-                        $.each(data, function (i, e) {
-
-                            $('#input_City').append($("<option></option>").val(e.CityId).html(e.Name));
-                        });
-                    },
-                    error: function (reponse) {
-                        alert("error : " + reponse);
-                    }
-                });
-            }
-
-            $(document).on('click', '#backLink', function () {
-                history.go(-1);
-            });
-
-            $(function () {
+           $(function () {
                // $('#datetimepicker1').data("DateTimePicker").datetimepicker();
                 $('#datetimepicker1').datetimepicker();
 
@@ -742,6 +825,7 @@
                 e.stopPropagation();
                 e.preventDefault();
                 $("#Modal_ConfirmRefund").modal("show");
+
             })
 
 
@@ -772,6 +856,12 @@
 
             $(".btn_ConfirmDelete").on("click", function () {
 
+                if ($("#deleteConfirmation").val() != "Delete This Profile") {
+                    var options = {};
+                    $("#deleteConfirmation").effect("bounce", options, 500, null);
+                    return false;
+                }
+
                 $.ajax({
 
                     url: GLB_BASEURL + "/CRM/DeleteCustomerProfile",
@@ -788,8 +878,10 @@
                             $("#Modal_Messagebox").modal("show");
                             //TODO:Handle the status here
 
+                            setTimeout(function () {
+                                 window.location.href = GLB_BASEURL+"/CRM/Index"
+                            }, 1000);
 
-                            window.location.href = GLB_BASEURL+"/CRM/Index"
 
                         } else {
                             $("#Modal_ConfirmDeletion").modal("hide");
@@ -889,8 +981,9 @@
             });
         });
 
-    </script>
-}
+        </script>
+        <script src="~/Content/app-assets/js/scripts/bootstrap-pincode-input.js"></script>
+    }
 
 
 

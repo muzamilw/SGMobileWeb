@@ -44,7 +44,7 @@ namespace SG2.CORE.WEB.Controllers
 
         }
 
-        public ActionResult Home()
+        public ActionResult Home(string refresh = "")
         {
             ProfilesSearchRequest model = new ProfilesSearchRequest { Block = 99, Plan = 0, searchString= "", SocialType = 0 };
             ViewBag.CurrentUser = this.CDT;
@@ -53,6 +53,8 @@ namespace SG2.CORE.WEB.Controllers
             if (Cust.IsBroker.HasValue && Cust.IsBroker.Value)
             {
                 ViewBag.PaymentHistory = _customerManager.GetCustomerBrokerPaymentHistory(Cust.CustomerId);
+
+                Cust.BrokerLogo = "/AgencyLogos/" + Cust.BrokerLogo;
             }
             ViewBag.SocailProfiles = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId,model);
 
@@ -159,10 +161,18 @@ namespace SG2.CORE.WEB.Controllers
                 FirstName = user.FirstName,
                 SurName = user.SurName,
                 EmailAddress = user.EmailAddress,
-               
-                PhoneNumber = "+"+user.PhoneCode + user.PhoneNumber,
+
+                PhoneNumber = "+" + user.PhoneCode + user.PhoneNumber,
                 UserName = user.UserName,
-                Countries = CommonManager.GetCountries()
+                Countries = CommonManager.GetCountries(),
+                AddressLine1 = user.AddressLine1,
+                AddressLine2 = user.AddressLine2,
+                City = user.City,
+                State = user.State,
+                Country = user.Country,
+                PostCode = user.PostCode,
+                Notes = user.Notes
+
             };
 
             var model = new CustomerProfileViewModel();
@@ -182,9 +192,9 @@ namespace SG2.CORE.WEB.Controllers
             try
             {
 
-                KlaviyoAPI klaviyoAPI = new KlaviyoAPI();
-                KlaviyoProfile klaviyoProfile = new KlaviyoProfile();
-                KlaviyoEvent ev = new KlaviyoEvent();
+                //KlaviyoAPI klaviyoAPI = new KlaviyoAPI();
+                //KlaviyoProfile klaviyoProfile = new KlaviyoProfile();
+                //KlaviyoEvent ev = new KlaviyoEvent();
 
                 SG2.CORE.MODAL.Customer customer = _customerManager.GetCustomerByCustomerId(customerId);
 
@@ -203,9 +213,17 @@ namespace SG2.CORE.WEB.Controllers
                         {
                             StripeConfiguration.SetApiKey(_stripeApiKey);
                             var service = new SubscriptionService();
-                            var sub = service.Get(customer.StripeSubscriptionId);
+                            try
+                            {
+                                var sub = service.Get(customer.StripeSubscriptionId);
 
-                            var subscription = service.Cancel(sub.Id, null);
+                                var subscription = service.Cancel(sub.Id, null);
+
+                            }
+                            catch (Exception)
+                            {
+
+                            }
 
                             //cancelling all social profile stripe subscriptions
                             var profiles = _customerManager.GetSocialProfilesByCustomerid(customer.CustomerId, new ProfilesSearchRequest { Block = 99, Plan = 0, searchString = "", SocialType = 0 });
@@ -214,8 +232,16 @@ namespace SG2.CORE.WEB.Controllers
                                 var dbprofile = _customerManager.GetSocialProfileById(profile.SocialProfileId);
                                 if (dbprofile.SocialProfile.StripeSubscriptionId != null)
                                 {
-                                    var subs = service.Get(dbprofile.SocialProfile.StripeSubscriptionId);
-                                    service.Cancel(subs.Id, null);
+                                    try
+                                    {
+                                        var subs = service.Get(dbprofile.SocialProfile.StripeSubscriptionId);
+                                        service.Cancel(subs.Id, null);
+                                    }
+                                    catch (Exception)
+                                    {
+
+
+                                    }
                                 }
                             }
 
@@ -244,25 +270,26 @@ namespace SG2.CORE.WEB.Controllers
                                 _notManager.AddNotification(nt);
 
 
-                                List<NotRequiredProperty> list = new List<NotRequiredProperty>()
-                        {
-                            new NotRequiredProperty("$email", this.CDT.EmailAddress),
-                            new NotRequiredProperty("$first_name ", this.CDT.FirstName),
-                            new NotRequiredProperty("$last_name ", this.CDT.SurName)
-                        };
-                                ev.Event = "Afilliate Cancelled";
-                                ev.Properties.NotRequiredProperties = list;
-                                ev.CustomerProperties.Email = CDT.EmailAddress;
-                                ev.CustomerProperties.FirstName = CDT.FirstName;
-                                ev.CustomerProperties.LastName = CDT.EmailAddress;
+                        //        List<NotRequiredProperty> list = new List<NotRequiredProperty>()
+                        //{
+                        //    new NotRequiredProperty("$email", this.CDT.EmailAddress),
+                        //    new NotRequiredProperty("$first_name ", this.CDT.FirstName),
+                        //    new NotRequiredProperty("$last_name ", this.CDT.SurName),
+                        //    new NotRequiredProperty("PlanName", "A LICENSE"),
+                        //};
+                        //        ev.Event = "Afilliate Cancelled";
+                        //        ev.Properties.NotRequiredProperties = list;
+                        //        ev.CustomerProperties.Email = CDT.EmailAddress;
+                        //        ev.CustomerProperties.FirstName = CDT.FirstName;
+                        //        ev.CustomerProperties.LastName = CDT.EmailAddress;
 
-                                var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
-                                var _klavio_UnsubscribeList = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_UnsubscribeList").ToLower()).ConfigValue;
-                                var _klavio_PayingSubscribeList = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_PayingSubscribeList").ToLower()).ConfigValue;
+                        //        var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
+                        //        var Klavio_FreeCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_FreeCustomers").ToLower()).ConfigValue;
+                        //        var Klavio_PayingCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_PayingCustomers").ToLower()).ConfigValue;
 
-                                klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
-                                klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_PayingSubscribeList);
-                                var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_UnsubscribeList);
+                        //        klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
+                        //        klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_PayingCustomers);
+                        //        var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_FreeCustomers);
                             });
 
                             jr.Data = new { ResultType = "Success", message = "User has successfully Unsubscribe." };
@@ -284,7 +311,7 @@ namespace SG2.CORE.WEB.Controllers
                 }
 
                            
-                if (_customerManager.UpdateCustomerStripeCustomer(customer.CustomerId,customer.StripeCustomerId, null,0))
+                if (_customerManager.UpdateCustomerStripeCustomer(customer.CustomerId,null, null,0))
                 {
 
                     //--TODO: Update Klaviyo Web API Key
@@ -332,13 +359,31 @@ namespace SG2.CORE.WEB.Controllers
                         SurName = model.SurName,
                         UserName = model.UserName,
                         PhoneNumber = model.PhoneNumber,
-                        PhoneCode = model.PhoneCode
+                        PhoneCode = model.PhoneCode,
+                        AddressLine1 = model.AddressLine1,
+                        AddressLine2 = model.AddressLine2,
+                        City = model.City,
+                        State = model.State,
+                        Country = model.Country,
+                        PostCode = model.PostCode,
+                        Notes = model.Notes
                     });
                     this.CDT.UserName = model.UserName;
                     this.CDT.FirstName = model.FirstName;
                     this.CDT.SurName = model.SurName;
                     this.CDT.PhoneCode = model.PhoneCode;
                     this.CDT.PhoneNumber = model.PhoneNumber;
+
+                    this.CDT.AddressLine2 = model.AddressLine2;
+                    this.CDT.AddressLine1 = model.AddressLine1;
+                    this.CDT.City = model.City;
+                    this.CDT.State = model.State;
+                    this.CDT.Country = model.Country;
+                    this.CDT.PostCode = model.PostCode;
+                    this.CDT.Notes = model.Notes;
+
+
+
                     _sessionManager.Set(SessionConstants.Customer, this.CDT);
                     jr.Data = new { ResultType = "Success", message = "Profile updated successfully." };
                 }
@@ -429,8 +474,8 @@ namespace SG2.CORE.WEB.Controllers
                         //}
                         Subscription subscriptionItemUpdate = subscriptionService.Get(customer.StripeSubscriptionId);
 
-                        var items = new List<SubscriptionItemUpdateOption> {
-                                        new SubscriptionItemUpdateOption {
+                        var items = new List<SubscriptionItemOptions> {
+                                        new SubscriptionItemOptions {
                                         Id= subscriptionItemUpdate.Items.Data[0].Id,
                                         Plan = newPlan.StripePlanId,
                                         Quantity= 1,
@@ -451,8 +496,8 @@ namespace SG2.CORE.WEB.Controllers
                     }
                     else
                     {
-                        var stripeItems = new List<SubscriptionItemOption> {
-                                      new SubscriptionItemOption {
+                        var stripeItems = new List<SubscriptionItemOptions> {
+                                      new SubscriptionItemOptions {
                                         Plan = newPlan.StripePlanId,
                                         Quantity= 1
                                       }
@@ -491,8 +536,8 @@ namespace SG2.CORE.WEB.Controllers
 
 
 
-                    var stripeItems = new List<SubscriptionItemOption> {
-                      new SubscriptionItemOption {
+                    var stripeItems = new List<SubscriptionItemOptions> {
+                      new SubscriptionItemOptions {
                         Plan = newPlan.StripePlanId,
                         Quantity= 1
                       }
@@ -563,28 +608,53 @@ namespace SG2.CORE.WEB.Controllers
 
 
                     //--TODO: Update Klaviyo Web API Key
-                    var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
-                    var _klavio_PayingSubscribeList = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_PayingSubscribeList").ToLower()).ConfigValue;
-                    var _klavio_NonPayingSubscribeList = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_NonPayingSubscribeList").ToLower()).ConfigValue;
-                    klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_NonPayingSubscribeList);
-
-                    List<NotRequiredProperty> list = new List<NotRequiredProperty>()  {
-                        new NotRequiredProperty("$email", this.CDT.EmailAddress),
-                        new NotRequiredProperty("$first_name ", this.CDT.FirstName),
-                        new NotRequiredProperty("$last_name ", this.CDT.SurName),
-                        //new NotRequiredProperty("URL", URL),
-                        new NotRequiredProperty("InvoiceDate",paymentRec.StartDate.ToString("dd MMMM yyyy") ),
-                        new NotRequiredProperty("PlanName", paymentRec.Name),
-                        new NotRequiredProperty("Price",  "$" + paymentRec.Price/100),
-                        new NotRequiredProperty("Card", ""),
-                        new NotRequiredProperty("Address","")
-                    };
-                    klaviyoProfile.email = this.CDT.EmailAddress;
+                    //var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
+                    //var Klavio_FreeCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_FreeCustomers").ToLower()).ConfigValue;
+                    //var Klavio_PayingCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_PayingCustomers").ToLower()).ConfigValue;
 
 
+                    ////klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_NonPayingSubscribeList);
 
-                    klaviyoAPI.PeopleAPI(list, _klaviyoPublishKey);
-                    var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_PayingSubscribeList);
+                    //List<NotRequiredProperty> list = new List<NotRequiredProperty>()  {
+                    //    new NotRequiredProperty("$email", this.CDT.EmailAddress),
+                    //    new NotRequiredProperty("$first_name ", this.CDT.FirstName),
+                    //    new NotRequiredProperty("$last_name ", this.CDT.SurName),
+                    //    //new NotRequiredProperty("URL", URL),
+                    //    new NotRequiredProperty("InvoiceDate",paymentRec.StartDate.ToString("dd MMMM yyyy") ),
+                    //    new NotRequiredProperty("PlanName", paymentRec.Name),
+                    //    new NotRequiredProperty("Price",  "$" + paymentRec.Price/100),
+                    //    new NotRequiredProperty("Card", ""),
+                    //    new NotRequiredProperty("Address","")
+                    //};
+                    //klaviyoProfile.email = this.CDT.EmailAddress;
+
+
+
+                    //klaviyoAPI.PeopleAPI(list, _klaviyoPublishKey);
+                    //klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_FreeCustomers);
+                    //var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_PayingCustomers);
+
+                    //KlaviyoEvent ev = new KlaviyoEvent();
+                    //ev.Event = "Afilliate Subscribed";
+                    //ev.Properties.NotRequiredProperties = list;
+                    //ev.CustomerProperties.Email = this.CDT.EmailAddress;
+                    //ev.CustomerProperties.FirstName = this.CDT.FirstName;
+                    //ev.CustomerProperties.LastName = this.CDT.SurName;
+
+                    //klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
+
+                    var dynamicTemplateData = new Dictionary<string, string>
+                        {
+                            {"name",this.CDT.FirstName},
+                            {"email", this.CDT.EmailAddress},
+                            {"senddate", DateTime.Today.ToLongDateString()},
+                            {"invoicedate", paymentRec.StartDate.ToString("dd MMMM yyyy")},
+                            {"planname", paymentRec.Name},
+                             {"price", "$" + paymentRec.Price},
+                              {"total", "$" + paymentRec.Price}
+
+                        };
+                    BAL.Managers.EmailManager.SendEmail(this.CDT.EmailAddress, this.CDT.FirstName, EmailManager.EmailType.PlanUpgrade, dynamicTemplateData);
 
 
                     return this.Content(stripeSubscription.ToJson(), "application/json");
@@ -1106,15 +1176,15 @@ namespace SG2.CORE.WEB.Controllers
 
             return Json(jr, JsonRequestBehavior.AllowGet);
         }
-       
+
         //public ActionResult GetFollowersStatistics()
         //{
         //    var jr = new JsonResult();
         //    try
         //    {
-                
+
         //        StatisticsViewModel statisticsViewModel = _statisticsManager.GetStatistics(8, DateTime.Now.AddDays(-15), DateTime.Now.AddDays(+5));
-                
+
         //        if (statisticsViewModel.StatisticsListing !=  null)
         //        {
         //            jr.Data = new { ResultType = "Success", message = "",
@@ -1153,9 +1223,33 @@ namespace SG2.CORE.WEB.Controllers
         //    {
         //        throw exp;
         //    }
-            
+
         //    return Json(jr, JsonRequestBehavior.AllowGet);
         //}
+
+
+        public ActionResult AgencyInstagramTarget(int? success)
+        {
+
+            var SocailProfile = this._customerManager.GetSocialProfileTargetByBrokerCustomerId(this.CDT.CustomerId);
+           
+            if (success.HasValue && success.Value == 1)
+            {
+                ViewBag.success = 1;
+            }
+
+
+            return View(SocailProfile);
+
+        }
+
+        [HttpPost]
+        public ActionResult AgencyInstagramTarget(SocialProfileDTO request)
+        {
+
+            this._customerManager.UpdateTargetProfile(request);
+            return RedirectToAction("AgencyInstagramTarget", "user", new { success = 1 });
+        }
 
     }
 }

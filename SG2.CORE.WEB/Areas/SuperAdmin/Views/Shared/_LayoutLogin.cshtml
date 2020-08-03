@@ -28,6 +28,19 @@
             margin-bottom:0;
             float:none;
         }
+        footer.footer-light {
+    background: #FFFFFF;
+}
+footer.navbar-shadow {
+    -webkit-box-shadow: 0px -1px 4px 0px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px -1px 4px 0px rgba(0, 0, 0, 0.15);
+}
+footer.footer {
+    padding: 1.4rem;
+    bottom: 0px;
+    position:absolute;
+    width:100%;
+}
     </style>
 
 </head>
@@ -52,7 +65,14 @@
 
     @RenderBody()
 
-    <footer class="footer">
+    <!-- BEGIN: Footer-->
+<footer class="footer footer-static footer-light navbar-shadow position-absolute w-100">
+    <div class="footer-logo text-center">
+        <img src="~/Content/ThemeAssets/Images/social-growth-footer-logo.jpg" alt="">
+    </div>
+</footer>
+    <!-- END: Footer-->
+    @*<footer class="footer">
         <div class="container">
             <div class="row">
                 <div class="col-xs-12">
@@ -62,7 +82,7 @@
                 </div>
             </div>
         </div>
-    </footer>
+    </footer>*@
 
     <script src="~/Content/ThemeAssets/js/jquery.min.js"></script>
     <script src="~/Content/ThemeAssets/js/bootstrap.min.js"></script>

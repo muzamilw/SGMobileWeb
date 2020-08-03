@@ -1,90 +1,61 @@
-﻿@model SG2.CORE.MODAL.ViewModals.Customers.CustomerSignUpViewModel
-@{
+﻿@{
     ViewBag.Title = "Registration";
-    Layout = "~/Views/Shared/_Layout_LoggedIn.cshtml";
+    Layout = "~/Views/Shared/_Layout_LoggedInNewSP.cshtml";
 }
 
-<div class="main">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <h2>Sign Up.</h2>
-            </div>
-        </div>
-    </div>
+<div class="breadcrumb--area bg-img bg-overlay jarallax" style="background-image: url('/Content/img/bg-img/12.jpg'); height:95px;">
+
 </div>
-
-<div class="information-form">
+<!-- Register Area-->
+<div class="register-area pt-5 pb-5">
     <div class="container">
-        <div class="information-form-inner">
-            <div class="row">
-                <div class="col-xs-12">
-                    @using (Html.BeginForm("Signup", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <h4>Create a new account.</h4>
-                        <hr />
+        <div class="row align-items-center justify-content-between">
 
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
-                            <div class="col-md-5">
-                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.SurName, new { @class = "col-md-2 control-label" })
-                            <div class="col-md-5">
-                                @Html.TextBoxFor(m => m.SurName, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.SurName, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
+            <div class="col-12 col-lg-7">
+                <div class="card register-card bg-gray p-1 p-sm-4 mb-50">
+                    <div class="card-body">
+                        <h4>Create your free account</h4>
+                        <p>Already have an account?<a class="ml-2" href="/Account/Login">Log In</a></p>
+                        <!-- Register Form-->
+                        <div class="register-form my-5">
+                            @using (Html.BeginForm("", "", FormMethod.Get, new { id = "Form_Signup" }))
+                            {
+                                <div class="form-group">
+                                    <input class="form-control rounded-0" type="text" name="FirstName" value="" placeholder="First Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control rounded-0" type="text" name="EmailAddress" value="" id="SignEmailAddress" placeholder="Email" required required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="label-psswd" for="registerPassword"><span class="hide">HIDE</span><span class="show">SHOW</span></label>
+                                    <input class="input-psswd form-control rounded-0" name="Password" id="SignupPassword" type="password" placeholder="Enter password for your SPPro account (not your instagram account)" psswd-shown="false" required>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control rounded-0" type="password" name="Re_Password" value="" placeholder="Confirm Password" required>
+                                </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.EmailAddress, new { @class = "col-md-2 control-label" })
-                            <div class="col-md-5">
-                                @Html.TextBoxFor(m => m.EmailAddress, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
+                                <div class="form-group">
+                                    <label class="error" id="signup-error"></label>
+                                </div>
+                            }
 
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                            <div class="col-md-5">
-                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                            </div>
+                            <button class="btn radix-btn white-btn w-100 btn_formSignup" type="button">Register Now  &nbsp; <span id="SignUpSpinner" style="display:none"><i class="fa fa-spinner fa-spin"></i></span></button>
+
                         </div>
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.Re_Password, new { @class = "col-md-2 control-label" })
-                            <div class="col-md-5">
-                                @Html.PasswordFor(m => m.Re_Password, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.Re_Password, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-2">&nbsp;</label>
-                            <div class="col-md-1">
-                                <input type="submit" class="btn btn-block btn-default" value="Create" />
-                            </div>
-                        </div>
-                    }
+                    </div>
+                </div>
+            </div>
+
+            <div class="float-right col-12 col-lg-5">
+                <div class="register-thumbnail mb-50">
+                    <img src="~/SPProengine/files/Growth_Tools_Text.png" />
                 </div>
             </div>
         </div>
     </div>
 </div>
+<div class="container">
+    <div class="border-top"></div>
+</div>
 
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
-
-<style>
-    .information-form-inner input[type=submit] {
-        text-align: left;
-        margin: 0;
-    }
-
-</style>
 

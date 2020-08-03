@@ -53,12 +53,106 @@
                 </div>
 
             </div>
+            <div class="row">
+
+                <div class="col-md-12 col-sm-12 reportsDiv">
+                    <h3> Most Popular Product</h3>
+                    <br />
+                    <div id="MostPopularProductPiChart" style="width:100%; height:400px; align-content:center;"></div>
+                </div>
+            </div>
+            <div class="row  reportsDiv">
+                <div class="col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">New Sign Ups counts</h4>
+
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+
+                                <div id="profileSignUpsActions" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Cancellations counts</h4>
+
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+
+                                <div id="profileCancelationActions" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Upgrade counts</h4>
+
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+
+                                <div id="profilePaidPlansActions" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Soft Blocks</h4>
+                           
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+
+                                <div id="softBlocksActionsRpt" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Hard Blocks</h4>
+
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+
+                                <div id="hardBlocksActionsRpt" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Password Compromises</h4>
+
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+
+                                <div id="passwordBlockActionsRpt" class="height-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Notifications</h3>
+                            <h3 class="panel-title">Payment Log</h3>
 
                             <span class="pull-right clickable panel-collapsed">
                                 <i class="glyphicon glyphicon-chevron-down"></i>
@@ -76,7 +170,7 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">Date</th>
-                                      
+
                                         <th scope="col">Notification</th>
                                         <th scope="col">Social Username</th>
                                         <th scope="col">Status</th>
@@ -95,7 +189,7 @@
             <table class="hidden mgr_innerHTML">
                 <tr>
                     <td>{{Date}}</td>
-                   
+
                     <td>{{Notification}}</td>
                     <td>{{SocialUserName}}</td>
                     <td>{{Status}}</td>
@@ -109,20 +203,7 @@
 
             <hr />
 
-            <div class="row">
-                <div class="col-sm-12">
-                    <h1>Reports</h1>
-                    <hr />
-                </div>
-                <div class="col-md-6 col-sm-12 reportsDiv">
-                    <h1> Most Popular Product </h1>
-                    <br />
-                    <div id="MostPopularProductPiChart" style="width:100%; height:400px; align-content:center;"></div>
-                </div>
 
-
-
-            </div>
 
         </div>
     </div>
@@ -317,10 +398,13 @@
 
                     if (!$.isEmptyObject(Response)) {
                         if (Response.Data.ResultType == "Success") {
-
+                            
                             //LoadJVServersPiChart(Response.Data.ResultData);
 
                             LoadTMostPopularProductPiChartPiChart(Response.Data.ResultData);
+
+                            LoadAccountTrends(Response.Data.EventsData);
+                            LoadActions(Response.Data.ActionsData);
                             //LoadTotalUsedIPsPiChart(Response.Data.ResultData);
                         } else {
 
@@ -360,7 +444,7 @@
                 },
                 series: [
                     {
-                        name: 'MP Box',
+                        name: 'Plans',
                         type: 'pie',
                         radius: '45%',
                         center: ['50%', '60%'],
@@ -386,7 +470,7 @@
             }
         }
 
-        function LoadTMostPopularProductPiChartPiChart(ChartsData) {
+        function LoadTMostPopularProductPiChartPiChartx(ChartsData) {
 
 
             ;
@@ -597,6 +681,106 @@
                 myChart.setOption(option, true);
             }
         }
+
+        function LoadAccountTrends(ChartsData) {
+
+            var morrisData = [];
+
+            for (i = 0; i < ChartsData.length; i++) {
+                morrisData.push({eDate: ChartsData[i].eDate, 'signups': ChartsData[i].Signups, 'downgrades': ChartsData[i].Downgrades, 'upgrades': ChartsData[i].Upgrades});
+            }
+              
+            var elemSignUp = document.getElementById('profileSignUpsActions');
+            var elemCancellations = document.getElementById('profileCancelationActions');
+            var elemPaidPlans = document.getElementById('profilePaidPlansActions');
+            $(elemSignUp).empty();
+            $(elemCancellations).empty();
+            $(elemPaidPlans).empty();
+            Morris.Line({
+              element: elemSignUp,
+              data: morrisData,
+              xkey: 'eDate',
+              ykeys: ['signups'],
+              labels: ['signups']
+            });
+            Morris.Line({
+              element: elemCancellations,
+              data: morrisData,
+              xkey: 'eDate',
+              ykeys: ['downgrades'],
+              labels: ['downgrades']
+            });
+            Morris.Line({
+              element: elemPaidPlans,
+              data: morrisData,
+              xkey: 'eDate',
+              ykeys: ['upgrades'],
+              labels: ['upgrades']
+            });
+        }
+
+        function LoadActions(ChartsData) {
+            var morrisData = [];
+            for (i = 0; i < ChartsData.length; i++) {
+                ChartsData[i].ActionDate = ChartsData[i].ActionDate.parseNETDate();
+            }
+            var dateArray = [...new Set(ChartsData.map(s => s.ActionDate))];  
+            
+            for (i = 0; i < dateArray.length; i++) {
+                morrisData.push({
+                    eDate: dateArray[i],
+                    //'Block 4': ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Block 4') ? ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Block 4').Total : 0,
+                    //'Block 5': ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Block 5') ? ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Block 5').Total: 0,
+                    'Action Block': ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Action Block') ? ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Action Block').Total : 0,
+                    'Hard Blocked': ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Hard Blocked') ? ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Hard Blocked').Total : 0,                   
+                    'Password Block': ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Password Block') ? ChartsData.find(b => b.ActionDate == dateArray[i] && b.Name == 'Password Block').Total : 0
+                });
+            }
+
+            var elemSBlocks = document.getElementById('softBlocksActionsRpt');
+            var elemHBlocks = document.getElementById('hardBlocksActionsRpt');
+            var elemPBlocks = document.getElementById('passwordBlockActionsRpt');
+            $(elemSBlocks).empty();
+            $(elemHBlocks).empty();
+            $(elemPBlocks).empty();
+              Morris.Line({
+              element: elemSBlocks,
+              data: morrisData,
+              xkey: 'eDate',
+              ykeys: ['Action Block'],  //'Block 4', 'Block 5', 
+              labels: ['action block']  //'block 4', 'block 5', 
+              });
+              Morris.Line({
+              element: elemHBlocks,
+              data: morrisData,
+              xkey: 'eDate',
+              ykeys: ['Hard Blocked'],  //'Block 4', 'Block 5', 
+              labels: ['hard blocked']  //'block 4', 'block 5', 
+              });
+              Morris.Line({
+              element: elemPBlocks,
+              data: morrisData,
+              xkey: 'eDate',
+              ykeys: ['Password Block'],  //'Block 4', 'Block 5', 
+              labels: ['password block']  //'block 4', 'block 5', 
+            });
+         
+        }
+        if (!String.prototype.parseNETDate) {
+                String.prototype.parseNETDate = function () {
+                    if (this.indexOf('-') == -1) {
+                        var d = new Date(parseInt(this.slice(6, 19)));
+                        const delimiter = '-';
+                        return [d.getFullYear(), d.getMonth() + 1, d.getDate()].join(delimiter);
+                    } else {
+                        var d2 = new Date(parseInt(this.slice(6, 20)));
+                        const delimiter = '-';
+                        return [d.getFullYear(), d.getMonth() + 1, d.getDate()].join(delimiter);
+                    }
+                };
+        }
+
+
     </script>
 }
 
@@ -639,5 +823,9 @@
         padding: 15px;
         height: 360px;
         overflow-y: scroll;
+    }
+
+    .main {
+        padding-top: 46px;
     }
 </style>

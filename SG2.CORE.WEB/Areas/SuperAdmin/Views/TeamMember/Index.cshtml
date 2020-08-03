@@ -40,38 +40,26 @@
             @using (Html.BeginForm("Index", "TeamMember", FormMethod.Get, new { @id = "Form_SearchCriteria" }))
             {
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-lg-3 col-md-3 col-xs-12 mb-2">
                         <div class="search-wrap">
                             @*<input type="search" placeholder="Search here">*@
                             @Html.TextBoxFor(model => model.SearchCriteria, htmlAttributes: new { @placeholder = "Search here", @type = "search" })
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col-lg-3 col-md-3 col-xs-12 mb-2">
                         <div class="product">
                             <label>Status</label>
                             <div class="select">
-                                @Html.DropDownListFor(model => model.StatusId, appStatus, "Select All(Status)", new { @class = "slct" })
+                                @Html.DropDownListFor(model => model.StatusId, appStatus, "Select All(Status)", new { @class = "slct", @onchange = "this.form.submit();" })
                             </div>
                         </div>
                     </div>
-                    <div class="col-3">
-                        <div class="product">
-                            <label>&nbsp;</label>
-                            <div class="select">
-                                <button type="submit" class="btn searchBtn" value="SearchCriteria">
-                                    <i class="fa fa-search"></i> Search
-                                </button>
-                                <a href="@BaseURl/teammember" id="" class="btn searchBtn btn-height47">
-                                    <i class="fa icon-cross-filter"></i> Reset
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3">
+                    
+                    <div class="col-lg-6 col-md-6 col-xs-12">
                         <div class="product right">
                             <label>&nbsp;</label>
                             <div class="select">
-                                <a href="@BaseURl/teammember/add" class="btn  btn-primary" style="padding-top:12px; height:47px;"><i class="fa fa-plus"></i> New Member</a>
+                                <a href="@BaseURl/teammember/add" class="btn  btn-primary" style="padding-top:12px; height:37px;"><i class="fa fa-plus"></i> New Member</a>
                             </div>
                         </div>
                     </div>
@@ -86,8 +74,8 @@
     <div class="container">
         <div class="product-list-inner">
             <div class="row">
-                <div class="col-xs-12">
-                    <table>
+                <div class="col-xs-12 table-responsive">
+                    <table id="ResponsiveTable" class="table table-xl mb-0 table-hover">
                         <thead>
                             <tr>
                                 <th scope="col">Name</th>
@@ -128,9 +116,9 @@
         <style type="text/css">
 
             .form-wrap .search-wrap input[type=search] {
-                font-size: 1.8rem;
-                line-height: 22px;
-                height: 47px;
+                     font-size: 0.85rem;
+    line-height: 22px;
+    height: 35px;
             }
 
             input[type=search] {
@@ -140,7 +128,10 @@
             }
 
             button.searchBtn {
-                height: 47px;
+                height: 37px;
+            }
+             .pagination{
+                float:right;
             }
         </style>
     }

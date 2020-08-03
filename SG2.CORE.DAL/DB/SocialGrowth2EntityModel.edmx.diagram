@@ -14,7 +14,6 @@
         <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_FollowedAccounts" Width="3" PointX="5.25" PointY="21.625" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Notification" Width="1.5" PointX="0.75" PointY="7.75" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Payments" Width="3" PointX="8.25" PointY="25.125" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.sysdiagram" Width="1.5" PointX="7.75" PointY="5.75" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.SystemCity" Width="1.5" PointX="7.75" PointY="8.75" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.SystemConfig" Width="1.5" PointX="9.75" PointY="5.75" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.SystemCountry" Width="1.5" PointX="9.75" PointY="9.75" />
@@ -31,14 +30,17 @@
         <EntityTypeShape EntityType="SocialGrowth2Entities.PaymentPlan" Width="1.5" PointX="0.75" PointY="21.625" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SocialProfile_PaymentPlan" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SocialProfile_Subscription_SocialProfile_PaymentPlan" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Instagram_TargetingInformation" Width="1.5" PointX="5.25" PointY="25.5" />
-        <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.Customer" Width="1.5" PointX="3" PointY="50.625" />
-        <EntityTypeShape EntityType="SocialGrowth2Entities.Customer_Payments" Width="1.5" PointX="5.25" PointY="53.25" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_Customer_PaymentPlan" />
-        <AssociationConnector Association="SocialGrowth2Entities.FK_Customer_Payments_Customer" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_ContactDetails_SG2_Customer" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_SG2_Customer" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.Customer_Payments" Width="1.5" PointX="5.25" PointY="53.375" />
+        <AssociationConnector Association="SocialGrowth2Entities.FK_Customer_Payments_Customer" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Instagram_TargetingInformation" Width="1.5" PointX="5.25" PointY="34.75" />
+        <AssociationConnector Association="SocialGrowth2Entities.FK_SocialProfile_Instagram_TargetingInformation_Customer" />
+        <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Logs" Width="1.5" PointX="0.75" PointY="11.75" />
+        <AssociationConnector Association="SocialGrowth2Entities.FK_SocialProfile_Logs_SocialProfile_Logs" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

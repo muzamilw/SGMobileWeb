@@ -10,6 +10,9 @@ using AutoMapper;
 using SG2.CORE.MODAL;
 using static SG2.CORE.COMMON.GlobalEnums;
 using AutoMapper;
+using Newtonsoft.Json;
+using SG2.CORE.MODAL.ViewModals.TargetPreferences;
+using System.Text.RegularExpressions;
 
 namespace SG2.CORE.WEB.APIController
 {
@@ -33,7 +36,7 @@ namespace SG2.CORE.WEB.APIController
             if (ModelState.IsValid)
             {
 
-                var res = _customerManager.PerformMobileLogin(model.Email, model.Pin, model.IMEI, model.ForceSwitchDevice);
+                var res = _customerManager.PerformMobileLogin(model);
                 if (res.LoginSuccessful)
                 {
 
@@ -46,7 +49,9 @@ namespace SG2.CORE.WEB.APIController
                             SocialProfileId = res.SocialProfileId,
                             SocialPasswordNeeded = res.PasswordNeeded,
                             BlockCode = res.BlockCode,
-                            BlockDateTimeUTC = res.BlockDateTimeUTC
+                            BlockDateTimeUTC = res.BlockDateTimeUTC,
+                            InitialStatsReceived = res.InitialStatsReceived
+
                         }
 
                     };
@@ -60,7 +65,11 @@ namespace SG2.CORE.WEB.APIController
                         resp.MobileLoginJsonRootObject.BrokerAspectColor = cust.BrokerAspectColor;
                         resp.MobileLoginJsonRootObject.BrokerFeedbackPage = cust.BrokerFeedbackPage;
                         resp.MobileLoginJsonRootObject.BrokerHomePage = cust.BrokerHomePage;
-                        resp.MobileLoginJsonRootObject.BrokerLogo = cust.BrokerLogo;
+                        if (!string.IsNullOrEmpty(cust.BrokerLogo))
+                        {
+                            resp.MobileLoginJsonRootObject.BrokerLogo = $"{HttpContext.Current.Request.Url.Scheme}{System.Uri.SchemeDelimiter}{HttpContext.Current.Request.Url.Authority}" +"/AgencyLogos/"+ cust.BrokerLogo;
+                        }
+                         
                         resp.MobileLoginJsonRootObject.BrokerPaymentPlanID = cust.BrokerPaymentPlanID;
                         resp.MobileLoginJsonRootObject.BrokerPrivacyPolicy = cust.BrokerPrivacyPolicy;
                         resp.MobileLoginJsonRootObject.BrokerStrapLine = cust.BrokerStrapLine;
@@ -122,58 +131,79 @@ namespace SG2.CORE.WEB.APIController
 
               
                 DateTime commentCutOffDate = DateTime.Today.AddDays(-1);
+                DateTime unfollowCutOffDate = DateTime.Today.AddDays(-2); //-2
+
+                DateTime unfollowCutOffMaxDate = DateTime.Today.AddDays(-35); //-2
 
                 var profile = _customerManager.GetSocialProfileById(model.SocialProfileId);
-                var stats = this._statsManager.GetStatistics(profile.SocialProfile.SocialProfileId);
+                if (!String.IsNullOrEmpty( model.SocialPassword))
+                {
+                    _customerManager.UpdateBasicSocialProfileSocialPassword(model.SocialPassword, model.SocialProfileId);
+                }
 
-                var whitelist = profile.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers;
-                var whilelistArray = new List<string>();
-                if (!string.IsNullOrEmpty( whitelist) )
-                    whilelistArray = whitelist.Split(',').ToList();
+                //resetting the changed flag to false since we are sending the new manifest.
+                _customerManager.ResetSocialProfileManifestChangeFlag(false, model.SocialProfileId);
 
+                 var stats = this._statsManager.GetStatistics(profile.SocialProfile.SocialProfileId);
+
+                
                 var manifest = new MobileManifestResponse
                 {
                     CustomerId = profile.SocialProfile.CustomerId.Value,
                     StatusCode = 1,
                     StatusMessage = "",
                     Profile = mapper.Map<MobileSocialProfile>(profile.SocialProfile),
-                    CurrentPlan = mapper4.Map<MobilePaymentPlan>(  profile.CurrentPaymentPlan),
+                    CurrentPlan = mapper4.Map<MobilePaymentPlan>(profile.CurrentPaymentPlan),
                     TargetInformation = mapper2.Map<MobileSocialProfile_Instagram_TargetingInformation>(profile.SocialProfile_Instagram_TargetingInformation),
                     // filter the unfollow list by the white list of users which is manually entered.
-                    FollowersToUnFollow = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime < commentCutOffDate && !whilelistArray.Contains(g.FollowedSocialUsername)).ToList()),
-                    //randomize the followers to comment list and only send 50
+                    FollowersToUnFollow = null,//randomize the followers to comment list and only send 50
                     FollowersToComment = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime >= commentCutOffDate).OrderBy(x => Guid.NewGuid()).Take(50).ToList()),
-                    FollowList = _customerManager.GetFollowList(model.SocialProfileId).Select( g=> new MobileSocialProfile_FollowedAccounts { FollowedSocialUsername = g.SocialUsername, FollowedDateTime = DateTime.Now }).Take(30).ToList(),
-                    LikeList = _customerManager.GetFollowList(model.SocialProfileId).Select(g => new MobileSocialProfile_FollowedAccounts { FollowedSocialUsername = g.SocialUsername }).Take(30).ToList()
-
+                    FollowList = _customerManager.GetFollowList(model.SocialProfileId).Select( g=> new MobileSocialProfile_FollowedAccounts { FollowedSocialUsername = g.SocialUsername, FollowedDateTime = DateTime.Now }).Take(10).ToList(),
+                    LikeList = _customerManager.GetFollowList(model.SocialProfileId).Select(g => new MobileSocialProfile_FollowedAccounts { FollowedSocialUsername = g.SocialUsername }).Take(10).ToList()
+                    
                 //20 count Follow list is all paid instagram profile usernames which are already not in follower list.  and follow exchange checkbox true
                 //10 count Like list is all paid instagram profile usernames which are already not in follower list.  and like exchange checkbox true
                 };
+
+                manifest.TargetInformation.LikeExchangeDailyLimit = 10;
+                manifest.TargetInformation.FollowExchangeDailyLimit = 10;
+
+                var whitelist = profile.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers;
+                var whilelistArray = new List<string>();
+                if (!string.IsNullOrEmpty(whitelist))
+                    whilelistArray = whitelist.Split(',').Select(uname => uname.Trim()).ToList();
+
+
+                var executionintervals = JsonConvert.DeserializeObject<List<ExecutionInterval>>(manifest.TargetInformation.ExecutionIntervals);
+                //; ExecutionInterval
+                manifest.FollowersToUnFollow = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g=> !whilelistArray.Contains(g.FollowedSocialUsername)).Where(g => g.StatusId == 1 && g.FollowedDateTime < unfollowCutOffDate && g.FollowedDateTime >= unfollowCutOffMaxDate).ToList());  //Convert.ToInt32(executionintervals[0].UnFoll16DaysEngage)
+
+                manifest.AllFollowedAccounts = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(_customerManager.GetAllFollowedAccounts(model.SocialProfileId));
 
                 manifest.Profile.StatsFollowersIncrease = stats.FollowersTotal.Value - stats.FollowersInitial.Value;
                 manifest.Profile.StatsFollowingsIncrease = stats.FollowingsTotal.Value - stats.FollowingsInitial.Value;
 
                 var daysSinceRegistration = DateTime.Today - profile.SocialProfile.CreatedOn;
                 //  
-                manifest.TargetInformation.FollMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.FollDailyIncreaseLim.Value * daysSinceRegistration.Days) + profile.SocialProfile_Instagram_TargetingInformation.FollNewPerDayLim.Value - manifest.FollowList.Count;
-                if (manifest.TargetInformation.FollMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.FollMaxPerDayLim)
-                    manifest.TargetInformation.FollMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.FollMaxPerDayLim.Value;
+                ////manifest.TargetInformation.FollMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.FollDailyIncreaseLim.Value * daysSinceRegistration.Days) + profile.SocialProfile_Instagram_TargetingInformation.FollNewPerDayLim.Value - manifest.FollowList.Count;
+                ////if (manifest.TargetInformation.FollMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.FollMaxPerDayLim)
+                ////    manifest.TargetInformation.FollMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.FollMaxPerDayLim.Value;
 
-                manifest.TargetInformation.UnFollMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.UnFollDailyIncreaseLim.Value * daysSinceRegistration.Days) + profile.SocialProfile_Instagram_TargetingInformation.UnFollNewPerDayLim.Value;
-                if (manifest.TargetInformation.UnFollMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.UnFollMaxPerDayLim)
-                    manifest.TargetInformation.UnFollMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.UnFollMaxPerDayLim.Value;
+                ////manifest.TargetInformation.UnFollMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.UnFollDailyIncreaseLim.Value * daysSinceRegistration.Days) + profile.SocialProfile_Instagram_TargetingInformation.UnFollNewPerDayLim.Value;
+                ////if (manifest.TargetInformation.UnFollMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.UnFollMaxPerDayLim)
+                ////    manifest.TargetInformation.UnFollMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.UnFollMaxPerDayLim.Value;
 
-                manifest.TargetInformation.LikeMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.LikeDailyIncreaseLim.Value * daysSinceRegistration.Days )+ profile.SocialProfile_Instagram_TargetingInformation.LikePerDayLim.Value - manifest.LikeList.Count;
-                if (manifest.TargetInformation.LikeMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.LikeMaxPerDayLim)
-                    manifest.TargetInformation.LikeMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.LikeMaxPerDayLim.Value;
+                ////manifest.TargetInformation.LikeMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.LikeDailyIncreaseLim.Value * daysSinceRegistration.Days )+ profile.SocialProfile_Instagram_TargetingInformation.LikePerDayLim.Value - manifest.LikeList.Count;
+                ////if (manifest.TargetInformation.LikeMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.LikeMaxPerDayLim)
+                ////    manifest.TargetInformation.LikeMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.LikeMaxPerDayLim.Value;
 
-                manifest.TargetInformation.ViewStoriesMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesDailyIncreaseLim.Value * daysSinceRegistration.Days )+ profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesPerDayLim.Value;
-                if (manifest.TargetInformation.ViewStoriesMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesMaxPerDayLim)
-                    manifest.TargetInformation.ViewStoriesMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesMaxPerDayLim.Value;
+                ////manifest.TargetInformation.ViewStoriesMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesDailyIncreaseLim.Value * daysSinceRegistration.Days )+ profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesPerDayLim.Value;
+                ////if (manifest.TargetInformation.ViewStoriesMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesMaxPerDayLim)
+                ////    manifest.TargetInformation.ViewStoriesMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesMaxPerDayLim.Value;
 
-                manifest.TargetInformation.CommentMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.CommentDailyIncreaseLim.Value * daysSinceRegistration.Days )+ profile.SocialProfile_Instagram_TargetingInformation.CommentPerDayLim.Value;
-                if (manifest.TargetInformation.CommentMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.CommentMaxPerDayLim)
-                    manifest.TargetInformation.CommentMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.CommentMaxPerDayLim.Value;
+                ////manifest.TargetInformation.CommentMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.CommentDailyIncreaseLim.Value * daysSinceRegistration.Days )+ profile.SocialProfile_Instagram_TargetingInformation.CommentPerDayLim.Value;
+                ////if (manifest.TargetInformation.CommentMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.CommentMaxPerDayLim)
+                ////    manifest.TargetInformation.CommentMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.CommentMaxPerDayLim.Value;
 
               
 
@@ -245,6 +275,22 @@ namespace SG2.CORE.WEB.APIController
                 try
                 {
 
+                    DateTime currentDate = DateTime.UtcNow;
+                    if(model != null && model.Count > 0)
+                    {
+                        double offSet = _customerManager.GetAppTimeZoneOffSet(model.First().SocialProfileId);
+                        if(offSet != 0)
+                        {
+                            currentDate = currentDate.AddHours(offSet);
+                        }
+                    }
+
+                    foreach (var item in model)
+                    {
+                        item.ActionDateTime = currentDate.ToString();
+                    }
+
+
                     int successCount = 0;
 
                     foreach (var item in model)
@@ -253,26 +299,28 @@ namespace SG2.CORE.WEB.APIController
                             successCount++;
                     }
 
-                    int[] BlockedStatuses = new int[] { 66, 67, 68, 69 };
+                    int[] BlockedStatuses = new int[] { 66, 67, 68, 69  };   //70, 71, 72
 
                     var BlockedActions = model.Where(g => BlockedStatuses.Contains(g.ActionId)).ToList();
-                    if (BlockedActions != null &&  BlockedActions.Count>0)
+                    if (BlockedActions != null && BlockedActions.Count > 0)
                     {
-
-                        _customerManager.UpdateBasicSocialProfileBlock( (BlockStatus )BlockedActions.First().ActionId, BlockedActions.First().SocialProfileId);
+                        _customerManager.UpdateBasicSocialProfileBlock((BlockStatus)BlockedActions.First().ActionId, BlockedActions.First().SocialProfileId, currentDate);
                     }
 
                     //add the newly followed accounts 
-                    _customerManager.AddRemoveFollowAccounts(model.Where(g => g.ActionId == 60 || g.ActionId == 61).ToList());
+                    // 73 follow ex  74 like exchange
+                    _customerManager.AddRemoveFollowAccounts(model.Where(g => g.ActionId == 60 || g.ActionId == 61 || g.ActionId == 73).ToList());
 
-                    
-                    var FollowingCount = model.Where(g => g.ActionId == 60).Count();
+                    _customerManager.RemoveBadTags(model.Where(g => g.ActionId == 86).ToList());
 
-                    var FollowingCountDecrease = model.Where(g => g.ActionId == 61).Count();
+
+                    var FollowingCount = model.Where(g => g.ActionId == 60 || g.ActionId == 73).Count();
+
+                    var UnFollowCount = model.Where(g => g.ActionId == 61).Count();
                     //follow
-                    var FollowingCountNet = FollowingCount - FollowingCountDecrease;
+                    var FollowingCountNet = FollowingCount;// - UnFollowCount;
 
-                    var LikeCount = model.Where(g => g.ActionId == 62).Count();
+                    var LikeCount = model.Where(g => g.ActionId == 62 || g.ActionId == 74).Count();
 
                     var CommentCount = model.Where(g => g.ActionId == 63).Count();
 
@@ -280,18 +328,33 @@ namespace SG2.CORE.WEB.APIController
 
                     var FollowingEvent = model.Where(g => g.ActionId == 65).FirstOrDefault();
                     var FollowCount = 0;
+                    var Posts = 0;
                     if ( FollowingEvent != null)
                     {
-                        FollowCount = Convert.ToInt32(FollowingEvent.Message);
+
+                        var followingcount = JsonConvert.DeserializeObject<FollowlingCount>(FollowingEvent.Message);
+                        if (followingcount != null)
+                        {
+                            FollowCount = Convert.ToInt32(strotint(followingcount.InitialFollowers));
+                            FollowingCount = Convert.ToInt32(strotint(followingcount.InitialFollowings));
+                            Posts = Convert.ToInt32(strotint(followingcount.InitialPosts));
+                        }
+                        
                         //take diff with previous no and then update.
                     }
 
-                    //omny update stats if anything changes.
-                    if ( FollowCount > 0 || LikeCount >0 || CommentCount > 0 || StoryCount > 0 || FollowCount > 0 )
-                        _statsManager.UpdateStatistics(model.First().SocialProfileId, FollowingCountNet, LikeCount, CommentCount, StoryCount, FollowCount);
+                    
 
-                    if ( successCount == model.Count)
-                        return Ok(new MobileActionResponse { StatusCode = 1, StatusMessage = "Success" });
+                    //omny update stats if anything changes.
+                    if (FollowingCount > 0  || FollowingCountNet  > 0|| LikeCount > 0 || CommentCount > 0 || StoryCount > 0 || FollowCount > 0  || UnFollowCount > 0 || Posts > 0)
+                        _statsManager.UpdateStatistics(model.First().SocialProfileId, FollowingCountNet, LikeCount, CommentCount, StoryCount, FollowCount, currentDate, UnFollowCount, Posts);
+
+                    if (successCount == model.Count)
+                    {
+
+                        var flag = _customerManager.GetSocialProfileManifestChangeFlag(model.First().SocialProfileId);
+                        return Ok(new MobileActionResponse { StatusCode = 1, StatusMessage = "Success", ManifestUpdated = flag });
+                    }
                     else
                         return Content(HttpStatusCode.BadRequest, "One or more actions could not be saved");
                 }
@@ -317,6 +380,7 @@ namespace SG2.CORE.WEB.APIController
             {
                 try
                 {
+                    
                     if (_statsManager.SaveInitialStatistics(model))
                         return Ok(new MobileActionResponse { StatusCode = 1, StatusMessage = "Success" });
                     else
@@ -333,9 +397,51 @@ namespace SG2.CORE.WEB.APIController
                 return Content(HttpStatusCode.BadRequest, "Input params missing");
             }
         }
-    }
 
-    public class NullToZeroIntTypeConverter : ITypeConverter<int?, int?>
+        public int strotint(string s)
+        {
+            var resultString = string.Join(string.Empty, Regex.Matches(s, @"\d+([.,])?").OfType<Match>().Select(m => m.Value));
+            var multifactor = 1;
+            if (s.ToLower().Contains("k"))
+            {
+                multifactor = 1000;
+            }
+            else if (s.ToLower().Contains("m"))
+            {
+                multifactor = 1000000;
+            }
+
+            return Convert.ToInt32(Convert.ToDouble(resultString) * multifactor);
+        }
+
+
+        [Route("ClearData")]
+    [HttpGet]
+    public IHttpActionResult ClearData(int SocialProfileId)
+    {
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                if (_statsManager.ClearStatsActions(SocialProfileId))
+                    return Ok(new MobileActionResponse { StatusCode = 1, StatusMessage = "Success, data cleared" });
+                else
+                    return Content(HttpStatusCode.BadRequest, "Data could not be cleared");
+
+            }
+            catch (Exception e)
+            {
+                return Content(HttpStatusCode.BadRequest, e.ToString());
+            }
+        }
+        else
+        {
+            return Content(HttpStatusCode.BadRequest, "Input params missing");
+        }
+    }
+}
+
+public class NullToZeroIntTypeConverter : ITypeConverter<int?, int?>
     {
         //public int Convert(ResolutionContext ctx)
         //{
@@ -356,6 +462,14 @@ namespace SG2.CORE.WEB.APIController
             else
                 return 0;
         }
+    }
+
+    public class FollowlingCount
+    {
+        public string InitialFollowings { get; set; }
+        public string InitialFollowers { get; set; }
+        public string InitialPosts { get; set; }
+        public int SocialProfileId { get; set; }
     }
 }
 

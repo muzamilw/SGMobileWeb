@@ -7,7 +7,7 @@
             "Customer signup.",
             "Customer email verification required.",
             "Customer verified email successfully.",
-            "Customer successfull subscribe for plan {0}",
+            "Customer successful subscribe for plan {0}",
             "Customer update target preferences.",
             "Customer update social profile.",
             "Customer enter email verification code {0}",
@@ -140,7 +140,9 @@
             Block1 = 66,
             Block2 = 67,
             Block3 = 68,
-            Clear = 69
+            Clear = 69,
+            Block4 = 70,
+            Block5 = 71,
         }
 
     }

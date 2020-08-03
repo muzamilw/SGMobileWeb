@@ -18,12 +18,21 @@ namespace SG2.CORE.MODAL
         public Nullable<int> CustomerId { get; set; }
         public string Products { get; set; }
         public string ProxyIPNumber { get; set; }
+        public bool IsBroker { get; set; }
         public string Status { get; set; }
         public string JVBoxStatus { get; set; }
         public string SocialProfileName { get; set; }
         public Nullable<int> SocialProfileId { get; set; }
         public string CustomerEmail { get; set; }
+        public Nullable<bool> FollowOn { get; set; }
+        public Nullable<bool> UnFollFollowersAfterMinDays { get; set; }
+        public Nullable<bool> AfterFollLikeuserPosts { get; set; }
+        public Nullable<bool> AfterFollViewUserStory { get; set; }
+        public string BlockedStatus { get; set; }
+        public string BrokerAppName { get; set; }
+        public string AppConnStatus { get; set; }
         public Nullable<int> TotalRecord { get; set; }
-        public bool IsBroker { get; set; }
+        public string AppVersion { get; set; }
+        public Nullable<double> AppTimeZoneOffSet { get; set; }
     }
 }

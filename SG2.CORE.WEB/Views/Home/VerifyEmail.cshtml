@@ -2,9 +2,39 @@
 @using SG2.CORE.COMMON
 @{
     ViewBag.Title = "VerifyEmail";
-    Layout = "~/Views/Shared/_Layout_LoggedIn.cshtml";
+    Layout = "~/Views/Shared/_Layout_LoggedInNewSP.cshtml";
 }
+<style type="text/css">
+    .intro2 {
+        text-align: center;
+        min-height: 425px;
+        padding: 30px 0;
+    }
 
+    .row .intro2 h4 {
+        font-weight: 400;
+        padding-top: 70px;
+        font-size: 1.5rem;
+    }
+
+    .row .intro2 .btn-primary:focus, .btn-primary:active {
+        border-color: #008385 !important;
+        background-color: #006a6c !important;
+        color: #FFF !important;
+    }
+
+    .row .intro2 .btn-primary:hover {
+        border-color: #009c9f !important;
+        background-color: #00ced2 !important;
+        color: #FFF !important;
+    }
+
+    .row .intro2  .btn-primary {
+        border-color: #008385 !important;
+        background-color: #00b5b8 !important;
+        color: #FFFFFF;
+    }
+</style>
 
 <div class="container">
     @if (!string.IsNullOrEmpty(ViewBag.Success) && ViewBag.Success == "Yes")
@@ -29,21 +59,20 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="intro2 " data-aos="fade-left">
+                <div class="intro2 center text-center " data-aos="fade-left">
                     <br />
                     <br />
                     <br />
-                    <h1>Thank you. Your email and account is now verified and active.</h1>
+                    <h4>Thank you. Your email and account is now verified and active.</h4>
                     <p></p>
                     <br />
                     <br />
-
 
                     <br />
 
                     @Html.HiddenFor(model => model.CustomerId)
 
-                    <input type="submit" class="btn btn-block btn-default" style="width:250px;" id="btn_SignIn" value="Sign In" />
+                    <a href="~/Account/Login" class="btn btn-primary center" style="width:250px;" id="btn_SignIns" />Sign In</a>
 
 
                 </div>
@@ -53,16 +82,7 @@
     </div>
 </div>
 
-<style type="text/css">
-    .intro2 {
-        text-align: center;
-        min-height: 300px;
-        padding: 20px 0;
-    }
 
-        .intro2 h1 {
-        }
-</style>
 
 @section scripts{
     <script type="text/javascript">

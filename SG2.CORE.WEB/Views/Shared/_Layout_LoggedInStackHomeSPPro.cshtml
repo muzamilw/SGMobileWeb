@@ -1,0 +1,557 @@
+﻿@using SG2.CORE.MODAL.DTO.Customers;
+@using System.Security.Cryptography;
+@using System.Text;
+@{
+    /**/
+
+    var encoding = new ASCIIEncoding();
+
+
+
+    var custDto = (CustomerDTO)ViewBag.CustomerDTO;
+
+    var key = new HMACSHA256(encoding.GetBytes("ZEjdHxcIdtF_JSUgUyLxy1K0lx_qaiadqQ7gpl7S"));
+    var hash = key.ComputeHash(encoding.GetBytes(custDto.EmailAddress));
+
+    var hmac = BitConverter.ToString(hash).Replace("-", "").ToLower();
+    
+
+
+}
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+<head>
+    <meta charset="utf-8">
+    <title>@ViewBag.Title - Social Planner Pro</title>
+    <meta name="description" content="Page Title">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui">
+    <!-- Call App Mode on ios devices -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- Remove Tap Highlight on Windows Phone IE -->
+    <meta name="msapplication-tap-highlight" content="no">
+    <!-- base css -->
+
+    <link rel="stylesheet" type="text/css" href="~/Content/Theme-SPPro/css/vendors.bundle.css">
+
+    @*
+    <link id="vendorsbundle" rel="stylesheet" media="screen, print" href="css/vendors.bundle.css">*@
+    <link rel="stylesheet" type="text/css" href="~/Content/Theme-SPPro/css/app.bundle.css">
+
+    @*
+    <link id="appbundle" rel="stylesheet" media="screen, print" href="css/app.bundle.css">*@
+    <link id="mytheme" rel="stylesheet" media="screen, print" href="#">
+
+    <link rel="stylesheet" type="text/css" href="~/Content/Theme-SPPro/css/skins/skin-master.css">
+
+    @*
+    <link id="myskin" rel="stylesheet" media="screen, print" href="css/skins/skin-master.css">*@
+    <!-- Place favicon.ico in the root directory -->
+    <link rel="apple-touch-icon" sizes="180x180" href="~/Content/Theme-SPPro/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Content/Theme-SPPro/img/favicon/favicon-32x32.png">
+    <link rel="mask-icon" href="~/Content/Theme-SPPro/img/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <link href="~/Content/app-assets/fonts/feather/style.css" rel="stylesheet" />
+
+    <link href="~/Content/app-assets/css/customstyles.css" rel="stylesheet" />
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    @*
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/charts/jquery-jvectormap-2.0.3.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/charts/morris.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/extensions/unslider.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/weather-icons/climacons.min.css">*@
+    <!-- END: Vendor CSS-->
+    <!-- BEGIN: Theme CSS-->
+    @*
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/bootstrap-extended.css">*@
+    @*
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/vendors/css/weather-icons/climacons.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/colors.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/components.css">*@
+    <!-- END: Theme CSS-->
+    <!-- BEGIN: Page CSS-->
+    @*
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/core/menu/menu-types/horizontal-menu.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/core/colors/palette-gradient.css">*@
+
+    @RenderSection("styles", required: false)
+
+
+    <!-- END: Custom CSS-->
+
+    @*<script>
+
+        var glb_intercomKey = "xsl2s4e6";
+
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            }; if (!f._fbq) f._fbq = n;
+            n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
+        }(window,
+            document, 'script', '//connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1185819604852319');
+        fbq('init', '2899883190056318');
+        fbq('init', '722023768308766');
+        fbq('init', '433629843942100');
+        fbq('track', 'PageView'); //tracks a PageView to both initialized pixels
+    </script>*@
+    <script>
+        /**
+         *	This script should be placed right after the body tag for fast execution
+         *	Note: the script is written in pure javascript and does not depend on thirdparty library
+         **/
+        'use strict';
+
+        var classHolder = document.getElementsByTagName("BODY")[0],
+            /**
+             * Load from localstorage
+             **/
+            themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) :
+                {},
+            themeURL = themeSettings.themeURL || '',
+            themeOptions = themeSettings.themeOptions || '';
+        /**
+         * Load theme options
+         **/
+        if (themeSettings.themeOptions) {
+            classHolder.className = themeSettings.themeOptions;
+            console.log("%c✔ Theme settings loaded", "color: #148f32");
+        }
+        else {
+            console.log("%c✔ Heads up! Theme settings is empty or does not exist, loading default settings...", "color: #ed1c24");
+        }
+        if (themeSettings.themeURL && !document.getElementById('mytheme')) {
+            var cssfile = document.createElement('link');
+            cssfile.id = 'mytheme';
+            cssfile.rel = 'stylesheet';
+            cssfile.href = themeURL;
+            document.getElementsByTagName('head')[0].appendChild(cssfile);
+
+        }
+        else if (themeSettings.themeURL && document.getElementById('mytheme')) {
+            document.getElementById('mytheme').href = themeSettings.themeURL;
+        }
+        /**
+         * Save to localstorage
+         **/
+        var saveSettings = function () {
+            themeSettings.themeOptions = String(classHolder.className).split(/[^\w-]+/).filter(function (item) {
+                return /^(nav|header|footer|mod|display)-/i.test(item);
+            }).join(' ');
+            if (document.getElementById('mytheme')) {
+                themeSettings.themeURL = document.getElementById('mytheme').getAttribute("href");
+            };
+            localStorage.setItem('themeSettings', JSON.stringify(themeSettings));
+        }
+        /**
+         * Reset settings
+         **/
+        var resetSettings = function () {
+            localStorage.setItem("themeSettings", "");
+        }
+
+    </script>
+</head>
+<!-- END: Head-->
+<!-- BEGIN: Body-->
+<body class="horizontal-layout horizontal-menu horizontal-menu-padding 2-columns  " data-open="click" data-menu="horizontal-menu" data-col="2-columns">
+    <!-- DOC: script to save and load page settings -->
+    <!-- BEGIN Page Wrapper -->
+    <div class="page-wrapper">
+        <div class="page-inner">
+            <!-- BEGIN Left Aside -->
+            <aside class="page-sidebar">
+                <div class="page-logo">
+
+                    <a href="~/user/home">
+                        <img src="~/Content/Theme-SPPro/img/core-img/SPProWhite.png" aria-roledescription="logo">
+
+                    </a>
+                </div>
+                <!-- BEGIN PRIMARY NAVIGATION -->
+                <nav id="js-primary-nav" class="primary-nav" role="navigation">
+                    <div class="nav-filter">
+                        <div class="position-relative">
+                            <input type="text" id="nav_filter_input" placeholder="Filter menu" class="form-control" tabindex="0">
+                            <a href="#" onclick="return false;" class="btn-primary btn-search-close js-waves-off" data-action="toggle" data-class="list-filter-active" data-target=".page-sidebar">
+                                <i class="fal fa-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="info-card">
+
+                        <img src="~/Content/Theme-SPPro/img/card-backgrounds/happy-man.png" class="cover" alt="cover">
+                        <a href="#" onclick="return false;" class="pull-trigger-btn" data-class="list-filter-active" data-target=".page-sidebar" data-focus="nav_filter_input">
+                            <i class="fal fa-angle-down"></i>
+                        </a>
+                    </div>
+                    <!--
+    TIP: The menu items are not auto translated. You must have a residing lang file associated with the menu saved inside dist/media/data with reference to each 'data-i18n' attribute.
+    -->
+                    @RenderSection("profileheader", required: false)
+
+
+
+                    @if (custDto.IsBroker.HasValue && custDto.IsBroker.Value == true)
+                    {
+
+                        <div class="btn-group btn-sidebar" style="margin-top:12px;">
+                            <a href="#" class="btn btn-round btn-success " id="btnAfilliateBilling" data-toggle="modal" data-target="#BillingHistoryModal">View Billing History</a>
+                        </div>
+                        <div class="btn-group btn-sidebar" style="margin-top:12px;">
+                            <a href="#" class="btn btn-round btn-success "  id="btnForum">Visit Forum</a>
+                        </div>
+                        <div class="btn-group btn-sidebar" style="margin-top:12px;">
+                            <a href="#" class="btn btn-round btn-simple" id="btnCancelAfilliate">Cancel Agency Plan</a>
+                        </div>
+
+                    }
+                    else
+                    {
+                        @*<div>
+                <h4 class="card-title">Take your Agency to the next level</h4>
+                <p class="card-text">
+                    Join the most powerful Social Growth tool for agencies in 2020. Access advanced tools & white label your own app.
+
+                </p>
+            </div>*@
+                        <div class="non-broker-tile">
+                            <h3 class="tile-h3 text-center">Upgrade to Agency</h3>
+                            <h1 class="tile-h1 text-center">Save 75%</h1>
+                            <ul class="tile-ul ml-5">
+                                <li class="tile-li">Create Growth Profiles for only $15/pm</li>
+                                <li class="tile-li">Access to private Growth Expert Forum</li>
+                                <li class="tile-li">Digital Marketing Trends & Growth Hacks</li>
+                                <li class="tile-li">24/7 Chat Support</li>
+                                <li class="tile-li">Includes 20 FREE Profiles</li>
+                                <li class="tile-li">All for only $299/pm</li>
+                            </ul>
+                        </div>
+                        <div class="btn-group btn-sidebar" style="margin-top:12px;">
+
+                            <a href="#" class="btn btn-round btn-agency-info" id="btnAfilliate">Upgrade Now</a>
+
+
+                        </div>
+                    }
+
+
+                    <div class="filter-message js-filter-message bg-success-600"></div>
+                </nav>
+                <!-- END PRIMARY NAVIGATION -->
+
+            </aside>
+            <!-- END Left Aside -->
+            <div class="page-content-wrapper">
+                <!-- BEGIN Page Header -->
+                <header class="page-header" role="banner">
+                    <!-- we need this logo when user switches to nav-function-top -->
+                    <!-- DOC: mobile button appears during mobile width -->
+                    <div class="hidden-lg-up">
+                        <a href="#" class="header-btn btn press-scale-down mobile-nav" data-action="toggle" data-class="mobile-nav-on">
+                            <i class="ni ni-menu"></i>
+                        </a>
+                    </div>
+
+                    <div class="ml-auto d-flex">
+
+
+                        <!-- app settings -->
+                        <div class="d-flex align-items-center justify-content-center p-relative">
+                            <a href="~/user/userprofile" class="header-icon d-flex align-items-center justify-content-center ml-2">
+                                <span class="ml-1 mr-1">@custDto.FirstName</span>
+                              
+                            </a>
+                            
+                            <div class="ml-5 logout-btn">
+                                <a href="~/Account/Logout">
+                                    <button class="btn btn-primary" type="button">Log Out</button>
+                                </a>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+                </header>
+                <!-- END Page Header -->
+                <!-- BEGIN Page Content -->
+                <!-- the #js-page-content id is needed for some plugins to initialize -->
+                <main id="js-page-content" role="main" class="page-content">
+                    <!-- BEGIN: Content-->
+                    @RenderBody()
+
+                </main>
+                <!-- this overlay is activated only when mobile menu is triggered -->
+                <div class="page-content-overlay" data-action="toggle" data-class="mobile-nav-on"></div> <!-- END Page Content -->
+                <!-- BEGIN Page Footer -->
+                <footer class="page-footer" role="contentinfo">
+                    <div class="d-flex align-items-center flex-1 text-muted">
+                        <span class="hidden-md-down fw-700">Copyright © 2020 Social Planner PRO</span>
+                    </div>
+
+                </footer>
+                <!-- END Page Footer -->
+                <!-- END Color profile -->
+            </div>
+
+        </div>
+
+    </div>
+    <!-- END Page Wrapper -->
+    <!-- BEGIN Quick Menu -->
+    <!-- to add more items, please make sure to change the variable '$menu-items: number;' in your _page-components-shortcut.scss -->
+    <!-- BEGIN Page Settings -->
+    <!-- END Page Settings -->
+    <!-- base vendor bundle:
+         DOC: if you remove pace.js from core please note on Internet Explorer some CSS animations may execute before a page is fully loaded, resulting 'jump' animations
+                    + pace.js (recommended)
+                    + jquery.js (core)
+                    + jquery-ui-cust.js (core)
+                    + popper.js (core)
+                    + bootstrap.js (core)
+                    + slimscroll.js (extension)
+                    + app.navigation.js (core)
+                    + ba-throttle-debounce.js (core)
+                    + waves.js (extension)
+                    + smartpanels.js (extension)
+                    + src/../jquery-snippets.js (core) -->
+
+
+    <script src="~/Content/Theme-SPPro/js/vendors.bundle.js"></script>
+    <script src="~/Content/Theme-SPPro/js/app.bundle.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('body').css('padding-right', '0');
+
+            $("#Form_Login").validate({
+                rules: {
+                    EmailAddress: {
+                        required: true,
+                        email: true
+                    },
+                    Password: {
+                        required: true,
+                    }
+                },
+                messages: {
+                    EmailAddress: {
+                        required: "Email required"
+                    },
+                    Password: {
+                        required: "Password required"
+                    }
+                }
+            });
+
+            $("#Form_ForgetPassword").validate({
+                rules: {
+                    EmailAddress: {
+                        required: true,
+                        email: true
+                    }
+                },
+                messages: {
+                    EmailAddress: {
+                        required: "Email required."
+                    }
+                }
+            });
+
+            $("#Form_Signup").validate({
+                rules: {
+                    FirstName: {
+                        required: true,
+                    },
+                    SurName: {
+                        required: true,
+                    },
+                    EmailAddress: {
+                        required: true,
+                        email: true,
+                        remote: {
+                            type: "GET",
+                            url: "/account/IsEmailExist?" + $("#Modal_SignupPopup input#SignEmailAddress").val(),
+                        }
+                    },
+                    Password: {
+                        required: true,
+                    },
+                    Re_Password: {
+                        equalTo: "#SignupPassword"
+                    }
+                },
+                messages: {
+                    FirstName: {
+                        required: "Firstname required."
+                    },
+                    SurName: {
+                        required: "Lastname required."
+                    },
+                    EmailAddress: {
+                        required: "Email required.",
+                        remote: "Email already exists"
+                    },
+                    Password: {
+                        required: "Password required."
+                    },
+                    Re_Password: {
+                        equalTo: "Password not matched."
+                    }
+                }
+            });
+
+            $("a.lnk_ShowLoginModal").on("click", function (e) {
+                $("#login-error").hide().html("");
+                $("#forgetpassword-error").hide().html("");
+
+                $("#Form_Login").validate().resetForm();
+
+                $("#Form_ForgetPassword").validate().resetForm();
+                $(".Modal-LoginStep").removeClass("hide");
+
+                $(".Modal-ForgetPasswordStep").addClass("hide");
+
+                $("#forgetPassowrdMessage").hide();
+                $(".forgetPasswordFields").show();
+                $("#Form_ForgetPassword").trigger("reset");
+                $("#Form_Login").trigger("reset");
+
+                $("#Modal_SignupPopup").modal("hide");
+                $("#Modal_LoginPopup").modal("show");
+
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            $("a.lnk_ShowFrogetPasswordModal").on("click", function (e) {
+                $(".Modal-LoginStep").addClass("hide");
+                $(".Modal-ForgetPasswordStep").removeClass("hide");
+
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            $("a.lnk_ShowSignupModal").on("click", function (e) {
+                $("h1.signup-success-message").addClass("hide");
+                $("#Form_Signup").show();
+                $("#Form_Signup").validate().resetForm();
+
+                $("#Modal_LoginPopup").modal("hide");
+                $("#Modal_SignupPopup").modal("show");
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            $(".btn_formLogin").on("click", function (e) {
+                $("#login-error").html("");
+                if ($("#Form_Login").valid()) {
+                    $("#LoginSpiner").show();
+                    var frmData = $("#Form_Login").serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "/account/Login",
+                        data: frmData,
+                        dataType: "json",
+                        success: function (data) {
+                            if (!$.isEmptyObject(data)) {
+                                if (data.ResultType == "Success") {
+                                    //window.location = "/Profile/Target?socialProfileId=" + data.ResultData;
+                                    window.location = "/User/Home";
+                                } else {
+                                    $("#LoginSpiner").hide();
+                                    $("#login-error").show().html(data.message);
+                                }
+                            }
+                        },
+                        failure: function (errMsg) {
+                            $("#LoginSpiner").hide();
+                        }
+                    });
+                }
+
+            });
+
+            $(".btn_forgetPassword").on("click", function (e) {
+                $("#forgetpassword-error").html("");
+                if ($("#Form_ForgetPassword").valid()) {
+                    $("#ForgotPassSpiner").show();
+                    var data = $("#Form_ForgetPassword").serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "/account/forgetpassword",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            $("#ForgotPassSpiner").hide();
+                            if (!$.isEmptyObject(data)) {
+                                $("#ForgotPassSpiner").hide();
+                                if (data.ResultType == "Success") {
+                                    $("#forgetPassowrdMessage").show();
+                                    $(".forgetPasswordFields").hide();
+                                } else {
+                                    $("#forgetpassword-error").show().html(data.message);
+                                }
+                            }
+                        },
+                        failure: function (errMsg) {
+                            $("#ForgotPassSpiner").hide();
+                        }
+                    });
+
+                }
+
+            });
+
+            $(".btn_formSignup").on("click", function (e) {
+                if ($("#Form_Signup").valid()) {
+                    $("#SignUpSpinner").show();
+                    var data = $("#Form_Signup").serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "/account/SignUp",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (!$.isEmptyObject(data)) {
+                                if (data.ResultType == "Success") {
+                                    $("#SignUpSpinner").hide();
+                                    $("#Modal_SignupPopup").modal("hide");
+                                    $("#Modal_MessageBoxTitle").text("Account Created Succesfully.!");
+                                    $("#Modal_MessageBoxBody").text("Congratulation! Your account has successfully created. Please check your inbox for verification.!");
+                                    //fbq('track', 'CompleteRegistration');
+                                    $("#Modal_Messagebox").modal("show");
+                                } else {
+                                    $("#signup-error").show().html(data.message);
+                                    $("#SignUpSpinner").hide();
+                                }
+                            }
+                        },
+                        failure: function (errMsg) {
+                            $("#SignUpSpinner").hide();
+                        }
+                    });
+                    $("#SignUpSpinner").hide();
+                }
+            });
+
+        });
+
+    </script>
+
+    @RenderSection("scripts", required: false)
+    <!-- END: Page JS-->
+</body>
+<!-- END: Body-->
+</html>

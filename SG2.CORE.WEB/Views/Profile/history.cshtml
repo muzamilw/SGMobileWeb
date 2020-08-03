@@ -1,15 +1,20 @@
 ﻿@using SG2.CORE.MODAL.DTO.Customers;
 @using SG2.CORE.COMMON;
+@using SG2.CORE.MODAL;
+@using SG2.CORE.MODAL.DTO.PlanInformation;
+@using SG2.CORE.MODAL.ViewModals.Customers;
 @model SG2.CORE.MODAL.DTO.Customers.SocialProfileDTO
 @{
 
-    ViewBag.Title = "Order History";
-    Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
+    ViewBag.Title = "Subscription & Order History";
+    Layout = "~/Views/Shared/_Layout_LoggedInStackSPPro.cshtml";
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
 
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
     ViewBag.socialProfile = Model.SocialProfile;
-
+    ViewBag.PlanName = Model.CurrentPaymentPlan == null ? "FREE" : Model.CurrentPaymentPlan.PlanName;
+    var planName = ViewBag.PlanName = Model.CurrentPaymentPlan == null ? "FREE" : Model.CurrentPaymentPlan.PlanName;
+    var Customer = (Customer)ViewBag.Customer;
     var ProfileStatus = "";
     if (Model.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
     {
@@ -28,40 +33,707 @@
         ProfileStatus = "Unsubscribed";
     }
 
+    var plans = (List<PlanInformationDTO>)ViewBag.Plans;
+    var paycards = (List<CustomerPaymentCardsViewModel>)ViewBag.paycards;
+
+    var Plan1 = plans.Where(x => x.PlanName.ToLower() == "free").FirstOrDefault();
+    var plan2 = (Customer.IsBroker ?? false) ? plans.Where(x => x.PlanId == 4).FirstOrDefault() : plans.Where(x => x.PlanId == 2).FirstOrDefault(); ;
+
 }
 
 
 @section styles{
 
-    <link href="~/Content/app-assets/vendors/css/forms/tags/tagging.css" rel="stylesheet" />
-    <link href="~/Content/app-assets/css/pincode.css" rel="stylesheet" />
+
+    <link href="~/Content/app-assets/css/stripe.css" rel="stylesheet" />
+
+    <style type="text/css">
+        .btnBuyMobile {
+            width: 100%
+        }
+
+        .weekDays-selector1 {
+            margin-top: 10px;
+        }
+
+        @@media (max-width: 767.98px) {
+            .weekDays-selector1 label {
+                display: inline;
+            }
+        }
+
+        .toggleButtonAlign {
+            position: absolute;
+            right: 15px;
+            top: 0px;
+        }
+
+        .checkboxsas label {
+            margin-right: 10px;
+        }
+
+        .checkboxsas input {
+            margin-right: 3px;
+        }
+
+        .example.example1 {
+            background-color: transparent;
+        }
+
+            .example.example1 * {
+                font-family: Roboto, Open Sans, Segoe UI, sans-serif;
+                font-size: 16px;
+                font-weight: 500;
+            }
+
+            .example.example1 h1 {
+                font-size: 24px;
+            }
+
+        example.example1 h2 {
+            font-size: 20px;
+        }
+
+        .example.example1 fieldset {
+            margin: 0 15px 0px;
+            padding: 0;
+            border-style: none;
+            /*background-color: #7795f8;*/
+            /*box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #829fff;
+                border-radius: 4px;*/
+        }
+
+        .example.example1 .row {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: center;
+            align-items: center;
+            margin-left: 15px;
+        }
+
+            .example.example1 .row + .row {
+                /*border-top: 1px solid #819efc;*/
+            }
+
+        .example.example1 label {
+            min-width: 70px;
+            padding: 11px 0;
+            color: black;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .example.example1 input, .example.example1 button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            outline: none;
+            width: 100%;
+            height: 44px;
+            padding: 8px 12px;
+            color: #303030;
+            font-size: 16px;
+            line-height: 1.5;
+            border: 0;
+            box-shadow: 0 0 0 1px #e0e0e0, 0 2px 4px 0 rgba(0,0,0,.07), 0 1px 1.5px 0 rgba(0,0,0,.05);
+            transition: box-shadow .08s ease-in,color .08s ease-in;
+            background: #fff;
+            -webkit-appearance: none;
+        }
+
+            .example.example1 input:-webkit-autofill {
+                -webkit-text-fill-color: darkgray;
+                transition: background-color 100000000s;
+                -webkit-animation: 1ms void-animation-out;
+            }
+
+        .example.example1 .StripeElement--webkit-autofill {
+            background: transparent !important;
+        }
+
+        .example.example1 .StripeElement {
+            width: 100%;
+            padding: 11px 15px 11px 0;
+            border-radius: 6px;
+            box-shadow: 0 0 0 1px #e0e0e0, 0 2px 4px 0 rgba(0,0,0,.07), 0 1px 1.5px 0 rgba(0,0,0,.05);
+        }
+
+        .example.example1 input {
+            border-radius: 6px;
+            width: 100%;
+            padding: 11px 15px 11px 10px;
+            color: black;
+            background-color: transparent;
+            -webkit-animation: 1ms void-animation-out;
+        }
+
+            .example.example1 input::-webkit-input-placeholder {
+                color: darkgray;
+            }
+
+            .example.example1 input::-moz-placeholder {
+                color: darkgray;
+            }
+
+            .example.example1 input:-ms-input-placeholder {
+                color: darkgray;
+            }
+
+        .example.example1 button {
+            display: block;
+            width: calc(100% - 30px);
+            height: 40px;
+            margin: 40px 15px 0;
+            border-color: #008385 !important;
+            background-color: #00b5b8 !important;
+            color: #FFFFFF;
+            box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #ffb9f6;
+            border-radius: 4px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+            .example.example1 button:active {
+                background-color: #d782d9;
+                box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #e298d8;
+            }
+
+        .example.example1 .error svg .base {
+            fill: #fff;
+        }
+
+        .example.example1 .error svg .glyph {
+            fill: #6772e5;
+        }
+
+        .example.example1 .error .message {
+            color: red;
+        }
+
+        .example.example1 .success .icon .border {
+            stroke: #87bbfd;
+        }
+
+        .example.example1 .success .icon .checkmark {
+            stroke: #fff;
+        }
+
+        .example.example1 .success .title {
+            color: #fff;
+        }
+
+        .example.example1 .success .message {
+            color: #9cdbff;
+        }
+
+        .example.example1 .success .reset path {
+            fill: #fff;
+        }
+
+        .border-bottom-social-profile {
+            border-bottom: 1px solid #404E67;
+        }
+
+        .l-h12-social-profile {
+            line-height: 1.2;
+        }
+
+        .FormFieldInput-Icons {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            margin-bottom: 3px;
+        }
+
+        .FormFieldInput-IconsIcon {
+            padding-right: 4px;
+        }
+
+        .badge-primary {
+            background-color: #00b5b8;
+        }
+
+        .card {
+            margin-bottom: 1.875rem;
+        }
+
+        .match-height {
+            display: flex;
+        }
+
+            .match-height .card {
+                flex-basis: 100%;
+                margin-right: 15px;
+                color: #222;
+            }
+
+                .match-height .card h1 {
+                    font-size: 2em;
+                    font-weight: normal;
+                    margin-bottom: 30px;
+                }
+
+                .match-height .card h4 {
+                    font-size: 1.4em;
+                    margin-bottom: 30px;
+                    font-weight: normal;
+                    text-transform: uppercase;
+                }
+
+                .match-height .card .special-item {
+                    margin-top: 55px;
+                    margin-bottom: 25px;
+                    display: flex;
+                    justify-content: space-between
+                }
+
+                .match-height .card .plan-ul {
+                    margin: 0;
+                    padding: 0;
+                    margin-left: 20px;
+                }
+
+                    .match-height .card .plan-ul li {
+                        margin-bottom: 16px;
+                        list-style-type: disc;
+                    }
+
+                .match-height .card .non-broker-tile .plan-ull {
+                    font-weight: 500;
+                    font-size: 12px;
+                }
+
+                    .match-height .card .non-broker-tile .plan-ull li {
+                        margin-bottom: 8px;
+                        list-style: disc;
+                    }
+
+                .match-height .card p {
+                    font-size: 1em;
+                    margin-bottom: 20px;
+                }
+
+        @@media (min-width: 769px) {
+            .match-height .card {
+                flex: 1;
+            }
+        }
+
+
+        .match-height .card .non-broker-tile .tile-h3 {
+            margin-top: 15px;
+            font-size: 30px;
+            font-weight: 500;
+        }
+
+        .match-height .card .non-broker-tile .tile-h1 {
+            font-size: 60px;
+            font-weight: bold;
+        }
+
+        .match-height .card .btn-plan-group {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+            .match-height .card .btn-plan-group a {
+                background-color: black;
+                color: #fff;
+                border-color: black;
+                border-radius: 20px;
+            }
+
+                .match-height .card .btn-plan-group a:hover {
+                    background-color: #fff;
+                    color: black;
+                    border-color: black;
+                    border-radius: 20px;
+                }
+
+        .modal-body h3 {
+            text-align: center;
+        }
+
+        .modal-body input[type=text] {
+            height: 47px;
+            width: 100%;
+            max-width: 100%;
+            border: 1px solid #c8c5c5;
+            border-radius: 5px;
+            background-color: #fff;
+            display: block;
+            margin-bottom: 0px;
+            padding: 10px;
+            cursor: text;
+            font-size: 1.0rem;
+            font-weight: 300;
+            color: #666;
+            margin-top: 0px;
+        }
+    </style>
 }
 
 @section profileheader{
-    @Html.Partial("Partial/_PartialProfileHeader", Model)
+    @Html.Partial("Partial/_PartialProfileHeaderButton", Model)
 }
 
+<div class="heading-wrapper">
+    <h1>Select Your Growth Plan</h1>
+    <span class="navbar-text">
+        <a class="btn btn-black" href="/user/home">
+            Back
+        </a>
+    </span>
+</div>
+<div class="modal fade text-left" id="planSubscriptionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary white">
+                <h4 class="modal-title" id="myModalLabel1">Subscribe to a growth plan</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="cell example example1">
+                    <form method="post" id="payment-form">
+                        <fieldset>
+                            <div class="row" style="display:inline">
+                                @*<h2 class="text-center">You are subscribing to a monthly plan :</h2>*@
+                                <h1 class="text-center selectedPlanName mt-1"></h1>
+                                <h1 class="text-center selectedPlanPrice mt-1"></h1>
+                                <input type="hidden" id="selectedPlanId" />
+                                <input type="hidden" id="selectedPlanType" />
+                                <input type="hidden" id="existingStripeCustomerId" value="@Model.SocialProfile.StripeCustomerId" />
+                                <input type="hidden" id="existingStripeSubscriptionId" value="@Model.SocialProfile.StripeSubscriptionId" />
+                                <input type="hidden" id="existingPlanId" value="@Model.SocialProfile.PaymentPlanId" />
 
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <div class="row">
+                                <label for="example1-name" data-tid="elements_examples.form.name_label">Name on card</label>
+                                <input id="example1-name" data-tid="elements_examples.form.name_placeholder" type="text" placeholder="Jane Doe" required="" autocomplete="name" value="@currentUser.FirstName">
+                            </div>
+                            <div class="row">
+                                <label for="example1-email" data-tid="elements_examples.form.email_label">Email</label>
+                                <input id="example1-email" data-tid="elements_examples.form.email_placeholder" type="email" placeholder="janedoe@gmail.com" required="" autocomplete="email" value="@currentUser.EmailAddress">
+                            </div>
+                            <div class="row">
+                                <label for="example1-phone" data-tid="elements_examples.form.phone_label">Phone</label>
+                                <input id="example1-phone" data-tid="elements_examples.form.phone_placeholder" type="tel" placeholder="(941) 555-0123" required="" autocomplete="tel">
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <div class="row">
+                                <label for="example1-phone" data-tid="elements_examples.form.phone_label" class="mr-3">Card Information</label>
+                                <div class="FormFieldInput-Icons" style="opacity: 1;"><div style="transform: none;"><span class="FormFieldInput-IconsIcon is-visible"><img src="https://js.stripe.com/v3/fingerprinted/img/visa-365725566f9578a9589553aa9296d178.svg" alt="visa" class="BrandIcon"></span></div><div style="transform: none;"><span class="FormFieldInput-IconsIcon is-visible"><img src="https://js.stripe.com/v3/fingerprinted/img/mastercard-4d8844094130711885b5e41b28c9848f.svg" alt="mastercard" class="BrandIcon"></span></div><div style="transform: none;"><span class="FormFieldInput-IconsIcon is-visible"><img src="https://js.stripe.com/v3/fingerprinted/img/amex-a49b82f46c5cd6a96a6e418a6ca1717c.svg" alt="amex" class="BrandIcon"></span></div><div class="CardFormFieldGroupIconOverflow"><span class="CardFormFieldGroupIconOverflow-Item CardFormFieldGroupIconOverflow-Item--invisible" role="presentation"><span class="FormFieldInput-IconsIcon" role="presentation"><img src="https://js.stripe.com/v3/fingerprinted/img/unionpay-8a10aefc7295216c338ba4e1224627a1.svg" alt="unionpay" class="BrandIcon"></span></span><span class="CardFormFieldGroupIconOverflow-Item CardFormFieldGroupIconOverflow-Item--invisible" role="presentation"><span class="FormFieldInput-IconsIcon" role="presentation"><img src="https://js.stripe.com/v3/fingerprinted/img/jcb-271fd06e6e7a2c52692ffa91a95fb64f.svg" alt="jcb" class="BrandIcon"></span></span><span class="CardFormFieldGroupIconOverflow-Item CardFormFieldGroupIconOverflow-Item--visible" role="presentation"><span class="FormFieldInput-IconsIcon" role="presentation"><img src="https://js.stripe.com/v3/fingerprinted/img/discover-ac52cd46f89fa40a29a0bfb954e33173.svg" alt="discover" class="BrandIcon"></span></span><span class="CardFormFieldGroupIconOverflow-Item CardFormFieldGroupIconOverflow-Item--invisible" role="presentation"><span class="FormFieldInput-IconsIcon" role="presentation"><img src="https://js.stripe.com/v3/fingerprinted/img/diners-fbcbd3360f8e3f629cdaa80e93abdb8b.svg" alt="diners" class="BrandIcon"></span></span></div></div>
+                                @*<div id="example1-card" class="StripeElement StripeElement--empty"><div class="__PrivateStripeElement" style="margin: 0px !important; padding: 0px !important; border: none !important; display: block !important; background: transparent !important; position: relative !important; opacity: 1 !important;"><iframe frameborder="0" allowtransparency="true" scrolling="no" name="__privateStripeFrame5" allowpaymentrequest="true" src="https://js.stripe.com/v3/elements-inner-card-cd25803263cd2601cb18e3cd5aa05896.html#style[base][iconColor]=%23c4f0ff&amp;style[base][color]=%23fff&amp;style[base][fontWeight]=500&amp;style[base][fontFamily]=Roboto%2C+Open+Sans%2C+Segoe+UI%2C+sans-serif&amp;style[base][fontSize]=16px&amp;style[base][fontSmoothing]=antialiased&amp;style[base][:-webkit-autofill][color]=%23fce883&amp;style[base][::placeholder][color]=%2387BBFD&amp;style[invalid][iconColor]=%23FFC7EE&amp;style[invalid][color]=%23FFC7EE&amp;iconStyle=solid&amp;locale=en&amp;componentName=card&amp;wait=true&amp;rtl=false&amp;keyMode=test&amp;apiKey=pk_test_6pRNASCoBOKtIshFeQd4XMUh&amp;origin=https%3A%2F%2Fstripe.dev&amp;referrer=https%3A%2F%2Fstripe.dev%2Felements-examples%2F&amp;controllerId=__privateStripeController1" title="Secure payment input frame" style="border: none !important; margin: 0px !important; padding: 0px !important; width: 1px !important; min-width: 100% !important; overflow: hidden !important; display: block !important; user-select: none !important; height: 19.2px;"></iframe><input class="__PrivateStripeElement-input" aria-hidden="true" aria-label=" " autocomplete="false" maxlength="1" style="border: none !important; display: block !important; position: absolute !important; height: 1px !important; top: 0px !important; left: 0px !important; padding: 0px !important; margin: 0px !important; width: 100% !important; opacity: 0 !important; background: transparent !important; pointer-events: none !important; font-size: 16px !important;"></div></div>*@
+                                <div id="card-element">
+                                    <!-- A Stripe Element will be inserted here. -->
+                                </div>
+                                <div class="error" role="alert">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17">
+                                        <path class="base" fill="#000" d="M8.5,17 C3.80557963,17 0,13.1944204 0,8.5 C0,3.80557963 3.80557963,0 8.5,0 C13.1944204,0 17,3.80557963 17,8.5 C17,13.1944204 13.1944204,17 8.5,17 Z"></path>
+                                        <path class="glyph" fill="#FFF" d="M8.5,7.29791847 L6.12604076,4.92395924 C5.79409512,4.59201359 5.25590488,4.59201359 4.92395924,4.92395924 C4.59201359,5.25590488 4.59201359,5.79409512 4.92395924,6.12604076 L7.29791847,8.5 L4.92395924,10.8739592 C4.59201359,11.2059049 4.59201359,11.7440951 4.92395924,12.0760408 C5.25590488,12.4079864 5.79409512,12.4079864 6.12604076,12.0760408 L8.5,9.70208153 L10.8739592,12.0760408 C11.2059049,12.4079864 11.7440951,12.4079864 12.0760408,12.0760408 C12.4079864,11.7440951 12.4079864,11.2059049 12.0760408,10.8739592 L9.70208153,8.5 L12.0760408,6.12604076 C12.4079864,5.79409512 12.4079864,5.25590488 12.0760408,4.92395924 C11.7440951,4.59201359 11.2059049,4.59201359 10.8739592,4.92395924 L8.5,7.29791847 L8.5,7.29791847 Z"></path>
+                                    </svg>
+                                    <span class="message"></span>
+                                </div>
+                            </div>
+
+                            <div>
+                                @if (ViewBag.paycards != null)
+                                {
+                                    <div id="div_previousCard">
+                                        @foreach (var item in ViewBag.paycards)
+                                        {
+                                            <p>
+                                                Card ending in <b>@item.Last4</b>
+                                                @*<img class="pull-right" src="~/Content/Images/visa-icon.png" />*@
+                                            </p>
+
+                                            <p>Expiry <b>@item.ExpMonth/@item.ExpYear</b></p>
+                                        }
+                                        <br />
+                                        <a href="#" class="btn_displayNewCard">[Edit]</a>
+                                        <br />
+                                    </div>
+                                }
+                            </div>
+
+                        </fieldset>
+
+                        <button id="submit">
+                            <div id="spinner" class="hidden"></div>
+                            <span id="button-text">Subscribe to the Plan</span>
+                        </button>
+                        <fieldset class="text-center mt-1">
+                            <a class="Link Link--primary text-center " style="color:#909090" href="https://stripe.com" target="_blank"><span class="Text Text-color--gray400 Text-fontSize--12 Text-fontWeight--400"><span>Powered by <img src="https://js.stripe.com/v3/fingerprinted/img/stripe-8ad2522ef8799d5985038700f8a07027.svg" alt="stripe" style="width:45px;" class="Icon Footer-PoweredBy-Icon Icon--md"></span></span></a>
+                        </fieldset>
+                    </form>
+                    <div class="success">
+                        <div class="icon">
+                            <svg width="84px" height="84px" viewBox="0 0 84 84" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <circle class="border" cx="42" cy="42" r="40" stroke-linecap="round" stroke-width="4" stroke="#000" fill="none"></circle>
+                                <path class="checkmark" stroke-linecap="round" stroke-linejoin="round" d="M23.375 42.5488281 36.8840688 56.0578969 64.891932 28.0500338" stroke-width="4" stroke="#000" fill="none"></path>
+                            </svg>
+                        </div>
+                        <h3 class="title" data-tid="elements_examples.success.title">Success</h3>
+                        <p class="message" style="font-size:16px;color:green"><span id="cmessage" data-tid="elements_examples.success.message"></span></p>
+                        <a class="btn btn-primary btn-lg btn-block" style="padding:14px;" href="~/User/Home/">Continue</a>
+                    </div>
+                </div>
+            </div>
+            @*<div class="modal-footer">
+                    <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-outline-primary">Save changes</button>
+                </div>*@
+        </div>
+    </div>
+</div>
 
 <!-- BEGIN: Content-->
-<div class="app-content container center-layout mt-2">
+<div class="app-content  center-layout mt-2">
     <div class="content-wrapper">
-        
+
         <div class="content-body">
             <!-- Basic form layout section start -->
             <section id="horizontal-form-layouts">
+
+
+                <div class="row match-height">
+
+
+                    <div class="card">
+                        <div class="card-content">
+
+
+                            <div class="card-body">
+
+                                <h1 class="card-title" style="font-weight:600;font-size:2.5em">Growth Planner</h1>
+
+                                <h4 class="card-title" >@Plan1.PlanName</h4>
+                                <p class="card-text">
+                                    Create multiple Social Campaigns on Instagram, TikTok & LinedIn.
+                                </p>
+                                <p class="card-text">
+                                    Save hastags and growth black list words and white list preferences.
+                                </p>
+                                @if ((Model.SocialProfile.PaymentPlanId ?? 1) == Plan1.PlanId)
+                                {
+                                    <a href="#" style="color:#fff;" class="btn btn-success disabled planSelect btn-lg">Current Plan</a>
+                                }
+                                else
+                                {
+                                    <a href="#" class="btn btn-outline-primary planSelect btn-lg" data-planId="@Plan1.PlanId" data-planname="@Plan1.PlanName" data-planprice="@Plan1.PlanPrice">Subscribe</a>
+                                }
+
+                            <div class=" col-12 align-items-center">
+
+                                <div class="text-center " >
+                                    <img style="width:150px;height:100px;" class="" src="~/Content/Theme-CA/img/IG_2x.png">
+                                    <img style="width:150px;height:100px;" class="" src="~/Content/Theme-CA/img/LinkedIn_2x.png">
+                                    <img style="width:150px;height:100px;" class="" src="~/Content/Theme-CA/img/TikTok_2x.png">
+
+                                </div>
+                            </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="card">
+                        <div class="card-content">
+
+
+                            <div class="card-body">
+
+                                <h1 class="card-title" style="font-weight:600;font-size:2.5em">@plan2.PlanName</h1>
+
+                                <h4 style="color:#75729b" class="card-title">$@plan2.PlanPrice Per Month</h4>
+                                <p class="card-text">
+
+                                    Connect to FREE 3rd part API & AI tools that organically increase your followers, likes and engagement with your targets fan bases.
+
+                                </p>
+                                <ul class="plan-ul">
+                                    <li>
+                                        Instagram OR LinkedIN or TikTok
+                                    </li>
+                                    <li>
+                                        Cancel Antime, No Contracts
+                                    </li>
+                                    <li>
+                                        30 Day Money Back Guarantee
+                                    </li>
+                                    <li>
+                                        Hook up to FREE 3rd Party API Automation Growth & Engagement Tools
+                                    </li>
+                                </ul>
+                                @if ((Model.SocialProfile.PaymentPlanId ?? 1) == plan2.PlanId)
+                                {
+                                    <a href="#" style="color:#fff" class="btn btn-success disabled planSelect btn-lg">Current Plan</a>
+                                }
+                                else
+                                {
+                                    <a href="#" class="btn btn-outline-primary planSelect btn-lg" data-planId="@plan2.PlanId" data-planname="@plan2.PlanName" data-planprice="@plan2.PlanPrice">Subscribe</a>
+                                }
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    @if (Customer.IsBroker != true)
+                    {
+                        <div style="background-color:#544b7d;" class="card">
+
+
+                            <div class="non-broker-tile">
+                                <h3 class="tile-h3 text-center">Upgrade to Agency</h3>
+                                <h1 class="tile-h1 text-center">Save 75%</h1>
+                                <ul class="plan-ull ml-5">
+                                    <li class="tile-li">Create Growth Profiles for only $15/pm</li>
+                                    <li class="tile-li">Access to private Growth Expert Forum</li>
+                                    <li class="tile-li">Digital Marketing Trends & Growth Hacks</li>
+                                    <li class="tile-li">24/7 Chat Support</li>
+                                    <li class="tile-li">Includes 20 FREE Profiles</li>
+                                    <li class="tile-li">All for only $299/pm</li>
+                                </ul>
+                            </div>
+                            <div class="btn-plan-group">
+
+                                <a href="#" class="btn btn-outline-primary btn-plan-agency-info btn-lg btn btn-round" id="btnAfilliate">Upgrade Now</a>
+
+                            </div>
+
+
+                        </div>
+                    }
+
+                </div>
+                @if (1 == 2)
+                {
+                    <div class="row match-height">
+                        @foreach (var plan in plans)
+                        {
+                            <div class="col-xl-4 col-md-6 col-sm-12">
+                                <div class="card">
+                                    <div class="card-content">
+                                        @{
+                                            var filename = "";
+                                            switch (plan.PlanId)
+                                            {
+                                                case 1: filename = "free.png"; break;
+                                                case 2: filename = "platinum.png"; break;
+                                                case 7: filename = "agency.png"; break;
+                                                case 4: filename = "pro.png"; break;
+                                                default:
+                                                    break;
+                                            }
+                                        }
+
+                                        @*<img class="card-img-top img-fluid" src="~/content/Images/@filename" alt="Card image cap">*@
+                                        <div class="card-body">
+                                            @if ((Model.SocialProfile.PaymentPlanId ?? 1) == plan.PlanId)
+                                            {
+                                                <h1 class="card-title" style="font-weight:bold; font-size:2.2em;">@plan.PlanName</h1>
+                                            }
+                                            else
+                                            {
+                                                <h1 class="card-title" style="font-size:1.8em">@plan.PlanName</h1>
+                                            }
+                                            <h4 style="font-size:0.8rem" class="card-title">$@plan.PlanPrice per month</h4>
+                                            <p class="card-text">
+                                                @Html.Raw(plan.PlanDescription.Replace("\n", "<br>"))
+                                            </p>
+                                            @if ((Model.SocialProfile.PaymentPlanId ?? 1) == plan.PlanId)
+                                            {
+                                                <a href="#" class="btn btn-grey-blue disabled btn-lg">Current Plan</a>
+                                            }
+                                            else
+                                            {
+                                                <a href="#" class="btn btn-outline-primary planSelect btn-lg" data-planId="@plan.PlanId" data-planname="@plan.PlanName" data-planprice="@plan.PlanPrice">Subscribe</a>
+                                            }
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+                        }
+                    </div>
+                }
+
+
+                @if (1 == 2)//(Model.SocialProfile.PhonePackagePurchased.HasValue == false)
+                {
+                    <div class="row">
+                        <div class="col-12 mt-1 mb-1">
+                            <h4 class="text-uppercase">YOU REQUIRE A DEDICATED ANDROID MOBILE DEVICE FOR SOCIAL GROWTH, PURCHASE ONE FOR $50 OR USE YOUR OWN (ANDROID 6.0+ REQUIRED)</h4>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-xl-4 col-md-6 col-sm-12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-body" style="padding:0px;">
+                                        <img class="btnBuyMobile" src="~/Content/Images/dedicated_device_1.jpeg" style="cursor:pointer" />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-md-6 col-sm-12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-body" style="padding:0px;">
+
+                                        <img class="btnBuyMobile" src="~/Content/Images/dedicated_device_2.jpeg" style="cursor:pointer;" />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-md-6 col-sm-12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-body" style="padding:0px;">
+                                        <img class="btnBuyMobile" src="~/Content/Images/dedicated_device_3.jpeg" style="cursor:pointer" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+
                 <div class="row">
                     <div class="col-md-12">
+
+
+
+
+
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title" id="horz-layout-basic">Order History</h4>
-                                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                                <div class="heading-elements">
-                                    <ul class="list-inline mb-0">
-                                        <li></li>
 
-                                    </ul>
-                                </div>
                             </div>
                             <div class="card-content collpase show">
 
@@ -71,7 +743,7 @@
                                             <tr>
                                                 <th>Payment Date/Time</th>
                                                 <th>Plan</th>
-                                                <th>Price</th>
+                                                @*<th>Price</th>*@
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
@@ -87,9 +759,9 @@
                                                     <td>
                                                         @item.PaymentPlanName
                                                     </td>
-                                                    <td>
-                                                        @item.Price
-                                                    </td>
+                                                    @*<td>
+                                                            @item.Price
+                                                        </td>*@
                                                     <td>
                                                         <div class="badge badge-primary label-square">
                                                             <i class="fa fa-paperclip font-medium-2"></i>
@@ -107,6 +779,12 @@
                     </div>
                 </div>
 
+                <div class="row form-actions">
+                    <div class="col-12 text-center">
+                        <button class=" btn btn-danger mb-2 text-center" id="btnDeleteSubscription">Delete subscription & profile</button>
+                    </div>
+
+                </div>
             </section>
             <!-- // Basic form layout section end -->
         </div>
@@ -115,23 +793,937 @@
 <!-- END: Content-->
 
 
+<div id="Modal_ConfirmPaymentPlan" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <!--       <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h3 class="modal-title color-crimson">Confirm &amp; Pay</h3>
+                    </div>
+                -->
+                <div class="modal-body">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="Modal_SuccessActivePlan" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                -->
+            <div class="div_ModalBody">
+                <div class="div_successActivePlan">
+                    <h3 class="color-crimson popupHeading">Congratulations, Your subscription has been activated.</h3>
+                    <br />
+                    <p>
+                        <span class="note">Note:</span> <br />
+                        Reports will be avaiable after 5 days of activity
+                    </p>
+                    <br />
+                    <button type="button" class="btn btn-default btnnewheight" data-dismiss="modal">Ok, Got it</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="Modal_ConfirmDeletion" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-left">Cancel subscription Confirmation!</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+            <div class="modal-body">
+
+                <h3 style="color:red">Are you sure you want to cancel your campaign and subscription ? This action is not reversible!</h3>
+                <input type="hidden" id="hdn_DeleteItemId" value="" />
+                <input type="text" id="deleteConfirmation" placeholder="Type in 'DELETE ME' to continue" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn_ConfirmDelete">Delete Permanently</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="Modal_ConfirmDowngrade" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-left">Downgrade Plan Confirmation!</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+            <div class="modal-body">
+
+                <h3 style="color:red">Are you sure you want to downgrade your plan?</h3>
+                <input type="text" id="downgradeConfirmation" placeholder="Type in 'DOWNGRADE ME' to continue" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn_ConfirmDowngrade">Downgrade Plan</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 
 @section Scripts{
+    <script src="https://js.stripe.com/v3/"></script>
     <script src="~/Content/app-assets/js/scripts/bootstrap-pincode-input.js"></script>
     <script src="~/Content/app-assets/vendors/js/forms/tags/tagging.min.js"></script>
-    <script>
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="~/Content/app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
+    @*<script src="~/Content/app-assets/js/scripts/forms/form-repeater.js"></script>*@
+
+    <script src="~/Content/app-assets/vendors/js/forms/icheck/icheck.min.js"></script>
+    <script src="~/Content/app-assets/vendors/js/forms/validation/jqBootstrapValidation.js"></script>
+    <script src="~/Content/app-assets/vendors/js/extensions/sweetalert.min.js"></script>
+    <script src="~/Content/app-assets/js/scripts/extensions/sweet-alerts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+    <!-- END: Page Vendor JS-->
+    <script type="text/javascript">
+        var somethingChanged = false;
+        var socialProfileId = '@Model.SocialProfile.SocialProfileId';
+        var selectedPlanName = '';
+        var selectedPlanprice = '';
+        var BrokerMode = @((Customer.IsBroker.HasValue && Customer.IsBroker.Value == true).ToString().ToLower());
+        var customerid = '@Model.SocialProfile.CustomerId';
+        var currentPaymentPlan = '@planName';
+
+        var existingStripeCustomerIdVal = '@(Model.SocialProfile.StripeCustomerId)';
+        var existingStripeSubscriptionIdVal = '@(Model.SocialProfile.StripeSubscriptionId)';
+        var existingPlanIdVal = '@(Model.SocialProfile.PaymentPlanId)';
+
+         var existingStripeCustomerIdValSub = '@(@currentUser.StripeCustomerId)';
+        var existingStripeSubscriptionIdValSub = '@(@currentUser.StripeSubscriptionId)';
+        var existingPlanIdValSub = '@( @currentUser.BrokerPaymentPlanID)';
+
+
+
+        function showPaymentPopUp(inputFieldId) {
+
+            if (currentPaymentPlan == "FREE") {
+                 $('input[id="' + inputFieldId +'"]').prop('checked', true).change();
+                   Swal.fire({
+                          title: "",
+                          text: "UPGRADE to a paid plan to enable this service. ",
+                          icon: "info", /* type: "info", */
+                          buttons: [
+                            "No", /* showCancelButton: true, cancelButtonText: "No", */
+                            "UPGRADE NOW" /* confirmButtonText: "Yes", */
+                          ],
+                          focusConfirm: false,
+                          showCloseButton: true
+                   }).then((value) => {
+                       if (value) {
+                           $(".planSelect").click();
+                      }
+                  });
+            }
+
+        }
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : evt.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+
         $(document).ready(function () {
+
+            var showssuccess = '@ViewBag.purchasesuccess';
+            if (showssuccess == 1) {
+
+                //swal("Success!", "You have successfully purchased the Phone Package. Instructions are being sent to you by email about delivery!", "success");
+
+                const { value: ipAddress } = Swal.fire({
+                    title: 'Complete Purchase',
+                    text: 'Please enter your phone number below to complete your device purchase',
+                    input: 'text',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+
+                    showCancelButton: false,
+                    inputValidator: (value) => {
+                        if (!value) {
+                            return 'Phone number is mandatory!'
+                        }
+                    }
+                })
+                    .then((result) => {
+                        if (result.value) {
+                            fetch('/profile/UpdatePhone', {
+                                method: 'post',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    socialprofileid: '@Model.SocialProfile.SocialProfileId.ToString()',
+                                    Phone: result.value,
+
+
+                                })
+
+                            })
+
+                                .then(response => {
+
+                                    Swal.fire(
+                                        'Success!',
+                                        'Your phone number is updated!',
+                                        'success'
+                                    );
+                                })
+
+                        }
+
+
+                    })
+                }
+
+
+
+
+
             /*******************************
             *       Simple Options         *
             *******************************/
-            $(".edit-on-delete").tagging({
-                "edit-on-delete": false,
+
+
+
+            $(".planSelect").on("click", function () {
+                $(".selectedPlanName").text($(this).attr("data-planname"));
+                $(".selectedPlanPrice").text( "for $"  + $(this).attr("data-planprice") + " per month");
+                $("#selectedPlanId").val($(this).attr("data-planId"));
+
+
+                $("#existingStripeCustomerId").val(existingStripeCustomerIdVal);
+                $("#existingStripeSubscriptionId").val(existingStripeSubscriptionIdVal);
+                $("#existingPlanId").val(existingPlanIdVal);
+                $("#selectedPlanType").val('ProfileUpgrade');
+
+
+                $("#cmessage").text('Subscription has been created successfully and payment has been processed. You can now connect the mobile app and start growing.');
+
+
+
+                selectedPlanName = $(".selectedPlanName").text();
+                selectedPlanprice = $(".selectedPlanPrice").text();
+
+                var ChangeType = "";
+                var ChangeMsg = "";
+                var ChangeBtn = "";
+                var newplan = $("#selectedPlanId").val();
+                var existingPlan = $("#existingPlanId").val();
+                var existingStripeSubscriptionId = $("#existingStripeSubscriptionId").val();
+
+                if (newplan == 1) {
+                    var ChangeType = "Downgrade to Free Plan";
+                    var ChangeMsg = "Are you sure you want to downgrade to Free Plan? Free plan does not let the app connect and grow!";
+                    var ChangeBtn = "Yes, Let's Downgrade to Free";
+                } else if (existingPlan != undefined && newplan < existingPlan )  {
+                    var ChangeType = "Downgrade to "+ selectedPlanName +" Plan!";
+                    var ChangeMsg = "Are you sure you want to downgrade your plan ?";
+                    var ChangeBtn = "Let's Downgrade";
+                }
+                else
+                {
+                //    var ChangeType = "Upgrade to " + selectedPlanName +" Plan";
+                //var ChangeMsg = "Are you sure you want to upgrade your plan ?";
+                //var ChangeBtn = "Let's Upgrade";
+                    $("#planSubscriptionModal").modal("show");
+                    return;
+                 }
+
+                Swal.fire({
+                    title: ChangeType,
+                    text: ChangeMsg,
+                    icon: "info",
+                    showLoaderOnConfirm: true,
+                    closeOnClickOutside:false,
+                    showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: ChangeBtn,
+                    //preConfirm: (login) => {
+                    //    return fetch('//api.github.com/users/muzamilw')
+                    //        .then(response => {
+                    //            if (!response.ok) {
+                    //                throw new Error(response.statusText)
+                    //            }
+                    //            return response.json()
+                    //        })
+                    //        .catch(error => {
+                    //            Swal.showValidationMessage(
+                    //                'Request failed: ${error}'
+                    //            )
+                    //        })
+                    //},
+                }).then(result => {
+                    if (result.value && existingStripeSubscriptionId == "") {
+                        Swal.close();
+                        $("#planSubscriptionModal").modal("show");
+                    }
+                    else if (result.value && existingStripeSubscriptionId != "") {
+                        //swal.enableLoading();
+                        //swal("OK", "It's safe.", "error");
+                        $("#Modal_ConfirmDowngrade").modal("show");
+
+                    }
+                    else {
+                        //swal("OK", "It's safe.", "error");
+                    }
+                });
+
+
+            });
+
+            $(".btn_ConfirmDowngrade").on("click", function () {
+
+                if ($("#downgradeConfirmation").val() != "DOWNGRADE ME") {
+                    var options = {};
+                    $("#downgradeConfirmation").effect("bounce", options, 500, null);
+                    return false;
+                }
+
+                var newplan = $("#selectedPlanId").val();
+                var existingPlan = $("#existingPlanId").val();
+                var existingStripeSubscriptionId = $("#existingStripeSubscriptionId").val();
+                fetch('/profile/CreateStripeCustomerSubscription', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        NewSubs: false,
+                        email: '',
+                        paymentmethod: '',
+                        selectedPlanId: newplan,
+                        customerid: customerid,
+                        socialProfileId: socialProfileId
+
+                    })
+                })
+                    .then(response => {
+                        //return response.json();
+                    })
+                    .then(subscription => {
+                        //handleSubscription(subscription);
+                        $("#Modal_ConfirmDowngrade").modal("hide");
+                        Swal.close();
+                        Swal.fire("Success!", "Your subscription has been successfully updated;", "success")
+                            .then(function () {
+                                window.location = "/User/Home/";
+                            });
+                    });
+
             });
 
 
-            $('#pincode').pincodeInput({ hidedigits: false, inputs: 8 });
+
+             $("#btnAfilliate").on("click", function () {
+                $(".selectedPlanName").text('Monthly Agency Plan');
+                $(".selectedPlanPrice").text('for $299 per month');
+                 $("#selectedPlanId").val(5);
+
+                 $("#existingstripecustomerid").val(existingStripeCustomerIdValSub);
+                 $("#existingstripesubscriptionid").val(existingStripeSubscriptionIdValSub);
+                 $("#existingplanid").val(existingPlanIdValSub);
+                 $("#selectedPlanType").val('AgencyUpgrade');
+
+                 $("#cmessage").text('Agency Subscription has been created successfully and payment has been processed. Create social profiles to continue.');
+
+
+                selectedPlanName = $(".selectedPlanName").text();
+                selectedPlanprice = 299;
+                var customerId = '@Customer.CustomerId';
+
+                 $("#myModalLabel1").text('Subscribe to Agency plan');
+                var ChangeType = "";
+                var ChangeMsg = "";
+                var ChangeBtn = "";
+                var newplan = $("#selectedPlanId").val();
+                var existingPlan = $("#existingPlanId").val();
+                var existingStripeSubscriptionId = $("#existingStripeSubscriptionId").val();
+
+                if (newplan == 1) {
+                    var ChangeType = "Downgrade to Free Plan";
+                    var ChangeMsg = "Are you sure you want to downgrade to Free Plan? Free plan does not let the app connect and grow!";
+                    var ChangeBtn = "Yes, Let's Downgrade to Free";
+                } else if (existingPlan != undefined && newplan < existingPlan) {
+                    var ChangeType = "Downgrade to " + selectedPlanName + "!";
+                    var ChangeMsg = "Are you sure you want to downgrade your plan ?";
+                    var ChangeBtn = "Yes, Let's Downgrade";
+                }
+                else {
+                    var ChangeType = "Subscribe to " + selectedPlanName + "";
+                    var ChangeMsg = "Are you sure you want to subscribe for $" + selectedPlanprice +" per month?";
+                    var ChangeBtn = "Yes, Let's Subscribe";
+                }
+
+                 swal.fire({
+                    title: ChangeType,
+                    text: ChangeMsg,
+                    icon: "info",
+                    showLoaderOnConfirm: true,
+                    closeOnClickOutside: false,
+                     showCancelButton: true,
+                     confirmButtonColor: '#3085d6',
+                     cancelButtonColor: '#d33',
+                     confirmButtonText: ChangeBtn,
+                    //preConfirm: (login) => {
+                    //    return fetch('//api.github.com/users/muzamilw')
+                    //        .then(response => {
+                    //            if (!response.ok) {
+                    //                throw new Error(response.statusText)
+                    //            }
+                    //            return response.json()
+                    //        })
+                    //        .catch(error => {
+                    //            Swal.showValidationMessage(
+                    //                'Request failed: ${error}'
+                    //            )
+                    //        })
+                    //},
+                 }).then(result => {
+                     if (result.value && existingStripeSubscriptionId == "") {
+                         Swal.close();
+                         $("#planSubscriptionModal").modal("show");
+                     }
+                     else if (result.value && existingStripeSubscriptionId != "") {
+                        //swal.enableLoading();
+                        //swal("OK", "It's safe.", "error");
+
+                        fetch('/profile/CreateStripeCustomerSubscription', {
+                            method: 'post',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                NewSubs: false,
+                                email: '',
+                                paymentmethod: '',
+                                selectedPlanId: newplan,
+                                customerid: customerId,
+                                socialProfileId: 0
+
+                            })
+                        })
+                            .then(response => {
+                                return response.json();
+                            })
+                            .then(subscription => {
+                                //handleSubscription(subscription);.
+                                swal.close();
+                                swal.fire("Success!", "Your subscription has been successfully updated;", "success")
+                                    .then(function () {
+                                        window.location = "/User/Home/";
+                                    });;
+                            });
+                    }
+                    else {
+                        //swal("OK", "It's safe.", "error");
+                    }
+                });
+
+
+            });
+
+            $("#btnDeleteSubscription").on("click", function (e) {
+
+                e.preventDefault();
+                e.stopPropagation();
+
+
+                Swal.fire({
+                    title: "Cancel subscription!",
+                    text: "Are you sure you want to cancel your campaign and subscription ? This action is not reversible!",
+                    icon: "error",
+                    showLoaderOnConfirm: true,
+                    closeOnClickOutside: false,
+                    showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: "Yes Delete!",
+
+                }).then(isConfirm => {
+                    if (isConfirm.value) {
+
+                         $("#Modal_ConfirmDeletion").modal("show");
+                        //fetch('/profile/Confirmdelete', {
+                        //    method: 'post',
+                        //    headers: {
+                        //        'Content-Type': 'application/json'
+                        //    },
+                        //    body: JSON.stringify({
+                        //        socialProfileId: socialProfileId
+                        //    })
+                        //})
+                        //    .then(subscription => {
+                        //        //handleSubscription(subscription);.
+                        //        Swal.close();
+                        //        Swal.fire("Success!", "Your subscription & campaign has been deleted successfully;", "success")
+                        //            .then(function () {
+                        //                window.location = "/User/Home/";
+                        //            });;
+                        //    });
+                    }
+                    else {
+                        //swal("OK", "It's safe.", "error");
+                    }
+                });
+
+
+            });
+
+
+            $(".btn_ConfirmDelete").on("click", function () {
+
+                if ($("#deleteConfirmation").val() != "DELETE ME") {
+                    var options = {};
+                    $("#deleteConfirmation").effect("bounce", options, 500, null);
+                    return false;
+                }
+                fetch('/profile/Confirmdelete', {
+                            method: 'post',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                socialProfileId: socialProfileId
+                            })
+                        })
+                            .then(subscription => {
+                                //handleSubscription(subscription);.
+                                $("#Modal_ConfirmDeletion").modal("hide");
+                                Swal.close();
+                                Swal.fire("Success!", "Your subscription & campaign has been deleted successfully;", "success")
+                                    .then(function () {
+                                        window.location = "/User/Home/";
+                                    });
+                            });
+
+
+            });
+
+            $(".btnBuyMobile").on("click", function () {
+
+                var sSessionId = ''
+                var stripe = Stripe('@ViewBag.stripePublishKey');
+
+                fetch('/profile/BuyPhone', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        socialprofileid : '@Model.SocialProfile.SocialProfileId.ToString()',
+                        email: '@Model.socialcustomer.EmailAddress',
+                        pageUrl : window.location.href
+
+                    })
+
+                })
+
+                    .then(response => {
+                    //alert(response)
+                    return response.text();
+                })
+                    .then(subscription => {
+
+                        sSessionId = subscription
+                        //alert('final then ssid ' + sSessionId);
+
+                        stripe.redirectToCheckout({
+                            // Make the id field from the Checkout Session creation API response
+                            // available to this file, so you can provide it as parameter here
+                            // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
+                            sessionId: sSessionId
+                        }).then(function (result) {
+                            // If `redirectToCheckout` fails due to a browser or network
+                            // error, display the localized error message to your customer
+                            // using `result.error.message`.
+                            alert(result);
+                        });
+                });
+
+
+
+            });
+
+            ///////////////////////////////////////////////////////////////////////////////////striepe////////////////////////
+            var stripe;
+
+            var stripeElements = function (publicKey) {
+                stripe = Stripe(publicKey);
+                var elements = stripe.elements();
+
+                // Element styles
+                var style = {
+                    base: {
+                        fontSize: '16px',
+                        color: '#32325d',
+                        fontFamily:
+                            '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif',
+                        fontSmoothing: 'antialiased',
+                        '::placeholder': {
+                            color: 'rgba(0,0,0,0.4)'
+                        }
+                    }
+                };
+
+                var card = elements.create('card', { hidePostalCode: true, style: style });
+                card.mount('#card-element');
+
+                // Element focus ring
+                card.on('focus', function () {
+                    var el = document.getElementById('card-element');
+                    el.classList.add('focused');
+                    //fbq('track', 'AddPaymentInfo');
+                });
+
+                card.on('blur', function () {
+                    var el = document.getElementById('card-element');
+                    el.classList.remove('focused');
+                });
+
+                registerElements([card], 'example1',card);
+
+                //document.querySelector('#submit').addEventListener('click', function (evt) {
+                //    evt.preventDefault();
+                //    changeLoadingState(true);
+                //    // Initiate payment
+                //    createPaymentMethodAndCustomer(stripe, card);
+                //});
+            };
+            var example = null;
+            function registerElements(elements, exampleName, card) {
+                var formClass = '.' + exampleName;
+                example = document.querySelector(formClass);
+
+                var form = example.querySelector('form');
+                var resetButton = example.querySelector('a.reset');
+                var error = form.querySelector('.error');
+                var errorMessage = error.querySelector('.message');
+
+                function enableInputs() {
+                    Array.prototype.forEach.call(
+                        form.querySelectorAll(
+                            "input[type='text'], input[type='email'], input[type='tel']"
+                        ),
+                        function (input) {
+                            input.removeAttribute('disabled');
+                        }
+                    );
+                }
+
+                function disableInputs() {
+                    Array.prototype.forEach.call(
+                        form.querySelectorAll(
+                            "input[type='text'], input[type='email'], input[type='tel']"
+                        ),
+                        function (input) {
+                            input.setAttribute('disabled', 'true');
+                        }
+                    );
+                }
+
+                function triggerBrowserValidation() {
+                    // The only way to trigger HTML5 form validation UI is to fake a user submit
+                    // event.
+                    var submit = document.createElement('input');
+                    submit.type = 'submit';
+                    submit.style.display = 'none';
+                    form.appendChild(submit);
+                    submit.click();
+                    submit.remove();
+                }
+
+                // Listen for errors from each Element, and show error messages in the UI.
+                var savedErrors = {};
+                elements.forEach(function (element, idx) {
+                    element.on('change', function (event) {
+                        if (event.error) {
+                            error.classList.add('visible');
+                            savedErrors[idx] = event.error.message;
+                            errorMessage.innerText = event.error.message;
+                        } else {
+                            savedErrors[idx] = null;
+
+                            // Loop over the saved errors and find the first one, if any.
+                            var nextError = Object.keys(savedErrors)
+                                .sort()
+                                .reduce(function (maybeFoundError, key) {
+                                    return maybeFoundError || savedErrors[key];
+                                }, null);
+
+                            if (nextError) {
+                                // Now that they've fixed the current error, show another one.
+                                errorMessage.innerText = nextError;
+                            } else {
+                                // The user fixed the last error; no more errors.
+                                error.classList.remove('visible');
+                            }
+                        }
+                    });
+                });
+
+                // Listen on the form's 'submit' handler...
+                form.addEventListener('submit', function (e) {
+
+                    e.preventDefault();
+
+                    // Trigger HTML5 validation UI on the form if any of the inputs fail
+                    // validation.
+                    var plainInputsValid = true;
+                    Array.prototype.forEach.call(form.querySelectorAll('input'), function (
+                        input
+                    ) {
+                        if (input.checkValidity && !input.checkValidity()) {
+                            plainInputsValid = false;
+                            return;
+                        }
+                    });
+                    if (!plainInputsValid) {
+                        triggerBrowserValidation();
+                        return;
+                    }
+
+                    // Show a loading screen...
+                    example.classList.add('submitting');
+
+                    // Disable all inputs.
+                    disableInputs();
+
+                    // Gather additional customer data we may have collected in our form.
+                    var name = form.querySelector('#' + exampleName + '-name');
+                    var email = form.querySelector('#' + exampleName + '-email');
+                    var phone = form.querySelector('#' + exampleName + '-phone');
+
+
+                    createPaymentMethodAndCustomer(stripe, card, name.value, email.value, phone.value);
+
+                    // Use Stripe.js to create a token. We only need to pass in one Element
+                    // from the Element group in order to create a token. We can also pass
+                    // in the additional customer data we collected in our form.
+                    //stripe.createToken(elements[0], additionalData).then(function (result) {
+                    //    // Stop loading!
+                    //    example.classList.remove('submitting');
+
+                    //    if (result.token) {
+                    //        // If we received a token, show the token ID.
+                    //        example.querySelector('.token').innerText = result.token.id;
+                    //        example.classList.add('submitted');
+                    //    } else {
+                    //        // Otherwise, un-disable inputs.
+                    //        enableInputs();
+                    //    }
+                    //});
+                });
+
+
+            }
+
+
+            function createPaymentMethodAndCustomer(stripe, card, name, email, phone) {
+
+
+                var selectedPlanId = $('#selectedPlanId').val();
+
+                stripe.createPaymentMethod('card', card, {
+                        billing_details: {
+                            email: email,
+                            name: name,
+                            phone:phone
+                        }
+                    })
+                    .then(function (result) {
+                        if (result.error) {
+                            showCardError(result.error);
+                        }
+                        else if ($("#selectedPlanType").val() == 'AgencyUpgrade')
+                        {
+                            createCustomerSub(result.paymentMethod.id, email, selectedPlanId, customerid, name, phone);
+                        }
+                        else {
+                            createCustomer(result.paymentMethod.id, email, selectedPlanId, customerid, socialProfileId,name,phone);
+                        }
+                    });
+            }
+
+            async function createCustomer(paymentMethod, cardholderEmail, selectedPlanId, customerid, socialProfileId, name, phone) {
+                return fetch('/profile/CreateStripeCustomerSubscription', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        NewSubs : true,
+                        email: cardholderEmail,
+                        paymentmethod: paymentMethod,
+                        selectedPlanId: selectedPlanId,
+                        customerid: customerid,
+                        socialProfileId: socialProfileId
+
+                    })
+                })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(subscription => {
+                        handleSubscription(subscription);
+                    });
+            }
+
+            async function createCustomerSub(paymentMethod, cardholderEmail, selectedPlanId, customerid, name, phone) {
+                return fetch('/User/CreateStripeCustomerSubscription', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        NewSubs: true,
+                        email: cardholderEmail,
+                        paymentmethod: paymentMethod,
+                        selectedPlanId: selectedPlanId,
+                        customerid: customerid,
+                        socialProfileId: 0
+
+                    })
+                })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(subscription => {
+                        handleSubscription(subscription);
+                    });
+            }
+
+
+            function handleSubscription(subscription) {
+                const { latest_invoice } = subscription;
+                const { payment_intent } = latest_invoice;
+
+                if (payment_intent) {
+                    const { client_secret, status } = payment_intent;
+
+                    if (status === 'requires_action' || status === 'requires_payment_method') {
+                        stripe.confirmCardPayment(client_secret).then(function (result) {
+                            if (result.error) {
+                                // Display error message in your UI.
+                                // The card was declined (i.e. insufficient funds, card has expired, etc)
+                                //changeLoadingState(false);
+                                showCardError(result.error);
+                            } else {
+                                // Show a success message to your customer
+                                confirmSubscription(subscription.id);
+                            }
+                        });
+                    } else {
+                        // No additional information was needed
+                        // Show a success message to your customer
+                        orderComplete(subscription);
+                    }
+                } else {
+                    orderComplete(subscription);
+                }
+            }
+
+            function confirmSubscription(subscriptionId) {
+                return fetch('/subscription', {
+                    method: 'post',
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        subscriptionId: subscriptionId
+                    })
+                })
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(function (subscription) {
+                        orderComplete(subscription);
+                    });
+            }
+
+
+            /* ------- Post-payment helpers ------- */
+
+            /* Shows a success / error message when the payment is complete */
+            var orderComplete = function (subscription) {
+                changeLoadingState(false);
+                //var subscriptionJson = JSON.stringify(subscription, null, 2);
+                example.classList.remove('submitting');
+                example.classList.add('submitted');
+
+                //fbq('track', 'Purchase', {
+                //    value: 59,
+                //    currency: 'USD',
+                //});
+
+                //alert(subscriptionJson);
+                //document.querySelectorAll('.payment-view').forEach(function (view) {
+                //    view.classList.add('hidden');
+                //});
+                //document.querySelectorAll('.completed-view').forEach(function (view) {
+                //    view.classList.remove('hidden');
+                //});
+                //document.querySelector('.order-status').textContent = subscription.status;
+                //document.querySelector('code').textContent = subscriptionJson;
+            };
+
+            // Show a spinner on subscription submission
+            var changeLoadingState = function (isLoading) {
+                if (isLoading) {
+                    document.querySelector('#spinner').classList.add('loading');
+                    document.querySelector('button').disabled = true;
+
+                    document.querySelector('#button-text').classList.add('hidden');
+                } else {
+                    document.querySelector('button').disabled = false;
+                    document.querySelector('#spinner').classList.remove('loading');
+                    document.querySelector('#button-text').classList.remove('hidden');
+                }
+            };
+
+            function showCardError(error) {
+                //changeLoadingState(false);
+                example.classList.remove('submitting');
+                // The card was declined (i.e. insufficient funds, card has expired, etc)
+                var errorMsg = document.querySelector('cmessage');
+                errorMsg.textContent = error.message;
+
+            }
+
+            stripeElements('@ViewBag.stripePublishKey');
+
+
 
         });
+
+
+
+
+
+
     </script>
 
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 }

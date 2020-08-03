@@ -10,6 +10,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Social Growth</title>
@@ -30,11 +38,11 @@
         }
     </style>
 
-    <script>
+    @*<script>
         !function (f, b, e, v, n, t, s) {
             if (f.fbq) return; n = f.fbq = function () {
                 n.callMethod ?
-                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
             }; if (!f._fbq) f._fbq = n;
             n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0;
             t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
@@ -51,7 +59,7 @@
         <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2899883190056318&ev=PageView&noscript=1" />
         <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=722023768308766&ev=PageView&noscript=1" />
         <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=433629843942100&ev=PageView&noscript=1" />
-    </noscript>
+    </noscript>*@
 
 
 </head>
@@ -347,7 +355,7 @@
                                     $("#Modal_SignupPopup").modal("hide");
                                     $("#Modal_MessageBoxTitle").text("Account Created Succesfully.!");
                                     $("#Modal_MessageBoxBody").text("Congratulation! Your account has successfully created. Please check your inbox for verification.!");
-                                    fbq('track', 'CompleteRegistration');
+                                    ///fbq('track', 'CompleteRegistration');
                                     $("#Modal_Messagebox").modal("show");
                                 } else {
                                     $("#signup-error").show().html(data.message);

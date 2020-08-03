@@ -141,11 +141,48 @@ namespace SG2.CORE.DAL.Repositories
                         {
                             contact.PhoneNumber = entity.PhoneNumber;
                             contact.PhoneCode = entity.PhoneCode;
+                            contact.AddressLine1 = entity.AddressLine1;
+                            contact.AddressLine2 = entity.AddressLine2;
+                            contact.City = entity.City;
+                            contact.Sate = entity.State;
+                            contact.PostalCode = entity.PostCode;
+                            contact.Country = entity.Country;
+                            contact.Notes = entity.Notes;
+
+
                             _db.SaveChanges();
                         }
 
                     }
                     return entity;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public bool UpdateCustomerPhone(int SocialProfileId, string Phone)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    var socialprofile = _db.SocialProfiles.Where(g => g.SocialProfileId == SocialProfileId).SingleOrDefault();
+                    if (socialprofile != null)
+                    {
+
+                        var contact = _db.Customer_ContactDetail.Where(g => g.CustomerId == socialprofile.CustomerId).SingleOrDefault();
+                        if (contact != null)
+                        {
+                            contact.PhoneNumber = Phone;
+
+                            _db.SaveChanges();
+                        }
+
+                    }
+                    return true;
                 }
             }
             catch (Exception ex)
@@ -274,7 +311,7 @@ namespace SG2.CORE.DAL.Repositories
                             }
                         }
                     }
-                    else if ((fieldName == "firstName") || (fieldName == "lastName") || (fieldName == "Source") || (fieldName == "Comment") || (fieldName == "Title") || (fieldName == "ResTeamMember") || (fieldName == "AvaToEveryOne") || (fieldName == "CustomerStatus"))
+                    else if ((fieldName == "firstName") || (fieldName == "LastName") || (fieldName == "Source") || (fieldName == "Comment") || (fieldName == "Title") || (fieldName == "ResTeamMember") || (fieldName == "AvaToEveryOne") || (fieldName == "CustomerStatus") )
                     {
                         var user = _db.Customers.FirstOrDefault(x => x.CustomerId == customerId);
 
@@ -286,7 +323,7 @@ namespace SG2.CORE.DAL.Repositories
                                 _db.SaveChanges();
                                 return true;
                             }
-                            else if (fieldName == "lastName")
+                            else if (fieldName == "LastName")
                             {
                                 user.SurName = value;
                                 _db.SaveChanges();
@@ -335,7 +372,7 @@ namespace SG2.CORE.DAL.Repositories
                         }
 
                     }
-                    else if ((fieldName == "Tel") || (fieldName == "Town") || (fieldName == "Country") || (fieldName == "Mobile") || (fieldName == "PostalCode") || (fieldName == "AddressLine"))
+                    else if ((fieldName == "Tel") || (fieldName == "City") || (fieldName == "Country") || (fieldName == "Mobile") || (fieldName == "PostalCode") || (fieldName == "AddressLine1") || (fieldName == "AddressLine2") || (fieldName == "Notes") || (fieldName == "State"))
                     {
                         var user = _db.Customer_ContactDetail.FirstOrDefault(x => x.CustomerId == customerId);
                         if (user != null)
@@ -347,7 +384,7 @@ namespace SG2.CORE.DAL.Repositories
                                 return true;
 
                             }
-                            else if (fieldName == "Town")
+                            else if (fieldName == "City")
                             {
                                 user.City = value;
                                 _db.SaveChanges();
@@ -374,9 +411,28 @@ namespace SG2.CORE.DAL.Repositories
                                 return true;
 
                             }
-                            else if (fieldName == "AddressLine")
+                            else if (fieldName == "State")
+                            {
+                                user.Sate = value;
+                                _db.SaveChanges();
+                                return true;
+
+                            }
+                            else if (fieldName == "AddressLine1")
                             {
                                 user.AddressLine1 = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "AddressLine2")
+                            {
+                                user.AddressLine2 = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "Notes")
+                            {
+                                user.Notes = value;
                                 _db.SaveChanges();
                                 return true;
                             }
@@ -654,7 +710,10 @@ namespace SG2.CORE.DAL.Repositories
                         customerDetailViewModel.InstaPassword = actiondata.InstaPassword;
                         customerDetailViewModel.AvaToEveryOne = actiondata.AvaToEveryOne;
                         customerDetailViewModel.Country = actiondata.Country;
-                        customerDetailViewModel.AddressLine = actiondata.AddressLine;
+                        customerDetailViewModel.AddressLine1 = actiondata.AddressLine1;
+                        customerDetailViewModel.AddressLine2 = actiondata.AddressLine2;
+                        customerDetailViewModel.State = actiondata.State;
+                        customerDetailViewModel.Notes = actiondata.Notes;
                         customerDetailViewModel.Tel = actiondata.Tel;
                         customerDetailViewModel.SocialProfileId = Convert.ToString(profileId);
                         customerDetailViewModel.SocialProfileName = actiondata.SocialProfileName;
@@ -786,14 +845,14 @@ namespace SG2.CORE.DAL.Repositories
 
         }
 
-        public IList<CustomerListingViewModel> GetUserData(string SearchCriteria, int PageNumber, string PageSize, int? Status, string ProductId, string JVStatus, int? Subscription)
+        public IList<CustomerListingViewModel> GetUserData(string SearchCriteria, int PageNumber, string PageSize, int? Status, string ProductId, string JVStatus, int? Subscription, int? profileType, int? BlockId, int? AppConnStatus)
         {
             try
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
                     //-- TODO: Change proper sp
-                    var usrdata = _db.SG2_usp_GetUserDetailsForbackOffice(SearchCriteria, PageNumber, PageSize, Status, (ProductId), JVStatus, Subscription).ToList();
+                    var usrdata = _db.SG2_usp_GetUserDetailsForbackOffice(SearchCriteria, PageNumber, PageSize, Status, (ProductId), JVStatus, Subscription,profileType, BlockId, AppConnStatus).ToList();
                     if (usrdata != null)
                     {
                         List<CustomerListingViewModel> customerListingViewModelsList = new List<CustomerListingViewModel>();
@@ -812,6 +871,16 @@ namespace SG2.CORE.DAL.Repositories
                             customerListingViewModel.SocialProfileId = Convert.ToString(item.SocialProfileId);
                             customerListingViewModel.SocialProfileName = item.SocialProfileName;
                             customerListingViewModel.CustomerEmail = item.CustomerEmail;
+                            customerListingViewModel.FollowOn = item.FollowOn;
+                            customerListingViewModel.UnFollFollowersAfterMinDays = item.UnFollFollowersAfterMinDays;
+                            customerListingViewModel.AfterFollLikeuserPosts = item.AfterFollLikeuserPosts;
+                            customerListingViewModel.AfterFollViewUserStory = item.AfterFollViewUserStory;
+                            customerListingViewModel.BlockStatus = item.BlockedStatus;
+                            customerListingViewModel.BrokerAppName = item.BrokerAppName;
+                            customerListingViewModel.AppConnStatus = item.AppConnStatus;
+                            customerListingViewModel.AppVersion = item.AppVersion;
+                            customerListingViewModel.AppTimeZoneOffSet = item.AppTimeZoneOffSet??0;
+
                             customerListingViewModelsList.Add(customerListingViewModel);
                         }
                         return customerListingViewModelsList;
@@ -825,47 +894,55 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
-        public (bool, string, int, bool, int ErrorCode, int CustomerId, bool IsBroker, int BlockCode, DateTime BlockDateTimeUTC) PerformMobileLogin(string SocialUserName, string Pin, string DeviceIMEI, bool ForceSwitchDevice)
+        public (bool, string, int, bool, int ErrorCode, int CustomerId, bool IsBroker, int BlockCode, DateTime BlockDateTimeUTC, bool InitialStatsReceived) PerformMobileLogin(MobileLoginRequest model)
         {
 
+
+            model.ForceSwitchDevice = true;//overrising the flag and always forcing login.
             using (var _db = new SocialGrowth2Connection())
             {
-                var profile = _db.SocialProfiles.Where(g => g.SocialUsername == SocialUserName && g.PinCode == Pin && g.PinCode == Pin).SingleOrDefault();
+                var profile = _db.SocialProfiles.Where(g => g.SocialUsername == model.Email && g.PinCode == model.Pin).SingleOrDefault();
                 if (profile != null)
                 {
                     var Customer = _db.Customers.Where(g => g.CustomerId == profile.CustomerId).Single();
 
                     if (string.IsNullOrEmpty(profile.DeviceIMEI))
                     {
-                        profile.DeviceIMEI = DeviceIMEI;
+                        profile.DeviceIMEI = model.IMEI;
                         profile.DeviceStatus = (int)DeviceStatus.Connected;
                         profile.LastConnectedDateTime = DateTime.Now;
+                        profile.AppTimeZoneOffSet = model.AppTimeZoneOffSet ?? "";
+                        profile.AppVersion = model.AppVersion ?? "";
                         _db.SaveChanges();
-                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty( profile.SocialPassword),1, profile.CustomerId.Value, Customer.IsBroker.HasValue ? Customer.IsBroker.Value:false, profile.BlockedStatus??0, profile.BockedSinceDateTime.HasValue ? profile.BockedSinceDateTime.Value.ToUniversalTime():DateTime.MinValue );
+                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty( profile.SocialPassword),1, profile.CustomerId.Value, Customer.IsBroker.HasValue ? Customer.IsBroker.Value:false, profile.BlockedStatus??0, profile.BockedSinceDateTime.HasValue ? profile.BockedSinceDateTime.Value.ToUniversalTime():DateTime.MinValue , profile.InitialStatsReceived?? false);
                     }
-                    else if (profile.DeviceIMEI == DeviceIMEI)
+                    else if (profile.DeviceIMEI == model.IMEI)
                     {
-                        profile.DeviceIMEI = DeviceIMEI;
+                        profile.DeviceIMEI = model.IMEI;
                         profile.DeviceStatus = (int)DeviceStatus.Connected;
                         profile.LastConnectedDateTime = DateTime.Now;
+                        profile.AppTimeZoneOffSet = model.AppTimeZoneOffSet ?? "";
+                        profile.AppVersion = model.AppVersion ?? "";
                         _db.SaveChanges();
-                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty(profile.SocialPassword),1, profile.CustomerId.Value, Customer.IsBroker.HasValue ? Customer.IsBroker.Value : false, profile.BlockedStatus ?? 0, profile.BockedSinceDateTime.HasValue ? profile.BockedSinceDateTime.Value.ToUniversalTime() : DateTime.MinValue);
+                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty(profile.SocialPassword),1, profile.CustomerId.Value, Customer.IsBroker.HasValue ? Customer.IsBroker.Value : false, profile.BlockedStatus ?? 0, profile.BockedSinceDateTime.HasValue ? profile.BockedSinceDateTime.Value.ToUniversalTime() : DateTime.MinValue, profile.InitialStatsReceived ?? false);
                     }
-                    else if (profile.DeviceIMEI != DeviceIMEI && ForceSwitchDevice == false)
+                    else if (profile.DeviceIMEI != model.IMEI && model.ForceSwitchDevice == false)
                     {
-                        return (false, "Device IMEI does not match", profile.SocialProfileId,false,2,0,false,0,DateTime.MinValue);
+                        return (false, "Device IMEI does not match", profile.SocialProfileId,false,2,0,false,0,DateTime.MinValue,false);
                     }
-                    else if (profile.DeviceIMEI != DeviceIMEI && ForceSwitchDevice == true)
+                    else if (profile.DeviceIMEI != model.IMEI && model.ForceSwitchDevice == true)
                     {
-                        profile.DeviceIMEI = DeviceIMEI;
+                        profile.DeviceIMEI = model.IMEI;
                         profile.DeviceStatus = (int)DeviceStatus.Connected;
                         profile.LastConnectedDateTime = DateTime.Now;
+                        profile.AppTimeZoneOffSet = model.AppTimeZoneOffSet ?? "";
+                        profile.AppVersion = model.AppVersion ?? "";
                         _db.SaveChanges();
-                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty(profile.SocialPassword),1, profile.CustomerId.Value, Customer.IsBroker.HasValue ? Customer.IsBroker.Value : false, profile.BlockedStatus ?? 0, profile.BockedSinceDateTime.HasValue ? profile.BockedSinceDateTime.Value.ToUniversalTime() : DateTime.MinValue);
+                        return (true, "Login Sucessful", profile.SocialProfileId, string.IsNullOrEmpty(profile.SocialPassword),1, profile.CustomerId.Value, Customer.IsBroker.HasValue ? Customer.IsBroker.Value : false, profile.BlockedStatus ?? 0, profile.BockedSinceDateTime.HasValue ? profile.BockedSinceDateTime.Value.ToUniversalTime() : DateTime.MinValue, profile.InitialStatsReceived ?? false);
                     }
                     else
                     {
-                        return (false, "Device IMEI does not match", profile.SocialProfileId, false,2,0,false,0,DateTime.MinValue);
+                        return (false, "Device IMEI does not match", profile.SocialProfileId, false,2,0,false,0,DateTime.MinValue,false);
                     }
 
 
@@ -876,7 +953,7 @@ namespace SG2.CORE.DAL.Repositories
                 //}
                 else
                 {
-                    return (false, "Invalid username or Pin", 0,false,3,0,false,0,DateTime.MinValue);
+                    return (false, "Invalid username or Pin", 0,false,3,0,false,0,DateTime.MinValue,false);
                 }
 
             }
@@ -907,10 +984,22 @@ namespace SG2.CORE.DAL.Repositories
                             IsOptedEducationalEmailSeries = Convert.ToBoolean(usr.IsOptedEducationalEmailSeries),
                             IsOptedMarketingEmail = Convert.ToBoolean(usr.IsOptedMarketingEmail),
                             StatusId = usr.StatusId,
-                            StripeSubscriptionId = usr.PaymentId.HasValue ? usr.PaymentId.Value.ToString() : null,
+                            StripeSubscriptionId = usr.StripeSubscriptionId,
                             DefaultSocialProfileId = usr.DefaultSocialProfileId.Value,
                             
                         };
+
+                        var contact = _db.Customer_ContactDetail.Where(g => g.CustomerId == usr.CustomerId).FirstOrDefault();
+                        if (contact != null)
+                        {
+                            cst.AddressLine1 = contact.AddressLine1;
+                            cst.AddressLine2 = contact.AddressLine2;
+                            cst.City = contact.City;
+                            cst.State = contact.Sate;
+                            cst.Country = contact.Country;
+                            cst.PostCode = contact.PostalCode;
+                            cst.Notes = contact.Notes;
+                        }
 
                         var cust = _db.Customers.Where(g => g.CustomerId == usr.CustomerId).SingleOrDefault();
                         if (cust != null)
@@ -921,6 +1010,101 @@ namespace SG2.CORE.DAL.Repositories
                         return cst;
                     }
                     return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CustomerDTO GetCustomerRefresh(int CustomerId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    //-- TODO: Change sp to propername
+                    var usr = _db.Customers.Where(g => g.CustomerId == CustomerId).SingleOrDefault();
+                    if (usr != null)
+                    {
+                        CustomerDTO cst = new CustomerDTO()
+                        {
+                            GUID = usr.GUID,
+                            CustomerId = usr.CustomerId,
+                            FirstName = usr.FirstName,
+                            EmailAddress = usr.EmailAddress,
+                            SurName = usr.SurName,
+                            PhoneCode = "",
+                            PhoneNumber = "",
+                            Password = usr.Password,
+                            StripeCustomerId = usr.StripeCustomerId,
+                            IsOptedEducationalEmailSeries = Convert.ToBoolean(usr.IsOptedEducationalEmailSeries),
+                            IsOptedMarketingEmail = Convert.ToBoolean(usr.IsOptedMarketingEmail),
+                            StatusId = usr.StatusId,
+                            StripeSubscriptionId = usr.StripeSubscriptionId,
+                            DefaultSocialProfileId = 0,
+
+                        };
+
+                        var contact = _db.Customer_ContactDetail.Where(g => g.CustomerId == usr.CustomerId).FirstOrDefault();
+                        if (contact != null)
+                        {
+                            cst.AddressLine1 = contact.AddressLine1;
+                            cst.AddressLine2 = contact.AddressLine2;
+                            cst.City = contact.City;
+                            cst.State = contact.Sate;
+                            cst.Country = contact.Country;
+                            cst.PostCode = contact.PostalCode;
+                            cst.Notes = contact.Notes;
+                        }
+
+                        var cust = _db.Customers.Where(g => g.CustomerId == usr.CustomerId).SingleOrDefault();
+                        if (cust != null)
+                        {
+                            cst.IsBroker = cust.IsBroker;
+                            cst.BrokerPaymentPlanID = cust.BrokerPaymentPlanID;
+                        }
+                        return cst;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CustomerDTO GetContactDetails(int CustomerId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    //-- TODO: Change sp to propername
+
+                    var cst = new CustomerDTO();
+
+
+                    var contact = _db.Customer_ContactDetail.Where(g => g.CustomerId == CustomerId).FirstOrDefault();
+                    if (contact != null)
+                    {
+                        cst.PhoneCode = contact.PhoneCode;
+                        cst.PhoneNumber = contact.PhoneNumber;
+
+                        cst.AddressLine1 = contact.AddressLine1;
+                        cst.AddressLine2 = contact.AddressLine2;
+                        cst.City = contact.City;
+                        cst.State = contact.Sate;
+                        cst.Country = contact.Country;
+                        cst.PostCode = contact.PostalCode;
+                        cst.Notes = contact.Notes;
+                    }
+
+
+                    return cst;
+
                 }
             }
             catch (Exception ex)
@@ -969,7 +1153,8 @@ namespace SG2.CORE.DAL.Repositories
                         cus.BrokerAspectColor = model.BrokerAspectColor;
                         cus.BrokerFeedbackPage = model.BrokerFeedbackPage;
                         cus.BrokerHomePage = model.BrokerHomePage;
-                        cus.BrokerLogo = model.BrokerLogo;
+                        if (!string.IsNullOrEmpty( model.BrokerLogo))
+                            cus.BrokerLogo = model.BrokerLogo;
                         cus.BrokerPrivacyPolicy = model.BrokerPrivacyPolicy;
                         cus.BrokerStrapLine = model.BrokerStrapLine;
                         cus.BrokerTermsOfUse = model.BrokerTermsOfUse;
@@ -1000,22 +1185,34 @@ namespace SG2.CORE.DAL.Repositories
                         cus.StripeCustomerId = StripCustomerId;
                         cus.StripeSubscriptionId = StripeSubscriptionId;
                         cus.BrokerPaymentPlanID = PaymentPlanId == 0 ? (int?)null : PaymentPlanId;
-                        if (string.IsNullOrEmpty(StripCustomerId))
+                        if (string.IsNullOrEmpty(StripCustomerId) || string.IsNullOrEmpty(StripeSubscriptionId))
+                        {
                             cus.IsBroker = false;
+                            cus.StripeSubscriptionId = null;
+                            cus.StripeCustomerId = null;
+
+                            _db.Customer_Payments.Add(new Customer_Payments { CustomerId = cus.CustomerId, PaymentPlanId = 1, StatusId = 1, StartDate = DateTime.Now, EndDate = DateTime.Now, Name= "Subscrption set to Free", Description = "Subscrption set to Free", Price = 0 });
+                        }
                         else
                             cus.IsBroker = true;
                         _db.SaveChanges();
 
 
                         //set all profiles to free if afilliate subscription is null 
-                        if (string.IsNullOrEmpty(StripCustomerId))
+                        if (string.IsNullOrEmpty(StripCustomerId) || string.IsNullOrEmpty(StripeSubscriptionId))
                         {
                             var profiles = _db.SocialProfiles.Where(g => g.CustomerId == CustomerId).ToList();
                             foreach (var profile in profiles)
                             {
+                                profile.StripeSubscriptionId = null;
                                 profile.PaymentPlanId = null;
                                 profile.StatusId = 25;
                                 profile.StripeSubscriptionId = null;
+                                profile.StripeCustomerId = null;
+
+
+                                _db.SocialProfile_Payments.Add(new SocialProfile_Payments { SocialProfileId = profile.SocialProfileId, PaymentPlanId = 1, StatusId = 1, StartDate = DateTime.Now, EndDate = DateTime.Now, Name = "Subscrption set to Free", Description = "Subscrption set to Free", Price = 0 });
+
                             }
                             _db.SaveChanges();
 
@@ -1030,7 +1227,7 @@ namespace SG2.CORE.DAL.Repositories
                 throw ex;
             }
         }
-        public bool UpdateSocialProfileStripeCustomerId(int SocialProfileId, string StripCustomerId, string StripeSubscriptionId, int PaymentPlanId)
+        public bool UpdateSocialProfileStripeCustomerId(int SocialProfileId, string StripCustomerId, string StripeSubscriptionId, int PaymentPlanId, PlanSubscription status = PlanSubscription.ActivePlan)
         {
             try
             {
@@ -1042,7 +1239,7 @@ namespace SG2.CORE.DAL.Repositories
                         cus.StripeCustomerId = StripCustomerId;
                         cus.StripeSubscriptionId = StripeSubscriptionId;
                         cus.PaymentPlanId = PaymentPlanId;
-                        cus.StatusId = 24;
+                        cus.StatusId = (int)status;
                         _db.SaveChanges();
                         return true;
                     }
@@ -1112,6 +1309,23 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
+        public  List<SocialProfile_FollowedAccounts> GetAllFollowedAccounts(int socialProfileId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    return _db.SocialProfile_FollowedAccounts.Where(g => g.SocialProfileId == socialProfileId && g.StatusId == 1).ToList();
+                }
+
+                }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
 
         public List<CustomerSocialProfileDTO> GetSocialProfilesWithoutExistingFollowers(int socialProfileId)
         {
@@ -1120,11 +1334,15 @@ namespace SG2.CORE.DAL.Repositories
                 List<CustomerSocialProfileDTO> profiles = null;
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    var profs = (from m in _db.SocialProfiles
-                                 join r in _db.SocialProfile_FollowedAccounts on socialProfileId equals r.SocialProfileId
-                                 where m.SocialUsername != r.FollowedSocialUsername && m.StatusId == 25 && m.SocialUsername != null
-                                 select m)
-                                 .OrderBy(x => Guid.NewGuid()).Take(20).ToList();
+                    //var profs = (from m in _db.SocialProfiles
+                    //             //join r in _db.SocialProfile_FollowedAccounts on socialProfileId equals r.SocialProfileId
+                    //             //where m.SocialUsername != r.FollowedSocialUsername && 
+                    //             where m.PaymentPlanId != null &&  m.PaymentPlanId != 1 && m.SocialUsername != null
+                    //             && _db.SocialProfile_FollowedAccounts.Contains(m.SocialUsername)
+                    //             select m)
+                    //             .OrderBy(x => Guid.NewGuid()).Take(20).ToList();
+
+                    var profs = _db.GetSocialProfilesWithoutExistingFollowers(socialProfileId);
 
                     if (profs != null)
                     {
@@ -1376,7 +1594,13 @@ namespace SG2.CORE.DAL.Repositories
                             StripeCustomerId = p.StripeCustomerId,
                             SubScriptionStatus = p.SubscriptionStatus,
                             SubscriptionName = p.SubscriptionName,
-                            BlockedStatus =  p.BlockedStatus.HasValue == false || (p.BlockedStatus.HasValue && p.BlockedStatus.Value == 0) ? "Valid" : p.BlockedStatus.Value == 66 ? "Action Blocked": p.BlockedStatus.Value == 67 ?"Hard Blocked" : p.BlockedStatus.Value == 68?"Password Blocked":"Valid" 
+                            BlockedStatus =  p.BlockedStatus.HasValue == false || (p.BlockedStatus.HasValue && p.BlockedStatus.Value == 0) ? "Valid" : p.BlockedStatus.Value == 66 ? "Action Blocked": p.BlockedStatus.Value == 67 ?"Hard Blocked" : p.BlockedStatus.Value == 68?"Password Blocked":"Valid",
+                            AfterFollLikeuserPosts = p.AfterFollLikeuserPosts,
+                            AfterFollViewUserStory = p.AfterFollViewUserStory,
+                            FollowOn = p.FollowOn,
+                            UnFollFollowersAfterMinDays = p.UnFollFollowersAfterMinDays,
+                            AppConnStatus =  p.AppConnStatus
+
                             
                         }).ToList();
                     }
@@ -1418,7 +1642,13 @@ namespace SG2.CORE.DAL.Repositories
                 using (var _db = new SocialGrowth2Connection())
                 {
                     var action = new SocialProfile_Actions();
-                    action.ActionDateTime = DateTime.UtcNow;
+                    if (!string.IsNullOrEmpty( model.ActionDateTime ))
+                    {
+                        action.ActionDateTime = Convert.ToDateTime(model.ActionDateTime);
+                    }
+                    else
+                        action.ActionDateTime = DateTime.UtcNow;
+
                     action.ActionID = model.ActionId;
                     action.Message = model.Message;
                     action.SocialProfileId = model.SocialProfileId;
@@ -1438,14 +1668,20 @@ namespace SG2.CORE.DAL.Repositories
         }
 
 
-        public List<SocialProfile_Actions> ReturnLastActions(int socialProfileId, int NoOfActions)
+        public List<SocialProfile_Actions> ReturnLastActions(int socialProfileId, int NoOfActions, out double appTimeZoneOffset)
 
         {
             try
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                   return  _db.SocialProfile_Actions.Where(g => g.SocialProfileId == socialProfileId).OrderByDescending(g => g.ActionDateTime).Take(NoOfActions).ToList();
+                    var offset =  _db.SocialProfiles.Where(g => g.SocialProfileId == socialProfileId).Single().AppTimeZoneOffSet;
+                    appTimeZoneOffset = 0;           
+                    if (!string.IsNullOrEmpty(offset))
+                    {
+                         Double.TryParse(offset, out appTimeZoneOffset);
+                    }
+                    return  _db.SocialProfile_Actions.Where(g => g.SocialProfileId == socialProfileId).OrderByDescending(g => g.ActionDateTime).Take(NoOfActions).ToList();
                 }
             }
             catch (Exception e)
@@ -1456,7 +1692,41 @@ namespace SG2.CORE.DAL.Repositories
            
         }
 
+        public SocialProfile GetAppTimeZoneOffSet(int socialProfileId)
 
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    return _db.SocialProfiles.Where(g => g.SocialProfileId == socialProfileId).FirstOrDefault();
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+
+        }
+
+        public SocialProfile GetSocialProfileByStripeSubscriptionId(string StripeSubscriptionId)
+
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    return _db.SocialProfiles.Where(g => g.StripeSubscriptionId == StripeSubscriptionId).SingleOrDefault();
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+
+        }
 
 
         public SocialProfileDTO GetSocialProfilesById(int profileId)
@@ -1495,10 +1765,49 @@ namespace SG2.CORE.DAL.Repositories
                                                           
                     profile.SocialProfile_FollowedAccounts = _db.SocialProfile_FollowedAccounts.Where(g => g.SocialProfileId == profileId).OrderByDescending(g => g.FollowedDateTime).ToList();
 					profile.socialcustomer = _db.Customers.Where(g => g.CustomerId == profile.SocialProfile.CustomerId).SingleOrDefault();
+
+                    profile.BlockStatus = "Valid";
+                    if ( profile.SocialProfile.BlockedStatus.HasValue )
+                    {
+                        var blockstastus = _db.EnumerationValues.Where(g => g.EnumerationValueId == profile.SocialProfile.BlockedStatus.Value).SingleOrDefault();
+                        if (blockstastus != null)
+                            profile.BlockStatus = blockstastus.Name;
+                    }
+
+
+                    profile.AppStatus = "Offline";
+                    if (profile.SocialProfile != null)
+                    {
+                      SocialProfile_Actions socialProfile_Actions =  _db.SocialProfile_Actions.Where(a => a.SocialProfileId == profile.SocialProfile.SocialProfileId).OrderByDescending(o => o.ActionDateTime).FirstOrDefault();
+                        if (socialProfile_Actions != null && socialProfile_Actions.ActionDateTime != null)
+                        {
+                            DateTime actionDateTime = Convert.ToDateTime(socialProfile_Actions.ActionDateTime);
+                            DateTime currentDate = DateTime.UtcNow;
+
+                            if (profile.SocialProfile != null)
+                            {
+                                double number = 0;
+                                if (!string.IsNullOrEmpty(profile.SocialProfile.AppTimeZoneOffSet))
+                                {
+                                    Double.TryParse(profile.SocialProfile.AppTimeZoneOffSet, out number);
+                                    if (number != 0)
+                                    {
+                                        currentDate = currentDate.AddHours(number);
+                                    }
+                                }
+                            }
+                            TimeSpan span = currentDate.Subtract(actionDateTime);
+                            if (span.TotalMinutes <= 3) 
+                            {
+                                profile.AppStatus = "Online";
+                            }
+                        }
+                    }
                 }
 
                 if (profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals != null)
                    profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals = Regex.Unescape(Regex.Replace(profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals, @"\t|\n|\r", "")).Replace("\\",@"");
+               
 
                 return profile;
             }
@@ -1542,6 +1851,46 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
+        public SocialProfileDTO GetAgencySocialTargettingByBrokerCustomerId(int BrokerCustomerId)
+        {
+
+            try
+            {
+                SocialProfileDTO profile = new SocialProfileDTO();
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    //Agency profile loading
+
+                    _db.Configuration.LazyLoadingEnabled = false;
+                    profile.SocialProfile_Instagram_TargetingInformation = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.BrokerCustomerId == BrokerCustomerId && g.IsBrokerDefault == true).SingleOrDefault();
+                    if (profile.SocialProfile_Instagram_TargetingInformation == null)
+                    {
+                        var newBrokerDefaultProfile = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.IsSystem == true && g.SocialProfileId == null).Single();
+                        newBrokerDefaultProfile.BrokerCustomerId = BrokerCustomerId;
+                        newBrokerDefaultProfile.SocialProfileId = null;
+                        newBrokerDefaultProfile.IsBrokerDefault = true;
+                        newBrokerDefaultProfile.IsSystem = false;
+
+
+                        _db.SocialProfile_Instagram_TargetingInformation.Add(newBrokerDefaultProfile);
+                        _db.SaveChanges();
+
+                        profile.SocialProfile_Instagram_TargetingInformation = newBrokerDefaultProfile;
+
+                    }
+
+                }
+
+                if (profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals != null)
+                    profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals = Regex.Unescape(Regex.Replace(profile.SocialProfile_Instagram_TargetingInformation.ExecutionIntervals, @"\t|\n|\r", "")).Replace("\\", @"");
+
+                return profile;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public List<SocialProfile_PaymentsDTO> GetCustomerBrokerPaymentHistory(int CustomerId)
         {
@@ -1579,7 +1928,23 @@ namespace SG2.CORE.DAL.Repositories
                         Random generator = new Random();
                         String r = generator.Next(0, 999999).ToString("D6");
                         var PaymentPlan = _db.PaymentPlans.Where(g => g.IsDefault == true && g.IsBrokerPlan == false).Single();
-                        var defaultTargetProfile = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.IsSystem == true).Single();
+
+                        var Customer = _db.Customers.Where(g => g.CustomerId == CustomerId).Single();
+
+                        SocialProfile_Instagram_TargetingInformation defaultTargetProfile = null;
+                        //if broker get default profile from broker if available.
+                        if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true)
+                        {
+                            defaultTargetProfile =  _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.IsBrokerDefault == true && g.BrokerCustomerId == CustomerId).SingleOrDefault();
+                            if (defaultTargetProfile == null)
+                            {
+                                defaultTargetProfile = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.IsSystem == true).Single();
+                            }
+                        }
+                        else// get default profile from global.
+                        {
+                            defaultTargetProfile = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.IsSystem == true).Single();
+                        }
 
                         var newProfile = new SocialProfile { CreatedBy = "User", SocialProfileTypeId = 30, SocialUsername = InstagramSocialUsername, CreatedOn = DateTime.Now, UpdatedBy="User", UpdatedOn = DateTime.Now, IsArchived = false, CustomerId = CustomerId, PaymentPlanId = PaymentPlan.PaymentPlanId, PinCode = r, StatusId = 25 };
 
@@ -1588,6 +1953,9 @@ namespace SG2.CORE.DAL.Repositories
 
                         defaultTargetProfile.SocialProfileId = newProfile.SocialProfileId;
                         defaultTargetProfile.IsSystem = false;
+                        defaultTargetProfile.BrokerCustomerId = null;
+                        defaultTargetProfile.IsBrokerDefault = false;
+
 
                         _db.SocialProfile_Instagram_TargetingInformation.Add(defaultTargetProfile);
                         _db.SaveChanges();

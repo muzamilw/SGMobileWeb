@@ -24,5 +24,12 @@ namespace SG2.CORE.MODAL.DTO.Customers
         public string SubscriptionName { get; set; }
         public string SubScriptionStatus { get; set; }
 
+        public Nullable<bool> FollowOn { get; set; }
+        public Nullable<bool> UnFollFollowersAfterMinDays { get; set; }
+        public Nullable<bool> AfterFollLikeuserPosts { get; set; }
+        public Nullable<bool> AfterFollViewUserStory { get; set; }
+
+        public string AppConnStatus { get; set; }
+
     }
 }

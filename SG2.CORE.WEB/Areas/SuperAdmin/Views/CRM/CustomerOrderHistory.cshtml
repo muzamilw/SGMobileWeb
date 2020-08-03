@@ -2,16 +2,52 @@
 @using PagedList;
 @using SG2.CORE.MODAL.ViewModals.Backend;
 @using SG2.CORE.COMMON;
+@using SG2.CORE.MODAL.DTO.Customers;
 @model SG2.CORE.MODAL.ViewModals.Backend.CustomerOrderHistoryIndexViewModel
 @{
     ViewBag.Title = "Payment Histroy";
     Layout = "~/Areas/SuperAdmin/Views/Shared/_Layoutnew.cshtml";
     var BaseURl = ViewBag.BaseUrl;
+
+    
+    var PlanStatus = "";
+    var SocialProfile = (SocialProfileDTO)ViewBag.SocailProfile;
+    var onlineStatus = SocialProfile.AppStatus + " - v" + SocialProfile.SocialProfile.AppVersion;
+    
+    var onlineStatusClass = "offline-btn";
+    var planStatusClass = "btn-primary";
+    string blockStatusClass = "";
+
+    var PlanName = "";
+    PlanName = SocialProfile.CurrentPaymentPlan == null ? "FREE" :  SocialProfile.CurrentPaymentPlan.PlanName;
+    if ( PlanName  == "FREE")
+    {
+        planStatusClass = "btn-danger";
+    }
+
+    string BlockStatus = SocialProfile.BlockStatus;
+    if (SocialProfile.SocialProfile.BlockedStatus == null)
+    {
+        blockStatusClass = "btn-primary";
+    }
+    else if (SocialProfile.SocialProfile.BlockedStatus == 0)
+    {
+        blockStatusClass = "btn-primary";
+    }
+    else
+    {
+        blockStatusClass = "btn-danger";
+    }
+
+    if (SocialProfile.AppStatus == "Online") {
+        onlineStatusClass = "online-btn";
+    }
 }
 
 @section styles{
     <link href="~/Content/ThemeAssets/css/backendcss.css" rel="stylesheet" />
     <link href="~/Content/ThemeAssets/css/style.css" rel="stylesheet" type="text/css">
+    
 }
 
 
@@ -21,35 +57,37 @@
             <div class="col-md-6 col-xs-12">
                 <h3>
                     <img src="/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="36">
-                    @Model.SPName / @(Model.SusrName ?? "--")
+                    @(SocialProfile.SocialProfile.SocialUsername ?? "--")
                 </h3>
 
             </div>
             <div class="col-md-6 col-xs-12 text-right">
-                <span class="right">Profile Status: <i>@Model.SPStatus</i></span><br />
-                @if (string.IsNullOrEmpty(Model.JVStatus))
-                {
-                    <span class="right">MP Status: <i>--</i></span>
-                }
-                else
-                {
-                    <span class="right">MP Status: <i>@Model.JVStatus</i></span>
-                }
+                <div class="btn-group" style="margin-top:12px;">
+                    <button class="btn btn-round @planStatusClass" type="button"><i class="fa fa-dollar  "></i> @PlanName</button>
+                    <button class="btn @onlineStatusClass" type="button">@onlineStatus</button>
+                    <button class="btn btn-round @blockStatusClass" type="button"><i class="ft-activity pr-1"></i> @BlockStatus</button>
+
+                </div>
+           
             </div>
         </div>
     </div>
 </div>
 
-<div class="detail-page-contact">
-    <div class="container">
+<div class="detail-page-contact mb-2" style="background: #404E67;">
+    <div class="container" style="padding: 20px;">
         <div class="row">
 
-            <div class="col-6">
-                <a class="btn btn-primary active" href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Contact Details</a>
-                <a class="btn btn-primary" href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Order History</a>
-                <a class="btn btn-primary" href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Target Form</a>
+            <div class="col-10">
+                <a class="btn btn-primary" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/stats?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Stats</a>
+                <a class="btn btn-primary" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/DetailPage?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Contact Details</a>
+                <a class="btn btn-primary active" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/CustomerOrderHistory?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Order History</a>
+                <a class="btn btn-primary" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/targettinginformation?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Target Form</a>
+                <a class="btn btn-primary" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/lists?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">White & Black Lists</a>
+                <a class="btn btn-primary" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/FollowList?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Follow List</a>
+                <a class="btn btn-primary" style="line-height: 1; margin-right: 10px;" href="@BaseURl/crm/allStats?id=@Url.Encode(CryptoEngine.Encrypt(Model.Id))&SPId=@Url.Encode(CryptoEngine.Encrypt(Model.SocialProfileId))">Latest Stats</a>
             </div>
-            <div class="col-6"><a class=" btn btn-primary right" href="javascript:void(0);" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></div>
+            <div class="col-2"><a class=" btn right" href="javascript:void(0);" style="color: #fff;line-height: 1;background-color: #6566A6; border-color: #6566A6;" onclick="history.go(-1);"><i class="fa fa-backward"></i> Back</a></div>
 
         </div>
     </div>
@@ -63,40 +101,42 @@
                         <thead>
                             <tr>
                                 <th scope="col">Purchase Date</th>
-                                <th scope="col">Expire Date</th>
+                                @*<th scope="col">Expire Date</th>*@
                                 <th scope="col">Name</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Status</th>
+                                @*<th scope="col">Status</th>*@
                             </tr>
                         </thead>
                         <tbody>
 
                             @foreach (var item in Model.CustomerOrderHListing)
                             {
-                                <tr>
-                                    @if (item.StartDate.HasValue)
-                                    {
-                                        <td data-label="StartDate"> @(item.StartDate.Value.ToShortDateString())</td>
-                                    }
-                                    else
-                                    {
-                                        <td data-label="StartDate">--</td>
-                                    }
-                                    @if (item.EndDate.HasValue)
-                                    {
-                                        <td data-label="EndDate"> @(item.EndDate.Value.ToShortDateString())</td>
-                                    }
-                                    else
-                                    {
-                                        <td data-label="EndDate">--</td>
-                                    }
+                            <tr>
+                                @if (item.StartDate.HasValue)
+                                {
+                                    <td data-label="StartDate"> @(item.StartDate.Value.ToShortDateString())</td>
+                                }
+                                else
+                                {
+                                    <td data-label="StartDate">--</td>
+                                }
+                                @*@if (item.EndDate.HasValue)
+        {
+            <td data-label="EndDate"> @(item.EndDate.Value.ToShortDateString())</td>
+        }
+        else
+        {
+            <td data-label="EndDate">--</td>
+        }*@
 
 
-                                    <td data-label="Name" class="product">@(string.IsNullOrEmpty(item.Name) ? "--" : item.Name)</td>
-                                    <td data-label="Name" class="product">@(item.Price / 100)</td>
-                                    <td data-label="Proxy">@(string.IsNullOrEmpty(item.Status) ? "--" : item.Status) </td>
+                                <td data-label="Name" class="product">@(string.IsNullOrEmpty(item.Name) ? "--" : item.Name)</td>
+                                <td data-label="Name" class="product">@(item.Price)</td>
+                                <td data-label="Name" class="product">@(item.Status)</td>
+                                @*<td data-label="Proxy">@(string.IsNullOrEmpty(item.Status) ? "--" : item.Status) </td>*@
 
-                                </tr>
+                            </tr>
                             }
                         </tbody>
                     </table>
@@ -120,7 +160,7 @@
     }
 
     .information-wrap h3 {
-        font-size: 22pt;
-        color: crimson;
+        font-size: 20pt;
+        color: black;
     }
 </style>

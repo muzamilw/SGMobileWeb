@@ -4,7 +4,7 @@
 	cursor: text;
 	font-size: 1em;
 	height: auto;
-	padding: 0px 5px 5px;
+	padding: 5px 5px 5px;
 }
 
 .tagging .tag {
@@ -14,9 +14,10 @@
 	cursor: default;
 	display: inline-block;
 	position: relative;
+	color:black;
 	white-space: nowrap;
 	padding: 7px 20px 7px 0;
-	margin: 5px 10px 0 0;
+	margin: 10px 10px 0 0;
 }
 
     .tagging .tag span {

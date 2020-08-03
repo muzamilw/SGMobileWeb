@@ -12,6 +12,13 @@ using SG2.CORE.MODAL.DTO.Common;
 using SG2.CORE.MODAL;
 using SG2.CORE.MODAL.MobileViewModels;
 using SG2.CORE.MODAL.ViewModals.Customers;
+using System.IO;
+using System.Drawing;
+using System.Text.RegularExpressions;
+using HeyRed.Mime;
+using System.Web.Hosting;
+using SG2.CORE.MODAL.ViewModals.Statistics;
+using AutoMapper;
 
 namespace SG2.CORE.BAL.Managers
 {
@@ -109,9 +116,9 @@ namespace SG2.CORE.BAL.Managers
 
         }
 
-        public (bool LoginSuccessful, string Message, int SocialProfileId, bool PasswordNeeded, int ErrorCode, int CustomerId, bool IsBroker, int BlockCode, DateTime BlockDateTimeUTC) PerformMobileLogin(string SocialUserName, string Pin, string DeviceIMEI, bool ForceSwitchDevice)
+        public (bool LoginSuccessful, string Message, int SocialProfileId, bool PasswordNeeded, int ErrorCode, int CustomerId, bool IsBroker, int BlockCode, DateTime BlockDateTimeUTC, bool InitialStatsReceived) PerformMobileLogin(MobileLoginRequest model)
         {
-            return _customerRepository.PerformMobileLogin(SocialUserName, Pin, DeviceIMEI, ForceSwitchDevice);
+            return _customerRepository.PerformMobileLogin(model);
         }
 
             public (bool, int, string) LoginUser(string username, string password, ref string errorMessage)
@@ -156,9 +163,9 @@ namespace SG2.CORE.BAL.Managers
 
       
 
-        public IList<CustomerListingViewModel> GetUserData(string SearchCriteria, string PageSize, int PageNumber, int? StatusId, string ProductId, string JVStatus, int? Subscription)
+        public IList<CustomerListingViewModel> GetUserData(string SearchCriteria, string PageSize, int PageNumber, int? StatusId, string ProductId, string JVStatus, int? Subscription, int? profileType,int? BlockId, int? AppConnStatus)
         {
-            var Model = _customerRepository.GetUserData(SearchCriteria, PageNumber, PageSize, StatusId, ProductId, JVStatus, Subscription);
+            var Model = _customerRepository.GetUserData(SearchCriteria, PageNumber, PageSize, StatusId, ProductId, JVStatus, Subscription, profileType, BlockId, AppConnStatus);
 
             return Model;
         }
@@ -311,7 +318,40 @@ namespace SG2.CORE.BAL.Managers
                 throw ex;
             }
         }
-		public bool UpdateBasicSocialProfile(SocialProfileDTO model) {
+
+
+        public bool UpdateSocialProfilePhonePackageDetails(DateTime PurchaseDate, string PhonePackagePurchaseSessionID, int SocialProfileId)
+        {
+            try
+            {
+                var socialprofile = _socialRepository.UpdateSocialProfilePhonePackageDetails(PurchaseDate, PhonePackagePurchaseSessionID, SocialProfileId);
+                return socialprofile;
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+
+            }
+        }
+
+        public bool UpdateCustomerContactPhone(string Phone, int SocialProfileId)
+        {
+            try
+            {
+                return _customerRepository.UpdateCustomerPhone(SocialProfileId, Phone);
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+
+            }
+        }
+
+        public bool UpdateBasicSocialProfile(SocialProfileDTO model) {
 			try
 			{
 				var socialprofile = _socialRepository.UpdateSocialProfile(model.SocialProfile.DeviceBinLocation,model.SocialProfile.SocialUsername,model.SocialProfile.SocialProfileId);
@@ -330,11 +370,57 @@ namespace SG2.CORE.BAL.Managers
 			}
 		}
 
-        public bool UpdateBasicSocialProfileBlock(BlockStatus blockStatus, int SocialProfileId)
+        public bool UpdateBasicSocialProfileSocialPassword(string SocialPassword, int SocialProfileId)
         {
             try
             {
-                var socialprofile = _socialRepository.UpdateSocialProfileBlocks(blockStatus, SocialProfileId);
+                return  _socialRepository.UpdateSocialProfileSocialPassword(SocialPassword, SocialProfileId);
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+
+            }
+        }
+
+        public bool ResetSocialProfileManifestChangeFlag(bool Flag, int SocialProfileId)
+        {
+            try
+            {
+                return _socialRepository.ResetSocialProfileManifestChangeFlag(Flag, SocialProfileId);
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+
+            }
+        }
+
+
+        public bool GetSocialProfileManifestChangeFlag(int SocialProfileId)
+        {
+            try
+            {
+                return _socialRepository.GetSocialProfileManifestChangeFlag(SocialProfileId);
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+
+            }
+        }
+
+        public bool UpdateBasicSocialProfileBlock(BlockStatus blockStatus, int SocialProfileId, DateTime currentDate)
+        {
+            try
+            {
+                var socialprofile = _socialRepository.UpdateSocialProfileBlocks(blockStatus, SocialProfileId, currentDate);
                 return socialprofile;
 
             }
@@ -345,11 +431,11 @@ namespace SG2.CORE.BAL.Managers
 
             }
         }
-        public bool UpdateTargetProfile(SocialProfileDTO model)
+        public bool UpdateTargetProfile(SocialProfileDTO model, bool SaveFullTargetProfile = true)
 		{
 			try
 			{
-				var socialprofile = _socialRepository.UpdateTargetProfile(model);
+				var socialprofile = _socialRepository.UpdateTargetProfile(model, SaveFullTargetProfile);
 				if (socialprofile)
 				{
 					_sessionManager.Set(SessionConstants.SocialProfile, socialprofile);
@@ -385,6 +471,45 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
+        public bool UpdateTargetProfileWhiteList(SocialProfileDTO model)
+        {
+            try
+            {
+                var socialprofile = _socialRepository.UpdateTargetProfileWhiteList (model);
+                if (socialprofile)
+                {
+                    _sessionManager.Set(SessionConstants.SocialProfile, socialprofile);
+                }
+                return socialprofile;
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+
+            }
+        }
+
+        public bool UpdateTargetProfileBlackList(SocialProfileDTO model)
+        {
+            try
+            {
+                var socialprofile = _socialRepository.UpdateTargetProfileBlackLists(model);
+                if (socialprofile)
+                {
+                    _sessionManager.Set(SessionConstants.SocialProfile, socialprofile);
+                }
+                return socialprofile;
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+
+            }
+        }
         public CustomerDTO UpdateCustomerProfile(CustomerDTO model)
         {
             try
@@ -397,6 +522,23 @@ namespace SG2.CORE.BAL.Managers
                     _sessionManager.Set(SessionConstants.Customer, Customer);
 
                 }
+
+                return Customer;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        public CustomerDTO GetContactDetails(int CustomerId)
+        {
+            try
+            {
+                var Customer = _customerRepository.GetContactDetails(CustomerId);
 
                 return Customer;
 
@@ -455,6 +597,27 @@ namespace SG2.CORE.BAL.Managers
         {
             try
             {
+
+                if ( !string.IsNullOrEmpty( model.BrokerLogoUpload))
+                {
+                    String[] spearator = { "base64," };
+                    string ext = "";
+
+
+                    var match = Regex.Match(model.BrokerLogoUpload, @"data:(?<type>.+?);base64,(?<data>.+)");
+                    var base64Data = match.Groups["data"].Value;
+                    var contentType = match.Groups["type"].Value;
+                   
+                    byte[] bytes = Convert.FromBase64String(base64Data);
+                    using (MemoryStream ms = new MemoryStream(bytes))
+                    {
+                        Image image = Image.FromStream(ms);
+                        image.Save(HostingEnvironment.MapPath( "~/AgencyLogos/" + model.cid.ToString() +"."+ MimeTypesMap.GetExtension(contentType)));
+                    }
+
+                    model.BrokerLogo = model.cid.ToString() +"."+ MimeTypesMap.GetExtension(contentType);
+                }
+
                 return _customerRepository.UpdateCustomerBrokerProfile(model);
             }
             catch (Exception ex)
@@ -480,7 +643,11 @@ namespace SG2.CORE.BAL.Managers
         {
             try
             {
-                return _customerRepository.UpdateCustomerStripeCustomerId(CustomerId, StripCustomerId, StripeSubscriptionId, PaymentPlanId);
+                var res =  _customerRepository.UpdateCustomerStripeCustomerId(CustomerId, StripCustomerId, StripeSubscriptionId, PaymentPlanId);
+
+                _sessionManager.Set(SessionConstants.Customer, _customerRepository. GetCustomerRefresh(CustomerId));
+
+                return res;
             }
             catch (Exception ex)
             {
@@ -488,11 +655,11 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-        public bool UpdateSocialProfileStripeCustomer(int SocialProfileId, string StripCustomerId, string StripeSubscriptionId, int PaymentPlanId)
+        public bool UpdateSocialProfileStripeCustomer(int SocialProfileId, string StripCustomerId, string StripeSubscriptionId, int PaymentPlanId, PlanSubscription status = PlanSubscription.ActivePlan)
         {
             try
             {
-                return  _customerRepository.UpdateSocialProfileStripeCustomerId(SocialProfileId, StripCustomerId, StripeSubscriptionId, PaymentPlanId);
+                return  _customerRepository.UpdateSocialProfileStripeCustomerId(SocialProfileId, StripCustomerId, StripeSubscriptionId, PaymentPlanId, status);
             }
             catch (Exception ex)
             {
@@ -533,6 +700,19 @@ namespace SG2.CORE.BAL.Managers
             try
             {
                 return _customerRepository.GetSocialProfilesWithoutExistingFollowers(socialProfileId);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<SocialProfile_FollowedAccounts> GetAllFollowedAccounts(int socialProfileId)
+        {
+            try
+            {
+                return _customerRepository.GetAllFollowedAccounts(socialProfileId);
 
             }
             catch (Exception ex)
@@ -655,8 +835,39 @@ namespace SG2.CORE.BAL.Managers
                 }
                 else
                 {
-                    return _customerRepository.GetSocialProfilesById(profileId);
+                    return  _customerRepository.GetSocialProfilesById(profileId);
+                   
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public SocialProfile GetSocialProfileByStripeSubscriptionId(string StripeSubscriptionId)
+        {
+            try
+            {
+                
+                    return _customerRepository.GetSocialProfileByStripeSubscriptionId(StripeSubscriptionId);
+
+                
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public SocialProfileDTO GetSocialProfileTargetByBrokerCustomerId(int BrokerCustomerId)
+        {
+            try
+            {
+                return _customerRepository.GetAgencySocialTargettingByBrokerCustomerId(BrokerCustomerId);
+
             }
             catch (Exception ex)
             {
@@ -691,9 +902,6 @@ namespace SG2.CORE.BAL.Managers
             {
                 var result = _customerRepository.SaveMobileAppActions(model);
                 
-
-
-
                 return result;
             }
             catch (Exception ex)
@@ -704,11 +912,56 @@ namespace SG2.CORE.BAL.Managers
         }
 
 
-        public List<SocialProfile_Actions> ReturnLastActions(int socialProfileId, int NoOfActions)
+        public List<SocialProfile_ActionsViewModel> ReturnLastActions(int socialProfileId, int NoOfActions)
         {
             try
             {
-                return _customerRepository.ReturnLastActions(socialProfileId, NoOfActions);
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<SocialProfile_Actions, SocialProfile_ActionsViewModel>()
+                );
+
+                var mapper = new Mapper(config);
+
+                double appoffset = 0;
+                var serveroffset = DateTimeOffset.Now.Offset.Hours;//TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow);
+
+               
+                var results =  _customerRepository.ReturnLastActions(socialProfileId, NoOfActions, out appoffset);
+
+                // +3 +5 
+                double offset = 0;
+                offset = serveroffset - appoffset;
+
+                var mapped =  mapper.Map<List<SocialProfile_ActionsViewModel>>(results);
+
+                foreach (var item in mapped)
+                {
+                    if(offset != 0)
+                    {
+                        item.ActionDateTime = item.ActionDateTime.Value.AddHours(offset);
+                    }
+                    switch (item.ActionID)
+                    {
+                        case 60 : item.Action = "Following";break;
+                        case 61 : item.Action = "UnFollow"; break;
+                        case 62: item.Action = "Like"; break;
+                        case 63: item.Action = "Comment"; break;
+                        case 64: item.Action = "StoryView"; break;
+                        case 65: item.Action = "Followers count update"; break;
+                        case 66: item.Action = "Action Block"; break;
+                        case 67: item.Action = "Block 2"; break;
+                        case 68: item.Action = "Block 3"; break;
+                        case 69: item.Action = "Clear Block"; break;
+                        case 70: item.Action = "Block 4"; break;
+                        case 71: item.Action = "Block 5"; break;
+                        case 72: item.Action = "Initial Stats"; break;
+                        case 73: item.Action = "Follow Exchange"; break;
+                        case 74: item.Action = "Like Exchange"; break;
+                        case 86: item.Action = "Bad Hash Tag for Removal"; break;
+                        default:
+                            break;
+                    }
+                }
+                return mapped;
             }
             catch (Exception e)
             {
@@ -740,6 +993,22 @@ namespace SG2.CORE.BAL.Managers
             return Model;
         }
 
+        public double GetAppTimeZoneOffSet(int socialProfileId)
+        {
+            double number = 0;
+            var vm = _customerRepository.GetAppTimeZoneOffSet(socialProfileId);
+            if(vm != null)
+            {
+                
+                if (!string.IsNullOrEmpty(vm.AppTimeZoneOffSet))
+                {
+                    Double.TryParse(vm.AppTimeZoneOffSet, out number);
+                }
+            }
+            return number;
+            
+        }
+
 
 
         //public async Task<bool> SetTargetPreferenceQueueStatus(int profileId, short queueStatus, string updatedBy)
@@ -769,6 +1038,12 @@ namespace SG2.CORE.BAL.Managers
         public bool AddRemoveFollowAccounts(List<MobileActionRequest> list)
         {
             return _socialRepository.AddRemoveFollowAccounts(list);
+        }
+
+
+        public bool RemoveBadTags(List<MobileActionRequest> list)
+        {
+            return _socialRepository.RemoveBagTags(list);
         }
     }
 }

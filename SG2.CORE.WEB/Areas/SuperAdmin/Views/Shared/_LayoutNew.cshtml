@@ -22,7 +22,7 @@
     <meta name="description" content="Stack admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
     <meta name="keywords" content="admin template, stack admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="PIXINVENT">
-    <title>@ViewBag.Title - Social Growth</title>
+    <title>@ViewBag.Title - SocialPlannerPro</title>
     <link rel="apple-touch-icon" href="~/Content/app-assets/images/ico/apple-icon-120.png">
     <link rel="shortcut icon" type="image/x-icon" href="~/Content/app-assets/images/ico/favicon.ico">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i%7COpen+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
@@ -41,12 +41,13 @@
     <!-- END: Theme CSS-->
     <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/core/menu/menu-types/horizontal-menu.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/stylefont.css">
     <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/core/colors/palette-gradient.css">
     <!-- link(rel='stylesheet', type='text/css', href=app_assets_path+'/css'+rtl+'/pages/users.css')-->
     <!-- END: Page CSS-->
     <!-- BEGIN: Custom CSS-->
     @*<link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">*@
-    
+
 
 
     @RenderSection("styles", required: false)
@@ -86,11 +87,11 @@
                 <ul class="nav navbar-nav flex-row">
                     <li class="nav-item mobile-menu d-md-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu font-large-1"></i></a></li>
                     @*<li class="nav-item">
-                        <a class="navbar-brand" href="~/sadmin">
-                            <img class="brand-logo" style="width:90px" alt="Social Growth Logo" src="~/Content/ThemeAssets/images/social-growth.png">
+                            <a class="navbar-brand" href="~/sa">
+                                <img class="brand-logo" style="width:90px" alt="Social Growth Logo" src="~/Content/Theme-SPPro/img/core-img/social-planner-pro-black.png">
 
-                        </a>
-                    </li>*@
+                            </a>
+                        </li>*@
                     <li class="nav-item d-md-none"><a class="nav-link open-navbar-container" data-toggle="collapse" data-target="#navbar-mobile"><i class="fa fa-ellipsis-v"></i></a></li>
                 </ul>
             </div>
@@ -99,8 +100,8 @@
                     <ul class="nav navbar-nav mr-auto float-left">
                         @*<li class="nav-item d-none d-md-block"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu"></i></a></li>*@
                         <li class="nav-item">
-                            <a class="navbar-brand" href="~/sadmin">
-                                <img class="brand-logo" style="width:90px" alt="Social Growth Logo" src="~/Content/ThemeAssets/images/social-growth.png">
+                            <a class="navbar-brand" href="~/sa/CRM">
+                                <img class="brand-logo" style="width:90px" alt="SocialPlannerPro" src="~/Content/Theme-SPPro/img/core-img/social-planner-pro-black.png">
 
                             </a>
                         </li>
@@ -118,8 +119,8 @@
                                     @Html.ActionLink("Dashboard", "Index", "Dashboard", null, htmlAttributes: new { @class = "dropdown-item nav-link" })
                                 </li>
                                 @*<li class="nav-item d-none d-md-block">
-                                    @Html.ActionLink("Trello", "Index", "ActionBoard", null, htmlAttributes: new { @class = "dropdown-item nav-link" })
-                                </li>*@
+                    @Html.ActionLink("Trello", "Index", "ActionBoard", null, htmlAttributes: new { @class = "dropdown-item nav-link" })
+                </li>*@
                                 <li class="nav-item d-none d-md-block">
                                     @Html.ActionLink("CRM", "Index", "CRM", null, htmlAttributes: new { @class = "dropdown-item nav-link" })
                                 </li>
@@ -129,6 +130,7 @@
                                 <li class="nav-item d-none d-md-block">
                                     @Html.ActionLink("IG Defaults", "GlobalTarget", "CRM", null, htmlAttributes: new { @class = "dropdown-item nav-link" })
                                 </li>
+                           
                             }
                             else if (userDto.UserRoleName == "Manager")
                             {
@@ -148,7 +150,7 @@
                         <li class="dropdown dropdown-user nav-item d-md-block">
                             <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
                                 <span class="avatar avatar-online">
-                                   
+
                                 </span><span class="user-name" style="margin-top: 6px;">@userDto.FirstName</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
@@ -168,6 +170,33 @@
         </div>
     </nav>
     <!-- END: Header-->
+    <div class="d-none d-xs-block  header-navbar navbar-expand-sm navbar navbar-horizontal navbar-fixed navbar-dark navbar-without-dd-arrow navbar-shadow menu-border" role="navigation" data-menu="menu-wrapper">
+      
+        <div class="navbar-container main-menu-content container center-layout" data-menu="menu-container">
+          
+            <ul class="nav navbar-nav" id="main-menu-navigation" data-menu="menu-navigation">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="~/sa"><i class="ft-monitor"></i><span>Dashboard</span></a>
+
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="~/sa/CRM"><i class="ft-layout"></i><span>CRM</span></a>
+
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="~/sa/Teammember"><i class="ft-zap"></i><span>Team</span></a>
+
+                </li>
+                <li class="mega-dropdown nav-item">
+                    <a class="nav-link" href="~/sa/CRM/GlobalTarget"><i class="ft-box"></i><span>IG Defaults</span></a>
+
+                </li>
+
+            </ul>
+        </div>
+       
+    </div>
     <!-- BEGIN: Content-->
     @RenderBody()
     <!-- END: Content-->
@@ -175,7 +204,7 @@
     <div class="drag-target"></div>
     <!-- BEGIN: Footer-->
     <footer class="footer  footer-light navbar-shadow">
-        <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2 container center-layout"><span class="float-md-left d-block d-md-inline-block">Copyright &copy; 2019 <a class="text-bold-800 grey darken-2" href="https://wwww.socialgrowthlabs.com" target="_blank">Social Growth Labs Inc.</a></span></p>
+        <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2 container center-layout"><span class="float-md-left d-block d-md-inline-block">Copyright &copy; 2019 <a class="text-bold-800 grey darken-2" href="https://wwww.socialplannerpro.com" target="_blank">Social Planner Pro</a></span></p>
     </footer>
     <div class="modal" id="Modal_Messagebox" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -197,7 +226,7 @@
     </div>
     <!-- END: Footer-->
     <script type="text/javascript">
-        var GLB_BASEURL = "/sadmin"
+        var GLB_BASEURL = "/sa"
         var GLB_ADMINPASSWORD = "P@ssword1"
     </script>
     <!-- BEGIN: Vendor JS-->

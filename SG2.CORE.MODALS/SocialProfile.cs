@@ -50,6 +50,14 @@ namespace SG2.CORE.MODAL
         public Nullable<int> BlockedStatus { get; set; }
         public Nullable<System.DateTime> BockedSinceDateTime { get; set; }
         public Nullable<int> TrelloStatusId { get; set; }
+        public Nullable<bool> InitialStatsReceived { get; set; }
+        public Nullable<System.DateTime> InitialStatsReceivedDateTime { get; set; }
+        public string AppVersion { get; set; }
+        public string AppTimeZoneOffSet { get; set; }
+        public Nullable<bool> ManifestUpdatedSinceLastGet { get; set; }
+        public Nullable<bool> PhonePackagePurchased { get; set; }
+        public Nullable<System.DateTime> PhonePackagePurchaseDate { get; set; }
+        public string PhonePackagePurchaseSessionID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SocialProfile_Statistics> SocialProfile_Statistics { get; set; }
@@ -60,8 +68,8 @@ namespace SG2.CORE.MODAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SocialProfile_FollowedAccounts> SocialProfile_FollowedAccounts { get; set; }
         public virtual PaymentPlan PaymentPlan { get; set; }
+        public virtual Customer Customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SocialProfile_Instagram_TargetingInformation> SocialProfile_Instagram_TargetingInformation { get; set; }
-        public virtual Customer Customer { get; set; }
     }
 }

@@ -10,7 +10,7 @@
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
 
     ViewBag.socialProfile = Model.SocialProfile;
-
+    ViewBag.PlanName = Model.CurrentPaymentPlan == null ? "FREE" : Model.CurrentPaymentPlan.PlanName;
     var ProfileStatus = "";
     if (Model.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
     {
@@ -57,23 +57,18 @@
                                 <div class="card">
                                     <div class="card-header">
                                         <h4 class="card-title" id="horz-layout-basic">White & Black Lists</h4>
-                                        <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                                        <div class="heading-elements">
-                                            <ul class="list-inline mb-0">
-                                                <li></li>
-
-                                            </ul>
-                                        </div>
                                     </div>
                                     <div class="card-content collpase show">
                                         <div class="card-body">
 
 
                                             <div class="form-body">
-                                                <h4 class="form-section"><i class="ft-user"></i> White Lists</h4>
+                                                <h4 class="form-section"><i class="ft-user"></i> White Lists</h4><p style="color:black">
+    Usernames you never want to unfollow
+</p>
                                                 <div class="form-group row">
-                                                    <label class="col-md-3 label-control" for="projectinput1">White List (User typed in )<br />
-                                                    <span style="color: lightgray;font-size: 12px;">Usernames you never want to unfollow</span></label>
+                                                    <label class="col-md-3 label-control" for="projectinput1">White List (User typed in)<br />
+                                                   </label>
 
                                                     <div class="col-md-9">
 
@@ -95,7 +90,7 @@
                                                     </div>
                                                 </div>*@
 
-                                                <h4 class="form-section"><i class="ft-clipboard"></i> Black Lists</h4><p style="color:lightgray">
+                                                <h4 class="form-section"><i class="ft-clipboard"></i> Black Lists</h4><p style="color:black">
                                                     User typed in Usernames, hashtags and locations to not follow
                                                 </p>
                                                 <div class="form-group row">

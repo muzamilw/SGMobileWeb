@@ -14,7 +14,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Social Growth Labs damn</title>
+    <title>@ViewBag.Title - Social Growth Labs</title>
 
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
     <link href="~/socialgrowthengine/assets/bootstrap7d04.css" rel="stylesheet" />
@@ -23,6 +23,14 @@
     <link href="~/socialgrowthengine/assets/flickity.min.css" rel="stylesheet" />
     <link href="~/Content/intercom.css" rel="stylesheet" />
     <link href="~/socialgrowthengine/assets/home.css" rel="stylesheet" />
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
 
     @*<link href="~/Content/intercom.css" rel="stylesheet" />
         @Styles.Render("~/socialgrowthengine/css")*@
@@ -211,10 +219,6 @@
                 border: 1px solid lightskyblue;
             }
 
-        .modal-content {
-            padding: 5%;
-            margin: 5%;
-        }
     </style>
     @RenderSection("styles", required: false)
 
@@ -253,6 +257,7 @@
             <div class="col-md-7 desktopMenu">
                 <div class="row">
                     <a href="/" class="nav-link ">Home</a>
+                    <a href="/Home/HowWeWork" class="nav-link">How It Works</a>
                     <a href="#" class="nav-link lnk_ShowLoginModal">Login</a>
                     <a href="#" class="nav-link lnk_ShowSignupModal">Sign up - FREE</a>
                 </div>
@@ -382,10 +387,10 @@
         var glb_intercomKey = '@_intercomPublishKey';
 
         $(document).ready(function () {
-            setTimeout(function () {
-                $("#Modal_NewsLetterPop .div_NewsPlannerStep1").removeClass("hide");
-                $("#Modal_NewsLetterPop").modal("show");
-            }, 30000);
+            //setTimeout(function () {
+            //    $("#Modal_NewsLetterPop .div_NewsPlannerStep1").removeClass("hide");
+            //    $("#Modal_NewsLetterPop").modal("show");
+            //}, 30000);
             $(".btn_sendPlanner").on("click", function () {
                 $(".div_NewsPlannerStep1").addClass("hide");
                 $(".div_NewsPlannerStep2").removeClass("hide");

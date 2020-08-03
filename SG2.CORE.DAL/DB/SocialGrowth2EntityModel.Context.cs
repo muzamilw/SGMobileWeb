@@ -37,7 +37,6 @@ namespace SG2.CORE.DAL.DB
         public virtual DbSet<SocialProfile_FollowedAccounts> SocialProfile_FollowedAccounts { get; set; }
         public virtual DbSet<SocialProfile_Notification> SocialProfile_Notification { get; set; }
         public virtual DbSet<SocialProfile_Payments> SocialProfile_Payments { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<SystemCity> SystemCities { get; set; }
         public virtual DbSet<SystemConfig> SystemConfigs { get; set; }
         public virtual DbSet<SystemCountry> SystemCountries { get; set; }
@@ -47,9 +46,10 @@ namespace SG2.CORE.DAL.DB
         public virtual DbSet<SocialProfile_Statistics> SocialProfile_Statistics { get; set; }
         public virtual DbSet<SocialProfile> SocialProfiles { get; set; }
         public virtual DbSet<PaymentPlan> PaymentPlans { get; set; }
-        public virtual DbSet<SocialProfile_Instagram_TargetingInformation> SocialProfile_Instagram_TargetingInformation { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Customer_Payments> Customer_Payments { get; set; }
+        public virtual DbSet<SocialProfile_Instagram_TargetingInformation> SocialProfile_Instagram_TargetingInformation { get; set; }
+        public virtual DbSet<SocialProfile_Logs> SocialProfile_Logs { get; set; }
     
         public virtual ObjectResult<SG2_usp_SystemConfig_GetAll_Result> SG2_usp_SystemConfig_GetAll(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId)
         {
@@ -178,7 +178,7 @@ namespace SG2.CORE.DAL.DB
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Get_CustomerOrderHistory_Result>("SG2_usp_Get_CustomerOrderHistory", riCustomerIdParameter, riSocialProfileIdParameter, riPageNumberParameter, riPageSizeParameter);
         }
     
-        public virtual ObjectResult<SG2_usp_GetUserDetailsForbackOffice_Result> SG2_usp_GetUserDetailsForbackOffice(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId, string riProductId, string riJVStatus, Nullable<int> riSubscription)
+        public virtual ObjectResult<SG2_usp_GetUserDetailsForbackOffice_Result> SG2_usp_GetUserDetailsForbackOffice(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId, string riProductId, string riJVStatus, Nullable<int> riSubscription, Nullable<int> profileType, Nullable<int> blockId, Nullable<int> connStatus)
         {
             var rsSearchCriteParameter = rsSearchCrite != null ?
                 new ObjectParameter("rsSearchCrite", rsSearchCrite) :
@@ -208,7 +208,19 @@ namespace SG2.CORE.DAL.DB
                 new ObjectParameter("riSubscription", riSubscription) :
                 new ObjectParameter("riSubscription", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_GetUserDetailsForbackOffice_Result>("SG2_usp_GetUserDetailsForbackOffice", rsSearchCriteParameter, riPageNumberParameter, riPageSizeParameter, riStatusIdParameter, riProductIdParameter, riJVStatusParameter, riSubscriptionParameter);
+            var profileTypeParameter = profileType.HasValue ?
+                new ObjectParameter("profileType", profileType) :
+                new ObjectParameter("profileType", typeof(int));
+    
+            var blockIdParameter = blockId.HasValue ?
+                new ObjectParameter("BlockId", blockId) :
+                new ObjectParameter("BlockId", typeof(int));
+    
+            var connStatusParameter = connStatus.HasValue ?
+                new ObjectParameter("ConnStatus", connStatus) :
+                new ObjectParameter("ConnStatus", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_GetUserDetailsForbackOffice_Result>("SG2_usp_GetUserDetailsForbackOffice", rsSearchCriteParameter, riPageNumberParameter, riPageSizeParameter, riStatusIdParameter, riProductIdParameter, riJVStatusParameter, riSubscriptionParameter, profileTypeParameter, blockIdParameter, connStatusParameter);
         }
     
         public virtual ObjectResult<SG2_usp_Login_Customers_Result> SG2_usp_Login_Customers(string rvcEmailAddress, string rvcPassword, string rvcCreatedBy, string rvcLastLoginIP, Nullable<int> rvcStatusId)
@@ -476,6 +488,33 @@ namespace SG2.CORE.DAL.DB
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_GetSocialProfileById_Result>("SG2_usp_Customer_GetSocialProfileById", riSocialProfileIdParameter);
         }
     
+        public virtual ObjectResult<SG2_usp_Customers_Get_Result> SG2_usp_Customers_Get(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customers_Get_Result>("SG2_usp_Customers_Get", idParameter);
+        }
+    
+        public virtual int usp_Delete_Profile(Nullable<int> socialprofileId)
+        {
+            var socialprofileIdParameter = socialprofileId.HasValue ?
+                new ObjectParameter("SocialprofileId", socialprofileId) :
+                new ObjectParameter("SocialprofileId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_Delete_Profile", socialprofileIdParameter);
+        }
+    
+        public virtual ObjectResult<SG2_usp_GetProfilebyJVStatusId_Result> SG2_usp_GetProfilebyJVStatusId(Nullable<int> riJVStatusId)
+        {
+            var riJVStatusIdParameter = riJVStatusId.HasValue ?
+                new ObjectParameter("riJVStatusId", riJVStatusId) :
+                new ObjectParameter("riJVStatusId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_GetProfilebyJVStatusId_Result>("SG2_usp_GetProfilebyJVStatusId", riJVStatusIdParameter);
+        }
+    
         public virtual ObjectResult<SG2_usp_Customer_SignUp_Result> SG2_usp_Customer_SignUp(string rvcFirstName, string rvcSurName, string rvcEmailAddress, string rvcPassword, string rvcCreatedBy, string rvcGUID, string rvcLastLoginIP, Nullable<int> rvcStatusId)
         {
             var rvcFirstNameParameter = rvcFirstName != null ?
@@ -513,31 +552,48 @@ namespace SG2.CORE.DAL.DB
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customer_SignUp_Result>("SG2_usp_Customer_SignUp", rvcFirstNameParameter, rvcSurNameParameter, rvcEmailAddressParameter, rvcPasswordParameter, rvcCreatedByParameter, rvcGUIDParameter, rvcLastLoginIPParameter, rvcStatusIdParameter);
         }
     
-        public virtual ObjectResult<SG2_usp_Customers_Get_Result> SG2_usp_Customers_Get(Nullable<int> id)
+        public virtual ObjectResult<SG2_usp_Report_GetProfileEvents_Result> SG2_usp_Report_GetProfileEvents(Nullable<System.DateTime> dtFromDate, Nullable<System.DateTime> dtToDate)
         {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("Id", id) :
-                new ObjectParameter("Id", typeof(int));
+            var dtFromDateParameter = dtFromDate.HasValue ?
+                new ObjectParameter("dtFromDate", dtFromDate) :
+                new ObjectParameter("dtFromDate", typeof(System.DateTime));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Customers_Get_Result>("SG2_usp_Customers_Get", idParameter);
+            var dtToDateParameter = dtToDate.HasValue ?
+                new ObjectParameter("dtToDate", dtToDate) :
+                new ObjectParameter("dtToDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Report_GetProfileEvents_Result>("SG2_usp_Report_GetProfileEvents", dtFromDateParameter, dtToDateParameter);
         }
     
-        public virtual int usp_Delete_Profile(Nullable<int> socialprofileId)
+        public virtual ObjectResult<SG2_usp_Report_GetActions_Result> SG2_usp_Report_GetActions(Nullable<System.DateTime> dtFromDate, Nullable<System.DateTime> dtToDate)
         {
-            var socialprofileIdParameter = socialprofileId.HasValue ?
-                new ObjectParameter("SocialprofileId", socialprofileId) :
-                new ObjectParameter("SocialprofileId", typeof(int));
+            var dtFromDateParameter = dtFromDate.HasValue ?
+                new ObjectParameter("dtFromDate", dtFromDate) :
+                new ObjectParameter("dtFromDate", typeof(System.DateTime));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_Delete_Profile", socialprofileIdParameter);
+            var dtToDateParameter = dtToDate.HasValue ?
+                new ObjectParameter("dtToDate", dtToDate) :
+                new ObjectParameter("dtToDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_Report_GetActions_Result>("SG2_usp_Report_GetActions", dtFromDateParameter, dtToDateParameter);
         }
     
-        public virtual ObjectResult<SG2_usp_GetProfilebyJVStatusId_Result> SG2_usp_GetProfilebyJVStatusId(Nullable<int> riJVStatusId)
+        public virtual ObjectResult<S2_usp_Stats_GrowthSummary_Result> S2_usp_Stats_GrowthSummary(Nullable<int> socialProfileId)
         {
-            var riJVStatusIdParameter = riJVStatusId.HasValue ?
-                new ObjectParameter("riJVStatusId", riJVStatusId) :
-                new ObjectParameter("riJVStatusId", typeof(int));
+            var socialProfileIdParameter = socialProfileId.HasValue ?
+                new ObjectParameter("socialProfileId", socialProfileId) :
+                new ObjectParameter("socialProfileId", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SG2_usp_GetProfilebyJVStatusId_Result>("SG2_usp_GetProfilebyJVStatusId", riJVStatusIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<S2_usp_Stats_GrowthSummary_Result>("S2_usp_Stats_GrowthSummary", socialProfileIdParameter);
+        }
+    
+        public virtual ObjectResult<GetSocialProfilesWithoutExistingFollowers_Result> GetSocialProfilesWithoutExistingFollowers(Nullable<int> socialProfileId)
+        {
+            var socialProfileIdParameter = socialProfileId.HasValue ?
+                new ObjectParameter("socialProfileId", socialProfileId) :
+                new ObjectParameter("socialProfileId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSocialProfilesWithoutExistingFollowers_Result>("GetSocialProfilesWithoutExistingFollowers", socialProfileIdParameter);
         }
     }
 }

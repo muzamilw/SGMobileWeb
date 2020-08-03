@@ -40,6 +40,20 @@ namespace SG2.CORE.MODAL.ViewModals.Customers
         [Display(Name = "Email")]
         public string EmailAddress { get; set; }
 
+        public string AddressLine1 { get; set; }
+        public string AddressLine2 { get; set; }
+
+        public string State { get; set; }
+
+        public string City { get; set; }
+
+        public string Country { get; set; }
+
+        [Display(Name = "Zip/Postal Code")]
+        public string PostCode { get; set; }
+
+        public string Notes { get; set; }
+
         public IList<CountryDTO> Countries { get; set; }
 
     }

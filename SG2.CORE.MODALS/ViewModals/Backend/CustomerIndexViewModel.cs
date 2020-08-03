@@ -1,4 +1,5 @@
-﻿using SG2.CORE.MODAL.DTO.Customers;
+﻿using SG2.CORE.MODAL.DTO.Common;
+using SG2.CORE.MODAL.DTO.Customers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +22,14 @@ namespace SG2.CORE.MODAL.ViewModals.Backend
         public int? StatusId { get; set; }
         public int PageNumber { get; set; }
         public string ProductId { get; set; }
-        public string JVStatus { get; set; }
+        public int? BlockStatus { get; set; }
+
+        public int? AppConnStatus { get; set; }
 
         public int? Subscription { get; set; }
 
+        public int? profileType { get; set; }
+        public List<AppBlockDTO> AppBlockList { get; set; }
 
 
     }

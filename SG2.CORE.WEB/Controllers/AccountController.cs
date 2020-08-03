@@ -17,6 +17,7 @@ using SG2.CORE.MODAL.DTO.Notification;
 using System.Configuration;
 using System.Threading.Tasks;
 
+
 namespace SG2.CORE.WEB.Controllers
 {
     public class AccountController : Controller
@@ -53,7 +54,11 @@ namespace SG2.CORE.WEB.Controllers
         {
             return View();
         }
-
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+       
         [HttpPost]
         public ActionResult SignUp(CustomerSignUpViewModel model)
         {
@@ -70,7 +75,7 @@ namespace SG2.CORE.WEB.Controllers
                     {
                         CustomerId = model.CustomerId,
                         FirstName = model.FirstName,
-                        SurName = model.UserName,
+                        SurName = model.FirstName,
                         EmailAddress = model.EmailAddress,
                         StatusId = (int)CustomersStatus.Active,
                         GUID = Guid.NewGuid().ToString(),
@@ -101,21 +106,40 @@ namespace SG2.CORE.WEB.Controllers
                             string URL = HttpContext.Request.Url.Scheme.ToString() + "://" + HttpContext.Request.Url.Authority.ToString() + "/Home/VerifyEmail?token=" + Url.Encode(encryptData);
 
                             //eventAPI();
-                            List<NotRequiredProperty> list = new List<NotRequiredProperty>() {
+                            /*List<NotRequiredProperty> list = new List<NotRequiredProperty>() {
                                 new NotRequiredProperty("$email", model.EmailAddress),
                                 new NotRequiredProperty("$first_name ", model.FirstName),
                                 new NotRequiredProperty("$last_name ", model.SurName),
                                 new NotRequiredProperty("URL", URL),
                                 new NotRequiredProperty("RESEND", false),
                                 new NotRequiredProperty("ISEMAILVERIFIED", false)
-                            };
-                            klaviyoProfile.email = model.EmailAddress;
+                            };*/
+                            /*klaviyoProfile.email = model.EmailAddress;
 
                             var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
-                            var _klavio_NonPayingSubscribeList = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_NonPayingSubscribeList").ToLower()).ConfigValue;
+                            var Klavio_NewSignups = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_NewSignups").ToLower()).ConfigValue;
 
                             klaviyoAPI.PeopleAPI(list, _klaviyoPublishKey);
-                            var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, _klavio_NonPayingSubscribeList);
+                            var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_NewSignups);
+*/
+
+                            var dynamicTemplateData = new Dictionary<string, string>
+                        {
+                            {"name",model.FirstName},
+                            {"verifyemail", URL},
+                            {"senddate", DateTime.Today.ToLongDateString()}
+
+                        };
+                            BAL.Managers.EmailManager.SendEmail(model.EmailAddress, model.FirstName, EmailManager.EmailType.EmailVerify, dynamicTemplateData);
+                            //KlaviyoEvent ev = new KlaviyoEvent();
+
+                            //ev.Event = "Email Verified";
+                            //ev.Properties.NotRequiredProperties = list;
+                            //ev.CustomerProperties.Email = CDT.EmailAddress;
+                            //ev.CustomerProperties.FirstName = CDT.FirstName;
+                            //ev.CustomerProperties.LastName = CDT.EmailAddress;
+
+                            //klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
                         });
 
                     }
@@ -167,9 +191,13 @@ namespace SG2.CORE.WEB.Controllers
 
                     if (resp.Item1)
                     {
+
+
                         var usr = (CustomerDTO)_sessionManager.Get(SessionConstants.Customer);
                         HttpContext.Items["isAuthentication"] = true;
                         jr.Data = new { ResultType = "Success", message = "User successfully autheticated.", ResultData = usr.DefaultSocialProfileId };
+
+                       
                     }
                     else
                     {
@@ -184,8 +212,9 @@ namespace SG2.CORE.WEB.Controllers
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                var jr = new JsonResult();
+                jr.Data = new { ResultType = "Error", message = "Unable to login" };
+                return jr;
             }
         }
 
@@ -374,7 +403,7 @@ namespace SG2.CORE.WEB.Controllers
         //}
 
         [HttpPost]
-        public ActionResult ForgetPassword(string email)
+        public ActionResult ForgetPassword(string username)
         {
 
 
@@ -384,7 +413,7 @@ namespace SG2.CORE.WEB.Controllers
 
             var jr = new JsonResult();
 
-            var customer = _customerManager.GetCustomerByEmail(email);
+            var customer = _customerManager.GetCustomerByEmail(username);
 
             if (customer != null)
             {
@@ -392,29 +421,38 @@ namespace SG2.CORE.WEB.Controllers
                 var encryptData = CryptoEngine.Encrypt(customer.CustomerId + "#" + System.DateTime.Now.Date);
                 string URL = HttpContext.Request.Url.Scheme.ToString() + "://" + HttpContext.Request.Url.Authority.ToString() + "/Home/ResetPassword?token=" + Url.Encode(encryptData);
 
-                List<NotRequiredProperty> list = new List<NotRequiredProperty>
-                    {
-                        new NotRequiredProperty("$email", customer.EmailAddress),
-                        new NotRequiredProperty("$first_name ", customer.FirstName),
-                        new NotRequiredProperty("$last_name ", customer.SurName),
-                        new NotRequiredProperty("RESEND", false),
-                        new NotRequiredProperty("ISEMAILVERIFIED", true),
-                        new NotRequiredProperty("ResetPasswordURL", URL)
-                    };
-                ev.Event = "Forget Password";
-                ev.Properties.NotRequiredProperties = list;
-                ev.CustomerProperties.Email = customer.EmailAddress;
-                ev.CustomerProperties.FirstName = customer.FirstName;
-                ev.CustomerProperties.LastName = customer.SurName;
+                //List<NotRequiredProperty> list = new List<NotRequiredProperty>
+                //    {
+                //        new NotRequiredProperty("$email", customer.EmailAddress),
+                //        new NotRequiredProperty("$first_name ", customer.FirstName),
+                //        new NotRequiredProperty("$last_name ", customer.SurName),
+                //        new NotRequiredProperty("RESEND", false),
+                //        new NotRequiredProperty("ISEMAILVERIFIED", true),
+                //        new NotRequiredProperty("ResetPasswordURL", URL)
+                //    };
+                //ev.Event = "Forget Password";
+                //ev.Properties.NotRequiredProperties = list;
+                //ev.CustomerProperties.Email = customer.EmailAddress;
+                //ev.CustomerProperties.FirstName = customer.FirstName;
+                //ev.CustomerProperties.LastName = customer.SurName;
 
-                var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
-                // update  Profile
-                klaviyoAPI.PeopleAPI(list, _klaviyoPublishKey);
-                klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
+                //var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
+                //// update  Profile
+                //klaviyoAPI.PeopleAPI(list, _klaviyoPublishKey);
+                //klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
+
+                var dynamicTemplateData = new Dictionary<string, string>
+                        {
+                            {"name",customer.FirstName},
+                            {"resetpassword", URL},
+                            {"senddate", DateTime.Today.ToLongDateString()}
+
+                        };
+                BAL.Managers.EmailManager.SendEmail(customer.EmailAddress, customer.FirstName, EmailManager.EmailType.ForgotPassword, dynamicTemplateData);
 
 
                 //HttpContext.Items["isAuthentication"] = true;
-                jr.Data = new { ResultType = "Success", message = "Email sent successfully. Please check your inbox.", data = customer };
+                jr.Data = new { ResultType = "Success", message = "Email with password reset instructions sent successfully to the email address. Please check your inbox.", data = customer };
             }
             else
             {

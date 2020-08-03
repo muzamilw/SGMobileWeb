@@ -4,7 +4,7 @@
 @{
 
     ViewBag.Title = "Dashboard";
-    Layout = "~/Views/Shared/_Layout_LoggedInStack.cshtml";
+    Layout = "~/Views/Shared/_Layout_LoggedInStackHomeSPPro.cshtml";
 
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
     var Customer = (Customer)ViewBag.Customer;
@@ -15,11 +15,20 @@
     {
         profiles.Add(new SelectListItem { Text = item.ProfileName, Value = item.SocialProfileId.ToString() });
     }
-
+    var displayClass = currentUser.IsBroker == true ? "" : "d-none";
 }
 
 @section styles{
-    <style>
+<style>
+
+        @@media (max-width: 767.98px) {
+            .table td.fit,
+            .table th.fit {
+                white-space: nowrap;
+                width: 1%;
+            }
+        }
+
         .table-hover tbody tr {
             cursor: pointer;
         }
@@ -28,6 +37,9 @@
             vertical-align: middle;
         }
 
+            .table-hover > tbody > tr > td > a {
+                color: #000000;
+            }
 
         .example.example1 {
             background-color: transparent;
@@ -39,151 +51,305 @@
                 font-weight: 500;
             }
 
-            .example.example1 fieldset {
-                margin: 0 15px 20px;
-                padding: 0;
-                border-style: none;
-                /*background-color: #7795f8;*/
-                /*box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #829fff;
+            .example.example1 h1 {
+                font-size: 24px;
+            }
+
+        example.example1 h2 {
+            font-size: 20px;
+        }
+
+        .example.example1 fieldset {
+            margin: 0 15px 20px;
+            padding: 0;
+            border-style: none;
+            /*background-color: #7795f8;*/
+            /*box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #829fff;
                 border-radius: 4px;*/
+        }
+
+        .example.example1 .row {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: center;
+            align-items: center;
+            margin-left: 15px;
+        }
+
+            .example.example1 .row + .row {
+                /*border-top: 1px solid #819efc;*/
             }
 
-            .example.example1 .row {
-                display: -ms-flexbox;
-                display: flex;
-                -ms-flex-align: center;
-                align-items: center;
-                margin-left: 15px;
-            }
+        .example.example1 label {
+            min-width: 70px;
+            padding: 11px 0;
+            color: black;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
 
-                .example.example1 .row + .row {
-                    /*border-top: 1px solid #819efc;*/
-                }
+        .example.example1 input, .example.example1 button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            outline: none;
+            width: 100%;
+            height: 44px;
+            padding: 8px 12px;
+            color: #303030;
+            font-size: 16px;
+            line-height: 1.5;
+            border: 0;
+            box-shadow: 0 0 0 1px #e0e0e0, 0 2px 4px 0 rgba(0,0,0,.07), 0 1px 1.5px 0 rgba(0,0,0,.05);
+            transition: box-shadow .08s ease-in,color .08s ease-in;
+            background: #fff;
+            -webkit-appearance: none;
+        }
 
-            .example.example1 label {
-                width: 15%;
-                min-width: 70px;
-                padding: 11px 0;
-                color: black;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
-
-            .example.example1 input, .example.example1 button {
-                -webkit-appearance: none;
-                -moz-appearance: none;
-                appearance: none;
-                outline: none;
-                border-style: none;
-            }
-
-                .example.example1 input:-webkit-autofill {
-                    -webkit-text-fill-color: darkgray;
-                    transition: background-color 100000000s;
-                    -webkit-animation: 1ms void-animation-out;
-                }
-
-            .example.example1 .StripeElement--webkit-autofill {
-                background: transparent !important;
-            }
-
-            .example.example1 .StripeElement {
-                width: 100%;
-                padding: 11px 15px 11px 0;
-            }
-
-            .example.example1 input {
-                width: 100%;
-                padding: 11px 15px 11px 0;
-                color: black;
-                background-color: transparent;
+            .example.example1 input:-webkit-autofill {
+                -webkit-text-fill-color: darkgray;
+                transition: background-color 100000000s;
                 -webkit-animation: 1ms void-animation-out;
             }
 
-                .example.example1 input::-webkit-input-placeholder {
-                    color: darkgray;
-                }
+        .example.example1 .StripeElement--webkit-autofill {
+            background: transparent !important;
+        }
 
-                .example.example1 input::-moz-placeholder {
-                    color: darkgray;
-                }
+        .example.example1 .StripeElement {
+            width: 100%;
+            padding: 11px 15px 11px 0;
+            border-radius: 6px;
+            box-shadow: 0 0 0 1px #e0e0e0, 0 2px 4px 0 rgba(0,0,0,.07), 0 1px 1.5px 0 rgba(0,0,0,.05);
+        }
 
-                .example.example1 input:-ms-input-placeholder {
-                    color: darkgray;
-                }
+        .example.example1 input {
+            width: 100%;
+            padding: 11px 15px 11px 10px;
+            color: black;
+            background-color: transparent;
+            -webkit-animation: 1ms void-animation-out;
+        }
 
-            .example.example1 button {
-                display: block;
-                width: calc(100% - 30px);
-                height: 40px;
-                margin: 40px 15px 0;
-                border-color: #008385 !important;
-                background-color: #00b5b8 !important;
-                color: #FFFFFF;
-                box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #ffb9f6;
-                border-radius: 4px;
-                color: #fff;
-                font-weight: 600;
-                cursor: pointer;
+            .example.example1 input::-webkit-input-placeholder {
+                color: darkgray;
             }
 
-                .example.example1 button:active {
-                    background-color: #d782d9;
-                    box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #e298d8;
-                }
-
-            .example.example1 .error svg .base {
-                fill: #fff;
+            .example.example1 input::-moz-placeholder {
+                color: darkgray;
             }
 
-            .example.example1 .error svg .glyph {
-                fill: #6772e5;
+            .example.example1 input:-ms-input-placeholder {
+                color: darkgray;
             }
 
-            .example.example1 .error .message {
-                color: red;
+        .example.example1 button {
+            display: block;
+            width: calc(100% - 30px);
+            height: 40px;
+            margin: 40px 15px 0;
+            border-color: #008385 !important;
+            background-color: #00b5b8 !important;
+            color: #FFFFFF;
+            box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #ffb9f6;
+            border-radius: 4px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+            .example.example1 button:active {
+                background-color: #d782d9;
+                box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #e298d8;
             }
 
-            .example.example1 .success .icon .border {
-                stroke: #87bbfd;
-            }
+        .example.example1 .error svg .base {
+            fill: #fff;
+        }
 
-            .example.example1 .success .icon .checkmark {
-                stroke: #fff;
-            }
+        .example.example1 .error svg .glyph {
+            fill: #6772e5;
+        }
 
-            .example.example1 .success .title {
-                color: #fff;
-            }
+        .example.example1 .error .message {
+            color: red;
+        }
 
-            .example.example1 .success .message {
-                color: #9cdbff;
-            }
+        .example.example1 .success .icon .border {
+            stroke: #87bbfd;
+        }
 
-            .example.example1 .success .reset path {
-                fill: #fff;
-            }
-    </style>
+        .example.example1 .success .icon .checkmark {
+            stroke: #fff;
+        }
+
+        .example.example1 .success .title {
+            color: #fff;
+        }
+
+        .example.example1 .success .message {
+            color: black;
+        }
+
+        .example.example1 .success .reset path {
+            fill: #fff;
+        }
+
+        .FormFieldInput-Icons {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+        }
+
+        .FormFieldInput-IconsIcon {
+            padding-right: 4px;
+        }
+
+        .table.table-xl th, .table.table-xl td {
+            padding: 1.25rem 1rem !important;
+        }
+
+        .btn-light {
+            background-color: #babfc7;
+        }
+
+        form .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .position-relative {
+            position: relative !important;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .has-icon-left .form-control {
+            padding-right: 1rem;
+            padding-left: -webkit-calc(2.75rem + 2px);
+            padding-left: -moz-calc(2.75rem + 2px);
+            padding-left: calc(2.75rem + 2px);
+        }
+
+        .position-relative .form-control {
+            padding-right: -webkit-calc(2.75rem + 2px);
+            padding-right: -moz-calc(2.75rem + 2px);
+            padding-right: calc(2.75rem + 2px);
+        }
+
+        .has-icon-left .form-control {
+            padding-left: 2.5rem;
+        }
+
+        form .form-control {
+            border: 1px solid #ccd6e6;
+            color: #000000;
+            font-size: 0.85rem;
+        }
+
+        .has-icon-left .form-control-position {
+            right: auto;
+            left: inherit;
+        }
+
+        .form-control-position {
+            position: absolute;
+            top: 4px;
+            right: 0;
+            z-index: 2;
+            display: block;
+            width: 2.5rem;
+            height: 2.5rem;
+            line-height: 2.5rem;
+            text-align: center;
+        }
+
+        .icon-align {
+            margin-top: 0.6rem;
+            margin-left: 0.5rem;
+        }
+
+        .font-medium-5 {
+            font-size: 1.2rem !important;
+        }
+
+        .text-muted {
+            color: #404e67 !important;
+        }
+
+        .modal-body h3 {
+            text-align: center;
+        }
+
+        .modal-body input[type=text] {
+            height: 47px;
+            width: 100%;
+            max-width: 100%;
+            border: 1px solid #c8c5c5;
+            border-radius: 5px;
+            background-color: #fff;
+            display: block;
+            margin-bottom: 0px;
+            padding: 10px;
+            cursor: text;
+            font-size: 1.0rem;
+            font-weight: 300;
+            color: #666;
+            margin-top: 0px;
+        }
+
+    @@media (min-width: 567px) {
+        .modal-dialog {
+            max-width: 800px;
+        }
+    }
+
+
+    .modal-body .btn-outline-comingsoon {
+        color: #000;
+        border-color: #000;
+    }
+
+    .modal-body .btn-outline-primary {
+        color: #fff;
+        background-color: #886ab5;
+        border-color: #886ab5;
+    }
+
+   
+
+</style>
     <link href="~/Content/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet" />
     <link href="~/Content/app-assets/css/stripe.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
 
 }
 
+<div class="heading-wrapper">
+    <h1>Select Your Growth Plan</h1>
 
+</div>
 <!-- BEGIN: Content-->
-<div class="app-content container center-layout mt-2">
+<div class="app-content  center-layout mt-2">
     <div class="content-wrapper">
         <div class="content-header row">
-            <div class="content-header-left col-md-6 col-12 mb-2">
+            <div class="content-header-left col-md-12 col-12 mb-2">
                 <h3 class="content-header-title mb-0">Click on a profile to set growth engine preferences</h3>
 
             </div>
-            <div class="content-header-right col-md-6 col-12">
+            <div class="content-header-right col-md-12 col-12">
                 <div class="media width-250 float-right">
+
                     <div class="media-right text-right">
-                        @*<div id="sp-bar-total-sales"></div>*@
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-create" data-toggle="modal" data-target="#newProfile"><i class="fa fa-plus"></i> Social Profile</button>
+
+
+                        </div>
                     </div>
+
 
                 </div>
             </div>
@@ -191,25 +357,24 @@
         <div class="content-body">
             <!-- Extra large table start -->
             <div class="row match-height">
-                <div class="col-9">
+                <div class="col-xl-12 col-md-12 col-sm-12">
                     <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Social media profiles</h4>
-                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                            <div class="heading-elements">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-blue" data-toggle="modal" data-target="#newProfile"><i class="fa fa-plus"></i> Social Profile</button>
+                        @*<div class="card-header">
+                                <h4 class="card-title col-lg-7 col-sm-12 float-left mt-1 row">Social media profiles</h4>
+                                <div id="SocialProfileBtnCnt" class="col-lg-5 col-sm-12 float-right text-right pr-0">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-blue" data-toggle="modal" data-target="#newProfile"><i class="fa fa-plus"></i> Social Profile</button>
 
+
+                                    </div>
 
                                 </div>
-
-                            </div>
-                        </div>
+                            </div>*@
                         <div class="card-content collapse show">
                             <div class="card-body card-dashboard">
                                 <form class="form" id="formbasic" method="post">
                                     <div class="form-row">
-                                        <div class="col-3">
+                                        <div class="col-xl-3 col-md-3 col-sm-12">
                                             <input type="search" class="form-control mb-1" id="searchString" name="searchString" placeholder="Search profiles" value="@Model.searchString">
                                         </div>
                                         @{
@@ -217,30 +382,40 @@
                                             mlist.Add(new SelectListItem { Text = "Select Type (All)", Value = "0" });
                                             mlist.Add(new SelectListItem { Text = "Instagram", Value = "30" });
                                             mlist.Add(new SelectListItem { Text = "LinkedIn", Value = "31" });
-                                            mlist.Add(new SelectListItem { Text = "Facebook", Value = "32" });
+                                            mlist.Add(new SelectListItem { Text = "TikTok", Value = "32" });
                                         }
-                                        <div class="col-3">
-                                            @Html.DropDownListFor(n => n.SocialType, new SelectList(mlist, "Value", "Text", 0), new { @class = "custom-select block" })
+                                        <div class="col-xl-3 col-md-3 col-sm-12">
+                                            @Html.DropDownListFor(n => n.SocialType, new SelectList(mlist, "Value", "Text", 0), new { @class = "custom-select block mb-1" })
                                         </div>
-                                        <div class="col-3">
-                                            @{
-                                                List<SelectListItem> blist = new List<SelectListItem>();
-                                                blist.Add(new SelectListItem { Text = "Select Block Type (All)", Value = "99" });
-                                                blist.Add(new SelectListItem { Text = "Valid", Value = "0" });
-                                                blist.Add(new SelectListItem { Text = "Action Block", Value = "66" });
-                                                blist.Add(new SelectListItem { Text = "Hard Block", Value = "67" });
-                                                blist.Add(new SelectListItem { Text = "Passsword Block", Value = "68" });
-                                            }
-                                            @Html.DropDownListFor(n => n.Block, new SelectList(blist, "Value", "Text", 0), new { @class = "custom-select block" })
-                                        </div>
-                                        <div class="col-3">
+                                        @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true && 1 == 0)
+                                        {
+                                            <div class="col-xl-3 col-md-3 col-sm-12">
+                                                @{
+                                                    List<SelectListItem> blist = new List<SelectListItem>();
+                                                    blist.Add(new SelectListItem { Text = "Select Block Type (All)", Value = "99" });
+                                                    blist.Add(new SelectListItem { Text = "Valid", Value = "0" });
+                                                    blist.Add(new SelectListItem { Text = "Action Block", Value = "66" });
+                                                    blist.Add(new SelectListItem { Text = "Hard Block", Value = "67" });
+                                                    blist.Add(new SelectListItem { Text = "Passsword Block", Value = "68" });
+                                                }
+                                                @Html.DropDownListFor(n => n.Block, new SelectList(blist, "Value", "Text", 0), new { @class = "custom-select block mb-1" })
+                                            </div>
+                                        }
+                                        <div class="col-xl-3 col-md-3 col-sm-12">
                                             @{
                                                 List<SelectListItem> plist = new List<SelectListItem>();
                                                 plist.Add(new SelectListItem { Text = "Plans (All)", Value = "0" });
-                                                plist.Add(new SelectListItem { Text = "Free Forever", Value = "1" });
-                                                plist.Add(new SelectListItem { Text = "$59 per month", Value = "2" });
-                                                plist.Add(new SelectListItem { Text = "$99 per month", Value = "3" });
-                                                plist.Add(new SelectListItem { Text = "$39 Afilliate Plan", Value = "4" });
+                                                plist.Add(new SelectListItem { Text = "FREE", Value = "1" });
+                                                if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true)
+                                                {
+                                                    plist.Add(new SelectListItem { Text = "Growth Pro API", Value = "4" });
+                                                }
+                                                else
+                                                {
+                                                    plist.Add(new SelectListItem { Text = "Growth Pro API", Value = "2" });
+                                                    
+
+                                                }
                                             }
                                             @Html.DropDownListFor(n => n.Plan, new SelectList(plist, "Value", "Text", 0), new { @class = "custom-select block" })
 
@@ -255,50 +430,117 @@
                                 <div class="table-responsive">
                                     <table id="ResponsiveTable" class="table table-xl mb-0 table-hover">
 
+                                        <thead>
+                                            <tr>
+                                                <th class="col-4"></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+
+                                        </thead>
                                         <tbody>
+                                            @{
+                                                var rowCounter = 1;
+
+                                            }
                                             @foreach (var item in socailProfiles)
                                             {
-                                                <tr class='clickable-row' data-href='/Profile/Basic?socialProfileId=@item.SocialProfileId' data-hrefstats='/Profile/stats?socialProfileId=@item.SocialProfileId'>
 
-                                                    <td scope="row" class="align-middle">
+
+                                                <tr class='clickable-row' data-href='/Profile/Basic?socialProfileId=@item.SocialProfileId' data-hrefstats='/Profile/allstats?socialProfileId=@item.SocialProfileId'>
+
+                                                    <td scope="row" class="align-middle fit profile@(rowCounter)">
+
                                                         @if (item.SocialProfileTypeId == 30)
                                                         {
-                                                            <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="49" />
+
+
+
+                                                            <picture>
+                                                                <!-- Extra Large Desktops -->
+                                                                <source media="(min-width: 75em)"
+                                                                        srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
+
+                                                                <!-- Desktops -->
+                                                                <source media="(min-width: 62em)"
+                                                                        srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
+
+                                                                <!-- Tablets -->
+                                                                <source media="(min-width: 48em)"
+                                                                        srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent49.png">
+
+                                                                <!-- Landscape Phones -->
+                                                                <source media="(min-width: 34em)"
+                                                                        srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png">
+
+                                                                <!-- Portrait Phones -->
+                                                                <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png"
+                                                                     srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png">
+                                                            </picture>
                                                         }
-                                                        <a style="display:inline-block" href="/Profile/Basic?socialProfileId=@item.SocialProfileId"><h4>@item.SocialUsername</h4></a>
+                                                        <a style="display:inline-block" href="/Profile/Basic?socialProfileId=@item.SocialProfileId">@item.SocialUsername</a>
                                                     </td>
-                                                    <td>
-                                                        @{
-                                                            var statusclass = "";
-                                                            switch (item.BlockedStatus)
-                                                            {
-                                                                case "Valid": statusclass = "badge-primary"; break;
-                                                                case "Action Blocked": statusclass = "badge-danger"; break;
-                                                                case "Hard Blocked": statusclass = "badge-danger"; break;
-                                                                case "Password Blocked": statusclass = "badge-danger"; break;
-                                                                default:
-                                                                    statusclass = "badge-primary";
-                                                                    break;
+
+
+
+
+                                                    @if (Customer.IsBroker == true)
+                                                    {
+                                                        <td>
+                                                            @{
+                                                                var statusclass = "";
+                                                                switch (item.BlockedStatus)
+                                                                {
+                                                                    case "Valid": statusclass = "badge-primary"; break;
+                                                                    case "Action Blocked": statusclass = "badge-danger"; break;
+                                                                    case "Hard Blocked": statusclass = "badge-danger"; break;
+                                                                    case "Password Blocked": statusclass = "badge-danger"; break;
+                                                                    default:
+                                                                        statusclass = "badge-primary";
+                                                                        break;
+                                                                }
                                                             }
-                                                        }
 
-                                                        <span class="badge @statusclass label-square mr-1 mb-1 display-inline">
+                                                            <span class="badge @statusclass label-square mr-1 mb-1 display-inline">
 
-                                                            <span>@item.BlockedStatus</span>
-                                                        </span>
-                                                    </td>
+                                                                <span>@item.BlockedStatus</span>
+                                                            </span>
+                                                        </td>
 
+
+                                                        <td class="">
+                                                            @{
+                                                                var connStatusclass = "";
+                                                                if (item.AppConnStatus == "Online")
+                                                                {
+                                                                    connStatusclass = "badge-success";
+                                                                }
+                                                                else
+                                                                {
+                                                                    connStatusclass = "badge-danger";
+                                                                }
+
+                                                            }
+
+                                                            <span class="badge @connStatusclass label-square mr-1 mb-1 display-inline">
+
+                                                                <span>@item.AppConnStatus</span>
+                                                            </span>
+                                                        </td>
+                                                    }
                                                     <td class="align-middle">
-                                                        @if (@socailProfiles.FirstOrDefault().SubscriptionName != null)
+                                                        @if (item.SubscriptionName != null)
                                                         {
                                                             <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: @item.SubscriptionName</div>
                                                         }
                                                         else
                                                         {
-                                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline">Free Plan</div>
+                                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: FREE</div>
                                                         }
                                                     </td>
                                                 </tr>
+                                                rowCounter++;
                                             }
                                         </tbody>
                                     </table>
@@ -316,187 +558,104 @@
                     </div>
                 </div>
 
-                <div class="col-xl-3 col-md-6 col-sm-12">
-                    <div class="card">
-                        <div class="card-content">
-                            <img class="card-img-top img-fluid" src="~/Content/ThemeAssets/Images/afilliate.jpg" alt="Card image cap">
-                            <div class="card-body">
+                @*<div class="col-xl-3 col-md-6 col-sm-12">
+                        <div class="card">
+                            <div class="card-content">
+                                <img class="card-img-top img-fluid" src="~/Content/Images/agency.png" alt="Card image cap">
+                                <div class="card-body">
 
-                                
-                                @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true) 
-                                {
-                                                        <p class="card-text">
-                                                            Affiliate Status : Active
 
-                                                            <a href="#" class="btn btn-success btn-block" id="btnAfilliateProfile">Update Afilliate Profile</a>
+                                    @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true)
+                                    {
+                                        <p class="card-text">
 
-                                                            <a href = "#" class="btn btn-success btn-block" id="btnAfilliateBilling" data-toggle="modal" data-target="#BillingHistoryModal">View Billing History</a>
 
-                                                            <a href = "#" class="btn btn-danger btn-block" id="btnCancelAfilliate">Cancel Afilliate Plan</a>
+                                            <a href="#" class="btn btn-success btn-block" id="btnAfilliateProfile">Update App Skin</a>
 
-                                                        </p>
-                                }
-                                else
-                                {
-                                <h4 class="card-title">Become an Afilliate</h4>
-                                <p class="card-text">
-                                    Join the Social Growth Affiliates Program and start earning money today.
+                                            <a href="~/user/AgencyInstagramTarget" class="btn btn-success btn-block">Instagram Default Filters</a>
 
-                                </p>
-                                <a href = "#" class="btn btn-success" id="btnAfilliate">Become an Afilliate</a>
-                                }
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
+
+                                            <a href="#" class="btn btn-success btn-block" id="btnAfilliateBilling" data-toggle="modal" data-target="#BillingHistoryModal">33View Billing History</a>
+
+                                            <a href="#" class="btn btn-danger btn-block" id="btnCancelAfilliate">Cancel Agency Plan x</a>
+
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <h4 class="card-title">Take your Agency to the next level</h4>
+                                        <p class="card-text">
+                                            Join the most powerful Social Growth tool for agencies in 2020. Access advanced tools & white label your own app.
+
+                                        </p>
+                                        <a href="#" class="btn btn-success mt-1" id="btnAfilliate">Start an Agency Account</a>
+                                    }
                                 </div>
-                                <!-- Extra large table end -->
                             </div>
                         </div>
-</div>
-<div class="modal fade text-left" id="newProfile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel34" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h3 class="modal-title" id="myModalLabel34">Create a new Social Profile</h3>
-                                    <button type = "button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-            <form id="newprofileForm">
-                <input type="hidden" id="customerId" name="customerId" value="@currentUser.CustomerId" />
-                <div class="modal-body">
-                    <label>Instagram Username </label>
-                    <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="Intagram Username" class="form-control" name="IntagramUserName" required>
-                        <div class="form-control-position">
-                            <i class="fa fa-envelope font-medium-5 line-height-1 text-muted icon-align"></i>
-                        </div>
-
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="close">
-                    <input type="submit" class="btn btn-outline-primary btn-lg" value="Create New Profile">
-                </div>
-            </form>
+                    </div>*@
+            </div>
+            <!-- Extra large table end -->
         </div>
     </div>
 </div>
-
-<div class="modal fade text-left" id="AfilliateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel34" aria-hidden="true">
+<div class="modal fade text-left" id="newProfile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel34" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="myModalLabel34">Afilliate Profile</h3>
+            <div class="modal-header bg-primary white">
+                @*<h3 class="modal-title" id="myModalLabel34">Create Social Growth Profiles</h3>*@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="AfilliateProfileForm">
-                <input type="hidden" name="cid" value="@Customer.CustomerId"/>
-                <div class="modal-body">
-                    <label>Following information will be used to white label the modile app for your profiles.</label>
-                    <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="App Name" class="form-control position-inside-maxlength" name="BrokerAppName" value="@Customer.BrokerAppName" required maxlength="100">
-                        <div class="form-control-position">
-                            <i class="fa fa-file font-medium-5 line-height-1 text-muted icon-align"></i>
-                        </div>
+            <form id="newprofileForm">
+                <input type="hidden" id="customerId" name="customerId" value="@currentUser.CustomerId" />
 
-                    </div>
-
-                    <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="Strap Line" class="form-control position-inside-maxlength" name="BrokerStrapLine" value="@Customer.BrokerStrapLine" required maxlength="500">
-                        <div class="form-control-position">
-                            <i class="fa fa-file-text font-medium-5 line-height-1 text-muted icon-align"></i>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="App Aspect Color" class="form-control position-inside-maxlength" name="BrokerAspectColor" value="@Customer.BrokerAspectColor" id="BrokerAspectColor" required maxlength="50">
-                        <div class="form-control-position">
-                            <i class="fa fa-pencil font-medium-5 line-height-1 text-muted icon-align"></i>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="Training Link" class="form-control position-inside-maxlength" name="BrokerTrainingLink" value="@Customer.BrokerTrainingLink" required maxlength="500">
-                        <div class="form-control-position">
-                            <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="Terms Of Use Link" class="form-control position-inside-maxlength" name="BrokerTermsOfUse" value="@Customer.BrokerTermsOfUse" required maxlength="500">
-                        <div class="form-control-position">
-                            <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="Privacy Policy Link" class="form-control position-inside-maxlength" name="BrokerPrivacyPolicy" value="@Customer.BrokerPrivacyPolicy" required maxlength="500">
-                        <div class="form-control-position">
-                            <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="Feedback Page Link" class="form-control position-inside-maxlength" name="BrokerFeedbackPage" value="@Customer.BrokerFeedbackPage" required maxlength="500">
-                        <div class="form-control-position">
-                            <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group position-relative has-icon-left">
-                        <input type="text" placeholder="Home Page Link" class="form-control position-inside-maxlength" name="BrokerHomePage" value="@Customer.BrokerHomePage" required maxlength="500">
-                        <div class="form-control-position">
-                            <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
-                        </div>
-
-                    </div>
-                    <label>Trust Pilot Code </label>
-                    <div class="form-group position-relative has-icon-left">
-                        <textarea type="text" placeholder="Trust Pilot Code" class="form-control position-inside-maxlength" name="BrokerTrustPilotCode" maxlength="5000">@Customer.BrokerTrustPilotCode</textarea>
-                        <div class="form-control-position">
-                            <i class="fa fa-file-text font-medium-5 line-height-1 text-muted icon-align"></i>
-                        </div>
-                    </div>
-                    <label>App Logo</label>
-                    @if (!string.IsNullOrEmpty(Customer.BrokerLogo))
-                    {
-                        <div class="form-group position-relative">
-                            <img src="@Customer.BrokerLogo" />
-                        </div>
-                    }
-                        <div class="form-group position-relative has-icon-left">
-                            <input type="text" placeholder="Home Page Link" class="form-control position-inside-maxlength" name="BrokerLogo" value="@Customer.BrokerLogo" required maxlength="500">
-                            <div class="form-control-position">
-                                <i class="fa fa-link font-medium-5 line-height-1 text-muted icon-align"></i>
+                <div class="modal-body container-fluid">
+                    <div class="row  text-center">
+                        <h1 class="col-sm-12 col-md-12 font-large-1">Create a Social Growth Profile</h1>
+                        <div class="col-sm-12 col-md-4">
+                            <img style="width:150px;height:100px;" class="" src="~/Content/Theme-CA/img/IG_2x.png">
+                            <div class="form-group position-relative">
+                                <input type="text" placeholder="Instagram Username" class="form-control" name="IntagramUserName" style="margin-top:20px;margin-bottom:20px;">
+                                <button type="submit" class="btn btn-outline-primary  w-100">Create Instagram Growth Profile</button>
                             </div>
 
                         </div>
+                        <div class="col-sm-12 col-md-4">
+                            <img style="width:150px;height:100px;" class="" src="~/Content/Theme-CA/img/LinkedIn_2x.png">
+                            <div class="form-group position-relative">
+                                <input disabled type="text" class="form-control" style="margin-top:20px;margin-bottom:20px;">
+                                <button disabled type="submit" class="btn btn-outline-comingsoon  w-100">Coming Soon</button>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-12 col-md-4">
+                            <img style="width:150px;height:100px;" class="" src="~/Content/Theme-CA/img/TikTok_2x.png">
+                            <div class="form-group position-relative">
+                                <input disabled type="text" class="form-control" style="margin-top:20px;margin-bottom:20px;">
+                                <button disabled type="submit" class="btn btn-outline-comingsoon  w-100">Coming Soon</button>
+                            </div>
+                        </div>
+
+                    </div>
+                   
+                    
+
                 </div>
-                <div class="modal-footer">
-                    <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="close">
-                    <input type="submit" class="btn btn-outline-primary btn-lg" value="Update Afilliate Profile">
-                </div>
+               
             </form>
         </div>
     </div>
 </div>
+
 
 <div class="modal fade text-left" id="planSubscriptionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary white">
-                <h4 class="modal-title" id="myModalLabel1">Subscribe to Afilliate plan</h4>
+                <h4 class="modal-title" id="myModalLabel1">Subscribe to Agency plan</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -506,9 +665,9 @@
                     <form method="post" id="payment-form">
                         <fieldset>
                             <div class="row" style="display:inline">
-                                <h3 class="text-center">Selected Plan</h3>
-                                <h1 class="text-center selectedPlanName"></h1>
-                                <h1 class="text-center " id="selectedPlanPrice"></h1>
+                                @*<h2 class="text-center">You are subscribing to a monthly plan :</h2>*@
+                                <h1 class="text-center selectedPlanName mt-2"></h1>
+                                <h4 class="text-center selectedPlanPrice mt-1"></h4>
                                 <input type="hidden" id="selectedPlanId" />
                                 <input type="hidden" id="existingStripeCustomerId" value="@currentUser.StripeCustomerId" />
                                 <input type="hidden" id="existingStripeSubscriptionId" value="@currentUser.StripeSubscriptionId" />
@@ -518,22 +677,25 @@
                         </fieldset>
                         <fieldset>
                             <div class="row">
-                                <label for="example1-name" data-tid="elements_examples.form.name_label">Name</label>
-                                <input id="example1-name" data-tid="elements_examples.form.name_placeholder" type="text" placeholder="Jane Doe" required="" autocomplete="name" value="@currentUser.FirstName">
+                                <label for="example1-name" data-tid="elements_examples.form.name_label">Name on card</label>
+                                <input id="example1-name" data-tid="elements_examples.form.name_placeholder" type="text" placeholder="Jane Doe" ="" autocomplete="name" value="@currentUser.FirstName">
                             </div>
                             <div class="row">
                                 <label for="example1-email" data-tid="elements_examples.form.email_label">Email</label>
-                                <input id="example1-email" data-tid="elements_examples.form.email_placeholder" type="email" placeholder="janedoe@gmail.com" required="" autocomplete="email" value="@currentUser.EmailAddress">
+                                <input id="example1-email" data-tid="elements_examples.form.email_placeholder" type="email" placeholder="janedoe@gmail.com" ="" autocomplete="email" value="@currentUser.EmailAddress">
                             </div>
                             <div class="row">
                                 <label for="example1-phone" data-tid="elements_examples.form.phone_label">Phone</label>
-                                <input id="example1-phone" data-tid="elements_examples.form.phone_placeholder" type="tel" placeholder="(941) 555-0123" required="" autocomplete="tel" value="@(currentUser.PhoneCode + " " + currentUser.PhoneNumber)">
+                                <input id="example1-phone" data-tid="elements_examples.form.phone_placeholder" type="tel" placeholder="(941) 555-0123" ="" autocomplete="tel" value="@(currentUser.PhoneCode + " " + currentUser.PhoneNumber)">
                             </div>
                         </fieldset>
 
                         <fieldset>
                             <div class="row">
                                 @*<div id="example1-card" class="StripeElement StripeElement--empty"><div class="__PrivateStripeElement" style="margin: 0px !important; padding: 0px !important; border: none !important; display: block !important; background: transparent !important; position: relative !important; opacity: 1 !important;"><iframe frameborder="0" allowtransparency="true" scrolling="no" name="__privateStripeFrame5" allowpaymentrequest="true" src="https://js.stripe.com/v3/elements-inner-card-cd25803263cd2601cb18e3cd5aa05896.html#style[base][iconColor]=%23c4f0ff&amp;style[base][color]=%23fff&amp;style[base][fontWeight]=500&amp;style[base][fontFamily]=Roboto%2C+Open+Sans%2C+Segoe+UI%2C+sans-serif&amp;style[base][fontSize]=16px&amp;style[base][fontSmoothing]=antialiased&amp;style[base][:-webkit-autofill][color]=%23fce883&amp;style[base][::placeholder][color]=%2387BBFD&amp;style[invalid][iconColor]=%23FFC7EE&amp;style[invalid][color]=%23FFC7EE&amp;iconStyle=solid&amp;locale=en&amp;componentName=card&amp;wait=true&amp;rtl=false&amp;keyMode=test&amp;apiKey=pk_test_6pRNASCoBOKtIshFeQd4XMUh&amp;origin=https%3A%2F%2Fstripe.dev&amp;referrer=https%3A%2F%2Fstripe.dev%2Felements-examples%2F&amp;controllerId=__privateStripeController1" title="Secure payment input frame" style="border: none !important; margin: 0px !important; padding: 0px !important; width: 1px !important; min-width: 100% !important; overflow: hidden !important; display: block !important; user-select: none !important; height: 19.2px;"></iframe><input class="__PrivateStripeElement-input" aria-hidden="true" aria-label=" " autocomplete="false" maxlength="1" style="border: none !important; display: block !important; position: absolute !important; height: 1px !important; top: 0px !important; left: 0px !important; padding: 0px !important; margin: 0px !important; width: 100% !important; opacity: 0 !important; background: transparent !important; pointer-events: none !important; font-size: 16px !important;"></div></div>*@
+                                <label for="example1-phone" data-tid="elements_examples.form.phone_label" class="mr-3">Card Information</label>
+                                <div class="FormFieldInput-Icons" style="opacity: 1;"><div style="transform: none;"><span class="FormFieldInput-IconsIcon is-visible"><img src="https://js.stripe.com/v3/fingerprinted/img/visa-365725566f9578a9589553aa9296d178.svg" alt="visa" class="BrandIcon"></span></div><div style="transform: none;"><span class="FormFieldInput-IconsIcon is-visible"><img src="https://js.stripe.com/v3/fingerprinted/img/mastercard-4d8844094130711885b5e41b28c9848f.svg" alt="mastercard" class="BrandIcon"></span></div><div style="transform: none;"><span class="FormFieldInput-IconsIcon is-visible"><img src="https://js.stripe.com/v3/fingerprinted/img/amex-a49b82f46c5cd6a96a6e418a6ca1717c.svg" alt="amex" class="BrandIcon"></span></div><div class="CardFormFieldGroupIconOverflow"><span class="CardFormFieldGroupIconOverflow-Item CardFormFieldGroupIconOverflow-Item--invisible" role="presentation"><span class="FormFieldInput-IconsIcon" role="presentation"><img src="https://js.stripe.com/v3/fingerprinted/img/unionpay-8a10aefc7295216c338ba4e1224627a1.svg" alt="unionpay" class="BrandIcon"></span></span><span class="CardFormFieldGroupIconOverflow-Item CardFormFieldGroupIconOverflow-Item--invisible" role="presentation"><span class="FormFieldInput-IconsIcon" role="presentation"><img src="https://js.stripe.com/v3/fingerprinted/img/jcb-271fd06e6e7a2c52692ffa91a95fb64f.svg" alt="jcb" class="BrandIcon"></span></span><span class="CardFormFieldGroupIconOverflow-Item CardFormFieldGroupIconOverflow-Item--visible" role="presentation"><span class="FormFieldInput-IconsIcon" role="presentation"><img src="https://js.stripe.com/v3/fingerprinted/img/discover-ac52cd46f89fa40a29a0bfb954e33173.svg" alt="discover" class="BrandIcon"></span></span><span class="CardFormFieldGroupIconOverflow-Item CardFormFieldGroupIconOverflow-Item--invisible" role="presentation"><span class="FormFieldInput-IconsIcon" role="presentation"><img src="https://js.stripe.com/v3/fingerprinted/img/diners-fbcbd3360f8e3f629cdaa80e93abdb8b.svg" alt="diners" class="BrandIcon"></span></span></div></div>
+
                                 <div id="card-element">
                                     <!-- A Stripe Element will be inserted here. -->
                                 </div>
@@ -571,6 +733,9 @@
                             <div id="spinner" class="hidden"></div>
                             <span id="button-text">Subscribe to the Plan</span>
                         </button>
+                        <fieldset class="text-center mt-1">
+                            <a class="Link Link--primary text-center " style="color:#909090" href="https://stripe.com" target="_blank"><span class="Text Text-color--gray400 Text-fontSize--12 Text-fontWeight--400"><span>Powered by <img style="width:45px;" src="https://js.stripe.com/v3/fingerprinted/img/stripe-8ad2522ef8799d5985038700f8a07027.svg" alt="stripe" class="Icon Footer-PoweredBy-Icon Icon--md"></span></span></a>
+                        </fieldset>
 
                     </form>
                     <div class="success">
@@ -581,8 +746,8 @@
                             </svg>
                         </div>
                         <h3 class="title" data-tid="elements_examples.success.title">Success</h3>
-                        <p class="message"><span id="cmessage" data-tid="elements_examples.success.message">Afilliate Subscription has been created successfully and payment has been processed. Complete the Afilliate profile and create social profiles.</span></p>
-                        <a class="btn btn-success" id="btnCompleteAfilliateProfile">Complete Afilliate Profile</a>
+                        <p class="message"><span id="cmessage" data-tid="elements_examples.success.message">Agency Subscription has been created successfully and payment has been processed. Create the additional profiles to get started.</span></p>
+                        <a class="btn btn-primary btn-lg btn-block" style="color:white;padding:14px;" href="~/User/Home?Refresh=1" >Continue</a>
                     </div>
                 </div>
             </div>
@@ -597,14 +762,14 @@
 <div class="modal fade text-left" id="BillingHistoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel34" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="myModalLabel34">Afilliate Order History</h3>
+            <div class="modal-header bg-primary white">
+                <h3 class="modal-title" id="myModalLabel34">Agency Order History</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            
-               
+
+
             <div class="modal-body">
                 @if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true)
                 {
@@ -645,13 +810,37 @@
                         </table>
                     </div>
                 }
-                </div>
-                <div class="modal-footer">
-                    <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="close">
-                   
-                </div>
-           
+            </div>
+            <div class="modal-footer">
+                <button type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal">close</button>
+            </div>
+
         </div>
+    </div>
+</div>
+
+<div id="Modal_CancelAfilliate" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-left">Cancel Agency Subscription Confirmation!</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+            <div class="modal-body">
+
+                <h3 style="color:red">Are you sure you want to Cancel your Agency Subscription? This action will reset plans for all profiles to Free Plan!</h3>
+
+                <input type="text" id="cancelAfilliateConfirmation" placeholder="Type in 'NO AGENCY' to continue" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn_CancelAfilliate">Cancel Agency Subscription</button>
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -664,6 +853,10 @@
     <script src="~/Content/app-assets/vendors/js/forms/extended/maxlength/bootstrap-maxlength.js"></script>
     <script src="~/Scripts/bootstrap-colorpicker.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+    
+
+
     <script>
 
         $('#ResponsiveTable > tbody > tr').click(function (element) {
@@ -674,8 +867,45 @@
                 window.location = element.target.parentElement.parentElement.getAttribute("data-hrefstats");
         });
 
+        //var LogoImage = '';
+
+        function selectFile() {
+
+            var file = document.getElementById('uploadImage').files[0];
+            var reader = new FileReader();
+
+            reader.addEventListener("load", function () {
+                $('#BrokerLogoUpload').val(reader.result);
+                //LogoImage = reader.result;
+                //alert(LogoImage);
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+
 
         $("document").ready(function () {
+
+
+            //$('.foll').bootstrapToggle('on');
+            $('.toggler').each(function (index, currentElement) {
+
+                var vali =  $(this).val();
+                if (vali == "on")
+                    $(this).prop('checked', true).change();
+                else
+                    $(this).prop('checked', false).change();
+
+                $(this).attr("disabled", true);
+            });
+
+            $('input:checkbox').change(function (e) {
+                e.preventDefault();
+            });
+
+
             $('.position-inside-maxlength').maxlength({
                 alwaysShow: true,
                 warningClass: "badge badge-success",
@@ -698,7 +928,7 @@
             });
 
             $("#newprofileForm").on("submit", function () {
-                debugger;
+
                 var SocialProfileCount = @socailProfiles.Count();
 
                 //if ($("#Form_UpdatePassword").valid()) {
@@ -719,9 +949,9 @@
 
 
                                 //fB pixel event
-                                if (SocialProfileCount > 0) {
-                                    fbq('track', 'MultipleAccount');
-                                }
+                                //if (SocialProfileCount > 0) {
+                                //    fbq('track', 'MultipleAccount');
+                                //}
 
                                 swal("Success!", "You have successfully created a social profile. Please activate the payment plan to start using it with your mobile device!", "success")
                                     .then((value) => {
@@ -749,12 +979,15 @@
 
             });
 
+
+
             $("#AfilliateProfileForm").on("submit", function () {
-                debugger;
+
 
                 //if ($("#Form_UpdatePassword").valid()) {
 
                 var data = $("#AfilliateProfileForm").serializeArray();
+
                 $.ajax({
                     type: "POST",
                     url: "/User/UpdateBrokerProfile",
@@ -767,7 +1000,7 @@
                                 //$("#Modal_MessageBoxBody").text(data.message);
                                 //$("#Modal_Messagebox").modal("show");
                                 //$('#default').modal('show');
-                                swal("Success!", "You have successfully updated Afilliate profile.", "success")
+                                swal("Success!", "You have successfully updated Agency profile.", "success")
                                     .then((value) => {
                                         window.location.reload(false);
                                     });
@@ -806,37 +1039,36 @@
             }
 
 
-            $("#btnAfilliateProfile").on("click", function () {
-                OpenAfilliate("update");
-            });
+            //$("#btnAfilliateProfile").on("click", function () {
+            //    OpenAfilliate("update");
+            //});
 
-            $("#btnCompleteAfilliateProfile").on("click", function () {
-                OpenAfilliate("new");
-            });
+            //$("#btnCompleteAfilliateProfile").on("click", function () {
+            //    OpenAfilliate("new");
+            //});
 
             $("#btnCancelAfilliate").on("click", function (e) {
 
                 e.preventDefault();
                 e.stopPropagation();
 
-                var customerId = '@Customer.CustomerId';
 
                 swal({
-                    title: "Cancel Afilliate Subscription!",
-                    text: "Are you sure you want to Cancel your Afilliate subscription ? This action will reset plans for all profiles to Free Plan!",
+                    title: "Cancel Agency Subscription!",
+                    text: "Are you sure you want to Cancel your Agency Subscription? This action will reset plans for all profiles to Free Plan!",
                     icon: "error",
                     showLoaderOnConfirm: true,
                     closeOnClickOutside: false,
                     buttons: {
                         cancel: {
-                            text: "No, cancel please",
+                            text: "Close",
                             value: null,
                             visible: true,
                             className: "",
                             closeModal: true,
                         },
                         confirm: {
-                            text: "Go ahead, Cancel Afilliate subscription",
+                            text: "Cancel Agency Subscription",
                             value: true,
                             visible: true,
                             className: "btn-warning",
@@ -846,25 +1078,9 @@
 
                 }).then(isConfirm => {
                     if (isConfirm) {
+                        swal.close();
+                        $("#Modal_CancelAfilliate").modal("show");
 
-
-                        fetch('/User/ConfirmCancelAfilliateSubscription', {
-                            method: 'post',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                customerId: customerId
-                            })
-                        })
-                            .then(subscription => {
-                                //handleSubscription(subscription);.
-                                swal.close();
-                                swal("Success!", "Your Afilliate subscription & profiles have been cancelled successfully;", "success")
-                                    .then(function () {
-                                        window.location = "/User/Home/";
-                                    });;
-                            });
                     }
                     else {
                         //swal("OK", "It's safe.", "error");
@@ -875,13 +1091,49 @@
             });
 
 
+            $(".btn_CancelAfilliate").on("click", function () {
+                
+                if ($("#cancelAfilliateConfirmation").val() != "NO AGENCY") {
+                   
+                    var options = {};
+                    $("#cancelAfilliateConfirmation").effect("bounce", options, 500, null);
+                    return false;
+                }
+
+                var customerId = '@Customer.CustomerId';
+
+
+                 fetch('/User/ConfirmCancelAfilliateSubscription', {
+                            method: 'post',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                customerId: customerId
+                            })
+                        })
+                            .then(subscription => {
+                                //handleSubscription(subscription);
+                                $("#Modal_CancelAfilliate").modal("hide");
+                                swal.close();
+                                swal("Downgraded!", "Your Broker Agency Subscription & profiles have been downgraded;", "success")
+                                    .then(function () {
+                                        window.location = "/User/Home/";
+                                    });
+                            });
+
+
+            });
+
             $("#btnAfilliate").on("click", function () {
-                $(".selectedPlanName").text('Monthly Afilliate Plan');
-                $("#selectedPlanprice").text('200');
+                $(".selectedPlanName").text('Monthly Agency Plan');
+                $(".selectedPlanPrice").text('for $299 per month');
                 $("#selectedPlanId").val(5);
 
                 selectedPlanName = $(".selectedPlanName").text();
-                selectedPlanprice = 200;
+                selectedPlanprice = 299;
+                var customerId = '@Customer.CustomerId';
+
 
                 var ChangeType = "";
                 var ChangeMsg = "";
@@ -895,13 +1147,13 @@
                     var ChangeMsg = "Are you sure you want to downgrade to Free Plan? Free plan does not let the app connect and grow!";
                     var ChangeBtn = "Yes, Let's Downgrade to Free";
                 } else if (existingPlan != undefined && newplan < existingPlan) {
-                    var ChangeType = "Downgrade to " + selectedPlanName + " Plan!";
+                    var ChangeType = "Downgrade to " + selectedPlanName + "!";
                     var ChangeMsg = "Are you sure you want to downgrade your plan ?";
                     var ChangeBtn = "Yes, Let's Downgrade";
                 }
                 else {
-                    var ChangeType = "Subscribe " + selectedPlanName + " Plan";
-                    var ChangeMsg = "Are you sure you want to subscribe for " + selectedPlanprice +" per month?";
+                    var ChangeType = "Subscribe to " + selectedPlanName + "";
+                    var ChangeMsg = "Are you sure you want to subscribe for $" + selectedPlanprice +" per month?";
                     var ChangeBtn = "Yes, Let's Subscribe";
                 }
 
@@ -913,7 +1165,7 @@
                     closeOnClickOutside: false,
                     buttons: {
                         cancel: {
-                            text: "No, cancel please",
+                            text: "Close",
                             value: null,
                             visible: true,
                             className: "",
@@ -951,7 +1203,7 @@
                     else if (isConfirm && existingStripeSubscriptionId != "") {
                         //swal.enableLoading();
                         //swal("OK", "It's safe.", "error");
-                        debugger;
+
                         fetch('/profile/CreateStripeCustomerSubscription', {
                             method: 'post',
                             headers: {
@@ -962,8 +1214,8 @@
                                 email: '',
                                 paymentmethod: '',
                                 selectedPlanId: newplan,
-                                customerid: customerid,
-                                socialProfileId: socialProfileId
+                                customerid: customerId,
+                                socialProfileId: 0
 
                             })
                         })
@@ -1008,14 +1260,14 @@
                     }
                 };
 
-                var card = elements.create('card', { style: style });
+                var card = elements.create('card', { hidePostalCode: true, style: style });
                 card.mount('#card-element');
 
                 // Element focus ring
                 card.on('focus', function () {
                     var el = document.getElementById('card-element');
                     el.classList.add('focused');
-                    fbq('track', 'AddPaymentInfo');
+                    //fbq('track', 'AddPaymentInfo');
                 });
 
                 card.on('blur', function () {
@@ -1264,10 +1516,10 @@
                 example.classList.remove('submitting');
                 example.classList.add('submitted');
 
-                fbq('track', 'Purchase', {
-                    value: 59,
-                    currency: 'USD',
-                });
+                //fbq('track', 'Purchase', {
+                //    value: 299,
+                //    currency: 'USD',
+                //});
 
 
                 //alert(subscriptionJson);
@@ -1307,6 +1559,29 @@
             stripeElements('@ViewBag.stripePublishKey');
 
         });
+
+        function showPaymentPopUp(socialPId, type, subscriptionName) {
+
+            if (subscriptionName == "" || subscriptionName == "FREE" ) {
+                 $('input[data-profile-id="' + type+ socialPId +'"]').prop('checked', true).change();
+                   swal({
+                          title: "",
+                          text: "UPGRADE to a paid plan to enable this service. ",
+                          icon: "info", /* type: "info", */
+                          buttons: [
+                            "No", /* showCancelButton: true, cancelButtonText: "No", */
+                            "UPGRADE NOW" /* confirmButtonText: "Yes", */
+                          ],
+                          focusConfirm: false,
+                          showCloseButton: true
+                   }).then((value) => {
+                       if (value) {
+                           window.location.href = '/Profile/target?socialProfileId=' + socialPId;
+                      }
+                  });
+            }
+
+        }
     </script>
 }
 

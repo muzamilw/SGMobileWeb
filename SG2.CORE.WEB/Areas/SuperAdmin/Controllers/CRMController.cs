@@ -15,6 +15,7 @@ using SG2.CORE.MODAL.DTO.Customers;
 using System.Collections.Generic;
 using SG2.CORE.MODAL.DTO.SystemSettings;
 using SG2.CORE.MODAL.ViewModals.Customers;
+using SG2.CORE.MODAL.ViewModals.CRM;
 
 namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 {
@@ -27,7 +28,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
         //protected readonly TargetPreferencesManager _targetPreferenceManager;
         protected readonly List<SystemSettingsDTO> SystemConfigs;
         protected readonly PlanInformationManager _planmanager;
-
+        protected readonly StatisticsManager _statisticsManager;
 
         public CRMController()
         {
@@ -38,16 +39,17 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             ViewBag.SetMenuActiveClass = "CRM";
             SystemConfigs = SystemConfig.GetConfigs;
             _planmanager = new PlanInformationManager();
-
+            _statisticsManager = new StatisticsManager();
         }
 
         // GET: SuperAdmin/CRM
-        public ActionResult Index(int page = 1, string SearchCriteria = "", int? StatusId = null, string ProductId = null, string JVStatus = null, int? Subscription=null)
+        public ActionResult Index(int page = 1, string SearchCriteria = "", int? StatusId = null, string ProductId = null, string JVStatus = null, int? Subscription = null, int? profileType = null, int? BlockStatus = null, int? AppConnStatus = null)
         {
             try
             {
-                var customers = _customerManager.GetUserData(SearchCriteria, _PageSize, page, StatusId, ProductId, JVStatus, Subscription);
+                var customers = _customerManager.GetUserData(SearchCriteria, _PageSize, page, StatusId, ProductId, JVStatus, Subscription, profileType, BlockStatus, AppConnStatus);
                 var ProductIds = _customerManager.GetProductIds();
+                var AppBlockIds = CommonManager.GetAppBlocks();
                 var totatRecord = customers.FirstOrDefault()?.TotalRecord ?? 0;
                 IPagedList<CustomerListingViewModel> pageOrders = new StaticPagedList<CustomerListingViewModel>(customers, page, Convert.ToInt32(_PageSize), totatRecord);
                 var PageSize = pageOrders.PageCount;
@@ -61,7 +63,45 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                     PageNumber = PageNumber,
                     SearchCriteria = SearchCriteria,
                     ProductId = ProductId,
-                    StatusId = StatusId
+                    StatusId = StatusId,
+                    BlockStatus = BlockStatus,
+                    AppBlockList = AppBlockIds
+
+
+                };
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public ActionResult Index1(int page = 1, string SearchCriteria = "", int? StatusId = null, string ProductId = null, string JVStatus = null, int? Subscription = null, int? profileType = null, int? BlockStatus = null, int? AppConnStatus = null)
+        {
+            try
+            {
+                var customers = _customerManager.GetUserData(SearchCriteria, _PageSize, page, StatusId, ProductId, JVStatus, Subscription, profileType, BlockStatus, AppConnStatus);
+                var ProductIds = _customerManager.GetProductIds();
+                var AppBlockIds = CommonManager.GetAppBlocks();
+                var totatRecord = customers.FirstOrDefault()?.TotalRecord ?? 0;
+                IPagedList<CustomerListingViewModel> pageOrders = new StaticPagedList<CustomerListingViewModel>(customers, page, Convert.ToInt32(_PageSize), totatRecord);
+                var PageSize = pageOrders.PageCount;
+                var PageNumber = pageOrders.PageNumber;
+                var model = new CustomerIndexViewModel()
+                {
+                    CustomerListing = pageOrders,
+                    ApplicationStatuses = this.ApplicationStatuses,
+                    ProductIds = ProductIds,
+                    TotalRecord = PageSize,
+                    PageNumber = PageNumber,
+                    SearchCriteria = SearchCriteria,
+                    ProductId = ProductId,
+                    StatusId = StatusId,
+                    BlockStatus = BlockStatus,
+                    AppBlockList = AppBlockIds
+
+
                 };
                 return View(model);
             }
@@ -80,7 +120,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                 //int custId = Convert.ToInt32(CryptoEngine.Decrypt(customerId.ToString()));
                 int custId = Convert.ToInt32((CryptoEngine.Decrypt(id)));
                 int SocialPId = Convert.ToInt32((CryptoEngine.Decrypt(SPId)));
-
+                ViewBag.SocailProfile = this._customerManager.GetSocialProfileById(SocialPId);
                 var COH = _customerManager.GetCustomerOrderHistory(_PageSize, page, custId, SocialPId);
                 var totatRecord = COH.FirstOrDefault()?.TotalRecords ?? 0;
 
@@ -123,14 +163,14 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             var model = _customerManager.GetSpecificUserData(custId1, socialProfileId);
             ViewBag.SocailProfile = this._customerManager.GetSocialProfileById(socialProfileId);
             //model.Countries = CommonManager.GetCountries();
-            if (!string.IsNullOrEmpty(model.Country))
-            {
-                model.cities = CommonManager.GetCities().Where(m => m.CountryId == Convert.ToInt16(model.Country)).ToList();
-            }
-            else
-            {
-                model.cities = CommonManager.GetCities();
-            }
+            //if (!string.IsNullOrEmpty(model.Country))
+            //{
+            //    model.cities = CommonManager.GetCities().Where(m => m.CountryId == Convert.ToInt16(model.Country)).ToList();
+            //}
+            //else
+            //{
+            //    model.cities = CommonManager.GetCities();
+            //}
             model.usersList = CommonManager.GetTeamMembers();
             model.CustomerTitles = CommonManager.GetTitle();
             model.statusDTOs = this.ApplicationStatuses;
@@ -180,7 +220,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                     //int custId = Convert.ToInt32(CryptoEngine.Decrypt(customerId.ToString()));
                     int custId = Convert.ToInt32((CryptoEngine.Decrypt(Cus)));
 
-                    var User = _customerManager.ScheduleCall(custId,Convert.ToDateTime(  schedule), notes);
+                    var User = _customerManager.ScheduleCall(custId, Convert.ToDateTime(schedule), notes);
                     if (User)
                     {
 
@@ -285,7 +325,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                 int socialProfileId = Convert.ToInt32((CryptoEngine.Decrypt(SPId)));
 
                 SocialProfileDTO profileDTO = _customerManager.GetSocialProfileById(socialProfileId);
-           
+
                 var _stripeApiKey = SystemConfig.GetConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
                 if (profileDTO != null)
                 {
@@ -300,7 +340,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                             var subscription = service.Cancel(sub.Id, null);
 
-                          
+
 
                             jr.Data = new { ResultType = "Success", message = "User has successfully Unsubscribe." };
                         }
@@ -317,11 +357,11 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                     }
                 }
-               
+
                 if (_customerManager.DeleteProfile(0, socialProfileId))
                 {
                     {
-                        jr.Data = new { ResultType = "Error", message = "Profile has been successfully deleted." };
+                        jr.Data = new { ResultType = "Success", message = "Profile has been successfully deleted." };
                     }
                 }
             }
@@ -379,13 +419,13 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
 
             ViewBag.socialProfileId = socialProfileId;
-            
+
             var SocailProfile = this._customerManager.GetSocialProfileById(socialProfileId);
-            
+            ViewBag.SocailProfile = SocailProfile;
             var customer = _customerManager.GetCustomerByCustomerId(SocailProfile.SocialProfile.CustomerId.Value);
             ViewBag.CurrentUser = customer;
 
-            ViewBag.Plans = _planmanager.GetallIntagramPaymentPlans(customer.IsBroker.HasValue ? customer.IsBroker.Value : false);
+            //ViewBag.Plans = _planmanager.GetallIntagramPaymentPlans(customer.IsBroker.HasValue ? customer.IsBroker.Value : false);
 
             if (success.HasValue && success.Value == 1)
             {
@@ -413,151 +453,404 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
 
         [HttpPost]
-        public ActionResult Target(SocialProfileDTO request)
+        public ActionResult TargettingInformation(SocialProfileDTO request)
         {
 
             this._customerManager.UpdateTargetProfile(request);
-            return RedirectToAction("Target", "Profile", new { socialProfileId = request.SocialProfile_Instagram_TargetingInformation.SocialProfileId, success = 1 });
+            //return RedirectToAction("targettinginformation", "crm", new { id = Url.Encode(CryptoEngine.Encrypt(Convert.ToString(request.SocialProfile.CustomerId))), SPId= Url.Encode(CryptoEngine.Encrypt(request.SocialProfile.SocialProfileId.ToString())), success = 1 });
+            return Redirect("/sa/crm/targettinginformation?id=" + Url.Encode(CryptoEngine.Encrypt(Convert.ToString(request.SocialProfile.CustomerId))) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(request.SocialProfile_Instagram_TargetingInformation.SocialProfileId.ToString())) + "&success=1");
         }
 
-        public ActionResult TargettingInformationx(string id, string SPId)
+
+        public ActionResult Lists(string id, string SPId, int? success)
+        {
+
+            int custId = Convert.ToInt32(CryptoEngine.Decrypt(id));
+            int socialProfileId = Convert.ToInt32(CryptoEngine.Decrypt(SPId));
+
+
+            ViewBag.socialProfileId = socialProfileId;
+
+            var SocailProfile = this._customerManager.GetSocialProfileById(socialProfileId);
+            ViewBag.SocailProfile = SocailProfile;
+
+            ViewBag.socialProfileId = socialProfileId;
+            ViewBag.CurrentUser = this.CDT;
+
+
+            if (success.HasValue && success.Value == 1)
+            {
+                ViewBag.success = 1;
+            }
+
+            return View(SocailProfile);
+
+        }
+
+
+        [HttpPost]
+        public ActionResult Lists(SocialProfileDTO request)
+        {
+            this._customerManager.UpdateTargetProfileLists(request);
+            return Redirect("/sa/crm/lists?id=" + Url.Encode(CryptoEngine.Encrypt(Convert.ToString(0))) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(request.SocialProfile_Instagram_TargetingInformation.SocialProfileId.ToString())) + "&success=1");
+        }
+
+
+        public ActionResult Stats(string id, string SPId)
         {
             int custId = Convert.ToInt32(CryptoEngine.Decrypt(id));
-            int SocialPId = Convert.ToInt32(CryptoEngine.Decrypt(SPId));
-            var model = _customerManager.GetSpecificUserTargettingInformation(custId, SocialPId);
+            int socialProfileId = Convert.ToInt32(CryptoEngine.Decrypt(SPId));
 
-            if (model == null)
-            {
+            ViewBag.socialProfileId = socialProfileId;
+            ViewBag.CurrentUser = this.CDT;
+            ViewBag.socialProfile = this._customerManager.GetSocialProfileById(socialProfileId);
 
-                CustomerTargetPreferencesViewModel model1 = new CustomerTargetPreferencesViewModel();
-                model1.SPId = SocialPId.ToString();
-                model1.Id = custId.ToString();
-                model1.Countries = CommonManager.GetCountries();
-                if (model1.Country != null)
-                {
-                    model1.Cities = CommonManager.GetCities().Where(m => m.CountryId == Convert.ToInt16(model.Country)).ToList();
+            ViewBag.actions = this._customerManager.ReturnLastActions(socialProfileId, 500);
 
-                }
-                else
-                {
-                    model1.Cities = CommonManager.GetCities();
-                }
-                //model1.ProxyIPs = _customerManager.GetProxyIPs(model.Country ?? 0, model.City ?? 0);
-                //model1.JarveeStatuses = this.ApplicationStatuses;
-                //model.MPBoxList = _customerManager.GetMPBoxes();
-                return View(model1);
-            }
-            else
-            {
-                model.Countries = CommonManager.GetCountries();
-                if (model.Country != null)
-                {
-                    model.Cities = CommonManager.GetCities().Where(m => m.CountryId == Convert.ToInt16(model.Country)).ToList();
-                }
-                else
-                {
-                    model.Cities = CommonManager.GetCities();
-                }
-                //model.ProxyIPs = _customerManager.GetProxyIPs(model.Country ?? 0, model.City ?? 0);
-                //model.JarveeStatuses = this.ApplicationStatuses;
-                //model.MPBoxList = _customerManager.GetMPBoxes();
-                return View(model);
-            }
+
+            return View(this._statisticsManager.GetStatistics(socialProfileId));
+
+
         }
 
-        [HttpPost]
-        public ActionResult UpdateTargettingInformation(CustomerTargetPreferencesViewModel model)
+        public ActionResult FollowList(string id, string SPId)
         {
+            int custId = Convert.ToInt32(CryptoEngine.Decrypt(id));
+            int socialProfileId = Convert.ToInt32(CryptoEngine.Decrypt(SPId));
+
+            ViewBag.socialProfileId = socialProfileId;
+            ViewBag.CurrentUser = this.CDT;
+            ViewBag.socialProfile = this._customerManager.GetSocialProfileById(socialProfileId);
+
+
+            return View(new FollowListViewModel());
+
+
+        }
+        [HttpPost]
+        public ActionResult FollowList(FollowListViewModel followListViewModel)
+        {
+            int custId = followListViewModel.CustomerId;
+            int socialProfileId = followListViewModel.SocialProfileId;
+            SocialProfileDTO socialProfileDTO = this._customerManager.GetSocialProfileById(socialProfileId);
+            ViewBag.socialProfileId = socialProfileId;
+            ViewBag.CurrentUser = this.CDT;
+
+            if (followListViewModel.FilterBy == "2")
+            {
+                socialProfileDTO.SocialProfile_FollowedAccounts = socialProfileDTO.SocialProfile_FollowedAccounts.Where(s => s.StatusId == 1 && s.FollowedDateTime == DateTime.Now.AddDays(-33)).ToList();
+            }
+            if (followListViewModel.FilterBy == "3")
+            {
+                socialProfileDTO.SocialProfile_FollowedAccounts = socialProfileDTO.SocialProfile_FollowedAccounts.Where(s => s.StatusId != 1 && s.FollowedDateTime == DateTime.Now.AddDays(-33)).ToList();
+            }
+
+            ViewBag.socialProfile = socialProfileDTO;
+
+
+            return View(followListViewModel);
+
+
+        }
+        public ActionResult Trends(int socialProfileId, int mode)
+        {
+            var jr = new JsonResult();
             try
             {
-                if (ModelState.IsValid)
-                {
-                    //var dl = _targetPreferenceManager.SaveTargetPreferences(new TargetPreferencesDTO()
-                    //{
-                    //    Preference1 = model.Preference1,
-                    //    Preference2 = model.Preference2,
-                    //    Preference3 = model.Preference3,
-                    //    Preference4 = model.Preference4,
-                    //    Preference5 = model.Preference5,
-                    //    Preference6 = model.Preference6,
-                    //    Preference7 = model.Preference7,
-                    //    Preference8 = model.Preference8,
-                    //    Preference9 = model.Preference9,
-                    //    Preference10 = model.Preference10,
-                    //    //Country = model.Country,
-                    //    //City = model.City,
-                    //    //InstaUser = model.InstaUser,
-                    //    //InstaPassword = model.InstaPassword,
-                    //    SocialProfileId = Convert.ToInt32(model.SPId),
-                    //    Id = Convert.ToInt32(model.Id),
-                    //    SocialAccAs = model.SocialAccAS
-                    //});
+                DateTime startdate = DateTime.Today.AddDays(-15);   //1 week
+                DateTime enddate = DateTime.Today.AddHours(24);
 
-                    TempData["Success"] = "Yes";
-                    TempData["Message"] = "Profile updated successfully.";
-                    //return RedirectToAction("TargettingInformation", "CRM", new { @id = CryptoEngine.Encrypt(Convert.ToString(dl.Id)), @SPId= model.SPId });
-                    return Redirect("/sadmin/crm/targettinginformation?id=" + Url.Encode(CryptoEngine.Encrypt(Convert.ToString(1))) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(model.SPId)));
+                if (mode == 2)
+                {
+                    startdate = DateTime.Today.AddDays(-30);  //3 months
+                }
+                if (mode == 3)
+                {
+                    startdate = DateTime.Today.AddMonths(-3);  //3 months
+                }
+                else if (mode == 4)
+                {
+                    startdate = DateTime.Today.AddMonths(-6); //6 months
+                }
+                else if (mode == 5)
+                {
+                    startdate = DateTime.Today.AddMonths(-12); //6 months
+                }
+
+
+                var trends = _statisticsManager.GetProfileTrends(socialProfileId, startdate, enddate);
+
+                foreach (var item in trends)
+                {
+                    item.FollowersTotal = item.FollowersTotal.HasValue ? item.FollowersTotal : 0;
+                    item.Followings = item.Followings.HasValue ? item.Followings : 0;
+                    item.Like = item.Like.HasValue ? item.Like : 0;
+                    item.Engagement = (item.FollowersTotal ?? 1) * 100 / ((item.Followings ?? 1) == 0 ? 1 : item.Followings);
+                    item.Unfollow = (item.Unfollow ?? 0);
+                    item.StoryViews = (item.StoryViews ?? 0);
+                }
+
+
+                if (trends != null)
+                {
+                    jr.Data = new
+                    {
+                        ResultType = "Success",
+                        message = "",
+                        ResultData = new
+                        {
+                            Date = trends.Select(x => x.Date.ToString("dd-MMM-yyyy")).ToArray(),
+                            Followers = trends.Select(x => x.FollowersTotal.ToString()).ToArray(),
+                            //FollowersGainData = statisticsViewModel.StatisticsListing.Select(x => x.FollowersGain.ToString()).ToArray(),
+                            FollowingsData = trends.Select(x => x.Followings.ToString()).ToArray(),
+                            //FollowingsRatioData = statisticsViewModel.StatisticsListing.Select(x => x.FollowingsRatio.ToString()).ToArray(),
+                            //AVGFollowersData = statisticsViewModel.StatisticsListing.Select(x => x.AVGFollowers.ToString()).ToArray(),
+
+
+                            //LikeData = statisticsViewModel.StatisticsListing.Select(x => x.Like.ToString()).ToArray(),
+                            //CommentData = statisticsViewModel.StatisticsListing.Select(x => x.Comment.ToString()).ToArray(),
+                            //LikeCommentData = statisticsViewModel.StatisticsListing.Select(x => x.LikeComments.ToString()).ToArray(),
+                            Engagement = trends.Select(x => x.Engagement.ToString()).ToArray(),
+
+                            AvgLikes = trends.Select(x => x.Like.ToString()).ToArray(),
+                            StoryViews = trends.Select(x => x.StoryViews.ToString()).ToArray(),
+                            Unfollow = trends.Select(x => x.Unfollow.ToString()).ToArray()
+
+
+                            //TotalComment = statisticsViewModel.TotalComment.ToString(),
+                            //TotalEngagement = statisticsViewModel.TotalEngagement.ToString(),
+                            //TotalFollowers = statisticsViewModel.TotalFollowers.ToString(),
+                            //TotalFollowersGain = statisticsViewModel.TotalFollowersGain.ToString(),
+                            //TotalFollowings = statisticsViewModel.TotalFollowings.ToString(),
+                            //TotalFollowingsRatio = statisticsViewModel.TotalFollowingsRatio.ToString(),
+                            //TotalLike = statisticsViewModel.TotalLike.ToString(),
+                            //TotalLikeComment = statisticsViewModel.TotalLikeComment.ToString()
+                        }
+                    };
                 }
                 else
                 {
-                    string messages = string.Join(", ", ModelState.Values
-                                            .SelectMany(x => x.Errors)
-                                            .Select(x => x.ErrorMessage));
-                    TempData["Success"] = "False";
-                    TempData["Message"] = messages;
-                    return RedirectToAction("TargettingInformation");
+                    jr.Data = new { ResultType = "Error", message = "" };
                 }
+
             }
-            catch (Exception)
+            catch (Exception exp)
             {
-
-                throw;
+                throw exp;
             }
-            //int custId = Convert.ToInt32(CryptoEngine.Decrypt(id));
-            //var model = _customerManager.GetSpecificUserTargettingInformation(custId);
-            //return View(Model);
 
+            return Json(jr, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public ActionResult UpdateTarget(CustomerTargetPreferencesViewModel model)
+
+        public ActionResult GetFollowersSection(int socialProfileId, int mode)
         {
+            var jr = new JsonResult();
             try
             {
-                if (ModelState.IsValid)
+                double offSet = this._customerManager.GetAppTimeZoneOffSet(socialProfileId);
+                DateTime offSetDate = DateTime.UtcNow.AddHours(offSet).Date;
+                DateTime startdate = offSetDate.AddDays(-15);   //15 week
+                DateTime enddate = offSetDate.AddHours(24);
+
+
+                if (mode == 2)
                 {
-                    int? CityId = model.City;
-                    int? CountryId = model.Country;
-                    //var dl = _targetPreferenceManager.SaveSocialProfileData(
-                    //    model.InstaUser,
-                    //    model.InstaPassword,
-                    //    CityId ?? 0,
-                    //    CountryId ?? 0,
-                    //    Convert.ToInt32(model.SPId),
-                    //    Convert.ToInt32(model.Status)
-                    //);
-                    return Redirect("/sadmin/crm/targettinginformation?id=" + Url.Encode(CryptoEngine.Encrypt("")) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(model.SPId)));
+                    startdate = offSetDate.AddMonths(-1);  //1 months
+                }
+                else if (mode == 3)
+                {
+                    startdate = offSetDate.AddMonths(-3);  //3 months
+                }
+                else if (mode == 4)
+                {
+                    startdate = offSetDate.AddMonths(-6); //6 months
+                }
+                else if (mode == 5)
+                {
+                    startdate = offSetDate.AddMonths(-12); //12 months
+                }
+
+                var trends = _statisticsManager.GetProfileTrends(socialProfileId, startdate, enddate);
+
+                var firstRecord = trends.FirstOrDefault();
+                var lastRecord = trends.LastOrDefault();
+
+                long? totalFollowers = 0;
+                long? followersChange = 0;
+                long? followersAvgChange = 0;
+                long? followersMaxGrowth = 0;
+                string followersMaxGrowthDate = "";
+                long? followersChangePer = 0;
+                long? totalLikes = 0;
+                long? likesChange = 0;
+                long? likesChangePer = 0;
+                long? likesAvgChange = 0;
+                long? likesMaxGrowth = 0;
+                string likesMaxGrowthDate = "";
+
+
+                if (firstRecord != null && lastRecord != null)
+                {
+                    totalFollowers = (lastRecord.FollowersTotal.HasValue ? lastRecord.FollowersTotal : 0);
+                    totalLikes = (lastRecord.LikeTotal.HasValue ? lastRecord.LikeTotal : 0);
+                    followersChange = totalFollowers - (firstRecord.FollowersTotal.HasValue ? firstRecord.FollowersTotal : 0);
+                    likesChange = totalLikes - (firstRecord.LikeTotal.HasValue ? firstRecord.LikeTotal : 0);
+                    followersAvgChange = (followersChange / (offSetDate - startdate).Days);
+                    likesAvgChange = (likesChange / (offSetDate - startdate).Days);
+
+                    if (totalFollowers > 0 && followersChange > 0)
+                    {
+                        followersChangePer = ((followersChange * 100 / totalFollowers));
+                    }
+
+                    if (totalLikes > 0 && likesChange > 0)
+                    {
+                        likesChangePer = (likesChange * 100 / totalLikes);
+                    }
+                }
+
+
+                int count = 1;
+
+                foreach (var item in trends)
+                {
+
+                    item.Followers = item.Followers.HasValue ? item.Followers : 0;
+                    item.FollowersTotal = item.FollowersTotal.HasValue ? item.FollowersTotal : 0;
+                    item.FollowingsTotal = item.FollowingsTotal.HasValue ? item.Followings : 0;
+                    item.Posts = item.Posts.HasValue ? item.Posts : 0;
+                    item.AverageLikes = ((item.Like.HasValue ? item.Like : 0) / ((item.Posts.HasValue && item.Posts > 0) ? item.Posts : 1));
+                    count++;
+                    if (count > 1 && item.Followers > followersMaxGrowth)
+                    {
+                        followersMaxGrowth = item.Followers;
+                        followersMaxGrowthDate = item.Date.ToString("on MMMM dd, yyyy ");
+                    }
+                    if (count > 1 && item.Like > likesMaxGrowth)
+                    {
+                        likesMaxGrowth = item.Like;
+                        likesMaxGrowthDate = item.Date.ToString("on MMMM dd, yyyy ");
+                    }
+                }
+
+
+                if (trends != null)
+                {
+                    jr.Data = new
+                    {
+                        ResultType = "Success",
+                        message = "",
+                        ResultData = new
+                        {
+
+                            Date = trends.Select(x => x.Date.ToString("dd-MMM-yyyy")).ToArray(),
+                            Followers = trends.Select(x => x.Followers.ToString()).ToArray(),
+                            FollowersTotal = trends.Select(x => x.FollowersTotal.ToString()).ToArray(),
+                            FollowingsTotal = trends.Select(x => x.FollowingsTotal.ToString()).ToArray(),
+                            Post = trends.Select(x => x.Posts.ToString()).ToArray(),
+                            AverageLikes = trends.Select(x => x.AverageLikes.ToString()).ToArray(),
+                            TotalFollowers = totalFollowers.ToString(),
+                            FollowersChange = followersChange.ToString(),
+                            FollowersChangePer = followersChangePer.ToString(),
+                            FollowersMaxGrowth = followersMaxGrowth.ToString(),
+                            FollowersMaxGrowthDate = followersMaxGrowthDate,
+                            FollowersAvgChange = followersAvgChange,
+                            TotalLikes = totalLikes,
+                            LikesChange = likesChange,
+                            LikesChangePer = likesChangePer,
+                            LikesMaxGrowth = likesMaxGrowth,
+                            LikesMaxGrowthDate = likesMaxGrowthDate,
+                            LikesAvgChange = likesAvgChange,
+                        }
+                    };
                 }
                 else
                 {
-                    string messages = string.Join(", ", ModelState.Values
-                                            .SelectMany(x => x.Errors)
-                                            .Select(x => x.ErrorMessage));
-                    TempData["Success"] = "False";
-                    TempData["Message"] = messages;
-                    return Redirect("/sadmin/crm/targettinginformation?id=" + Url.Encode(CryptoEngine.Encrypt(model.Id)) + "&SPId=" + Url.Encode(CryptoEngine.Encrypt(model.SPId)));
+                    jr.Data = new { ResultType = "Error", message = "" };
                 }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            //int custId = Convert.ToInt32(CryptoEngine.Decrypt(id));
-            //var model = _customerManager.GetSpecificUserTargettingInformation(custId);
-            //return View(Model);
 
+            }
+            catch (Exception exp)
+            {
+                throw exp;
+            }
+
+            return Json(jr, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult GetEngagementSection(int socialProfileId, int mode)
+        {
+            var jr = new JsonResult();
+            try
+            {
+                double offSet = this._customerManager.GetAppTimeZoneOffSet(socialProfileId);
+                DateTime offSetDate = DateTime.UtcNow.AddHours(offSet).Date;
+                DateTime startdate = offSetDate.AddDays(-15);   //15 week
+                DateTime enddate = offSetDate.AddHours(24);
+
+
+                if (mode == 2)
+                {
+                    startdate = offSetDate.AddMonths(-1);  //1 months
+                }
+                else if (mode == 3)
+                {
+                    startdate = offSetDate.AddMonths(-3);  //3 months
+                }
+                else if (mode == 4)
+                {
+                    startdate = offSetDate.AddMonths(-6); //6 months
+                }
+                else if (mode == 5)
+                {
+                    startdate = offSetDate.AddMonths(-12); //12 months
+                }
+
+
+                var trends = _statisticsManager.GetProfileTrends(socialProfileId, startdate, enddate);
+
+                foreach (var item in trends)
+                {
+                    item.Followings = item.Followings.HasValue ? item.Followings : 0;
+                    item.Unfollow = item.Unfollow.HasValue ? item.Unfollow : 0;
+                    item.Like = item.Like.HasValue ? item.Like : 0;
+                    item.StoryViews = item.StoryViews.HasValue ? item.StoryViews : 0;
+                    item.Engagement = (item.FollowersTotal ?? 1) * 100 / ((item.Followings ?? 1) == 0 ? 1 : item.Followings);
+                }
+
+
+                if (trends != null)
+                {
+                    jr.Data = new
+                    {
+                        ResultType = "Success",
+                        message = "",
+                        ResultData = new
+                        {
+                            Date = trends.Select(x => x.Date.ToString("dd-MMM-yyyy")).ToArray(),
+                            Followings = trends.Select(x => x.Followings.ToString()).ToArray(),
+                            Engagement = trends.Select(x => x.Engagement.ToString()).ToArray(),
+                            Likes = trends.Select(x => x.Like.ToString()).ToArray(),
+                            StoryViews = trends.Select(x => x.StoryViews.ToString()).ToArray(),
+                            Unfollow = trends.Select(x => x.Unfollow.ToString()).ToArray()
+
+                        }
+                    };
+                }
+                else
+                {
+                    jr.Data = new { ResultType = "Error", message = "" };
+                }
+
+            }
+            catch (Exception exp)
+            {
+                throw exp;
+            }
+
+            return Json(jr, JsonRequestBehavior.AllowGet);
+        }
 
         public ActionResult GlobalTarget(int? success)
         {
@@ -585,7 +878,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
             ViewBag.stripeApiKey = _stripeApiKey;
             ViewBag.stripePublishKey = _stripePublishKey;
-            
+
 
 
             return View(SocailProfile);
@@ -597,7 +890,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
         {
 
             this._customerManager.UpdateTargetProfile(request);
-            return RedirectToAction("GlobalTarget", "CRM", new {success = 1 });
+            return RedirectToAction("GlobalTarget", "CRM", new { success = 1 });
         }
 
         public ActionResult UserDetail()
@@ -636,8 +929,8 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                         Subscription subscriptionItemUpdate = subscriptionService.Get(profileDTO.SocialProfile.StripeSubscriptionId);
 
 
-                        var items = new List<SubscriptionItemUpdateOption> {
-                                        new SubscriptionItemUpdateOption {
+                        var items = new List<SubscriptionItemOptions> {
+                                        new SubscriptionItemOptions {
                                         Id= subscriptionItemUpdate.Items.Data[0].Id,
                                         Plan = subscriptionItemUpdate.Plan.Id,
                                         Quantity= 1,
@@ -658,7 +951,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                         };
                         stripeSubscription = subscriptionService.Update(profileDTO.SocialProfile.StripeSubscriptionId, subscriptionUpdateoptions);
-                        jr.Data = new { ResultType = "Success", message = "Free days successfully added to customer Current subscription.", User };
+                        jr.Data = new { ResultType = "Success", message = "Free days successfully added to customer Current subscription." };
                     }
 
                     else
@@ -678,7 +971,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             return Json(jr, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult RefundToCustomer(string customerId,string profileId)
+        public ActionResult RefundToCustomer(string customerId, string profileId)
         {
 
             var _stripeApiKey = SystemConfig.GetConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
@@ -699,28 +992,28 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                     if (profileDTO != null)
                     {
-                       
-                        if (profileDTO != null)
-                        {
-                            if (profileDTO.SocialProfile .StatusId != 18)
-                            {
-                                if (!string.IsNullOrEmpty(profileDTO.SocialProfile.StripeSubscriptionId))
-                                {
-                                    StripeConfiguration.SetApiKey(_stripeApiKey);
-                                    var service = new SubscriptionService();
-                                    var subscription = service.Cancel(profileDTO.SocialProfile.StripeSubscriptionId, null);
-                                }
-                                else
-                                {
-                                    SocialProfile_PaymentsDTO cancelledSub = new SocialProfile_PaymentsDTO();
-                                    cancelledSub = _customerManager.GetLastCancelledSubscription(profileDTO.SocialProfile .SocialProfileId, DateTime.Now);
-                                    profileDTO.SocialProfile.StripeSubscriptionId = cancelledSub.StripeSubscriptionId;
-                                    //profileDTO.StripeInvoiceId = cancelledSub.StripeInvoiceId;
+                        //not cancelling the subscription.
+                        //if (profileDTO != null)
+                        //{
+                        //    if (profileDTO.SocialProfile .StatusId != 18)
+                        //    {
+                        //        if (!string.IsNullOrEmpty(profileDTO.SocialProfile.StripeSubscriptionId))
+                        //        {
+                        //            StripeConfiguration.SetApiKey(_stripeApiKey);
+                        //            var service = new SubscriptionService();
+                        //            var subscription = service.Cancel(profileDTO.SocialProfile.StripeSubscriptionId, null);
+                        //        }
+                        //        else
+                        //        {
+                        //            SocialProfile_PaymentsDTO cancelledSub = new SocialProfile_PaymentsDTO();
+                        //            cancelledSub = _customerManager.GetLastCancelledSubscription(profileDTO.SocialProfile .SocialProfileId, DateTime.Now);
+                        //            profileDTO.SocialProfile.StripeSubscriptionId = cancelledSub.StripeSubscriptionId;
+                        //            //profileDTO.StripeInvoiceId = cancelledSub.StripeInvoiceId;
 
-                                }
+                        //        }
 
-                            }
-                        }
+                        //    }
+                        //}
 
                         Subscription subscriptionItemUpdate = subscriptionService.Get(profileDTO.SocialProfile.StripeSubscriptionId);
                         var invoiceService = new InvoiceService();
@@ -750,12 +1043,12 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
 
                                 //int custId = Convert.ToInt32(CryptoEngine.Decrypt(customerId.ToString()));
                                 int custId = Convert.ToInt32((CryptoEngine.Decrypt(Cus)));
-                                var User = _customerManager.SaveUpdateUserDataIndividually(value, "Comment", custId, profileDTO.SocialProfile. SocialProfileId);
+                                var User = _customerManager.SaveUpdateUserDataIndividually(value, "Comment", custId, profileDTO.SocialProfile.SocialProfileId);
 
 
                             }
 
-                            jr.Data = new { ResultType = "Success", message = "Amount refunded successfully.", User };
+                            jr.Data = new { ResultType = "Success", message = "Amount refunded successfully." };
                         }
                         else
                         {
@@ -778,6 +1071,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             {
 
                 messages = ex.Message;
+                jr.Data = new { ResultType = "Error", message = messages };
             }
             return Json(jr, JsonRequestBehavior.AllowGet);
         }
@@ -787,6 +1081,19 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
             var Cities = CommonManager.GetCities().Where(m => m.CountryId == countryId).ToList();
             return Json(Cities, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult AllStats(string id, string SPId)
+        {
+            int custId = Convert.ToInt32(CryptoEngine.Decrypt(id));
+            int socialProfileId = Convert.ToInt32(CryptoEngine.Decrypt(SPId));
 
+            ViewBag.socialProfileId = socialProfileId;
+            ViewBag.CurrentUser = this.CDT;
+            ViewBag.socialProfile = this._customerManager.GetSocialProfileById(socialProfileId);
+
+            ViewBag.actions = this._customerManager.ReturnLastActions(socialProfileId, 500);
+            ViewBag.growthSummary = this._statisticsManager.GetStatsGrowthSummary(socialProfileId);
+            ViewBag.dailyStatsActivity = this._statisticsManager.GetStatsDailyActivity(socialProfileId, -15);
+            return View(this._statisticsManager.GetStatistics(socialProfileId));
+        }
     }
 }

@@ -16,5 +16,6 @@ namespace SG2.CORE.MODAL
         public string Enumeration { get; set; }
         public short EnumerationValueId { get; set; }
         public string Name { get; set; }
+        public short EnumerationId { get; set; }
     }
 }

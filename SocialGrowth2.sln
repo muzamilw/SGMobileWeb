@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.572
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SG2.CORE.MODAL", "SG2.CORE.MODALS\SG2.CORE.MODAL.csproj", "{BFE775A9-7103-4E59-A023-31D0B1E7B84F}"
 EndProject
@@ -19,6 +19,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SlnFiles", "SlnFiles", "{19
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SG2.CORE.Interfaces", "SG2.CORE.Interfaces\SG2.CORE.Interfaces.csproj", "{F967B6FF-4D2F-4111-9586-57F585A17920}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1C6B99E4-EC52-4AF8-B832-3F472013C58B}"
+	ProjectSection(SolutionItems) = preProject
+		DatabaseScript.txt = DatabaseScript.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

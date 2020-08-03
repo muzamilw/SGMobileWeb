@@ -24,5 +24,17 @@ namespace SG2.CORE.MODAL.ViewModals.Backend
         public string CustomerEmail { get; set; }
         public string SocialProfileId { get; set; }
         public string SocialProfileName { get; set; }
+        public Nullable<bool> FollowOn { get; set; }
+        public Nullable<bool> UnFollFollowersAfterMinDays { get; set; }
+        public Nullable<bool> AfterFollLikeuserPosts { get; set; }
+        public Nullable<bool> AfterFollViewUserStory { get; set; }
+
+        public string BlockStatus { get; set; }
+
+        public string BrokerAppName { get; set; }
+
+        public string AppConnStatus { get; set; }
+        public string AppVersion { get; set; }
+        public double AppTimeZoneOffSet { get; set; }
     }
 }

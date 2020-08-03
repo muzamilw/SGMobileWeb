@@ -16,7 +16,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin
         {
             context.MapRoute(
                 "SuperAdmin_default",
-                "sadmin/{controller}/{action}/{id}",
+                "sa/{controller}/{action}/{id}",
                 new { action = "Index",Controller="DashBoard", id = UrlParameter.Optional }
             );
         }

@@ -35,6 +35,8 @@ namespace SG2.CORE.MODAL.ViewModals.Customers
         public string BrokerFeedbackPage { get; set; }
         public string BrokerHomePage { get; set; }
         public string BrokerTrustPilotCode { get; set; }
+
+        public string BrokerLogoUpload { get; set; }
         public int cid { get; set; }
 
 

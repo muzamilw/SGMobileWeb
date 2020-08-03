@@ -125,7 +125,7 @@ namespace SG2.CORE.DAL.Repositories
                     List<PaymentPlan> pros = null;
                     
                     if ( IsBroker == true)
-                        pros = _db.PaymentPlans.Where(g => g.SocialPlatform == 30 && g.IsBrokerPlan == IsBroker && g.IsDefault != true).ToList();
+                        pros = _db.PaymentPlans.Where(g => g.SocialPlatform == 30 && (g.IsBrokerPlan == IsBroker && g.IsDefault != true) || g.PaymentPlanId == 1).ToList();
                     else
                         pros = _db.PaymentPlans.Where(g => g.SocialPlatform == 30 && g.IsBrokerPlan == IsBroker ).ToList();
 

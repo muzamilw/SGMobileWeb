@@ -35,7 +35,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                     if (!errorMessages.IsError)
                     {
                         HttpContext.Items["isAuthentication"] = true;                      
-                        return RedirectToAction("Index", "DashBoard");
+                        return RedirectToAction("Index", "CRM");
                     }
                     else
                     {
