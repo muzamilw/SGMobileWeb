@@ -40,6 +40,8 @@ namespace SG2.CORE.BAL.Managers
                     templateId = "d-877a1d5ca7aa43eb80fb284cf2a1681a";
                 else if (emailType == EmailType.PlanDowngrade)
                     templateId = "d-1da290de356a45118ed0ee53819545b7";
+                else if (emailType == EmailType.RunNotification)
+                    templateId = "d-d9d531c7d6454dd18c5b4ae411b95150";
 
 
 
@@ -63,7 +65,8 @@ namespace SG2.CORE.BAL.Managers
             ForgotPassword = 2,
             PlanUpgrade = 3,
             PlanDowngrade = 4,
-            Welcome = 5
+            Welcome = 5,
+            RunNotification = 6
         }
     }
 }

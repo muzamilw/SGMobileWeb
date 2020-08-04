@@ -1855,3 +1855,30 @@ SELECT
 exec [dbo].[SG2_usp_Customers_Get] @iCustomerId            
             
 End 
+
+
+
+
+
+
+GO
+
+/****** Object:  View [dbo].[vwRunNotificationsData]    Script Date: 8/4/2020 4:46:14 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+alter VIEW [dbo].[vwRunNotificationsData]
+AS
+SELECT con.FirstName, con.SurName, con.EmailAddress, p.SocialProfileTypeId, p.SocialUsername, p.AppTimeZoneOffSet, t.ExecutionIntervals
+FROM  dbo.SocialProfile_Instagram_TargetingInformation AS t INNER JOIN
+         dbo.SocialProfile AS p ON t.SocialProfileId = p.SocialProfileId INNER JOIN
+         dbo.Customer AS con ON p.CustomerId = con.CustomerId
+WHERE (p.PaymentPlanId <> 1) AND (con.IsOptedEducationalEmailSeries = 1) and SocialUsername = 'nevillekmiec'
+GO
+
+
+
+

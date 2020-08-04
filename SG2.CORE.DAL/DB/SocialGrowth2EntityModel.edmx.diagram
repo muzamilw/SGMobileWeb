@@ -41,6 +41,7 @@
         <AssociationConnector Association="SocialGrowth2Entities.FK_SG2_SocialProfile_TargetingInformation_SG2_SocialProfile" />
         <EntityTypeShape EntityType="SocialGrowth2Entities.SocialProfile_Logs" Width="1.5" PointX="0.75" PointY="11.75" />
         <AssociationConnector Association="SocialGrowth2Entities.FK_SocialProfile_Logs_SocialProfile_Logs" />
+        <EntityTypeShape EntityType="SocialGrowth2Entities.vwRunNotificationsData" Width="1.5" PointX="12.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

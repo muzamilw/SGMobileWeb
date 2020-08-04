@@ -36,6 +36,9 @@ namespace SG2.CORE.WEB
             {
                 string domain = WebConfigurationManager.AppSettings["WebsiteUrl"];
 
+                JobScheduler sch = new JobScheduler();
+                sch.Start();
+
                 // run code every 60mins and upload file on server
                 //var pendingTargetInfoQueueTimer = new System.Timers.Timer { Interval = (60 * (60 * 1000)) };
                 //string pendingTargetInfoQueueurl = string.Format("{0}api/queuestatus/SetPendingTargetPreferenceIntoQueue", domain);

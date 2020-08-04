@@ -19,20 +19,22 @@ using HeyRed.Mime;
 using System.Web.Hosting;
 using SG2.CORE.MODAL.ViewModals.Statistics;
 using AutoMapper;
+using SG2.CORE.MODAL.ViewModals.TargetPreferences;
+using Newtonsoft.Json;
 
 namespace SG2.CORE.BAL.Managers
 {
     public class CustomerManager
     {
         private readonly CustomerRepository _customerRepository;
-		private readonly SocialProfileRepository _socialRepository;
+        private readonly SocialProfileRepository _socialRepository;
 
-		private readonly SessionManager _sessionManager;
+        private readonly SessionManager _sessionManager;
 
         public CustomerManager()
         {
             _customerRepository = new CustomerRepository();
-			_socialRepository = new SocialProfileRepository();
+            _socialRepository = new SocialProfileRepository();
             _sessionManager = new SessionManager();
         }
 
@@ -121,7 +123,7 @@ namespace SG2.CORE.BAL.Managers
             return _customerRepository.PerformMobileLogin(model);
         }
 
-            public (bool, int, string) LoginUser(string username, string password, ref string errorMessage)
+        public (bool, int, string) LoginUser(string username, string password, ref string errorMessage)
         {
             try
             {
@@ -133,12 +135,12 @@ namespace SG2.CORE.BAL.Managers
                     if (cust.StatusId == 7)
                     {
                         errorMessage = "Email verification required.";
-                        return (false,0,null) ;
+                        return (false, 0, null);
                     }
                     else if (cust.StatusId == 6)
                     {
                         errorMessage = "Your account is inactive. Please contact adminstrator.";
-                        return (false, 0,null);
+                        return (false, 0, null);
                     }
                     else if (cust.StatusId == 4)
                     {
@@ -148,12 +150,12 @@ namespace SG2.CORE.BAL.Managers
                     else if (cust.StatusId == 5 || cust.StatusId == 1)
                     {
                         _sessionManager.Set(SessionConstants.Customer, cust);
-                        return (true, cust.CustomerId,cust.EmailAddress);
+                        return (true, cust.CustomerId, cust.EmailAddress);
                     }
 
                 }
                 errorMessage = "Invalid email or password.";
-                return (false,0, null);
+                return (false, 0, null);
             }
             catch (Exception ex)
             {
@@ -161,9 +163,9 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-      
 
-        public IList<CustomerListingViewModel> GetUserData(string SearchCriteria, string PageSize, int PageNumber, int? StatusId, string ProductId, string JVStatus, int? Subscription, int? profileType,int? BlockId, int? AppConnStatus)
+
+        public IList<CustomerListingViewModel> GetUserData(string SearchCriteria, string PageSize, int PageNumber, int? StatusId, string ProductId, string JVStatus, int? Subscription, int? profileType, int? BlockId, int? AppConnStatus)
         {
             var Model = _customerRepository.GetUserData(SearchCriteria, PageNumber, PageSize, StatusId, ProductId, JVStatus, Subscription, profileType, BlockId, AppConnStatus);
 
@@ -267,7 +269,7 @@ namespace SG2.CORE.BAL.Managers
             //return new List<ActionBoardListingViewModel>();
         }
 
-      
+
 
         //public bool UpdateSuccessfulLogin(CustomerIndexViewModel model)
         //{
@@ -352,29 +354,29 @@ namespace SG2.CORE.BAL.Managers
         }
 
         public bool UpdateBasicSocialProfile(SocialProfileDTO model) {
-			try
-			{
-				var socialprofile = _socialRepository.UpdateSocialProfile(model.SocialProfile.DeviceBinLocation,model.SocialProfile.SocialUsername,model.SocialProfile.SocialProfileId);
-				if (socialprofile)
-				{
-					_sessionManager.Set(SessionConstants.SocialProfile, socialprofile);
-				}
-				return socialprofile;
+            try
+            {
+                var socialprofile = _socialRepository.UpdateSocialProfile(model.SocialProfile.DeviceBinLocation, model.SocialProfile.SocialUsername, model.SocialProfile.SocialProfileId);
+                if (socialprofile)
+                {
+                    _sessionManager.Set(SessionConstants.SocialProfile, socialprofile);
+                }
+                return socialprofile;
 
-			}
-			catch (Exception e)
-			{
+            }
+            catch (Exception e)
+            {
 
-				throw e;
-				
-			}
-		}
+                throw e;
+
+            }
+        }
 
         public bool UpdateBasicSocialProfileSocialPassword(string SocialPassword, int SocialProfileId)
         {
             try
             {
-                return  _socialRepository.UpdateSocialProfileSocialPassword(SocialPassword, SocialProfileId);
+                return _socialRepository.UpdateSocialProfileSocialPassword(SocialPassword, SocialProfileId);
 
             }
             catch (Exception e)
@@ -432,24 +434,24 @@ namespace SG2.CORE.BAL.Managers
             }
         }
         public bool UpdateTargetProfile(SocialProfileDTO model, bool SaveFullTargetProfile = true)
-		{
-			try
-			{
-				var socialprofile = _socialRepository.UpdateTargetProfile(model, SaveFullTargetProfile);
-				if (socialprofile)
-				{
-					_sessionManager.Set(SessionConstants.SocialProfile, socialprofile);
-				}
-				return socialprofile;
+        {
+            try
+            {
+                var socialprofile = _socialRepository.UpdateTargetProfile(model, SaveFullTargetProfile);
+                if (socialprofile)
+                {
+                    _sessionManager.Set(SessionConstants.SocialProfile, socialprofile);
+                }
+                return socialprofile;
 
-			}
-			catch (Exception e)
-			{
+            }
+            catch (Exception e)
+            {
 
-				throw e;
+                throw e;
 
-			}
-		}
+            }
+        }
 
         public bool UpdateTargetProfileLists(SocialProfileDTO model)
         {
@@ -475,7 +477,7 @@ namespace SG2.CORE.BAL.Managers
         {
             try
             {
-                var socialprofile = _socialRepository.UpdateTargetProfileWhiteList (model);
+                var socialprofile = _socialRepository.UpdateTargetProfileWhiteList(model);
                 if (socialprofile)
                 {
                     _sessionManager.Set(SessionConstants.SocialProfile, socialprofile);
@@ -565,7 +567,7 @@ namespace SG2.CORE.BAL.Managers
 
         }
 
-      
+
 
         public bool UpdateCustomerPassword(string password, int customerId)
         {
@@ -598,7 +600,7 @@ namespace SG2.CORE.BAL.Managers
             try
             {
 
-                if ( !string.IsNullOrEmpty( model.BrokerLogoUpload))
+                if (!string.IsNullOrEmpty(model.BrokerLogoUpload))
                 {
                     String[] spearator = { "base64," };
                     string ext = "";
@@ -607,15 +609,15 @@ namespace SG2.CORE.BAL.Managers
                     var match = Regex.Match(model.BrokerLogoUpload, @"data:(?<type>.+?);base64,(?<data>.+)");
                     var base64Data = match.Groups["data"].Value;
                     var contentType = match.Groups["type"].Value;
-                   
+
                     byte[] bytes = Convert.FromBase64String(base64Data);
                     using (MemoryStream ms = new MemoryStream(bytes))
                     {
                         Image image = Image.FromStream(ms);
-                        image.Save(HostingEnvironment.MapPath( "~/AgencyLogos/" + model.cid.ToString() +"."+ MimeTypesMap.GetExtension(contentType)));
+                        image.Save(HostingEnvironment.MapPath("~/AgencyLogos/" + model.cid.ToString() + "." + MimeTypesMap.GetExtension(contentType)));
                     }
 
-                    model.BrokerLogo = model.cid.ToString() +"."+ MimeTypesMap.GetExtension(contentType);
+                    model.BrokerLogo = model.cid.ToString() + "." + MimeTypesMap.GetExtension(contentType);
                 }
 
                 return _customerRepository.UpdateCustomerBrokerProfile(model);
@@ -639,13 +641,13 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-            public bool UpdateCustomerStripeCustomer(int CustomerId, string StripCustomerId, string StripeSubscriptionId, int PaymentPlanId)
+        public bool UpdateCustomerStripeCustomer(int CustomerId, string StripCustomerId, string StripeSubscriptionId, int PaymentPlanId)
         {
             try
             {
-                var res =  _customerRepository.UpdateCustomerStripeCustomerId(CustomerId, StripCustomerId, StripeSubscriptionId, PaymentPlanId);
+                var res = _customerRepository.UpdateCustomerStripeCustomerId(CustomerId, StripCustomerId, StripeSubscriptionId, PaymentPlanId);
 
-                _sessionManager.Set(SessionConstants.Customer, _customerRepository. GetCustomerRefresh(CustomerId));
+                _sessionManager.Set(SessionConstants.Customer, _customerRepository.GetCustomerRefresh(CustomerId));
 
                 return res;
             }
@@ -659,7 +661,7 @@ namespace SG2.CORE.BAL.Managers
         {
             try
             {
-                return  _customerRepository.UpdateSocialProfileStripeCustomerId(SocialProfileId, StripCustomerId, StripeSubscriptionId, PaymentPlanId, status);
+                return _customerRepository.UpdateSocialProfileStripeCustomerId(SocialProfileId, StripCustomerId, StripeSubscriptionId, PaymentPlanId, status);
             }
             catch (Exception ex)
             {
@@ -667,7 +669,7 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
-      
+
 
         public CustomerDTO GetCustomerDTOByCustomerId(int CustomerId)
         {
@@ -816,7 +818,7 @@ namespace SG2.CORE.BAL.Managers
         {
             try
             {
-                return _customerRepository.GetSocialProfilesByCustomerid(customerId,model);
+                return _customerRepository.GetSocialProfilesByCustomerid(customerId, model);
             }
             catch (Exception ex)
             {
@@ -835,8 +837,8 @@ namespace SG2.CORE.BAL.Managers
                 }
                 else
                 {
-                    return  _customerRepository.GetSocialProfilesById(profileId);
-                   
+                    return _customerRepository.GetSocialProfilesById(profileId);
+
                 }
             }
             catch (Exception ex)
@@ -850,10 +852,10 @@ namespace SG2.CORE.BAL.Managers
         {
             try
             {
-                
-                    return _customerRepository.GetSocialProfileByStripeSubscriptionId(StripeSubscriptionId);
 
-                
+                return _customerRepository.GetSocialProfileByStripeSubscriptionId(StripeSubscriptionId);
+
+
             }
             catch (Exception ex)
             {
@@ -880,7 +882,7 @@ namespace SG2.CORE.BAL.Managers
         {
             try
             {
-                return _customerRepository.AddIntagramSocialProfile(InstagramSocialUsername,CustomerId);
+                return _customerRepository.AddIntagramSocialProfile(InstagramSocialUsername, CustomerId);
             }
             catch (Exception ex)
             {
@@ -901,7 +903,7 @@ namespace SG2.CORE.BAL.Managers
             try
             {
                 var result = _customerRepository.SaveMobileAppActions(model);
-                
+
                 return result;
             }
             catch (Exception ex)
@@ -924,25 +926,25 @@ namespace SG2.CORE.BAL.Managers
                 double appoffset = 0;
                 var serveroffset = DateTimeOffset.Now.Offset.Hours;//TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow);
 
-               
-                var results =  _customerRepository.ReturnLastActions(socialProfileId, NoOfActions, out appoffset);
+
+                var results = _customerRepository.ReturnLastActions(socialProfileId, NoOfActions, out appoffset);
 
                 // +3 +5 
                 double offset = 0;
                 offset = serveroffset - appoffset;
 
-                var mapped =  mapper.Map<List<SocialProfile_ActionsViewModel>>(results);
+                var mapped = mapper.Map<List<SocialProfile_ActionsViewModel>>(results);
 
                 foreach (var item in mapped)
                 {
-                    if(offset != 0)
+                    if (offset != 0)
                     {
                         item.ActionDateTime = item.ActionDateTime.Value.AddHours(offset);
                     }
                     switch (item.ActionID)
                     {
-                        case 60 : item.Action = "Following";break;
-                        case 61 : item.Action = "UnFollow"; break;
+                        case 60: item.Action = "Following"; break;
+                        case 61: item.Action = "UnFollow"; break;
                         case 62: item.Action = "Like"; break;
                         case 63: item.Action = "Comment"; break;
                         case 64: item.Action = "StoryView"; break;
@@ -997,16 +999,16 @@ namespace SG2.CORE.BAL.Managers
         {
             double number = 0;
             var vm = _customerRepository.GetAppTimeZoneOffSet(socialProfileId);
-            if(vm != null)
+            if (vm != null)
             {
-                
+
                 if (!string.IsNullOrEmpty(vm.AppTimeZoneOffSet))
                 {
                     Double.TryParse(vm.AppTimeZoneOffSet, out number);
                 }
             }
             return number;
-            
+
         }
 
 
@@ -1044,6 +1046,30 @@ namespace SG2.CORE.BAL.Managers
         public bool RemoveBadTags(List<MobileActionRequest> list)
         {
             return _socialRepository.RemoveBagTags(list);
+        }
+
+        public List<vwRunNotificationsData> GetRunNotificationsData() 
+        {
+            List<vwRunNotificationsData> result = new List<vwRunNotificationsData>();
+            var data = _customerRepository.GetRunNotificationsData();
+            foreach (var item in data)
+            {
+                var executioninterval = JsonConvert.DeserializeObject<List<ExecutionInterval>>(item.ExecutionIntervals)[0];
+                var startTime = Convert.ToDateTime(executioninterval.starttime);
+                
+                Double number = 0;
+                Double.TryParse(item.AppTimeZoneOffSet, out number);
+                var timenow = DateTime.UtcNow.AddHours(number);
+                var minsleft = (timenow - startTime).TotalMinutes;
+                if (minsleft >= 115 && minsleft < 125)
+                {
+                    item.startTime = executioninterval.starttime;
+                    result.Add(item);
+                }
+            }
+
+            return result;
+
         }
     }
 }

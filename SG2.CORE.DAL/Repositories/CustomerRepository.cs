@@ -1914,6 +1914,22 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
+        public List<vwRunNotificationsData> GetRunNotificationsData()
+        {
+            try
+            {
+                SocialProfileDTO profile = new SocialProfileDTO();
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    return _db.vwRunNotificationsDatas.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public (bool Succcess, string Message) AddIntagramSocialProfile(string InstagramSocialUsername, int CustomerId)
         {
             try

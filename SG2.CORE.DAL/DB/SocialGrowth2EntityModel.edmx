@@ -423,6 +423,21 @@
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="HostUser" Type="bit" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SocialPlannerPro.dbo.vwRunNotificationsData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwRunNotificationsData">
+          <Key>
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="EmailAddress" />
+          </Key>
+          <Property Name="FirstName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="SurName" Type="nvarchar" MaxLength="100" />
+          <Property Name="EmailAddress" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="SocialProfileTypeId" Type="int" />
+          <Property Name="SocialUsername" Type="nvarchar" MaxLength="50" />
+          <Property Name="AppTimeZoneOffSet" Type="nvarchar" MaxLength="100" />
+          <Property Name="ExecutionIntervals" Type="nvarchar" MaxLength="500" />
+        </EntityType>
         <Association Name="FK_Customer_PaymentPlan">
           <End Role="PaymentPlan" Type="Self.PaymentPlan" Multiplicity="0..1" />
           <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
@@ -751,6 +766,17 @@
           <EntitySet Name="SystemRole" EntityType="Self.SystemRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemState" EntityType="Self.SystemState" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemUser" EntityType="Self.SystemUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vwRunNotificationsData" EntityType="Self.vwRunNotificationsData" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vwRunNotificationsData].[FirstName] AS [FirstName], 
+    [vwRunNotificationsData].[SurName] AS [SurName], 
+    [vwRunNotificationsData].[EmailAddress] AS [EmailAddress], 
+    [vwRunNotificationsData].[SocialProfileTypeId] AS [SocialProfileTypeId], 
+    [vwRunNotificationsData].[SocialUsername] AS [SocialUsername], 
+    [vwRunNotificationsData].[AppTimeZoneOffSet] AS [AppTimeZoneOffSet], 
+    [vwRunNotificationsData].[ExecutionIntervals] AS [ExecutionIntervals]
+    FROM [dbo].[vwRunNotificationsData] AS [vwRunNotificationsData]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Customer_PaymentPlan" Association="Self.FK_Customer_PaymentPlan">
             <End Role="PaymentPlan" EntitySet="PaymentPlan" />
             <End Role="Customer" EntitySet="Customer" />
@@ -1046,6 +1072,7 @@
           <FunctionImport Name="GetSocialProfilesWithoutExistingFollowers" ReturnType="Collection(SocialGrowth2Entities.GetSocialProfilesWithoutExistingFollowers_Result)">
           <Parameter Name="socialProfileId" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="vwRunNotificationsDatas" EntityType="SocialGrowth2Entities.vwRunNotificationsData" />
           </EntityContainer>
         <ComplexType Name="SG2_usp_Get_AllUser1_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
@@ -2379,6 +2406,19 @@
 		  <Property Type="Double" Name="LastMonthGrowthPercentage" Nullable="false" />
 		  <Property Type="Double" Name="LastWeekGrowthPercentage" Nullable="false" />
         </ComplexType>
+        <EntityType Name="vwRunNotificationsData">
+          <Key>
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="EmailAddress" />
+          </Key>
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SurName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="SocialProfileTypeId" Type="Int32" />
+          <Property Name="SocialUsername" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AppTimeZoneOffSet" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ExecutionIntervals" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3459,6 +3499,19 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="vwRunNotificationsDatas">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.vwRunNotificationsData">
+              <MappingFragment StoreEntitySet="vwRunNotificationsData">
+                <ScalarProperty Name="ExecutionIntervals" ColumnName="ExecutionIntervals" />
+                <ScalarProperty Name="AppTimeZoneOffSet" ColumnName="AppTimeZoneOffSet" />
+                <ScalarProperty Name="SocialUsername" ColumnName="SocialUsername" />
+                <ScalarProperty Name="SocialProfileTypeId" ColumnName="SocialProfileTypeId" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="SurName" ColumnName="SurName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
