@@ -1055,16 +1055,34 @@ namespace SG2.CORE.BAL.Managers
             foreach (var item in data)
             {
                 var executioninterval = JsonConvert.DeserializeObject<List<ExecutionInterval>>(item.ExecutionIntervals)[0];
-                var startTime = Convert.ToDateTime(executioninterval.starttime);
-                
-                Double number = 0;
-                Double.TryParse(item.AppTimeZoneOffSet, out number);
-                var timenow = DateTime.UtcNow.AddHours(number);
-                var minsleft = (timenow - startTime).TotalMinutes;
-                if (minsleft >= 115 && minsleft < 125)
-                {
-                    item.startTime = executioninterval.starttime;
-                    result.Add(item);
+                if (executioninterval != null)
+                    if (!string.IsNullOrEmpty(executioninterval.starttime))
+                    {
+                        {
+                            /*try
+                            {*/
+                            var startTime = Convert.ToDateTime(executioninterval.starttime);
+
+                            Double number = 0;
+                            if (!string.IsNullOrEmpty(item.AppTimeZoneOffSet))
+                                Double.TryParse(item.AppTimeZoneOffSet, out number);
+                            else
+                                number = 0;
+
+                            var timenow = DateTime.UtcNow.AddHours(number);
+                            var minsleft = (timenow - startTime).TotalMinutes;
+                            if (minsleft >= 115 && minsleft < 125)
+                            {
+                                item.startTime = executioninterval.starttime;
+                                result.Add(item);
+                            }
+                            /*}
+                            catch (Exception e)
+                            {
+                                //do nothing
+                                var a = 1;
+                            }*/
+                        }
                 }
             }
 
