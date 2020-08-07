@@ -392,6 +392,34 @@ namespace SG2.CORE.WEB.Controllers
             return image;
         }
 
+        [HttpPost]
+        public ActionResult contactform(string name, string email, string message)
+        {
+            try
+            {
+
+                var dynamicTemplateData = new Dictionary<string, string>
+                        {
+                            {"name",name},
+                            {"email", email},
+                            {"message", message}
+
+                        };
+                BAL.Managers.EmailManager.SendEmail("info@socialplannerpro.com", "Home page form submission", EmailManager.EmailType.HomePageContact, dynamicTemplateData);
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            var jr = new JsonResult();
+            jr.Data = new { ResultType = "Success", message = "Message successfully delivered.", ResultData = true };
+            return jr;
+        }
+
         public ActionResult TestAPi()
         {
             //InsertAuditDetail(new QueueAuditDetailDTO

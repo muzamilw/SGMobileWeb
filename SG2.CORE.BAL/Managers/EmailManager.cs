@@ -22,9 +22,9 @@ namespace SG2.CORE.BAL.Managers
         {
             try
             {
+                //
 
-
-                var apiKey = "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";
+                var apiKey = "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";
                 var client = new SendGridClient(apiKey);
                 var from = new EmailAddress("info@socialplannerpro.com", "Social Planner Pro Team");
 
@@ -66,7 +66,8 @@ namespace SG2.CORE.BAL.Managers
             PlanUpgrade = 3,
             PlanDowngrade = 4,
             Welcome = 5,
-            RunNotification = 6
+            RunNotification = 6,
+            HomePageContact = 6
         }
     }
 }
