@@ -3001,6 +3001,7 @@
     <Content Include="Content\Theme-SPPro\webfonts\fa-solid-900.svg" />
     <Content Include="Content\Theme-SPPro\webfonts\nextgen-icons.svg" />
     <Content Include="Content\ThemeAssets\Images\afilliate.jpg" />
+    <Content Include="emails\newsession.html" />
     <Content Include="emails\verify your email - Copy %282%29.html" />
     <Content Include="emails\verify your email - Copy - Copy.html" />
     <Content Include="emails\password reset.html" />

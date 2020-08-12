@@ -11,4 +11,12 @@ namespace SG2.CORE.MODAL.ViewModals.Home
         public SignupWizardViewModel SignupWizardViewModel { get; set; }
         public string StripeApikey { get; set; }
     }
+
+
+    public class contactFormViewModel
+    {
+        public string name { get; set; }
+        public string email { get; set; }
+        public string message { get; set; }
+    }
 }

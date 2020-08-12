@@ -1030,7 +1030,7 @@
                 <div class="col-md-6">
                     <!-- Form Start-->
                     <div class="contact_from">
-                        <form action="#" method="post">
+                        <form action="" method="post" id="contactform">
                             <!-- Message Input Area Start -->
                             <div class="contact_input_area">
                                 <div class="row">
@@ -1111,28 +1111,46 @@
     <script src="~/Content/Theme-CA/js/footer-reveal.min.js"></script>
     <!-- Active JS -->
     <script src="~/Content/Theme-CA/js/active.js"></script>
+    <script src="~/Content/app-assets/vendors/js/extensions/sweetalert.min.js"></script>
+    <script src="~/Content/app-assets/js/scripts/extensions/sweet-alerts.js"></script>
 
     <script>
 
-        form.onsubmit = function (e) {
-            // stop the regular form submission
-            e.preventDefault();
+        $(function () {
 
-            
-            addData();
+
+
+            $("#contactform").submit(function (e) {
+                // stop the regular form submission
+
+                e.preventDefault();
+                addData();
+            });
+        });
+
+        function getFormData($form) {
+            var unindexed_array = $form.serializeArray();
+            var indexed_array = {};
+
+            $.map(unindexed_array, function (n, i) {
+                indexed_array[n['name']] = n['value'];
+            });
+
+            return indexed_array;
         }
+
 
         function addData() {
             $.ajax({
                 type: "POST",
                 url: "/home/contactform",
-                data: $('form').serializeArray(),
+                data: JSON.stringify(getFormData($("#contactform"))),
                 contentType: "application/json; charset=utf-8",
                 crossDomain: true,
                 dataType: "json",
                 success: function (data, status, jqXHR) {
 
-                    alert(success);
+                    swal("Success!", "Thank you for contacting us. SocialPlannerPro will get back to you on the specified email!", "success")
                 },
 
                 error: function (jqXHR, status) {
@@ -1143,6 +1161,18 @@
             });
         }
     </script>
+    <!-- Smartsupp Live Chat script -->
+    <script type="text/javascript">
+        var _smartsupp = _smartsupp || {};
+        _smartsupp.key = '3415d70f088bcc97e09e3d1427464def600d799a';
+        window.smartsupp || (function (d) {
+            var s, c, o = smartsupp = function () { o._.push(arguments) }; o._ = [];
+            s = d.getElementsByTagName('script')[0]; c = d.createElement('script');
+            c.type = 'text/javascript'; c.charset = 'utf-8'; c.async = true;
+            c.src = 'https://www.smartsuppchat.com/loader.js?'; s.parentNode.insertBefore(c, s);
+        })(document);
+    </script>
+
 </body>
 
 </html>

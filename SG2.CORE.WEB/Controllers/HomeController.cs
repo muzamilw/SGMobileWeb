@@ -134,7 +134,7 @@ namespace SG2.CORE.WEB.Controllers
                             //klaviyoAPI.Klaviyo_DeleteFromList(customer.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_NewSignups);
                             //var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_FreeCustomers);
 
-                            var dynamicTemplateData = new Dictionary<string, string>
+                            var dynamicTemplateData = new Dictionary<string, string> 
                             {
                                 {"name",customer.FirstName},
                                 {"videolink", "https://www.youtube.com/watch?v=MB70ADGaC30"},
@@ -393,16 +393,16 @@ namespace SG2.CORE.WEB.Controllers
         }
 
         [HttpPost]
-        public ActionResult contactform(string name, string email, string message)
+        public ActionResult contactform(contactFormViewModel model)
         {
             try
             {
 
                 var dynamicTemplateData = new Dictionary<string, string>
                         {
-                            {"name",name},
-                            {"email", email},
-                            {"message", message}
+                            {"name",model.name},
+                            {"email", model.email},
+                            {"message", model.message}
 
                         };
                 BAL.Managers.EmailManager.SendEmail("info@socialplannerpro.com", "Home page form submission", EmailManager.EmailType.HomePageContact, dynamicTemplateData);
