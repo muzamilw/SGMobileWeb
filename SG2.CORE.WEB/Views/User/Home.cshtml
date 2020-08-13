@@ -33,6 +33,10 @@
             cursor: pointer;
         }
 
+        .table-hover tbody tr:hover {
+            background-color: #e0e0e0;
+        }
+
         .table-hover > tbody > tr > td {
             vertical-align: middle;
         }
@@ -59,14 +63,14 @@
             font-size: 20px;
         }
 
-        .example.example1 fieldset {
-            margin: 0 15px 20px;
-            padding: 0;
-            border-style: none;
-            /*background-color: #7795f8;*/
-            /*box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #829fff;
+    .example.example1 fieldset {
+        margin: 0 15px 20px;
+        padding: 0;
+        border-style: none;
+        /*background-color: #7795f8;*/
+        /*box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #829fff;
                 border-radius: 4px;*/
-        }
+    }
 
         .example.example1 .row {
             display: -ms-flexbox;
@@ -479,7 +483,7 @@
                                                                      srcset="~/Content/ThemeAssets/Images/InstagramLogoTransparent25.png">
                                                             </picture>
                                                         }
-                                                        <a style="display:inline-block" href="/Profile/Basic?socialProfileId=@item.SocialProfileId">@item.SocialUsername</a>
+                                                        <a style="display:inline-block;font-size:1.3em;" href="/Profile/Basic?socialProfileId=@item.SocialProfileId">@item.SocialUsername</a>
                                                     </td>
 
 
@@ -502,7 +506,7 @@
                                                                 }
                                                             }
 
-                                                            <span class="badge @statusclass label-square mr-1 mb-1 display-inline">
+                                                            <span class="badge @statusclass label-square mr-1 mb-1 display-inline" style="font-size:1em;">
 
                                                                 <span>@item.BlockedStatus</span>
                                                             </span>
@@ -523,7 +527,7 @@
 
                                                             }
 
-                                                            <span class="badge @connStatusclass label-square mr-1 mb-1 display-inline">
+                                                            <span class="badge @connStatusclass label-square mr-1 mb-1 display-inline" style="font-size:1em;">
 
                                                                 <span>@item.AppConnStatus</span>
                                                             </span>
@@ -532,11 +536,11 @@
                                                     <td class="align-middle">
                                                         @if (item.SubscriptionName != null)
                                                         {
-                                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: @item.SubscriptionName</div>
+                                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline" style="font-size:1em;">Plan: @item.SubscriptionName</div>
                                                         }
                                                         else
                                                         {
-                                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline">Plan: FREE</div>
+                                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline" style="font-size:1em;">Plan: FREE</div>
                                                         }
                                                     </td>
                                                 </tr>
