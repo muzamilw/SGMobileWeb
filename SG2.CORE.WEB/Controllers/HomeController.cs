@@ -48,7 +48,7 @@ namespace SG2.CORE.WEB.Controllers
             //ConfigurationManager.AppSettings["RabbitMQ:Exchange"];
 
             string rpcSessionId = Guid.NewGuid().ToString();
-            return View("Index");
+            return View("sg_Index");
         }
 
         public ActionResult HowWeWork()
