@@ -87,6 +87,22 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public List<MobileSocialProfile_FollowedAccounts> LikeList { get; set; }
 
         public List<MobileSocialProfile_FollowedAccounts> AllFollowedAccounts{ get; set; }
+
+        public string ActionsDelayRange { get; set; }
+
+        public string HashLoadDelayRange { get; set; }
+        public string LocationLoadDelayRange { get; set; }
+
+        public string UserFollowLoadDelayRange { get; set; }
+
+        public string SuggestedUsersLoadDelayRange { get; set; }
+
+        public string UnFollowLoadDelayRange { get; set; }
+
+        public string StoryLoadDelayRange { get; set; }
+
+
+
     }
 
 

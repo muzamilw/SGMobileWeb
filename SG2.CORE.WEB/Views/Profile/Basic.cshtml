@@ -12,7 +12,7 @@
     ViewBag.socialProfile = Model.SocialProfile;
 
     ViewBag.PlanName = Model.CurrentPaymentPlan == null ? "FREE" : Model.CurrentPaymentPlan.PlanName;
-   
+
     var ProfileStatus = "";
     if (Model.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
     {
@@ -63,21 +63,20 @@
             -ms-user-select: none;
             user-select: none;
         }
-
     </style>
 }
 
 @section profileheader{
     @Html.Partial("Partial/_PartialProfileHeaderButton", Model)
 }
-    <div class="heading-wrapper">
-        <h1>IG Account Info</h1>
-        <span class="navbar-text">
-            <a class="btn btn-black" href="/user/home">
-                Back
-            </a>
-        </span>
-    </div>
+<div class="heading-wrapper">
+    <h1>IG Account Info</h1>
+    <span class="navbar-text">
+        <a class="btn btn-black" href="/user/home">
+            Back
+        </a>
+    </span>
+</div>
 <form class="form" id="formbasic" method="post" action="Basic" novalidate>
 
     @Html.HiddenFor(m => m.SocialProfile.SocialProfileId)
@@ -93,7 +92,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
-                                
+
                                 <div class="card-content collpase show">
                                     <div class="card-body">
 
@@ -113,13 +112,13 @@
                                                         </div>
                                                     </div>
 
-                                                    
+
 
 
                                                 </div>
 
-                                                <div class="row">
-                                                   
+                                                <div class="row mt-3">
+
 
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -129,7 +128,7 @@
 
                                                         </div>
                                                     </div>
-                                                    
+
 
 
                                                 </div>
@@ -149,18 +148,18 @@
                                                     </div>
                                                 </div>
                                                 @*@if (Model.socialcustomer.IsBroker.HasValue && Model.socialcustomer.IsBroker.Value == true)
-            {
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="label-control" for="projectinput2">Instagram Password</label>
+                                                    {
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="label-control" for="projectinput2">Instagram Password</label>
 
-                        <input type="text" class="form-control" id="firstName1" readonly="readonly" value="@Model.SocialProfile.SocialPassword">
+                                                                <input type="text" class="form-control" id="firstName1" readonly="readonly" value="@Model.SocialProfile.SocialPassword">
 
-                    </div>
-                </div>
-            }*@
+                                                            </div>
+                                                        </div>
+                                                    }*@
                                             </div>
-                                            <div class="row">
+                                            <div class="row mt-3">
                                                 <div class="col-md-6 pincodecontainer">
                                                     <div class="form-group">
                                                         <label class="label-control" for="projectinput1">Pin Code</label>
@@ -175,8 +174,8 @@
                                                 <div class="col-md-12 text-center">
                                                     <div class="form-actions">
                                                         @*<button type="button" class="btn btn-warning mr-1">
-                        <i class="ft-x"></i> Cancel
-                    </button>*@
+                                                                <i class="ft-x"></i> Cancel
+                                                            </button>*@
                                                         <button type="submit" class="btn btn-primary">
                                                             <i class="fa fa-check-square-o"></i> Save
                                                         </button>
@@ -185,28 +184,28 @@
                                             </div>
 
                                             @*@if (Model.socialcustomer.IsBroker.HasValue && Model.socialcustomer.IsBroker.Value == true)
-        {
-            <h4 class="form-section"><i class="ft-user"></i>Device Push Notifications (Coming Soon)</h4>
-            <div class="row">
-                <div class="col-sm-12 col-lg-3 mb-1">
-                    <a href="#" class="btn btn-block btn-primary " style="width:100%">Alert</a>
-                </div>
+                                                {
+                                                    <h4 class="form-section"><i class="ft-user"></i>Device Push Notifications (Coming Soon)</h4>
+                                                    <div class="row">
+                                                        <div class="col-sm-12 col-lg-3 mb-1">
+                                                            <a href="#" class="btn btn-block btn-primary " style="width:100%">Alert</a>
+                                                        </div>
 
 
-                <div class="col-sm-12 col-lg-3 mb-1">
-                    <a href="#" class="btn btn-block btn-primary  " style="background-color:blueviolet;width:100%">Play Alarm</a>
-                </div>
+                                                        <div class="col-sm-12 col-lg-3 mb-1">
+                                                            <a href="#" class="btn btn-block btn-primary  " style="background-color:blueviolet;width:100%">Play Alarm</a>
+                                                        </div>
 
-                <div class="col-sm-12 col-lg-3 mb-1">
-                    <a href="#" class="btn btn-block btn-primary  " style="background-color:blueviolet;width:100%">Get latest Log</a>
-                </div>
+                                                        <div class="col-sm-12 col-lg-3 mb-1">
+                                                            <a href="#" class="btn btn-block btn-primary  " style="background-color:blueviolet;width:100%">Get latest Log</a>
+                                                        </div>
 
-                <div class="col-sm-12 col-lg-3 mb-1">
-                    <a href="#" class="btn btn-block btn-primary  " style="background-color:blueviolet;width:100%">Restart App</a>
-                </div>
+                                                        <div class="col-sm-12 col-lg-3 mb-1">
+                                                            <a href="#" class="btn btn-block btn-primary  " style="background-color:blueviolet;width:100%">Restart App</a>
+                                                        </div>
 
-            </div>
-        }*@
+                                                    </div>
+                                                }*@
 
                                         </div>
 

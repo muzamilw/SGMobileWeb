@@ -16,6 +16,8 @@
         profiles.Add(new SelectListItem { Text = item.ProfileName, Value = item.SocialProfileId.ToString() });
     }
     var displayClass = currentUser.IsBroker == true ? "" : "d-none";
+
+    var ShowforBroker = currentUser.IsBroker == true ? "" : "d-none";
 }
 
 @section styles{
@@ -332,7 +334,7 @@
 }
 
 <div class="heading-wrapper">
-    <h1>Select Your Growth Plan</h1>
+    <h1>All Profiles</h1>
 
 </div>
 <!-- BEGIN: Content-->
@@ -343,7 +345,7 @@
                 <h3 class="content-header-title mb-0">Click on a profile to set growth engine preferences</h3>
 
             </div>
-            <div class="content-header-right col-md-12 col-12">
+            <div class="content-header-right col-md-12 col-12 @ShowforBroker">
                 <div class="media width-250 float-right">
 
                     <div class="media-right text-right">
@@ -375,7 +377,7 @@
                                 </div>
                             </div>*@
                         <div class="card-content collapse show">
-                            <div class="card-body card-dashboard">
+                            <div class="card-body card-dashboard @ShowforBroker">
                                 <form class="form" id="formbasic" method="post">
                                     <div class="form-row">
                                         <div class="col-xl-3 col-md-3 col-sm-12">
@@ -412,11 +414,11 @@
                                                 plist.Add(new SelectListItem { Text = "FREE", Value = "1" });
                                                 if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true)
                                                 {
-                                                    plist.Add(new SelectListItem { Text = "Growth Pro API", Value = "4" });
+                                                    plist.Add(new SelectListItem { Text = "Growth Pro", Value = "4" });
                                                 }
                                                 else
                                                 {
-                                                    plist.Add(new SelectListItem { Text = "Growth Pro API", Value = "2" });
+                                                    plist.Add(new SelectListItem { Text = "Growth Pro", Value = "2" });
                                                     
 
                                                 }
@@ -536,11 +538,11 @@
                                                     <td class="align-middle">
                                                         @if (item.SubscriptionName != null)
                                                         {
-                                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline" style="font-size:1em;">Plan: @item.SubscriptionName</div>
+                                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline" style="font-size:1em;">@item.SubscriptionName</div>
                                                         }
                                                         else
                                                         {
-                                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline" style="font-size:1em;">Plan: FREE</div>
+                                                            <div class="badge badge-success label-square mr-1 mb-1 display-inline" style="font-size:1em;">FREE</div>
                                                         }
                                                     </td>
                                                 </tr>

@@ -33,8 +33,9 @@
     }
 
 .pincode-input-text, .form-control.pincode-input-text {
-    width: 41px;
+    width: 50px;
     float: left;
+    font-size:2em;
     
 }
 

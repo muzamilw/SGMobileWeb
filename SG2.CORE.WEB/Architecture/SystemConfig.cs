@@ -33,6 +33,14 @@ namespace SG2.CORE.WEB.Architecture
                 return singleInstance;
             }
         }
+
+        public static List<SystemSettingsDTO> GetConfigsLatest()
+        {
+
+
+            return CommonManager.GetSystemConfigs(); //TODO get the configs from repository 
+
+        }
         public static List<SystemSettingsDTO> ResetConfig()
         {
 

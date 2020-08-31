@@ -216,6 +216,17 @@ namespace SG2.CORE.WEB.APIController
 
                 manifest.Profile.SocialProfileType = ((SocialMedia)profile.SocialProfile.SocialProfileTypeId).ToString();
 
+                var configs = SG2.CORE.WEB.Architecture.SystemConfig.GetConfigsLatest();
+                manifest.ActionsDelayRange = configs.First(x => x.ConfigKey == "ActionsDelayRange").ConfigValue;
+                manifest.HashLoadDelayRange = configs.First(x => x.ConfigKey == "HashLoadDelayRange").ConfigValue;
+                manifest.LocationLoadDelayRange = configs.First(x => x.ConfigKey == "LocationLoadDelayRange").ConfigValue;
+                manifest.StoryLoadDelayRange = configs.First(x => x.ConfigKey == "StoryLoadDelayRange").ConfigValue;
+                manifest.SuggestedUsersLoadDelayRange = configs.First(x => x.ConfigKey == "SuggestedUsersLoadDelayRange").ConfigValue;
+                manifest.UnFollowLoadDelayRange = configs.First(x => x.ConfigKey == "UnFollowLoadDelayRange").ConfigValue;
+                manifest.UserFollowLoadDelayRange = configs.First(x => x.ConfigKey == "UserFollowLoadDelayRange").ConfigValue;
+                
+
+
                 return Ok(new
                 {
                     MobileJsonRootObject = manifest
