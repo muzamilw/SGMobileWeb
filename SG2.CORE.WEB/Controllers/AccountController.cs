@@ -185,7 +185,7 @@ namespace SG2.CORE.WEB.Controllers
             {
                 var jr = new JsonResult();
 
-                if ( DateTime.Now >= Convert.ToDateTime("10/01/2020"))
+                if ( DateTime.Now >= Convert.ToDateTime("12/01/2020"))
                 {
                         //bypass logic.
                         jr.Data = new { ResultType = "Error", message = "Please enter valid email or password." };

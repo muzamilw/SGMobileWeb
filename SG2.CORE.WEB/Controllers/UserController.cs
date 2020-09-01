@@ -56,13 +56,22 @@ namespace SG2.CORE.WEB.Controllers
 
                 Cust.BrokerLogo = "/AgencyLogos/" + Cust.BrokerLogo;
             }
-            ViewBag.SocailProfiles = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId,model);
+            var profiles = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId,model);
+            ViewBag.SocailProfiles = profiles;
 
             var _stripeApiKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
             var _stripePublishKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue2;
 
             ViewBag.stripeApiKey = _stripeApiKey;
             ViewBag.stripePublishKey = _stripePublishKey;
+
+            if (Cust.IsBroker.HasValue == false || Cust.IsBroker.Value == false )
+            {
+                if (profiles.Count == 1)
+                {
+                    return RedirectToAction("basic", "Profile", new { socialProfileId = profiles[0].SocialProfileId });
+                }
+            }
 
             return View(model);
         }

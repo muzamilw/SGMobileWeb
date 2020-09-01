@@ -1191,7 +1191,7 @@ namespace SG2.CORE.DAL.Repositories
                             cus.StripeSubscriptionId = null;
                             cus.StripeCustomerId = null;
 
-                            _db.Customer_Payments.Add(new Customer_Payments { CustomerId = cus.CustomerId, PaymentPlanId = 1, StatusId = 1, StartDate = DateTime.Now, EndDate = DateTime.Now, Name= "Subscrption set to Free", Description = "Subscrption set to Free", Price = 0 });
+                            _db.Customer_Payments.Add(new Customer_Payments { CustomerId = cus.CustomerId, PaymentPlanId = 1, StatusId = 1, PaymentDateTime = DateTime.Now, StartDate = DateTime.Now, EndDate = DateTime.Now, Name= "Subscrption set to Free", Description = "Subscrption set to Free", Price = 0 });
                         }
                         else
                             cus.IsBroker = true;
@@ -1375,7 +1375,7 @@ namespace SG2.CORE.DAL.Repositories
             {
                 try
                 {
-                    Customer_Payments payrec = new Customer_Payments { Description = model.Description, StripeSubscriptionId = model.StripeSubscriptionId, CustomerId = model.SocialProfileId, EndDate = model.EndDate, Name = model.Name, PaymentDateTime = model.PaymentDateTime, PaymentPlanId = model.PaymentPlanId, Price = model.Price, StartDate = model.StartDate, StatusId = 1, StripeInvoiceId = model.StripeInvoiceId, StripePlanId = model.StripePlanId, SubscriptionType = "month" };
+                    Customer_Payments payrec = new Customer_Payments { Description = model.Description, StripeSubscriptionId = model.StripeSubscriptionId, CustomerId = model.SocialProfileId, EndDate = model.EndDate, Name = model.Name, PaymentDateTime = model.PaymentDateTime ?? DateTime.Now, PaymentPlanId = model.PaymentPlanId, Price = model.Price, StartDate = model.StartDate, StatusId = 1, StripeInvoiceId = model.StripeInvoiceId, StripePlanId = model.StripePlanId, SubscriptionType = "month" };
                     _db.Customer_Payments.Add(payrec);
                     _db.SaveChanges();
 
