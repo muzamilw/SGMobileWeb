@@ -35,7 +35,7 @@
 
 }
 
-@if (socialProfile.PaymentPlanId == 1)
+@if (socialProfile.PaymentPlanId.HasValue == false || socialProfile.PaymentPlanId == 1)
 {
     <div class="btn-group btn-sidebar" style="margin-top:12px;">
 
