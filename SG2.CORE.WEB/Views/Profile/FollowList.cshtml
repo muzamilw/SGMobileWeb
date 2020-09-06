@@ -88,10 +88,13 @@
 <div class="heading-wrapper">
     <h1>Follow History</h1>
     <span class="navbar-text">
-        <a class="btn btn-black" href="/user/home">
-            Back
-        </a>
-    </span>
+        @if (ViewBag.ProfileCount > 1)
+        {
+            <a class="btn btn-black" href="/user/home">
+                Back
+            </a>
+        }
+        </span>
 </div>
     <!-- BEGIN: Content-->
 <div class="app-content center-layout mt-2">

@@ -45,7 +45,7 @@
 
 .pincode-input-container.touch .touchwrapper {
     position: relative;
-    height: 38px;
+    height: 57px;
     margin-right: 5px;
     overflow: hidden;
 }
@@ -87,7 +87,7 @@
     }
 
     .pincode-input-container.touch .touchwrapper.touch6 {
-        width: 175px;
+        width: 218px;
     }
 
     .pincode-input-container.touch .touchwrapper.touch7 {

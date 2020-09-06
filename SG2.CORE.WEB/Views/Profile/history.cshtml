@@ -382,10 +382,13 @@
 <div class="heading-wrapper">
     <h1>Select Your Growth Plan</h1>
     <span class="navbar-text">
-        <a class="btn btn-black" href="/user/home">
-            Back
-        </a>
-    </span>
+        @if (ViewBag.ProfileCount > 1)
+        {
+            <a class="btn btn-black" href="/user/home">
+                Back
+            </a>
+        }
+        </span>
 </div>
 <div class="modal fade text-left" id="planSubscriptionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -592,7 +595,7 @@
                         </div>
                     </div>
 
-                    @if (Customer.IsBroker != true)
+                    @if (Customer.IsBroker != true && (Model.SocialProfile.PaymentPlanId ?? 1) != 1 )
                     {
                         <div style="background-color:#544b7d;" class="card">
 

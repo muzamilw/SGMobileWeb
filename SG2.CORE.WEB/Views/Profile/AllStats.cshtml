@@ -136,10 +136,13 @@
 <div class="heading-wrapper">
     <h1>Stats & Graphs</h1>
     <span class="navbar-text">
-        <a class="btn btn-black" href="/user/home">
-            Back
-        </a>
-    </span>
+        @if (ViewBag.ProfileCount > 1)
+        {
+            <a class="btn btn-black" href="/user/home">
+                Back
+            </a>
+        }
+        </span>
 </div>
 
 <div class="app-content  center-layout mt-2">

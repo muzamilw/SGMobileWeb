@@ -81,6 +81,10 @@ namespace SG2.CORE.WEB.Controllers
             ViewBag.CurrentUser = this.CDT;
             ViewBag.socialProfileId = socialProfileId;
             var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
+
+            ProfilesSearchRequest model = new ProfilesSearchRequest { Block = 99, Plan = 0, searchString = "", SocialType = 0 };
+            ViewBag.ProfileCount = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId, model).Count();
+
             if (success.HasValue && success.Value == 1)
             {
                 ViewBag.success = 1;
@@ -104,6 +108,8 @@ namespace SG2.CORE.WEB.Controllers
             ViewBag.socialProfileId = socialProfileId;
             ViewBag.CurrentUser = this.CDT;
             var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
+            ProfilesSearchRequest model = new ProfilesSearchRequest { Block = 99, Plan = 0, searchString = "", SocialType = 0 };
+            ViewBag.ProfileCount = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId, model).Count();
 
             if (success.HasValue && success.Value == 1)
             {
@@ -118,6 +124,8 @@ namespace SG2.CORE.WEB.Controllers
             ViewBag.socialProfileId = socialProfileId;
             ViewBag.CurrentUser = this.CDT;
             var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
+            ProfilesSearchRequest model = new ProfilesSearchRequest { Block = 99, Plan = 0, searchString = "", SocialType = 0 };
+            ViewBag.ProfileCount = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId, model).Count();
 
             if (success.HasValue && success.Value == 1)
             {
@@ -132,6 +140,8 @@ namespace SG2.CORE.WEB.Controllers
             ViewBag.socialProfileId = socialProfileId;
             ViewBag.CurrentUser = this.CDT;
             var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
+            ProfilesSearchRequest model = new ProfilesSearchRequest { Block = 99, Plan = 0, searchString = "", SocialType = 0 };
+            ViewBag.ProfileCount = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId, model).Count();
 
             if (success.HasValue && success.Value == 1)
             {
@@ -168,6 +178,8 @@ namespace SG2.CORE.WEB.Controllers
             ViewBag.CurrentUser = this.CDT;
             var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
             var customer =_customerManager.GetCustomerByCustomerId(this.CDT.CustomerId);
+            ProfilesSearchRequest model = new ProfilesSearchRequest { Block = 99, Plan = 0, searchString = "", SocialType = 0 };
+            ViewBag.ProfileCount = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId, model).Count();
 
             ViewBag.Customer = customer;
 
@@ -199,6 +211,8 @@ namespace SG2.CORE.WEB.Controllers
             ViewBag.socialProfileId = socialProfileId;
             ViewBag.CurrentUser = this.CDT;
             ViewBag.socialProfile = this._cm.GetSocialProfileById(socialProfileId).SocialProfile;
+            ProfilesSearchRequest model = new ProfilesSearchRequest { Block = 99, Plan = 0, searchString = "", SocialType = 0 };
+            ViewBag.ProfileCount = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId, model).Count();
 
             List<SocialProfile_ActionsViewModel> actions = this._cm.ReturnLastActions(socialProfileId, 500).Where(g => g.ActionID != 69).ToList();
             ViewBag.actions = actions;
@@ -348,6 +362,8 @@ namespace SG2.CORE.WEB.Controllers
             var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
 
             var customer = _customerManager.GetCustomerByCustomerId(this.CDT.CustomerId);
+            ProfilesSearchRequest model = new ProfilesSearchRequest { Block = 99, Plan = 0, searchString = "", SocialType = 0 };
+            ViewBag.ProfileCount = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId, model).Count();
 
             ViewBag.Customer = customer;
 
@@ -1438,6 +1454,8 @@ namespace SG2.CORE.WEB.Controllers
             ViewBag.socialProfileId = socialProfileId;
             ViewBag.CurrentUser = this.CDT;
             ViewBag.socialProfile = this._customerManager.GetSocialProfileById(socialProfileId).SocialProfile;
+            ProfilesSearchRequest model = new ProfilesSearchRequest { Block = 99, Plan = 0, searchString = "", SocialType = 0 };
+            ViewBag.ProfileCount = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId, model).Count();
 
             ViewBag.actions = this._customerManager.ReturnLastActions(socialProfileId, 500);
             ViewBag.growthSummary = this._statisticsManager.GetStatsGrowthSummary(socialProfileId);

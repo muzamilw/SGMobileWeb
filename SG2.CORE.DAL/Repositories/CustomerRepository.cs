@@ -1213,6 +1213,17 @@ namespace SG2.CORE.DAL.Repositories
 
                                 _db.SocialProfile_Payments.Add(new SocialProfile_Payments { SocialProfileId = profile.SocialProfileId, PaymentPlanId = 1, StatusId = 1, StartDate = DateTime.Now, EndDate = DateTime.Now, Name = "Subscrption set to Free", Description = "Subscrption set to Free", Price = 0 });
 
+
+                                var target = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.SocialProfileId == profile.SocialProfileId).Single();
+                                target.FollowOn = false;
+                                target.AfterFollCommentUserPosts = false;
+                                target.AfterFollCommentUserStory = false;
+                                target.UnFollowOn = false;
+                                target.UnFollFollowersAfterMinDays = false;
+                                target.AfterFollLikeuserPosts = false;
+                                target.AfterFollViewUserStory = false;
+
+
                             }
                             _db.SaveChanges();
 

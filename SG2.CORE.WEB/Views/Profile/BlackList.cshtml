@@ -44,10 +44,13 @@
 <div class="heading-wrapper">
     <h1>Black Lists</h1>
     <span class="navbar-text">
-        <a class="btn btn-black" href="/user/home">
-            Back
-        </a>
-    </span>
+        @if (ViewBag.ProfileCount > 1)
+        {
+            <a class="btn btn-black" href="/user/home">
+                Back
+            </a>
+        }
+        </span>
 </div>
 
 <form class="form" id="formlists" method="post" action="BlackList" novalidate>
