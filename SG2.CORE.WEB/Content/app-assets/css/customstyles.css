@@ -1,16 +1,17 @@
 ﻿body {
 }
 
-.hidden{
-    display : none;
+.hidden {
+    display: none;
 }
+
 .form-actions {
     border-top: 1px solid #d3dce9;
     padding: 20px 0;
     margin-top: 20px;
 }
 
-.form-actions .btn-primary:focus, .btn-primary:active {
+    .form-actions .btn-primary:focus, .btn-primary:active {
         border-color: #008385 !important;
         background-color: #006a6c !important;
         color: #FFF !important;
@@ -225,6 +226,17 @@ header .dropdown-menu.dropdown-lg {
         border: 1px solid #000;
     }
 
+.btn-darkgreen {
+    background-color: #008b01;
+    color: #fff;
+}
+
+    .btn-darkgreen:hover {
+        background-color: #fff;
+        color: #000;
+        border: 1px solid #000;
+    }
+
 .card {
     box-shadow: none;
 }
@@ -252,13 +264,13 @@ header .dropdown-menu.dropdown-lg {
 
 
 .modal {
-    top : 50px;
+    top: 50px;
     bottom: 50px;
-    margin-bottom:100px;
+    margin-bottom: 100px;
 }
 
 .bg-primary {
-    color : #fff;
+    color: #fff;
 }
 
 body.modal-open {
@@ -267,18 +279,17 @@ body.modal-open {
     overflow-y: hidden;
 }
 
-body.modal-open::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0;
-    background-color: rgba(0,0, 0, 0.4);
-    pointer-events:none;
-
-}
+    body.modal-open::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 0;
+        background-color: rgba(0,0, 0, 0.4);
+        pointer-events: none;
+    }
     /*.modal-backdrop {
     opacity: 0.2 !important;
 }*/
@@ -307,10 +318,9 @@ body.modal-open::after {
     padding-bottom: 60px;
 }
 
-    .non-broker-tile
-    {
-        color : #fff;
-    }
+.non-broker-tile {
+    color: #fff;
+}
 
     .non-broker-tile .tile-h3 {
         margin-top: 15px;
@@ -328,9 +338,10 @@ body.modal-open::after {
         font-size: 12px;
         padding-top: 20px;
     }
+
     .non-broker-tile .tile-li {
-            padding-bottom: 5px;
-            list-style: disc;
+        padding-bottom: 5px;
+        list-style: disc;
     }
 
 .btn-group .btn-simple {
@@ -340,6 +351,7 @@ body.modal-open::after {
     border-bottom: 1px solid #000 !important;
     border-top: 1px solid #000 !important;
 }
+
     .btn-group .btn-simple:hover {
         border: 1px solid #fff;
         border-right: 1px solid #fff !important;

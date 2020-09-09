@@ -41,46 +41,47 @@
     @Html.Partial("Partial/_PartialProfileHeader", Model)
 }
 
-    <form class="form" id="formlists" method="post" action="Lists" novalidate>
-        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.SocialProfileId)
-        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.TargetingInformationId)
+<form class="form" id="formlists" method="post" action="Lists" novalidate>
+    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.SocialProfileId)
+    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.TargetingInformationId)
 
-        <!-- BEGIN: Content-->
-        <div class="app-content container center-layout mt-2">
-            <div class="content-wrapper">
+    <!-- BEGIN: Content-->
+    <div class="app-content container center-layout mt-2">
+        <div class="content-wrapper">
 
-                <div class="content-body">
-                    <!-- Basic form layout section start -->
-                    <section id="horizontal-form-layouts">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="card-title" id="horz-layout-basic">White & Black Lists</h4>
-                                    </div>
-                                    <div class="card-content collpase show">
-                                        <div class="card-body">
-
-
-                                            <div class="form-body">
-                                                <h4 class="form-section"><i class="ft-user"></i> White Lists</h4><p style="color:black">
-    Usernames you never want to unfollow
-</p>
-                                                <div class="form-group row">
-                                                    <label class="col-md-3 label-control" for="projectinput1">White List (User typed in)<br />
-                                                   </label>
-
-                                                    <div class="col-md-9">
+            <div class="content-body">
+                <!-- Basic form layout section start -->
+                <section id="horizontal-form-layouts">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title" id="horz-layout-basic">White & Black Lists</h4>
+                                </div>
+                                <div class="card-content collpase show">
+                                    <div class="card-body">
 
 
-                                                        <div id="wltyped" class="edit-on-delet form-control" data-tags-input-name="@Html.NameFor(m => m.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers)">@Model.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers</div>
+                                        <div class="form-body">
+                                            <h4 class="form-section"><i class="ft-user"></i> White Lists</h4><p style="color:black">
+                                                Usernames you never want to unfollow
+                                            </p>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="projectinput1">
+                                                    White List (User typed in)<br />
+                                                </label>
 
-                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers)
-                                                    </div>
-                                                    
-                                                    
+                                                <div class="col-md-9">
+
+
+                                                    <div id="wltyped" class="edit-on-delet form-control" data-tags-input-name="@Html.NameFor(m => m.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers)">@Model.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers</div>
+
+                                                    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers)
                                                 </div>
-                                                @*<div class="form-group row">
+
+
+                                            </div>
+                                            @*<div class="form-group row">
                                                     <label class="col-md-3 label-control" for="projectinput2">White List (Extracted from live account )</label>
                                                     <div class="col-md-9">
 
@@ -90,69 +91,69 @@
                                                     </div>
                                                 </div>*@
 
-                                                <h4 class="form-section"><i class="ft-clipboard"></i> Black Lists</h4><p style="color:black">
-                                                    User typed in Usernames, hashtags and locations to not follow
-                                                </p>
-                                                <div class="form-group row">
-                                                    <label class="col-md-3 label-control" for="projectinput5">Usernames</label>
-                                                    <div class="col-md-9">
+                                            <h4 class="form-section"><i class="ft-clipboard"></i> Black Lists</h4><p style="color:black">
+                                                User typed in Usernames, hashtags and locations to not follow
+                                            </p>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="projectinput5">Usernames</label>
+                                                <div class="col-md-9">
 
 
-                                                        <div id="blUsernames" class="edit-on-delete form-control" data-tags-input-name="blUsernames">@Model.SocialProfile_Instagram_TargetingInformation.BlackListUsers</div>
+                                                    <div id="blUsernames" class="edit-on-delete form-control" data-tags-input-name="blUsernames">@Model.SocialProfile_Instagram_TargetingInformation.BlackListUsers</div>
 
-                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.BlackListUsers)
-                                                    </div>
+                                                    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.BlackListUsers)
                                                 </div>
-                                                <div class="form-group row">
-                                                    <label class="col-md-3 label-control" for="projectinput6">Locations</label>
-                                                    <div class="col-md-9">
-
-
-                                                        <div id="blLocations" class="edit-on-delete form-control" data-tags-input-name="blLocations">@Model.SocialProfile_Instagram_TargetingInformation.BlackListLocations</div>
-
-                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.BlackListLocations)
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-md-3 label-control" for="projectinput7">Hashtags</label>
-                                                    <div class="col-md-9">
-
-
-                                                        <div id="blHashtags" class="edit-on-delete form-control" data-tags-input-name="blHashtags">@Model.SocialProfile_Instagram_TargetingInformation.BlackListHashtags</div>
-
-                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.BlackListHashtags)
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-md-3 label-control">Black List Words</label>
-                                                    <div class="col-md-9">
-
-                                                        <div id="bWordsManual" class="edit-on-delete form-control" data-tags-input-name="bWordsManual">@Model.SocialProfile_Instagram_TargetingInformation.BlackListWordsManual</div>
-
-                                                        @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.BlackListWordsManual)
-                                                    </div>
-                                                </div>
-
                                             </div>
-                                            <div class="form-actions text-center">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="projectinput6">Locations</label>
+                                                <div class="col-md-9">
 
-                                                <button type="submit" class="btn btn-primary">
-                                                    <i class="fa fa-check-square-o"></i> Save
-                                                </button>
+
+                                                    <div id="blLocations" class="edit-on-delete form-control" data-tags-input-name="blLocations">@Model.SocialProfile_Instagram_TargetingInformation.BlackListLocations</div>
+
+                                                    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.BlackListLocations)
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="projectinput7">Hashtags</label>
+                                                <div class="col-md-9">
+
+
+                                                    <div id="blHashtags" class="edit-on-delete form-control" data-tags-input-name="blHashtags">@Model.SocialProfile_Instagram_TargetingInformation.BlackListHashtags</div>
+
+                                                    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.BlackListHashtags)
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control">Black List Words</label>
+                                                <div class="col-md-9">
+
+                                                    <div id="bWordsManual" class="edit-on-delete form-control" data-tags-input-name="bWordsManual">@Model.SocialProfile_Instagram_TargetingInformation.BlackListWordsManual</div>
+
+                                                    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.BlackListWordsManual)
+                                                </div>
                                             </div>
 
                                         </div>
+                                        <div class="form-actions text-center">
+
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fa fa-check-square-o"></i> Save
+                                            </button>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </section>
-                    <!-- // Basic form layout section end -->
-                </div>
+                    </div>
+                </section>
+                <!-- // Basic form layout section end -->
             </div>
         </div>
-        <!-- END: Content-->
-    </form>
+    </div>
+    <!-- END: Content-->
+</form>
 
 
 @section Scripts{
@@ -231,7 +232,7 @@
             //    "tag-char" : ''
             //});
 
-           
+
             $(document).ready(function () {
                 $('input').change(function () {
                     somethingChanged = true;

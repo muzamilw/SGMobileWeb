@@ -1,0 +1,51 @@
+﻿@using SG2.CORE.MODAL.DTO.Customers;
+@using SG2.CORE.COMMON;
+@using SG2.CORE.MODAL;
+@model SG2.CORE.MODAL.DTO.Customers.SocialProfileDTO
+
+<div class="d-none d-lg-block">
+    <div class="heading-wrapper d-flex flex-row justify-content-between ">
+        <h1>IG Account Info</h1>
+        <span class="navbar-text">
+            @if (ViewBag.ProfileCount > 1)
+            {
+                <a class="btn btn-black" href="/user/home">
+                    Back
+                </a>
+            }
+        </span>
+    </div>
+</div>
+
+<div class="d-block d-lg-none">
+    <div class="d-flex flex-row" style="padding-left:10px;">
+        <img src="/Content/ThemeAssets/Images/InstagramLogoTransparent25.png" style="width:39px;">
+        <h1 class="ml-1 mt-1">@ViewBag.socialProfile.SocialUsername</h1>
+
+        @if (ViewBag.ProfileCount > 1)
+        {
+            <a class="btn btn-black ml-auto" style="" href="/user/home">
+                Back
+            </a>
+        }
+
+    </div>
+    <div class=" d-flex flex-row justify-content-between">
+        @Html.Partial("Partial/_PartialProfileHeaderButton", Model)
+    </div>
+
+    <div class=" d-flex flex-row justify-content-between " style="margin:6px;">
+        <a class="btn  flex-fill m-1 @(ViewBag.page == "basic" ? "btn-darkgreen" : "btn-success" )" href="~/Profile/Basic?socialProfileId=@ViewBag.socialProfileId">
+            Pin
+        </a>
+        <a class="btn flex-fill m-1 @(ViewBag.page == "target" ? "btn-darkgreen" : "btn-success" )" href="~/Profile/target?socialProfileId=@ViewBag.socialProfileId">
+            Target
+        </a>
+        <a class="btn flex-fill m-1 @(ViewBag.page == "allstats" ? "btn-darkgreen" : "btn-success" )" href="~/Profile/allstats?socialProfileId=@ViewBag.socialProfileId">
+            Stats
+        </a>
+        <a class="btn flex-fill m-1 @(ViewBag.page == "history" ? "btn-darkgreen" : "btn-success" )" href="~/Profile/history?socialProfileId=@ViewBag.socialProfileId">
+            Plan
+        </a>
+    </div>
+</div>

@@ -186,18 +186,18 @@
                         <li>
                             <a href="~/Profile/Basic?socialProfileId=@ViewBag.socialProfileId">
                                 <i class="fa fa-address-card-o"></i>
-                                <span class="nav-link-text">Registration Info</span>
+                                <span class="nav-link-text">Pin & Username</span>
                             </a>
                         </li>
                         <li>
                             <a href="~/Profile/target?socialProfileId=@ViewBag.socialProfileId">
                                 <i class="fa fa-bolt"></i>
                                 <span class="nav-link-text">
-                                    Campaign Filter
+                                    Target Filters
                                 </span>
                             </a>
                         </li>
-                        <li>
+                        @*<li>
                             <a href="~/Profile/Whitelist?socialProfileId=@ViewBag.socialProfileId">
                                 <i class="fa fa-list-alt"></i>
                                 <span class="nav-link-text">
@@ -212,7 +212,7 @@
                                     Black List
                                 </span>
                             </a>
-                        </li>
+                        </li>*@
                         @if (custDto.IsBroker == true)
                         {
                             <li>

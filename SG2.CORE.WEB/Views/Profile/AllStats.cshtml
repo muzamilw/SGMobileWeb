@@ -8,6 +8,7 @@
 @{
     var BaseURl = ViewBag.BaseUrl;
     ViewBag.Title = "Insights & Statistics";
+    ViewBag.page = "allstats";
     Layout = "~/Views/Shared/_Layout_LoggedInStackSPPro.cshtml";
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
     var socialProfile = (SocialProfile)ViewBag.socialProfile;
@@ -123,6 +124,7 @@
         .danger {
             color: #ff7588 !important;
         }
+
         .font-large-2 {
             font-size: 3rem !important;
         }
@@ -133,17 +135,8 @@
 @section profileheader{
     @Html.Partial("Partial/_PartialProfileHeaderButton", Model)
 }
-<div class="heading-wrapper">
-    <h1>Stats & Graphs</h1>
-    <span class="navbar-text">
-        @if (ViewBag.ProfileCount > 1)
-        {
-            <a class="btn btn-black" href="/user/home">
-                Back
-            </a>
-        }
-        </span>
-</div>
+
+@Html.Partial("Partial/_PartialProfileHeaderSPPro", new SG2.CORE.MODAL.DTO.Customers.SocialProfileDTO())
 
 <div class="app-content  center-layout mt-2">
     <div class="content-wrapper">
@@ -155,9 +148,9 @@
                     <div class="card">
                         <div class="card-content">
                             <div class="card-body">
-                               
+
                                 <div class="col-xl-12 col-lg-12 col-12 float-left">
-                                  
+
                                     <div class="row">
 
                                         <div class="col-lg-4 col-12 text-center pl-0">
@@ -173,7 +166,7 @@
                                             <span style="color:grey; font-size:24px;">Posts</span>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -985,7 +978,7 @@
 
 
             $("#bar-perdayfollowings").empty();
-            
+
             if (morrisData.length > 0) {
                 Morris.Bar({
                     element: 'bar-perdayfollowings',

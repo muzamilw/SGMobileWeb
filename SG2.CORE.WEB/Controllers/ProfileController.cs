@@ -204,7 +204,9 @@ namespace SG2.CORE.WEB.Controllers
             var brokermode = customer.IsBroker.HasValue && customer.IsBroker.Value == true;
 
             this._cm.UpdateTargetProfile(request, brokermode);
-			return RedirectToAction("Target", "Profile", new { socialProfileId = request.SocialProfile_Instagram_TargetingInformation.SocialProfileId, success = 1 });
+            this._cm.UpdateTargetProfileWhiteList(request);
+            this._cm.UpdateTargetProfileBlackList(request);
+            return RedirectToAction("Target", "Profile", new { socialProfileId = request.SocialProfile_Instagram_TargetingInformation.SocialProfileId, success = 1 });
 		}
         public ActionResult Stats(int socialProfileId)
         {

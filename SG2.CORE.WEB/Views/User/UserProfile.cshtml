@@ -115,14 +115,17 @@
     </style>
 }
 
-    <div class="heading-wrapper">
-        <h1>User Profile</h1>
-        <span class="navbar-text">
-            <a class="btn btn-black" href="/user/home">
-                Back
-            </a>
-        </span>
-    </div>
+<div class="d-flex flex-row" style="padding-left:10px;">
+    
+    <h1 class="ml-1 mt-1">User Profile</h1>
+
+   
+        <a class="btn btn-black ml-auto" style="" href="/user/home">
+            Back
+        </a>
+    
+
+</div>
 <!-- BEGIN: Content-->
 <div class="app-content  center-layout mt-2">
     <div class="content-wrapper">
@@ -157,7 +160,7 @@
                                     <div class="information-form-inner">
                                         <div class="row">
                                             <div class=" col-md-12">
-                                                <p>I'd like to receive to receive the following:</p>
+                                                <p>I'd like to receive the following:</p>
                                                 @using (Html.BeginForm("UpdateUserEmailSubscription", "User", FormMethod.Post, new { @id = "form_UpdateUserSubscription" }))
                                                 {
                                                     <label class="form-Checkbox">

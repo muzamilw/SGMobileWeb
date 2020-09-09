@@ -3734,6 +3734,7 @@
     <Content Include="Views\Shared\Partial\_PartialProfileHeaderButton.cshtml" />
     <Content Include="Views\Shared\_Layout_LoggedInStackHomeMainSPPro.cshtml" />
     <Content Include="Views\Shared\_Layout_LoggedInStackHomeSPPro.cshtml" />
+    <Content Include="Views\Shared\Partial\_PartialProfileHeaderSPPro.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\animate.css" />

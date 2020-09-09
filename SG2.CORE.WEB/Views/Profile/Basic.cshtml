@@ -4,6 +4,7 @@
 @{
 
     ViewBag.Title = "Basic Profile";
+    ViewBag.page = "basic";
     Layout = "~/Views/Shared/_Layout_LoggedInStackSPPro.cshtml";
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
 
@@ -69,17 +70,11 @@
 @section profileheader{
     @Html.Partial("Partial/_PartialProfileHeaderButton", Model)
 }
-<div class="heading-wrapper">
-    <h1>IG Account Info</h1>
-    <span class="navbar-text">
-        @if (ViewBag.ProfileCount > 1)
-        {
-        <a class="btn btn-black" href="/user/home">
-            Back
-        </a>
-        }
-    </span>
-</div>
+
+@Html.Partial("Partial/_PartialProfileHeaderSPPro", Model)
+
+
+
 <form class="form" id="formbasic" method="post" action="Basic" novalidate>
 
     @Html.HiddenFor(m => m.SocialProfile.SocialProfileId)

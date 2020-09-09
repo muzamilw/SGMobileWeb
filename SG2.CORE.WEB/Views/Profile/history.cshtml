@@ -7,6 +7,7 @@
 @{
 
     ViewBag.Title = "Subscription & Order History";
+    ViewBag.page = "history";
     Layout = "~/Views/Shared/_Layout_LoggedInStackSPPro.cshtml";
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
 
@@ -334,8 +335,9 @@
         }
 
         .match-height .card .btn-plan-group {
-            margin-top: 30px;
+            margin-top: 15px;
             text-align: center;
+            margin-bottom: 15px;
         }
 
             .match-height .card .btn-plan-group a {
@@ -379,17 +381,8 @@
     @Html.Partial("Partial/_PartialProfileHeaderButton", Model)
 }
 
-<div class="heading-wrapper">
-    <h1>Select Your Growth Plan</h1>
-    <span class="navbar-text">
-        @if (ViewBag.ProfileCount > 1)
-        {
-            <a class="btn btn-black" href="/user/home">
-                Back
-            </a>
-        }
-        </span>
-</div>
+@Html.Partial("Partial/_PartialProfileHeaderSPPro", Model)
+
 <div class="modal fade text-left" id="planSubscriptionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -510,15 +503,17 @@
                 <div class="row match-height">
 
 
-                    <div class="card">
+                    <div class="card d-none">
                         <div class="card-content">
 
 
                             <div class="card-body">
 
-                                <h1 class="card-title" style="font-weight:600;font-size:2.5em">Growth Planner</h1>
+                                <h1 class="card-title" style="        font-weight: 600;
+        font-size: 2.5em
+">Growth Planner</h1>
 
-                                <h4 class="card-title" style="color:red" >@Plan1.PlanName</h4>
+                                <h4 class="card-title" style="color:red">@Plan1.PlanName</h4>
                                 <p class="card-text">
                                     Create multiple Social Campaigns on Instagram, TikTok & LinedIn.
                                 </p>
@@ -534,15 +529,15 @@
                                     <a href="#" class="btn btn-outline-primary planSelect btn-lg" data-planId="@Plan1.PlanId" data-planname="@Plan1.PlanName" data-planprice="@Plan1.PlanPrice">Subscribe</a>
                                 }
 
-                            @*<div class=" col-12 align-items-center">
+                                @*<div class=" col-12 align-items-center">
 
-                                <div class="text-center " >
-                                    <img style="width:150px;height:100px;" class="" src="~/Content/Theme-CA/img/IG_2x.png">
-                                    <img style="width:150px;height:100px;" class="" src="~/Content/Theme-CA/img/LinkedIn_2x.png">
-                                    <img style="width:150px;height:100px;" class="" src="~/Content/Theme-CA/img/TikTok_2x.png">
+                                        <div class="text-center " >
+                                            <img style="width:150px;height:100px;" class="" src="~/Content/Theme-CA/img/IG_2x.png">
+                                            <img style="width:150px;height:100px;" class="" src="~/Content/Theme-CA/img/LinkedIn_2x.png">
+                                            <img style="width:150px;height:100px;" class="" src="~/Content/Theme-CA/img/TikTok_2x.png">
 
-                                </div>
-                            </div>*@
+                                        </div>
+                                    </div>*@
 
 
 
@@ -560,7 +555,7 @@
 
                                 <h1 class="card-title" style="font-weight:600;font-size:2.5em">@plan2.PlanName</h1>
 
-                                <h4 style="color:red" class="card-title">$@plan2.PlanPrice Per Month</h4>
+                                <h4 style="color:red;font-weight:bold;font-size:1.8em;" class="card-title">$@plan2.PlanPrice Per Month</h4>
                                 <p class="card-text">
 
                                     Connect to FREE 3rd part API & AI tools that organically increase your followers, likes and engagement with your targets fan bases.
@@ -595,7 +590,7 @@
                         </div>
                     </div>
 
-                    @if (Customer.IsBroker != true && (Model.SocialProfile.PaymentPlanId ?? 1) != 1 )
+                    @if (Customer.IsBroker != true && (Model.SocialProfile.PaymentPlanId ?? 1) != 1)
                     {
                         <div style="background-color:#544b7d;" class="card">
 
@@ -735,7 +730,7 @@
 
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title" id="horz-layout-basic">Order History</h4>
+                                <h4 class="card-title" style="font-weight:bold;font-size:1.5em;color:green" id="horz-layout-basic">Order History</h4>
 
                             </div>
                             <div class="card-content collpase show">
