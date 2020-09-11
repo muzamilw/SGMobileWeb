@@ -2679,12 +2679,16 @@
     <Content Include="Content\Images\HP_4.gif" />
     <Content Include="Content\Images\HP_5 %281%29.gif" />
     <Content Include="Content\Images\HP_5.gif" />
+    <Content Include="Content\Images\nice.jpg" />
     <Content Include="Content\Images\platinum.png" />
     <Content Include="Content\Images\Pricing_option_1.gif" />
     <Content Include="Content\Images\Pricing_Option_2.gif" />
     <Content Include="Content\Images\pro.png" />
     <Content Include="Content\Images\signature.gif" />
+    <Content Include="Content\Images\Sign_IN_Sign_UP.png" />
     <Content Include="Content\Images\social_growth.png" />
+    <Content Include="Content\Images\success.jpg" />
+    <Content Include="Content\Images\yay.jpg" />
     <Content Include="Content\stylefont.css" />
     <Content Include="Content\Theme-CA\css\animate.css" />
     <Content Include="Content\Theme-CA\css\bootstrap.min.css" />
@@ -2738,7 +2742,9 @@
     <Content Include="Content\Theme-CA\img\tikTok-logo.png" />
     <Content Include="Content\Theme-CA\img\TikTok_2x.png" />
     <Content Include="Content\Theme-CA\img\tools.png" />
+    <Content Include="Content\Theme-CA\img\TrustPilot.png" />
     <Content Include="Content\Theme-CA\img\unlimited-clients.png" />
+    <Content Include="Content\Theme-CA\img\welcome-img.png" />
     <Content Include="Content\Theme-CA\index.html" />
     <Content Include="Content\Theme-CA\js\active.js" />
     <Content Include="Content\Theme-CA\js\bootstrap.min.js" />
@@ -4109,6 +4115,7 @@
     <Content Include="Views\Profile\BlackList.cshtml" />
     <Content Include="Views\Profile\AllStats.cshtml" />
     <Content Include="Views\Home\sg_index.cshtml" />
+    <Content Include="Views\Home\features.cshtml" />
     <None Include="Views\Shared\Partial\_PartialForgetPasswordPopup.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialSignupPopup.cshtml" />
     <Content Include="Views\User\Home.cshtml" />

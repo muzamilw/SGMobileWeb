@@ -1410,7 +1410,7 @@ namespace SG2.CORE.DAL.Repositories
             {
                 try
                 {
-                    SocialProfile_Payments payrec = new SocialProfile_Payments { Description  = model.Description, StripeSubscriptionId = model.StripeSubscriptionId, SocialProfileId = model.SocialProfileId , EndDate = model.EndDate, Name = model.Name, PaymentDateTime = model.PaymentDateTime, PaymentPlanId = model.PaymentPlanId, Price = model.Price, StartDate = model.StartDate, StatusId = 1, StripeInvoiceId = model.StripeInvoiceId, StripePlanId = model.StripePlanId, SubscriptionType = "month" };
+                    SocialProfile_Payments payrec = new SocialProfile_Payments { Description  = model.Description, StripeSubscriptionId = model.StripeSubscriptionId, SocialProfileId = model.SocialProfileId , EndDate = model.EndDate, Name = model.Name, PaymentDateTime = model.PaymentDateTime ?? DateTime.Now, PaymentPlanId = model.PaymentPlanId, Price = model.Price, StartDate = model.StartDate, StatusId = 1, StripeInvoiceId = model.StripeInvoiceId, StripePlanId = model.StripePlanId, SubscriptionType = "month" };
                     _db.SocialProfile_Payments.Add(payrec);
                     _db.SaveChanges();
 

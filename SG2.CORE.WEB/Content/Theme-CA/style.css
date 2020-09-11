@@ -451,8 +451,8 @@ p {
 .welcome-thumb {
     width: 45%;
     position: absolute;
-    bottom: -130px;
-    right: 85px;
+    bottom: 38px;
+    right: 186px;
     z-index: 9;
 }
 

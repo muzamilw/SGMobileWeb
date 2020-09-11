@@ -88,7 +88,7 @@
             }
 
             .example.example1 h1 {
-                font-size: 24px;
+                font-size: 28px;
             }
 
         example.example1 h2 {
@@ -221,11 +221,11 @@
         }
 
         .example.example1 .success .title {
-            color: #fff;
+            color: #886AB5;
         }
 
         .example.example1 .success .message {
-            color: #9cdbff;
+            color: #886AB5;
         }
 
         .example.example1 .success .reset path {
@@ -386,8 +386,8 @@
 <div class="modal fade text-left" id="planSubscriptionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-primary white">
-                <h4 class="modal-title" id="myModalLabel1">Subscribe to a growth plan</h4>
+            <div class="modal-header bg-white black">
+                <h4 class="modal-title hidden" id="myModalLabel1">Subscribe to a growth plan</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -396,10 +396,11 @@
                 <div class="cell example example1">
                     <form method="post" id="payment-form">
                         <fieldset>
-                            <div class="row" style="display:inline">
+                            <div class="row" style="display:block">
                                 @*<h2 class="text-center">You are subscribing to a monthly plan :</h2>*@
-                                <h1 class="text-center selectedPlanName mt-1"></h1>
-                                <h1 class="text-center selectedPlanPrice mt-1"></h1>
+                                <h1 class="text-center selectedPlanName mt-1" style="color:#886ab5"></h1>
+                                <h1 class="text-center selectedPlanPrice mt-1" style="color:#886ab5"></h1>
+                                <p class="text-center mt-1" style="color:dimgray">(Cancel anytime)</p>
                                 <input type="hidden" id="selectedPlanId" />
                                 <input type="hidden" id="selectedPlanType" />
                                 <input type="hidden" id="existingStripeCustomerId" value="@Model.SocialProfile.StripeCustomerId" />
@@ -471,15 +472,17 @@
                         </fieldset>
                     </form>
                     <div class="success">
+                        <img src="~/Content/Images/success.jpg"/>
+                        <h3 class="title" data-tid="elements_examples.success.title">Success</h3>
+                        <p class="message" style="font-size:16px;color:green"><span id="cmessage" data-tid="elements_examples.success.message"></span></p>
                         <div class="icon">
                             <svg width="84px" height="84px" viewBox="0 0 84 84" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <circle class="border" cx="42" cy="42" r="40" stroke-linecap="round" stroke-width="4" stroke="#000" fill="none"></circle>
                                 <path class="checkmark" stroke-linecap="round" stroke-linejoin="round" d="M23.375 42.5488281 36.8840688 56.0578969 64.891932 28.0500338" stroke-width="4" stroke="#000" fill="none"></path>
                             </svg>
                         </div>
-                        <h3 class="title" data-tid="elements_examples.success.title">Success</h3>
-                        <p class="message" style="font-size:16px;color:green"><span id="cmessage" data-tid="elements_examples.success.message"></span></p>
-                        <a class="btn btn-primary btn-lg btn-block" style="padding:14px;" href="~/User/Home/">Continue</a>
+
+                        <a class="btn btn-primary btn-lg btn-block" id="successbtn" style="padding:14px;" href="~/User/Home/">Continue</a>
                     </div>
                 </div>
             </div>
@@ -556,25 +559,30 @@
                                 <h1 class="card-title" style="font-weight:600;font-size:2.5em">@plan2.PlanName</h1>
 
                                 <h4 style="color:red;font-weight:bold;font-size:1.8em;" class="card-title">$@plan2.PlanPrice Per Month</h4>
-                                <p class="card-text">
 
-                                    Connect to FREE 3rd part API & AI tools that organically increase your followers, likes and engagement with your targets fan bases.
-
-                                </p>
                                 <ul class="plan-ul">
                                     <li>
-                                        Instagram OR LinkedIN or TikTok
+                                        Get up to 5k NEW GENUINE Followers & Likes /pm
                                     </li>
                                     <li>
-                                        Cancel Antime, No Contracts
+                                        Guaranteed Likes on your most recent posts
                                     </li>
                                     <li>
-                                        30 Day Money Back Guarantee
+                                        Target your New Fans & Followers
                                     </li>
-                                    <li>
-                                        Hook up to FREE 3rd Party API Automation Growth & Engagement Tools
-                                    </li>
+
+
                                 </ul>
+                                <p class="card-text">
+
+                                    Our Apps are all API driven ...
+                                    No Black Hat Tactics here !!!
+
+                                </p>
+                                <p class="card-text">
+                                    We NEVER ask you for your password and all
+                                    operations are done on YOUR laptop.
+                                </p>
                                 @if ((Model.SocialProfile.PaymentPlanId ?? 1) == plan2.PlanId)
                                 {
                                     <a href="#" style="color:#fff" class="btn btn-success disabled planSelect btn-lg">Current Plan</a>
@@ -1007,7 +1015,7 @@
 
             $(".planSelect").on("click", function () {
                 $(".selectedPlanName").text($(this).attr("data-planname"));
-                $(".selectedPlanPrice").text( "for $"  + $(this).attr("data-planprice") + " per month");
+                $(".selectedPlanPrice").text( "for only $"  + $(this).attr("data-planprice") + " per month");
                 $("#selectedPlanId").val($(this).attr("data-planId"));
 
 
@@ -1017,7 +1025,8 @@
                 $("#selectedPlanType").val('ProfileUpgrade');
 
 
-                $("#cmessage").text('Subscription has been created successfully and payment has been processed. You can now connect the mobile app and start growing.');
+                $("#cmessage").text('Success!! <br><br> Download the App onto your laptop and start growing.');
+                $("#successbtn").text('Email me App Download link')
 
 
 
@@ -1145,7 +1154,8 @@
                  $("#existingplanid").val(existingPlanIdValSub);
                  $("#selectedPlanType").val('AgencyUpgrade');
 
-                 $("#cmessage").text('Agency Subscription has been created successfully and payment has been processed. Create social profiles to continue.');
+                 $("#cmessage").text('Your’re on the Agency Plan !<br><br>. Onboard some client accounts and watch them grow faster ;)');
+                 $("#successbtn").text('Get Started with 20 FREE profiles')
 
 
                 selectedPlanName = $(".selectedPlanName").text();
