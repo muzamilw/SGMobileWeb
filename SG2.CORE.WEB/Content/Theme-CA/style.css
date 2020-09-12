@@ -201,7 +201,7 @@ ol {
 #scrollUp {
     bottom: 0;
     font-size: 24px;
-    right: 30px;
+    left: 30px;
     width: 50px;
     background-color: #fb397d;
     color: #fff;
@@ -451,7 +451,7 @@ p {
 .welcome-thumb {
     width: 45%;
     position: absolute;
-    bottom: 38px;
+    bottom: -27px;
     right: 186px;
     z-index: 9;
 }
@@ -462,7 +462,7 @@ p {
 }
 
 .wellcome-heading > h2 {
-    font-size: 95px;
+    font-size: 80px;
     color: #ffffff;
     font-weight: 700;
     position: relative;

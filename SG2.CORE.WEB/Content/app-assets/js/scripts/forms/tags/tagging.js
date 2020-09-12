@@ -136,9 +136,9 @@ $(document).ready(function(){
         $('.special-keys-box').tagging( "addSpecialKeys", [ "remove", { left_arrow: 37 } ] );
     });
 
-    $('.focus-input').on('click',function(){
-        $('.focus-input-box').tagging( "focusInput" );
-    });
+    //$('.focus-input').on('click',function(){
+    //    $('.focus-input-box').tagging( "focusInput" );
+    //});
 
     $('.get-special-keys').on('click',function(){
         console.log($('.get-special-keys-box').tagging( "getSpecialKeys" ));

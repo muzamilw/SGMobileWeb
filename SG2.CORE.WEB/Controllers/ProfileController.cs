@@ -58,7 +58,7 @@ namespace SG2.CORE.WEB.Controllers
             _statisticsManager = new StatisticsManager();
             _commonManager = new CommonManager();
             _customerManager = new CustomerManager();
-            SystemConfigs = SystemConfig.GetConfigs;
+            SystemConfigs = SystemConfig.GetConfigsLatest();
             //_queueLoggerManager = new QueueLoggerManager();
             _notManager = new NotificationManager();
             //_proxyManager = new ProxyManager();
@@ -84,6 +84,9 @@ namespace SG2.CORE.WEB.Controllers
 
             ProfilesSearchRequest model = new ProfilesSearchRequest { Block = 99, Plan = 0, searchString = "", SocialType = 0 };
             ViewBag.ProfileCount = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId, model).Count();
+
+            ViewBag.winapp = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("winapp").ToLower()).ConfigValue;
+            ViewBag.macapp = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("macapp").ToLower()).ConfigValue;
 
             if (success.HasValue && success.Value == 1)
             {
