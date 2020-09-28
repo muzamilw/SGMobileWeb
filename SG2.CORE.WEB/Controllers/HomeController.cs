@@ -546,9 +546,14 @@ namespace SG2.CORE.WEB.Controllers
             }
 
         }
+        public ActionResult features()
+        {
+            return View("agency");
+        }
+
         public ActionResult Agency()
         {
-            return View();
+            return View("features");
         }
         private static HttpWebRequest GetWebRequestObject(string endPoint)
         {

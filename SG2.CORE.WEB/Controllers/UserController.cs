@@ -64,9 +64,10 @@ namespace SG2.CORE.WEB.Controllers
 
             ViewBag.stripeApiKey = _stripeApiKey;
             ViewBag.stripePublishKey = _stripePublishKey;
-
+            ViewBag.profileCount = profiles.Count;
             if (Cust.IsBroker.HasValue == false || Cust.IsBroker.Value == false )
             {
+               
                 if (profiles.Count == 1)
                 {
                     return RedirectToAction("basic", "Profile", new { socialProfileId = profiles[0].SocialProfileId });
@@ -89,7 +90,9 @@ namespace SG2.CORE.WEB.Controllers
             {
                 ViewBag.PaymentHistory = _customerManager.GetCustomerBrokerPaymentHistory(Cust.CustomerId);
             }
-            ViewBag.SocailProfiles = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId,model);
+            var profiles = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId, model);
+            ViewBag.SocailProfiles = profiles;
+            ViewBag.profileCount = profiles.Count;
             var _stripeApiKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
             var _stripePublishKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue2;
 

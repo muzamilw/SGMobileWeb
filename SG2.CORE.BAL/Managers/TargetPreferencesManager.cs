@@ -84,6 +84,20 @@ namespace SG2.CORE.BAL.Managers
 
         }
 
+        public bool SaveUpdateUserDataIndividually(string value, string fieldName, int socialProfileId, int TargetingInformationId)
+        {
+            try
+            {
+                return _targetPreferencesRepository.SaveUpdateUserDataIndividually(value, fieldName, socialProfileId, TargetingInformationId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
 
     }
 }

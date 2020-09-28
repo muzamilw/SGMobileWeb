@@ -1,0 +1,59 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>test</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+</head>
+<body>
+    <div>
+        <a href="#" data-type="text" class="form-control ml-0 InputLikeFollowingPosts" data-title="Max val 200" name="InputLikeFollowingPosts">meoooo</a>
+    </div>
+    <script src="~/Content/Theme-SPPro/js/vendors.bundle.js"></script>
+    <script src="~/Content/Theme-SPPro/js/app.bundle.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
+
+
+    <!-- END: Page Vendor JS-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $(".InputLikeFollowingPosts").editable({
+                ajaxOptions: {
+                    type: 'post',
+                    dataType: 'json'
+                },
+                send: 'always',
+                mode: 'inline',
+                url: '/profile/SaveUpdateUserDataIndividually',
+                type: 'text',
+                title: 'Enter username',
+                params: function(params) {
+                    //originally params contain pk, name and value
+                    params.socialProfileId = 68;
+                    params.TargetingInformationId = 68;
+                    
+                    return params;
+                },
+
+                pk: 1,
+                success: function (response, newValue) {
+                    if (!response.success) return response.msg;
+                }
+            });
+
+        });
+
+    </script>
+</body>
+</html>

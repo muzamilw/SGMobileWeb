@@ -17,6 +17,8 @@ using static SG2.CORE.COMMON.GlobalEnums;
 using SG2.CORE.MODAL.MobileViewModels;
 using System.Text.RegularExpressions;
 using SG2.CORE.MODAL.ViewModals.Customers;
+using SG2.CORE.MODAL.ViewModals.TargetPreferences;
+using Newtonsoft.Json;
 
 namespace SG2.CORE.DAL.Repositories
 {
@@ -26,12 +28,12 @@ namespace SG2.CORE.DAL.Repositories
         public bool IsEmailnameExist(string email, int id = 0)
         {
 
-           
+
             try
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    
+
 
                     if (id == 0) return !_db.Customers.Any(u => u.EmailAddress.Equals(email));
                     var user = _db.Customers.Find(id);
@@ -84,7 +86,7 @@ namespace SG2.CORE.DAL.Repositories
                 throw ex;
             }
         }
-        
+
         public CustomerDTO SignUp(CustomerDTO entity, out string dbError)
         {
             try
@@ -137,7 +139,7 @@ namespace SG2.CORE.DAL.Repositories
                         //update contact
 
                         var contact = _db.Customer_ContactDetail.Where(g => g.CustomerId == entity.CustomerId).SingleOrDefault();
-                        if ( contact != null)
+                        if (contact != null)
                         {
                             contact.PhoneNumber = entity.PhoneNumber;
                             contact.PhoneCode = entity.PhoneCode;
@@ -198,8 +200,8 @@ namespace SG2.CORE.DAL.Repositories
                 using (var _db = new SocialGrowth2Connection())
                 {
                     var usr = _db.Customers.FirstOrDefault(x => x.CustomerId == entity.CustomerId);
-				
-					if (usr != null)
+
+                    if (usr != null)
                     {
                         usr.IsOptedEducationalEmailSeries = entity.IsOptedEducationalEmailSeries;
                         usr.IsOptedMarketingEmail = entity.IsOptedMarketingEmail;
@@ -216,8 +218,8 @@ namespace SG2.CORE.DAL.Repositories
                 throw ex;
             }
         }
-        
-   
+
+
         public string GetUserComment(int CustomerId)
         {
             try
@@ -311,13 +313,13 @@ namespace SG2.CORE.DAL.Repositories
                             }
                         }
                     }
-                    else if ((fieldName == "firstName") || (fieldName == "LastName") || (fieldName == "Source") || (fieldName == "Comment") || (fieldName == "Title") || (fieldName == "ResTeamMember") || (fieldName == "AvaToEveryOne") || (fieldName == "CustomerStatus") )
+                    else if ((fieldName == "locationengage") || (fieldName == "LastName") || (fieldName == "Source") || (fieldName == "Comment") || (fieldName == "Title") || (fieldName == "ResTeamMember") || (fieldName == "AvaToEveryOne") || (fieldName == "CustomerStatus"))
                     {
                         var user = _db.Customers.FirstOrDefault(x => x.CustomerId == customerId);
 
                         if (user != null)
                         {
-                            if (fieldName == "firstName")
+                            if (fieldName == "locationengage")
                             {
                                 user.FirstName = value;
                                 _db.SaveChanges();
@@ -451,7 +453,200 @@ namespace SG2.CORE.DAL.Repositories
 
         }
 
-              
+
+        public bool SaveUpdateProfileDataIndividually(string value, string fieldName, int socialProfileId, int TargetingInformationId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    if ((fieldName == "InstaUsrName") || (fieldName == "InstaPassword"))
+                    {
+                        var user = _db.SocialProfiles.FirstOrDefault(x => x.SocialProfileId == socialProfileId);
+
+                        if (user != null)
+                        {
+                            if (fieldName == "InstaUsrName")
+                            {
+                                user.SocialUsername = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "InstaPassword")
+                            {
+                                user.SocialPassword = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                        }
+                    }
+                    else if ((fieldName == "locationengage") || (fieldName == "hashtagsengage") || (fieldName == "DirectCompetitors") || (fieldName == "wltyped") || (fieldName == "blUsernames") || (fieldName == "blLocations") || (fieldName == "bWordsManual") || (fieldName == "blHashtags")
+                                || (fieldName == "AfterFollLikeuserPosts") || (fieldName == "AfterFollCommentUserPosts") || (fieldName == "AfterFollViewUserStory")
+                                || (fieldName == "AfterFollCommentUserStory") || (fieldName == "UnFollFollowersAfterMinDays") || (fieldName == "FollowOn") ||
+                                (fieldName == "InputLikeFollowingPosts" || fieldName == "InputCommFollowingPosts" || fieldName == "InputVwStoriesFollowing" || fieldName == "InputCommUserStories"
+                                || fieldName == "InputUnFoll16DaysEngage" || fieldName == "InputFollAccSearchTags" || fieldName == "sc" || fieldName == "GenderEngagmentPref" || fieldName == "IncludeBusinessAccounts")
+                                )
+                    {
+
+
+                        var user = _db.SocialProfile_Instagram_TargetingInformation.FirstOrDefault(x => x.SocialProfileId == socialProfileId);
+
+                        if (user != null)
+                        {
+
+                           
+                            if (fieldName == "locationengage")
+                            {
+                                user.LocationsToEngage = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "hashtagsengage")
+                            {
+                                user.HashTagsToEngage = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "DirectCompetitors")
+                            {
+                                user.DirectCompetitors = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "GenderEngagmentPref")
+                            {
+                                user.GenderEngagmentPref = Convert.ToInt32( value);
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "IncludeBusinessAccounts")
+                            {
+                                user.IncludeBusinessAccounts = Convert.ToInt32(value);
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "wltyped")
+                            {
+                                user.WhistListManualUsers = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "blUsernames")
+                            {
+                                user.BlackListUsers = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "blLocations")
+                            {
+                                user.BlackListLocations = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "bWordsManual")
+                            {
+                                user.BlackListWordsManual = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "blHashtags")
+                            {
+                                user.BlackListHashtags = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "AfterFollLikeuserPosts")
+                            {
+                                user.AfterFollLikeuserPosts = Convert.ToBoolean(value);
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "AfterFollCommentUserPosts")
+                            {
+                                user.AfterFollCommentUserPosts = Convert.ToBoolean(value);
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "AfterFollViewUserStory")
+                            {
+                                user.AfterFollViewUserStory = Convert.ToBoolean(value);
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "AfterFollCommentUserStory")
+                            {
+                                user.AfterFollCommentUserStory = Convert.ToBoolean(value);
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "UnFollFollowersAfterMinDays")
+                            {
+                                user.UnFollFollowersAfterMinDays = Convert.ToBoolean(value);
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "FollowOn")
+                            {
+                                user.FollowOn = Convert.ToBoolean(value);
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "InputLikeFollowingPosts" || fieldName == "InputCommFollowingPosts" || fieldName == "InputVwStoriesFollowing" || fieldName == "InputCommUserStories"
+                                || fieldName == "InputUnFoll16DaysEngage" || fieldName == "InputFollAccSearchTags" || fieldName == "sc")
+                            {
+                                user.ExecutionIntervals = GetIntervalCountersUpdated(user,fieldName,value);
+                                _db.SaveChanges();
+                                return true;
+
+                            }
+
+                        }
+
+                    }
+                    return false;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        public string GetIntervalCountersUpdated(SocialProfile_Instagram_TargetingInformation target, string keyUpdate, string value)
+        {
+            var dailyintv = target.ExecutionIntervals;
+
+            var dailyvlist = JsonConvert.DeserializeObject<List<ExecutionInterval>>(dailyintv);
+
+            if (dailyvlist != null)
+            {
+                if (keyUpdate == "InputLikeFollowingPosts")
+                    dailyvlist[0].LikeFollowingPosts = value;
+                else if (keyUpdate == "InputCommFollowingPosts")
+                    dailyvlist[0].CommFollowingPosts = value;
+                else if (keyUpdate == "InputVwStoriesFollowing")
+                    dailyvlist[0].VwStoriesFollowing = value;
+                else if (keyUpdate == "InputCommUserStories")
+                    dailyvlist[0].CommUserStories = value;
+                else if (keyUpdate == "InputUnFoll16DaysEngage")
+                    dailyvlist[0].UnFoll16DaysEngage = value;
+                else if (keyUpdate == "InputFollAccSearchTags")
+                    dailyvlist[0].FollAccSearchTags = value;
+                else if (keyUpdate == "InputPostInLastXXDays")
+                    dailyvlist[0].PostInLastXXDays = value;
+                else if (keyUpdate == "InputFollUnFollInLastXXDays")
+                    dailyvlist[0].FollUnFollInLastXXDays = value;
+                else if (keyUpdate == "sc")
+                    dailyvlist[0].starttime = value;
+
+
+            }
+            return JsonConvert.SerializeObject(dailyvlist);
+        }
+
 
         public bool DeleteCustomer(int customerId, int SocialProfileId)
         {
@@ -1960,20 +2155,33 @@ namespace SG2.CORE.DAL.Repositories
 
                         SocialProfile_Instagram_TargetingInformation defaultTargetProfile = null;
                         //if broker get default profile from broker if available.
-                        if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true)
-                        {
-                            defaultTargetProfile =  _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.IsBrokerDefault == true && g.BrokerCustomerId == CustomerId).SingleOrDefault();
-                            if (defaultTargetProfile == null)
-                            {
-                                defaultTargetProfile = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.IsSystem == true).Single();
-                            }
-                        }
-                        else// get default profile from global.
-                        {
+                        ////////if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true)
+                        ////////{
+                        ////////    defaultTargetProfile =  _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.IsBrokerDefault == true && g.BrokerCustomerId == CustomerId).SingleOrDefault();
+                        ////////    if (defaultTargetProfile == null)
+                        ////////    {
+                        ////////        defaultTargetProfile = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.IsSystem == true).Single();
+                        ////////    }
+                        ////////}
+                        ////////else// get default profile from global.
+                        ////////{
                             defaultTargetProfile = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.IsSystem == true).Single();
-                        }
+                        ////////}
 
                         var newProfile = new SocialProfile { CreatedBy = "User", SocialProfileTypeId = 30, SocialUsername = InstagramSocialUsername, CreatedOn = DateTime.Now, UpdatedBy="User", UpdatedOn = DateTime.Now, IsArchived = false, CustomerId = CustomerId, PaymentPlanId = PaymentPlan.PaymentPlanId, PinCode = r, StatusId = 25 };
+
+                        if (Customer.IsBroker.HasValue && Customer.IsBroker.Value == true && Customer.StripeSubscriptionId != "")
+                        {
+                            var profiles = _db.SG2_usp_Customer_GetSocialProfilesByCustomerId(CustomerId, "", 0, 0, 99).ToList();
+
+                            if (profiles.Count < 20)
+                            {
+                                newProfile.PaymentPlanId = 4;
+                            }
+                           
+
+                        }
+
 
                         newProfile = _db.SocialProfiles.Add(newProfile);
                         _db.SaveChanges();

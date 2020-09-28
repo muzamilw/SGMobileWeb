@@ -222,6 +222,20 @@ namespace SG2.CORE.BAL.Managers
 
         }
 
+        public bool SaveUpdateProfileDataIndividually(string value, string fieldName, int socialProfileId, int TargetingInformationId)
+        {
+            try
+            {
+                return _customerRepository.SaveUpdateProfileDataIndividually(value, fieldName, socialProfileId, TargetingInformationId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
         public string GetUserComment(int CustomerId)
         {
             try

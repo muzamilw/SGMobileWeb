@@ -626,6 +626,7 @@
     <Content Include="Content\app-assets\css\plugins\ui\coming-soon.min.css" />
     <Content Include="Content\app-assets\css\stripe.css" />
     <Content Include="Content\app-assets\css\styles.css" />
+    <Content Include="Content\app-assets\css\xeditable.css" />
     <Content Include="Content\app-assets\data\datatables\ajax-child-rows.txt" />
     <Content Include="Content\app-assets\data\fullcalendar\php\get-events.php" />
     <Content Include="Content\app-assets\data\fullcalendar\php\get-timezones.php" />
@@ -2205,6 +2206,7 @@
     <Content Include="Content\app-assets\js\scripts\ui\scrollable.js" />
     <Content Include="Content\app-assets\js\scripts\ui\scrollable.min.js" />
     <Content Include="Content\app-assets\js\scripts\utils.js" />
+    <Content Include="Content\app-assets\js\scripts\xeditable.js" />
     <Content Include="Content\app-assets\vendors\css\animate\animate.css" />
     <Content Include="Content\app-assets\vendors\css\calendars\fullcalendar.min.css" />
     <Content Include="Content\app-assets\vendors\css\calendars\fullcalendar.print.css" />
@@ -4116,6 +4118,7 @@
     <Content Include="Views\Profile\AllStats.cshtml" />
     <Content Include="Views\Home\sg_index.cshtml" />
     <Content Include="Views\Home\features.cshtml" />
+    <Content Include="Views\Profile\test.cshtml" />
     <None Include="Views\Shared\Partial\_PartialForgetPasswordPopup.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialSignupPopup.cshtml" />
     <Content Include="Views\User\Home.cshtml" />

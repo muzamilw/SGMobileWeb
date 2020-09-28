@@ -34,7 +34,7 @@ namespace SG2.CORE.WEB.Controllers
     [AuthorizeCustomer]
     public class ProfileController : BaseController
     {
-       // protected readonly TargetPreferencesManager _targetPreferenceManager;
+       //protected readonly TargetPreferencesManager _targetPreferenceManager;
         protected readonly CustomerManager _cm;
         protected readonly CommonManager _commonManager;
         protected readonly PlanInformationManager _planManager;
@@ -58,7 +58,7 @@ namespace SG2.CORE.WEB.Controllers
             _statisticsManager = new StatisticsManager();
             _commonManager = new CommonManager();
             _customerManager = new CustomerManager();
-            SystemConfigs = SystemConfig.GetConfigsLatest();
+            SystemConfigs = Architecture.SystemConfig.GetConfigsLatest();
             //_queueLoggerManager = new QueueLoggerManager();
             _notManager = new NotificationManager();
             //_proxyManager = new ProxyManager();
@@ -74,6 +74,20 @@ namespace SG2.CORE.WEB.Controllers
             //    _stripeApiKey = WebConfigurationManager.AppSettings["StripeLiveApiKey"];
             //}
             
+        }
+
+        public ActionResult test()
+        {
+            ViewBag.CurrentUser = this.CDT;
+            ViewBag.socialProfileId = 68;
+            var SocailProfile = this._cm.GetSocialProfileById(68);
+            ViewBag.socialProfile = SocailProfile.SocialProfile;
+            ProfilesSearchRequest model = new ProfilesSearchRequest { Block = 99, Plan = 0, searchString = "", SocialType = 0 };
+            ViewBag.ProfileCount = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId, model).Count();
+
+            ViewBag.winapp = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("winapp").ToLower()).ConfigValue;
+            ViewBag.macapp = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("macapp").ToLower()).ConfigValue;
+            return View(SocailProfile);
         }
 
         public ActionResult Basic(int socialProfileId, int? success)
@@ -1681,6 +1695,28 @@ namespace SG2.CORE.WEB.Controllers
 
             return Json(jr, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public ActionResult SaveUpdateUserDataIndividually(string value, string pk, int socialProfileId, int TargetingInformationId)
+        {
+            try
+            {
+                    var User = _customerManager.SaveUpdateProfileDataIndividually(value, pk, socialProfileId, TargetingInformationId);
+
+                
+                
+                //return _customerManager.IsEmailExist(EmailAddress, id) ? Json(true, JsonRequestBehavior.AllowGet) : Json(false, JsonRequestBehavior.AllowGet);
+                return Json(User, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        
 
 
     }

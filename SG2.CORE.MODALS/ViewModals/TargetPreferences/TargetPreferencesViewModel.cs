@@ -106,6 +106,12 @@ namespace SG2.CORE.MODAL.ViewModals.TargetPreferences
         public string CommFollowingPosts { get; set; }
         public string starttime { get; set; }
         public string endtime { get; set; }
+
+        public string CommUserStories { get; set; }
+
+        public string PostInLastXXDays { get; set; }
+
+        public string FollUnFollInLastXXDays { get; set; }
     }
 
 }

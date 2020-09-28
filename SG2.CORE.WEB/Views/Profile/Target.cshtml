@@ -40,12 +40,32 @@
 @section styles{
 
     <link href="~/Content/app-assets/vendors/css/forms/tags/tagging.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
+
+
 
     <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/plugins/forms/checkboxes-radios.css">
     <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/plugins/forms/validation/form-validation.css">
 
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+
+
+
     <style type="text/css">
+        .glyphicon-ok::before {
+            content: "\f00c";
+        }
+
+        .glyphicon-remove::before {
+            content: "\f00d";
+        }
+
+        .glyphicon {
+            font-family: 'FontAwesome';
+            font-style: normal;
+        }
+
         .weekDays-selector1 {
             margin-top: 10px;
         }
@@ -161,22 +181,22 @@
                                 </div>
 
                                 @*<div class="card-header">
-                <div class="card-title col-lg-5 col-sm-12 float-left mt-1 row" id="horz-layout-basic">
-                    <h4 >Targeting</h4>
-                </div>
-                <div class="col-lg-7 col-sm-12 float-right text-right pr-0 hidden">
+                                        <div class="card-title col-lg-5 col-sm-12 float-left mt-1 row" id="horz-layout-basic">
+                                            <h4 >Targeting</h4>
+                                        </div>
+                                        <div class="col-lg-7 col-sm-12 float-right text-right pr-0 hidden">
 
 
 
-                            <button type="submit" class="btn btn-primary mb-2">
-                                <i class="fa fa-check-square-o"></i> Save Targeting Information
-                            </button>
+                                                    <button type="submit" class="btn btn-primary mb-2">
+                                                        <i class="fa fa-check-square-o"></i> Save Targeting Information
+                                                    </button>
 
 
 
 
-                </div>
-            </div>*@
+                                        </div>
+                                    </div>*@
                                 <div class="card-content collpase show">
                                     <div class="card-body">
 
@@ -200,11 +220,11 @@
                                             </div>
                                             @*<div class="form-group">
 
-                            <label>Choose the hashtags you DO NOT want to engage (Optional):</label>
-                            <div id="hashtagsnotengage" class="edit-on-delete form-control" data-tags-input-name="wlextracted">@Model.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage</div>
-                            @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage)
+                                                    <label>Choose the hashtags you DO NOT want to engage (Optional):</label>
+                                                    <div id="hashtagsnotengage" class="edit-on-delete form-control" data-tags-input-name="wlextracted">@Model.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage</div>
+                                                    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage)
 
-                        </div>*@
+                                                </div>*@
                                             <h1 class="col-lg-12 col-md-12 col-sm-12  form-section pl-0 mb-2 text-bold-700 main-card-h1" style="border-bottom:0px;">Locations</h1>
                                             <div class="form-group">
                                                 @*<span style="display:block"> Please use this format for hashtags: #hashtag,#hashtag,#hashtag</span>*@
@@ -234,19 +254,19 @@
                                                         <fieldset class="radio">
                                                             <label class="form-radio" col-md-3>
 
-                                                                @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.GenderEngagmentPref, "1")
+                                                                @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.GenderEngagmentPref, "1", new {  @class="GenderEngagmentPref" })
 
                                                                 <span class="checkmark">Males</span>
                                                             </label><br />
                                                             <label class="form-radio" col-md-3>
 
-                                                                @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.GenderEngagmentPref, "2")
+                                                                @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.GenderEngagmentPref, "2",new {  @class="GenderEngagmentPref" })
 
                                                                 <span class="checkmark">Females</span>
                                                             </label><br />
                                                             <label class="form-radio" col-md-3>
 
-                                                                @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.GenderEngagmentPref, "3")
+                                                                @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.GenderEngagmentPref, "3",new {  @class="GenderEngagmentPref" })
 
                                                                 <span class="checkmark">Both</span>
                                                             </label>
@@ -306,7 +326,7 @@
 
 
                                             <div class="col-lg-1 col-md-2 col-sm-4 col-6 pl-0">
-                                                <input type="text" class="form-control ml-0" placeholder="Max val 200" min="10" max="200" name="InputLikeFollowingPosts" onkeypress="return isNumberKey(event)">
+                                                <a href="#" data-type="text" class="form-control ml-0 InputLikeFollowingPosts" data-title="Max val 200" name="InputLikeFollowingPosts"></a>
                                             </div>
                                             <div class="col-lg-3 col-md-2 col-sm-8 col-6 text-right pr-0 mb-1">
                                                 <ul class="list-inline mb-0">
@@ -325,7 +345,7 @@
 
 
                                             <div class="col-lg-1 col-md-2 col-6 pl-0">
-                                                <input type="text" class="form-control ml-0" placeholder="Max val 150" min="10" max="150" name="InputCommFollowingPosts" onkeypress="return isNumberKey(event)">
+                                                <a href="#" class="form-control ml-0 InputCommFollowingPosts" data-title="Max val 150" min="10" max="150" name="InputCommFollowingPosts" onkeypress="return isNumberKey(event)" data-type="text" data-url="/profile/SaveUpdateUserDataIndividually"></a>
                                             </div>
                                             <div class="col-lg-3 col-md-2 col-6 text-right pr-0 mb-1">
                                                 <ul class="list-inline mb-0">
@@ -345,7 +365,7 @@
 
 
                                             <div class="col-lg-1 col-md-2 col-6 pl-0">
-                                                <input type="text" class="form-control ml-0" placeholder="Max val 150" min="10" max="150" name="InputVwStoriesFollowing" onkeypress="return isNumberKey(event)">
+                                                <a href="#" data-type="text" class="form-control ml-0 InputVwStoriesFollowing" data-title="Max val 150" min="10" max="150" name="InputVwStoriesFollowing" onkeypress="return isNumberKey(event)"></a>
                                             </div>
                                             <div class="col-lg-3 col-md-2 col-6 text-right pr-0 mb-1">
                                                 <ul class="list-inline mb-0">
@@ -364,7 +384,7 @@
 
 
                                             <div class="col-lg-1 col-md-2 col-6 pl-0">
-                                                <input type="text" class="form-control ml-0" placeholder="Max val 150" min="10" max="150" name="InputCommUserStories" onkeypress="return isNumberKey(event)">
+                                                <a href="#" data-type="text" class="form-control ml-0 InputCommUserStories" data-title="Max val 150" min="10" max="150" name="InputCommUserStories" onkeypress="return isNumberKey(event)"></a>
                                             </div>
                                             <div class="col-lg-3 col-md-2 col-6 text-right pr-0 mb-1">
                                                 <ul class="list-inline mb-0">
@@ -384,7 +404,7 @@
 
 
                                             <div class="col-lg-1 col-md-2 col-6 pl-0">
-                                                <input type="text" class="form-control ml-0" placeholder="Max val 330" min="10" max="330" name="InputUnFoll16DaysEngage" onkeypress="return isNumberKey(event)">
+                                                <a href="#" data-type="text" class="form-control ml-0 InputUnFoll16DaysEngage" data-title="Max val 330" min="10" max="330" name="InputUnFoll16DaysEngage" onkeypress="return isNumberKey(event)"></a>
                                             </div>
                                             <div class="col-lg-3 col-md-2 col-6 text-right pr-0 mb-1">
                                                 <ul class="list-inline mb-0">
@@ -403,7 +423,7 @@
 
 
                                             <div class="col-lg-1 col-md-2 col-6 pl-0">
-                                                <input type="text" class="form-control ml-0" placeholder="Max val 300" min="10" max="300" name="InputFollAccSearchTags" onkeypress="return isNumberKey(event)">
+                                                <a href="#" data-type="text" class="form-control ml-0 InputFollAccSearchTags" data-title="Max val 300" min="10" max="300" name="InputFollAccSearchTags" onkeypress="return isNumberKey(event)"></a>
                                             </div>
                                             <div class="col-lg-3 col-md-2 col-6 text-right pr-0 mb-1">
                                                 <ul class="list-inline mb-0">
@@ -423,7 +443,7 @@
                                             </h4>
 
                                             <div class="col-lg-2 col-md-2 col-sm-12 text-right pr-0 mb-1">
-                                                <input type="text" class="form-control" placeholder="Max val 60" min="10" max="60" name="InputPostInLastXXDays" onkeypress="return isNumberKey(event)">
+                                                <input type="text" class="form-control InputPostInLastXXDays" placeholder="Max val 60" min="10" max="60" name="InputPostInLastXXDays" onkeypress="return isNumberKey(event)">
 
                                             </div>
                                         </div>
@@ -433,7 +453,7 @@
                                             </h4>
 
                                             <div class="col-lg-2 col-md-2 col-sm-12 text-right pr-0 mb-1">
-                                                <input type="text" class="form-control" placeholder="Max val 60" min="10" max="60" name="InputFollUnFollInLastXXDays" onkeypress="return isNumberKey(event)">
+                                                <input type="text" class="form-control InputFollUnFollInLastXXDays" placeholder="Max val 60" min="10" max="60" name="InputFollUnFollInLastXXDays" onkeypress="return isNumberKey(event)">
 
                                             </div>
                                         </div>
@@ -552,7 +572,7 @@
                                             <div class="col-md-5 col-xs-12">
                                                 <div class="row">
                                                     <input type="hidden" name="starttime" value="" />
-                                                    <div class="col-5"><input required type="time" class="form-control" name="sc" onchange="schandler(event);" /></div>
+                                                    <div class="col-5"><input required type="time" class="form-control sc" name="sc" onchange="schandler(event);" /></div>
 
                                                 </div>
                                             </div>
@@ -742,7 +762,7 @@
                                             </div>
 
                                         </div>
-                                        
+
 
                                     </div>
                                 </div>
@@ -845,8 +865,8 @@
 
                                                         </div>
                                                         @*<button type="button" data-repeater-create class="btn btn-primary">
-                                        <i class="icon-plus4"></i> Add Interval
-                                    </button>*@
+                                                                <i class="icon-plus4"></i> Add Interval
+                                                            </button>*@
                                                     </div>
 
 
@@ -867,7 +887,7 @@
 
 
 
-                            <div class="card">
+                            @*<div class="card">
                                 <div class="text-center mt-lg-5 mb-lg-5">
 
                                     <button type="submit" class="btn btn-primary">
@@ -876,7 +896,7 @@
 
                                     <div id="userErrorMesg" class="danger text-center userErrorMesg"></div>
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
                     </div>
                 </section>
@@ -892,6 +912,8 @@
     </div>
     <!-- END: Content-->
 </form>
+
+
 
 <style>
     .setboxshadow {
@@ -914,9 +936,15 @@
     <script src="~/Content/app-assets/vendors/js/forms/validation/jqBootstrapValidation.js"></script>
     <script src="~/Content/app-assets/vendors/js/extensions/sweetalert.min.js"></script>
     <script src="~/Content/app-assets/js/scripts/extensions/sweet-alerts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    
 
     <!-- END: Page Vendor JS-->
     <script type="text/javascript">
+        toastr.options.showDuration = 2;
+        toastr.options.timeOut  = 500; // How long the toast will display without user interaction
+        toastr.options.extendedTimeOut = 30; // How long the toast will display after a user hovers over it
         var somethingChanged = false;
         var socialProfileId = '@Model.SocialProfile.SocialProfileId';
         var selectedPlanName = '';
@@ -999,6 +1027,22 @@
 
         });
 
+        function UpdateData(pk, value) {
+
+
+
+            var myKeyVals = { 'pk': pk, 'socialProfileId': @Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.SocialProfileId), 'TargetingInformationId': @Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.TargetingInformationId), 'value': value }
+             //var myKeyVals = 'pk' : pk, 'socialProfileId' : 5, 'TargetingInformationId' : 2, 'value' : value }
+            var saveData = $.ajax({
+                  type: 'POST',
+                  url: "/profile/SaveUpdateUserDataIndividually",
+                  data:JSON.stringify( myKeyVals),
+                  contentType: "application/jsonapplication/x-www-form-urlencoded; charset=UTF-8",
+                  success: function(resultData) { toastr.success('Data Saved!', 'Success') }
+            });
+
+        }
+
         function isNumberKey(evt) {
             var charCode = (evt.which) ? evt.which : evt.keyCode
             if (charCode > 31 && (charCode < 48 || charCode > 57))
@@ -1009,9 +1053,10 @@
         //time field change event handler
         function schandler(e) {
             console.log(getSiblings(e.target.parentNode));
-            //alert(e.target.value);
-
+           
+             UpdateData('sc', e.target.value);
             (getSiblings(e.target.parentNode)[1]).value = e.target.value;
+           
         }
 
         function echandler(e) {
@@ -1027,6 +1072,8 @@
             return siblings;
         }
 
+       
+
 
         var hashtagsengage, hashtagsengagebox, hashtagsnotengage, hashtagsnotengagebox, locationengage, locationengagebox, DirectCompetitors, DirectCompetitorsbox,repeater,wltyped,wltypedbox,blUsernames, blUsernamesbox, blLocations, blLocationsbox, blHashtags, blHashtagsbox, bWordsManual, bWordsManualbox;
         $(document).ready(function () {
@@ -1034,8 +1081,13 @@
             *       Simple Options         *
             *******************************/
 
+            $('input:radio[id=SocialProfile_Instagram_TargetingInformation_GenderEngagmentPref]').change(function () {
+                UpdateData('GenderEngagmentPref', this.value);
+            });
 
-           
+             $('input:radio[id=SocialProfile_Instagram_TargetingInformation_IncludeBusinessAccounts]').change(function () {
+                UpdateData('IncludeBusinessAccounts', this.value);
+            });
 
             locationengage = $("#locationengage").tagging({
                 "edit-on-delete": false,
@@ -1046,6 +1098,19 @@
             });
             locationengagebox = locationengage[0];
 
+            locationengagebox.on( "add:after", function ( el, text, tagging ) {
+
+                UpdateData('locationengage', tagging.getTags().join(', '))
+                
+
+            });
+
+            // Execute callback when a tag is removed
+            locationengagebox.on( "remove:after", function ( el, text, tagging ) {
+                console.log("removed tag: ", tagging.getTags().join(', '));
+                UpdateData('locationengage',tagging.getTags().join(', '))
+            });
+
             DirectCompetitors = $("#DirectCompetitors").tagging({
                 "edit-on-delete": false,
                 "no-spacebar": true,
@@ -1055,6 +1120,18 @@
             });
             DirectCompetitorsbox = DirectCompetitors[0];
 
+            DirectCompetitorsbox.on( "add:after", function ( el, text, tagging ) {
+                console.log("Added tag: ", tagging.getTags().join(', '));
+                UpdateData('DirectCompetitors',tagging.getTags().join(', '))
+
+            });
+
+            // Execute callback when a tag is removed
+            DirectCompetitorsbox.on( "remove:after", function ( el, text, tagging ) {
+                console.log("removed tag: ", tagging.getTags().join(', '));
+                UpdateData('DirectCompetitors',tagging.getTags().join(', '))
+            });
+
             wltyped = $("#wltyped").tagging({
                 "edit-on-delete": false,
                 "no-spacebar": true,
@@ -1062,6 +1139,18 @@
                 'forbidden-chars': [",", "?"]
             });
             wltypedbox = wltyped[0];
+
+            wltypedbox.on( "add:after", function ( el, text, tagging ) {
+                console.log("Added tag: ", tagging.getTags().join(', '));
+                UpdateData('wltyped',tagging.getTags().join(', '))
+
+            });
+
+            // Execute callback when a tag is removed
+            wltypedbox.on( "remove:after", function ( el, text, tagging ) {
+                console.log("removed tag: ", tagging.getTags().join(', '));
+                UpdateData('wltyped',tagging.getTags().join(', '))
+            });
 
             blUsernames = $("#blUsernames").tagging({
                 "edit-on-delete": false,
@@ -1071,6 +1160,18 @@
             });
             blUsernamesbox = blUsernames[0];
 
+            blUsernamesbox.on( "add:after", function ( el, text, tagging ) {
+                console.log("Added tag: ", tagging.getTags().join(', '));
+                UpdateData('blUsernames',tagging.getTags().join(', '))
+
+            });
+
+            // Execute callback when a tag is removed
+            blUsernamesbox.on( "remove:after", function ( el, text, tagging ) {
+                console.log("removed tag: ", tagging.getTags().join(', '));
+                UpdateData('blUsernames',tagging.getTags().join(', '))
+            });
+
             blLocations = $("#blLocations").tagging({
                 "edit-on-delete": false,
                 "no-spacebar": true,
@@ -1079,8 +1180,18 @@
             });
             blLocationsbox = blLocations[0];
 
+            blLocationsbox.on( "add:after", function ( el, text, tagging ) {
+                console.log("Added tag: ", tagging.getTags().join(', '));
+                UpdateData('blLocations',tagging.getTags().join(', '))
 
-          
+            });
+
+            // Execute callback when a tag is removed
+            blLocationsbox.on( "remove:after", function ( el, text, tagging ) {
+                console.log("removed tag: ", tagging.getTags().join(', '));
+                UpdateData('blLocations',tagging.getTags().join(', '))
+            });
+
 
             bWordsManual = $("#bWordsManual").tagging({
                 "edit-on-delete": false,
@@ -1090,6 +1201,18 @@
             });
             bWordsManualbox = bWordsManual[0];
 
+             bWordsManualbox.on( "add:after", function ( el, text, tagging ) {
+                console.log("Added tag: ", tagging.getTags().join(', '));
+                UpdateData('bWordsManual',tagging.getTags().join(', '))
+
+            });
+
+            // Execute callback when a tag is removed
+            bWordsManualbox.on( "remove:after", function ( el, text, tagging ) {
+                console.log("removed tag: ", tagging.getTags().join(', '));
+                UpdateData('bWordsManual',tagging.getTags().join(', '))
+            });
+
               blHashtags = $("#blHashtags").tagging({
                 "edit-on-delete": false,
                 "no-spacebar": true,
@@ -1097,6 +1220,18 @@
                 'forbidden-chars': [",", "?"]
             });
             blHashtagsbox = blHashtags[0];
+
+             blHashtagsbox.on( "add:after", function ( el, text, tagging ) {
+                console.log("Added tag: ", tagging.getTags().join(', '));
+                UpdateData('blHashtags',tagging.getTags().join(', '))
+
+            });
+
+            // Execute callback when a tag is removed
+            blHashtagsbox.on( "remove:after", function ( el, text, tagging ) {
+                console.log("removed tag: ", tagging.getTags().join(', '));
+                UpdateData('blHashtags',tagging.getTags().join(', '))
+            });
 
              hashtagsengage = $("#hashtagsengage").tagging({
                 "edit-on-delete": false,
@@ -1108,35 +1243,53 @@
             });
             hashtagsengagebox = hashtagsengage[0];
 
+             hashtagsengagebox.on( "add:after", function ( el, text, tagging ) {
+                console.log("Added tag: ", tagging.getTags().join(', '));
+                UpdateData('hashtagsengage',tagging.getTags().join(', '))
+
+            });
+
+            // Execute callback when a tag is removed
+            hashtagsengagebox.on( "remove:after", function ( el, text, tagging ) {
+                console.log("removed tag: ", tagging.getTags().join(', '));
+                UpdateData('hashtagsengage',tagging.getTags().join(', '))
+            });
+
 
              var AfterFollLikeuserPosts = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts.HasValue && Model.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts.Value ? "on" : "off")'
                 $('#AfterFollLikeuserPosts').bootstrapToggle(AfterFollLikeuserPosts);
                 $('#AfterFollLikeuserPosts').change(function () {
                     $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts)').val($(this).prop('checked'));
+
+                    UpdateData('AfterFollLikeuserPosts', $(this).prop('checked'));
             });
 
             var AfterFollCommentUserPosts = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts.HasValue &&  Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts.Value  ? "on" : "off")'
                 $('#AfterFollCommentUserPosts').bootstrapToggle(AfterFollCommentUserPosts);
                 $('#AfterFollCommentUserPosts').change(function () {
                     $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserPosts)').val($(this).prop('checked'));
+                    UpdateData('AfterFollCommentUserPosts', $(this).prop('checked'));
             });
 
             var AfterFollViewUserStory = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.AfterFollViewUserStory.HasValue && Model.SocialProfile_Instagram_TargetingInformation.AfterFollViewUserStory.Value ? "on" : "off")'
                 $('#AfterFollViewUserStory').bootstrapToggle(AfterFollViewUserStory);
                 $('#AfterFollViewUserStory').change(function () {
                     $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollViewUserStory)').val($(this).prop('checked'));
+                    UpdateData('AfterFollViewUserStory', $(this).prop('checked'));
             });
 
              var AfterFollCommentUserStory = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserStory.HasValue && Model.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserStory.Value == true   ? "on" : "off")'
                 $('#AfterFollCommentUserStory').bootstrapToggle(AfterFollCommentUserStory);
                 $('#AfterFollCommentUserStory').change(function () {
                     $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.AfterFollCommentUserStory)').val($(this).prop('checked'));
+                    UpdateData('AfterFollCommentUserStory', $(this).prop('checked'));
             });
 
             var UnFollFollowersAfterMinDays = '@Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays.HasValue && Model.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays.Value  ? "on" : "off")'
                 $('#UnFollFollowersAfterMinDays').bootstrapToggle(UnFollFollowersAfterMinDays);
                 $('#UnFollFollowersAfterMinDays').change(function () {
                     $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays)').val($(this).prop('checked'));
+                    UpdateData('UnFollFollowersAfterMinDays', $(this).prop('checked'));
             });
 
 
@@ -1144,6 +1297,7 @@
                 $('#FollowOn').bootstrapToggle(FollowOn);
                 $('#FollowOn').change(function () {
                     $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.FollowOn)').val($(this).prop('checked'));
+                    UpdateData('FollowOn', $(this).prop('checked'));
             });
 
 
@@ -1190,6 +1344,10 @@
             });
 
 
+
+
+
+
             if (BrokerMode) {
 
                 var arrayValues =  $('#@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserLangsList)').val().split(',');
@@ -1217,12 +1375,14 @@
 
             if (dailyvlist !== undefined) {
                 if (dailyvlist.length > 0) {
-                    $(this).find("input[name*='InputLikeFollowingPosts']").val(dailyvlist[0].LikeFollowingPosts);
-                    $(this).find("input[name*='InputCommFollowingPosts']").val(dailyvlist[0].CommFollowingPosts);
-                    $(this).find("input[name*='InputVwStoriesFollowing']").val(dailyvlist[0].VwStoriesFollowing);
-                    $(this).find("input[name*='InputCommUserStories']").val(dailyvlist[0].CommUserStories);
-                    $(this).find("input[name*='InputUnFoll16DaysEngage']").val(dailyvlist[0].UnFoll16DaysEngage);
-                    $(this).find("input[name*='InputFollAccSearchTags']").val(dailyvlist[0].FollAccSearchTags);
+                    $(".InputLikeFollowingPosts").html(dailyvlist[0].LikeFollowingPosts);
+                    $(".InputCommFollowingPosts").html(dailyvlist[0].CommFollowingPosts);
+                    $(".InputVwStoriesFollowing").html(dailyvlist[0].VwStoriesFollowing);
+                    $(".InputCommUserStories").html(dailyvlist[0].CommUserStories);
+                    $(".InputUnFoll16DaysEngage").html(dailyvlist[0].UnFoll16DaysEngage);
+                    $(".InputFollAccSearchTags").html(dailyvlist[0].FollAccSearchTags);
+
+
                     $(this).find("input[name*='InputPostInLastXXDays']").val(dailyvlist[0].PostInLastXXDays);
                     $(this).find("input[name*='InputFollUnFollInLastXXDays']").val(dailyvlist[0].FollUnFollInLastXXDays);
                     $(this).find("input[name*='sc']").val(dailyvlist[0].starttime);
@@ -1231,14 +1391,171 @@
 
             }
 
+
+
+            $(".InputLikeFollowingPosts").editable({
+                ajaxOptions: {
+                    type: 'post',
+                    dataType: 'json'
+                },
+                send: 'always',
+                savenochange : true,
+                showbuttons:false,
+                mode: 'inline',
+                url: '/profile/SaveUpdateUserDataIndividually',
+                type: 'text',
+                title: 'Enter username',
+                params: function (params) {
+                    //originally params contain pk, name and value
+                    params.socialProfileId = @Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.SocialProfileId);
+                    params.TargetingInformationId = @Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.TargetingInformationId);
+                   
+                    return params;
+                },
+
+                pk: 'InputLikeFollowingPosts',
+                success: function (response, newValue) {
+                    if (!response.success) toastr.success('Data Saved!', 'Success');return response.msg;
+                }
+            });
+
+            $(".InputCommFollowingPosts").editable({
+                ajaxOptions: {
+                    type: 'post',
+                    dataType: 'json'
+                },
+                send: 'always',
+                showbuttons:false,
+                mode: 'inline',
+                url: '/profile/SaveUpdateUserDataIndividually',
+                type: 'text',
+                title: 'Enter username',
+                params: function (params) {
+                    //originally params contain pk, name and value
+                    params.socialProfileId = @Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.SocialProfileId);
+                    params.TargetingInformationId = @Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.TargetingInformationId);
+                    
+                    return params;
+                },
+
+                pk: 'InputCommFollowingPosts',
+                success: function (response, newValue) {
+                    if (!response.success) toastr.success('Data Saved!', 'Success');return response.msg;
+                }
+            });
+
+             $(".InputVwStoriesFollowing").editable({
+                ajaxOptions: {
+                    type: 'post',
+                    dataType: 'json'
+                },
+                send: 'always',
+                showbuttons:false,
+                mode: 'inline',
+                url: '/profile/SaveUpdateUserDataIndividually',
+                type: 'text',
+                title: 'Enter username',
+                params: function (params) {
+                    //originally params contain pk, name and value
+                    params.socialProfileId = @Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.SocialProfileId);
+                    params.TargetingInformationId = @Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.TargetingInformationId);
+                    
+                    return params;
+                },
+
+                pk: 'InputVwStoriesFollowing',
+                success: function (response, newValue) {
+                    if (!response.success) toastr.success('Data Saved!', 'Success');return response.msg;
+                }
+             });
+
+            $(".InputCommUserStories").editable({
+                ajaxOptions: {
+                    type: 'post',
+                    dataType: 'json'
+                },
+                send: 'always',
+                showbuttons:false,
+                mode: 'inline',
+                url: '/profile/SaveUpdateUserDataIndividually',
+                type: 'text',
+                title: 'Enter username',
+                params: function (params) {
+                    //originally params contain pk, name and value
+                    params.socialProfileId = @Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.SocialProfileId);
+                    params.TargetingInformationId = @Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.TargetingInformationId);
+                    
+                    return params;
+                },
+
+                pk: 'InputCommUserStories',
+                success: function (response, newValue) {
+                    if (!response.success) toastr.success('Data Saved!', 'Success');return response.msg;
+                }
+            });
+
+            $(".InputUnFoll16DaysEngage").editable({
+                ajaxOptions: {
+                    type: 'post',
+                    dataType: 'json'
+                },
+                send: 'always',
+                showbuttons:false,
+                mode: 'inline',
+                url: '/profile/SaveUpdateUserDataIndividually',
+                type: 'text',
+                title: 'Enter username',
+                params: function (params) {
+                    //originally params contain pk, name and value
+                    params.socialProfileId = @Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.SocialProfileId);
+                    params.TargetingInformationId = @Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.TargetingInformationId);
+                    
+                    return params;
+                },
+
+                pk: 'InputUnFoll16DaysEngage',
+                success: function (response, newValue) {
+                    if (!response.success) toastr.success('Data Saved!', 'Success');return response.msg;
+                }
+            });
+
+            $(".InputFollAccSearchTags").editable({
+                ajaxOptions: {
+                    type: 'post',
+                    dataType: 'json'
+                },
+                send: 'always',
+                showbuttons:false,
+                mode: 'inline',
+                url: '/profile/SaveUpdateUserDataIndividually',
+                type: 'text',
+                title: 'Enter username',
+                params: function (params) {
+                    //originally params contain pk, name and value
+                    params.socialProfileId = @Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.SocialProfileId);
+                    params.TargetingInformationId = @Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.TargetingInformationId);
+                    
+                    return params;
+                },
+
+                pk: 'InputFollAccSearchTags',
+                success: function (response, newValue) {
+                    if (!response.success) toastr.success('Data Saved!', 'Success');return response.msg;
+                }
+            });
+
+
+
+
+
             $('#formtarget input').change(function () {
                 somethingChanged = true;
             });
 
-            window.onbeforeunload = function () {
-                if (somethingChanged)
-                    return 'Targeting information has changed, Are you sure you want to navigate away without saving the changes ?';
-            };
+            //window.onbeforeunload = function () {
+            //    if (somethingChanged)
+            //        return 'Targeting information has changed, Are you sure you want to navigate away without saving the changes ?';
+            //};
 
             $(function () {
                 $("input").not("[type=submit]").jqBootstrapValidation({

@@ -195,5 +195,171 @@ namespace SG2.CORE.DAL.Repositories
                 throw ex;
             }
         }
+
+        public bool SaveUpdateUserDataIndividually(string value, string fieldName,  int socialProfileId, int TargetingInformationId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    if ((fieldName == "InstaUsrName") || (fieldName == "InstaPassword"))
+                    {
+                        var user = _db.SocialProfiles.FirstOrDefault(x => x.SocialProfileId == socialProfileId);
+
+                        if (user != null)
+                        {
+                            if (fieldName == "InstaUsrName")
+                            {
+                                user.SocialUsername = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "InstaPassword")
+                            {
+                                user.SocialPassword = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                        }
+                    }
+                    else if ((fieldName == "firstName") || (fieldName == "LastName") || (fieldName == "Source") || (fieldName == "Comment") || (fieldName == "Title") || (fieldName == "ResTeamMember") || (fieldName == "AvaToEveryOne") || (fieldName == "CustomerStatus"))
+                    {
+                        var user = _db.Customers.FirstOrDefault(x => x.CustomerId == customerId);
+
+                        if (user != null)
+                        {
+                            if (fieldName == "firstName")
+                            {
+                                user.FirstName = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "LastName")
+                            {
+                                user.SurName = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "Source")
+                            {
+                                user.Source = value;
+                                _db.SaveChanges();
+                                return true;
+
+                            }
+                            else if (fieldName == "Comment")
+                            {
+                                user.Comment = user.Comment + "\r\n" + value;
+                                _db.SaveChanges();
+                                return true;
+
+                            }
+                            else if (fieldName == "Title")
+                            {
+                                user.Title = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "ResTeamMember")
+                            {
+                                user.ResponsibleTeamMemberId = Convert.ToInt32(value);
+                                _db.SaveChanges();
+                                return true;
+
+                            }
+                            else if (fieldName == "AvaToEveryOne")
+                            {
+
+                                user.AvailableToEveryOne = Convert.ToBoolean(Convert.ToInt32(value));
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "CustomerStatus")
+                            {
+                                user.StatusId = Convert.ToInt16(value);
+                                _db.SaveChanges();
+                                return true;
+                            }
+                        }
+
+                    }
+                    else if ((fieldName == "Tel") || (fieldName == "City") || (fieldName == "Country") || (fieldName == "Mobile") || (fieldName == "PostalCode") || (fieldName == "AddressLine1") || (fieldName == "AddressLine2") || (fieldName == "Notes") || (fieldName == "State"))
+                    {
+                        var user = _db.Customer_ContactDetail.FirstOrDefault(x => x.CustomerId == customerId);
+                        if (user != null)
+                        {
+                            if (fieldName == "Tel")
+                            {
+                                user.PhoneNumber = value;
+                                _db.SaveChanges();
+                                return true;
+
+                            }
+                            else if (fieldName == "City")
+                            {
+                                user.City = value;
+                                _db.SaveChanges();
+                                return true;
+
+                            }
+                            else if (fieldName == "Country")
+                            {
+                                user.Country = value;
+                                _db.SaveChanges();
+                                return true;
+
+                            }
+                            else if (fieldName == "Mobile")
+                            {
+                                user.MobileNumber = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "PostalCode")
+                            {
+                                user.PostalCode = value;
+                                _db.SaveChanges();
+                                return true;
+
+                            }
+                            else if (fieldName == "State")
+                            {
+                                user.Sate = value;
+                                _db.SaveChanges();
+                                return true;
+
+                            }
+                            else if (fieldName == "AddressLine1")
+                            {
+                                user.AddressLine1 = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "AddressLine2")
+                            {
+                                user.AddressLine2 = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                            else if (fieldName == "Notes")
+                            {
+                                user.Notes = value;
+                                _db.SaveChanges();
+                                return true;
+                            }
+                        }
+
+                    }
+                    return false;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
     }
 }
