@@ -345,11 +345,11 @@
                 <h3 class="content-header-title mb-0">Click on a profile to set target fan bases preferences</h3>
 
             </div>
-            <div class="content-header-left col-md-8 col-8 mb-2 @ShowforBroker">
+            <div class="content-header-left col-md-8 col-12 mb-2 @ShowforBroker">
                 <h3 class="content-header-title mb-0" style="color:black">You have @ViewBag.profileCount out of the 20 profiles you can create & make ACTIVE as part of your Agency Plan</h3>
 
             </div>
-            <div class="content-header-right col-md-4 col-4 @ShowforBroker">
+            <div class="content-header-right col-md-4 col-12 @ShowforBroker">
                 <div class="media width-250 float-right">
 
                     <div class="media-right text-right">
@@ -960,7 +960,7 @@
                                 //    fbq('track', 'MultipleAccount');
                                 //}
 
-                                swal("Success!", "You have successfully created a social profile!", "success")
+                                swal("Profile Created", "Next, set your targeting filters.", "success")
                                     .then((value) => {
                                         window.location.reload(false);
                                     });

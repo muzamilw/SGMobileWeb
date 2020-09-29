@@ -1431,7 +1431,10 @@ namespace SG2.CORE.WEB.Controllers
             ViewBag.CurrentUser = this.CDT;
             SocialProfileDTO spDto = this._customerManager.GetSocialProfileById(Convert.ToInt32(SPId));
             ViewBag.socialProfile = spDto.SocialProfile;
+            ViewBag.socialProfileDTO = spDto;
             ViewBag.socialProfileFollowedAccounts = spDto.SocialProfile_FollowedAccounts;
+            ProfilesSearchRequest model = new ProfilesSearchRequest { Block = 99, Plan = 0, searchString = "", SocialType = 0 };
+            ViewBag.ProfileCount = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId, model).Count();
             FollowListViewModel followList = new FollowListViewModel();
             followList.AppStatus = spDto.AppStatus;
             return View(followList);

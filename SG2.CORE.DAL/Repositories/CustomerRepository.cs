@@ -460,21 +460,21 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    if ((fieldName == "InstaUsrName") || (fieldName == "InstaPassword"))
+                    if ((fieldName == "SocialUsername") || (fieldName == "DeviceBinLocation"))
                     {
                         var user = _db.SocialProfiles.FirstOrDefault(x => x.SocialProfileId == socialProfileId);
 
                         if (user != null)
                         {
-                            if (fieldName == "InstaUsrName")
+                            if (fieldName == "SocialUsername")
                             {
                                 user.SocialUsername = value;
                                 _db.SaveChanges();
                                 return true;
                             }
-                            else if (fieldName == "InstaPassword")
+                            else if (fieldName == "DeviceBinLocation")
                             {
-                                user.SocialPassword = value;
+                                user.DeviceBinLocation = value;
                                 _db.SaveChanges();
                                 return true;
                             }

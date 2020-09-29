@@ -88,7 +88,8 @@
             }
 
             .example.example1 h1 {
-                font-size: 28px;
+                font-size: 30px;
+                font-weight:bold;
             }
 
         example.example1 h2 {
@@ -303,7 +304,7 @@
 
                 .match-height .card .non-broker-tile .plan-ull {
                     font-weight: 500;
-                    font-size: 26px;
+                    font-size: 24px;
                 }
 
                     .match-height .card .non-broker-tile .plan-ull li {
@@ -398,8 +399,12 @@
                         <fieldset>
                             <div class="row" style="display:block">
                                 @*<h2 class="text-center">You are subscribing to a monthly plan :</h2>*@
+                                <div class="text-center">
+                                    <img src="~/Content/Images/hero.png" class="text-center hidden heroimg" style="width:65px;" />
+                                    <h2 class="text-center mt-1 hidden freetrial" style="color:red">Get Started - 7 Day FREE Trial</h2>
+                                </div>
                                 <h1 class="text-center selectedPlanName mt-1" style="color:#886ab5"></h1>
-                                <h1 class="text-center selectedPlanPrice mt-1" style="color:#886ab5"></h1>
+                                <h2 class="text-center selectedPlanPrice mt-1" style="color:#886ab5"></h2>
                                 <p class="text-center mt-1" style="color:dimgray">(Cancel anytime)</p>
                                 <input type="hidden" id="selectedPlanId" />
                                 <input type="hidden" id="selectedPlanType" />
@@ -601,15 +606,18 @@
 
                     @if (Customer.IsBroker != true && (Model.SocialProfile.PaymentPlanId ?? 1) != 1)
                     {
-                        <div style="background-color:#544b7d;" class="card">
+                        <div style="background-color:#544b7d;" class="card p-4">
 
 
                             <div class="non-broker-tile">
-                                <h3 class="tile-h3 text-center">Upgrade to Agency</h3>
-                                <h1 class="tile-h1 text-center">Save 50%</h1>
+                                <img src="~/Content/Images/hero.png" style="width:70px;" class="float-right mt-4" />
+                                <h3 class="tile-h3 ">Upgrade to Agency</h3>
+                                <h1 class="tile-h1 text-italic " style="font-style:italic">Save 50%</h1>
+
                                 <ul class="plan-ull ml-5">
-                                    <li class="tile-li">20 FREE Profiles</li>
-                                    <li class="tile-li">Higher Growth Performance on all Profiles</li>
+                                    <li class="tile-li">Create profiles for $15 /pm</li>
+                                    <li class="tile-li">20 profiles included for FREE</li>
+                                    <li class="tile-li">Higher Growth Performance</li>
                                     <li class="tile-li"> Access to Professional Growth Forum</li>
                                     <li class="tile-li"> Premium Support</li>
 
@@ -1016,8 +1024,12 @@
 
 
             $(".planSelect").on("click", function () {
-                $(".selectedPlanName").text($(this).attr("data-planname"));
-                $(".selectedPlanPrice").text( "for only $"  + $(this).attr("data-planprice") + " per month");
+                $(".selectedPlanName").text($(this).attr("data-planname") + " $" +$(this).attr("data-planprice") + " /pm");
+                
+                if ($(this).attr("data-planname") == "GROWTH PRO") {
+                    $(".freetrial").show();
+                    $(".selectedPlanPrice").text("You will be automatically billed $" + $(this).attr("data-planprice") + " /pm after 7 days");
+                }
                 $("#selectedPlanId").val($(this).attr("data-planId"));
 
 
@@ -1151,8 +1163,9 @@
             }
 
              $("#btnAfilliate").on("click", function () {
-                $(".selectedPlanName").text('Monthly Agency Plan');
-                $(".selectedPlanPrice").text('for $299 per month');
+                $(".selectedPlanName").text('Agency Plan $299 /pm');
+                 $(".selectedPlanPrice").text('Includes 20 FREE profile accounts');
+                 $(".heroimg").show();
                  $("#selectedPlanId").val(5);
 
                  $("#existingstripecustomerid").val(existingStripeCustomerIdValSub);

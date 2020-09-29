@@ -1882,3 +1882,241 @@ GO
 
 
 
+USE [SocialPlannerPro]
+GO
+/****** Object:  StoredProcedure [dbo].[SG2_usp_Customer_SignUp]    Script Date: 9/29/2020 10:34:51 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER Procedure [dbo].[SG2_usp_Customer_SignUp] --'ddddddddddddddddd','dsfsds fdsfdsfsdfsdfds','mm2@mm.com','','','','',1            
+  @rvcFirstName Nvarchar(50),            
+  @rvcSurName Nvarchar(50),            
+  @rvcEmailAddress Nvarchar(64),            
+  @rvcPassword Nvarchar(64),              
+  @rvcCreatedBy  Nvarchar(64),            
+  @rvcGUID   Nvarchar(50),            
+  @rvcLastLoginIP Nvarchar(20),            
+  @rvcStatusId Int            
+As              
+Begin            
+            
+ Declare @iCustomerId int            
+ Declare @iSocialProfileId int            
+ Declare @rvcEmail Nvarchar(64)            
+ IF Not Exists(SELECT 1 FROM [dbo].[Customer] where [EmailAddress]=@rvcEmailAddress )            
+ BEGIN            
+ INSERT INTO [dbo].[Customer]            
+           ([GUID]            
+           ,[FirstName]            
+           ,[SurName]            
+           ,[EmailAddress]            
+           ,[Password]            
+           ,[CreatedOn]            
+           ,[CreatedBy]            
+           ,[UpdatedOn]            
+           ,[UpdatedBy]            
+           ,[StatusId]            
+           ,[LastLoginDate]            
+           ,[LoginAttempts]            
+           ,[LastLoginIP]            
+           ,[Tocken] 
+		   ,IsOptedMarketingEmail
+                 
+     )            
+     VALUES            
+           ( @rvcGUID            
+           ,@rvcFirstName            
+           ,@rvcSurName            
+           ,@rvcEmailAddress            
+           ,@rvcPassword            
+           ,GETDATE()            
+           ,@rvcCreatedBy            
+           ,GETDATE()            
+           ,@rvcCreatedBy            
+           ,5--@rvcStatusId            
+           ,Getdate()            
+           ,0            
+           ,@rvcLastLoginIP            
+           ,0    
+		   ,1
+     )            
+            
+ SELECT @iCustomerId= scope_identity()             
+            
+ Begin            
+  Insert into dbo.Customer_ContactDetail             
+  (            
+   [CustomerId]               
+   ,[GUID]            
+  )            
+  Values (            
+   @iCustomerId,            
+   NEWID()            
+  )            
+ END            
+            
+ Insert into [dbo].[SocialProfile]            
+ (            
+  [CustomerId],            
+  [SocialProfileTypeId],            
+  [StatusId],            
+  SocialUsername,            
+  [CreatedOn],            
+  [CreatedBy],            
+  [UpdatedOn],            
+  [UpdatedBy],          
+  PinCode,          
+  PaymentPlanId          
+ )            
+ SELECT             
+  @iCustomerId,            
+  30,            
+  19,            
+  @rvcSurName,            
+  getdate(),            
+  @rvcEmailAddress,            
+  getdate(),            
+  @rvcEmailAddress ,          
+  convert(bigint,convert(varbinary(6),newid()))%900000+100000,          
+  (select PaymentPlanId from PaymentPlan where IsDefault =1 and IsBrokerPlan = 0 and SocialPlatform = 30)          
+ SELECT @iSocialProfileId= scope_identity()            
+          
+
+INSERT INTO [dbo].[SocialProfile_Instagram_TargetingInformation]
+           ([SocialProfileId]
+           ,[IsSystem]
+           ,[IsBrokerDefault]
+           ,[BrokerCustomerId]
+           ,[FollowOn]
+           ,[UnFollowOn]
+           ,[HashTagsToEngage]
+           ,[HashTagsToNotEngage]
+           ,[LocationsToEngage]
+           ,[DirectCompetitors]
+           ,[GenderEngagmentPref]
+           ,[IncludeBusinessAccounts]
+           ,[MonOper]
+           ,[TueOper]
+           ,[WedOper]
+           ,[ThuOper]
+           ,[FriOper]
+           ,[SatOper]
+           ,[SunOper]
+           ,[ExecutionIntervals]
+           ,[CreatedOn]
+           ,[CreatedBy]
+           ,[UpdatedOn]
+           ,[UpdatedBy]
+           ,[FollUserProfileImage]
+           ,[FollUserMinPosts]
+           ,[FollUserMinPostsVal]
+           ,[FollUserPostsLastXDays]
+           ,[FollUserPostsLastXDaysVal]
+           ,[FollDoNotFollowUsernamewithdigits]
+           ,[FollDoNotFollowUsernamewithdigitsVal]
+           ,[FollUserLangs]
+           ,[FollUserLangsList]
+           ,[AfterFollLikeuserPosts]
+           ,[AfterFollCommentUserPosts]
+           ,[AfterFollViewUserStory]
+           ,[AfterFollCommentUserStory]
+           ,[AfterFollMuteUser]
+           ,[UnFollFollowersAfterMinDays]
+           ,[UnFollFollowersAfterMinDaysVal]
+           ,[UnFollDoNotUnFollowLikersOfPosts]
+           ,[UnFollDoNotUnFollowLikersOfPostsCount]
+           ,[UnFollDoNotUnFollowCommThatCommented]
+           ,[UnFollDoNotUnFollowCommThatCommentedCount]
+           ,[UnFollUseWhiteList]
+           ,[WhistListManualUsers]
+           ,[WhilstListImportedUsers]
+           ,[BlackListUsers]
+           ,[BlackListLocations]
+           ,[BlackListHashtags]
+           ,[BlackListWordsManual])
+      
+      
+SELECT       
+      @iSocialProfileId      
+      ,0
+      ,[IsBrokerDefault]
+      ,[BrokerCustomerId]
+      ,[FollowOn]
+      ,[UnFollowOn]
+      ,[HashTagsToEngage]
+      ,[HashTagsToNotEngage]
+      ,[LocationsToEngage]
+      ,[DirectCompetitors]
+      ,[GenderEngagmentPref]
+      ,[IncludeBusinessAccounts]
+      ,[MonOper]
+      ,[TueOper]
+      ,[WedOper]
+      ,[ThuOper]
+      ,[FriOper]
+      ,[SatOper]
+      ,[SunOper]
+      ,[ExecutionIntervals]
+      ,[CreatedOn]
+      ,[CreatedBy]
+      ,[UpdatedOn]
+      ,[UpdatedBy]
+      ,[FollUserProfileImage]
+      ,[FollUserMinPosts]
+      ,[FollUserMinPostsVal]
+      ,[FollUserPostsLastXDays]
+      ,[FollUserPostsLastXDaysVal]
+      ,[FollDoNotFollowUsernamewithdigits]
+      ,[FollDoNotFollowUsernamewithdigitsVal]
+      ,[FollUserLangs]
+      ,[FollUserLangsList]
+      ,[AfterFollLikeuserPosts]
+      ,[AfterFollCommentUserPosts]
+      ,[AfterFollViewUserStory]
+      ,[AfterFollCommentUserStory]
+      ,[AfterFollMuteUser]
+      ,[UnFollFollowersAfterMinDays]
+      ,[UnFollFollowersAfterMinDaysVal]
+      ,[UnFollDoNotUnFollowLikersOfPosts]
+      ,[UnFollDoNotUnFollowLikersOfPostsCount]
+      ,[UnFollDoNotUnFollowCommThatCommented]
+      ,[UnFollDoNotUnFollowCommThatCommentedCount]
+      ,[UnFollUseWhiteList]
+      ,[WhistListManualUsers]
+      ,[WhilstListImportedUsers]
+      ,[BlackListUsers]
+      ,[BlackListLocations]
+      ,[BlackListHashtags]
+      ,[BlackListWordsManual]
+      
+          
+  FROM [dbo].[SocialProfile_Instagram_TargetingInformation]            
+  where IsSystem = 1 and SocialProfileId is null
+              
+            
+            
+ --values(            
+ -- @iSocialProfileId,            
+ -- 'Dogs,Cats',            
+ -- 'Snake',            
+ -- 'New York,London',            
+ -- 'Moon',            
+ -- 1,            
+ -- 3,            
+ -- 1,            
+ -- 'Fitness',            
+ -- '',            
+ -- getdate(),            
+ -- @rvcEmailAddress,            
+ -- getdate(),            
+ -- @rvcEmailAddress,            
+ -- 1,            
+ -- 2            
+ --)            
+            
+     END            
+            
+exec [dbo].[SG2_usp_Customers_Get] @iCustomerId            
+            
+End 

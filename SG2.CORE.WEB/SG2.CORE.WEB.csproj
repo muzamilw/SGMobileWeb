@@ -2670,6 +2670,7 @@
     <Content Include="Content\Images\ecocoonut.png" />
     <Content Include="Content\Images\free.png" />
     <Content Include="Content\Images\glitzgamom.png" />
+    <Content Include="Content\Images\hero.png" />
     <Content Include="Content\Images\HIW_1.gif" />
     <Content Include="Content\Images\HIW_2.gif" />
     <Content Include="Content\Images\HIW_3.gif" />
@@ -2689,6 +2690,8 @@
     <Content Include="Content\Images\signature.gif" />
     <Content Include="Content\Images\Sign_IN_Sign_UP.png" />
     <Content Include="Content\Images\social_growth.png" />
+    <Content Include="Content\Images\step1.png" />
+    <Content Include="Content\Images\step2.png" />
     <Content Include="Content\Images\success.jpg" />
     <Content Include="Content\Images\yay.jpg" />
     <Content Include="Content\stylefont.css" />

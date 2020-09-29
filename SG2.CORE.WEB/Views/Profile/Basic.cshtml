@@ -57,6 +57,8 @@
     <link href="~/Content/app-assets/vendors/css/forms/tags/tagging.css" rel="stylesheet" />
     <link href="~/Content/app-assets/css/pincode.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/plugins/forms/validation/form-validation.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
     <style>
         .pincode-input-text {
             -webkit-user-select: none;
@@ -96,68 +98,29 @@
 
 
                                         <div class="form-body">
-                                            @if (Model.socialcustomer.IsBroker.HasValue && Model.socialcustomer.IsBroker.Value == true)
-                                            {
-                                                <h4 class="form-section"><i class="ft-user"></i> Status</h4>
-
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="label-control" for="projectinput1">App Connection Status</label>
-
-                                                            <input type="text" class="form-control" value="@DeviceStatus" readonly="readonly" id="appstatus">
-
-                                                        </div>
-                                                    </div>
+                                            <h4 class="form-section"><i class="ft-user"></i> Profile Information</h4>
 
 
-
-
-                                                </div>
-
-                                                <div class="row mt-3">
-
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="label-control" for="projectinput2">Device Bin Location</label>
-
-                                                            @Html.EditorFor(m => m.SocialProfile.DeviceBinLocation, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter in where your mobile device is usually located when in operation" } })
-
-                                                        </div>
-                                                    </div>
-
-
-
-                                                </div>
-
-
-                                            }
-                                            <br />
-                                            <h4 class="form-section"><i class="ft-user"></i> Social Profile Details</h4>
-                                            <div class="row">
+                                            <div class="row mt-3">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="label-control" for="projectinput1">Your Instagram Username</label>
 
 
-                                                        @Html.EditorFor(m => m.SocialProfile.SocialUsername, new { htmlAttributes = new { @class = "form-control", required = "required", data_validation_required_message = "This field is required" } })
 
+                                                        <a href="#" data-type="text" class="ml-2 SocialUsername" data-title="Max val 200" name="SocialUsername">@Html.Raw(Model.SocialProfile.SocialUsername)</a>
                                                     </div>
                                                 </div>
-                                                @*@if (Model.socialcustomer.IsBroker.HasValue && Model.socialcustomer.IsBroker.Value == true)
-                                                    {
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label class="label-control" for="projectinput2">Instagram Password</label>
 
-                                                                <input type="text" class="form-control" id="firstName1" readonly="readonly" value="@Model.SocialProfile.SocialPassword">
 
-                                                            </div>
-                                                        </div>
-                                                    }*@
+
                                             </div>
-                                            <div class="row mt-3">
+                                            
+
+
+
+
+                                            <div class="row mt-3 mb-3">
                                                 <div class="col-md-6 pincodecontainer">
                                                     <div class="form-group">
                                                         <label class="label-control" for="projectinput1">PIN Code to be used to sync this targeting profile to your Laptop App</label>
@@ -168,59 +131,22 @@
                                                 </div>
 
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-12 text-center">
-                                                    <div class="form-actions">
-                                                        @*<button type="button" class="btn btn-warning mr-1">
-                                                                <i class="ft-x"></i> Cancel
-                                                            </button>*@
-                                                        <button type="submit" class="btn btn-primary">
-                                                            <i class="fa fa-check-square-o"></i> Save
-                                                        </button>
-                                                    </div>
+
+
+                                            <div class="row mt-4">
+                                                <div class="col-md-6 ">
+
+                                                    <img class="img-fluid" src="~/Content/Images/step1.png" />
+
                                                 </div>
-                                            </div>
+                                                <div class="col-md-6 ">
+                                                    <img  class="img-fluid" src="~/Content/Images/step2.png" />
 
-                                            <div class="row">
-                                                <div class="col-md-12 ">
-                                                    <h1 style="color: #48317e;    font-size: 1.5rem; font-weight:bold;font-style:italic">
-                                                        Next Steps ...
-                                                    </h1>
-
-                                                    <ol style="font-size: 1.1rem;">
-                                                        <li>Set Your <span style="color:red; font-weight:bold">Target Filters</span></li>
-                                                        <li><span style="color:red; font-weight:bold">Upgrade</span> to the Growth Pro Plan</li>
-                                                        <li>Log in to Instagram from your <span style="color:red; font-weight:bold">Laptop Browser</span></li>
-                                                        <li><span style="color:red; font-weight:bold">Download</span> and run the Growth APP (<a target="_blank" href="@ViewBag.winapp">Windows</a> or <a target="_blank" href="@ViewBag.macapp">Mac OSX</a>) on the same laptop</li>
-                                                        <li>Run the Growth App <span style="color:red; font-weight:bold">24/7/365</span> in the background, minimized</li>
-                                                    </ol>
 
                                                 </div>
                                             </div>
 
-                                            @*@if (Model.socialcustomer.IsBroker.HasValue && Model.socialcustomer.IsBroker.Value == true)
-                                                {
-                                                    <h4 class="form-section"><i class="ft-user"></i>Device Push Notifications (Coming Soon)</h4>
-                                                    <div class="row">
-                                                        <div class="col-sm-12 col-lg-3 mb-1">
-                                                            <a href="#" class="btn btn-block btn-primary " style="width:100%">Alert</a>
-                                                        </div>
 
-
-                                                        <div class="col-sm-12 col-lg-3 mb-1">
-                                                            <a href="#" class="btn btn-block btn-primary  " style="background-color:blueviolet;width:100%">Play Alarm</a>
-                                                        </div>
-
-                                                        <div class="col-sm-12 col-lg-3 mb-1">
-                                                            <a href="#" class="btn btn-block btn-primary  " style="background-color:blueviolet;width:100%">Get latest Log</a>
-                                                        </div>
-
-                                                        <div class="col-sm-12 col-lg-3 mb-1">
-                                                            <a href="#" class="btn btn-block btn-primary  " style="background-color:blueviolet;width:100%">Restart App</a>
-                                                        </div>
-
-                                                    </div>
-                                                }*@
 
                                         </div>
 
@@ -247,11 +173,15 @@
     <script src="~/Content/app-assets/vendors/js/forms/validation/jqBootstrapValidation.js"></script>
     <script src="~/Content/app-assets/vendors/js/extensions/sweetalert.min.js"></script>
     <script src="~/Content/app-assets/js/scripts/extensions/sweet-alerts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         $(document).ready(function () {
             /*******************************
             *       Simple Options         *
             *******************************/
+            $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="fa fa-fw fa-check"></i></button>' + '<button type="button" class="btn editable-cancel" style="background: pink;"><i class="fa fa-fw fa-remove"></i></button>' ;
+
             $(".edit-on-delete").tagging({
                 "edit-on-delete": false,
             });
@@ -263,6 +193,59 @@
             $("input,select,textarea").not("[type=submit]").jqBootstrapValidation();
 
             $('#pincode').pincodeInput({ hidedigits: false, inputs: 6 });
+
+
+            $(".SocialUsername").editable({
+                ajaxOptions: {
+                    type: 'post',
+                    dataType: 'json'
+                },
+                send: 'always',
+                savenochange: true,
+                showbuttons: true,
+                mode: 'inline',
+                url: '/profile/SaveUpdateUserDataIndividually',
+                type: 'text',
+                title: 'Enter username',
+                params: function (params) {
+                    //originally params contain pk, name and value
+                    params.socialProfileId = @Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.SocialProfileId);
+                    params.TargetingInformationId = @Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.TargetingInformationId);
+
+                    return params;
+                },
+
+                pk: 'SocialUsername',
+                success: function (response, newValue) {
+                    if (!response.success) toastr.success('Data Saved!', 'Success'); return response.msg;
+                }
+            });
+
+            $(".DeviceBinLocation").editable({
+                ajaxOptions: {
+                    type: 'post',
+                    dataType: 'json'
+                },
+                send: 'always',
+                savenochange: true,
+                showbuttons: true,
+                mode: 'inline',
+                url: '/profile/SaveUpdateUserDataIndividually',
+                type: 'text',
+                title: 'Enter username',
+                params: function (params) {
+                    //originally params contain pk, name and value
+                    params.socialProfileId = @Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.SocialProfileId);
+                    params.TargetingInformationId = @Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.TargetingInformationId);
+
+                    return params;
+                },
+
+                pk: 'DeviceBinLocation',
+                success: function (response, newValue) {
+                    if (!response.success) toastr.success('Data Saved!', 'Success'); return response.msg;
+                }
+            });
 
             });
     </script>

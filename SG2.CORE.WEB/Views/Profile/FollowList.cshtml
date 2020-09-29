@@ -4,13 +4,15 @@
 @model SG2.CORE.MODAL.ViewModals.CRM.FollowListViewModel
 @{
 
-    ViewBag.Title = "Basic Profile";
+    ViewBag.Title = "Follow List";
     Layout = "~/Views/Shared/_Layout_LoggedInStackSPPro.cshtml";
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
     SocialProfile socialProfile = null;
 
+    SocialProfileDTO spDTO = (SocialProfileDTO)ViewBag.socialProfileDTO;
+
     socialProfile = ViewBag.socialProfile;
-    
+
     var socialProfileAccounts = (List<SocialProfile_FollowedAccounts>)ViewBag.socialProfileFollowedAccounts;
     var ProfileStatus = "";
 
@@ -76,113 +78,100 @@
 @section styles{
 
     @*<link href="~/Content/app-assets/vendors/css/forms/tags/tagging.css" rel="stylesheet" />
-    <link href="~/Content/app-assets/css/pincode.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/plugins/forms/validation/form-validation.css" />
+        <link href="~/Content/app-assets/css/pincode.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="~/Content/app-assets/css/plugins/forms/validation/form-validation.css" />
     *@
 }
 
 @section profileheader{
     @Html.Partial("Partial/_PartialProfileHeaderButton", Model)
 }
+@Html.Partial("Partial/_PartialProfileHeaderSPPro", spDTO)
 
-<div class="heading-wrapper">
-    <h1>Follow History</h1>
-    <span class="navbar-text">
-        @if (ViewBag.ProfileCount > 1)
-        {
-            <a class="btn btn-black" href="/user/home">
-                Back
-            </a>
-        }
-        </span>
-</div>
-    <!-- BEGIN: Content-->
+<!-- BEGIN: Content-->
 <div class="app-content center-layout mt-2">
-    
-        <div class="content-wrapper">
 
-            <div class="content-body">
-                <!-- Basic form layout section start -->
-                <section id="horizontal-form-layouts">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card">
-                               
-                                <div class="card-content collpase show">
-                                    
-                                    <div class="card-body">
-                                        <div class="col-md-12 col-sm-12 mb-12">
-                                            <div class="product">
-                                                <label>
-                                                    Result from 3rd party automation growth & engagement API tools.
-                                                </label>
-                                                
-                                            </div>
+    <div class="content-wrapper">
+
+        <div class="content-body">
+            <!-- Basic form layout section start -->
+            <section id="horizontal-form-layouts">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+
+                            <div class="card-content collpase show">
+
+                                <div class="card-body">
+                                    <div class="col-md-12 col-sm-12 mb-12">
+                                        <div class="product">
+                                            <label>
+                                                Result from 3rd party automation growth & engagement API tools.
+                                            </label>
+
                                         </div>
-                                        @using (Html.BeginForm("FollowList", "Profile", FormMethod.Post, new { @id = "Form_FollowFilter" }))
-                                        {
-                                            <div class="col-md-2 col-sm-12 mb-2">
-                                                <div class="product">
-                                                    
-                                                    <label>Filter By</label>
-                                                    <div class="class=" custom-select form-control"">
-                                                        @Html.DropDownListFor(model => model.FilterBy, followFilterList, "All", new { onchange = "submit()", @class = "custom-select form-control" })
-                                                    </div>
+                                    </div>
+                                    @using (Html.BeginForm("FollowList", "Profile", FormMethod.Post, new { @id = "Form_FollowFilter" }))
+                                    {
+                                        <div class="col-md-2 col-sm-12 mb-2">
+                                            <div class="product">
+
+                                                <label>Filter By</label>
+                                                <div class="class=" custom-select form-control"">
+                                                    @Html.DropDownListFor(model => model.FilterBy, followFilterList, "All", new { onchange = "submit()", @class = "custom-select form-control" })
                                                 </div>
                                             </div>
-                                            @Html.HiddenFor(model => model.SocialProfileId, new { id = "sProfileId", Value = @socialProfile.SocialProfileId })
-                                        }
+                                        </div>
+                                        @Html.HiddenFor(model => model.SocialProfileId, new { id = "sProfileId", Value = @socialProfile.SocialProfileId })
+                                    }
 
 
 
-                                        <div class="table-responsive mt-4">
-                                            <table class="table table-xl mb-0">
-                                                <thead>
+                                    <div class="table-responsive mt-4">
+                                        <table class="table table-xl mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>IG Username</th>
+                                                    <th>Status</th>
+                                                    <th>Date/Time</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in socialProfileAccounts.OrderBy(g => g.FollowedDateTime))
+                                                {
                                                     <tr>
-                                                        <th>IG Username</th>
-                                                        <th>Status</th>
-                                                        <th>Date/Time</th>
+                                                        <td scope="row">
+                                                            @item.FollowedSocialUsername
+                                                        </td>
+
+
+                                                        <td>
+                                                            @(item.StatusId == 1 ? "Followed" : "UnFollowed")
+                                                        </td>
+                                                        <td style="color:@(item.FollowedDateTime.Value < DateTime.Now.AddDays(-2) && item.StatusId == 1 ? "red" : "black")">
+                                                            @item.FollowedDateTime.Value.ToShortDateString()  @item.FollowedDateTime.Value.ToLongTimeString()
+                                                        </td>
+
+
 
                                                     </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach (var item in socialProfileAccounts.OrderBy(g => g.FollowedDateTime))
-                                                    {
-                                                        <tr>
-                                                            <td scope="row">
-                                                                @item.FollowedSocialUsername
-                                                            </td>
-
-
-                                                            <td>
-                                                                @(item.StatusId == 1 ? "Followed" : "UnFollowed")
-                                                            </td>
-                                                            <td style="color:@(item.FollowedDateTime.Value < DateTime.Now.AddDays(-2) && item.StatusId == 1 ? "red" : "black")">
-                                                                @item.FollowedDateTime.Value.ToShortDateString()  @item.FollowedDateTime.Value.ToLongTimeString()
-                                                            </td>
-
-
-
-                                                        </tr>
-                                                    }
-                                                </tbody>
-                                            </table>
-                                        </div>
-
+                                                }
+                                            </tbody>
+                                        </table>
                                     </div>
 
-
                                 </div>
+
+
                             </div>
                         </div>
                     </div>
+                </div>
 
-                </section>
-                <!-- // Basic form layout section end -->
-            </div>
+            </section>
+            <!-- // Basic form layout section end -->
         </div>
     </div>
-    <!-- END: Content-->
-
-
-
+</div>
+<!-- END: Content-->
