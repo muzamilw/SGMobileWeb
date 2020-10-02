@@ -2726,6 +2726,7 @@
     <Content Include="Content\Theme-CA\img\Lady_finger.png" />
     <Content Include="Content\Theme-CA\img\linked-in-logo.png" />
     <Content Include="Content\Theme-CA\img\LinkedIn_2x.png" />
+    <Content Include="Content\Theme-CA\img\mac-logo.png" />
     <Content Include="Content\Theme-CA\img\peer.png" />
     <Content Include="Content\Theme-CA\img\Red_man.png" />
     <Content Include="Content\Theme-CA\img\roi-stats.png" />
@@ -2750,6 +2751,8 @@
     <Content Include="Content\Theme-CA\img\TrustPilot.png" />
     <Content Include="Content\Theme-CA\img\unlimited-clients.png" />
     <Content Include="Content\Theme-CA\img\welcome-img.png" />
+    <Content Include="Content\Theme-CA\img\Windows-Logo.png" />
+    <Content Include="Content\Theme-CA\img\youtube.png" />
     <Content Include="Content\Theme-CA\index.html" />
     <Content Include="Content\Theme-CA\js\active.js" />
     <Content Include="Content\Theme-CA\js\bootstrap.min.js" />
@@ -4122,6 +4125,9 @@
     <Content Include="Views\Home\sg_index.cshtml" />
     <Content Include="Views\Home\features.cshtml" />
     <Content Include="Views\Profile\test.cshtml" />
+    <Content Include="Views\Home\download.cshtml" />
+    <Content Include="Views\Home\get_started.cshtml" />
+    <Content Include="Views\Home\videos.cshtml" />
     <None Include="Views\Shared\Partial\_PartialForgetPasswordPopup.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialSignupPopup.cshtml" />
     <Content Include="Views\User\Home.cshtml" />

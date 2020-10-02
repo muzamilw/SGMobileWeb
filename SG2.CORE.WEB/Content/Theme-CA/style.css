@@ -449,9 +449,9 @@ p {
 }
 
 .welcome-thumb {
-    width: 45%;
+    width: 38%;
     position: absolute;
-    bottom: -27px;
+    bottom: -87px;
     right: 186px;
     z-index: 9;
 }
@@ -884,18 +884,18 @@ p {
     color: #fb397d;
 }
 
-.single-price-plan .plan-button > a {
-    background: #726a84;
-    padding: 10px 0;
-    border-bottom-right-radius: 30px;
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: 500;
-    display: block;
-    -webkit-transition-duration: 500ms;
-    -o-transition-duration: 500ms;
-    transition-duration: 500ms;
-}
+    .single-price-plan .plan-button > a {
+        background: #f2c154;
+        padding: 10px 0;
+        border-bottom-right-radius: 30px;
+        color: black;
+        font-size: 16px;
+        font-weight: 500;
+        display: block;
+        -webkit-transition-duration: 500ms;
+        -o-transition-duration: 500ms;
+        transition-duration: 500ms;
+    }
 
 .single-price-plan .package-description > p {
     margin-bottom: 0;

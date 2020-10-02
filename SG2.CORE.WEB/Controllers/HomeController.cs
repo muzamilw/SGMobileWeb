@@ -33,7 +33,7 @@ namespace SG2.CORE.WEB.Controllers
         {
             //rpcClient = new RemoteProcedureClient();
             _customerManager = new CustomerManager();
-            SystemConfigs = SystemConfig.GetConfigs;
+            SystemConfigs = Architecture.SystemConfig.GetConfigsLatest();
         }
 
         public ActionResult Index()
@@ -554,6 +554,24 @@ namespace SG2.CORE.WEB.Controllers
         public ActionResult Agency()
         {
             return View("features");
+        }
+
+        public ActionResult videos()
+        {
+            return View();
+        }
+
+        public ActionResult Download()
+        {
+            ViewBag.winapp = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("winapp").ToLower()).ConfigValue;
+            ViewBag.macapp = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("macapp").ToLower()).ConfigValue;
+            return View();
+        }
+
+        [ActionName("get-started")]
+        public ActionResult get_started()
+        {
+            return View("get_started");
         }
         private static HttpWebRequest GetWebRequestObject(string endPoint)
         {
