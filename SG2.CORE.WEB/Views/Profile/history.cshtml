@@ -89,7 +89,7 @@
 
             .example.example1 h1 {
                 font-size: 30px;
-                font-weight:bold;
+                font-weight: bold;
             }
 
         example.example1 h2 {
@@ -478,7 +478,7 @@
                         </fieldset>
                     </form>
                     <div class="success">
-                        <img src="~/Content/Images/success.jpg"/>
+                        <img src="~/Content/Images/success.jpg" />
                         <h3 class="title" style="font-size:20px;color:green" data-tid="elements_examples.success.title">Next Steps:</h3>
                         <p class="message" style="font-size:13px;color:green"><span id="cmessage" data-tid="elements_examples.success.message"></span></p>
                         <div class="icon hidden">
@@ -520,7 +520,9 @@
 
                                 <h1 class="card-title" style="        font-weight: 600;
         font-size: 2.5em
-">Growth Planner</h1>
+">
+                                    Growth Planner
+                                </h1>
 
                                 <h4 class="card-title" style="color:red">@Plan1.PlanName</h4>
                                 <p class="card-text">
@@ -560,42 +562,70 @@
                         <div class="card-content">
 
 
-                            <div class="card-body">
+                            <div class="card-body text-center">
 
-                                <h1 class="card-title" style="font-weight:600;font-size:2.5em">@plan2.PlanName</h1>
-
-                                <h4 style="color:red;font-weight:bold;font-size:1.8em;" class="card-title">$@plan2.PlanPrice Per Month</h4>
-
-                                <ul class="plan-ul">
-                                    <li>
-                                        Get upto 5k NEW GENUINE Followers & Likes /pm
-                                    </li>
-                                    <li>
-                                        Guaranteed Likes on your most recent posts
-                                    </li>
-                                    <li>
-                                        Target your New Fans & Followers
-                                    </li>
-
-
-                                </ul>
-                                <p class="card-text">
-
-                                    Our Apps are all API driven ...
-                                    No Black Hat Tactics here !!!
-
-                                </p>
-                                <p class="card-text">
-                                    We NEVER ask you for your password and all
-                                    operations are done on YOUR laptop.
-                                </p>
-                                @if ((Model.SocialProfile.PaymentPlanId ?? 1) == plan2.PlanId)
+                                @if (Customer.IsBroker != true && (Model.SocialProfile.PaymentPlanId ?? 0) == 0)
                                 {
-                                    <a href="#" style="color:#fff" class="btn btn-success disabled planSelect btn-lg">Current Plan</a>
+                                    <p>
+                                        <img class="img-fluid" style="width:465px;" src="~/Content/app-assets/images/7_Day.png" />
+                                    </p>
+                                }
+                                else if (Customer.IsBroker != true && (Model.SocialProfile.PaymentPlanId ?? 0) == 2 && Convert.ToBoolean(ViewBag.IsTrialActive) == true)
+                                {<p>
+                                        <img class="img-fluid" style="width:465px;" src="~/Content/app-assets/images/On_Trial.png" />
+                                    </p>
+                                }
+                                else if (Customer.IsBroker != true && (Model.SocialProfile.PaymentPlanId ?? 0) == 2 && Convert.ToBoolean(ViewBag.IsTrialActive) == false)
+                                {
+                                    <p>
+                                        <img class="img-fluid" style="width:465px;" src="~/Content/app-assets/images/Go_Pro.png" />
+                                    </p>
+                                }
+                                else if (Customer.IsBroker == true && (Model.SocialProfile.PaymentPlanId ?? 0) == 4 )
+                                {
+                                    <p>
+                                        <img class="img-fluid" style="width:465px;" src="~/Content/app-assets/images/Go_Pro.png" />
+                                    </p>
                                 }
                                 else
                                 {
-                                    <a href="#" class="btn btn-outline-primary planSelect btn-lg" data-planId="@plan2.PlanId" data-planname="@plan2.PlanName" data-planprice="@plan2.PlanPrice">Subscribe</a>
+                                    <h1 class="card-title" style="font-weight:600;font-size:2.5em">@plan2.PlanName</h1>
+
+                                    <h4 style="color:red;font-weight:bold;font-size:1.8em;" class="card-title">$@plan2.PlanPrice Per Month</h4>
+
+                                    <ul class="plan-ul">
+                                        <li>
+                                            Get upto 5k NEW GENUINE Followers & Likes /pm
+                                        </li>
+                                        <li>
+                                            Guaranteed Likes on your most recent posts
+                                        </li>
+                                        <li>
+                                            Target your New Fans & Followers
+                                        </li>
+
+
+                                    </ul>
+                                    <p class="card-text">
+
+                                        Our Apps are all API driven ...
+                                        No Black Hat Tactics here !!!
+
+                                    </p>
+                                    <p class="card-text">
+                                        We NEVER ask you for your password and all
+                                        operations are done on YOUR laptop.
+                                    </p>
+                                }
+
+
+                                @if ((Model.SocialProfile.PaymentPlanId ?? 1) == plan2.PlanId)
+                                {
+                                    @*<a href="#" style="color:#fff" class="btn btn-success disabled planSelect btn-lg">Current Plan</a>*@
+                                }
+                                else
+                                {
+                                    <a href="#" class="btn btn-success planSelect btn-lg" data-planId="@plan2.PlanId" data-planname="@plan2.PlanName" data-planprice="@plan2.PlanPrice">Start</a>
                                 }
 
 
@@ -1025,7 +1055,7 @@
 
             $(".planSelect").on("click", function () {
                 $(".selectedPlanName").text($(this).attr("data-planname") + " $" +$(this).attr("data-planprice") + " /pm");
-                
+
                 if ($(this).attr("data-planname") == "GROWTH PRO") {
                     $(".freetrial").show();
                     $(".selectedPlanPrice").text("You will be automatically billed $" + $(this).attr("data-planprice") + " /pm after 7 days");
@@ -1173,8 +1203,8 @@
                  $("#existingplanid").val(existingPlanIdValSub);
                  $("#selectedPlanType").val('AgencyUpgrade');
 
-                 $("#cmessage").multiline('Your’re on the Agency Plan ! \n. Onboard some client accounts and watch them grow faster ;)');
-                 $("#successbtn").text('Get Started with 20 FREE profiles')
+                 $("#cmessage").multiline('Your’re on the Agency Plan!)');
+                 $("#successbtn").text('Get Started with your 20 FREE profiles')
 
 
                 selectedPlanName = $(".selectedPlanName").text();
@@ -1199,15 +1229,18 @@
                     var ChangeBtn = "Yes, Let's Downgrade";
                 }
                 else {
-                    var ChangeType = "Subscribe to " + selectedPlanName + "";
-                    var ChangeMsg = "Are you sure you want to subscribe for $" + selectedPlanprice +" per month?";
-                    var ChangeBtn = "Yes, Let's Subscribe";
+                    var ChangeType = "Save 50% \n + \n Grow upto 500 profiles from one dashboard";//"Subscribe to " + selectedPlanName + "";
+                    var ChangeMsg = ""; //"Are you sure you want to subscribe for $" + selectedPlanprice +" per month?";
+                    var ChangeBtn = "Yes, Let's upgrade to Agency Status";
                 }
 
                  swal.fire({
                     title: ChangeType,
                     text: ChangeMsg,
-                    icon: "info",
+                    imageUrl: '/Content/Images/hero.png',
+                      imageWidth: 70,
+                      imageHeight: 70,
+                      imageAlt: 'Custom image',
                     showLoaderOnConfirm: true,
                     closeOnClickOutside: false,
                      showCancelButton: true,

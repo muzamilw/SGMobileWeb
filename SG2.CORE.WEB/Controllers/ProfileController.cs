@@ -102,6 +102,41 @@ namespace SG2.CORE.WEB.Controllers
             ViewBag.winapp = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("winapp").ToLower()).ConfigValue;
             ViewBag.macapp = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("macapp").ToLower()).ConfigValue;
 
+            if (_sessionManager.Get(SessionConstants.profileId) == null && Convert.ToInt32(_sessionManager.Get(SessionConstants.profileId)) != socialProfileId)
+            {
+                if (SocailProfile.SocialProfile.StripeSubscriptionId != null)
+                {
+                    var _stripeApiKey = SystemConfig.GetConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
+                    StripeConfiguration.SetApiKey(_stripeApiKey);
+                    var subscriptionService = new SubscriptionService();
+                    Subscription subscriptionStatus = subscriptionService.Get(SocailProfile.SocialProfile.StripeSubscriptionId);
+                    bool trialFlag = false;
+                    if (subscriptionStatus.TrialEnd.HasValue && subscriptionStatus.TrialEnd.Value > DateTime.Now)
+                    {
+                        ViewBag.IsTrialActive = true;
+                        trialFlag = true;
+                    }
+                    else
+                    {
+                        ViewBag.IsTrialActive = false;
+                        trialFlag = false;
+                    }
+
+                    _sessionManager.Set(SessionConstants.profileTrialActive, trialFlag);
+                    _sessionManager.Set(SessionConstants.profileId, SocailProfile.SocialProfile.SocialProfileId);
+                }
+                else
+                {
+                    _sessionManager.Set(SessionConstants.profileTrialActive, false);
+                    _sessionManager.Set(SessionConstants.profileId, SocailProfile.SocialProfile.SocialProfileId);
+                }
+            }
+            else
+            {
+                ViewBag.IsTrialActive  = _sessionManager.Get(SessionConstants.profileTrialActive);
+               
+            }
+
             if (success.HasValue && success.Value == 1)
             {
                 ViewBag.success = 1;
@@ -191,6 +226,7 @@ namespace SG2.CORE.WEB.Controllers
 
         public ActionResult Target(int socialProfileId, int? success)
         {
+            ViewBag.IsTrialActive = _sessionManager.Get(SessionConstants.profileTrialActive);
             ViewBag.socialProfileId = socialProfileId;
             ViewBag.CurrentUser = this.CDT;
             var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
@@ -227,6 +263,7 @@ namespace SG2.CORE.WEB.Controllers
 		}
         public ActionResult Stats(int socialProfileId)
         {
+            ViewBag.IsTrialActive = _sessionManager.Get(SessionConstants.profileTrialActive);
             ViewBag.socialProfileId = socialProfileId;
             ViewBag.CurrentUser = this.CDT;
             ViewBag.socialProfile = this._cm.GetSocialProfileById(socialProfileId).SocialProfile;
@@ -376,6 +413,7 @@ namespace SG2.CORE.WEB.Controllers
 
         public ActionResult History(int socialProfileId, string buy = "", string buysession= "")
         {
+            ViewBag.IsTrialActive = _sessionManager.Get(SessionConstants.profileTrialActive);
             ViewBag.socialProfileId = socialProfileId;
             ViewBag.CurrentUser = this.CDT;
             var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
@@ -393,6 +431,8 @@ namespace SG2.CORE.WEB.Controllers
 
             ViewBag.stripeApiKey = _stripeApiKey;
             ViewBag.stripePublishKey = _stripePublishKey;
+          
+
 
             if (buysession  != "")
             {
@@ -570,16 +610,23 @@ namespace SG2.CORE.WEB.Controllers
                       new SubscriptionItemOptions {
                         Plan = newPlan.StripePlanId,
                         Quantity= 1
+                        
                       }
                     };
                     var stripeSubscriptionCreateOptions = new SubscriptionCreateOptions
                     {
                         Customer = stripeCustomer.Id,
                         Items = stripeItems,
+                       
                         //BillingCycleAnchor = DateTimeOffset.FromUnixTimeSeconds(1576486590).UtcDateTime
                         //  BillingCycleAnchor = DateTime.Now,
                         //BillingThresholds = {  }
                     };
+                    if ( newPlan.PlanId == 2)
+                    {
+                        stripeSubscriptionCreateOptions.TrialPeriodDays = 7;
+                    }
+
                     stripeSubscriptionCreateOptions.AddExpand("latest_invoice.payment_intent"); 
                     stripeSubscription = subscriptionService.Create(stripeSubscriptionCreateOptions);
 

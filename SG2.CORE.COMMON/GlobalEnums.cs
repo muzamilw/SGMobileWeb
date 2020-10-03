@@ -64,7 +64,9 @@
             public static string SystemUser = "SystemUser";
             public static string JVRPCSESSIONID = "JVRPCSESSIONID";
 			public static string SocialProfile = "SocialProfile";
-		}
+            public static string profileTrialActive = "profileTrialActive";
+            public static string profileId = "profileId";
+        }
 
         public enum CustomersStatus
         {

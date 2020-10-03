@@ -1430,6 +1430,7 @@
     <Content Include="Content\app-assets\images-placeholder\slider\slider-6.png" />
     <Content Include="Content\app-assets\images-placeholder\svg\cd-arrow.svg" />
     <Content Include="Content\app-assets\images-placeholder\svg\magnifier.svg" />
+    <Content Include="Content\app-assets\images\7_Day.png" />
     <Content Include="Content\app-assets\images\avatar.jpg" />
     <Content Include="Content\app-assets\images\backgrounds\bg-1.jpg" />
     <Content Include="Content\app-assets\images\backgrounds\bg-10.jpg" />
@@ -1590,6 +1591,7 @@
     <Content Include="Content\app-assets\images\gallery\7.jpg" />
     <Content Include="Content\app-assets\images\gallery\8.jpg" />
     <Content Include="Content\app-assets\images\gallery\9.jpg" />
+    <Content Include="Content\app-assets\images\Go_Pro.png" />
     <Content Include="Content\app-assets\images\icons\browser.png" />
     <Content Include="Content\app-assets\images\icons\chrome.png" />
     <Content Include="Content\app-assets\images\icons\error.png" />
@@ -1627,6 +1629,7 @@
     <Content Include="Content\app-assets\images\logo\stack-logo-light.png" />
     <Content Include="Content\app-assets\images\logo\stack-logo-small.png" />
     <Content Include="Content\app-assets\images\logo\stack-logo.png" />
+    <Content Include="Content\app-assets\images\On_Trial.png" />
     <Content Include="Content\app-assets\images\pages\fitness-profile.jpg" />
     <Content Include="Content\app-assets\images\pages\fitness-shoes.jpg" />
     <Content Include="Content\app-assets\images\pages\fitness-slide-1.jpg" />

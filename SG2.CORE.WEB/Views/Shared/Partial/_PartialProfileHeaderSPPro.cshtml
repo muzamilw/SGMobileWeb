@@ -48,4 +48,18 @@
             Plan
         </a>
     </div>
+
+    @if (ViewBag.IsTrialActive == true)
+    {
+    <div class="card bg-success border" style="margin:8px;border-radius: 9px;">
+        <div class="card-body text-center">
+            <h4 class="card-title" style="    font-weight: bold;    font-size: 1.2em;margin-bottom: 0rem;">You're on FREE 7 day trial</h4>
+           
+          
+        </div>
+    </div>
+    }
+
+
+
 </div>
