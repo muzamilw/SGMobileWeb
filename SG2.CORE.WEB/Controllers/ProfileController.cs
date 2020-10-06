@@ -633,6 +633,9 @@ namespace SG2.CORE.WEB.Controllers
                     //-- Update customer stripe id async call not to wait.
                     _cm.UpdateSocialProfileStripeCustomer(model.socialProfileId, stripeCustomer.Id, stripeSubscription.Id, newPlan.PlanId);
 
+                    _sessionManager.Set(SessionConstants.profileTrialActive, true);
+                    _sessionManager.Set(SessionConstants.profileId, model.socialProfileId);
+
                 }
 
                 //--TODO: Check subscription status here

@@ -564,7 +564,7 @@
 
                             <div class="card-body text-center">
 
-                                @if (Customer.IsBroker != true && (Model.SocialProfile.PaymentPlanId ?? 0) == 0)
+                                @if (Customer.IsBroker != true && ((Model.SocialProfile.PaymentPlanId ?? 0) == 0 || (Model.SocialProfile.PaymentPlanId ?? 0) == 1) )
                                 {
                                     <p>
                                         <img class="img-fluid" style="width:465px;" src="~/Content/app-assets/images/7_Day.png" />
@@ -1056,7 +1056,7 @@
             $(".planSelect").on("click", function () {
                 $(".selectedPlanName").text($(this).attr("data-planname") + " $" +$(this).attr("data-planprice") + " /pm");
 
-                if ($(this).attr("data-planname") == "GROWTH PRO") {
+                if ($(this).attr("data-planname") == "Growth PRO") {
                     $(".freetrial").show();
                     $(".selectedPlanPrice").text("You will be automatically billed $" + $(this).attr("data-planprice") + " /pm after 7 days");
                 }
