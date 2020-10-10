@@ -241,7 +241,7 @@
                                             <div class="form-group">
                                                 @*@Html.LabelFor(m => m.SocialProfile_Instagram_TargetingInformation.Preference1, new { @class = "" })*@
                                                 @*<span style="display:block"> Please use this format for hashtags: #hashtag,#hashtag,#hashtag</span>*@
-                                                <label>target your competitors followers. Add your competitors Instagram usernames. WE RECOMMEND YOU ADD A MINIMUM OF 3 COMPETITORS</label>
+                                                <label>Target your competitors followers. Add your competitors Instagram usernames. WE RECOMMEND YOU ADD A MINIMUM OF 3 COMPETITORS</label>
                                                 <div id="DirectCompetitors" class="edit-on-delete form-control" data-tags-input-name="wlextracted">@Model.SocialProfile_Instagram_TargetingInformation.DirectCompetitors</div>
                                                 @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.DirectCompetitors)
 
@@ -1135,9 +1135,9 @@
 
             DirectCompetitors = $("#DirectCompetitors").tagging({
                 "edit-on-delete": false,
-                "no-spacebar": true,
+                
                 "tag-char": '',
-                'forbidden-chars': [",", "?"],
+                'forbidden-chars': [",", "?", " "],
                 "tags-limit": 20
             });
             DirectCompetitorsbox = DirectCompetitors[0];
@@ -1156,9 +1156,9 @@
 
             wltyped = $("#wltyped").tagging({
                 "edit-on-delete": false,
-                "no-spacebar": true,
+                
                 "tag-char": '',
-                'forbidden-chars': [",", "?"]
+                'forbidden-chars': [",", "?", " "]
             });
             wltypedbox = wltyped[0];
 
@@ -1176,9 +1176,9 @@
 
             blUsernames = $("#blUsernames").tagging({
                 "edit-on-delete": false,
-                "no-spacebar": true,
+                
                 "tag-char": '',
-                'forbidden-chars': [",", "?"]
+                'forbidden-chars': [",", "?", " "]
             });
             blUsernamesbox = blUsernames[0];
 
@@ -1217,9 +1217,9 @@
 
             bWordsManual = $("#bWordsManual").tagging({
                 "edit-on-delete": false,
-                "no-spacebar": true,
+               
                 "tag-char": '',
-                'forbidden-chars': [",", "?"]
+                'forbidden-chars': [",", "?", " "]
             });
             bWordsManualbox = bWordsManual[0];
 
@@ -1237,9 +1237,9 @@
 
               blHashtags = $("#blHashtags").tagging({
                 "edit-on-delete": false,
-                "no-spacebar": true,
+               
                 "tag-char": '',
-                'forbidden-chars': [",", "?"]
+                'forbidden-chars': [",", "?", " "]
             });
             blHashtagsbox = blHashtags[0];
 
@@ -1257,9 +1257,9 @@
 
              hashtagsengage = $("#hashtagsengage").tagging({
                 "edit-on-delete": false,
-                "no-spacebar": true,
+                
                 "tag-char": '',
-                'forbidden-chars': [",", "?"],
+                'forbidden-chars': [",", "?", " "],
                 'tags-limit': 20
 
             });
