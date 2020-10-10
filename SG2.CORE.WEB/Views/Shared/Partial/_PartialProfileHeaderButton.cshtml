@@ -9,17 +9,17 @@
     socialProfile = (SocialProfile)ViewBag.socialProfile;
 
     var appStatus = Model.AppStatus + (string.IsNullOrWhiteSpace(socialProfile.AppVersion) == false ? " - v" + socialProfile.AppVersion : "");
-    var appStatusClass = "offline-btn";
+    var appStatusClass = "color:red";
     var ProfileStatus = "";
     var statusclass = "btn-info";
 
     switch (socialProfile.BlockedStatus)
     {
-        case null: ProfileStatus = "Valid"; statusclass = "btn-info"; break;
-        case 0: ProfileStatus = "Valid"; statusclass = "btn-info"; break;
-        case 66: ProfileStatus = "Action Blocked"; statusclass = "btn-danger"; break;
-        case 67: ProfileStatus = "Hard Blocked"; statusclass = "btn-danger"; break;
-        case 68: ProfileStatus = "Password Blocked"; statusclass = "btn-danger"; break;
+        case null: ProfileStatus = "Valid"; statusclass = "color:green"; break;
+        case 0: ProfileStatus = "Valid"; statusclass = "color:green"; break;
+        case 66: ProfileStatus = "Action Blocked"; statusclass = "color:red"; break;
+        case 67: ProfileStatus = "Hard Blocked"; statusclass = "color:red"; break;
+        case 68: ProfileStatus = "Password Blocked"; statusclass = "color:red"; break;
         default:
             ProfileStatus = "Valid"; statusclass = "btn-info";
             break;
@@ -27,7 +27,7 @@
 
     if (Model.AppStatus == "Online")
     {
-        appStatusClass = "online-btn";
+        appStatusClass = "color:green";
     }
 
     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
@@ -48,9 +48,9 @@
 
             @*@/*if (custDto.IsBroker == true)
             {*/*@
-            <button class="btn btn-round btn-success" type="button"><i class="fa fa-dollar "></i> @ViewBag.PlanName</button>
-            <button class="btn @appStatusClass" type="button">@appStatus</button>
-            <button class="btn btn-round @statusclass" type="button"><i class="ft-activity pr-1"></i> @ProfileStatus</button>
+            <button data-toggle="tooltip" data-placement="bottom" title="This Profiles current plan. Plan has to be activated for App to run on laptop." class="btn btn-light btn-round " type="button" style="text-transform:uppercase"><i class="fa fa-dollar " ></i> @ViewBag.PlanName</button>
+            <button data-toggle="tooltip" data-placement="bottom" title="This shows if the App installed on the laptop or device is running or in active." class="btn btn-light " style="@appStatusClass; text-transform:uppercase" type="button">@appStatus</button>
+            <button data-toggle="tooltip" data-placement="bottom" title="This indicates the IG account is Valid or Blocked by Instagram." class="btn btn-round btn-light" style="@statusclass;text-transform:uppercase" type="button"><i class="ft-activity pr-1"></i> @ProfileStatus</button>
             @*}
             else
             {

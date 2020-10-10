@@ -1483,6 +1483,7 @@
     <Content Include="Content\app-assets\images\carousel\29.png" />
     <Content Include="Content\app-assets\images\carousel\30.jpg" />
     <Content Include="Content\app-assets\images\carousel\31.jpg" />
+    <Content Include="Content\app-assets\images\Competitors.png" />
     <Content Include="Content\app-assets\images\crop-pic.jpg" />
     <Content Include="Content\app-assets\images\datatables\resources\demo.css" />
     <Content Include="Content\app-assets\images\datatables\resources\demo.js" />
@@ -1591,6 +1592,7 @@
     <Content Include="Content\app-assets\images\gallery\7.jpg" />
     <Content Include="Content\app-assets\images\gallery\8.jpg" />
     <Content Include="Content\app-assets\images\gallery\9.jpg" />
+    <Content Include="Content\app-assets\images\Gender.png" />
     <Content Include="Content\app-assets\images\Go_Pro.png" />
     <Content Include="Content\app-assets\images\icons\browser.png" />
     <Content Include="Content\app-assets\images\icons\chrome.png" />
@@ -1621,7 +1623,9 @@
     <Content Include="Content\app-assets\images\jqueryui\calendar.png" />
     <Content Include="Content\app-assets\images\jqueryui\ui-anim_basic_16x16.gif" />
     <Content Include="Content\app-assets\images\jqueryui\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\app-assets\images\Keyword.png" />
     <Content Include="Content\app-assets\images\linkedin-logo-icon.png" />
+    <Content Include="Content\app-assets\images\Locations.png" />
     <Content Include="Content\app-assets\images\logo\stack-80x80.png" />
     <Content Include="Content\app-assets\images\logo\stack-logo-dark-big.png" />
     <Content Include="Content\app-assets\images\logo\stack-logo-dark.png" />
@@ -1727,6 +1731,7 @@
     <Content Include="Content\app-assets\images\portrait\small\avatar-s-7.png" />
     <Content Include="Content\app-assets\images\portrait\small\avatar-s-8.png" />
     <Content Include="Content\app-assets\images\portrait\small\avatar-s-9.png" />
+    <Content Include="Content\app-assets\images\Profile_Type.png" />
     <Content Include="Content\app-assets\images\raty\cancel-off.png" />
     <Content Include="Content\app-assets\images\raty\cancel-on.png" />
     <Content Include="Content\app-assets\images\raty\heart-2.png" />
@@ -2710,6 +2715,7 @@
     <Content Include="Content\Theme-CA\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\Theme-CA\fonts\ionicons.svg" />
     <Content Include="Content\Theme-CA\fonts\themify.svg" />
+    <Content Include="Content\Theme-CA\img\agency-app.png" />
     <Content Include="Content\Theme-CA\img\api-driven.png" />
     <Content Include="Content\Theme-CA\img\bg-img\client-1.jpg" />
     <Content Include="Content\Theme-CA\img\bg-img\client-2.jpg" />

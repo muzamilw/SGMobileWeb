@@ -181,8 +181,16 @@
                     @RenderSection("profileheader", required: false)
 
 
-                    <ul id="js-nav-menu" class="nav-menu">
-
+                <ul id="js-nav-menu" class="nav-menu">
+                    @if (custDto.IsBroker == true)
+                    {
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-arrow-right"></i>
+                                <span class="nav-link-text">Agency Plan</span>
+                            </a>
+                        </li>
+                    }
                         <li>
                             <a href="~/Profile/Basic?socialProfileId=@ViewBag.socialProfileId">
                                 <i class="fa fa-address-card-o"></i>
@@ -198,21 +206,21 @@
                             </a>
                         </li>
                         @*<li>
-                            <a href="~/Profile/Whitelist?socialProfileId=@ViewBag.socialProfileId">
-                                <i class="fa fa-list-alt"></i>
-                                <span class="nav-link-text">
-                                    White List
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="~/Profile/Blacklist?socialProfileId=@ViewBag.socialProfileId">
-                                <i class="fa fa-bolt"></i>
-                                <span class="nav-link-text">
-                                    Black List
-                                </span>
-                            </a>
-                        </li>*@
+                <a href="~/Profile/Whitelist?socialProfileId=@ViewBag.socialProfileId">
+                    <i class="fa fa-list-alt"></i>
+                    <span class="nav-link-text">
+                        White List
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="~/Profile/Blacklist?socialProfileId=@ViewBag.socialProfileId">
+                    <i class="fa fa-bolt"></i>
+                    <span class="nav-link-text">
+                        Black List
+                    </span>
+                </a>
+            </li>*@
                         @if (custDto.IsBroker == true)
                         {
                             <li>
@@ -235,6 +243,18 @@
                             <a href="~/Profile/history?socialProfileId=@ViewBag.socialProfileId">
                                 <i class="fa fa-bolt"></i>
                                 <span class="nav-link-text">Plan & History</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="~/home/videos">
+                                <i class="fa fa-video"></i>
+                                <span class="nav-link-text">Watch Videos</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="~/home/download">
+                                <i class="fa fa-download"></i>
+                                <span class="nav-link-text">Download Links</span>
                             </a>
                         </li>
 
@@ -329,6 +349,10 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+
+           
+              $('[data-toggle="tooltip"]').tooltip()
+            
 
             $('body').css('padding-right', '0');
 
