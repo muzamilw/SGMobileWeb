@@ -66,6 +66,19 @@
             -ms-user-select: none;
             user-select: none;
         }
+
+        .editable-click{
+           width: 400px;
+    display: inline-block;
+    height: 30px;
+    vertical-align: middle;
+    padding: 0.5rem 0.875rem;
+    color: black;
+    border: 1px solid #ccd6e6 !important;
+    height: calc(1.47em + 1rem + 2px);
+    font-size:18px;
+        }
+
     </style>
 }
 
@@ -104,7 +117,7 @@
                                             <div class="row mt-3">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label class="label-control" for="projectinput1">Your Instagram Username</label>
+                                                        <label class="label-control" style="color:red;font-size:17px;" for="projectinput1">Your Instagram Username</label>
 
 
 
@@ -115,7 +128,7 @@
 
 
                                             </div>
-                                            
+
 
 
 
@@ -131,6 +144,16 @@
                                                 </div>
 
                                             </div>
+                                            <div class="row">
+                                                <div class="col-md-12 text-center">
+                                                    <div class="form-actions">
+                                                       
+                                                        <a class="btn btn-primary" href='/Profile/target?socialProfileId=@ViewBag.socialProfileId'>
+                                                            <i class="fa fa-check-square-o"></i> Save
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
 
 
                                             <div class="row mt-4">
@@ -140,11 +163,13 @@
 
                                                 </div>
                                                 <div class="col-md-6 ">
-                                                    <img  class="img-fluid" src="~/Content/Images/step2.png" />
+                                                    <img class="img-fluid" src="~/Content/Images/step2.png" />
 
 
                                                 </div>
                                             </div>
+
+
 
 
 
@@ -180,6 +205,10 @@
             /*******************************
             *       Simple Options         *
             *******************************/
+            if (splanname != 'FREE' && sappstatus.includes('Offline') ) {
+                swal("", "Install App on your Laptop & Run the App.", "warning");
+            }
+
             $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="fa fa-fw fa-check"></i></button>' + '<button type="button" class="btn editable-cancel" style="background: pink;"><i class="fa fa-fw fa-remove"></i></button>' ;
 
             $(".edit-on-delete").tagging({

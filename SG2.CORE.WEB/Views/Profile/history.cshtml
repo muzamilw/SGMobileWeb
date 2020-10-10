@@ -372,7 +372,7 @@
             cursor: text;
             font-size: 1.0rem;
             font-weight: 300;
-            color: #666;
+            color: black;
             margin-top: 0px;
         }
     </style>
@@ -789,7 +789,7 @@
                                             <tr>
                                                 <th>Payment Date/Time</th>
                                                 <th>Plan</th>
-                                                @*<th>Price</th>*@
+                                                <th>Price</th>
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
@@ -805,9 +805,9 @@
                                                     <td>
                                                         @item.PaymentPlanName
                                                     </td>
-                                                    @*<td>
+                                                    <td>
                                                             @item.Price
-                                                        </td>*@
+                                                        </td>
                                                     <td>
                                                         <div class="badge badge-primary label-square">
                                                             <i class="fa fa-paperclip font-medium-2"></i>
@@ -885,13 +885,13 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title text-left">Cancel subscription Confirmation!</h4>
+                <h4 class="modal-title text-left">Cancel subscription!</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
 
             </div>
             <div class="modal-body">
 
-                <h3 style="color:red">Are you sure you want to cancel your campaign and subscription ? This action is not reversible!</h3>
+                <h3 style="color:red;margin-bottom:10px;">Are you sure you want to cancel your Growth Plan? This action is not reversible!</h3>
                 <input type="hidden" id="hdn_DeleteItemId" value="" />
                 <input type="text" id="deleteConfirmation" placeholder="Type in 'DELETE ME' to continue" />
             </div>
@@ -1313,7 +1313,7 @@
 
                 Swal.fire({
                     title: "Cancel subscription!",
-                    text: "Are you sure you want to cancel your campaign and subscription ? This action is not reversible!",
+                    text: "Are you sure you want to cancel your Growth Plan ? This action is not reversible!",
                     icon: "error",
                     showLoaderOnConfirm: true,
                     closeOnClickOutside: false,
@@ -1373,9 +1373,9 @@
                                 //handleSubscription(subscription);.
                                 $("#Modal_ConfirmDeletion").modal("hide");
                                 Swal.close();
-                                Swal.fire("Success!", "Your subscription & campaign has been deleted successfully;", "success")
+                                Swal.fire("Success!", "Your subscription has been deleted successfully", "success")
                                     .then(function () {
-                                        window.location = "/User/Home/";
+                                        window.location = "/home/";
                                     });
                             });
 

@@ -3,11 +3,16 @@
 @using SG2.CORE.MODAL;
 @model SG2.CORE.MODAL.DTO.Customers.SocialProfileDTO
 
+@{ 
+
+     var custDto = (CustomerDTO)ViewBag.CustomerDTO;
+}
+
 <div class="d-none d-lg-block">
     <div class="heading-wrapper d-flex flex-row justify-content-between ">
         <h1>@ViewBag.Title</h1>
         <span class="navbar-text">
-            @if (ViewBag.ProfileCount > 1)
+            @if (custDto.IsBroker == true || ViewBag.ProfileCount > 1)
             {
                 <a class="btn btn-black" href="/user/home">
                     Back
@@ -21,8 +26,9 @@
     <div class="d-flex flex-row" style="padding-left:10px;">
         <img src="/Content/ThemeAssets/Images/InstagramLogoTransparent25.png" style="width:39px;">
         <h1 class="ml-1 mt-1">@ViewBag.socialProfile.SocialUsername</h1>
+        
 
-        @if (ViewBag.ProfileCount > 1)
+        @if (custDto.IsBroker == true || ViewBag.ProfileCount > 1)
         {
             <a class="btn btn-black ml-auto" style="" href="/user/home">
                 Back

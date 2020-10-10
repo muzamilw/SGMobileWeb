@@ -264,11 +264,11 @@
                                 if (data.ResultType == "Success") {
                                     $("#SignUpSpinner").css("display", "none");
                                     $("#Modal_SignupPopup").modal("hide");
-                                    $("#Modal_MessageBoxTitle").text("Account Created Succesfully.!");
-                                    $("#Modal_MessageBoxBody").text("Congratulation! Your account has successfully created. Please check your inbox for verification.!");
+                                    $("#Modal_MessageBoxTitle").text("Account Created Succesfully");
+                                    $("#Modal_MessageBoxBody").text("Please check your inbox for verification email");
                                     ///fbq('track', 'CompleteRegistration');
                                     $("#Modal_MessageBoxOkBtn").on("click", function (e) {
-                                        window.location.href = "/home/";
+                                        window.location.href = "/account/login";
                                     });
                                     
                                     $("#Modal_Messagebox").modal("show");

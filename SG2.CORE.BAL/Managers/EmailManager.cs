@@ -62,6 +62,11 @@ namespace SG2.CORE.BAL.Managers
                 {
                     templateId = "d-de0e38e3b1ca45088cf2c1a6f245b41f";
                 }
+                else if (emailType == EmailType.profileDeleted)
+                {
+                    templateId = "d-344696b1415e4ec59f24d56b35102549";
+                }
+                
 
 
 
@@ -164,7 +169,9 @@ namespace SG2.CORE.BAL.Managers
             PlanDowngrade = 4,
             Welcome = 5,
             RunNotification = 6,
-            HomePageContact = 7
+            HomePageContact = 7,
+            profileDeleted = 8
+
         }
     }
 }

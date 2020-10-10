@@ -176,27 +176,27 @@
                             <div class="card">
                                 <div class="form-group row col-md-12 ml-0 mr-0 row mt-3">
                                     <h1 class="col-lg-12 col-md-12 col-sm-12  form-section pl-0 mb-0 text-bold-700 main-card-h1" style="border-bottom:0px; text-transform: uppercase;padding-bottom:20px;color: red;font-size: 1.7rem;">Target your new fans & Followers</h1>
-                                    <h4>Grow your social meida accounts with hundreds of hot leads and/or fan base by targeting your idealaudiences.</h4>
+                                    <h4>Grow your social meida accounts with hundreds of hot leads and/or fan base by targeting your ideal audiences.</h4>
 
                                 </div>
 
                                 @*<div class="card-header">
-                                        <div class="card-title col-lg-5 col-sm-12 float-left mt-1 row" id="horz-layout-basic">
-                                            <h4 >Targeting</h4>
-                                        </div>
-                                        <div class="col-lg-7 col-sm-12 float-right text-right pr-0 hidden">
+                <div class="card-title col-lg-5 col-sm-12 float-left mt-1 row" id="horz-layout-basic">
+                    <h4 >Targeting</h4>
+                </div>
+                <div class="col-lg-7 col-sm-12 float-right text-right pr-0 hidden">
 
 
 
-                                                    <button type="submit" class="btn btn-primary mb-2">
-                                                        <i class="fa fa-check-square-o"></i> Save Targeting Information
-                                                    </button>
+                            <button type="submit" class="btn btn-primary mb-2">
+                                <i class="fa fa-check-square-o"></i> Save Targeting Information
+                            </button>
 
 
 
 
-                                        </div>
-                                    </div>*@
+                </div>
+            </div>*@
                                 <div class="card-content collpase show">
                                     <div class="card-body">
 
@@ -220,11 +220,11 @@
                                             </div>
                                             @*<div class="form-group">
 
-                                                    <label>Choose the hashtags you DO NOT want to engage (Optional):</label>
-                                                    <div id="hashtagsnotengage" class="edit-on-delete form-control" data-tags-input-name="wlextracted">@Model.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage</div>
-                                                    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage)
+                            <label>Choose the hashtags you DO NOT want to engage (Optional):</label>
+                            <div id="hashtagsnotengage" class="edit-on-delete form-control" data-tags-input-name="wlextracted">@Model.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage</div>
+                            @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.HashTagsToNotEngage)
 
-                                                </div>*@
+                        </div>*@
                                             <h1 class="col-lg-12 col-md-12 col-sm-12  form-section pl-0 mb-2 text-bold-700 main-card-h1" style="border-bottom:0px;">Locations</h1>
                                             <div class="form-group">
                                                 @*<span style="display:block"> Please use this format for hashtags: #hashtag,#hashtag,#hashtag</span>*@
@@ -254,19 +254,19 @@
                                                         <fieldset class="radio">
                                                             <label class="form-radio" col-md-3>
 
-                                                                @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.GenderEngagmentPref, "1", new {  @class="GenderEngagmentPref" })
+                                                                @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.GenderEngagmentPref, "1", new { @class = "GenderEngagmentPref" })
 
                                                                 <span class="checkmark">Males</span>
                                                             </label><br />
                                                             <label class="form-radio" col-md-3>
 
-                                                                @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.GenderEngagmentPref, "2",new {  @class="GenderEngagmentPref" })
+                                                                @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.GenderEngagmentPref, "2", new { @class = "GenderEngagmentPref" })
 
                                                                 <span class="checkmark">Females</span>
                                                             </label><br />
                                                             <label class="form-radio" col-md-3>
 
-                                                                @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.GenderEngagmentPref, "3",new {  @class="GenderEngagmentPref" })
+                                                                @Html.RadioButtonFor(m => m.SocialProfile_Instagram_TargetingInformation.GenderEngagmentPref, "3", new { @class = "GenderEngagmentPref" })
 
                                                                 <span class="checkmark">Both</span>
                                                             </label>
@@ -680,28 +680,7 @@
                                 </div>
                             </div>
 
-                            @*Whitelist*@
-                            <div class="card">
-                                <div class="card-content collpase show">
 
-                                    <div class="card-body">
-                                        <div class=" form-group row col-md-12 ml-0 mr-0 row">
-                                            <h1 class="col-lg-12 col-md-12 col-sm-12  form-section pl-0 mb-0 text-bold-700 main-card-h1" style="border-bottom:0px;">White List</h1>
-
-                                        </div>
-                                        <div class="form-group row col-md-12 ml-0 mr-0 row">
-                                            <div class="col-md-12 col-xs-12">
-                                                <div class="row">
-                                                    <div id="wltyped" class="edit-on-delet form-control" data-tags-input-name="@Html.NameFor(m => m.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers)">@Model.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers</div>
-
-                                                    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers)
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
                             @*Blacklists*@
 
@@ -714,7 +693,7 @@
 
                                         </div>
 
-                                        <div class="form-body" style="padding:14px;">
+                                        <div class="form-body " style="padding:14px;">
 
 
 
@@ -768,7 +747,44 @@
                                 </div>
                             </div>
 
+                            @*Whitelist*@
+                            <div class="card">
+                                <div class="card-content collpase show">
 
+                                    <div class="card-body">
+                                        <div class=" form-group row col-md-12 ml-0 mr-0 row">
+                                            <h1 class="col-lg-12 col-md-12 col-sm-12  form-section pl-0 mb-0 text-bold-700 main-card-h1" style="border-bottom:0px;">White List</h1>
+
+                                        </div>
+                                        <p class="ml-2" style="color:black">
+                                            <b>
+                                                Usernames you never want to UN-FOLLOW
+                                            </b>
+                                        </p>
+                                        <div class="form-group row col-md-12 ml-0 mr-0 row">
+                                            <div class="col-md-12 col-xs-12">
+                                                <div class="row">
+                                                    <div id="wltyped" class="edit-on-delet form-control" data-tags-input-name="@Html.NameFor(m => m.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers)">@Model.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers</div>
+
+                                                    @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers)
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12 text-center">
+                                                <div class="form-actions">
+
+                                                    <a class="btn btn-primary" href='/Profile/history?socialProfileId=@ViewBag.socialProfileId'>
+                                                        <i class="fa fa-check-square-o"></i> Save
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="card hidden">
                                 <div class="card-header">
@@ -865,8 +881,8 @@
 
                                                         </div>
                                                         @*<button type="button" data-repeater-create class="btn btn-primary">
-                                                                <i class="icon-plus4"></i> Add Interval
-                                                            </button>*@
+                                        <i class="icon-plus4"></i> Add Interval
+                                    </button>*@
                                                     </div>
 
 
@@ -888,15 +904,15 @@
 
 
                             @*<div class="card">
-                                <div class="text-center mt-lg-5 mb-lg-5">
+            <div class="text-center mt-lg-5 mb-lg-5">
 
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="fa fa-check-square-o"></i> Save
-                                    </button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-check-square-o"></i> Save
+                </button>
 
-                                    <div id="userErrorMesg" class="danger text-center userErrorMesg"></div>
-                                </div>
-                            </div>*@
+                <div id="userErrorMesg" class="danger text-center userErrorMesg"></div>
+            </div>
+        </div>*@
                         </div>
                     </div>
                 </section>
@@ -1600,11 +1616,17 @@
                 //}
             }
 
+          
+            if (splanname != 'FREE' && sappstatus.includes('Offline') ) {
+                swal("", "Install App on your Laptop & Run the App.", "warning");
+            }
 
 
             @if (ViewBag.success == 1) {
                 @:swal("Success!", "You have successfully saved target filtering information.!", "success");
             }
+
+            
         });
 
 

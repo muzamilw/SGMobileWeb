@@ -137,7 +137,7 @@ namespace SG2.CORE.WEB.Controllers
                             var dynamicTemplateData = new Dictionary<string, string> 
                             {
                                 {"name",customer.FirstName},
-                                {"videolink", "https://www.youtube.com/watch?v=MB70ADGaC30"},
+                                {"videolink", "https://www.youtube.com/watch?v=r2djPpiDXBc"},
                                 {"senddate", DateTime.Today.ToLongDateString() },
                                 {"winapp",SystemConfigs.First(x => x.ConfigKey.ToLower() == ("winapp").ToLower()).ConfigValue },
                                 {"macapp",SystemConfigs.First(x => x.ConfigKey.ToLower() == ("macapp").ToLower()).ConfigValue }

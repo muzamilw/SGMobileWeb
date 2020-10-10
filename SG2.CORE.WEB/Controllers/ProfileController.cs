@@ -1381,28 +1381,40 @@ namespace SG2.CORE.WEB.Controllers
                                 };
                                 _notManager.AddNotification(nt);
 
+                                var dynamicTemplateData = new Dictionary<string, string>
+                        {
+                            {"name",this.CDT.FirstName},
+                            {"email", this.CDT.EmailAddress},
+                            {"senddate", DateTime.Today.ToLongDateString()},
+                            {"planname", profileDTO.CurrentPaymentPlan.PlanName},
+                             {"socialusername", "$" + profileDTO.SocialProfile.SocialUsername}
+                              
 
-                        //        List<NotRequiredProperty> list = new List<NotRequiredProperty>()
-                        //{
-                        //    new NotRequiredProperty("$email", this.CDT.EmailAddress),
-                        //    new NotRequiredProperty("$first_name ", this.CDT.FirstName),
-                        //    new NotRequiredProperty("$last_name ", this.CDT.SurName)
-                        //};
-                        //        ev.Event = "Account Deleted";
-                        //        ev.Properties.NotRequiredProperties = list;
-                        //        ev.CustomerProperties.Email = CDT.EmailAddress;
-                        //        ev.CustomerProperties.FirstName = CDT.EmailAddress;
-                        //        ev.CustomerProperties.LastName = CDT.EmailAddress;
+                        };
+                                BAL.Managers.EmailManager.SendEmail(this.CDT.EmailAddress, this.CDT.FirstName, EmailManager.EmailType.profileDeleted, dynamicTemplateData);
 
-                        //        var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
-                        //        var Klavio_FreeCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_FreeCustomers").ToLower()).ConfigValue;
-                        //        var Klavio_PayingCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_PayingCustomers").ToLower()).ConfigValue;
-                        //        var Klavio_DeletedCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_DeletedCustomers").ToLower()).ConfigValue;
 
-                        //        klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
-                        //        klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_FreeCustomers);
-                        //        klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_PayingCustomers);
-                        //        var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_DeletedCustomers);
+                                //        List<NotRequiredProperty> list = new List<NotRequiredProperty>()
+                                //{
+                                //    new NotRequiredProperty("$email", this.CDT.EmailAddress),
+                                //    new NotRequiredProperty("$first_name ", this.CDT.FirstName),
+                                //    new NotRequiredProperty("$last_name ", this.CDT.SurName)
+                                //};
+                                //        ev.Event = "Account Deleted";
+                                //        ev.Properties.NotRequiredProperties = list;
+                                //        ev.CustomerProperties.Email = CDT.EmailAddress;
+                                //        ev.CustomerProperties.FirstName = CDT.EmailAddress;
+                                //        ev.CustomerProperties.LastName = CDT.EmailAddress;
+
+                                //        var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
+                                //        var Klavio_FreeCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_FreeCustomers").ToLower()).ConfigValue;
+                                //        var Klavio_PayingCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_PayingCustomers").ToLower()).ConfigValue;
+                                //        var Klavio_DeletedCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_DeletedCustomers").ToLower()).ConfigValue;
+
+                                //        klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
+                                //        klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_FreeCustomers);
+                                //        klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_PayingCustomers);
+                                //        var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_DeletedCustomers);
                             });
 
                             jr.Data = new { ResultType = "Success", message = "User has successfully Unsubscribe." };
