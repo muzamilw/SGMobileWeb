@@ -149,7 +149,7 @@
                                                 <div class="col-md-12 text-center">
                                                     <div class="form-actions">
                                                        
-                                                        <a class="btn btn-primary" href='/Profile/target?socialProfileId=@ViewBag.socialProfileId'>
+                                                        <a class="btn btn-primary btn-lg" href='/Profile/target?socialProfileId=@ViewBag.socialProfileId'>
                                                             <i class="fa fa-check-square-o"></i> Next, Target Filters >>
                                                         </a>
                                                     </div>
@@ -230,7 +230,12 @@
 
             
             if (splanname != 'FREE' && sappstatus.includes('Offline') && findBootstrapEnvironment() != "xs" ) {
-                swal("", "Install App on your Laptop & Run the App.", "warning");
+                //swal("", "Install App on your Laptop & Run the App.", "warning");
+                toastr.options.showDuration = 5;
+                toastr.options.timeOut  = 5000; // How long the toast will display without user interaction
+                toastr.options.extendedTimeOut = 30; // How long the toast will display after a user hovers over it
+                //swal("", "Install App on your Laptop & Run the App.", "warning");
+                toastr.warning('Install App on your Laptop & Run the App', '')
             }
 
             $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="fa fa-fw fa-check"></i></button>' + '<button type="button" class="btn editable-cancel" style="background: pink;"><i class="fa fa-fw fa-remove"></i></button>' ;

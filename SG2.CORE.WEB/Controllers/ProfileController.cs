@@ -1338,11 +1338,6 @@ namespace SG2.CORE.WEB.Controllers
 
                 SocialProfileDTO profileDTO = _cm.GetSocialProfileById(SocialProfileId);
 
-
-                //if (!profileDTO.IsJVServerRunning)
-                //{
-                //    severMode = "Manual";
-                //}
                 var _stripeApiKey = SystemConfig.GetConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
                 if (profileDTO != null)
                 {
@@ -1355,15 +1350,7 @@ namespace SG2.CORE.WEB.Controllers
                             var service = new SubscriptionService();
                             var sub = service.Get(profileDTO.SocialProfile.StripeSubscriptionId);
 
-                            var subscription = service.Cancel(sub.Id,null);
-
-                            //if (subscription != null)
-                            //{
-                            //    //_cm.UpdateJVStatus(SocialProfileId, (int)GlobalEnums.JVStatus.ProfileRequiresCancelling);
-                            //    _customerManager.UpdateSubscriptionStatus(Convert.ToInt32(profileDTO.SocialProfile.SocialProfileId), (int)GlobalEnums.PlanSubscription.canceled);
-                            //}
-
-
+                            var subscription = service.Cancel(sub.Id, null);
 
                             Task.Run(() =>
                             {
@@ -1382,39 +1369,18 @@ namespace SG2.CORE.WEB.Controllers
                                 _notManager.AddNotification(nt);
 
                                 var dynamicTemplateData = new Dictionary<string, string>
-                        {
-                            {"name",this.CDT.FirstName},
-                            {"email", this.CDT.EmailAddress},
-                            {"senddate", DateTime.Today.ToLongDateString()},
-                            {"planname", profileDTO.CurrentPaymentPlan.PlanName},
-                             {"socialusername", "$" + profileDTO.SocialProfile.SocialUsername}
-                              
+                                    {
+                                        {"name",this.CDT.FirstName},
+                                        {"email", this.CDT.EmailAddress},
+                                        {"senddate", DateTime.Today.ToLongDateString()},
+                                        {"planname", profileDTO.CurrentPaymentPlan.PlanName},
+                                         {"socialusername", "$" + profileDTO.SocialProfile.SocialUsername}
 
-                        };
+
+                                    };
                                 BAL.Managers.EmailManager.SendEmail(this.CDT.EmailAddress, this.CDT.FirstName, EmailManager.EmailType.profileDeleted, dynamicTemplateData);
 
 
-                                //        List<NotRequiredProperty> list = new List<NotRequiredProperty>()
-                                //{
-                                //    new NotRequiredProperty("$email", this.CDT.EmailAddress),
-                                //    new NotRequiredProperty("$first_name ", this.CDT.FirstName),
-                                //    new NotRequiredProperty("$last_name ", this.CDT.SurName)
-                                //};
-                                //        ev.Event = "Account Deleted";
-                                //        ev.Properties.NotRequiredProperties = list;
-                                //        ev.CustomerProperties.Email = CDT.EmailAddress;
-                                //        ev.CustomerProperties.FirstName = CDT.EmailAddress;
-                                //        ev.CustomerProperties.LastName = CDT.EmailAddress;
-
-                                //        var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
-                                //        var Klavio_FreeCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_FreeCustomers").ToLower()).ConfigValue;
-                                //        var Klavio_PayingCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_PayingCustomers").ToLower()).ConfigValue;
-                                //        var Klavio_DeletedCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_DeletedCustomers").ToLower()).ConfigValue;
-
-                                //        klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
-                                //        klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_FreeCustomers);
-                                //        klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_PayingCustomers);
-                                //        var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_DeletedCustomers);
                             });
 
                             jr.Data = new { ResultType = "Success", message = "User has successfully Unsubscribe." };
@@ -1425,8 +1391,6 @@ namespace SG2.CORE.WEB.Controllers
 
                         }
 
-
-
                     }
                     else
                     {
@@ -1435,46 +1399,17 @@ namespace SG2.CORE.WEB.Controllers
                     }
                 }
 
-                //var exchangeNames = profileDTO.JVBoxExchangeName.Split(',');
-                //--TODO: Check subscription status here
-                //SubscriptionDTO subDTO = new SubscriptionDTO();
-                //subDTO.CustomerId = this.CDT.CustomerId;
-                //subDTO.StripeSubscriptionId = subscription.Id;
-                //subDTO.Description = subscription.Plan.Nickname;
-                //subDTO.Name = subscription.Plan.Nickname;
-                //subDTO.Price = subscription.Plan.Amount;
-                //subDTO.StripePlanId = subscription.Plan.Id;
-                //subDTO.SubscriptionType = subscription.Plan.Interval;
-                //subDTO.StartDate = subscription.Start ?? DateTime.Now;
-                //subDTO.EndDate = subscription.EndedAt ?? DateTime.Now.AddMonths(1);
-                //subDTO.StatusId = 26;// Canceled Subscription
-                //_customerManager.InsertSubscription(subDTO);
-
-                //int socialProfileId = 1;//TODO: Social Profile Id
-                if (_customerManager.DeleteProfile(this.CDT.CustomerId, SocialProfileId))
+                if (profileDTO.socialcustomer.IsBroker == false)
                 {
-
-
-
-                    //--TODO: Update Klaviyo Web API Key
-
-                    // klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "H6fnAh");
-
-                    //List<NotRequiredProperty> list = new List<NotRequiredProperty>()  {
-                    //    new NotRequiredProperty("$email", this.CDT.EmailAddress),
-                    //    new NotRequiredProperty("$first_name ", this.CDT.FirstName),
-                    //    new NotRequiredProperty("$last_name ", this.CDT.SurName),
-                    //};
-                    //klaviyoProfile.email = this.CDT.EmailAddress;
-                    //klaviyoAPI.PeopleAPI(list);
-                    //var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "u45Z4H");
-
-
-
-                    // }
-                    //else
+                    _customerManager.DeleteCustomer(this.CDT.CustomerId, SocialProfileId);
+                }
+                else 
+                { 
+                    if (_customerManager.DeleteProfile(this.CDT.CustomerId, SocialProfileId))
                     {
-                        jr.Data = new { ResultType = "Error", message = "User has successfully deleted." };
+                        {
+                            jr.Data = new { ResultType = "Error", message = "User has successfully deleted." };
+                        }
                     }
                 }
             }

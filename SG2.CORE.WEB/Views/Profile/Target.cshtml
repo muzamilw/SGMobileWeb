@@ -209,7 +209,7 @@
                                             @*<h4 class="form-section"><i class="ft-user"></i>Engagement Rules</h4>*@
 
                                             <img src="~/Content/app-assets/images/Keyword.png" style="float:right;height:30px;" />
-                                            <h1 class="col-lg-12 col-md-12 col-sm-12  form-section pl-0 mb-2 text-bold-500 main-card-h1" style="border-bottom:0px;">Engagement Keywords & hashtags</h1>
+                                            <h1 class="col-lg-12 col-md-12 col-sm-12  form-section pl-0 mb-2 text-bold-500 main-card-h1" style="border-bottom:0px;">Engagement Keywords</h1>
 
                                             <div class="form-group">
                                                 @*@Html.LabelFor(m => m.SocialProfile_Instagram_TargetingInformation.Preference1, new { @class = "" })*@
@@ -782,8 +782,8 @@
                                             <div class="col-md-12 text-center">
                                                 <div class="form-actions">
 
-                                                    <a class="btn btn-primary" href='/Profile/history?socialProfileId=@ViewBag.socialProfileId'>
-                                                        <i class="fa fa-check-square-o"></i> Save
+                                                    <a class="btn btn-primary btn-lg" href='/Profile/history?socialProfileId=@ViewBag.socialProfileId'>
+                                                        <i class="fa fa-check-square-o"></i> Next, Activate FREE Plan
                                                     </a>
                                                 </div>
                                             </div>
@@ -1645,7 +1645,11 @@
 
           
             if (splanname != 'FREE' && sappstatus.includes('Offline') && findBootstrapEnvironment() != "xs") {
-                swal("", "Install App on your Laptop & Run the App.", "warning");
+                 toastr.options.showDuration = 5;
+                toastr.options.timeOut  = 5000; // How long the toast will display without user interaction
+                toastr.options.extendedTimeOut = 30; // How long the toast will display after a user hovers over it
+                //swal("", "Install App on your Laptop & Run the App.", "warning");
+                toastr.warning('Install App on your Laptop & Run the App', '')
             }
 
 
