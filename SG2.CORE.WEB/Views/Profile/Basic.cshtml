@@ -113,68 +113,81 @@
                                         <div class="form-body">
                                             <h4 class="form-section"><i class="ft-user"></i> Profile Information</h4>
 
-
-                                            <div class="row mt-5">
+                                            <div class="row justify-content-center">
                                                 <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <img src="/Content/ThemeAssets/Images/InstagramLogoTransparent25.png" srcset="/Content/ThemeAssets/Images/InstagramLogoTransparent25.png">
-                                                        <label class="label-control" style="color:red;font-size:17px;" for="projectinput1">Your Instagram Username</label>
+                                                    @if (Model.CurrentPaymentPlan != null && Model.CurrentPaymentPlan.PaymentPlanId != 1)
+                                                    {
+                                                        <img class="img-fluid" src="~/Content/app-assets/images/Panel_4.png" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <img class="img-fluid" src="~/Content/app-assets/images/Panel_0.png" />
+                                                    }
+                                                </div>
+
+                                                </div>
+
+                                                <div class="row mt-5">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <img src="/Content/ThemeAssets/Images/InstagramLogoTransparent25.png" srcset="/Content/ThemeAssets/Images/InstagramLogoTransparent25.png">
+                                                            <label class="label-control" style="color:red;font-size:17px;" for="projectinput1">Your Instagram Username</label>
 
 
 
-                                                        <a href="#" data-type="text" class="ml-2 SocialUsername" data-title="Max val 200" name="SocialUsername">@Html.Raw(Model.SocialProfile.SocialUsername)</a>
+                                                            <a href="#" data-type="text" class="ml-2 SocialUsername" data-title="Max val 200" name="SocialUsername">@Html.Raw(Model.SocialProfile.SocialUsername)</a>
+                                                        </div>
+                                                    </div>
+
+
+
+                                                </div>
+
+
+
+
+
+                                                <div class="row mt-5 mb-3">
+                                                    <div class="col-md-6 pincodecontainer">
+                                                        <div class="form-group">
+                                                            <label class="label-control" for="projectinput1">PIN Code to be used to sync this targeting profile to your Laptop App</label>
+
+                                                            <input readonly type="text" class="form-control" id="pincode" value="@Model.SocialProfile.PinCode">
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12 text-center">
+                                                        <div class="form-actions">
+
+                                                            <a class="btn btn-primary btn-lg" href='/Profile/target?socialProfileId=@ViewBag.socialProfileId'>
+                                                                <i class="fa fa-check-square-o"></i> Next, Target Filters >>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row mt-4">
+                                                    <div class="col-md-6 ">
+
+                                                        <img class="img-fluid" src="~/Content/Images/step1.png" />
+
+                                                    </div>
+                                                    <div class="col-md-6 ">
+                                                        <img class="img-fluid" src="~/Content/Images/step2.png" />
+
+
                                                     </div>
                                                 </div>
 
 
 
-                                            </div>
 
-
-
-
-
-                                            <div class="row mt-5 mb-3">
-                                                <div class="col-md-6 pincodecontainer">
-                                                    <div class="form-group">
-                                                        <label class="label-control" for="projectinput1">PIN Code to be used to sync this targeting profile to your Laptop App</label>
-
-                                                        <input readonly type="text" class="form-control" id="pincode" value="@Model.SocialProfile.PinCode">
-
-                                                    </div>
-                                                </div>
 
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-12 text-center">
-                                                    <div class="form-actions">
-                                                       
-                                                        <a class="btn btn-primary btn-lg" href='/Profile/target?socialProfileId=@ViewBag.socialProfileId'>
-                                                            <i class="fa fa-check-square-o"></i> Next, Target Filters >>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="row mt-4">
-                                                <div class="col-md-6 ">
-
-                                                    <img class="img-fluid" src="~/Content/Images/step1.png" />
-
-                                                </div>
-                                                <div class="col-md-6 ">
-                                                    <img class="img-fluid" src="~/Content/Images/step2.png" />
-
-
-                                                </div>
-                                            </div>
-
-
-
-
-
-                                        </div>
 
                                     </div>
 

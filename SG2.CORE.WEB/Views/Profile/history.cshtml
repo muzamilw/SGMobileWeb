@@ -518,6 +518,8 @@
 
                             <div class="card-body">
 
+
+
                                 <h1 class="card-title" style="        font-weight: 600;
         font-size: 2.5em
 ">
@@ -564,7 +566,21 @@
 
                             <div class="card-body text-center">
 
-                                @if (Customer.IsBroker != true && ((Model.SocialProfile.PaymentPlanId ?? 0) == 0 || (Model.SocialProfile.PaymentPlanId ?? 0) == 1) )
+                                <div class="row justify-content-center">
+                                    <div class="col-md-6">
+                                        @if (Model.CurrentPaymentPlan != null && Model.CurrentPaymentPlan.PaymentPlanId != 1)
+                                        {
+                                            <img class="img-fluid" src="~/Content/app-assets/images/Panel_4.png" />
+                                        }
+                                        else
+                                        {
+                                            <img class="img-fluid" src="~/Content/app-assets/images/Panel_3.png" />
+                                        }
+                                    </div>
+
+                                </div>
+
+                                @if (Customer.IsBroker != true && ((Model.SocialProfile.PaymentPlanId ?? 0) == 0 || (Model.SocialProfile.PaymentPlanId ?? 0) == 1))
                                 {
                                     <p>
                                         <img class="img-fluid" style="width:465px;" src="~/Content/app-assets/images/7_Day.png" />
@@ -581,7 +597,7 @@
                                         <img class="img-fluid" style="width:465px;" src="~/Content/app-assets/images/Go_Pro.png" />
                                     </p>
                                 }
-                                else if (Customer.IsBroker == true && (Model.SocialProfile.PaymentPlanId ?? 0) == 4 )
+                                else if (Customer.IsBroker == true && (Model.SocialProfile.PaymentPlanId ?? 0) == 4)
                                 {
                                     <p>
                                         <img class="img-fluid" style="width:465px;" src="~/Content/app-assets/images/Go_Pro.png" />
@@ -589,9 +605,9 @@
                                 }
                                 else
                                 {
-                            <p>
-                                <img class="img-fluid" style="width:465px;" src="~/Content/app-assets/images/7_Day.png" />
-                            </p>
+                                    <p>
+                                        <img class="img-fluid" style="width:465px;" src="~/Content/app-assets/images/7_Day.png" />
+                                    </p>
                                 }
 
 

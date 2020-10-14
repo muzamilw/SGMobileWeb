@@ -1643,6 +1643,10 @@
     <Content Include="Content\app-assets\images\pages\signature-scan.png" />
     <Content Include="Content\app-assets\images\pages\ubuntu-type-scale.png" />
     <Content Include="Content\app-assets\images\pages\windows-type-scale.png" />
+    <Content Include="Content\app-assets\images\Panel_0.png" />
+    <Content Include="Content\app-assets\images\Panel_2.png" />
+    <Content Include="Content\app-assets\images\Panel_3.png" />
+    <Content Include="Content\app-assets\images\Panel_4.png" />
     <Content Include="Content\app-assets\images\portfolio\portfolio-1.jpg" />
     <Content Include="Content\app-assets\images\portfolio\portfolio-2.jpg" />
     <Content Include="Content\app-assets\images\portfolio\portfolio-3.jpg" />
