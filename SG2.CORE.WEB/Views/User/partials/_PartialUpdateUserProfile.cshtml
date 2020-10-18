@@ -39,11 +39,9 @@
         @Html.LabelFor(m => m.PhoneNumber, new { @class = "" })
 
 
-        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "phoneNumber form-control" })
-        <span id="valid-msg" class="hide">✓ Valid</span>
-        <span id="error-msg" class="hide"></span>
+        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
-        @Html.HiddenFor(m => m.PhoneCode)
+        
 
 
     </div>

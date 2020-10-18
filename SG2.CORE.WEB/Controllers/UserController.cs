@@ -174,7 +174,7 @@ namespace SG2.CORE.WEB.Controllers
                 SurName = user.SurName,
                 EmailAddress = user.EmailAddress,
 
-                PhoneNumber = "+" + user.PhoneCode + user.PhoneNumber,
+                PhoneNumber = user.PhoneCode + user.PhoneNumber,
                 UserName = user.UserName,
                 Countries = CommonManager.GetCountries(),
                 AddressLine1 = user.AddressLine1,

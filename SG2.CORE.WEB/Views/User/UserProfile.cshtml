@@ -215,49 +215,25 @@
 
     <script type="text/javascript">
         $("document").ready(function () {
-            var input = document.querySelector(".phoneNumber"),
-                errorMsg = document.querySelector("#error-msg"),
-                validMsg = document.querySelector("#valid-msg");
+            //var input = document.querySelector(".phoneNumber"),
+            //    errorMsg = document.querySelector("#error-msg"),
+            //    validMsg = document.querySelector("#valid-msg");
 
             // here, the index maps to the error code returned from getValidationError - see readme
             var errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
 
-            var iti = window.intlTelInput(input, {
-                "separateDialCode": true,
-                utilsScript: "../Content/app-assets/js/scripts/utils.js?1562189064761"
-            });
+            //var iti = window.intlTelInput(input, {
+            //    "separateDialCode": true,
+            //    utilsScript: "../Content/app-assets/js/scripts/utils.js?1562189064761"
+            //});
 
-            var reset = function () {
-                input.classList.remove("error");
-                errorMsg.innerHTML = "";
-                errorMsg.classList.add("hide");
-                validMsg.classList.add("hide");
-            };
-
-            // on blur: validate
-            input.addEventListener('blur', function () {
-                reset();
-                if (input.value.trim()) {
-                    if (iti.isValidNumber()) {
-                        validMsg.classList.remove("hide");
-                    } else {
-                        input.classList.add("error");
-                        var errorCode = iti.getValidationError();
-                        errorMsg.innerHTML = errorMap[errorCode];
-                        errorMsg.classList.remove("hide");
-                    }
-                }
-            });
-
-            // on keyup / change flag: reset
-            input.addEventListener('change', reset);
-            input.addEventListener('keyup', reset);
-
+            
             $("#btn_UpdateUserProfile").on("click", function () {
-                var isValid = iti.isValidNumber();
+                debugger;
+                var isValid = true;//iti.isValidNumber();
                 if ($("#form_UpdateUserProfile").valid() && isValid) {
-                    var countryData = iti.getSelectedCountryData();
-                    $("#PhoneCode").val(countryData.dialCode);
+                    //var countryData = iti.getSelectedCountryData();
+                    //$("#PhoneCode").val(countryData.dialCode);
                     $("#spn_updateUserProfile").show();
                     var data = $("#form_UpdateUserProfile").serialize();
                     $.ajax({
