@@ -4141,6 +4141,7 @@
     <Content Include="Views\Home\download.cshtml" />
     <Content Include="Views\Home\get_started.cshtml" />
     <Content Include="Views\Home\videos.cshtml" />
+    <Content Include="Views\Home\influencers.cshtml" />
     <None Include="Views\Shared\Partial\_PartialForgetPasswordPopup.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialSignupPopup.cshtml" />
     <Content Include="Views\User\Home.cshtml" />

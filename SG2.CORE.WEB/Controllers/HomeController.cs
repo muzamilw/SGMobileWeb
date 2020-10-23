@@ -561,6 +561,11 @@ namespace SG2.CORE.WEB.Controllers
             return View();
         }
 
+        public ActionResult influencers()
+        {
+            return View();
+        }
+
         public ActionResult Download()
         {
             ViewBag.winapp = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("winapp").ToLower()).ConfigValue;

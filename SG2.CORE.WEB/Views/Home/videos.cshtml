@@ -24,10 +24,18 @@
 
     <!-- Responsive CSS -->
     <link href="~/Content/Theme-CA/css/responsive.css" rel="stylesheet">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H3N5PN3D82"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
+        gtag('config', 'G-H3N5PN3D82');
+    </script>
     <style>
         .rounded {
-            border-radius:1.25rem!important
+            border-radius: 1.25rem !important
         }
 
         .list-group-item {
@@ -61,8 +69,9 @@
                             <div class="collapse navbar-collapse" id="ca-navbar">
                                 <ul class="navbar-nav ml-auto" id="nav">
                                     <li class="nav-item "><a class="nav-link" href="~/home/index">Home</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="~/home/influencers">Influencers</a></li>
                                     <li class="nav-item"><a class="nav-link" href="~/home/agency">Agency</a></li>
-                                    <li class="nav-item "><a class="nav-link" href="~/home/get-started">Get Started Steps</a></li>
+                                    <li class="nav-item "><a class="nav-link" href="~/home/get-started">Get Started</a></li>
                                     <li class="nav-item active"><a class="nav-link" href="~/home/videos">Videos</a></li>
                                     <li class="nav-item "><a class="nav-link" href="~/home/download">Download</a></li>
                                     <li class="nav-item"><a class="nav-link" href="~/home/index#contact">Contact</a></li>
