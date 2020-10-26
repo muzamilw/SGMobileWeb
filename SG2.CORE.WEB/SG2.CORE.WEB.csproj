@@ -3040,6 +3040,7 @@
     <Content Include="mstile-150x150.png" />
     <Content Include="Scripts\bootstrap-colorpicker.js" />
     <Content Include="Scripts\bootstrap-colorpicker.min.js" />
+    <Content Include="sitemap.xml" />
     <Content Include="SPProengine\files\Growth_Tools_Text.png" />
     <Content Include="theme-horizontal-menu-template-pages\app-chat.html" />
     <Content Include="theme-horizontal-menu-template-pages\app-contacts.html" />
