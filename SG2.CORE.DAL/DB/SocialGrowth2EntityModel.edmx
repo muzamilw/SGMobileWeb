@@ -190,6 +190,11 @@
           <Property Name="PhonePackagePurchased" Type="bit" />
           <Property Name="PhonePackagePurchaseDate" Type="datetime" />
           <Property Name="PhonePackagePurchaseSessionID" Type="nvarchar" MaxLength="500" />
+          <Property Name="WarmupCalculated" Type="bit" />
+          <Property Name="BotRunningDays" Type="int" />
+          <Property Name="WarmupCompleted" Type="bit" />
+          <Property Name="WarmupCompletedDateTime" Type="datetime" />
+          <Property Name="IgAccountStartDate" Type="datetime" />
         </EntityType>
         <EntityType Name="SocialProfile_Actions">
           <Key>
@@ -1920,6 +1925,11 @@ warning 6002: The table/view 'SocialPlannerPro.dbo.vwRunNotificationsData' does 
           <Property Name="PhonePackagePurchased" Type="Boolean" />
           <Property Name="PhonePackagePurchaseDate" Type="DateTime" Precision="3" />
           <Property Name="PhonePackagePurchaseSessionID" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="WarmupCalculated" Type="Boolean" />
+          <Property Name="BotRunningDays" Type="Int32" />
+          <Property Name="WarmupCompleted" Type="Boolean" />
+          <Property Name="WarmupCompletedDateTime" Type="DateTime" Precision="3" />
+          <Property Name="IgAccountStartDate" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
           <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="1" />
@@ -3112,6 +3122,11 @@ warning 6002: The table/view 'SocialPlannerPro.dbo.vwRunNotificationsData' does 
           <EntitySetMapping Name="SocialProfiles">
             <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile">
               <MappingFragment StoreEntitySet="SocialProfile">
+                <ScalarProperty Name="IgAccountStartDate" ColumnName="IgAccountStartDate" />
+                <ScalarProperty Name="WarmupCompletedDateTime" ColumnName="WarmupCompletedDateTime" />
+                <ScalarProperty Name="WarmupCompleted" ColumnName="WarmupCompleted" />
+                <ScalarProperty Name="BotRunningDays" ColumnName="BotRunningDays" />
+                <ScalarProperty Name="WarmupCalculated" ColumnName="WarmupCalculated" />
                 <ScalarProperty Name="PhonePackagePurchaseSessionID" ColumnName="PhonePackagePurchaseSessionID" />
                 <ScalarProperty Name="PhonePackagePurchaseDate" ColumnName="PhonePackagePurchaseDate" />
                 <ScalarProperty Name="PhonePackagePurchased" ColumnName="PhonePackagePurchased" />

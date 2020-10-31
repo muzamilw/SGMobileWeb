@@ -471,5 +471,43 @@ namespace SG2.CORE.DAL.Repositories
 
             }
         }
+
+        public bool UpdateSocialProfileWarmupInformation(UpdateProfileWarmupRequest model)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+
+                    var profile = _db.SocialProfiles.Where(g => g.SocialProfileId == model.SocialProfileId).SingleOrDefault();
+
+                    if (model.IgAccountStartDate != null)
+                        profile.IgAccountStartDate = Convert.ToDateTime(model.IgAccountStartDate);
+
+                    if (model.WarmupCalculated != null)
+                        profile.WarmupCalculated = Convert.ToBoolean(model.WarmupCalculated);
+
+                    if (model.WarmupCompleted != null)
+                        profile.WarmupCompleted = Convert.ToBoolean(model.WarmupCompleted);
+
+                    if (model.WarmupCompletedDateTime != null)
+                        profile.WarmupCompletedDateTime = Convert.ToDateTime(model.WarmupCompletedDateTime);
+
+                    if (model.BotRunningDays != null)
+                        profile.BotRunningDays = Convert.ToInt32(model.BotRunningDays);
+
+                    _db.SaveChanges();
+
+                    return true;
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
     }
 }

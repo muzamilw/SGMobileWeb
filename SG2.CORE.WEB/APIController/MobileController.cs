@@ -178,7 +178,7 @@ namespace SG2.CORE.WEB.APIController
                     whilelistArray = whitelist.Split(',').Select(uname => uname.Trim()).ToList();
 
 
-                var executionintervals = JsonConvert.DeserializeObject<List<ExecutionInterval>>(manifest.TargetInformation.ExecutionIntervals);
+                //var executionintervals = JsonConvert.DeserializeObject<List<ExecutionInterval>>(manifest.TargetInformation.ExecutionIntervals);
                 //; ExecutionInterval
                 manifest.FollowersToUnFollow = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g=> !whilelistArray.Contains(g.FollowedSocialUsername)).Where(g => g.StatusId == 1 && g.FollowedDateTime < unfollowCutOffDate && g.FollowedDateTime >= unfollowCutOffMaxDate).ToList());  //Convert.ToInt32(executionintervals[0].UnFoll16DaysEngage)
 
@@ -224,7 +224,13 @@ namespace SG2.CORE.WEB.APIController
                 manifest.SuggestedUsersLoadDelayRange = configs.First(x => x.ConfigKey == "SuggestedUsersLoadDelayRange").ConfigValue;
                 manifest.UnFollowLoadDelayRange = configs.First(x => x.ConfigKey == "UnFollowLoadDelayRange").ConfigValue;
                 manifest.UserFollowLoadDelayRange = configs.First(x => x.ConfigKey == "UserFollowLoadDelayRange").ConfigValue;
-                
+                manifest.WarmupConfig = configs.First(x => x.ConfigKey == "WarmupConfig").ConfigValue;
+                manifest.winappver = configs.First(x => x.ConfigKey == "winappver").ConfigValue;
+                manifest.macappver = configs.First(x => x.ConfigKey == "macappver").ConfigValue;
+                manifest.winapp = configs.First(x => x.ConfigKey == "winapp").ConfigValue;
+                manifest.macapp = configs.First(x => x.ConfigKey == "macapp").ConfigValue;
+
+
 
 
                 return Ok(new
@@ -400,6 +406,32 @@ namespace SG2.CORE.WEB.APIController
                         return Ok(new MobileActionResponse { StatusCode = 1, StatusMessage = "Success" });
                     else
                         return Content(HttpStatusCode.BadRequest, "Stats could not be saved");
+
+                }
+                catch (Exception e)
+                {
+                    return Content(HttpStatusCode.BadRequest, e.ToString());
+                }
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, "Input params missing");
+            }
+        }
+
+        [Route("UpdateProfileWarmup")]
+        [HttpPost]
+        public IHttpActionResult UpdateProfileWarmup(UpdateProfileWarmupRequest model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+
+                    if (_customerManager.UpdateSocialProfileWarmupInformation(model))
+                        return Ok(new MobileActionResponse { StatusCode = 1, StatusMessage = "Success" });
+                    else
+                        return Content(HttpStatusCode.BadRequest, "Profile warmup info could not be updated");
 
                 }
                 catch (Exception e)

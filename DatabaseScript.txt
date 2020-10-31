@@ -2120,3 +2120,23 @@ SELECT
 exec [dbo].[SG2_usp_Customers_Get] @iCustomerId            
             
 End 
+
+
+
+
+
+GO
+
+
+ALTER TABLE dbo.SocialProfile ADD
+	WarmupCalculated bit NULL,
+	BotRunningDays int NULL,
+	WarmupCompleted bit NULL,
+	WarmupCompletedDateTime datetime NULL,
+	IgAccountStartDate datetime NULL
+
+
+
+    go
+
+    ALTER TABLE SystemConfig ALTER COLUMN ConfigValue nvarchar(max) NOT NULL;

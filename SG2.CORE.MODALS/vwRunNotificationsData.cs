@@ -22,6 +22,7 @@ namespace SG2.CORE.MODAL
         public string SocialUsername { get; set; }
         public string AppTimeZoneOffSet { get; set; }
         public string ExecutionIntervals { get; set; }
+
         [NotMapped]
         public string startTime { get; set; }
     }

@@ -88,6 +88,7 @@ namespace SG2.CORE.MODAL.MobileViewModels
 
         public List<MobileSocialProfile_FollowedAccounts> AllFollowedAccounts{ get; set; }
 
+        public string WarmupConfig { get; set; }
         public string ActionsDelayRange { get; set; }
 
         public string HashLoadDelayRange { get; set; }
@@ -100,6 +101,12 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public string UnFollowLoadDelayRange { get; set; }
 
         public string StoryLoadDelayRange { get; set; }
+
+        public string winappver { get; set; }
+        public string macappver { get; set; }
+
+        public string winapp { get; set; }
+        public string macapp { get; set; }
 
 
 
@@ -131,6 +138,23 @@ namespace SG2.CORE.MODAL.MobileViewModels
 
     }
 
+    public class UpdateProfileWarmupRequest
+    {
+        [Required]
+        public int SocialProfileId { get; set; }
+        
+        public string WarmupCalculated { get; set; }
+        
+        public string BotRunningDays { get; set; }
+        
+        public string WarmupCompleted { get; set; }
+        
+        public string WarmupCompletedDateTime { get; set; }
+        
+        public string IgAccountStartDate { get; set; }
+
+    }
+
 
     public class MobileActionRequest
     {
@@ -158,8 +182,14 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public string verificationCode { get; set; }
         public string DeviceIMEI { get; set; }
         public int DeviceStatus { get; set; }
-       
-      
+
+        public Nullable<bool> WarmupCalculated { get; set; }
+        public Nullable<int> BotRunningDays { get; set; }
+        public Nullable<bool> WarmupCompleted { get; set; }
+        public Nullable<System.DateTime> WarmupCompletedDateTime { get; set; }
+        public Nullable<System.DateTime> IgAccountStartDate { get; set; }
+
+
         public Nullable<System.DateTime> LastConnectedDateTime { get; set; }
 
 

@@ -1103,5 +1103,22 @@ namespace SG2.CORE.BAL.Managers
             return result;
 
         }
+
+
+        public bool UpdateSocialProfileWarmupInformation(UpdateProfileWarmupRequest model)
+        {
+            try
+            {
+                var socialprofile = _socialRepository.UpdateSocialProfileWarmupInformation(model);
+                return socialprofile;
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+
+            }
+        }
     }
 }
