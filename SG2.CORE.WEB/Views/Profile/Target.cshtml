@@ -1588,6 +1588,7 @@
 
                 pk: 'InputFollAccSearchTags',
                 success: function (response, newValue) {
+                    fbq('track', 'CustomizeProduct');
                     if (!response.success) toastr.success('Data Saved!', 'Success');return response.msg;
                 }
             });

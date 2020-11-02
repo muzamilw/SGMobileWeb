@@ -561,6 +561,11 @@ namespace SG2.CORE.WEB.Controllers
             return View();
         }
 
+        public ActionResult faqs()
+        {
+            return View();
+        }
+
         public ActionResult influencers()
         {
             return View();

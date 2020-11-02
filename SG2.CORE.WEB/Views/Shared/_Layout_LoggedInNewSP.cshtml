@@ -34,32 +34,52 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     @*<script>
-        
 
+
+            !function (f, b, e, v, n, t, s) {
+                if (f.fbq) return; n = f.fbq = function () {
+                    n.callMethod ?
+                        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                }; if (!f._fbq) f._fbq = n;
+                n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0;
+                t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
+            }(window,
+                document, 'script', '//connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '1185819604852319');
+            fbq('init', '2899883190056318');
+            fbq('init', '722023768308766');
+            fbq('init', '433629843942100');
+            fbq('track', 'PageView'); //tracks a PageView to both initialized pixels
+        </script>
+        <noscript>
+            <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1185819604852319&ev=PageView&noscript=1" />
+            <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2899883190056318&ev=PageView&noscript=1" />
+            <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=722023768308766&ev=PageView&noscript=1" />
+            <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=433629843942100&ev=PageView&noscript=1" />
+        </noscript>*@
+
+    @*<script type="text/javascript">window.$crisp = []; window.CRISP_WEBSITE_ID = "096822b5-332a-4663-a979-1ae6af5f96b8"; (function () { d = document; s = d.createElement("script"); s.src = "https://client.crisp.chat/l.js"; s.async = 1; d.getElementsByTagName("head")[0].appendChild(s); })();</script>*@
+    <!-- Facebook Pixel Code -->
+    <script>
         !function (f, b, e, v, n, t, s) {
             if (f.fbq) return; n = f.fbq = function () {
                 n.callMethod ?
-                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-            }; if (!f._fbq) f._fbq = n;
-            n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0;
-            t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
-        }(window,
-            document, 'script', '//connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '1185819604852319');
-        fbq('init', '2899883190056318');
-        fbq('init', '722023768308766');
-        fbq('init', '433629843942100');
-        fbq('track', 'PageView'); //tracks a PageView to both initialized pixels
+                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '783583319163061');
+        fbq('track', 'PageView');
     </script>
     <noscript>
-        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1185819604852319&ev=PageView&noscript=1" />
-        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2899883190056318&ev=PageView&noscript=1" />
-        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=722023768308766&ev=PageView&noscript=1" />
-        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=433629843942100&ev=PageView&noscript=1" />
-    </noscript>*@
-
-    @*<script type="text/javascript">window.$crisp = []; window.CRISP_WEBSITE_ID = "096822b5-332a-4663-a979-1ae6af5f96b8"; (function () { d = document; s = d.createElement("script"); s.src = "https://client.crisp.chat/l.js"; s.async = 1; d.getElementsByTagName("head")[0].appendChild(s); })();</script>*@
-
+        <img height="1" width="1" style="display:none"
+             src="https://www.facebook.com/tr?id=783583319163061&ev=PageView&noscript=1" />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
 </head>
 
 <body>
@@ -69,7 +89,7 @@
                 <div class="classy-nav-container breakpoint-off">
                     <nav class="classy-navbar justify-content-between" id="radixNav">
                         <!-- Logo--><a class="nav-brand mr-5" href="~/">
-                        <img src="~/Content/Theme-SPPro/img/core-img/SPProWhite.png" alt="" >
+                            <img src="~/Content/Theme-SPPro/img/core-img/SPProWhite.png" alt="">
                         </a>
                         <!-- Navbar Toggler-->
                         <div class="classy-navbar-toggler"><span class="navbarToggler"><span></span><span></span><span></span><span></span></span></div>
@@ -81,7 +101,7 @@
                             </div>
                             <!-- Nav Start-->
                             <div class="classynav">
-                                
+
                                 <!-- Login Button-->
                                 <div class="login-btn-area mt-5 ml-2 mt-lg-0"><a class="btn radix-btn white-btn-2  mr-3" href="/Account/Login">Sign In</a><a class="btn radix-btn white-btn" href="/Account/SignUp">Get Started - Free</a></div>
                             </div>
@@ -94,7 +114,6 @@
     @RenderBody()
 
     <footer class="footer-area footer2 section-padding-120-0">
-        
     </footer>
 
     @Html.Partial("~/Views/Shared/Partial/_PartialMessagePopup.cshtml")
@@ -131,7 +150,7 @@
     <script src="~/Content/Theme-Enviro/js/default/mail.js"></script>
     <script src="~/Content/Theme-Enviro/js/default/active.js"></script>
     @Scripts.Render("~/scripts/js")
-    
+
 
 
     <script type="text/javascript">
@@ -234,6 +253,7 @@
                             if (!$.isEmptyObject(data)) {
                                 if (data.ResultType == "Success") {
                                     //window.location = "/Profile/Target?socialProfileId=" + data.ResultData;
+                                    
                                     window.location = "/User/Home";
                                 } else {
 
@@ -250,7 +270,7 @@
             });
 
             $(".btn_formSignup").on("click", function (e) {
-              
+
                 if ($("#Form_Signup").valid()) {
                     $("#SignUpSpinner").css("display", "inline-block");
                     var data = $("#Form_Signup").serialize();
@@ -267,10 +287,11 @@
                                     $("#Modal_MessageBoxTitle").text("Account Created Succesfully");
                                     $("#Modal_MessageBoxBody").text("Please check your inbox for verification email");
                                     ///fbq('track', 'CompleteRegistration');
+                                    fbq('track', 'Lead');
                                     $("#Modal_MessageBoxOkBtn").on("click", function (e) {
                                         window.location.href = "/account/login";
                                     });
-                                    
+
                                     $("#Modal_Messagebox").modal("show");
                                 } else {
                                     $("#signup-error").show().html(data.message);
@@ -345,8 +366,8 @@
         }
 
     </script>
+    <script src="//code.tidio.co/vs2afulzirphvfvcttbry1xhkgstiimk.js" async></script>
 
-   
 
 
 </body>

@@ -1447,7 +1447,7 @@
                 card.on('focus', function () {
                     var el = document.getElementById('card-element');
                     el.classList.add('focused');
-                    //fbq('track', 'AddPaymentInfo');
+                    fbq('track', 'AddPaymentInfo');
                 });
 
                 card.on('blur', function () {
@@ -1725,10 +1725,10 @@
                 example.classList.remove('submitting');
                 example.classList.add('submitted');
 
-                //fbq('track', 'Purchase', {
-                //    value: 59,
-                //    currency: 'USD',
-                //});
+                fbq('track', 'Purchase', {
+                    value: 29,
+                    currency: 'USD',
+                });
 
                 //alert(subscriptionJson);
                 //document.querySelectorAll('.payment-view').forEach(function (view) {
