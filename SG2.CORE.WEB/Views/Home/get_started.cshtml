@@ -33,6 +33,7 @@
 
         gtag('config', 'G-H3N5PN3D82');
     </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.css">
 </head>
 
 <body>
@@ -89,9 +90,9 @@
     <!-- ***** Header Area End ***** -->
     <!-- ***** Wellcome Area Start ***** -->
     <section class="wellcome_area clearfix" id="home" style="height:250px;">
-      
+
         <!-- Welcome thumb -->
-      
+
     </section>
     <!-- ***** Wellcome Area End ***** -->
 
@@ -100,27 +101,27 @@
         <div class="special_description_area pt-150 bg-white ">
             <div class="container">
                 <div class="row">
-                   
+
                     <div class="col-lg-12 col-xl-12 ml-xl-auto">
                         <div class="special_description_content text-center">
                             <h2 class="text-center">Get Started Steps</h2>
-                           
+
 
                             <div class="row app-download-area d-flex justify-content-center mb-3">
 
 
                                 <div class=" col-md-6 col-sm-12">
                                     <img class="img-fluid" src="~/Content/Images/step1.png" />
-                                    
+
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                     <img class="img-fluid" src="~/Content/Images/step2.png" />
-                                    
+
                                 </div>
 
 
-                               
-                                
+
+
 
                             </div>
                         </div>
@@ -130,7 +131,7 @@
         </div>
     </section>
 
-    
+
 
     <!-- ***** Footer Area Start ***** -->
     <footer class="footer-social-icon text-center section_padding_70 clearfix">
@@ -152,6 +153,7 @@
                     <li><a href="/home/agency">Agency</a></li>
                     <li><a href="/pages/TermsConditions">Terms &amp; Conditions</a></li>
                     <li><a href="/pages/PrivacyPolicy">Privacy Policy</a></li>
+                    <li><a href="/pages/CookiesPolicy">Cookies Policy</a></li>
                     <li><a href="/home/index#contact">Contact</a></li>
 
                 </ul>
@@ -181,7 +183,16 @@
     <script src="~/Content/Theme-CA/js/active.js"></script>
     <script src="~/Content/app-assets/vendors/js/extensions/sweetalert.min.js"></script>
     <script src="~/Content/app-assets/js/scripts/extensions/sweet-alerts.js"></script>
+    <!-- START Bootstrap-Cookie-Alert -->
+    <div class="alert text-center cookiealert" role="alert">
+        <b>Do you like cookies?</b> &#x1F36A; We use cookies to ensure you get the best experience on our website. <a href="~/pages/CookiesPolicy" target="_blank">Learn more</a>
 
+        <button type="button" class="btn btn-primary btn-sm acceptcookies">
+            I agree
+        </button>
+    </div>
+    <!-- END Bootstrap-Cookie-Alert -->
+    <script src="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.js"></script>
     <script>
 
         $(function () {

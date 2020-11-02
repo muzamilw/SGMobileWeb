@@ -19,5 +19,10 @@ namespace SG2.CORE.WEB.Controllers
             return View();
         }
 
+        public ActionResult CookiesPolicy()
+        {
+            return View();
+        }
+
     }
 }

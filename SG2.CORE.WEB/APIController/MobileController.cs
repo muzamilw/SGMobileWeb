@@ -112,7 +112,8 @@ namespace SG2.CORE.WEB.APIController
         [HttpPost]
         public IHttpActionResult GetManifest(MobileManifestRequest model)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<SocialProfile, MobileSocialProfile>()
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<SocialProfile, MobileSocialProfile>().ForMember(x => x.IgAccountStartDate,
+                opt => opt.MapFrom(src => (src.IgAccountStartDate.HasValue ?  ((DateTime)src.IgAccountStartDate).ToString("yyyy-MM-dd H:mm:ss") : null)))
             );
 
             var config2 = new MapperConfiguration(cfg => cfg.CreateMap<SocialProfile_Instagram_TargetingInformation, MobileSocialProfile_Instagram_TargetingInformation>()
@@ -171,6 +172,7 @@ namespace SG2.CORE.WEB.APIController
 
                 manifest.TargetInformation.LikeExchangeDailyLimit = 10;
                 manifest.TargetInformation.FollowExchangeDailyLimit = 10;
+             
 
                 var whitelist = profile.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers;
                 var whilelistArray = new List<string>();

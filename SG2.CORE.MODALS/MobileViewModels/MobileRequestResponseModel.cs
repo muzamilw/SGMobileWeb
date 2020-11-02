@@ -187,7 +187,7 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public Nullable<int> BotRunningDays { get; set; }
         public Nullable<bool> WarmupCompleted { get; set; }
         public Nullable<System.DateTime> WarmupCompletedDateTime { get; set; }
-        public Nullable<System.DateTime> IgAccountStartDate { get; set; }
+        public string IgAccountStartDate { get; set; }
 
 
         public Nullable<System.DateTime> LastConnectedDateTime { get; set; }
@@ -196,7 +196,11 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public Int64 StatsFollowersIncrease { get; set; }
 
         public Int64 StatsFollowingsIncrease { get; set; }
-        
+
+        public int? BlockedStatus { get; set; }
+
+        public Nullable<System.DateTime> BockedSinceDateTime { get; set; }
+
 
 
     }

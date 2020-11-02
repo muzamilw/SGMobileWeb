@@ -14,6 +14,17 @@
     var currentUser = (CustomerDTO)ViewBag.CurrentUser;
     var Customer = (Customer)ViewBag.Customer;
     var ProfileStatus = "";
+    var warmupVisibility = "";
+
+    if (Model.SocialProfile.WarmupCompleted.HasValue && Model.SocialProfile.WarmupCompleted.Value == true)
+    {
+        warmupVisibility = "visible";
+    }
+    else
+    {
+        warmupVisibility = "hidden";
+    }
+
     if (Model.SocialProfile.StatusId == (int)GlobalEnums.PlanSubscription.Active)
     {
         ProfileStatus = "Active (Free)";
@@ -346,7 +357,7 @@
                                             <h4 class="col-lg-8 col-md-8 col-sm-12 card-title form-section pl-0 mb-3" style="border-bottom:0px;">Max <span style="color:red">Likes</span> made on all followings post per day</h4>
 
 
-                                            <div class="col-lg-1 col-md-2 col-sm-4 col-6 pl-0">
+                                            <div class="col-lg-1 col-md-2 col-sm-4 col-6 pl-0" style="visibility:@warmupVisibility">
                                                 <a href="#" data-type="text" class="form-control ml-0 InputLikeFollowingPosts" data-title="Max val 200" name="InputLikeFollowingPosts"></a>
                                             </div>
                                             <div class="col-lg-3 col-md-2 col-sm-8 col-6 text-right pr-0 mb-1">
@@ -365,7 +376,7 @@
                                             <h4 class="col-lg-8 col-md-8 col-sm-12 card-title form-section pl-0 mb-3" style="border-bottom:0px;">Max <span style="color:red">Comments</span> made on Followings posts per day</h4>
 
 
-                                            <div class="col-lg-1 col-md-2 col-6 pl-0">
+                                            <div class="col-lg-1 col-md-2 col-6 pl-0" style="visibility:@warmupVisibility">
                                                 <a href="#" class="form-control ml-0 InputCommFollowingPosts" data-title="Max val 150" min="10" max="150" name="InputCommFollowingPosts" onkeypress="return isNumberKey(event)" data-type="text" data-url="/profile/SaveUpdateUserDataIndividually"></a>
                                             </div>
                                             <div class="col-lg-3 col-md-2 col-6 text-right pr-0 mb-1">
@@ -385,7 +396,7 @@
                                             <h4 class="col-lg-8 col-md-8 col-sm-12 card-title form-section pl-0 mb-3" style="border-bottom:0px;">Max <span style="color:red">Story Views</span> of new Follows per day</h4>
 
 
-                                            <div class="col-lg-1 col-md-2 col-6 pl-0">
+                                            <div class="col-lg-1 col-md-2 col-6 pl-0" style="visibility:@warmupVisibility">
                                                 <a href="#" data-type="text" class="form-control ml-0 InputVwStoriesFollowing" data-title="Max val 150" min="10" max="150" name="InputVwStoriesFollowing" onkeypress="return isNumberKey(event)"></a>
                                             </div>
                                             <div class="col-lg-3 col-md-2 col-6 text-right pr-0 mb-1">
@@ -404,7 +415,7 @@
                                             <h4 class="col-lg-8 col-md-8 col-sm-12 card-title form-section pl-0 mb-3" style="border-bottom:0px;">Max <span style="color:red">Comment</span> on user stories</h4>
 
 
-                                            <div class="col-lg-1 col-md-2 col-6 pl-0">
+                                            <div class="col-lg-1 col-md-2 col-6 pl-0" style="visibility:@warmupVisibility">
                                                 <a href="#" data-type="text" class="form-control ml-0 InputCommUserStories" data-title="Max val 150" min="10" max="150" name="InputCommUserStories" onkeypress="return isNumberKey(event)"></a>
                                             </div>
                                             <div class="col-lg-3 col-md-2 col-6 text-right pr-0 mb-1">
@@ -424,7 +435,7 @@
                                             <h4 class="col-lg-8 col-md-8 col-sm-12 card-title form-section pl-0 mb-3" style="border-bottom:0px;">Max <span style="color:red">Un-follow </span> from previous day's new follows  </h4>
 
 
-                                            <div class="col-lg-1 col-md-2 col-6 pl-0">
+                                            <div class="col-lg-1 col-md-2 col-6 pl-0" style="visibility:@warmupVisibility">
                                                 <a href="#" data-type="text" class="form-control ml-0 InputUnFoll16DaysEngage" data-title="Max val 330" min="10" max="330" name="InputUnFoll16DaysEngage" onkeypress="return isNumberKey(event)"></a>
                                             </div>
                                             <div class="col-lg-3 col-md-2 col-6 text-right pr-0 mb-1">
@@ -443,7 +454,7 @@
                                             <h4 class="col-lg-8 col-md-8 col-sm-12 card-title form-section pl-0 mb-3" style="border-bottom:0px;">Max new <span style="color:red">Follows</span> per day</h4>
 
 
-                                            <div class="col-lg-1 col-md-2 col-6 pl-0">
+                                            <div class="col-lg-1 col-md-2 col-6 pl-0" style="visibility:@warmupVisibility">
                                                 <a href="#" data-type="text" class="form-control ml-0 InputFollAccSearchTags" data-title="Max val 300" min="10" max="300" name="InputFollAccSearchTags" onkeypress="return isNumberKey(event)"></a>
                                             </div>
                                             <div class="col-lg-3 col-md-2 col-6 text-right pr-0 mb-1">
