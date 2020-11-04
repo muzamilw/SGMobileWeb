@@ -2140,3 +2140,149 @@ ALTER TABLE dbo.SocialProfile ADD
     go
 
     ALTER TABLE SystemConfig ALTER COLUMN ConfigValue nvarchar(max) NOT NULL;
+
+
+    GO
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[SG2_Delete_Customer_All]    Script Date: 11/5/2020 12:44:40 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+  
+  
+ALTER Procedure [dbo].[SG2_Delete_Customer_All]  
+@riCustomerId int,  
+@riSocialProfileId Int  
+  
+   
+As    
+Begin  
+  
+IF @riSocialProfileId =0   
+BEGIN   
+ -- Searches for Customers based on given parameters    
+
+        
+			DELETE TI FROM [dbo].[SocialProfile_Instagram_TargetingInformation] TI Inner join [dbo].[SocialProfile]  SP  
+				 ON TI.SocialProfileId=SP.[SocialProfileId]  
+				 Inner join [dbo].[Customer] C ON C.CustomerId=SP.CustomerId  
+				  Where C.CustomerId=@riCustomerId  
+			DELETE SST  
+			 FROM [dbo].[SocialProfile_Statistics] SST Inner join [dbo].[SocialProfile]  SP  
+				 ON SST.SocialProfileId=SP.[SocialProfileId]  
+				 Inner join [dbo].[Customer] C ON C.CustomerId=SP.CustomerId  
+				  Where C.CustomerId=@riCustomerId  
+  
+			DELETE SS  
+			FROM [dbo].[SocialProfile_Payments] SS Inner join [dbo].[SocialProfile]  SP  
+				 ON SS.SocialProfileId=SP.[SocialProfileId]  
+				 Inner join [dbo].[Customer] C ON C.CustomerId=SP.CustomerId  
+				  Where C.CustomerId=@riCustomerId  
+			DELETE SPSH  
+			FROM [dbo].[SocialProfile_Actions] SPSH Inner join [dbo].[SocialProfile]  SP  
+				 ON SPSH.SocialProfileId=SP.[SocialProfileId]  
+				 Inner join [dbo].[Customer] C ON C.CustomerId=SP.CustomerId  
+				  Where C.CustomerId=@riCustomerId  
+
+			DELETE SPSH  
+			FROM [dbo].[SocialProfile_Statistics] SPSH Inner join [dbo].[SocialProfile]  SP  
+				 ON SPSH.SocialProfileId=SP.[SocialProfileId]  
+				 Inner join [dbo].[Customer] C ON C.CustomerId=SP.CustomerId  
+				  Where C.CustomerId=@riCustomerId  
+
+			DELETE SPSH  
+			FROM [dbo].[SocialProfile_FollowedAccounts] SPSH Inner join [dbo].[SocialProfile]  SP  
+				 ON SPSH.SocialProfileId=SP.[SocialProfileId]  
+				 Inner join [dbo].[Customer] C ON C.CustomerId=SP.CustomerId  
+				  Where C.CustomerId=@riCustomerId  
+
+			DELETE SS  
+			FROM [dbo].[Customer_Payments] SS  
+					Inner join [dbo].[Customer] C ON C.CustomerId=SS.CustomerId  
+					Where C.CustomerId=@riCustomerId  
+
+			DELETE SPSH  
+			FROM [dbo].SocialProfile_Logs SPSH Inner join [dbo].[SocialProfile]  SP  
+					ON SPSH.SocialProfileId=SP.[SocialProfileId]  
+					Inner join [dbo].[Customer] C ON C.CustomerId=SP.CustomerId  
+					Where C.CustomerId=@riCustomerId  
+  
+  
+			DELETE FROM [dbo].[SocialProfile]   
+			 Where [CustomerId]=@riCustomerId  
+
+			DELETE FROM  [dbo].[Customer_Payments]  Where [CustomerId]=@riCustomerId  
+			
+  
+			DELETE FROM  [dbo].[Customer_ContactDetail]  Where [CustomerId]=@riCustomerId  
+			DELETE FROM [dbo].[Customer] Where [CustomerId]=@riCustomerId   
+			END   
+  
+ELSE  
+  
+BEGIN   
+  
+
+   
+        
+			DELETE TI FROM [dbo].[SocialProfile_Instagram_TargetingInformation] TI Inner join [dbo].[SocialProfile]  SP  
+					ON TI.SocialProfileId=SP.[SocialProfileId]  
+					Inner join [dbo].[Customer] C ON C.CustomerId=SP.CustomerId  
+					Where C.CustomerId=@riCustomerId  
+			DELETE SST  
+				FROM [dbo].[SocialProfile_Statistics] SST Inner join [dbo].[SocialProfile]  SP  
+					ON SST.SocialProfileId=SP.[SocialProfileId]  
+					Inner join [dbo].[Customer] C ON C.CustomerId=SP.CustomerId  
+					Where C.CustomerId=@riCustomerId  
+  
+			DELETE SS  
+			FROM [dbo].[SocialProfile_Payments] SS Inner join [dbo].[SocialProfile]  SP  
+					ON SS.SocialProfileId=SP.[SocialProfileId]  
+					Inner join [dbo].[Customer] C ON C.CustomerId=SP.CustomerId  
+					Where C.CustomerId=@riCustomerId  
+
+			
+
+			DELETE SPSH  
+			FROM [dbo].[SocialProfile_Actions] SPSH Inner join [dbo].[SocialProfile]  SP  
+					ON SPSH.SocialProfileId=SP.[SocialProfileId]  
+					Inner join [dbo].[Customer] C ON C.CustomerId=SP.CustomerId  
+					Where C.CustomerId=@riCustomerId  
+
+			DELETE SPSH  
+			FROM [dbo].[SocialProfile_Statistics] SPSH Inner join [dbo].[SocialProfile]  SP  
+					ON SPSH.SocialProfileId=SP.[SocialProfileId]  
+					Inner join [dbo].[Customer] C ON C.CustomerId=SP.CustomerId  
+					Where C.CustomerId=@riCustomerId  
+
+			DELETE SPSH  
+			FROM [dbo].[SocialProfile_FollowedAccounts] SPSH Inner join [dbo].[SocialProfile]  SP  
+					ON SPSH.SocialProfileId=SP.[SocialProfileId]  
+					Inner join [dbo].[Customer] C ON C.CustomerId=SP.CustomerId  
+					Where C.CustomerId=@riCustomerId  
+
+
+			DELETE SPSH  
+			FROM [dbo].SocialProfile_Logs SPSH Inner join [dbo].[SocialProfile]  SP  
+					ON SPSH.SocialProfileId=SP.[SocialProfileId]  
+					Inner join [dbo].[Customer] C ON C.CustomerId=SP.CustomerId  
+					Where C.CustomerId=@riCustomerId  
+  
+  
+			DELETE FROM [dbo].[SocialProfile]   
+				Where [CustomerId]=@riCustomerId  
+
+			DELETE FROM  [dbo].[Customer_Payments]  Where [CustomerId]=@riCustomerId  
+  
+			DELETE FROM  [dbo].[Customer_ContactDetail]  Where [CustomerId]=@riCustomerId  
+			DELETE FROM [dbo].[Customer] Where [CustomerId]=@riCustomerId   
+  
+END  
+  
+SELECT 1  
+       
+End  
+  

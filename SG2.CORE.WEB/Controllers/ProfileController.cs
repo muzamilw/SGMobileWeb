@@ -1399,7 +1399,7 @@ namespace SG2.CORE.WEB.Controllers
                     }
                 }
 
-                if (profileDTO.socialcustomer.IsBroker == false)
+                if ((profileDTO.socialcustomer.IsBroker ?? false) == false)
                 {
                     _customerManager.DeleteCustomer(this.CDT.CustomerId, SocialProfileId);
                 }
