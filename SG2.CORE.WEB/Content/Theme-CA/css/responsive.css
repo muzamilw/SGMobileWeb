@@ -13,9 +13,10 @@
         font-size: 14px;
     }
     .welcome-thumb {
-        width: 50%;
+        width: 90%;
         bottom: -100px;
         right: 50px;
+        height: 512px;
     }
     .video-area {
         height: 550px;
@@ -53,9 +54,10 @@
         text-align: left;
     }
     .welcome-thumb {
-        width: 50%;
-        bottom: -100px;
+        width: 90%;
+        bottom: -10px;
         right: 35px;
+        height: 392px;
     }
     .wellcome-heading {
         margin-bottom: 70px;
@@ -148,9 +150,10 @@
         max-width: 100%;
     }
     .welcome-thumb {
-        width: 90%;
-        bottom: 31px;
-        right: 35px;;
+        width: 88%;
+        bottom: 285px;
+        right: 21px;
+        height: 178px;
     }
     .logo_area > a > h2 {
         font-size: 40px;

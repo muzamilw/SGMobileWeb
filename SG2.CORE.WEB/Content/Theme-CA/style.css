@@ -449,12 +449,24 @@ p {
 }
 
 .welcome-thumb {
-    width: 38%;
+    height: 450px;
+    overflow: hidden;
+    width: 800px;
     position: absolute;
-    bottom: -87px;
-    right: 186px;
+    bottom: 2px;
+    right: 520px;
     z-index: 9;
 }
+
+
+
+    .welcome-thumb iframe, .welcome-thumb object, .welcome-thumb embed {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
 
 .welcome-thumb img {
     height: auto;
@@ -1300,3 +1312,4 @@ p {
 .copyright-text > p {
     margin-bottom: 0;
 }
+
