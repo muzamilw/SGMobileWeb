@@ -4145,6 +4145,7 @@
     <Content Include="Views\Home\influencers.cshtml" />
     <Content Include="Views\Pages\CookiesPolicy.cshtml" />
     <Content Include="Views\Home\faqs.cshtml" />
+    <Content Include="Views\Profile\start.cshtml" />
     <None Include="Views\Shared\Partial\_PartialForgetPasswordPopup.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialSignupPopup.cshtml" />
     <Content Include="Views\User\Home.cshtml" />

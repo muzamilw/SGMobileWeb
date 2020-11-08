@@ -478,8 +478,8 @@
                         </fieldset>
                     </form>
                     <div class="success">
-                        <img src="~/Content/Images/success.jpg" />
-                        <h3 class="title" style="font-size:20px;color:green" data-tid="elements_examples.success.title">Next Steps:</h3>
+                        <img id="successimg" src="~/Content/Images/success.jpg" />
+                        <h3 class="title" id="successtitle" style="font-size:20px;color:green" data-tid="elements_examples.success.title">Next Steps:</h3>
                         <p class="message" style="font-size:13px;color:green"><span id="cmessage" data-tid="elements_examples.success.message"></span></p>
                         <div class="icon hidden">
                             <svg width="84px" height="84px" viewBox="0 0 84 84" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -1281,12 +1281,15 @@
                                 return response.json();
                             })
                             .then(subscription => {
-                                //handleSubscription(subscription);.
+                                debugger;
+                                res = handleSubscription(subscription);
+                               
                                 swal.close();
                                 swal.fire("Success!", "Your subscription has been successfully updated;", "success")
                                     .then(function () {
                                         window.location = "/User/Home/";
                                     });;
+                                
                             });
                     }
                     else {
@@ -1636,9 +1639,11 @@
                     })
                 })
                     .then(response => {
+                        
                         return response.json();
                     })
                     .then(subscription => {
+                        
                         handleSubscription(subscription);
                     });
             }
@@ -1669,31 +1674,53 @@
 
 
             function handleSubscription(subscription) {
-                const { latest_invoice } = subscription;
-                const { payment_intent } = latest_invoice;
 
-                if (payment_intent) {
-                    const { client_secret, status } = payment_intent;
+                if (subscription.hasOwnProperty('StripeMessage')) {
+                    document.querySelector('button').disabled = false;
+                    document.querySelector('#spinner').classList.remove('loading');
+                    document.querySelector('#button-text').classList.remove('hidden');
+                    example.classList.remove('submitting');
+                    example.classList.add('submitted');
+                    $("#cmessage").multiline(subscription.StripeMessage);
+                    $("#cmessage").css('color', 'red');
+                    $("#successbtn").text('Close & Retry')
+                    $("#successimg").hide();
+                    $("#successtitle").multiline("Error encountered during card processing : ");
+                    $("#successtitle").css('color', 'red');
+                    
+                    
+                }
+                else {
+                    const { latest_invoice } = subscription;
+                    const { payment_intent } = latest_invoice;
 
-                    if (status === 'requires_action' || status === 'requires_payment_method') {
-                        stripe.confirmCardPayment(client_secret).then(function (result) {
-                            if (result.error) {
-                                // Display error message in your UI.
-                                // The card was declined (i.e. insufficient funds, card has expired, etc)
-                                //changeLoadingState(false);
-                                showCardError(result.error);
-                            } else {
-                                // Show a success message to your customer
-                                confirmSubscription(subscription.id);
-                            }
-                        });
+
+
+                    if (payment_intent) {
+                        const { client_secret, status } = payment_intent;
+
+                        if (status === 'requires_action' || status === 'requires_payment_method') {
+                            stripe.confirmCardPayment(client_secret).then(function (result) {
+                                if (result.error) {
+                                    // Display error message in your UI.
+                                    // The card was declined (i.e. insufficient funds, card has expired, etc)
+                                    //changeLoadingState(false);
+                                    showCardError(result.error);
+                                } else {
+                                    // Show a success message to your customer
+                                    confirmSubscription(subscription.id);
+                                }
+                            });
+                        } else {
+                            // No additional information was needed
+                            // Show a success message to your customer
+                            orderComplete(subscription);
+                        }
+                        
                     } else {
-                        // No additional information was needed
-                        // Show a success message to your customer
                         orderComplete(subscription);
+                       
                     }
-                } else {
-                    orderComplete(subscription);
                 }
             }
 

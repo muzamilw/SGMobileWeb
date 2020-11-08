@@ -34,7 +34,7 @@ namespace SG2.CORE.WEB.Controllers
     [AuthorizeCustomer]
     public class ProfileController : BaseController
     {
-       //protected readonly TargetPreferencesManager _targetPreferenceManager;
+        //protected readonly TargetPreferencesManager _targetPreferenceManager;
         protected readonly CustomerManager _cm;
         protected readonly CommonManager _commonManager;
         protected readonly PlanInformationManager _planManager;
@@ -51,9 +51,9 @@ namespace SG2.CORE.WEB.Controllers
 
         public ProfileController()
         {
-             
-        //_targetPreferenceManager = new TargetPreferencesManager();
-        _cm = new CustomerManager();
+
+            //_targetPreferenceManager = new TargetPreferencesManager();
+            _cm = new CustomerManager();
             _planManager = new PlanInformationManager();
             _statisticsManager = new StatisticsManager();
             _commonManager = new CommonManager();
@@ -73,7 +73,7 @@ namespace SG2.CORE.WEB.Controllers
             //{
             //    _stripeApiKey = WebConfigurationManager.AppSettings["StripeLiveApiKey"];
             //}
-            
+
         }
 
         public ActionResult test()
@@ -95,6 +95,13 @@ namespace SG2.CORE.WEB.Controllers
             ViewBag.CurrentUser = this.CDT;
             ViewBag.socialProfileId = socialProfileId;
             var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
+
+
+            //redirect to start page.
+            if (SocailProfile.SocialProfile.PaymentPlanId == null || SocailProfile.SocialProfile.PaymentPlanId == 1)
+            {
+                return RedirectToAction("start", "Profile", new { socialProfileId = socialProfileId });
+            }
 
             ProfilesSearchRequest model = new ProfilesSearchRequest { Block = 99, Plan = 0, searchString = "", SocialType = 0 };
             ViewBag.ProfileCount = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId, model).Count();
@@ -133,8 +140,8 @@ namespace SG2.CORE.WEB.Controllers
             }
             else
             {
-                ViewBag.IsTrialActive  = _sessionManager.Get(SessionConstants.profileTrialActive);
-               
+                ViewBag.IsTrialActive = _sessionManager.Get(SessionConstants.profileTrialActive);
+
             }
 
             if (success.HasValue && success.Value == 1)
@@ -145,14 +152,14 @@ namespace SG2.CORE.WEB.Controllers
             return View(SocailProfile);
 
         }
-    
+
 
 
         [HttpPost]
         public ActionResult Basic(SocialProfileDTO request)
         {
             this._cm.UpdateBasicSocialProfile(request);
-            return RedirectToAction("Basic", "Profile", new { socialProfileId = request.SocialProfile.SocialProfileId, success=1 });
+            return RedirectToAction("Basic", "Profile", new { socialProfileId = request.SocialProfile.SocialProfileId, success = 1 });
         }
 
         public ActionResult Lists(int socialProfileId, int? success)
@@ -230,29 +237,52 @@ namespace SG2.CORE.WEB.Controllers
             ViewBag.socialProfileId = socialProfileId;
             ViewBag.CurrentUser = this.CDT;
             var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
-            var customer =_customerManager.GetCustomerByCustomerId(this.CDT.CustomerId);
+            var customer = _customerManager.GetCustomerByCustomerId(this.CDT.CustomerId);
             ProfilesSearchRequest model = new ProfilesSearchRequest { Block = 99, Plan = 0, searchString = "", SocialType = 0 };
             ViewBag.ProfileCount = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId, model).Count();
 
             ViewBag.Customer = customer;
 
-            
+
 
             if (success.HasValue && success.Value == 1)
             {
                 ViewBag.success = 1;
             }
 
-           
+
+
+            return View(SocailProfile);
+
+        }
+
+        public ActionResult start(int socialProfileId)
+        {
+            
+            ViewBag.socialProfileId = socialProfileId;
+            ViewBag.CurrentUser = this.CDT;
+            var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
+            var customer = _customerManager.GetCustomerByCustomerId(this.CDT.CustomerId);
+            //ProfilesSearchRequest model = new ProfilesSearchRequest { Block = 99, Plan = 0, searchString = "", SocialType = 0 };
+            //ViewBag.ProfileCount = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId, model).Count();
+
+            ViewBag.Customer = customer;
+
+            var _stripeApiKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
+            var _stripePublishKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue2;
+
+            ViewBag.stripeApiKey = _stripeApiKey;
+            ViewBag.stripePublishKey = _stripePublishKey;
+
 
             return View(SocailProfile);
 
         }
 
 
-		[HttpPost]
-		public ActionResult Target(SocialProfileDTO request)
-		{
+        [HttpPost]
+        public ActionResult Target(SocialProfileDTO request)
+        {
             var customer = _customerManager.GetCustomerByCustomerId(this.CDT.CustomerId);
             var brokermode = customer.IsBroker.HasValue && customer.IsBroker.Value == true;
 
@@ -260,7 +290,7 @@ namespace SG2.CORE.WEB.Controllers
             this._cm.UpdateTargetProfileWhiteList(request);
             this._cm.UpdateTargetProfileBlackList(request);
             return RedirectToAction("Target", "Profile", new { socialProfileId = request.SocialProfile_Instagram_TargetingInformation.SocialProfileId, success = 1 });
-		}
+        }
         public ActionResult Stats(int socialProfileId)
         {
             ViewBag.IsTrialActive = _sessionManager.Get(SessionConstants.profileTrialActive);
@@ -289,37 +319,37 @@ namespace SG2.CORE.WEB.Controllers
             }
 
             return View(statisticsViewModel);
-           
+
 
         }
-		[HttpPost]
-		public ActionResult ContactDetailsPOST(FormCollection fomr)
-		{
+        [HttpPost]
+        public ActionResult ContactDetailsPOST(FormCollection fomr)
+        {
 
-			string DeviceBinLocation = Convert.ToString(fomr["DeviceBinLocation"]);
-			string SocialProfileName = Convert.ToString(fomr["SocialProfileName"]);
-			int SocialProfileId = Convert.ToInt32(fomr["SocialProfileId"]);
-			var model = this._cm.GetSocialProfileById(SocialProfileId);
-			model.SocialProfile.DeviceBinLocation = DeviceBinLocation;
-			model.SocialProfile.SocialProfileName = SocialProfileName;
-			model.SocialProfile.SocialProfileId = SocialProfileId;
-			//int SocialProfileId = socialProfileId ?? 0;
-			var socialprofile = this._cm.UpdateBasicSocialProfile(model);
-			//ViewBag.SocailProfile = socialprofile;
-			return RedirectToAction("Basic", "Profile", new { @socialProfileId = SocialProfileId });
-			//return RedirectToAction("Basic", "Profile");
+            string DeviceBinLocation = Convert.ToString(fomr["DeviceBinLocation"]);
+            string SocialProfileName = Convert.ToString(fomr["SocialProfileName"]);
+            int SocialProfileId = Convert.ToInt32(fomr["SocialProfileId"]);
+            var model = this._cm.GetSocialProfileById(SocialProfileId);
+            model.SocialProfile.DeviceBinLocation = DeviceBinLocation;
+            model.SocialProfile.SocialProfileName = SocialProfileName;
+            model.SocialProfile.SocialProfileId = SocialProfileId;
+            //int SocialProfileId = socialProfileId ?? 0;
+            var socialprofile = this._cm.UpdateBasicSocialProfile(model);
+            //ViewBag.SocailProfile = socialprofile;
+            return RedirectToAction("Basic", "Profile", new { @socialProfileId = SocialProfileId });
+            //return RedirectToAction("Basic", "Profile");
 
-		}
-		public ActionResult MatchFilters(int? socialProfileId = null)
-		{
-			//int SocialProfileId = socialProfileId ?? 0;
-			//var socialprofile = this._cm.GetSocialProfileById(SocialProfileId);
-			//ViewBag.SocailProfile = socialprofile;
-			//return RedirectToAction("Basic", "Profile", new { @socialProfileId = socialProfileId });
-			return PartialView();
+        }
+        public ActionResult MatchFilters(int? socialProfileId = null)
+        {
+            //int SocialProfileId = socialProfileId ?? 0;
+            //var socialprofile = this._cm.GetSocialProfileById(SocialProfileId);
+            //ViewBag.SocailProfile = socialprofile;
+            //return RedirectToAction("Basic", "Profile", new { @socialProfileId = socialProfileId });
+            return PartialView();
 
-		}
-		public ActionResult Trends(int socialProfileId, int mode)
+        }
+        public ActionResult Trends(int socialProfileId, int mode)
         {
             var jr = new JsonResult();
             try
@@ -331,11 +361,11 @@ namespace SG2.CORE.WEB.Controllers
                 {
                     startdate = DateTime.Today.AddDays(-30);  //3 months
                 }
-                if ( mode == 3)
+                if (mode == 3)
                 {
                     startdate = DateTime.Today.AddMonths(-3);  //3 months
                 }
-                else if ( mode == 4)
+                else if (mode == 4)
                 {
                     startdate = DateTime.Today.AddMonths(-6); //6 months
                 }
@@ -345,14 +375,14 @@ namespace SG2.CORE.WEB.Controllers
                 }
 
 
-                var trends  = _statisticsManager.GetProfileTrends(socialProfileId, startdate, enddate);
+                var trends = _statisticsManager.GetProfileTrends(socialProfileId, startdate, enddate);
 
                 foreach (var item in trends)
                 {
-                    item.FollowersTotal  = item.FollowersTotal.HasValue ?  item.FollowersTotal: 0;
+                    item.FollowersTotal = item.FollowersTotal.HasValue ? item.FollowersTotal : 0;
                     item.Followings = item.Followings.HasValue ? item.Followings : 0;
                     item.Like = item.Like.HasValue ? item.Like : 0;
-                    item.Engagement = (item.FollowersTotal ?? 1) * 100 / ((item.Followings ?? 1) == 0 ? 1: (item.Followings ?? 1));
+                    item.Engagement = (item.FollowersTotal ?? 1) * 100 / ((item.Followings ?? 1) == 0 ? 1 : (item.Followings ?? 1));
                     item.Unfollow = (item.Unfollow ?? 0);
                     item.StoryViews = (item.StoryViews ?? 0);
                     item.Comment = (item.Comment ?? 0);
@@ -411,7 +441,7 @@ namespace SG2.CORE.WEB.Controllers
         }
 
 
-        public ActionResult History(int socialProfileId, string buy = "", string buysession= "")
+        public ActionResult History(int socialProfileId, string buy = "", string buysession = "")
         {
             ViewBag.IsTrialActive = _sessionManager.Get(SessionConstants.profileTrialActive);
             ViewBag.socialProfileId = socialProfileId;
@@ -431,10 +461,10 @@ namespace SG2.CORE.WEB.Controllers
 
             ViewBag.stripeApiKey = _stripeApiKey;
             ViewBag.stripePublishKey = _stripePublishKey;
-          
 
 
-            if (buysession  != "")
+
+            if (buysession != "")
             {
                 ViewBag.purchasesuccess = 1;
             }
@@ -456,10 +486,10 @@ namespace SG2.CORE.WEB.Controllers
             }
 
             return this.Content("ok");
-            
+
         }
 
-            public ActionResult BuyPhone(string socialprofileid,string email,string pageUrl)
+        public ActionResult BuyPhone(string socialprofileid, string email, string pageUrl)
         {
             // Set your secret key. Remember to switch to your live secret key in production!
             // See your keys here: https://dashboard.stripe.com/account/apikeys
@@ -474,24 +504,24 @@ namespace SG2.CORE.WEB.Controllers
                 "card",
             },
 
-            ShippingAddressCollection = new SessionShippingAddressCollectionOptions
-            {
-                AllowedCountries = new List<string> {
+                ShippingAddressCollection = new SessionShippingAddressCollectionOptions
+                {
+                    AllowedCountries = new List<string> {
                     "US",
                     "CA",
                     "AU","NZ","GB","IE"
                     },
-               
-            },
-            
-            LineItems = new List<SessionLineItemOptions> {
+
+                },
+
+                LineItems = new List<SessionLineItemOptions> {
             new SessionLineItemOptions {
                 Name = "Dedicated android device",
                 Description = "Dedicated android device pre-installed with social growth labs app delivered to your shipping address",
                 Amount = 5000,
                 Currency = "usd",
                 Quantity = 1
-                    
+
             },
             },
                 SuccessUrl = pageUrl + "&buysession={CHECKOUT_SESSION_ID}",
@@ -502,9 +532,9 @@ namespace SG2.CORE.WEB.Controllers
             var service = new SessionService();
             Session session = service.Create(options);
             session.ClientReferenceId = socialprofileid;
-            
 
-            return this.Content(session.Id) ;
+
+            return this.Content(session.Id);
         }
 
 
@@ -546,7 +576,7 @@ namespace SG2.CORE.WEB.Controllers
 
                         var items = new List<SubscriptionItemOptions> {
                                         new SubscriptionItemOptions {
-                                        
+
                                         Id= subscriptionItemUpdate.Items.Data[0].Id,
                                         Plan = newPlan.StripePlanId,
                                         Quantity= 1,
@@ -577,7 +607,7 @@ namespace SG2.CORE.WEB.Controllers
                         {
                             Customer = socialProfile.SocialProfile.StripeCustomerId,
                             Items = stripeItems,
-                          
+
                         };
                         stripeSubscriptionCreateoptions.AddExpand("latest_invoice.payment_intent");
                         stripeSubscription = subscriptionService.Create(stripeSubscriptionCreateoptions);
@@ -603,31 +633,31 @@ namespace SG2.CORE.WEB.Controllers
                     var stripeCustomerService = new CustomerService();
                     Customer stripeCustomer = stripeCustomerService.Create(stripeCustomerCreateOptions);
 
-                   
 
-                    
+
+
                     var stripeItems = new List<SubscriptionItemOptions> {
                       new SubscriptionItemOptions {
                         Plan = newPlan.StripePlanId,
                         Quantity= 1
-                        
+
                       }
                     };
                     var stripeSubscriptionCreateOptions = new SubscriptionCreateOptions
                     {
                         Customer = stripeCustomer.Id,
                         Items = stripeItems,
-                       
+
                         //BillingCycleAnchor = DateTimeOffset.FromUnixTimeSeconds(1576486590).UtcDateTime
                         //  BillingCycleAnchor = DateTime.Now,
                         //BillingThresholds = {  }
                     };
-                    if ( newPlan.PlanId == 2)
+                    if (newPlan.PlanId == 2)
                     {
                         stripeSubscriptionCreateOptions.TrialPeriodDays = 7;
                     }
 
-                    stripeSubscriptionCreateOptions.AddExpand("latest_invoice.payment_intent"); 
+                    stripeSubscriptionCreateOptions.AddExpand("latest_invoice.payment_intent");
                     stripeSubscription = subscriptionService.Create(stripeSubscriptionCreateOptions);
 
                     //-- Update customer stripe id async call not to wait.
@@ -642,8 +672,8 @@ namespace SG2.CORE.WEB.Controllers
 
                 if (stripeSubscription != null)
                 {
-                   
-                   
+
+
 
                     PlanService service = new PlanService();
                     //-- Subscription Description
@@ -658,7 +688,7 @@ namespace SG2.CORE.WEB.Controllers
                     paymentRec.StripeSubscriptionId = stripeSubscription.Id;
                     paymentRec.Description = stripeSubscription.Plan.Nickname;
                     paymentRec.Name = stripeSubscription.Plan.Nickname;
-                    paymentRec.Price = stripeSubscription.Plan.Amount/100;
+                    paymentRec.Price = stripeSubscription.Plan.Amount / 100;
                     //-- subDTO.Price = stripeSubscription.Plan.Amount;
                     paymentRec.StripePlanId = newPlan.StripePlanId;
                     paymentRec.SubscriptionType = stripeSubscription.Plan.Interval;
@@ -693,7 +723,7 @@ namespace SG2.CORE.WEB.Controllers
 
                         throw;
                     }
-                   
+
 
                     var nt = new NotificationDTO()
                     {
@@ -713,7 +743,7 @@ namespace SG2.CORE.WEB.Controllers
                     //var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
                     //var Klavio_FreeCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_FreeCustomers").ToLower()).ConfigValue;
                     //var Klavio_PayingCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_PayingCustomers").ToLower()).ConfigValue;
-                    
+
                     //klaviyoProfile.email = this.CDT.EmailAddress;
 
                     //if (newPlan.PlanId != 1)  //upgrading hence remove.
@@ -732,7 +762,7 @@ namespace SG2.CORE.WEB.Controllers
                     //    new NotRequiredProperty("Card", ""),
                     //    new NotRequiredProperty("Address","")
                     //};
-                    
+
 
 
 
@@ -770,7 +800,7 @@ namespace SG2.CORE.WEB.Controllers
                     //klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
 
 
-                    return this.Content(stripeSubscription.ToJson(), "application/json"); 
+                    return this.Content(stripeSubscription.ToJson(), "application/json");
                     //jr.Data = new { ResultType = "Success", Message = "success" };
 
                 }
@@ -778,8 +808,41 @@ namespace SG2.CORE.WEB.Controllers
                 {
                     return this.Content("subscription error, object not found.");
                 }
+              
 
-               
+            }
+            catch (StripeException e)
+            {
+                switch (e.StripeError.ErrorType)
+                {
+                    case "card_error":
+                        Console.WriteLine("Code: " + e.StripeError.Code);
+                        Console.WriteLine("Message: " + e.StripeError.Message);
+                        return this.Content(@"{""StripeMessage"": "" " +  e.StripeError.Message + " \" } ");
+                        break;
+                    case "api_connection_error":
+                        return this.Content("{'StripeMessage': '" + e.StripeError.Message + "'}");
+                        break;
+                    case "api_error":
+                        return this.Content("{'StripeMessage': '" + e.StripeError.Message + "'}");
+                        break;
+                    case "authentication_error":
+                        return this.Content("{'StripeMessage': '" + e.StripeError.Message + "'}");
+                        break;
+                    case "invalid_request_error":
+                        return this.Content("{'StripeMessage': '" + e.StripeError.Message + "'}");
+                        break;
+                    case "rate_limit_error":
+                        return this.Content("{'StripeMessage': '" + e.StripeError.Message + "'}");
+                        break;
+                    case "validation_error":
+                        return this.Content("{'StripeMessage': '" + e.StripeError.Message + "'}");
+                        break;
+                    default:
+                        // Unknown Error Type
+                        return this.Content("{'StripeMessage': 'unknown error'}");
+                        break;
+                }
             }
             catch (Exception ex)
             {

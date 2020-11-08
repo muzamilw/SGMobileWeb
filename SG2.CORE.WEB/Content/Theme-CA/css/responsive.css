@@ -143,7 +143,7 @@
         font-size: 14px;
     }
     .wellcome-heading > h2 {
-        font-size: 38px;
+        font-size: 36px;
     }
     .get-start-area .email {
         margin-bottom: 20px;
@@ -151,7 +151,7 @@
     }
     .welcome-thumb {
         width: 88%;
-        bottom: 285px;
+        bottom: 386px;
         right: 21px;
         height: 178px;
     }
@@ -222,7 +222,8 @@
     }
     .wellcome-heading,
     .single-cool-fact {
-        margin-bottom: 50px;
+        margin-bottom: 222px;
+        padding: 19px;
     }
     .cool_facts_area .col-12:last-of-type .single-cool-fact {
         margin-bottom: 0;
