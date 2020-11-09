@@ -559,9 +559,9 @@ namespace SG2.CORE.WEB.Controllers
                 var subscriptionService = new SubscriptionService();
                 Subscription stripeSubscription = null;
 
-                if (socialProfile.SocialProfile.StripeCustomerId != null)
+                if (!string.IsNullOrWhiteSpace( socialProfile.SocialProfile.StripeCustomerId))
                 {
-                    if (socialProfile.SocialProfile.StripeSubscriptionId != null)
+                    if (!String.IsNullOrWhiteSpace( socialProfile.SocialProfile.StripeSubscriptionId))
                     {
                         //if (model.paymentmethod != null)
                         //{

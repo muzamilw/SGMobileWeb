@@ -355,9 +355,9 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                 <div class="row" style="display:block">
                                     @*<h2 class="text-center">You are subscribing to a monthly plan :</h2>*@
                                     <div class="text-center">
-                                        <h2 class="text-center mt-1 hidden freetrial" style="color:red">Get Started - 7 Day FREE Trial</h2>
+                                        <h1 class="text-center mt-1 hidden freetrial" style="color:red">7 Day FREE Trial</h1>
                                     </div>
-                                    <h1 class="text-center selectedPlanName mt-1" style="color:#886ab5"></h1>
+                                    <h1 class="text-center selectedPlanName mt-1 d-none" style="color:#886ab5"></h1>
                                     <h2 class="text-center selectedPlanPrice mt-1" style="color:#886ab5"></h2>
                                     <p class="text-center mt-1" style="color:dimgray">(Cancel anytime)</p>
                                     <input type="hidden" id="selectedPlanId" />
@@ -435,7 +435,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                             <img id="successimg" src="~/Content/Images/success.jpg" />
                             <h3 class="title" id="successtitle" style="font-size:20px;color:green" data-tid="elements_examples.success.title">Next Steps:</h3>
                             <p class="message" style="font-size:13px;color:green"><span id="cmessage" data-tid="elements_examples.success.message"></span></p>
-                            <div class="icon hidden">
+                            <div id="paymentloader" class="icon hidden">
                                 <svg width="84px" height="84px" viewBox="0 0 84 84" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                     <circle class="border" cx="42" cy="42" r="40" stroke-linecap="round" stroke-width="4" stroke="#000" fill="none"></circle>
                                     <path class="checkmark" stroke-linecap="round" stroke-linejoin="round" d="M23.375 42.5488281 36.8840688 56.0578969 64.891932 28.0500338" stroke-width="4" stroke="#000" fill="none"></path>
@@ -468,7 +468,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                         <span class="text-white opacity-50 ml-auto mr-2 hidden-sm-down">
 
                         </span>
-                        <a href="page_login.html" class="btn-link text-white ml-auto ml-sm-0">
+                        <a href="~/account/logout" class="btn-link text-white ml-auto ml-sm-0">
                             Logoff
                         </a>
                     </div>
@@ -528,7 +528,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                                 <button id="js-login-btn" type="submit" class="btn btn-block btn-default btn-lg mt-3 ">Not right now</button>
                                             </div>
                                             <div class="col-md-6 ml-auto text-right pl-2 pr-2">
-                                                <button id="ActivateTrial" class="btn btn-block btn-danger btn-lg mt-3 " data-planId="1" data-planname="Growth Pro" data-planprice="29">Activate your free trial</button>
+                                                <button id="ActivateTrial" class="btn btn-block btn-danger btn-lg mt-3 " data-planId="2" data-planname="Growth Pro" data-planprice="29">Activate your free trial</button>
                                             </div>
                                         </div>
                                         <div class="form-group text-center mt-3">
@@ -792,10 +792,25 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                 selectedPlanName = $(".selectedPlanName").text();
                 selectedPlanprice = $(".selectedPlanPrice").text();
 
+                $(".selectedPlanPrice").text("You will be automatically billed $" + $(this).attr("data-planprice") + " /pm after 7 days");
+                $("#cmessage").multiline('1. Next, download the APP \n 2. View the Get Started Steps & Videos ');
+                $("#successbtn").text('Downlaod the Laptop APP')
+
+
+                
+
+
+
 
                 $("#planSubscriptionModal").modal("show");
                 return false;
             });
+
+             $.fn.multiline = function(text){
+                this.text(text);
+                this.html(this.html().replace(/\n/g,'<br/>'));
+                return this;
+            }
 
 
 
@@ -1097,6 +1112,8 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
 
             /* Shows a success / error message when the payment is complete */
             var orderComplete = function (subscription) {
+                
+                $("#paymentloader").hide();
                 changeLoadingState(false);
                 //var subscriptionJson = JSON.stringify(subscription, null, 2);
                 example.classList.remove('submitting');

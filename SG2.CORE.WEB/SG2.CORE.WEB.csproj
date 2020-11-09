@@ -2775,6 +2775,7 @@
     <Content Include="Content\Theme-CA\js\popper.min.js" />
     <Content Include="Content\Theme-CA\js\slick.min.js" />
     <Content Include="Content\Theme-CA\style.css" />
+    <Content Include="Content\Theme-CA\style_old.css" />
     <Content Include="Content\Theme-Enviro\css\animate.css" />
     <Content Include="Content\Theme-Enviro\css\bootstrap.min.css" />
     <Content Include="Content\Theme-Enviro\css\default\classy-nav.min.css" />
@@ -4146,6 +4147,7 @@
     <Content Include="Views\Pages\CookiesPolicy.cshtml" />
     <Content Include="Views\Home\faqs.cshtml" />
     <Content Include="Views\Profile\start.cshtml" />
+    <Content Include="Views\Home\Index_old.cshtml" />
     <None Include="Views\Shared\Partial\_PartialForgetPasswordPopup.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialSignupPopup.cshtml" />
     <Content Include="Views\User\Home.cshtml" />
@@ -4174,6 +4176,7 @@
     <Folder Include="Content\Theme-SPPro\js\datagrid\" />
     <Folder Include="Models\" />
     <Folder Include="Scripts\Plotly\" />
+    <Folder Include="Views\Home\partial\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
