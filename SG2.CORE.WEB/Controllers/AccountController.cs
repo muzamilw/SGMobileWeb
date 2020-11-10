@@ -45,8 +45,9 @@ namespace SG2.CORE.WEB.Controllers
         }
 
         // GET: User
-        public ActionResult SignUp()
+        public ActionResult SignUp(string email = "")
         {
+            ViewBag.email = email;
             return View();
         }
 

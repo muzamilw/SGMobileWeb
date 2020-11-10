@@ -8,15 +8,14 @@
     .sing-up-button > a {
         color: #fff;
         height: 40px;
-        min-width: 100px;
+        min-width: 152px;
         line-height: 36px;
         font-size: 14px;
     }
     .welcome-thumb {
-        width: 90%;
+        width: 50%;
         bottom: -100px;
         right: 50px;
-        height: 512px;
     }
     .video-area {
         height: 550px;
@@ -54,10 +53,9 @@
         text-align: left;
     }
     .welcome-thumb {
-        width: 90%;
-        bottom: -10px;
-        right: 35px;
-        height: 392px;
+        width: 50%;
+        bottom: -100px;
+        right: 0;
     }
     .wellcome-heading {
         margin-bottom: 70px;
@@ -143,17 +141,16 @@
         font-size: 14px;
     }
     .wellcome-heading > h2 {
-        font-size: 36px;
+        font-size: 48px;
     }
     .get-start-area .email {
         margin-bottom: 20px;
         max-width: 100%;
     }
     .welcome-thumb {
-        width: 88%;
-        bottom: 386px;
-        right: 21px;
-        height: 178px;
+        width: 90%;
+        bottom: -74px;
+        right: 0;
     }
     .logo_area > a > h2 {
         font-size: 40px;
@@ -222,25 +219,10 @@
     }
     .wellcome-heading,
     .single-cool-fact {
-        margin-bottom: 222px;
-        padding: 19px;
+        margin-bottom: 50px;
     }
     .cool_facts_area .col-12:last-of-type .single-cool-fact {
         margin-bottom: 0;
-    }
-
-    .membership-description 
-    {
-        text-align:center;
-    }
-
-    .get-started-button{
-        text-align:center;
-    }
-
-    .our-monthly-membership{
-        padding-top:40px;
-        padding-bottom:40px;
     }
 }
 
@@ -252,7 +234,7 @@
         font-size: 70px;
     }
     .welcome-thumb {
-        bottom: -194px;
+        bottom: -109px;
         width: 75%;
     }
     .wellcome-heading {

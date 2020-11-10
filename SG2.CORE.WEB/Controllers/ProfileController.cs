@@ -773,7 +773,7 @@ namespace SG2.CORE.WEB.Controllers
                     {
                         //klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_PayingCustomers);
                         //ev.Event = "Plan Upgrade";
-                        var dynamicTemplateData = new Dictionary<string, string>
+                        var dynamicTemplateData1 = new Dictionary<string, string>
                         {
                             {"name",this.CDT.FirstName},
                             {"email", this.CDT.EmailAddress},
@@ -784,7 +784,7 @@ namespace SG2.CORE.WEB.Controllers
                               {"total", "$" + paymentRec.Price}
 
                         };
-                        BAL.Managers.EmailManager.SendEmail(this.CDT.EmailAddress, this.CDT.FirstName, EmailManager.EmailType.PlanUpgrade, dynamicTemplateData);
+                        BAL.Managers.EmailManager.SendEmail(this.CDT.EmailAddress, this.CDT.FirstName, EmailManager.EmailType.PlanUpgrade, dynamicTemplateData1);
                     }
                     else
                     {
@@ -799,6 +799,16 @@ namespace SG2.CORE.WEB.Controllers
 
                     //klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
 
+                    var dynamicTemplateData = new Dictionary<string, string>
+                {
+                    {"name",this.CDT.FirstName},
+                    {"email", this.CDT.EmailAddress},
+                    {"senddate", DateTime.Today.ToLongDateString()},
+                    {"error", stripeSubscription.ToJson()},
+                    {"socialprofileid", model.socialProfileId.ToString() },
+                };
+                    BAL.Managers.EmailManager.SendEmail("info@socialplannerpro.com", "Social Planner Pro", EmailManager.EmailType.info, dynamicTemplateData);
+
 
                     return this.Content(stripeSubscription.ToJson(), "application/json");
                     //jr.Data = new { ResultType = "Success", Message = "success" };
@@ -806,13 +816,34 @@ namespace SG2.CORE.WEB.Controllers
                 }
                 else
                 {
-                    return this.Content("subscription error, object not found.");
+                    var dynamicTemplateData = new Dictionary<string, string>
+                {
+                    {"name",this.CDT.FirstName},
+                    {"email", this.CDT.EmailAddress},
+                    {"senddate", DateTime.Today.ToLongDateString()},
+                    {"error", "subscription error, object not found"},
+                    {"socialprofileid", model.socialProfileId.ToString() },
+                };
+                    BAL.Managers.EmailManager.SendEmail("info@socialplannerpro.com", "Social Planner Pro", EmailManager.EmailType.error, dynamicTemplateData);
+                    //return this.Content("subscription error, object not found.");
+                    return this.Content("{'StripeMessage': 'subscription error, object not found'}");
                 }
               
 
             }
             catch (StripeException e)
             {
+                var dynamicTemplateData = new Dictionary<string, string>
+                {
+                    {"name",this.CDT.FirstName},
+                    {"email", this.CDT.EmailAddress},
+                    {"senddate", DateTime.Today.ToLongDateString()},
+                    {"error", e.ToString()},
+                    {"socialprofileid", model.socialProfileId.ToString() },
+                };
+                BAL.Managers.EmailManager.SendEmail("info@socialplannerpro.com", "Social Planner Pro", EmailManager.EmailType.error, dynamicTemplateData);
+
+
                 switch (e.StripeError.ErrorType)
                 {
                     case "card_error":
@@ -846,7 +877,18 @@ namespace SG2.CORE.WEB.Controllers
             }
             catch (Exception ex)
             {
-                return this.Content(ex.ToString());
+                //return this.Content(ex.ToString());
+                var dynamicTemplateData = new Dictionary<string, string>
+                {
+                    {"name",this.CDT.FirstName},
+                    {"email", this.CDT.EmailAddress},
+                    {"senddate", DateTime.Today.ToLongDateString()},
+                    {"error", ex.ToString()},
+                    {"socialprofileid", model.socialProfileId.ToString() },
+                };
+                BAL.Managers.EmailManager.SendEmail("info@socialplannerpro.com", "Social Planner Pro", EmailManager.EmailType.error, dynamicTemplateData);
+
+                return this.Content("{'StripeMessage': '"+ ex.ToString()+"'}");
             }
         }
 

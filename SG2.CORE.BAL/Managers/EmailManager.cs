@@ -71,7 +71,19 @@ namespace SG2.CORE.BAL.Managers
 
 
                 var to = new EmailAddress(toEmail, toEmailName);
-                var msg = MailHelper.CreateSingleTemplateEmail(from, to, templateId, dynamicTemplateData);
+                SendGridMessage msg = null;
+                if (emailType == EmailType.error)
+                {
+                    MailHelper.CreateSingleEmail(from, to, "SPP Error", dynamicTemplateData.ToString(), dynamicTemplateData.ToString());
+                }
+                else if (emailType == EmailType.info)
+                {
+                    MailHelper.CreateSingleEmail(from, to, "SPP information", dynamicTemplateData.ToString(), dynamicTemplateData.ToString());
+                }
+                else
+                {
+                    msg = MailHelper.CreateSingleTemplateEmail(from, to, templateId, dynamicTemplateData);
+                }
                 var response = await client.SendEmailAsync(msg);
                 Console.WriteLine(response.Body);
 
@@ -170,7 +182,9 @@ namespace SG2.CORE.BAL.Managers
             Welcome = 5,
             RunNotification = 6,
             HomePageContact = 7,
-            profileDeleted = 8
+            profileDeleted = 8,
+            error = 9,
+            info = 10
 
         }
     }
