@@ -66,6 +66,11 @@ namespace SG2.CORE.WEB.Controllers
             return View();
         }
 
+        public ActionResult Influencer()
+        {
+            return View();
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Social Growth";
@@ -546,14 +551,11 @@ namespace SG2.CORE.WEB.Controllers
             }
 
         }
-        public ActionResult features()
-        {
-            return View("agency");
-        }
+       
 
         public ActionResult Agency()
         {
-            return View("features");
+            return View("");
         }
 
         public ActionResult videos()
@@ -578,10 +580,10 @@ namespace SG2.CORE.WEB.Controllers
             return View();
         }
 
-        [ActionName("get-started")]
-        public ActionResult get_started()
+        [ActionName("how-it-works")]
+        public ActionResult howitworks()
         {
-            return View("get_started");
+            return View("howitworks");
         }
         private static HttpWebRequest GetWebRequestObject(string endPoint)
         {

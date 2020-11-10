@@ -4132,7 +4132,7 @@
     <Content Include="site.webmanifest" />
     <Content Include="Views\Home\Pricing.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
-    <Content Include="Views\Home\Agency.cshtml" />
+    <Content Include="Views\Home\Agency_old.cshtml" />
     <Content Include="Views\Profile\FollowList.cshtml" />
     <Content Include="Views\Profile\WhiteList.cshtml" />
     <Content Include="Views\Profile\BlackList.cshtml" />
@@ -4148,6 +4148,9 @@
     <Content Include="Views\Home\faqs.cshtml" />
     <Content Include="Views\Profile\start.cshtml" />
     <Content Include="Views\Home\Index_old.cshtml" />
+    <Content Include="Views\Home\influencer.cshtml" />
+    <Content Include="Views\Home\agency.cshtml" />
+    <Content Include="Views\Home\howitworks.cshtml" />
     <None Include="Views\Shared\Partial\_PartialForgetPasswordPopup.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialSignupPopup.cshtml" />
     <Content Include="Views\User\Home.cshtml" />
