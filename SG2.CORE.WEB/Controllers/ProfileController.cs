@@ -683,22 +683,24 @@ namespace SG2.CORE.WEB.Controllers
                         stripeSubscription.Plan = selectedPlan;
                     }
 
-                    SocialProfile_PaymentsDTO paymentRec = new SocialProfile_PaymentsDTO();
-                    paymentRec.SocialProfileId = model.socialProfileId;
-                    paymentRec.StripeSubscriptionId = stripeSubscription.Id;
-                    paymentRec.Description = stripeSubscription.Plan.Nickname;
-                    paymentRec.Name = stripeSubscription.Plan.Nickname;
-                    paymentRec.Price = stripeSubscription.Plan.Amount / 100;
-                    //-- subDTO.Price = stripeSubscription.Plan.Amount;
-                    paymentRec.StripePlanId = newPlan.StripePlanId;
-                    paymentRec.SubscriptionType = stripeSubscription.Plan.Interval;
+                    SocialProfile_PaymentsDTO paymentRec = new SocialProfile_PaymentsDTO
+                    {
+                        SocialProfileId = model.socialProfileId,
+                        StripeSubscriptionId = stripeSubscription.Id,
+                        Description = stripeSubscription.Plan.Nickname,
+                        Name = stripeSubscription.Plan.Nickname,
+                        Price = stripeSubscription.Plan.Amount / 100,
+                        //-- subDTO.Price = stripeSubscription.Plan.Amount;
+                        StripePlanId = newPlan.StripePlanId,
+                        SubscriptionType = stripeSubscription.Plan.Interval,
 
-                    paymentRec.StartDate = stripeSubscription.CurrentPeriodStart.Value;
-                    paymentRec.EndDate = stripeSubscription.CurrentPeriodEnd.Value;
-                    paymentRec.StatusId = (int)GlobalEnums.PlanSubscription.Active;
-                    paymentRec.PaymentPlanId = newPlan.PlanId;
-                    paymentRec.StripeInvoiceId = stripeSubscription.LatestInvoiceId;
-                    paymentRec.PaymentDateTime = DateTime.Now;
+                        StartDate = stripeSubscription.CurrentPeriodStart.Value,
+                        EndDate = stripeSubscription.CurrentPeriodEnd.Value,
+                        StatusId = (int)GlobalEnums.PlanSubscription.Active,
+                        PaymentPlanId = newPlan.PlanId,
+                        StripeInvoiceId = stripeSubscription.LatestInvoiceId,
+                        PaymentDateTime = DateTime.Now
+                    };
 
                     _cm.InsertSocialProfilePayment(paymentRec);
 
