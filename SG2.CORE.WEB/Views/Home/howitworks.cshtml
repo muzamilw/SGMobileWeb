@@ -80,31 +80,30 @@
     <div id="preloader">
         <div class="colorlib-load"></div>
     </div>
-
     <div class="modal fade funnelmodel" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="row">
                     <div class="col col-12 col-md-7 text-center justify-content-center mx-auto">
                         <div class="text-center mt-4">
-                            <h2 style="font-size:24px;color:#5b32b4">Get 50% OFF Your Membership</h2>
+                            <h2 style="font-size:24px;color:#5b32b4;padding-left:100px;padding-right:100px;">Get 50% OFF Your Membership</h2>
                             <div class="line-shape"></div>
                         </div>
-                        <h4 class="mt-4">Start your FREE trial<br /></h4>
+                        <h6 class="mt-4" style="color:darkgray">Start your FREE trial<br /></h6>
                         <h4>What best describe you ?</h4>
 
                         <div class="row p-4 text-center justify-content-center mx-auto">
                             <div class="col col-4 p-1">
                                 <div class="single-price-plan active text-center" style="margin-bottom: 5px;">
                                     <!-- Package Text  -->
-                                    <div class="package-plan" style="background:#c8a7e4;padding: 29px 0;">
+                                    <div class="package-plan" style="background:#c8a7e4;padding: 29px 0;cursor:pointer" onclick="setusertypeCookie(1);">
                                         <h5>Business</h5>
 
                                     </div>
 
                                     <!-- Plan Button  -->
                                     <div class="plan-button">
-                                        <a href="#" onclick="setusertypeCookie(1);" style="background:#fb397d">Select</a>
+                                        <a href="#" onclick="setusertypeCookie(1);" style="background:#fb397d"><i class="fa fa-play" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
 
@@ -112,28 +111,28 @@
                             <div class="col col-4 p-1">
                                 <div class="single-price-plan active text-center" style="margin-bottom: 5px;">
                                     <!-- Package Text  -->
-                                    <div class="package-plan" style="background:#c8a7e4;padding: 29px 0;">
+                                    <div class="package-plan" style="background:#c8a7e4;padding: 29px 0; cursor:pointer" onclick="setusertypeCookie(2);">
                                         <h5>Influencer</h5>
 
                                     </div>
 
                                     <!-- Plan Button  -->
                                     <div class="plan-button">
-                                        <a href="#" onclick="setusertypeCookie(2);" style="background:#fb397d">Select</a>
+                                        <a href="#" onclick="setusertypeCookie(2);" style="background:#fb397d"><i class="fa fa-play" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                             </div>
                             <div class="col col-4 p-1">
                                 <div class="single-price-plan active text-center" style="margin-bottom: 5px;">
                                     <!-- Package Text  -->
-                                    <div class="package-plan" style="background:#c8a7e4;padding: 29px 0;">
+                                    <div class="package-plan" style="background:#c8a7e4;padding: 29px 0;cursor:pointer" onclick="setusertypeCookie(3);">
                                         <h5>Marketeer</h5>
 
                                     </div>
 
                                     <!-- Plan Button  -->
                                     <div class="plan-button">
-                                        <a href="#" onclick="setusertypeCookie(3);" style="background:#fb397d">Select</a>
+                                        <a href="#" onclick="setusertypeCookie(3);" style="background:#fb397d"><i class="fa fa-play" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -947,7 +946,7 @@
                 window.location.href = '/';
             else if (val == 2 && currentPath != "/influencer")
                 window.location.href = '/influencer'
-            else if (val == 2 && currentPath != "/agency")
+            else if (val == 3 && currentPath != "/agency")
                 window.location.href = '/agency'
         }
 
