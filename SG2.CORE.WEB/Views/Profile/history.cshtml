@@ -566,7 +566,7 @@
 
                             <div class="card-body text-center">
 
-                                <div class="row justify-content-center">
+                                @*<div class="row justify-content-center">
                                     <div class="col-md-6">
                                         @if (Model.CurrentPaymentPlan != null && Model.CurrentPaymentPlan.PaymentPlanId != 1)
                                         {
@@ -578,7 +578,7 @@
                                         }
                                     </div>
 
-                                </div>
+                                </div>*@
 
                                 @if (Customer.IsBroker != true && ((Model.SocialProfile.PaymentPlanId ?? 0) == 0 || (Model.SocialProfile.PaymentPlanId ?? 0) == 1))
                                 {

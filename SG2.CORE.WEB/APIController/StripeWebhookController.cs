@@ -18,7 +18,7 @@ using System.Web.Http;
 using System.Web;
 using SG2.CORE.MODAL.DTO.Customers;
 using SG2.CORE.MODAL.DTO.Notification;
-
+using log4net;
 
 namespace SG2.CORE.WEB.APIController
 {
@@ -46,6 +46,9 @@ namespace SG2.CORE.WEB.APIController
         [HttpPost]
         public IHttpActionResult Hook()
         {
+
+            ILog log = LogManager.GetLogger("mylog");
+            log.Info("This is my first log message");
             Stream req = HttpContext.Current.Request.InputStream;
             req.Seek(0, System.IO.SeekOrigin.Begin);
 
@@ -66,15 +69,15 @@ namespace SG2.CORE.WEB.APIController
                         SocialProfile_PaymentsDTO paymentRec = new SocialProfile_PaymentsDTO();
                         paymentRec.SocialProfileId = profile.SocialProfileId;
                         paymentRec.StripeSubscriptionId = invoice.SubscriptionId;
-                        paymentRec.Description = invoice.Subscription.Plan.Nickname;
-                        paymentRec.Name = invoice.Subscription.Plan.Nickname;
-                        paymentRec.Price = invoice.Subscription.Plan.Amount / 100;
+                        paymentRec.Description = invoice.Lines.First().Description;// invoice.Lines;
+                        paymentRec.Name = invoice.Lines.First().Description;
+                        paymentRec.Price = invoice.Lines.First().Plan.Amount / 100;
                         //-- subDTO.Price = stripeSubscription.Plan.Amount;
-                        paymentRec.StripePlanId = invoice.Subscription.Plan.Id;
-                        paymentRec.SubscriptionType = invoice.Subscription.Plan.Interval;
+                        paymentRec.StripePlanId = invoice.Lines.First().Plan.Id;
+                        paymentRec.SubscriptionType = "per month";
 
-                        paymentRec.StartDate = invoice.Subscription.CurrentPeriodStart.Value;
-                        paymentRec.EndDate = invoice.Subscription.CurrentPeriodEnd.Value;
+                        paymentRec.StartDate = invoice.PeriodStart;
+                        paymentRec.EndDate = invoice.PeriodStart;
                         paymentRec.StatusId = (int)GlobalEnums.PlanSubscription.Active;
                         paymentRec.PaymentPlanId = profile.PaymentPlanId;
                         paymentRec.StripeInvoiceId = invoice.Id;
@@ -96,15 +99,15 @@ namespace SG2.CORE.WEB.APIController
                         SocialProfile_PaymentsDTO paymentRec = new SocialProfile_PaymentsDTO();
                         paymentRec.SocialProfileId = profile.SocialProfileId;
                         paymentRec.StripeSubscriptionId = invoice.SubscriptionId;
-                        paymentRec.Description = invoice.Subscription.Plan.Nickname;
-                        paymentRec.Name = invoice.Subscription.Plan.Nickname;
-                        paymentRec.Price = invoice.Subscription.Plan.Amount / 100;
+                        paymentRec.Description = invoice.Lines.First().Description;// invoice.Lines;
+                        paymentRec.Name = invoice.Lines.First().Description;
+                        paymentRec.Price = invoice.Lines.First().Plan.Amount / 100;
                         //-- subDTO.Price = stripeSubscription.Plan.Amount;
-                        paymentRec.StripePlanId = invoice.Subscription.Plan.Id;
-                        paymentRec.SubscriptionType = invoice.Subscription.Plan.Interval;
+                        paymentRec.StripePlanId = invoice.Lines.First().Plan.Id;
+                        paymentRec.SubscriptionType = "per month";
 
-                        paymentRec.StartDate = invoice.Subscription.CurrentPeriodStart.Value;
-                        paymentRec.EndDate = invoice.Subscription.CurrentPeriodEnd.Value;
+                        paymentRec.StartDate = invoice.PeriodStart;
+                        paymentRec.EndDate = invoice.PeriodStart;
                         paymentRec.StatusId = (int)GlobalEnums.PlanSubscription.canceled;
                         paymentRec.PaymentPlanId = profile.PaymentPlanId;
                         paymentRec.StripeInvoiceId = invoice.Id;
@@ -154,15 +157,15 @@ namespace SG2.CORE.WEB.APIController
                         SocialProfile_PaymentsDTO paymentRec = new SocialProfile_PaymentsDTO();
                         paymentRec.SocialProfileId = profile.SocialProfileId;
                         paymentRec.StripeSubscriptionId = invoice.SubscriptionId;
-                        paymentRec.Description = invoice.Subscription.Plan.Nickname;
-                        paymentRec.Name = invoice.Subscription.Plan.Nickname;
-                        paymentRec.Price = invoice.Subscription.Plan.Amount / 100;
+                        paymentRec.Description = invoice.Lines.First().Description;// invoice.Lines;
+                        paymentRec.Name = invoice.Lines.First().Description;
+                        paymentRec.Price = invoice.Lines.First().Plan.Amount / 100;
                         //-- subDTO.Price = stripeSubscription.Plan.Amount;
-                        paymentRec.StripePlanId = invoice.Subscription.Plan.Id;
-                        paymentRec.SubscriptionType = invoice.Subscription.Plan.Interval;
+                        paymentRec.StripePlanId = invoice.Lines.First().Plan.Id;
+                        paymentRec.SubscriptionType = "per month";
 
-                        paymentRec.StartDate = invoice.Subscription.CurrentPeriodStart.Value;
-                        paymentRec.EndDate = invoice.Subscription.CurrentPeriodEnd.Value;
+                        paymentRec.StartDate = invoice.PeriodStart;
+                        paymentRec.EndDate = invoice.PeriodStart;
                         paymentRec.StatusId = (int)GlobalEnums.PlanSubscription.canceled;
                         paymentRec.PaymentPlanId = profile.PaymentPlanId;
                         paymentRec.StripeInvoiceId = invoice.Id;
@@ -184,12 +187,13 @@ namespace SG2.CORE.WEB.APIController
                 else
                 {
                     // Unexpected event type
-                    return BadRequest();
+                    return Ok("event not mapped");
                 }
                 return Ok();
             }
             catch (StripeException e)
             {
+                log.Error("An error happened", e);
                 return Ok(e.ToString());//BadRequest();
             }
         }
