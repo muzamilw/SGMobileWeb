@@ -104,7 +104,7 @@ namespace SG2.CORE.WEB.Controllers
                             _notManager.AddNotification(nt);
                                                        
                             var encryptData = CryptoEngine.Encrypt(user.CustomerId + "#" + System.DateTime.Now.Date);
-                            string URL = HttpContext.Request.Url.Scheme.ToString() + "://" + HttpContext.Request.Url.Authority.ToString() + "/Home/VerifyEmail?token=" + Url.Encode(encryptData);
+                            string URL = HttpContext.Request.Url.Scheme.ToString() + "://" + HttpContext.Request.Url.Authority.ToString() + "/VerifyEmail?token=" + Url.Encode(encryptData);
 
                             //eventAPI();
                             /*List<NotRequiredProperty> list = new List<NotRequiredProperty>() {
@@ -273,7 +273,7 @@ namespace SG2.CORE.WEB.Controllers
                 if (user != null)
                 {
                     //var encryptData = CryptoEngine.Encrypt(user.CustomerId + "#" + System.DateTime.Now.Date);
-                    //string URL = HttpContext.Request.Url.Scheme.ToString() + "://" + HttpContext.Request.Url.Authority.ToString() + "/Home/VerifyEmail?token=" + Url.Encode(encryptData);
+                    //string URL = HttpContext.Request.Url.Scheme.ToString() + "://" + HttpContext.Request.Url.Authority.ToString() + "/VerifyEmail?token=" + Url.Encode(encryptData);
 
                     ////eventAPI();
                     //var list = new List<NotRequiredProperty>
@@ -430,7 +430,7 @@ namespace SG2.CORE.WEB.Controllers
             {
 
                 var encryptData = CryptoEngine.Encrypt(customer.CustomerId + "#" + System.DateTime.Now.Date);
-                string URL = HttpContext.Request.Url.Scheme.ToString() + "://" + HttpContext.Request.Url.Authority.ToString() + "/Home/ResetPassword?token=" + Url.Encode(encryptData);
+                string URL = HttpContext.Request.Url.Scheme.ToString() + "://" + HttpContext.Request.Url.Authority.ToString() + "/ResetPassword?token=" + Url.Encode(encryptData);
 
                 //List<NotRequiredProperty> list = new List<NotRequiredProperty>
                 //    {

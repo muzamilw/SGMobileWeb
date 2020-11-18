@@ -97,7 +97,7 @@ namespace SG2.CORE.WEB.Areas.SuperAdmin.Controllers
                     );
 
                     var encryptData = CryptoEngine.Encrypt(dl.SystemUserId + "#" + DateTime.Now.Date);
-                    string URL = HttpContext.Request.Url.Scheme.ToString() + "://" + HttpContext.Request.Url.Authority.ToString() + "/Home/VerifyEmail?token=" + Url.Encode(encryptData);
+                    string URL = HttpContext.Request.Url.Scheme.ToString() + "://" + HttpContext.Request.Url.Authority.ToString() + "/VerifyEmail?token=" + Url.Encode(encryptData);
 
                     //eventAPI();
                     var list = new List<NotRequiredProperty>();

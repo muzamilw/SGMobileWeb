@@ -172,7 +172,7 @@
 
                                 </ul>
                                 <div class="sing-up-button d-lg-none">
-                                    <a href="#">Sign Up Free</a>
+                                    <a href="/account/signup">Sign Up Free</a>
                                 </div>
                             </div>
                         </nav>
@@ -181,7 +181,7 @@
                 <!-- Signup btn -->
                 <div class="col-12 col-lg-2">
                     <div class="sing-up-button d-none d-lg-block">
-                        <a href="#">Sign Up Free</a>
+                        <a href="/account/signup">Sign Up Free</a>
                     </div>
                 </div>
             </div>
@@ -880,7 +880,7 @@
                     <li><a href="/pages/PrivacyPolicy">Privacy Policy</a></li>
                     <li><a href="/pages/CookiesPolicy">Cookies Policy</a></li>
                     <li><a href="/download">Download</a></li>
-                    <li><a href="/video">Videos</a></li>
+                    <li><a href="/videos">Videos</a></li>
                     <li><a href="/index#contact">Contact</a></li>
                 </ul>
             </nav>
@@ -973,7 +973,7 @@
         function addData() {
             $.ajax({
                 type: "POST",
-                url: "/home/contactform",
+                url: "/contactform",
                 data: JSON.stringify(getFormData($("#contactform"))),
                 contentType: "application/json; charset=utf-8",
                 crossDomain: true,

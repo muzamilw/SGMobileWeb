@@ -210,7 +210,7 @@ namespace SG2.CORE.WEB.Controllers
                 int customerId = model.CustomerId; // Convert.ToInt32(CryptoEngine.Decrypt(model.));
                 var customer = _customerManager.GetCustomerDTOByCustomerId(customerId);
                 var encryptData = CryptoEngine.Encrypt(customerId + "#" + System.DateTime.Now.Date);
-                string URL = HttpContext.Request.Url.Scheme.ToString() + "://" + HttpContext.Request.Url.Authority.ToString() + "/Home/VerifyEmail?token=" + Url.Encode(encryptData);
+                string URL = HttpContext.Request.Url.Scheme.ToString() + "://" + HttpContext.Request.Url.Authority.ToString() + "/VerifyEmail?token=" + Url.Encode(encryptData);
                 //List<NotRequiredProperty> list = new List<NotRequiredProperty>() {
                 //        new NotRequiredProperty("$email", customer.EmailAddress),
                 //        new NotRequiredProperty("$first_name ", customer.FirstName),
