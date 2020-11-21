@@ -66,22 +66,45 @@ namespace SG2.CORE.BAL.Managers
                 {
                     templateId = "d-344696b1415e4ec59f24d56b35102549";
                 }
+                else if (emailType == EmailType.newSignup)
+                {
+                    templateId = "d-b0a00fdba5454c0db059c515a5a407a3";
+                }
+                else if (emailType == EmailType.CreditCardEntered)
+                {
+                    templateId = "d-b4098dda5f7c460a90af066f07921f67";
+                }
+
+
+                EmailAddress to = null;
+
                 
-
-
-
-                var to = new EmailAddress(toEmail, toEmailName);
                 SendGridMessage msg = null;
                 if (emailType == EmailType.error)
                 {
-                    MailHelper.CreateSingleEmail(from, to, "SPP Error", dynamicTemplateData.ToString(), dynamicTemplateData.ToString());
+                    to = new EmailAddress(toEmail, toEmailName);
+                    msg=  MailHelper.CreateSingleEmail(from, to, "SPP Error", dynamicTemplateData.ToString(), dynamicTemplateData.ToString());
                 }
                 else if (emailType == EmailType.info)
                 {
-                    MailHelper.CreateSingleEmail(from, to, "SPP information", dynamicTemplateData.ToString(), dynamicTemplateData.ToString());
+                    to = new EmailAddress(toEmail, toEmailName);
+                    msg = MailHelper.CreateSingleEmail(from, to, "SPP information", dynamicTemplateData.ToString(), dynamicTemplateData.ToString());
+                }
+                else if (emailType == EmailType.newSignup || emailType == EmailType.CreditCardEntered)
+                {
+                    var slist = toEmail.Split(',');
+                    var tolist = new List<EmailAddress>();
+                    foreach (var item in slist)
+                    {
+                        tolist.Add(new EmailAddress(item, "SPP Team"));
+                    }
+
+                    
+                    msg = MailHelper.CreateSingleTemplateEmailToMultipleRecipients(from, tolist , templateId, dynamicTemplateData);
                 }
                 else
                 {
+                    to = new EmailAddress(toEmail, toEmailName);
                     msg = MailHelper.CreateSingleTemplateEmail(from, to, templateId, dynamicTemplateData);
                 }
                 var response = await client.SendEmailAsync(msg);
@@ -184,7 +207,10 @@ namespace SG2.CORE.BAL.Managers
             HomePageContact = 7,
             profileDeleted = 8,
             error = 9,
-            info = 10
+            info = 10,
+            newSignup= 11,
+            CreditCardEntered = 12,
+
 
         }
     }

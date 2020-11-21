@@ -154,8 +154,8 @@
         }
 
         .card .card-body .main-card-h1 {
-            text-transform: uppercase;
-            color: red;
+           
+            color: #fc077a;
         }
     </style>
 }
@@ -201,8 +201,8 @@
                                 </div>*@
 
                                 <div class="form-group row col-md-12 ml-0 mr-0 row mt-3">
-                                    <h1 class="col-lg-12 col-md-12 col-sm-12  form-section pl-0 mb-0 text-bold-700 main-card-h1" style="border-bottom:0px; text-transform: uppercase;padding-bottom:20px;color: red;font-size: 1.7rem;">TARGET YOUR NEW CUSTOMERS TO GENERATE NEW LEADS & FOLLOWERS</h1>
-                                    <h4>Grow your social media accounts with hundreds of hot leads by targeting your ideal audiences and customers.</h4>
+                                    <h1 class="col-lg-12 col-md-12 col-sm-12  form-section pl-0 mb-0 text-bold-700 main-card-h1" style="border-bottom:0px;padding-bottom:20px;color: #fc077a;font-size: 1.7rem;">Target new followers and customers on Auto-Pilot</h1>
+                                    <h4>Grow your social media accounts with hundreds of hot leads and real followers. </h4>
 
                                 </div>
 
@@ -235,12 +235,12 @@
                                             @*<h4 class="form-section"><i class="ft-user"></i>Engagement Rules</h4>*@
 
                                             <img src="~/Content/app-assets/images/Keyword.png" style="float:right;height:30px;" />
-                                            <h1 class="col-lg-12 col-md-12 col-sm-12  form-section pl-0 mb-2 text-bold-500 main-card-h1" style="border-bottom:0px;">Engagement Keywords</h1>
+                                            <h1 class="col-lg-12 col-md-12 col-sm-12  form-section pl-0 mb-2 text-bold-500 main-card-h1" style="border-bottom:0px;">Keywords</h1>
 
                                             <div class="form-group">
                                                 @*@Html.LabelFor(m => m.SocialProfile_Instagram_TargetingInformation.Preference1, new { @class = "" })*@
                                                 @*<span style="display:block"> Please use this format for hashtags: #hashtag,#hashtag,#hashtag</span>*@
-                                                <label>Choose keywords you wish to engage with customers (select the most relevant keywords according to the nature of your fan base). WE RECOMMEND YOU ENTER A MINIMUM OF 10 KEYWORDS</label>
+                                                <label>Choose words and phrases that best describes your ideal fan base and customers. </label>
                                                 <div id="hashtagsengage" class="edit-on-delete form-control" data-tags-input-name="wlextracted"> @Model.SocialProfile_Instagram_TargetingInformation.HashTagsToEngage</div>
 
                                                 @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.HashTagsToEngage)
@@ -257,7 +257,7 @@
                                             <h1 class="col-lg-12 col-md-12 col-sm-12  form-section pl-0 mb-2 text-bold-700 main-card-h1" style="border-bottom:0px;">Locations</h1>
                                             <div class="form-group">
                                                 @*<span style="display:block"> Please use this format for hashtags: #hashtag,#hashtag,#hashtag</span>*@
-                                                <label>Choose towns, cities and countries that are best suited for your account (cities work best). WE RECOMMEND YOU ADD A MINIMUM OF 3 LOCATIONS</label>
+                                                <label>Enter towns, cities and countries to refine your segmentation. </label>
                                                 <div id="locationengage" class="edit-on-delete form-control" data-tags-input-name="wlextracted">@Model.SocialProfile_Instagram_TargetingInformation.LocationsToEngage</div>
                                                 @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.LocationsToEngage)
 
@@ -267,7 +267,7 @@
                                             <div class="form-group">
                                                 @*@Html.LabelFor(m => m.SocialProfile_Instagram_TargetingInformation.Preference1, new { @class = "" })*@
                                                 @*<span style="display:block"> Please use this format for hashtags: #hashtag,#hashtag,#hashtag</span>*@
-                                                <label>Target your competitors followers and connections. We recommend you add a minimum of 3 COMPETITOR INSTAGRAM USERNAMES </label>
+                                                <label>We reach out to your competitors followers on Instagram and engage with them for you.  Enter at least 3 of your competitors usernames. </label>
                                                 <div id="DirectCompetitors" class="edit-on-delete form-control" data-tags-input-name="wlextracted">@Model.SocialProfile_Instagram_TargetingInformation.DirectCompetitors</div>
                                                 @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.DirectCompetitors)
 
@@ -354,7 +354,7 @@
 
                                         </div>
                                         <div class=" form-group row border-bottom-social-profile col-md-12 ml-0 mr-0 row">
-                                            <h4 class="col-lg-8 col-md-8 col-sm-12 card-title form-section pl-0 mb-3" style="border-bottom:0px;">Max <span style="color:red">Likes</span> made on all followings post per day</h4>
+                                            <h4 class="col-lg-8 col-md-8 col-sm-12 card-title form-section pl-0 mb-3" style="border-bottom:0px;">Max <span style="color:#fc077a">Likes</span> made on all followings post per day</h4>
 
 
                                             <div class="col-lg-1 col-md-2 col-sm-4 col-6 pl-0" style="visibility:@warmupVisibility">
@@ -373,7 +373,7 @@
                                         </div>
 
                                         <div class=" form-group row border-bottom-social-profile col-md-12 ml-0 mr-0 row mt-1">
-                                            <h4 class="col-lg-8 col-md-8 col-sm-12 card-title form-section pl-0 mb-3" style="border-bottom:0px;">Max <span style="color:red">Comments</span> made on Followings posts per day</h4>
+                                            <h4 class="col-lg-8 col-md-8 col-sm-12 card-title form-section pl-0 mb-3" style="border-bottom:0px;">Max <span style="color:#fc077a">Comments</span> made on Followings posts per day</h4>
 
 
                                             <div class="col-lg-1 col-md-2 col-6 pl-0" style="visibility:@warmupVisibility">
@@ -393,7 +393,7 @@
                                         </div>
 
                                         <div class=" form-group row border-bottom-social-profile col-md-12 ml-0 mr-0 row mt-1">
-                                            <h4 class="col-lg-8 col-md-8 col-sm-12 card-title form-section pl-0 mb-3" style="border-bottom:0px;">Max <span style="color:red">Story Views</span> of new Follows per day</h4>
+                                            <h4 class="col-lg-8 col-md-8 col-sm-12 card-title form-section pl-0 mb-3" style="border-bottom:0px;">Max <span style="color:#fc077a">Story Views</span> of new Follows per day</h4>
 
 
                                             <div class="col-lg-1 col-md-2 col-6 pl-0" style="visibility:@warmupVisibility">
@@ -412,7 +412,7 @@
                                         </div>
 
                                         <div class="form-group row border-bottom-social-profile col-md-12 ml-0 mr-0 row mt-1">
-                                            <h4 class="col-lg-8 col-md-8 col-sm-12 card-title form-section pl-0 mb-3" style="border-bottom:0px;">Max <span style="color:red">Comment</span> on user stories</h4>
+                                            <h4 class="col-lg-8 col-md-8 col-sm-12 card-title form-section pl-0 mb-3" style="border-bottom:0px;">Max <span style="color:#fc077a">Comment</span> on user stories</h4>
 
 
                                             <div class="col-lg-1 col-md-2 col-6 pl-0" style="visibility:@warmupVisibility">
@@ -432,7 +432,7 @@
                                         </div>
 
                                         <div class="form-group row  border-bottom-social-profile col-md-12 ml-0 mr-0 row mt-1">
-                                            <h4 class="col-lg-8 col-md-8 col-sm-12 card-title form-section pl-0 mb-3" style="border-bottom:0px;">Max <span style="color:red">Un-follow </span> from previous day's new follows  </h4>
+                                            <h4 class="col-lg-8 col-md-8 col-sm-12 card-title form-section pl-0 mb-3" style="border-bottom:0px;">Max <span style="color:#fc077a">Un-follow </span> from previous day's new follows  </h4>
 
 
                                             <div class="col-lg-1 col-md-2 col-6 pl-0" style="visibility:@warmupVisibility">
@@ -451,7 +451,7 @@
                                         </div>
 
                                         <div class="form-group row border-bottom-social-profile col-md-12 ml-0 mr-0 row mt-1">
-                                            <h4 class="col-lg-8 col-md-8 col-sm-12 card-title form-section pl-0 mb-3" style="border-bottom:0px;">Max new <span style="color:red">Follows</span> per day</h4>
+                                            <h4 class="col-lg-8 col-md-8 col-sm-12 card-title form-section pl-0 mb-3" style="border-bottom:0px;">Max new <span style="color:#fc077a">Follows</span> per day</h4>
 
 
                                             <div class="col-lg-1 col-md-2 col-6 pl-0" style="visibility:@warmupVisibility">
@@ -538,7 +538,8 @@
                                                     @Html.EditorFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserLangs, new { @class = "weekday" })
                                                     @Html.HiddenFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserLangsList)
                                                     <label for="@Html.IdFor(m => m.SocialProfile_Instagram_TargetingInformation.FollUserLangs)">Follow users ONLY in these Languages</label>
-                                                    <fieldset class="checkboxsas" style="margin-left: 17px;">
+                                                    <fieldset class="checkboxsas" style="        margin-left: 17px;
+">
                                                         <label>
                                                             <input name="Languages" type="checkbox" value="EN">
                                                             English

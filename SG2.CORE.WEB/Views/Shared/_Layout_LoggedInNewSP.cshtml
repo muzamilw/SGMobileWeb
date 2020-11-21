@@ -284,15 +284,45 @@
                                 if (data.ResultType == "Success") {
                                     $("#SignUpSpinner").css("display", "none");
                                     $("#Modal_SignupPopup").modal("hide");
-                                    $("#Modal_MessageBoxTitle").text("Account Created Succesfully");
-                                    $("#Modal_MessageBoxBody").text("Please check your inbox for verification email");
+                                    //$("#Modal_MessageBoxTitle").text("Account Created Succesfully");
+                                    //$("#Modal_MessageBoxBody").text("Please check your inbox for verification email");
                                     ///fbq('track', 'CompleteRegistration');
                                     fbq('track', 'Lead');
-                                    $("#Modal_MessageBoxOkBtn").on("click", function (e) {
-                                        window.location.href = "/account/login";
+                                    //$("#Modal_MessageBoxOkBtn").on("click", function (e) {
+                                    //    window.location.href = "/User/Home";
+                                    //});
+
+                                    //$("#Modal_Messagebox").modal("show");
+
+
+
+                                    //login
+                                    var frmData = "EmailAddress=" + $("#SignEmailAddress").val();
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/account/redir",
+                                        data: frmData,
+                                        dataType: "json",
+                                        success: function (data) {
+                                            $("#LoginSpiner").css("display", "none");
+                                            if (!$.isEmptyObject(data)) {
+                                                if (data.ResultType == "Success") {
+                                    
+                                                    window.location = "/User/Home";
+                                                } else {
+
+                                                    $("#login-error").show().html(data.message);
+                                                }
+                                            }
+                                        },
+                                        failure: function (errMsg) {
+                                            $("#LoginSpiner").css("display", "none");
+                                        }
                                     });
 
-                                    $("#Modal_Messagebox").modal("show");
+
+
+
                                 } else {
                                     $("#signup-error").show().html(data.message);
                                     $("#SignUpSpinner").css("display", "none");

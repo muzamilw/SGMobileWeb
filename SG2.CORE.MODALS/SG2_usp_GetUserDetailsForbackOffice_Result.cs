@@ -34,5 +34,7 @@ namespace SG2.CORE.MODAL
         public Nullable<int> TotalRecord { get; set; }
         public string AppVersion { get; set; }
         public Nullable<double> AppTimeZoneOffSet { get; set; }
+        public Nullable<System.DateTime> CreatedOn { get; set; }
+        public Nullable<System.DateTime> LastLoginDate { get; set; }
     }
 }

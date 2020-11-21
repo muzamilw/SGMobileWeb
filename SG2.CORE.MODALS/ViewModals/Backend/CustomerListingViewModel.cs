@@ -36,5 +36,8 @@ namespace SG2.CORE.MODAL.ViewModals.Backend
         public string AppConnStatus { get; set; }
         public string AppVersion { get; set; }
         public double AppTimeZoneOffSet { get; set; }
+
+        public Nullable<System.DateTime> CreatedOn { get; set; }
+        public Nullable<System.DateTime> LastLoginDate { get; set; }
     }
 }

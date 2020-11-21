@@ -16,4 +16,11 @@ namespace SG2.CORE.MODAL.ViewModals.Customers
         [Display(Name = "Remember Me")]
         public bool RememberMe { get; set; }
     }
+
+
+    public class CustomerAutoLoginViewModel
+    {
+        public string EmailAddress { get; set; }
+
+    }
 }

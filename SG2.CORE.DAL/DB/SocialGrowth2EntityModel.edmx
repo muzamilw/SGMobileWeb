@@ -371,7 +371,7 @@
           </Key>
           <Property Name="ConfigId" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ConfigKey" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="ConfigValue" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="ConfigValue" Type="nvarchar(max)" Nullable="false" />
           <Property Name="ConfigValue2" Type="nvarchar" MaxLength="250" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -1303,6 +1303,8 @@ warning 6002: The table/view 'SocialPlannerPro.dbo.vwRunNotificationsData' does 
           <Property Type="Int32" Name="TotalRecord" Nullable="true" />
           <Property Type="String" Name="AppVersion" Nullable="true" MaxLength="100" />
           <Property Type="Double" Name="AppTimeZoneOffSet" Nullable="true" />
+          <Property Type="DateTime" Name="CreatedOn" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="LastLoginDate" Nullable="true" Precision="23" />
         </ComplexType>
         <ComplexType Name="SG2_usp_Login_Customers_Result">
           <Property Type="Int32" Name="CustomerId" Nullable="false" />
@@ -1730,7 +1732,7 @@ warning 6002: The table/view 'SocialPlannerPro.dbo.vwRunNotificationsData' does 
           </Key>
           <Property Name="ConfigId" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ConfigKey" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ConfigValue" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ConfigValue" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ConfigValue2" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2579,6 +2581,8 @@ warning 6002: The table/view 'SocialPlannerPro.dbo.vwRunNotificationsData' does 
                 <ScalarProperty Name="TotalRecord" ColumnName="TotalRecord" />
                 <ScalarProperty Name="AppVersion" ColumnName="AppVersion" />
                 <ScalarProperty Name="AppTimeZoneOffSet" ColumnName="AppTimeZoneOffSet" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

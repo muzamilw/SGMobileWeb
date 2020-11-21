@@ -787,6 +787,18 @@ namespace SG2.CORE.WEB.Controllers
 
                         };
                         BAL.Managers.EmailManager.SendEmail(this.CDT.EmailAddress, this.CDT.FirstName, EmailManager.EmailType.PlanUpgrade, dynamicTemplateData1);
+
+                        //send email to internal users.
+
+                        dynamicTemplateData1 = new Dictionary<string, string>
+                        {
+                            {"fullname",this.CDT.FirstName},
+                            {"name", "SPP Team"},
+                            {"email", this.CDT.EmailAddress}
+
+                        };
+                        BAL.Managers.EmailManager.SendEmail("info@socialplannerpro.com,muzamilw@hotmail.com,  omar.c@me.com, haaris@socialplannerpro.com,haarischaudhry@hotmail.co.uk", "SPP Team", EmailManager.EmailType.CreditCardEntered, dynamicTemplateData1);
+
                     }
                     else
                     {
@@ -818,14 +830,14 @@ namespace SG2.CORE.WEB.Controllers
                 }
                 else
                 {
-                    var dynamicTemplateData = new Dictionary<string, string>
-                {
-                    {"name",this.CDT.FirstName},
-                    {"email", this.CDT.EmailAddress},
-                    {"senddate", DateTime.Today.ToLongDateString()},
-                    {"error", "subscription error, object not found"},
-                    {"socialprofileid", model.socialProfileId.ToString() },
-                };
+                        var dynamicTemplateData = new Dictionary<string, string>
+                    {
+                        {"name",this.CDT.FirstName},
+                        {"email", this.CDT.EmailAddress},
+                        {"senddate", DateTime.Today.ToLongDateString()},
+                        {"error", "subscription error, object not found"},
+                        {"socialprofileid", model.socialProfileId.ToString() },
+                    };
                     BAL.Managers.EmailManager.SendEmail("info@socialplannerpro.com", "Social Planner Pro", EmailManager.EmailType.error, dynamicTemplateData);
                     //return this.Content("subscription error, object not found.");
                     return this.Content("{'StripeMessage': 'subscription error, object not found'}");

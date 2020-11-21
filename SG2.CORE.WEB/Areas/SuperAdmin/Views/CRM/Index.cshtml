@@ -194,6 +194,7 @@
                         <thead>
                             <tr class="row">
                                 <th scope="col" class="col-sm-3">Name</th>
+                                <th scope="col" class="col-sm-1">Plan</th>
                                 <th scope="col" class="col-sm-1">F</th>
                                 <th scope="col" class="col-sm-1">U</th>
                                 <th scope="col" class="col-sm-1">L</th>
@@ -201,7 +202,7 @@
                                 <th scope="col" class="col-sm-2">Broker/Regular<br />Broker Name</th>
                                 <th scope="col" class="col-sm-1">App Conn <br />Status</th>
                                 <th scope="col" class="col-sm-1">App Block <br /> Status</th>
-                                <th scope="col" class="col-sm-1">Plan</th>
+
 
                             </tr>
                         </thead>
@@ -209,103 +210,107 @@
 
                             @foreach (var item in Model.CustomerListing)
                             {
-                                <tr class="row" data-href="@BaseURl/crm/detailpage?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))">
-                                    <td class="col-sm-3" data-label="ID">
-                                        <div style="width: 27px;    float: left;">
-                                            <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="24">
-                                        </div>
-                                        <div style="    float: left;    width: 20px;">
-                                            <a style="color:black;" href="@BaseURl/crm/detailpage?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))">
-                                                @(string.IsNullOrEmpty(item.InstaUsrName) ? "--" : item.InstaUsrName)
-                                                <br />
-                                                @(string.IsNullOrEmpty(item.CustomerEmail) ? "--" : item.CustomerEmail) <br />
-                                            </a>
+                            <tr class="row" data-href="@BaseURl/crm/detailpage?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))">
+                                <td class="col-sm-3" data-label="ID">
+                                    <div style="width: 27px;    float: left;">
+                                        <img src="~/Content/ThemeAssets/Images/InstagramLogoTransparent.png" width="24">
+                                    </div>
+                                    <div style="    float: left;    ">
+                                        <a style="color:black;" href="@BaseURl/crm/detailpage?id=@Url.Encode(CryptoEngine.Encrypt(item.ID))&SPId=@Url.Encode(CryptoEngine.Encrypt(item.SocialProfileId))">
+                                            @(string.IsNullOrEmpty(item.InstaUsrName) ? "--" : item.InstaUsrName)
+                                            <br />
+                                            @(string.IsNullOrEmpty(item.CustomerEmail) ? "--" : item.CustomerEmail) <br />
+
+                                            Reg on : @(item.CreatedOn.Value.ToString("dd-MMM-yy") + " " + item.CreatedOn.Value.ToShortTimeString()) <br />
+                                            Last Login : @(item.LastLoginDate.Value.ToString("dd-MMM-yy") + " " + item.LastLoginDate.Value.ToShortTimeString()) <br />
+                                        </a>
 
 
-                                        </div>
+                                    </div>
 
-                                    </td>
-                                    <td class="pr-0 col-sm-1">
-
-                                        <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@((item.FollowOn ?? false) == true ? "on": "off")">
-                                    </td>
-                                    <td class="pr-0 col-sm-1">
-
-                                        <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@((item.UnFollFollowersAfterMinDays ?? false) == true ? "on": "off")">
-                                    </td>
-                                    <td class="pr-0 col-sm-1">
-
-                                        <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollLikeuserPosts == true ? "on": "off")">
-                                    </td>
-                                    <td class="col-sm-1">
-
-                                        <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollViewUserStory == true ? "on": "off")">
-                                    </td>
-
-                                    <td class="col-sm-2" data-label="Box">@Html.Raw(item.BrokerAccount ? item.BrokerAppName : "Regular")</td>
-                                    <td class="col-sm-1">
-                                        @{
-                                            var connStatusclass = "";
-                                            if (item.AppConnStatus == "Online")
-                                            {
-                                                connStatusclass = "badge-success";
-                                            }
-                                            else
-                                            {
-                                                connStatusclass = "badge-danger";
-                                            }
-
-                                        }
-
-                                        <span class="badge @connStatusclass label-square mr-1 mb-1 display-inline">
-
-                                            <span>@item.AppConnStatus @(string.IsNullOrWhiteSpace(item.AppVersion) ? "" : "v" + item.AppVersion)</span>
-                                        </span>
-                                    </td>
-                                    <td class="col-sm-1">
-                                        @{
-                                            var statusclass = "";
-                                            if (item.BlockStatus == "Valid")
-                                            {
-                                                statusclass = "badge-primary";
-                                            }
-                                            else
-                                            {
-                                                statusclass = "badge-danger";
-                                            }
-
-                                        }
-
-                                        <span class="badge @statusclass label-square mr-1 mb-1 display-inline">
-
-                                            <span>@item.BlockStatus</span>
-                                        </span>
-                                    </td>
-
-                                    <td class="col-sm-1">
-                                        @{
-                                            var planclass = "";
-                                            if (item.Products.ToLower() == "free")
-                                            {
-                                                planclass = "badge-danger";
-                                            }
-                                            else
-                                            {
-                                                planclass = "badge-primary";
-                                            }
-
-                                        }
-
-                                        @if (item.Products != null)
+                                </td>
+                                <td class="col-sm-1">
+                                    @{
+                                        var planclass = "";
+                                        if (item.Products.ToLower() == "free")
                                         {
-                                            <div class="badge @planclass label-square mr-1 mb-1 display-inline">Plan: @item.Products</div>
+                                            planclass = "badge-danger";
                                         }
                                         else
                                         {
-                                            <div class="badge @planclass label-square mr-1 mb-1 display-inline">Free</div>
+                                            planclass = "badge-primary";
                                         }
-                                    </td>
-                                </tr>
+
+                                    }
+
+                                    @if (item.Products != null)
+                                    {
+                                        <div class="badge @planclass label-square mr-1 mb-1 display-inline">Plan: @item.Products</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="badge @planclass label-square mr-1 mb-1 display-inline">Free</div>
+                                    }
+                                </td>
+                                <td class="pr-0 col-sm-1">
+
+                                    <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@((item.FollowOn ?? false) == true ? "on": "off")">
+                                </td>
+                                <td class="pr-0 col-sm-1">
+
+                                    <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@((item.UnFollFollowersAfterMinDays ?? false) == true ? "on": "off")">
+                                </td>
+                                <td class="pr-0 col-sm-1">
+
+                                    <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollLikeuserPosts == true ? "on": "off")">
+                                </td>
+                                <td class="col-sm-1">
+
+                                    <input class="toggler" data-size="mini" id="FollowOn" type="checkbox" checked data-toggle="toggle" data-onstyle="success" value="@(item.AfterFollViewUserStory == true ? "on": "off")">
+                                </td>
+
+                                <td class="col-sm-2" data-label="Box">@Html.Raw(item.BrokerAccount ? item.BrokerAppName : "Regular")</td>
+                                <td class="col-sm-1">
+                                    @{
+                                        var connStatusclass = "";
+                                        if (item.AppConnStatus == "Online")
+                                        {
+                                            connStatusclass = "badge-success";
+                                        }
+                                        else
+                                        {
+                                            connStatusclass = "badge-danger";
+                                        }
+
+                                    }
+
+                                    <span class="badge @connStatusclass label-square mr-1 mb-1 display-inline">
+
+                                        <span>@item.AppConnStatus @(string.IsNullOrWhiteSpace(item.AppVersion) ? "" : "v" + item.AppVersion)</span>
+                                    </span>
+                                </td>
+                                <td class="col-sm-1">
+                                    @{
+                                        var statusclass = "";
+                                        if (item.BlockStatus == "Valid")
+                                        {
+                                            statusclass = "badge-primary";
+                                        }
+                                        else
+                                        {
+                                            statusclass = "badge-danger";
+                                        }
+
+                                    }
+
+                                    <span class="badge @statusclass label-square mr-1 mb-1 display-inline">
+
+                                        <span>@item.BlockStatus</span>
+                                    </span>
+                                </td>
+
+
+                            </tr>
                             }
                         </tbody>
                     </table>

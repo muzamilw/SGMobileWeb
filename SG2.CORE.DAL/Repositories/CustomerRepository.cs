@@ -1076,6 +1076,9 @@ namespace SG2.CORE.DAL.Repositories
                             customerListingViewModel.AppVersion = item.AppVersion;
                             customerListingViewModel.AppTimeZoneOffSet = item.AppTimeZoneOffSet??0;
 
+                            customerListingViewModel.CreatedOn = item.CreatedOn;
+                            customerListingViewModel.LastLoginDate = item.LastLoginDate;
+
                             customerListingViewModelsList.Add(customerListingViewModel);
                         }
                         return customerListingViewModelsList;

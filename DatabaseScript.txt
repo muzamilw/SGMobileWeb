@@ -2286,3 +2286,256 @@ SELECT 1
        
 End  
   
+
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[SG2_usp_Login_Customers]    Script Date: 11/22/2020 12:07:52 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER Procedure [dbo].[SG2_usp_Login_Customers]  
+  @rvcEmailAddress Nvarchar(64),  
+  @rvcPassword Nvarchar(64),    
+  @rvcCreatedBy  Nvarchar(64),  
+  @rvcLastLoginIP Nvarchar(20),  
+  @rvcStatusId Int=1  
+  
+   
+As    
+Begin  
+  
+ -- Searches for Customers based on given parameters    
+  
+ declare @customerid int = null;  
+ 
+ if @rvcPassword = 'autologin'
+ begin
+	SELECT TOP 1 @customerid = customerid FROM  [dbo].[Customer] where EmailAddress=@rvcEmailAddress -- and StatusId=@rvcStatusId;  
+end 
+else
+begin
+	SELECT TOP 1 @customerid = customerid FROM  [dbo].[Customer] where EmailAddress=@rvcEmailAddress and Password=@rvcPassword;-- and StatusId=@rvcStatusId;  
+end
+ exec [dbo].[SG2_usp_Customers_Get] @customerid  
+   
+      
+End  
+  
+
+
+
+
+  USE [SocialPlannerPro]
+GO
+/****** Object:  StoredProcedure [dbo].[SG2_usp_GetUserDetailsForbackOffice]    Script Date: 11/22/2020 12:23:12 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER Procedure [dbo].[SG2_usp_GetUserDetailsForbackOffice]--   '',1,1,1,'','',1,0      
+  @rsSearchCrite Nvarchar(MAX),          
+  @riPageNumber Int,          
+  @riPageSize varchar(8),          
+  @riStatusId int=null,          
+  @riProductId varchar(250)=null,          
+  @riJVStatus varchar(250)=null,          
+  @riSubscription int=null,    
+  @profileType int = null ,
+  @BlockId int = null,
+  @ConnStatus int = null
+          
+As          
+Begin          
+         -- [dbo].[SG2_usp_GetUserDetailsForbackOffice]   '',1,10,null,'','',null,null,null,null
+ -- Searches for Products based on given parameters       
+ 
+ Declare @iFirstRow Int              
+ Declare @iLastRow Int           
+ Declare @mindt datetime set @mindt = 0         
+ Declare @xmlSearchCriteria Xml          
+           
+ IF @riStatusId=''          
+ SET @riStatusId=NULL          
+          
+ IF @riJVStatus=''          
+ SET @riJVStatus=NULL          
+ --Set @xmlSearchCriteria = dbo.udf_UTL_UpdateWildcardInput(@rsSearchCriteria)          
+          
+ Set @iFirstRow  = (@riPageNumber-1) * @riPageSize + 1              
+ Set @iLastRow = @riPageSize + @iFirstRow - 1           
+           
+ Declare  @tbResult table(          
+ RowNumber     int ,          
+ InstaName     nvarchar(250),          
+ UserName      nvarchar(250),          
+ CustomerId    int,          
+ Products      nvarchar(250),          
+ ProxyIPNumber nvarchar(15),          
+ BoxName       nvarchar(250),          
+ [Status]      nvarchar(100),          
+ JVBoxStatus nvarchar(100),          
+ SocialProfileName  nvarchar(250),          
+ SocialProfileId   int,          
+ CustomerEmail    nvarchar(250),  
+ FollowOn bit,  
+UnFollFollowersAfterMinDays bit,  
+AfterFollLikeuserPosts bit,  
+AfterFollViewUserStory bit  ,
+BlockedStatus nvarchar(100),
+BrokerAppName nvarchar(500),
+AppConnStatus nvarchar(100),
+AppVersion nvarchar(100),
+AppTimeZoneOffSet float,
+CreatedOn datetime,
+LastLoginDate datetime
+          
+ )           
+          
+ ;With CTE As          
+ (           
+  -- Get all Product information to create index          
+            
+  Select Distinct          
+		SP.[SocialUsername] as SocialAccountName,          
+		SP.[SocialProfileName] as SocialProfileName,          
+		SP.SocialProfileId,          
+		ISNULL(Customer.FirstName,'') + ' ' + ISNULL(Customer.SurName,'')  as [Name],          
+		Customer.CustomerId as CustomerId,          
+		SubS.PlanName as Products,          
+          
+		EV.[Name] as [Status],          
+		Customer.updatedon,          
+          
+		customer.[EmailAddress] as EmailAddress ,          
+		ROW_NUMBER() OVER (PARTITION BY SP.[SocialProfileId] ORDER BY SP.CreatedOn desc) AS RankId   ,  
+		TI.FollowOn,  
+		TI.UnFollFollowersAfterMinDays,  
+		TI.AfterFollLikeuserPosts,  
+		TI.AfterFollViewUserStory  ,
+		(case when isnull(sp.BlockedStatus,0) = 0 then 'Valid'  else BlockStatus.Name end) as BlockedStatus,
+		Customer.BrokerAppName,
+		isnull(actions.AppStatus,'Offline') AppConnStatus,
+		sp.AppVersion,
+		convert(float,isnull(sp.AppTimeZoneOffSet,0)) as AppTimeZoneOffSet,
+		Customer.CreatedOn,
+		Customer.LastLoginDate
+  
+  
+		From dbo.Customer Customer With (Nolock)           
+		Inner join [dbo].[SocialProfile] SP ON SP.CustomerId=Customer.CustomerId          
+        
+		left join [dbo].PaymentPlan SubS ON SubS.PaymentPlanId=isnull(SP.PaymentPlanId,1)           
+		--AND SubS.StatusId=25          
+		left join [dbo].[SocialProfile_Instagram_TargetingInformation] TI On TI.[SocialProfileId]=SP.[SocialProfileId]          
+		Left join dbo.EnumerationValue EV ON EV.EnumerationValueId=SP.StatusId --And EV.EnumerationId=4    
+		left outer join dbo.EnumerationValue BlockStatus on Sp.BlockedStatus = BlockStatus.EnumerationValueId
+
+		outer apply (
+		
+				select (case when DATEDIFF(minute, isnull(ActionDateTime,@mindt), getdate()) <= 3 then 'Online' else 'Offline' end ) as AppStatus from 
+				--select DATEDIFF(minute, isnull(ActionDateTime,@mindt),GETDATE()) as AppStatus from 
+				(
+					select top 1 a.ActionDateTime from SocialProfile_Actions a where a.SocialProfileId = SP.SocialProfileId order by ActionDateTime DESC
+				) d
+		) actions
+
+		Where (          
+			((@riStatusId is null) or Customer.StatusId = @riStatusId)          
+          
+			AND           
+			(((@riProductId is null) or @riProductId ='' ) or  SubS.[StripePlanId] = @riProductId)          
+			AND ((@riSubscription is null) or SubS.StatusId= @riSubscription)      
+			AND ((@profileType is null) or isnull(Customer.IsBroker,0)= @profileType)    
+			AND ((@BlockId is null or @BlockId = 69) or isnull(SP.BlockedStatus,0)= @BlockId)   
+			AND ((@ConnStatus is null or @ConnStatus = 0) or isnull(actions.AppStatus,'Offline') = (case when @ConnStatus = 1 then 'Online' else 'Offline' end)) 
+          
+			And (           
+			(@rsSearchCrite is null or @rsSearchCrite = '')           
+			or (SP.[SocialProfileName] like '%' +@rsSearchCrite +'%'           
+			or Customer.UserName like '%' +@rsSearchCrite +'%'          
+			or SubS.PlanName like '%' +@rsSearchCrite +'%'           
+           
+			or EV.Name like '%' +@rsSearchCrite +'%'           
+			or Customer.FirstName like '%' +@rsSearchCrite +'%'          
+			or Customer.SurName like '%' +@rsSearchCrite +'%'          
+			or Customer.[EmailAddress] like '%' +@rsSearchCrite +'%'          
+			or SP.[SocialUsername] like '%' +@rsSearchCrite +'%'           
+               
+      )          
+   )          
+ )          
+       )          
+            
+		Insert into @tbResult(          
+				RowNumber  ,            
+				InstaName  ,            
+				UserName   ,            
+				CustomerId ,            
+				Products   ,            
+				[Status]   ,          
+				SocialProfileName,          
+				SocialProfileId,          
+				CustomerEmail,  
+				FollowOn,  
+				UnFollFollowersAfterMinDays,  
+				AfterFollLikeuserPosts,  
+				AfterFollViewUserStory,
+				BlockedStatus,
+				BrokerAppName,
+				AppConnStatus,
+				AppVersion,
+				AppTimeZoneOffSet,
+				CreatedOn,
+				LastLoginDate
+          
+		)          
+		SELECT Distinct          
+				ROW_NUMBER() Over (Order By UpdatedOn desc) As RowNumber,        
+				SocialAccountName,[Name],CustomerId,Products,[Status],SocialProfileName,          
+				SocialProfileId,EmailAddress,  
+				FollowOn,  
+				UnFollFollowersAfterMinDays,  
+				AfterFollLikeuserPosts,  
+				AfterFollViewUserStory,
+				BlockedStatus,
+				BrokerAppName,
+				AppConnStatus,
+				AppVersion,
+				AppTimeZoneOffSet,
+				CreatedOn,
+				LastLoginDate
+		 FROM CTE  where RankId=1          
+          
+	Select 
+		tb.UserName,            
+		InstaName,          
+		tb.CustomerId,          
+		Products,          
+		ProxyIPNumber,          
+		isnull(c.IsBroker,0) IsBroker,          
+		[Status],          
+		JVBoxStatus,          
+		SocialProfileName,          
+		SocialProfileId,          
+		CustomerEmail,          
+		FollowOn,  
+		UnFollFollowersAfterMinDays,  
+		AfterFollLikeuserPosts,  
+		AfterFollViewUserStory,  
+		BlockedStatus,
+		tb.BrokerAppName,
+		AppConnStatus,
+		AppVersion,
+		AppTimeZoneOffSet,
+		tb.CreatedOn,
+		tb.LastLoginDate,
+		(Select Count(1) From @tbResult) TotalRecord          
+	
+	From @tbResult   tb       
+	inner join Customer c on tb.CustomerId = c.CustomerId  
+	Where RowNumber Between @iFirstRow And @iLastRow     
+
+ Return @@Error           
+End 
