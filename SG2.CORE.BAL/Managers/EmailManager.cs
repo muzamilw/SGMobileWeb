@@ -28,7 +28,7 @@ namespace SG2.CORE.BAL.Managers
             {
                 //
 
-                var apiKey = "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";
+                var apiKey = "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";
                 var client = new SendGridClient(apiKey);
                 var from = new EmailAddress("info@socialplannerpro.com", "Social Planner Pro Team");
 
