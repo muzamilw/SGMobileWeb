@@ -122,16 +122,30 @@ namespace SG2.CORE.WEB.Controllers
 
                             klaviyoAPI.PeopleAPI(list, _klaviyoPublishKey);
                             var add = klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_NewSignups);
-*/
+                            */
 
-                                var dynamicTemplateData = new Dictionary<string, string>
+                            //////////    var dynamicTemplateData = new Dictionary<string, string>
+                            //////////{
+                            //////////    {"name",model.FirstName},
+                            //////////    {"verifyemail", URL},
+                            //////////    {"senddate", DateTime.Today.ToLongDateString()}
+
+                            //////////};
+                            //////////BAL.Managers.EmailManager.SendEmail(model.EmailAddress, model.FirstName, EmailManager.EmailType.EmailVerify, dynamicTemplateData);
+
+                            var dynamicTemplateData = new Dictionary<string, string>
                             {
                                 {"name",model.FirstName},
-                                {"verifyemail", URL},
-                                {"senddate", DateTime.Today.ToLongDateString()}
+                                {"videolink", "https://socialplannerpro.com/videos"},
+                                {"senddate", DateTime.Today.ToLongDateString() },
+                                {"winapp",SystemConfigs.First(x => x.ConfigKey.ToLower() == ("winapp").ToLower()).ConfigValue },
+                                {"macapp",SystemConfigs.First(x => x.ConfigKey.ToLower() == ("macapp").ToLower()).ConfigValue }
 
                             };
-                            BAL.Managers.EmailManager.SendEmail(model.EmailAddress, model.FirstName, EmailManager.EmailType.EmailVerify, dynamicTemplateData);
+                            BAL.Managers.EmailManager.SendEmail(model.EmailAddress, model.FirstName, EmailManager.EmailType.Welcome, dynamicTemplateData);
+
+
+
                             //KlaviyoEvent ev = new KlaviyoEvent();
 
                             //ev.Event = "Email Verified";

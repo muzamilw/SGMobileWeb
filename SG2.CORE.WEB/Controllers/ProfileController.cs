@@ -794,8 +794,8 @@ namespace SG2.CORE.WEB.Controllers
                         {
                             {"fullname",this.CDT.FirstName},
                             {"name", "SPP Team"},
-                            {"email", this.CDT.EmailAddress}
-
+                            {"email", this.CDT.EmailAddress},
+                            {"igusername", socialProfile.SocialProfile.SocialUsername}
                         };
                         BAL.Managers.EmailManager.SendEmail("info@socialplannerpro.com,muzamilw@hotmail.com,  omar.c@me.com, haaris@socialplannerpro.com,haarischaudhry@hotmail.co.uk", "SPP Team", EmailManager.EmailType.CreditCardEntered, dynamicTemplateData1);
 
