@@ -552,6 +552,7 @@ namespace SG2.CORE.WEB.Controllers
                 var _stripeApiKey = SystemConfig.GetConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
                 StripeConfiguration.SetApiKey(_stripeApiKey);
 
+                _customerManager.UpdateCustomerContactPhone(model.phone, model.socialProfileId);
                 var socialProfile = _customerManager.GetSocialProfileById(model.socialProfileId);
                 var newPlan = _planManager.GetPlanInformationById(model.selectedPlanId);
 

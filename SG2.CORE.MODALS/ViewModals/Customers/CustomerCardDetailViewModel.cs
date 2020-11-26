@@ -27,6 +27,8 @@ namespace SG2.CORE.MODAL.ViewModals.Customers
         public int selectedPlanId { get; set; }
         public int customerid { get; set; }
         public int socialProfileId { get; set; }
-     
+
+        public string phone { get; set; }
+
     }
 }
