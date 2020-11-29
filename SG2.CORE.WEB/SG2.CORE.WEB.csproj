@@ -2731,6 +2731,7 @@
     <Content Include="Content\Theme-CA\img\agency-app.png" />
     <Content Include="Content\Theme-CA\img\Agency_Post.png" />
     <Content Include="Content\Theme-CA\img\Agent.png" />
+    <Content Include="Content\Theme-CA\img\Android_App.png" />
     <Content Include="Content\Theme-CA\img\api-driven.png" />
     <Content Include="Content\Theme-CA\img\bg-img\client-1.jpg" />
     <Content Include="Content\Theme-CA\img\bg-img\client-2.jpg" />
