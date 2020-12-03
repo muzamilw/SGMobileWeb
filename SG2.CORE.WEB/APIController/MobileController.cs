@@ -35,10 +35,7 @@ namespace SG2.CORE.WEB.APIController
         {
             if (ModelState.IsValid)
             {
-                if (DateTime.Now >= Convert.ToDateTime("12/01/2020"))
-                {
-                    return Content(HttpStatusCode.BadRequest, "Input params missing");
-                }
+               
 
                     var res = _customerManager.PerformMobileLogin(model);
                 if (res.LoginSuccessful)
