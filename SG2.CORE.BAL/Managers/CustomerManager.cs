@@ -986,6 +986,12 @@ namespace SG2.CORE.BAL.Managers
                         case 73: item.Action = "Follow Exchange"; break;
                         case 74: item.Action = "Like Exchange"; break;
                         case 86: item.Action = "Bad Hash Tag for Removal"; break;
+
+                        case 90: item.Action = "BoradCast Message Sent"; break;
+                        case 91: item.Action = "Sequenced Message Sent"; break;
+                        case 92: item.Action = "Message Seen by user"; break;
+                        case 93: item.Action = "Reset Broadcast History"; break;
+                        case 94: item.Action = "Reset Sequence History"; break;
                         default:
                             break;
                     }

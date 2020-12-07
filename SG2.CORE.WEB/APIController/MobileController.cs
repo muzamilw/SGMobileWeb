@@ -137,7 +137,7 @@ namespace SG2.CORE.WEB.APIController
 
               
                 DateTime commentCutOffDate = DateTime.Today.AddDays(-1);
-                DateTime unfollowCutOffDate = DateTime.Today.AddDays(-2); //-2
+               
 
                 DateTime unfollowCutOffMaxDate = DateTime.Today.AddDays(-35); //-2
 
@@ -171,6 +171,12 @@ namespace SG2.CORE.WEB.APIController
                 //20 count Follow list is all paid instagram profile usernames which are already not in follower list.  and follow exchange checkbox true
                 //10 count Like list is all paid instagram profile usernames which are already not in follower list.  and like exchange checkbox true
                 };
+
+                DateTime unfollowCutOffDate = DateTime.Today.AddDays(-2); //-2
+                if (profile.SocialProfile.SocialProfileTypeId != 8)  // for linkedin 8 is instagram
+                {
+                    unfollowCutOffDate = DateTime.Today.AddDays(-14);
+                }
 
                 manifest.TargetInformation.LikeExchangeDailyLimit = 10;
                 manifest.TargetInformation.FollowExchangeDailyLimit = 10;

@@ -458,11 +458,12 @@ namespace SG2.CORE.DAL.Repositories
 
                             _db.SocialProfile_Messages.Add(new SocialProfile_Messages { SentDateTime= String.IsNullOrEmpty(item.ActionDateTime) ? DateTime.UtcNow : Convert.ToDateTime(item.ActionDateTime), SentSocialUsername = item.TargetSocialUserName, SocialProfileId = item.SocialProfileId, StatusId = 1, MessageBody = msg[1], MessageType =  Convert.ToInt32(msg[0])});
                         }
-                        else if (item.ActionId == 72)
+                        else if (item.ActionId == 92)
                         {
-
-                            var latestmsg = _db.SocialProfile_Messages.Where(g => g.SocialProfileId.Value == item.SocialProfileId && g.SentSocialUsername == item.TargetSocialUserName && g.MessageType == Convert.ToInt32(item.Message)).OrderByDescending(g => g.SentDateTime).FirstOrDefault();
-                            latestmsg.StatusId = 2;
+                            var mtype = Convert.ToInt32(item.Message);
+                            var latestmsg = _db.SocialProfile_Messages.Where(g => g.SocialProfileId.Value == item.SocialProfileId && g.SentSocialUsername == item.TargetSocialUserName && g.MessageType == mtype).OrderByDescending(g => g.SentDateTime).FirstOrDefault();
+                            if (latestmsg!= null)
+                                latestmsg.StatusId = 2;
 
 
                         }
