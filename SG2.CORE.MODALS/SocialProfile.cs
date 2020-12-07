@@ -22,6 +22,7 @@ namespace SG2.CORE.MODAL
             this.SocialProfile_Payments = new HashSet<SocialProfile_Payments>();
             this.SocialProfile_FollowedAccounts = new HashSet<SocialProfile_FollowedAccounts>();
             this.SocialProfile_Instagram_TargetingInformation = new HashSet<SocialProfile_Instagram_TargetingInformation>();
+            this.SocialProfile_Messages = new HashSet<SocialProfile_Messages>();
         }
     
         public int SocialProfileId { get; set; }
@@ -76,5 +77,7 @@ namespace SG2.CORE.MODAL
         public virtual Customer Customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SocialProfile_Instagram_TargetingInformation> SocialProfile_Instagram_TargetingInformation { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SocialProfile_Messages> SocialProfile_Messages { get; set; }
     }
 }

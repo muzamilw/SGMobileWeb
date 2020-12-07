@@ -51,6 +51,7 @@ namespace SG2.CORE.DAL.DB
         public virtual DbSet<SocialProfile_Instagram_TargetingInformation> SocialProfile_Instagram_TargetingInformation { get; set; }
         public virtual DbSet<SocialProfile_Logs> SocialProfile_Logs { get; set; }
         public virtual DbSet<vwRunNotificationsData> vwRunNotificationsDatas { get; set; }
+        public virtual DbSet<SocialProfile_Messages> SocialProfile_Messages { get; set; }
     
         public virtual ObjectResult<SG2_usp_SystemConfig_GetAll_Result> SG2_usp_SystemConfig_GetAll(string rsSearchCrite, Nullable<int> riPageNumber, string riPageSize, Nullable<int> riStatusId)
         {

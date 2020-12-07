@@ -1536,6 +1536,24 @@ namespace SG2.CORE.DAL.Repositories
         }
 
 
+        public List<SocialProfile_Messages> GetAllSentMessages(int socialProfileId)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    return _db.SocialProfile_Messages.Where(g => g.SocialProfileId == socialProfileId).ToList();
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
         public List<CustomerSocialProfileDTO> GetSocialProfilesWithoutExistingFollowers(int socialProfileId)
         {
             try

@@ -252,6 +252,9 @@
     <Compile Include="SocialProfile_Logs.cs">
       <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SocialProfile_Messages.cs">
+      <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SocialProfile_Notification.cs">
       <DependentUpon>SocialGrowth2EntityModel.tt</DependentUpon>
     </Compile>

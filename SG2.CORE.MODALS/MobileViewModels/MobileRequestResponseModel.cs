@@ -88,6 +88,9 @@ namespace SG2.CORE.MODAL.MobileViewModels
 
         public List<MobileSocialProfile_FollowedAccounts> AllFollowedAccounts{ get; set; }
 
+
+        public List<MobileSocialProfile_Messages> SentMessages { get; set; }
+
         public string WarmupConfig { get; set; }
         public string ActionsDelayRange { get; set; }
 
@@ -290,5 +293,19 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public Nullable<System.DateTime> FollowedDateTime { get; set; }
 
         
+    }
+
+
+    public partial class MobileSocialProfile_Messages
+    {
+       
+       
+        public string SentSocialUsername { get; set; }
+        public Nullable<System.DateTime> SentDateTime { get; set; }
+        public string MessageBody { get; set; }
+        public Nullable<int> MessageType { get; set; }
+        public Nullable<int> StatusId { get; set; }
+
+       
     }
 }

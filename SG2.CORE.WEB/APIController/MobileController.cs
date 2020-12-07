@@ -123,10 +123,14 @@ namespace SG2.CORE.WEB.APIController
             var config4 = new MapperConfiguration(cfg => cfg.CreateMap<PaymentPlan, MobilePaymentPlan>()
            );
 
+            var config5 = new MapperConfiguration(cfg => cfg.CreateMap<SocialProfile_Messages, MobileSocialProfile_Messages>()
+         );
+
             var mapper = new Mapper(config);
             var mapper2 = new Mapper(config2);
             var mapper3 = new Mapper(config3);
             var mapper4 = new Mapper(config4);
+            var mapper5 = new Mapper(config5);
 
             if (ModelState.IsValid)
             {
@@ -148,7 +152,7 @@ namespace SG2.CORE.WEB.APIController
 
                  var stats = this._statsManager.GetStatistics(profile.SocialProfile.SocialProfileId);
 
-                
+
                 var manifest = new MobileManifestResponse
                 {
                     CustomerId = profile.SocialProfile.CustomerId.Value,
@@ -160,8 +164,9 @@ namespace SG2.CORE.WEB.APIController
                     // filter the unfollow list by the white list of users which is manually entered.
                     FollowersToUnFollow = null,//randomize the followers to comment list and only send 50
                     FollowersToComment = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime >= commentCutOffDate).OrderBy(x => Guid.NewGuid()).Take(50).ToList()),
-                    FollowList = _customerManager.GetFollowList(model.SocialProfileId).Select( g=> new MobileSocialProfile_FollowedAccounts { FollowedSocialUsername = g.SocialUsername, FollowedDateTime = DateTime.Now }).Take(10).ToList(),
-                    LikeList = _customerManager.GetFollowList(model.SocialProfileId).Select(g => new MobileSocialProfile_FollowedAccounts { FollowedSocialUsername = g.SocialUsername }).Take(10).ToList()
+                    FollowList = _customerManager.GetFollowList(model.SocialProfileId).Select(g => new MobileSocialProfile_FollowedAccounts { FollowedSocialUsername = g.SocialUsername, FollowedDateTime = DateTime.Now }).Take(10).ToList(),
+                    LikeList = _customerManager.GetFollowList(model.SocialProfileId).Select(g => new MobileSocialProfile_FollowedAccounts { FollowedSocialUsername = g.SocialUsername }).Take(10).ToList(), 
+                    SentMessages = mapper5.Map<List<MobileSocialProfile_Messages>>( _customerManager.GetAllSentMessages(model.SocialProfileId))
                     
                 //20 count Follow list is all paid instagram profile usernames which are already not in follower list.  and follow exchange checkbox true
                 //10 count Like list is all paid instagram profile usernames which are already not in follower list.  and like exchange checkbox true
@@ -330,6 +335,13 @@ namespace SG2.CORE.WEB.APIController
                     //add the newly followed accounts 
                     // 73 follow ex  74 like exchange
                     _customerManager.AddRemoveFollowAccounts(model.Where(g => g.ActionId == 60 || g.ActionId == 61 || g.ActionId == 73).ToList());
+
+                    //90  14  BoradCastMessage BorastCastMessage   False   1   True
+                    //91  14  SequenceMessage BorastCastMessage   False   1   True
+                    //92  14  MessageSeen BorastCastMessage   False   1   True
+                    //93  14  ResetBroadcast ResetBroadcast  False   1   True
+                    //94  14  ResetSequence ResetSequence   False   1   True
+                    _customerManager.AddUpdateSentMesseges(model.Where(g => g.ActionId == 90 || g.ActionId == 91 || g.ActionId == 92 || g.ActionId == 93 || g.ActionId == 94).ToList());
 
                     _customerManager.RemoveBadTags(model.Where(g => g.ActionId == 86).ToList());
 

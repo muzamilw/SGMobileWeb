@@ -737,6 +737,19 @@ namespace SG2.CORE.BAL.Managers
             }
         }
 
+        public List<SocialProfile_Messages> GetAllSentMessages(int socialProfileId)
+        {
+            try
+            {
+                return _customerRepository.GetAllSentMessages(socialProfileId);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public async Task<SocialProfile_PaymentsDTO> InsertCustomerPayment(SocialProfile_PaymentsDTO sG2_Subscription)
         {
             try
@@ -1054,6 +1067,12 @@ namespace SG2.CORE.BAL.Managers
         public bool AddRemoveFollowAccounts(List<MobileActionRequest> list)
         {
             return _socialRepository.AddRemoveFollowAccounts(list);
+        }
+
+
+        public bool AddUpdateSentMesseges(List<MobileActionRequest> list)
+        {
+            return _socialRepository.AddUpdateResetMeseages(list);
         }
 
 

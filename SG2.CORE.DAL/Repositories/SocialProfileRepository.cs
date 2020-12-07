@@ -435,6 +435,57 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
+        /// <summary>
+        ///            //90  14  BorastCastMessage BorastCastMessage   False   1   True
+        ///            //91  14  SequenceMessage BorastCastMessage   False   1   True
+        ///            //92  14  MessageSeen BorastCastMessage   False   1   True
+        ///            //93  14  ResetBroadcast ResetBroadcast  False   1   True
+        ///            //94  14  ResetSequence ResetSequence   False   1   True
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public bool AddUpdateResetMeseages(List<MobileActionRequest> list)
+        {
+            try
+            {
+                using (var _db = new SocialGrowth2Connection())
+                {
+                    foreach (var item in list)
+                    {
+                        if (item.ActionId == 90 || item.ActionId == 91)
+                        {
+                            var msg = item.Message.Split(':');
+
+                            _db.SocialProfile_Messages.Add(new SocialProfile_Messages { SentDateTime= String.IsNullOrEmpty(item.ActionDateTime) ? DateTime.UtcNow : Convert.ToDateTime(item.ActionDateTime), SentSocialUsername = item.TargetSocialUserName, SocialProfileId = item.SocialProfileId, StatusId = 1, MessageBody = msg[1], MessageType =  Convert.ToInt32(msg[0])});
+                        }
+                        else if (item.ActionId == 72)
+                        {
+
+                            var latestmsg = _db.SocialProfile_Messages.Where(g => g.SocialProfileId.Value == item.SocialProfileId && g.SentSocialUsername == item.TargetSocialUserName && g.MessageType == Convert.ToInt32(item.Message)).OrderByDescending(g => g.SentDateTime).FirstOrDefault();
+                            latestmsg.StatusId = 2;
+
+
+                        }
+                        else
+                        {
+                            _db.Database.ExecuteSqlCommand("delete from SocialProfile_Messages where socialprofileid = " + item.SocialProfileId.ToString() + " and MessageType=" + item.Message);
+
+                        }
+                    }
+
+                    _db.SaveChanges();
+
+                    return true;
+                }
+
+            }
+            catch (Exception e)
+            {
+                return true;
+
+            }
+        }
+
 
         public bool RemoveBagTags(List<MobileActionRequest> list)
         {

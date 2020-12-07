@@ -213,7 +213,7 @@
           </Key>
           <Property Name="SocialProfileFollowedAccountId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SocialProfileId" Type="int" />
-          <Property Name="FollowedSocialUsername" Type="nvarchar" MaxLength="50" />
+          <Property Name="FollowedSocialUsername" Type="nvarchar" MaxLength="150" />
           <Property Name="FollowedDateTime" Type="datetime" />
           <Property Name="StatusId" Type="int" />
         </EntityType>
@@ -282,6 +282,18 @@
           <Property Name="SocialProfileId" Type="int" />
           <Property Name="LogData" Type="ntext" />
           <Property Name="LogDateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SocialProfile_Messages">
+          <Key>
+            <PropertyRef Name="SocialProfileMessageId" />
+          </Key>
+          <Property Name="SocialProfileMessageId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SocialProfileId" Type="int" />
+          <Property Name="SentSocialUsername" Type="nvarchar" MaxLength="150" />
+          <Property Name="SentDateTime" Type="datetime" />
+          <Property Name="MessageBody" Type="nvarchar(max)" />
+          <Property Name="MessageType" Type="int" />
+          <Property Name="StatusId" Type="int" />
         </EntityType>
         <EntityType Name="SocialProfile_Notification">
           <Key>
@@ -587,6 +599,18 @@ warning 6002: The table/view 'SocialPlannerPro.dbo.vwRunNotificationsData' does 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SocialProfile_Messages_SocialProfile">
+          <End Role="SocialProfile" Type="Self.SocialProfile" Multiplicity="0..1" />
+          <End Role="SocialProfile_Messages" Type="Self.SocialProfile_Messages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SocialProfile">
+              <PropertyRef Name="SocialProfileId" />
+            </Principal>
+            <Dependent Role="SocialProfile_Messages">
+              <PropertyRef Name="SocialProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SocialProfile_PaymentPlan">
           <End Role="PaymentPlan" Type="Self.PaymentPlan" Multiplicity="0..1" />
           <End Role="SocialProfile" Type="Self.SocialProfile" Multiplicity="*" />
@@ -762,6 +786,7 @@ warning 6002: The table/view 'SocialPlannerPro.dbo.vwRunNotificationsData' does 
           <EntitySet Name="SocialProfile_FollowedAccounts" EntityType="Self.SocialProfile_FollowedAccounts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SocialProfile_Instagram_TargetingInformation" EntityType="Self.SocialProfile_Instagram_TargetingInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SocialProfile_Logs" EntityType="Self.SocialProfile_Logs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SocialProfile_Messages" EntityType="Self.SocialProfile_Messages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SocialProfile_Notification" EntityType="Self.SocialProfile_Notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SocialProfile_Payments" EntityType="Self.SocialProfile_Payments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SocialProfile_Statistics" EntityType="Self.SocialProfile_Statistics" Schema="dbo" store:Type="Tables" />
@@ -829,6 +854,10 @@ warning 6002: The table/view 'SocialPlannerPro.dbo.vwRunNotificationsData' does 
           <AssociationSet Name="FK_SocialProfile_Logs_SocialProfile_Logs" Association="Self.FK_SocialProfile_Logs_SocialProfile_Logs">
             <End Role="SocialProfile_Logs" EntitySet="SocialProfile_Logs" />
             <End Role="SocialProfile_Logs1" EntitySet="SocialProfile_Logs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SocialProfile_Messages_SocialProfile" Association="Self.FK_SocialProfile_Messages_SocialProfile">
+            <End Role="SocialProfile" EntitySet="SocialProfile" />
+            <End Role="SocialProfile_Messages" EntitySet="SocialProfile_Messages" />
           </AssociationSet>
           <AssociationSet Name="FK_SocialProfile_PaymentPlan" Association="Self.FK_SocialProfile_PaymentPlan">
             <End Role="PaymentPlan" EntitySet="PaymentPlan" />
@@ -1078,6 +1107,11 @@ warning 6002: The table/view 'SocialPlannerPro.dbo.vwRunNotificationsData' does 
           <Parameter Name="socialProfileId" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="vwRunNotificationsDatas" EntityType="SocialGrowth2Entities.vwRunNotificationsData" />
+          <EntitySet Name="SocialProfile_Messages" EntityType="SocialGrowth2Entities.SocialProfile_Messages" />
+          <AssociationSet Name="FK_SocialProfile_Messages_SocialProfile" Association="SocialGrowth2Entities.FK_SocialProfile_Messages_SocialProfile">
+            <End Role="SocialProfile" EntitySet="SocialProfiles" />
+            <End Role="SocialProfile_Messages" EntitySet="SocialProfile_Messages" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="SG2_usp_Get_AllUser1_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
@@ -1675,7 +1709,7 @@ warning 6002: The table/view 'SocialPlannerPro.dbo.vwRunNotificationsData' does 
           </Key>
           <Property Name="SocialProfileFollowedAccountId" Type="Int64" Nullable="false" />
           <Property Name="SocialProfileId" Type="Int32" />
-          <Property Name="FollowedSocialUsername" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FollowedSocialUsername" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="FollowedDateTime" Type="DateTime" Precision="3" />
           <Property Name="StatusId" Type="Int32" />
           <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SocialProfile_FollowedAccounts_SocialProfile" FromRole="SocialProfile_FollowedAccounts" ToRole="SocialProfile" />
@@ -1932,6 +1966,7 @@ warning 6002: The table/view 'SocialPlannerPro.dbo.vwRunNotificationsData' does 
           <Property Name="WarmupCompleted" Type="Boolean" />
           <Property Name="WarmupCompletedDateTime" Type="DateTime" Precision="3" />
           <Property Name="IgAccountStartDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="SocialProfile_Messages" Relationship="SocialGrowth2Entities.FK_SocialProfile_Messages_SocialProfile" FromRole="SocialProfile" ToRole="SocialProfile_Messages" />
         </EntityType>
         <Association Name="FK_SG2_SocialProfile_Statistics_SG2_SocialProfile">
           <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="1" />
@@ -2431,6 +2466,31 @@ warning 6002: The table/view 'SocialPlannerPro.dbo.vwRunNotificationsData' does 
           <Property Name="AppTimeZoneOffSet" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ExecutionIntervals" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="SocialProfile_Messages">
+          <Key>
+            <PropertyRef Name="SocialProfileMessageId" />
+          </Key>
+          <Property Name="SocialProfileMessageId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SocialProfileId" Type="Int32" />
+          <Property Name="SentSocialUsername" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="SentDateTime" Type="DateTime" Precision="3" />
+          <Property Name="MessageBody" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MessageType" Type="Int32" />
+          <Property Name="StatusId" Type="Int32" />
+          <NavigationProperty Name="SocialProfile" Relationship="SocialGrowth2Entities.FK_SocialProfile_Messages_SocialProfile" FromRole="SocialProfile_Messages" ToRole="SocialProfile" />
+        </EntityType>
+        <Association Name="FK_SocialProfile_Messages_SocialProfile">
+          <End Type="SocialGrowth2Entities.SocialProfile" Role="SocialProfile" Multiplicity="0..1" />
+          <End Type="SocialGrowth2Entities.SocialProfile_Messages" Role="SocialProfile_Messages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SocialProfile">
+              <PropertyRef Name="SocialProfileId" />
+            </Principal>
+            <Dependent Role="SocialProfile_Messages">
+              <PropertyRef Name="SocialProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3528,6 +3588,19 @@ warning 6002: The table/view 'SocialPlannerPro.dbo.vwRunNotificationsData' does 
                 <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
                 <ScalarProperty Name="SurName" ColumnName="SurName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SocialProfile_Messages">
+            <EntityTypeMapping TypeName="SocialGrowth2Entities.SocialProfile_Messages">
+              <MappingFragment StoreEntitySet="SocialProfile_Messages">
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="MessageType" ColumnName="MessageType" />
+                <ScalarProperty Name="MessageBody" ColumnName="MessageBody" />
+                <ScalarProperty Name="SentDateTime" ColumnName="SentDateTime" />
+                <ScalarProperty Name="SentSocialUsername" ColumnName="SentSocialUsername" />
+                <ScalarProperty Name="SocialProfileId" ColumnName="SocialProfileId" />
+                <ScalarProperty Name="SocialProfileMessageId" ColumnName="SocialProfileMessageId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
