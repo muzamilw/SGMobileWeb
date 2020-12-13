@@ -4108,16 +4108,16 @@
     <Content Include="Views\Shared\Partial\_PartialLoginPopup.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialMarketPlannerPopup.cshtml" />
     <Content Include="Views\Home\archive\HowWeWork.cshtml" />
-    <Content Include="Views\Home\VerifyEmail.cshtml" />
-    <Content Include="Views\Home\ResetPassword.cshtml" />
-    <Content Include="Views\Home\ResendVerifyEmail.cshtml" />
-    <Content Include="Views\Home\PasswordUpdated.cshtml" />
+    <Content Include="Views\Home\archive\VerifyEmail.cshtml" />
+    <Content Include="Views\Home\archive\ResetPassword.cshtml" />
+    <Content Include="Views\Home\archive\ResendVerifyEmail.cshtml" />
+    <Content Include="Views\Home\archive\PasswordUpdated.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialWidgetSocialMedia.cshtml" />
     <Content Include="SiteResources\ProxiesImport.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Common\View.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\archive\Index.cshtml" />
     <Content Include="socialgrowthengine\assets\Gotham-Bold.otf" />
     <Content Include="socialgrowthengine\assets\Gotham-Bold.ttf" />
     <Content Include="socialgrowthengine\assets\Gotham-Bold.woff" />
@@ -4165,17 +4165,27 @@
     <Content Include="Views\Home\archive\sg_index.cshtml" />
     <Content Include="Views\Home\archive\features.cshtml" />
     <Content Include="Views\Profile\test.cshtml" />
-    <Content Include="Views\Home\download.cshtml" />
+    <Content Include="Views\Home\archive\download.cshtml" />
     <Content Include="Views\Home\archive\get_started.cshtml" />
-    <Content Include="Views\Home\videos.cshtml" />
+    <Content Include="Views\Home\archive\videos.cshtml" />
     <Content Include="Views\Home\archive\influencers.cshtml" />
     <Content Include="Views\Pages\CookiesPolicy.cshtml" />
-    <Content Include="Views\Home\faqs.cshtml" />
+    <Content Include="Views\Home\archive\faqs.cshtml" />
     <Content Include="Views\Profile\start.cshtml" />
     <Content Include="Views\Home\archive\Index_old.cshtml" />
-    <Content Include="Views\Home\influencer.cshtml" />
-    <Content Include="Views\Home\agency.cshtml" />
+    <Content Include="Views\Home\archive\influencer.cshtml" />
+    <Content Include="Views\Home\archive\agency.cshtml" />
+    <Content Include="Views\Home\archive\howitworks.cshtml" />
+    <Content Include="Views\Home\download.cshtml" />
+    <Content Include="Views\Home\faqs.cshtml" />
     <Content Include="Views\Home\howitworks.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\PasswordUpdated.cshtml" />
+    <Content Include="Views\Home\ResendVerifyEmail.cshtml" />
+    <Content Include="Views\Home\ResetPassword.cshtml" />
+    <Content Include="Views\Home\VerifyEmail.cshtml" />
+    <Content Include="Views\Home\videos.cshtml" />
+    <Content Include="Views\Profile\startlinkedin.cshtml" />
     <None Include="Views\Shared\Partial\_PartialForgetPasswordPopup.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialSignupPopup.cshtml" />
     <Content Include="Views\User\Home.cshtml" />
@@ -4253,7 +4263,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>56019</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://sg2</IISUrl>
+          <IISUrl>http://saleflow</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

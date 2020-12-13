@@ -112,6 +112,12 @@ namespace SG2.CORE.MODAL.MobileViewModels
         public string macapp { get; set; }
 
 
+        public int Count_follow { get; set; }
+        public int Count_like { get; set; }
+        public int Count_message { get; set; }
+        public int Count_unfollow { get; set; }
+
+
 
     }
 

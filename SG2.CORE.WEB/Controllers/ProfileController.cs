@@ -96,62 +96,72 @@ namespace SG2.CORE.WEB.Controllers
             ViewBag.socialProfileId = socialProfileId;
             var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
 
-
+            var url = this.Request.Headers["HOST"];
             //redirect to start page.
-            if (SocailProfile.SocialProfile.PaymentPlanId == null || SocailProfile.SocialProfile.PaymentPlanId == 1)
+
+            if (url.Contains("saleflow") || url.Contains("connectwizz"))
             {
-                return RedirectToAction("start", "Profile", new { socialProfileId = socialProfileId });
-            }
-
-            ProfilesSearchRequest model = new ProfilesSearchRequest { Block = 99, Plan = 0, searchString = "", SocialType = 0 };
-            ViewBag.ProfileCount = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId, model).Count();
-
-            ViewBag.winapp = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("winapp").ToLower()).ConfigValue;
-            ViewBag.macapp = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("macapp").ToLower()).ConfigValue;
-
-            if (_sessionManager.Get(SessionConstants.profileId) == null && Convert.ToInt32(_sessionManager.Get(SessionConstants.profileId)) != socialProfileId)
-            {
-                if (SocailProfile.SocialProfile.StripeSubscriptionId != null)
-                {
-                    var _stripeApiKey = SystemConfig.GetConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
-                    StripeConfiguration.SetApiKey(_stripeApiKey);
-                    var subscriptionService = new SubscriptionService();
-                    Subscription subscriptionStatus = subscriptionService.Get(SocailProfile.SocialProfile.StripeSubscriptionId);
-                    bool trialFlag = false;
-                    if (subscriptionStatus.TrialEnd.HasValue && subscriptionStatus.TrialEnd.Value > DateTime.Now)
-                    {
-                        ViewBag.IsTrialActive = true;
-                        trialFlag = true;
-                    }
-                    else
-                    {
-                        ViewBag.IsTrialActive = false;
-                        trialFlag = false;
-                    }
-
-                    _sessionManager.Set(SessionConstants.profileTrialActive, trialFlag);
-                    _sessionManager.Set(SessionConstants.profileId, SocailProfile.SocialProfile.SocialProfileId);
-                }
-                else
-                {
-                    _sessionManager.Set(SessionConstants.profileTrialActive, false);
-                    _sessionManager.Set(SessionConstants.profileId, SocailProfile.SocialProfile.SocialProfileId);
-                }
+                return RedirectToAction("startin", "Profile", new { socialProfileId = socialProfileId });
             }
             else
             {
-                ViewBag.IsTrialActive = _sessionManager.Get(SessionConstants.profileTrialActive);
-
+                if (SocailProfile.SocialProfile.PaymentPlanId == null || SocailProfile.SocialProfile.PaymentPlanId == 1)
+                {
+                    return RedirectToAction("start", "Profile", new { socialProfileId = socialProfileId });
+                }
             }
 
-            if (success.HasValue && success.Value == 1)
-            {
-                ViewBag.success = 1;
+
+
+                ProfilesSearchRequest model = new ProfilesSearchRequest { Block = 99, Plan = 0, searchString = "", SocialType = 0 };
+                ViewBag.ProfileCount = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId, model).Count();
+
+                ViewBag.winapp = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("winapp").ToLower()).ConfigValue;
+                ViewBag.macapp = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("macapp").ToLower()).ConfigValue;
+
+                if (_sessionManager.Get(SessionConstants.profileId) == null && Convert.ToInt32(_sessionManager.Get(SessionConstants.profileId)) != socialProfileId)
+                {
+                    if (SocailProfile.SocialProfile.StripeSubscriptionId != null)
+                    {
+                        var _stripeApiKey = SystemConfig.GetConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
+                        StripeConfiguration.SetApiKey(_stripeApiKey);
+                        var subscriptionService = new SubscriptionService();
+                        Subscription subscriptionStatus = subscriptionService.Get(SocailProfile.SocialProfile.StripeSubscriptionId);
+                        bool trialFlag = false;
+                        if (subscriptionStatus.TrialEnd.HasValue && subscriptionStatus.TrialEnd.Value > DateTime.Now)
+                        {
+                            ViewBag.IsTrialActive = true;
+                            trialFlag = true;
+                        }
+                        else
+                        {
+                            ViewBag.IsTrialActive = false;
+                            trialFlag = false;
+                        }
+
+                        _sessionManager.Set(SessionConstants.profileTrialActive, trialFlag);
+                        _sessionManager.Set(SessionConstants.profileId, SocailProfile.SocialProfile.SocialProfileId);
+                    }
+                    else
+                    {
+                        _sessionManager.Set(SessionConstants.profileTrialActive, false);
+                        _sessionManager.Set(SessionConstants.profileId, SocailProfile.SocialProfile.SocialProfileId);
+                    }
+                }
+                else
+                {
+                    ViewBag.IsTrialActive = _sessionManager.Get(SessionConstants.profileTrialActive);
+
+                }
+
+                if (success.HasValue && success.Value == 1)
+                {
+                    ViewBag.success = 1;
+                }
+
+                return View(SocailProfile);
+
             }
-
-            return View(SocailProfile);
-
-        }
 
 
 
@@ -274,8 +284,33 @@ namespace SG2.CORE.WEB.Controllers
             ViewBag.stripeApiKey = _stripeApiKey;
             ViewBag.stripePublishKey = _stripePublishKey;
 
+           
+            var url = this.Request.Headers["HOST"];
 
-            return View(SocailProfile);
+         
+                return View(SocailProfile);
+
+        }
+
+        public ActionResult startin(int socialProfileId)
+        {
+
+            ViewBag.socialProfileId = socialProfileId;
+            ViewBag.CurrentUser = this.CDT;
+            var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
+            var customer = _customerManager.GetCustomerByCustomerId(this.CDT.CustomerId);
+            //ProfilesSearchRequest model = new ProfilesSearchRequest { Block = 99, Plan = 0, searchString = "", SocialType = 0 };
+            //ViewBag.ProfileCount = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId, model).Count();
+
+            ViewBag.Customer = customer;
+
+            var _stripeApiKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
+            var _stripePublishKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue2;
+
+            ViewBag.stripeApiKey = _stripeApiKey;
+            ViewBag.stripePublishKey = _stripePublishKey;
+
+            return View("startlinkedin",SocailProfile);
 
         }
 

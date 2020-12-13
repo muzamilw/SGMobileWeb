@@ -240,6 +240,17 @@ namespace SG2.CORE.WEB.APIController
                 manifest.winapp = configs.First(x => x.ConfigKey == "winapp").ConfigValue;
                 manifest.macapp = configs.First(x => x.ConfigKey == "macapp").ConfigValue;
 
+                double offSet = this._customerManager.GetAppTimeZoneOffSet(model.SocialProfileId);
+                DateTime offSetDateTime = DateTime.UtcNow.AddHours(offSet).Date;
+                
+                DateTime Startdatetime =  offSetDateTime.AddDays(-15);
+                var Actions = this._customerManager.ReturnLastActions(model.SocialProfileId, 200);
+
+                manifest.Count_follow = Actions.Where(g => g.ActionID == 60 && g.ActionDateTime.Value >= Startdatetime).Count();
+                manifest.Count_like= Actions.Where(g => g.ActionID == 62 && g.ActionDateTime.Value >= Startdatetime).Count();
+                manifest.Count_message = Actions.Where(g => (g.ActionID == 90 || g.ActionID == 91) && g.ActionDateTime.Value >= Startdatetime).Count();
+                manifest.Count_unfollow = Actions.Where(g => g.ActionID == 61 && g.ActionDateTime.Value >= Startdatetime).Count();
+
 
 
 
