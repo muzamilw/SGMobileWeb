@@ -1,0 +1,30 @@
+﻿<div class="card p-4 rounded-plus bg-faded">
+
+
+    <div class="text-center">
+        <img src="~/Content/Theme-CA/img/LinkedIn_2x.png" class="text-center" style="width:150px;" />
+    </div>
+
+
+    <div class="form-group row pt-4 text-center">
+        <label class="col-xl-12 form-label mt-4" for="fname">You're on the PRO Plan</label>
+        <p class="p-4 font-weight-bolder">
+            Here's your unique Username and PIN Code for the ConnectWizz APP
+        </p>
+        <p class="p-4 col col-12 font-weight-bolder">
+            Username
+        </p>
+        <label class="col-xl-12 form-label mt-4" for="fname">@Model.SocialProfile.SocialUsername</label>
+        <p class="p-4 col col-12 font-weight-bolder">
+            PIN Code
+        </p>
+        <label class="col-xl-12 form-label mt-4" for="fname">@Model.SocialProfile.PinCode</label>
+    </div>
+
+    <div class="row no-gutters">
+        <div class="col-md-12  mx-auto text-center justify-content-center" ">
+            <button id="btnDeleteSubscription" class="btn btn-block btn-default btn-lg mt-3 ">Cancel & Delete my Plan forever</button>
+        </div>
+    </div>
+
+</div>

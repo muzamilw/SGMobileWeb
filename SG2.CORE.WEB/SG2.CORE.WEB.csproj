@@ -4186,6 +4186,8 @@
     <Content Include="Views\Home\VerifyEmail.cshtml" />
     <Content Include="Views\Home\videos.cshtml" />
     <Content Include="Views\Profile\startlinkedin.cshtml" />
+    <Content Include="Views\Shared\Partial\payment.cshtml" />
+    <Content Include="Views\Shared\Partial\viewInfo.cshtml" />
     <None Include="Views\Shared\Partial\_PartialForgetPasswordPopup.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialSignupPopup.cshtml" />
     <Content Include="Views\User\Home.cshtml" />
@@ -4214,7 +4216,7 @@
     <Folder Include="Content\Theme-SPPro\js\datagrid\" />
     <Folder Include="Models\" />
     <Folder Include="Scripts\Plotly\" />
-    <Folder Include="Views\Home\partial\" />
+    <Folder Include="Views\Home\Partial\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

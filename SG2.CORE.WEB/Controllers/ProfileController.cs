@@ -819,7 +819,8 @@ namespace SG2.CORE.WEB.Controllers
                             {"invoicedate", paymentRec.StartDate.ToString("dd MMMM yyyy")},
                             {"planname", paymentRec.Name},
                              {"price", "$" + paymentRec.Price},
-                              {"total", "$" + paymentRec.Price}
+                              {"total", "$" + paymentRec.Price},
+                               {"username", socialProfile.SocialProfile.SocialUsername}
 
                         };
                         BAL.Managers.EmailManager.SendEmail(this.CDT.EmailAddress, this.CDT.FirstName, EmailManager.EmailType.PlanUpgrade, dynamicTemplateData1);
