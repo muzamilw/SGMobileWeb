@@ -1775,7 +1775,7 @@ namespace SG2.CORE.WEB.Controllers
 
             return Json(jr, JsonRequestBehavior.AllowGet);
         }
-
+        [AllowAnonymous]
         public ActionResult GetEngagementSection(int socialProfileId, int mode)
         {
             var jr = new JsonResult();
