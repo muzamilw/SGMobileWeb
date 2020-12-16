@@ -17,7 +17,24 @@
     <title>Grow Like A Pro On Auto-Pilot, Lead Generation Tool For Digital Marketeers 2021</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="~/Content/Theme-CA/img/core-img/favicon.ico">
+    
+    <link rel="apple-touch-icon" sizes="57x57" href="~/Content/Theme-CA/img/core-img/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="~/Content/Theme-CA/img/core-img/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="~/Content/Theme-CA/img/core-img/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/Content/Theme-CA/img/core-img/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="~/Content/Theme-CA/img/core-img/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="~/Content/Theme-CA/img/core-img/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="~/Content/Theme-CA/img/core-img/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="~/Content/Theme-CA/img/core-img/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/Content/Theme-CA/img/core-img/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="~/Content/Theme-CA/img/core-img/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Content/Theme-CA/img/core-img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="~/Content/Theme-CA/img/core-img/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/Theme-CA/img/core-img/favicon-16x16.png">
+    <link rel="manifest" href="~/Content/Theme-CA/img/core-img/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="~/Content/Theme-CA/img/core-img/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
 
     <!-- Core Stylesheet -->
     <link href="~/Content/Theme-CA/style.css" rel="stylesheet">
@@ -40,7 +57,7 @@
         !function (f, b, e, v, n, t, s) {
             if (f.fbq) return; n = f.fbq = function () {
                 n.callMethod ?
-                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
             };
             if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
             n.queue = []; t = b.createElement(e); t.async = !0;
@@ -57,22 +74,21 @@
     </noscript>
     <!-- End Facebook Pixel Code -->
     <style>
-     .modal.show  {
-  display:flex!important;
-  flex-direction:column;
-  justify-content:center;
-  align-content:center;
-  align-items: flex-start;
-}
+        .modal.show {
+            display: flex !important;
+            flex-direction: column;
+            justify-content: center;
+            align-content: center;
+            align-items: flex-start;
+        }
 
-     .ca-price{
-         display:inline-flex;
-        
-     }
+        .ca-price {
+            display: inline-flex;
+        }
 
-     .strikediag {
-  background: linear-gradient(to left top, transparent 47.75%, currentColor 49.5%, currentColor 50.5%, transparent 52.25%);
-}
+        .strikediag {
+            background: linear-gradient(to left top, transparent 47.75%, currentColor 49.5%, currentColor 50.5%, transparent 52.25%);
+        }
     </style>
 </head>
 
@@ -159,7 +175,7 @@
                     <div class="menu_area">
                         <nav class="navbar navbar-expand-lg navbar-light">
                             <!-- Logo -->
-                            <a class="navbar-brand" href="/">Connect Wizz.</a>
+                            <a class="navbar-brand" href="/">Connect Wizz</a>
                             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ca-navbar" aria-controls="ca-navbar" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                             <!-- Menu Area -->
                             <div class="collapse navbar-collapse" id="ca-navbar">
@@ -197,21 +213,36 @@
             <div class="row h-75 align-items-center">
                 <div class="col-12 col-md">
                     <div class="wellcome-heading">
+                        <a id="topdl"></a>
                         <h2>
                             Attract Hot Leads
                             <br />Everyday on LinkedIn
                         </h2>
 
-                        <p>
-                           And say hello to new connections, effortlessely - Download FREE App
+                        <p class="mt-4 pt-4" style="font-size:24px;">
+                           And say hello to new connections, effortlessely - Download app
                         </p>
                     </div>
                     <div class="get-start-area">
                         <!-- Form Start -->
                         <form action="/account/signup" method="get" class="form-inline">
-                            <input type="email" name="email" class="form-control email d-none" placeholder="name@company.com">
-                            <input type="submit" class="submit" value="Android App">
-                            <input type="submit" class="submit" value="iOS App">
+
+
+                            <div class="app-download-btn wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                                <!-- Google Store Btn -->
+                                <a href="#" >
+                                    <i class="fa fa-android"></i>
+                                    <p class="mb-0"><span>available on</span> Google Store</p>
+                                </a>
+                            </div>
+
+                            <div class="app-download-btn wow fadeInDown" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInDown;">
+                                <!-- Apple Store Btn -->
+                                <a href="#">
+                                    <i class="fa fa-apple"></i>
+                                    <p class="mb-0"><span>coming soon</span> Apple Store</p>
+                                </a>
+                            </div>
                         </form>
                         <!-- Form End -->
                     </div>
@@ -231,7 +262,7 @@
                 <div class="col-12">
                     <!-- Section Heading Area -->
                     <div class="section-heading text-center">
-                        <h2>How our Linked In automation tool works</h2>
+                        <h2>How our app works</h2>
                         <div class="line-shape"></div>
                     </div>
                 </div>
@@ -242,30 +273,42 @@
                 <div class="col-12 col-md-4">
                     <div class="single-special text-center wow fadeInUp" data-wow-delay="0.2s">
                         <div class="single-icon">
-                            <i class="ti-mobile" aria-hidden="true"></i>
+                            <i class="ti-linkedin" aria-hidden="true"></i>
                         </div>
-                        <h4>Scale on Auto-Pilot</h4>
-                        <p>Automate your lead generation funnel to get light-years ahead of your competitors.</p>
+                        <h4>Target New Connections</h4>
+                        <p>
+                            Grow your Linked In network
+                            faster by targeting people by
+                            job title and industry sectors
+                        </p>
                     </div>
                 </div>
                 <!-- Single Special Area -->
                 <div class="col-12 col-md-4">
                     <div class="single-special text-center wow fadeInUp" data-wow-delay="0.4s">
                         <div class="single-icon">
-                            <i class="ti-ruler-pencil" aria-hidden="true"></i>
+                            <i class="ti-email" aria-hidden="true"></i>
                         </div>
-                        <h4>Target New Connections</h4>
-                        <p>Boost your business and get automated leads. Select the level of engagement and target your ideal audience.</p>
+                        <h4>Send Invites on Auto-Pilot</h4>
+                        <p>
+                            Effortlessly send up to 40 targeted
+                            invites everyday and watch your
+                            connections grow
+                        </p>
                     </div>
                 </div>
                 <!-- Single Special Area -->
                 <div class="col-12 col-md-4">
                     <div class="single-special text-center wow fadeInUp" data-wow-delay="0.6s">
                         <div class="single-icon">
-                            <i class="ti-settings" aria-hidden="true"></i>
+                            <i class="ti-face-smile" aria-hidden="true"></i>
                         </div>
-                        <h4>Connect & Say Hello!</h4>
-                        <p>Automate personalized Messages to all your new connections using the FREE message sequencing builder.</p>
+                        <h4>Say Hello on Connect</h4>
+                        <p>
+                            Introduce yourself with an automated
+                            message sequence and drive home
+                            your product or service offering
+                        </p>
                     </div>
                 </div>
             </div>
@@ -353,7 +396,7 @@
                     </div>
                     <div class="col-lg-6 col-xl-5 ml-xl-auto">
                         <div class="special_description_content">
-                            <h2>Lead Generation for Businesses & Recruiters</h2>
+                            <h2>Lead Generation for Businesses</h2>
                             <p>
                                 Get rid of manual processes that slow your business growth and focus on building relationships with real people. It only takes a few minutes to start automating your LinkedIn outreach with Connect Wizz.
                                 <br /><br />
@@ -361,7 +404,7 @@
                                 <br /><br />
                                 Add Connect Wizz's lead automation tool into your pipeline and automate your Linked In outreach to acquire customers inside and outside of your network.
                             </p>
-                            <button onclick="location.href = '/account/signup';" class="btn submit-btn">Get Started</button>
+                            
                         </div>
                     </div>
                 </div>
@@ -379,18 +422,34 @@
                     </div>
                     <div class="col-lg-6 col-xl-5 ml-xl-auto">
                         <div class="special_description_content">
-                            <h2>Download the App <span style="color:#fb397d">1</span></h2>
+                            <h2><span style="color:#fb397d">1</span> Download the App</h2>
                             <p>
-                                To get started, you will need to have an
+                                To get started, you will need to have an<br /><br />
                                 a) Active LinkedIn account<br />
-                                b) Sign up to your FREE Connect Wizz account<br />
-                                c) Download the app<br />
+                                b) Download the app<br />
+                                c) Sign up to your FREE Connect Wizz account<br />
+                                <br />
 
 
-                                Next, select your desired level of engagement and enable all the relevant features you's like to run on your next campaign, like Connection Invites, Sequential Messaging, Broadcast Messaging or LinkedIn Engagement.
+                                Next, select your desired level of engagement and enable all the relevant features you'd like to run.
 
-                                </p>
-
+                            </p>
+                            <div class="app-download-area">
+                                <div class="app-download-btn wow fadeInUp" data-wow-delay="0.2s">
+                                    <!-- Google Store Btn -->
+                                    <a href="#">
+                                        <i class="fa fa-android"></i>
+                                        <p class="mb-0"><span>available on</span> Google Store</p>
+                                    </a>
+                                </div>
+                                <div class="app-download-btn wow fadeInDown" data-wow-delay="0.4s">
+                                    <!-- Apple Store Btn -->
+                                    <a href="#">
+                                        <i class="fa fa-apple"></i>
+                                        <p class="mb-0"><span>coming soon</span> Apple Store</p>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -406,11 +465,11 @@
                     </div>
                     <div class="col-lg-6 col-xl-5 ml-xl-auto">
                         <div class="special_description_content">
-                            <h2>Target Your Ideal Fan Base <span style="color:#fb397d">2</span></h2>
+                            <h2><span style="color:#fb397d">2</span> Target Your Ideal Fan Base </h2>
                             <p>
                                 Once you've decided on the level of automation and engagement, you can now start running Connect Wizz app on your device.<br /><br />
 
-                                Run the App everyday for 10 mins and see the results of your LinkedIn outreach campaigns within hours. Hot leads and new connections should appear in your LinkedIn account.
+                                run the App everyday for 10 mins and see the results of your LinkedIn outreach campaigns within hours.<br /><br /> Hot leads and new connections should appear in your LinkedIn account.
                             </p>
 
                         </div>
@@ -428,17 +487,30 @@
                     </div>
                     <div class="col-lg-6 col-xl-5 ml-xl-auto">
                         <div class="special_description_content">
-                            <h2>Say Hello To Hot Leads <span style="color:#fb397d">3</span></h2>
+                            <h2><span style="color:#fb397d">3</span> Say Hello To Hot Leads </h2>
                             <p>
                                 Market like a pro, send up to 3 sequenced messages to all your NEW connections. Guide them with an intro, followed up with links and finally a qualifier to close the deal.<br /><br />
 
-                                Or simply send a Broadcast message to all existing connections and announce a new product or service offering, even a new job opening!<br /><br />
-
                                 Now that you have fully automated your Linked In lead generation with Connect Wizz, you can expect to see the first results within hours, filling your Linked In inbox.<br /><br />
 
-                                
-                            </p>
 
+                            </p>
+                            <div class="app-download-area">
+                                <div class="app-download-btn wow fadeInUp" data-wow-delay="0.2s">
+                                    <!-- Google Store Btn -->
+                                    <a href="#">
+                                        <i class="fa fa-android"></i>
+                                        <p class="mb-0"><span>available on</span> Google Store</p>
+                                    </a>
+                                </div>
+                                <div class="app-download-btn wow fadeInDown" data-wow-delay="0.4s">
+                                    <!-- Apple Store Btn -->
+                                    <a href="#">
+                                        <i class="fa fa-apple"></i>
+                                        <p class="mb-0"><span>coming soon</span> Apple Store</p>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -454,7 +526,7 @@
                 <div class="col-12">
                     <!-- Heading Text  -->
                     <div class="section-heading text-center">
-                        <h2>One Simple Monthly Price Plan</h2>
+                        <h2>One Simple Monthly Plan</h2>
                         <div class="line-shape"></div>
                     </div>
                 </div>
@@ -491,7 +563,6 @@
                         <!-- Package Text  -->
                         <div class="package-plan">
                             <h5 style="color:#fb397d">Special Offer 50% OFF</h5>
-                            <h5>You Post Plan</h5>
 
                             <h5>This month only</h5>
                             <div class="ca-price justify-content-center strikediag">
@@ -513,7 +584,7 @@
                         </div>
                         <!-- Plan Button  -->
                         <div class="plan-button">
-                            <a href="~/account/signup">FREE Download Trial</a>
+                            <a href="#top">FREE Download</a>
                         </div>
                     </div>
                 </div>
@@ -749,7 +820,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="get-started-button wow bounceInDown" data-wow-delay="0.5s">
-                        <a href="~/account/signup">Get PIN Code</a>
+                        <a href="~/account/signup">Subscribe</a>
                     </div>
                 </div>
             </div>
@@ -863,7 +934,7 @@
                         <p>We’ll send you epic weekly newsletters, tips and things to make your growth thrive on all social media platforms and channels, all FREE!</p>
                     </div>
                     <div class="address-text">
-                        <p><span>Address:</span> 1656 Spruce Court, Livingston California, US</p>
+                        <p><span>Address:</span> 6910 Mariposa Circle California USA 94568</p>
                     </div>
                     <div class="email-text">
                         <p><span>Email:</span> info@ConnectWizz.net</p>
@@ -918,9 +989,9 @@
         <div class="footer-social-icon">
             @*<a href="https://www.facebook.com/Social-Planner-Pro-101614715056409/?ref=bookmarks"><i class="fa fa-facebook" aria-hidden="true"></i></a>*@
 
-            <a href="https://www.instagram.com/pickytee_social_pro/"> <i class="fa fa-instagram" aria-hidden="true"></i></a>
+            @*<a href="https://www.instagram.com/pickytee_social_pro/"> <i class="fa fa-instagram" aria-hidden="true"></i></a>
 
-            <a href="https://www.youtube.com/channel/UCeOd1a_9B1quA5c_JEFMX-g"> <i class="fa fa-youtube" aria-hidden="true"></i></a>
+            <a href="https://www.youtube.com/channel/UCeOd1a_9B1quA5c_JEFMX-g"> <i class="fa fa-youtube" aria-hidden="true"></i></a>*@
 
             @*<a href="https://www.linkedin.com/company/social-planner-pro"> <i class="fa fa-linkedin" aria-hidden="true"></i></a>*@
         </div>
@@ -939,7 +1010,7 @@
         <!-- Foooter Text-->
         <div class="copyright-text">
             <!-- ***** Removing this text is now allowed! This template is licensed under CC BY 3.0 ***** -->
-            <p>Copyright ©2020 Connect Wizz</p>
+            <p>Copyright ©2021 Connect Wizz</p>
         </div>
     </footer>
     <!-- ***** Footer Area Start ***** -->

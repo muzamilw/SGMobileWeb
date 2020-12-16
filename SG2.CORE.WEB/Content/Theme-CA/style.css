@@ -333,7 +333,7 @@ p {
 }
 
 .menu_area .navbar-brand {
-    font-size: 72px;
+    font-size: 36px;
     font-weight: 700;
     color: #fff;
     margin: 0;
@@ -408,7 +408,7 @@ p {
 }
 
 .header_area.sticky .menu_area .navbar-brand {
-    font-size: 50px;
+    font-size: 36px;
 }
 
 .header_area.sticky .menu_area #nav .nav-link {
@@ -457,7 +457,7 @@ p {
 }
 
 .wellcome-heading > h2 {
-    font-size: 100px;
+    font-size: 80px;
     color: #ffffff;
     font-weight: 700;
     position: relative;
@@ -603,6 +603,7 @@ p {
 }
 
 .app-download-btn a {
+    background-color:white;
     border: 1px solid #ddd;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -1232,7 +1233,7 @@ p {
 
 .footer-text > h2 {
     color: #5b32b4;
-    font-size: 72px;
+    font-size: 45px;
     font-weight: 700;
 }
 

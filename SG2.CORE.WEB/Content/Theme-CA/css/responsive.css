@@ -115,7 +115,7 @@
         padding: 0;
     }
     .menu_area .navbar-brand {
-        font-size: 48px;
+        font-size: 36px;
     }
     .header_area.sticky {
         height: 50px;
@@ -141,7 +141,7 @@
         font-size: 14px;
     }
     .wellcome-heading > h2 {
-        font-size: 48px;
+        font-size: 38px;
     }
     .get-start-area .email {
         margin-bottom: 20px;
