@@ -461,8 +461,9 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                             </fieldset>
                         </form>
                         <div class="success">
-                            <img id="successimg" style="display:none" src="~/Content/Images/success.jpg" />
-                            <h3 class="title" id="successtitle" style="font-size:20px;color:green" data-tid="elements_examples.success.title">Thank you for Subscribing</h3>
+                            <h3 class="title" id="successtitle" style="font-size:20px;color:green" data-tid="elements_examples.success.title">Success</h3>
+                            <img id="successimg" style="width:140px;" src="~/Content/Images/success.jpg" />
+
                             <p class="message" style="font-size:13px;color:green"><span id="cmessage" data-tid="elements_examples.success.message"></span></p>
                             <div id="paymentloader" class="icon hidden">
                                 <svg width="84px" height="84px" viewBox="0 0 84 84" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -763,8 +764,8 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                 selectedPlanprice = $(".selectedPlanPrice").text();
 
                 $(".selectedPlanPrice").text(" $" + $(this).attr("data-planprice") + " per month");
-                $("#cmessage").multiline('1. Next, download the APP \n 2. View the Get Started Steps & Videos ');
-                $("#successbtn").text('Downlaod the Laptop APP')
+                $("#cmessage").multiline('Your subscription has been updated');
+                $("#successbtn").text('Continue')
 
 
 

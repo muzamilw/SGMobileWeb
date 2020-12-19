@@ -243,7 +243,7 @@ namespace SG2.CORE.WEB.APIController
                 double offSet = this._customerManager.GetAppTimeZoneOffSet(model.SocialProfileId);
                 DateTime offSetDateTime = DateTime.UtcNow.AddHours(offSet).Date;
                 
-                DateTime Startdatetime =  offSetDateTime.AddDays(-15);
+                DateTime Startdatetime =  offSetDateTime.AddDays(-1);
                 var Actions = this._customerManager.ReturnLastActions(model.SocialProfileId, 200);
 
                 manifest.Count_follow = Actions.Where(g => g.ActionID == 60 && g.ActionDateTime.Value >= Startdatetime).Count();

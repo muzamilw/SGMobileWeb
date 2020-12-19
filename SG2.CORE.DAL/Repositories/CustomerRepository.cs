@@ -1542,7 +1542,7 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    return _db.SocialProfile_Messages.Where(g => g.SocialProfileId == socialProfileId && g.StatusId == 1).ToList();
+                    return _db.SocialProfile_Messages.Where(g => g.SocialProfileId == socialProfileId).ToList();  //&& g.StatusId == 1
                 }
 
             }
