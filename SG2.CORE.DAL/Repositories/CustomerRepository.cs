@@ -1542,14 +1542,24 @@ namespace SG2.CORE.DAL.Repositories
             {
                 using (var _db = new SocialGrowth2Connection())
                 {
-                    return _db.SocialProfile_Messages.Where(g => g.SocialProfileId == socialProfileId).ToList();  //&& g.StatusId == 1
+
+                    string qry = @"select msg.* from (
+                    SELECT max([SocialProfileMessageId]) as [SocialProfileMessageId]
+                      FROM [dbo].[SocialProfile_Messages]
+                      group by[SentSocialUsername]
+                      ) as umsg
+                    inner join[dbo].[SocialProfile_Messages] as msg on umsg.SocialProfileMessageId = msg.SocialProfileMessageId and SocialProfileId=@SocialProfileId";
+
+                    return _db.Database.SqlQuery<SocialProfile_Messages>(qry, new SqlParameter("@SocialProfileId", socialProfileId)).ToList();
+
+                    //return _db.SocialProfile_Messages.Where(g => g.SocialProfileId == socialProfileId && g.StatusId == 1).ToList();  //&& g.StatusId == 1
                 }
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                throw e;
             }
         }
 

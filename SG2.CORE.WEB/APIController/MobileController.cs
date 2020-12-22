@@ -109,162 +109,172 @@ namespace SG2.CORE.WEB.APIController
         [HttpPost]
         public IHttpActionResult GetManifest(MobileManifestRequest model)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<SocialProfile, MobileSocialProfile>().ForMember(x => x.IgAccountStartDate,
-                opt => opt.MapFrom(src => (src.IgAccountStartDate.HasValue ?  ((DateTime)src.IgAccountStartDate).ToString("yyyy-MM-dd H:mm:ss") : null)))
-            );
 
-            var config2 = new MapperConfiguration(cfg => cfg.CreateMap<SocialProfile_Instagram_TargetingInformation, MobileSocialProfile_Instagram_TargetingInformation>()
-           );
-
-
-            var config3 = new MapperConfiguration(cfg => cfg.CreateMap<SocialProfile_FollowedAccounts, MobileSocialProfile_FollowedAccounts>()
-           );
-
-            var config4 = new MapperConfiguration(cfg => cfg.CreateMap<PaymentPlan, MobilePaymentPlan>()
-           );
-
-            var config5 = new MapperConfiguration(cfg => cfg.CreateMap<SocialProfile_Messages, MobileSocialProfile_Messages>()
-         );
-
-            var mapper = new Mapper(config);
-            var mapper2 = new Mapper(config2);
-            var mapper3 = new Mapper(config3);
-            var mapper4 = new Mapper(config4);
-            var mapper5 = new Mapper(config5);
-
-            if (ModelState.IsValid)
+            try
             {
 
-              
-                DateTime commentCutOffDate = DateTime.Today.AddDays(-1);
-               
 
-                DateTime unfollowCutOffMaxDate = DateTime.Today.AddDays(-35); //-2
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<SocialProfile, MobileSocialProfile>().ForMember(x => x.IgAccountStartDate,
+                    opt => opt.MapFrom(src => (src.IgAccountStartDate.HasValue ? ((DateTime)src.IgAccountStartDate).ToString("yyyy-MM-dd H:mm:ss") : null)))
+                );
 
-                var profile = _customerManager.GetSocialProfileById(model.SocialProfileId);
-                if (!String.IsNullOrEmpty( model.SocialPassword))
+                var config2 = new MapperConfiguration(cfg => cfg.CreateMap<SocialProfile_Instagram_TargetingInformation, MobileSocialProfile_Instagram_TargetingInformation>()
+               );
+
+
+                var config3 = new MapperConfiguration(cfg => cfg.CreateMap<SocialProfile_FollowedAccounts, MobileSocialProfile_FollowedAccounts>()
+               );
+
+                var config4 = new MapperConfiguration(cfg => cfg.CreateMap<PaymentPlan, MobilePaymentPlan>()
+               );
+
+                var config5 = new MapperConfiguration(cfg => cfg.CreateMap<SocialProfile_Messages, MobileSocialProfile_Messages>()
+             );
+
+                var mapper = new Mapper(config);
+                var mapper2 = new Mapper(config2);
+                var mapper3 = new Mapper(config3);
+                var mapper4 = new Mapper(config4);
+                var mapper5 = new Mapper(config5);
+
+                if (ModelState.IsValid)
                 {
-                    _customerManager.UpdateBasicSocialProfileSocialPassword(model.SocialPassword, model.SocialProfileId);
+
+
+                    DateTime commentCutOffDate = DateTime.Today.AddDays(-1);
+
+
+                    DateTime unfollowCutOffMaxDate = DateTime.Today.AddDays(-35); //-2
+
+                    var profile = _customerManager.GetSocialProfileById(model.SocialProfileId);
+                    if (!String.IsNullOrEmpty(model.SocialPassword))
+                    {
+                        _customerManager.UpdateBasicSocialProfileSocialPassword(model.SocialPassword, model.SocialProfileId);
+                    }
+
+                    //resetting the changed flag to false since we are sending the new manifest.
+                    _customerManager.ResetSocialProfileManifestChangeFlag(false, model.SocialProfileId);
+
+                    var stats = this._statsManager.GetStatistics(profile.SocialProfile.SocialProfileId);
+
+
+                    var manifest = new MobileManifestResponse
+                    {
+                        CustomerId = profile.SocialProfile.CustomerId.Value,
+                        StatusCode = 1,
+                        StatusMessage = "",
+                        Profile = mapper.Map<MobileSocialProfile>(profile.SocialProfile),
+                        CurrentPlan = mapper4.Map<MobilePaymentPlan>(profile.CurrentPaymentPlan),
+                        TargetInformation = mapper2.Map<MobileSocialProfile_Instagram_TargetingInformation>(profile.SocialProfile_Instagram_TargetingInformation),
+                        // filter the unfollow list by the white list of users which is manually entered.
+                        FollowersToUnFollow = null,//randomize the followers to comment list and only send 50
+                        FollowersToComment = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime >= commentCutOffDate).OrderBy(x => Guid.NewGuid()).Take(50).ToList()),
+                        FollowList = _customerManager.GetFollowList(model.SocialProfileId).Select(g => new MobileSocialProfile_FollowedAccounts { FollowedSocialUsername = g.SocialUsername, FollowedDateTime = DateTime.Now }).Take(10).ToList(),
+                        LikeList = _customerManager.GetFollowList(model.SocialProfileId).Select(g => new MobileSocialProfile_FollowedAccounts { FollowedSocialUsername = g.SocialUsername }).Take(10).ToList(),
+                        SentMessages = mapper5.Map<List<MobileSocialProfile_Messages>>(_customerManager.GetAllSentMessages(model.SocialProfileId))
+
+                        //20 count Follow list is all paid instagram profile usernames which are already not in follower list.  and follow exchange checkbox true
+                        //10 count Like list is all paid instagram profile usernames which are already not in follower list.  and like exchange checkbox true
+                    };
+
+                    DateTime unfollowCutOffDate = DateTime.Today.AddDays(-2); //-2
+                    if (profile.SocialProfile.SocialProfileTypeId != 8)  // for linkedin 8 is instagram
+                    {
+                        unfollowCutOffDate = DateTime.Today.AddDays(-14);
+                    }
+
+                    manifest.TargetInformation.LikeExchangeDailyLimit = 10;
+                    manifest.TargetInformation.FollowExchangeDailyLimit = 10;
+
+
+                    var whitelist = profile.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers;
+                    var whilelistArray = new List<string>();
+                    if (!string.IsNullOrEmpty(whitelist))
+                        whilelistArray = whitelist.Split(',').Select(uname => uname.Trim()).ToList();
+
+
+                    //var executionintervals = JsonConvert.DeserializeObject<List<ExecutionInterval>>(manifest.TargetInformation.ExecutionIntervals);
+                    //; ExecutionInterval
+                    manifest.FollowersToUnFollow = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => !whilelistArray.Contains(g.FollowedSocialUsername)).Where(g => g.StatusId == 1 && g.FollowedDateTime < unfollowCutOffDate && g.FollowedDateTime >= unfollowCutOffMaxDate).ToList());  //Convert.ToInt32(executionintervals[0].UnFoll16DaysEngage)
+
+                    manifest.AllFollowedAccounts = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(_customerManager.GetAllFollowedAccounts(model.SocialProfileId));
+
+                    manifest.Profile.StatsFollowersIncrease = stats.FollowersTotal.Value - stats.FollowersInitial.Value;
+                    manifest.Profile.StatsFollowingsIncrease = stats.FollowingsTotal.Value - stats.FollowingsInitial.Value;
+
+                    var daysSinceRegistration = DateTime.Today - profile.SocialProfile.CreatedOn;
+                    //  
+                    ////manifest.TargetInformation.FollMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.FollDailyIncreaseLim.Value * daysSinceRegistration.Days) + profile.SocialProfile_Instagram_TargetingInformation.FollNewPerDayLim.Value - manifest.FollowList.Count;
+                    ////if (manifest.TargetInformation.FollMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.FollMaxPerDayLim)
+                    ////    manifest.TargetInformation.FollMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.FollMaxPerDayLim.Value;
+
+                    ////manifest.TargetInformation.UnFollMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.UnFollDailyIncreaseLim.Value * daysSinceRegistration.Days) + profile.SocialProfile_Instagram_TargetingInformation.UnFollNewPerDayLim.Value;
+                    ////if (manifest.TargetInformation.UnFollMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.UnFollMaxPerDayLim)
+                    ////    manifest.TargetInformation.UnFollMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.UnFollMaxPerDayLim.Value;
+
+                    ////manifest.TargetInformation.LikeMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.LikeDailyIncreaseLim.Value * daysSinceRegistration.Days )+ profile.SocialProfile_Instagram_TargetingInformation.LikePerDayLim.Value - manifest.LikeList.Count;
+                    ////if (manifest.TargetInformation.LikeMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.LikeMaxPerDayLim)
+                    ////    manifest.TargetInformation.LikeMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.LikeMaxPerDayLim.Value;
+
+                    ////manifest.TargetInformation.ViewStoriesMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesDailyIncreaseLim.Value * daysSinceRegistration.Days )+ profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesPerDayLim.Value;
+                    ////if (manifest.TargetInformation.ViewStoriesMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesMaxPerDayLim)
+                    ////    manifest.TargetInformation.ViewStoriesMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesMaxPerDayLim.Value;
+
+                    ////manifest.TargetInformation.CommentMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.CommentDailyIncreaseLim.Value * daysSinceRegistration.Days )+ profile.SocialProfile_Instagram_TargetingInformation.CommentPerDayLim.Value;
+                    ////if (manifest.TargetInformation.CommentMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.CommentMaxPerDayLim)
+                    ////    manifest.TargetInformation.CommentMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.CommentMaxPerDayLim.Value;
+
+
+
+
+                    manifest.Profile.Status = ((GeneralStatus)profile.SocialProfile.StatusId).ToString();
+
+                    manifest.Profile.SocialProfileType = ((SocialMedia)profile.SocialProfile.SocialProfileTypeId).ToString();
+
+                    var configs = SG2.CORE.WEB.Architecture.SystemConfig.GetConfigsLatest();
+                    manifest.ActionsDelayRange = configs.First(x => x.ConfigKey == "ActionsDelayRange").ConfigValue;
+                    manifest.HashLoadDelayRange = configs.First(x => x.ConfigKey == "HashLoadDelayRange").ConfigValue;
+                    manifest.LocationLoadDelayRange = configs.First(x => x.ConfigKey == "LocationLoadDelayRange").ConfigValue;
+                    manifest.StoryLoadDelayRange = configs.First(x => x.ConfigKey == "StoryLoadDelayRange").ConfigValue;
+                    manifest.SuggestedUsersLoadDelayRange = configs.First(x => x.ConfigKey == "SuggestedUsersLoadDelayRange").ConfigValue;
+                    manifest.UnFollowLoadDelayRange = configs.First(x => x.ConfigKey == "UnFollowLoadDelayRange").ConfigValue;
+                    manifest.UserFollowLoadDelayRange = configs.First(x => x.ConfigKey == "UserFollowLoadDelayRange").ConfigValue;
+                    manifest.WarmupConfig = configs.First(x => x.ConfigKey == "WarmupConfig").ConfigValue;
+                    manifest.winappver = configs.First(x => x.ConfigKey == "winappver").ConfigValue;
+                    manifest.macappver = configs.First(x => x.ConfigKey == "macappver").ConfigValue;
+                    manifest.winapp = configs.First(x => x.ConfigKey == "winapp").ConfigValue;
+                    manifest.macapp = configs.First(x => x.ConfigKey == "macapp").ConfigValue;
+
+                    double offSet = this._customerManager.GetAppTimeZoneOffSet(model.SocialProfileId);
+                    DateTime offSetDateTime = DateTime.UtcNow.AddHours(offSet).Date;
+
+                    DateTime Startdatetime = offSetDateTime.AddDays(-1);
+                    var Actions = this._customerManager.ReturnLastActions(model.SocialProfileId, 200);
+
+                    manifest.Count_follow = Actions.Where(g => g.ActionID == 60 && g.ActionDateTime.Value >= Startdatetime).Count();
+                    manifest.Count_like = Actions.Where(g => g.ActionID == 62 && g.ActionDateTime.Value >= Startdatetime).Count();
+                    manifest.Count_message = Actions.Where(g => (g.ActionID == 90 || g.ActionID == 91) && g.ActionDateTime.Value >= Startdatetime).Count();
+                    manifest.Count_unfollow = Actions.Where(g => g.ActionID == 61 && g.ActionDateTime.Value >= Startdatetime).Count();
+
+
+
+
+                    return Ok(new
+                    {
+                        MobileJsonRootObject = manifest
+                    });
+                }
+                else
+                {
+                    return Content(HttpStatusCode.BadRequest, "Input params missing");
                 }
 
-                //resetting the changed flag to false since we are sending the new manifest.
-                _customerManager.ResetSocialProfileManifestChangeFlag(false, model.SocialProfileId);
-
-                 var stats = this._statsManager.GetStatistics(profile.SocialProfile.SocialProfileId);
-
-
-                var manifest = new MobileManifestResponse
-                {
-                    CustomerId = profile.SocialProfile.CustomerId.Value,
-                    StatusCode = 1,
-                    StatusMessage = "",
-                    Profile = mapper.Map<MobileSocialProfile>(profile.SocialProfile),
-                    CurrentPlan = mapper4.Map<MobilePaymentPlan>(profile.CurrentPaymentPlan),
-                    TargetInformation = mapper2.Map<MobileSocialProfile_Instagram_TargetingInformation>(profile.SocialProfile_Instagram_TargetingInformation),
-                    // filter the unfollow list by the white list of users which is manually entered.
-                    FollowersToUnFollow = null,//randomize the followers to comment list and only send 50
-                    FollowersToComment = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g => g.FollowedDateTime >= commentCutOffDate).OrderBy(x => Guid.NewGuid()).Take(50).ToList()),
-                    FollowList = _customerManager.GetFollowList(model.SocialProfileId).Select(g => new MobileSocialProfile_FollowedAccounts { FollowedSocialUsername = g.SocialUsername, FollowedDateTime = DateTime.Now }).Take(10).ToList(),
-                    LikeList = _customerManager.GetFollowList(model.SocialProfileId).Select(g => new MobileSocialProfile_FollowedAccounts { FollowedSocialUsername = g.SocialUsername }).Take(10).ToList(), 
-                    SentMessages = mapper5.Map<List<MobileSocialProfile_Messages>>( _customerManager.GetAllSentMessages(model.SocialProfileId))
-                    
-                //20 count Follow list is all paid instagram profile usernames which are already not in follower list.  and follow exchange checkbox true
-                //10 count Like list is all paid instagram profile usernames which are already not in follower list.  and like exchange checkbox true
-                };
-
-                DateTime unfollowCutOffDate = DateTime.Today.AddDays(-2); //-2
-                if (profile.SocialProfile.SocialProfileTypeId != 8)  // for linkedin 8 is instagram
-                {
-                    unfollowCutOffDate = DateTime.Today.AddDays(-14);
-                }
-
-                manifest.TargetInformation.LikeExchangeDailyLimit = 10;
-                manifest.TargetInformation.FollowExchangeDailyLimit = 10;
-             
-
-                var whitelist = profile.SocialProfile_Instagram_TargetingInformation.WhistListManualUsers;
-                var whilelistArray = new List<string>();
-                if (!string.IsNullOrEmpty(whitelist))
-                    whilelistArray = whitelist.Split(',').Select(uname => uname.Trim()).ToList();
-
-
-                //var executionintervals = JsonConvert.DeserializeObject<List<ExecutionInterval>>(manifest.TargetInformation.ExecutionIntervals);
-                //; ExecutionInterval
-                manifest.FollowersToUnFollow = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(profile.SocialProfile_FollowedAccounts.Where(g=> !whilelistArray.Contains(g.FollowedSocialUsername)).Where(g => g.StatusId == 1 && g.FollowedDateTime < unfollowCutOffDate && g.FollowedDateTime >= unfollowCutOffMaxDate).ToList());  //Convert.ToInt32(executionintervals[0].UnFoll16DaysEngage)
-
-                manifest.AllFollowedAccounts = mapper3.Map<List<MobileSocialProfile_FollowedAccounts>>(_customerManager.GetAllFollowedAccounts(model.SocialProfileId));
-
-                manifest.Profile.StatsFollowersIncrease = stats.FollowersTotal.Value - stats.FollowersInitial.Value;
-                manifest.Profile.StatsFollowingsIncrease = stats.FollowingsTotal.Value - stats.FollowingsInitial.Value;
-
-                var daysSinceRegistration = DateTime.Today - profile.SocialProfile.CreatedOn;
-                //  
-                ////manifest.TargetInformation.FollMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.FollDailyIncreaseLim.Value * daysSinceRegistration.Days) + profile.SocialProfile_Instagram_TargetingInformation.FollNewPerDayLim.Value - manifest.FollowList.Count;
-                ////if (manifest.TargetInformation.FollMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.FollMaxPerDayLim)
-                ////    manifest.TargetInformation.FollMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.FollMaxPerDayLim.Value;
-
-                ////manifest.TargetInformation.UnFollMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.UnFollDailyIncreaseLim.Value * daysSinceRegistration.Days) + profile.SocialProfile_Instagram_TargetingInformation.UnFollNewPerDayLim.Value;
-                ////if (manifest.TargetInformation.UnFollMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.UnFollMaxPerDayLim)
-                ////    manifest.TargetInformation.UnFollMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.UnFollMaxPerDayLim.Value;
-
-                ////manifest.TargetInformation.LikeMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.LikeDailyIncreaseLim.Value * daysSinceRegistration.Days )+ profile.SocialProfile_Instagram_TargetingInformation.LikePerDayLim.Value - manifest.LikeList.Count;
-                ////if (manifest.TargetInformation.LikeMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.LikeMaxPerDayLim)
-                ////    manifest.TargetInformation.LikeMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.LikeMaxPerDayLim.Value;
-
-                ////manifest.TargetInformation.ViewStoriesMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesDailyIncreaseLim.Value * daysSinceRegistration.Days )+ profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesPerDayLim.Value;
-                ////if (manifest.TargetInformation.ViewStoriesMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesMaxPerDayLim)
-                ////    manifest.TargetInformation.ViewStoriesMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.ViewStoriesMaxPerDayLim.Value;
-
-                ////manifest.TargetInformation.CommentMaxPerDayLim = (profile.SocialProfile_Instagram_TargetingInformation.CommentDailyIncreaseLim.Value * daysSinceRegistration.Days )+ profile.SocialProfile_Instagram_TargetingInformation.CommentPerDayLim.Value;
-                ////if (manifest.TargetInformation.CommentMaxPerDayLim > profile.SocialProfile_Instagram_TargetingInformation.CommentMaxPerDayLim)
-                ////    manifest.TargetInformation.CommentMaxPerDayLim = profile.SocialProfile_Instagram_TargetingInformation.CommentMaxPerDayLim.Value;
-
-              
-
-
-                manifest.Profile.Status = ((GeneralStatus)profile.SocialProfile.StatusId).ToString();
-
-                manifest.Profile.SocialProfileType = ((SocialMedia)profile.SocialProfile.SocialProfileTypeId).ToString();
-
-                var configs = SG2.CORE.WEB.Architecture.SystemConfig.GetConfigsLatest();
-                manifest.ActionsDelayRange = configs.First(x => x.ConfigKey == "ActionsDelayRange").ConfigValue;
-                manifest.HashLoadDelayRange = configs.First(x => x.ConfigKey == "HashLoadDelayRange").ConfigValue;
-                manifest.LocationLoadDelayRange = configs.First(x => x.ConfigKey == "LocationLoadDelayRange").ConfigValue;
-                manifest.StoryLoadDelayRange = configs.First(x => x.ConfigKey == "StoryLoadDelayRange").ConfigValue;
-                manifest.SuggestedUsersLoadDelayRange = configs.First(x => x.ConfigKey == "SuggestedUsersLoadDelayRange").ConfigValue;
-                manifest.UnFollowLoadDelayRange = configs.First(x => x.ConfigKey == "UnFollowLoadDelayRange").ConfigValue;
-                manifest.UserFollowLoadDelayRange = configs.First(x => x.ConfigKey == "UserFollowLoadDelayRange").ConfigValue;
-                manifest.WarmupConfig = configs.First(x => x.ConfigKey == "WarmupConfig").ConfigValue;
-                manifest.winappver = configs.First(x => x.ConfigKey == "winappver").ConfigValue;
-                manifest.macappver = configs.First(x => x.ConfigKey == "macappver").ConfigValue;
-                manifest.winapp = configs.First(x => x.ConfigKey == "winapp").ConfigValue;
-                manifest.macapp = configs.First(x => x.ConfigKey == "macapp").ConfigValue;
-
-                double offSet = this._customerManager.GetAppTimeZoneOffSet(model.SocialProfileId);
-                DateTime offSetDateTime = DateTime.UtcNow.AddHours(offSet).Date;
-                
-                DateTime Startdatetime =  offSetDateTime.AddDays(-1);
-                var Actions = this._customerManager.ReturnLastActions(model.SocialProfileId, 200);
-
-                manifest.Count_follow = Actions.Where(g => g.ActionID == 60 && g.ActionDateTime.Value >= Startdatetime).Count();
-                manifest.Count_like= Actions.Where(g => g.ActionID == 62 && g.ActionDateTime.Value >= Startdatetime).Count();
-                manifest.Count_message = Actions.Where(g => (g.ActionID == 90 || g.ActionID == 91) && g.ActionDateTime.Value >= Startdatetime).Count();
-                manifest.Count_unfollow = Actions.Where(g => g.ActionID == 61 && g.ActionDateTime.Value >= Startdatetime).Count();
-
-
-
-
-                return Ok(new
-                {
-                    MobileJsonRootObject = manifest
-                });
             }
-            else
+            catch (Exception e)
             {
-                return Content(HttpStatusCode.BadRequest, "Input params missing");
+
+                return Content(HttpStatusCode.BadRequest, "Error occurred" + e.ToString());
             }
-
-
         }
 
 
