@@ -39,7 +39,7 @@
         !function (f, b, e, v, n, t, s) {
             if (f.fbq) return; n = f.fbq = function () {
                 n.callMethod ?
-                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
             };
             if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
             n.queue = []; t = b.createElement(e); t.async = !0;
@@ -72,19 +72,19 @@
                     <div class="menu_area">
                         <nav class="navbar navbar-expand-lg navbar-light">
                             <!-- Logo -->
-                            <a class="navbar-brand" href="/">SaleFlows.</a>
+                            <a class="navbar-brand" href="/">Connect Wizz.</a>
                             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ca-navbar" aria-controls="ca-navbar" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                             <!-- Menu Area -->
                             <div class="collapse navbar-collapse" id="ca-navbar">
                                 <ul class="navbar-nav ml-auto" id="nav">
                                     <li class="nav-item"><a class="nav-link" href="~/faqs">FAQs</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="~/videos">Videos</a></li>
+                                    @*<li class="nav-item"><a class="nav-link" href="~/videos">Videos</a></li>*@
                                     <li class="nav-item"><a class="nav-link" href="~/download">Download</a></li>
                                     <li class="nav-item"><a class="nav-link" href="~/account/login">Login</a></li>
 
                                 </ul>
                                 <div class="sing-up-button d-lg-none">
-                                    <a href="/account/signup">Sign Up Free</a>
+                                    <a href="/account/signup">Get PIN Code</a>
                                 </div>
                             </div>
                         </nav>
@@ -93,7 +93,7 @@
                 <!-- Signup btn -->
                 <div class="col-12 col-lg-2">
                     <div class="sing-up-button d-none d-lg-block">
-                        <a href="/account/signup">Sign Up Free</a>
+                        <a href="/account/signup">Get PIN Code</a>
                     </div>
                 </div>
             </div>
@@ -116,75 +116,38 @@
 
                     <div class="col-lg-12 col-xl-12 ml-xl-auto">
                         <div class="special_description_content text-center">
-                            <h2 class="text-center">Download and Install App on your Laptop</h2>
+                            <h2 class="text-center">Download FREE App Today!</h2>
                             <p>
-                                Build your digital agency business with the latest integrated technology using machine learning and approved free Social Media API integration apps.
+                                And start growing your LinkedIn network
                             </p>
 
                             <div class="app-download-area d-flex justify-content-center mb-4">
 
 
-                                <div class="col-6 col-md-3">
-                                    <img style="width:100px;height:100px;" src="~/Content/Theme-CA/img/Windows-Logo.png" />
-                                    <div class="app-download-btn wow fadeInUp mt-4" data-wow-delay="0.2s">
-
-                                        <a href="@ViewBag.winapp">
-                                            <i class="fa fa-windows"></i>
-                                            <p class="mb-0"><span>Download for</span> Windows</p>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-3 offset-md-1 col-md-offset-1">
-                                    <img style="width:200px;" src="~/Content/Theme-CA/img/agency-app.png" />
-                                    <div class="app-download-btn wow fadeInDown mt-4" data-wow-delay="0.4s">
-
-                                        <a href="#">
-                                            <i class="fa fa-apple"></i>
-                                            <p class="mb-0"><span>Coming soon</span> January '21</p>
-                                        </a>
-                                    </div>
-                                </div>
-
-
-
-
-
-                            </div>
-                            <div class="special_description_content text-center">
-                                <h2 class="text-center">Get Started Steps</h2>
-
-
-                                <div class="row app-download-area d-flex justify-content-center mb-3">
-
-
-                                    <div class=" col-md-6 col-sm-12">
-                                        <img class="img-fluid" src="~/Content/Images/step1.png" />
-
-                                    </div>
-                                    <div class="col-md-6 col-sm-12">
-                                        <img class="img-fluid" src="~/Content/Images/step2.png" />
-
-                                    </div>
-
-
-
-
+                                <div class="col-6 col-md-5">
+                                    <a href="http://connectwizz.net/connectwizz.apk">
+                                        <img style="" src="~/Content/Images/Android_App_Download_2x.png" />
+                                    </a>
 
                                 </div>
-                            </div>
-                            <div class="" style="display:none">
+                                <div class="col-6 col-md-5 offset-md-1 col-md-offset-1 text-left pt-4 mt-4">
+                                    <h3>Android App Download</h3>
+                                    <ul>
+                                        <li>• Safe & trusted App by +700 Influencers</li>
+
+                                        <li>• Download on a spare Android if you're not sure</li>
+
+                                        <li>• Phone settings: Allow apps from untrusted sources</li>
+
+                                        <li>• Link to a primary or temporary LinkedIn account</li>
+
+                                        <li>• See new connections & leads everyday on LinkedIn</li>
+
+                                        <li>• iPhone App coming soon</li>
+                                    </ul>
+                                    <a href="http://connectwizz.net/connectwizz.apk">Download Android App</a>
 
 
-
-                                <div class="col-6 col-md-3 ">
-                                    <img style="width:100px;height:100px;" src="~/Content/Theme-CA/img/mac-logo.png" />
-                                    <div class="app-download-btn wow fadeInDown mt-4" data-wow-delay="0.4s">
-
-                                        <a href="@ViewBag.macapp">
-                                            <i class="fa fa-apple"></i>
-                                            <p class="mb-0"><span>Download for</span> MacOS</p>
-                                        </a>
-                                    </div>
                                 </div>
 
 
@@ -192,54 +155,135 @@
 
 
                             </div>
+
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    <!-- ***** CTA Area Start ***** -->
+    <section class="our-monthly-membership section_padding_50 clearfix">
+        <div class="container">
+            <div class="row align-items-center text-center">
+                <div class="col-md-12">
+                    <div class="membership-description">
+                        <h2>Still not sure ?</h2>
+                        <p>Create a temporary LinkedIn account, install the app on any android phone and evaluate the app. See the connections & leads drop in effortlessly.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ***** CTA Area End ***** -->
+
+    <section class="special-area bg-white ">
+        <!-- Special Description Area -->
+        <div class="special_description_area pt-150 bg-white ">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-12 col-xl-12 ml-xl-auto">
+                        <div class="special_description_content text-center">
+                           
+
+                            <div class="app-download-area d-flex justify-content-center mb-4">
 
 
 
+                                <div class="col-6 col-md-5  text-left pt-4 mt-4">
+                                    <h3>iPhone App coming soon</h3>
+                                    <p>
+                                        In the meantime...
+                                        <br />
+                                        Why not beg, borrow or steal an android phone from a friend and see how our app safely delivers you new connections & leads everyday on auto-pilot.
+                                        <br />
+                                        
+                                    </p>
+                                    <a href="http://connectwizz.net/connectwizz.apk">Download the Android APP today</a>
+
+
+                                </div>
+                                <div class="col-6 col-md-5 offset-md-1 col-md-offset-1">
+                                    <a href="http://connectwizz.net/connectwizz.apk">
+                                        <img style="" src="~/Content/Images/Downlaod_iOS_App_2x.png" />
+                                    </a>
+
+                                </div>
+
+
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- ***** Footer Area Start ***** -->
-    <footer class="footer-social-icon text-center section_padding_70 clearfix">
-        <!-- footer logo -->
-        <div class="footer-text">
-            <h2>SaleFlows</h2>
+    <section class="footer-contact-area section_padding_100 clearfix" id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- Heading Text  -->
+                    <div class="section-heading">
+                        <h2>Get in touch with us!</h2>
+                        <div class="line-shape"></div>
+                    </div>
+                    <div class="footer-text">
+                        <p>We’ll send you epic weekly newsletters, tips and things to make your growth thrive on all social media platforms and channels, all FREE!</p>
+                    </div>
+                    <div class="address-text">
+                        <p></p>
+                    </div>
+                    <div class="email-text">
+                        <p></p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <!-- Form Start-->
+                    <div class="contact_from">
+                        <form action="#" method="post">
+                            <!-- Message Input Area Start -->
+                            <div class="contact_input_area">
+                                <div class="row">
+                                    <!-- Single Input Area Start -->
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="name" id="name" placeholder="Your Name" required>
+                                        </div>
+                                    </div>
+                                    <!-- Single Input Area Start -->
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <input type="email" class="form-control" name="email" id="email" placeholder="Your E-mail" required>
+                                        </div>
+                                    </div>
+                                    <!-- Single Input Area Start -->
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <textarea name="message" class="form-control" id="message" cols="30" rows="4" placeholder="Your Message *" required></textarea>
+                                        </div>
+                                    </div>
+                                    <!-- Single Input Area Start -->
+                                    <div class="col-12">
+                                        <button type="submit" class="btn submit-btn">Send Now</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Message Input Area End -->
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- social icon-->
-        <div class="footer-social-icon">
-            @*<a href="https://www.facebook.com/Social-Planner-Pro-101614715056409/?ref=bookmarks"><i class="fa fa-facebook" aria-hidden="true"></i></a>*@
-
-            <a href="https://www.instagram.com/pickytee_social_pro/"> <i class="fa fa-instagram" aria-hidden="true"></i></a>
-
-            <a href="https://www.youtube.com/channel/UCeOd1a_9B1quA5c_JEFMX-g"> <i class="fa fa-youtube" aria-hidden="true"></i></a>
-
-            @*<a href="https://www.linkedin.com/company/social-planner-pro"> <i class="fa fa-linkedin" aria-hidden="true"></i></a>*@
-        </div>
-        </div>
-        <div class="footer-menu">
-            <nav>
-                <ul>
-                    <li><a href="/faqs">Business</a></li>
-                    <li><a href="/how-it-works">How it Works</a></li>
-                    <li><a href="/faqs">FAQs</a></li>
-                    <li><a href="/pages/TermsConditions">Terms &amp; Conditions</a></li>
-                    <li><a href="/pages/PrivacyPolicy">Privacy Policy</a></li>
-                    <li><a href="/pages/CookiesPolicy">Cookies Policy</a></li>
-                    <li><a href="/download">Download</a></li>
-                    <li><a href="/videos">Videos</a></li>
-                    <li><a href="/index#contact">Contact</a></li>
-
-                </ul>
-            </nav>
-        </div>
-        <!-- Foooter Text-->
-        <div class="copyright-text">
-            <!-- ***** Removing this text is now allowed! This template is licensed under CC BY 3.0 ***** -->
-            <p>Copyright ©2020 SaleFlows</p>
-        </div>
-    </footer>
+    </section>
     <!-- ***** Footer Area Start ***** -->
     <!-- Jquery-2.2.4 JS -->
 
@@ -304,7 +348,7 @@
                 dataType: "json",
                 success: function (data, status, jqXHR) {
 
-                    swal("Success!", "Thank you for contacting us. SaleFlows will get back to you on the specified email!", "success")
+                    swal("Success!", "Thank you for contacting us. Connect Wizz will get back to you on the specified email!", "success")
                 },
 
                 error: function (jqXHR, status) {
