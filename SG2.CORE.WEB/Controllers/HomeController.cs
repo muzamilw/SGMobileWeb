@@ -38,6 +38,8 @@ namespace SG2.CORE.WEB.Controllers
 
         public ActionResult Index()
         {
+            return this.RedirectToActionPermanent("signup", "account");
+
             var indexVM = new IndexViewModel();
             indexVM.SignupWizardViewModel = new SignupWizardViewModel();
             //indexVM.SignupWizardViewModel.Cities = CommonManager.GetCityAndCountryData(null);
@@ -575,6 +577,7 @@ namespace SG2.CORE.WEB.Controllers
 
         public ActionResult Download()
         {
+            return this.RedirectToActionPermanent("signup", "account");
             ViewBag.winapp = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("winapp").ToLower()).ConfigValue;
             ViewBag.macapp = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("macapp").ToLower()).ConfigValue;
             return View();
