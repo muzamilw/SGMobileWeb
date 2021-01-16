@@ -1,0 +1,50 @@
+﻿@using SG2.CORE.MODAL;
+@using SG2.CORE.MODAL.DTO.Customers;
+<div class="card p-4 rounded-plus bg-faded">
+
+
+    <div class="text-center">
+        <img src="~/Content/Images/wizz_logo.png" class="text-center" style="width:80px;" />
+    </div>
+
+
+    <div class="form-group row pt-4 text-center">
+        <label class="col-xl-12 form-label mt-4" for="fname">You're on the Afilliate plan</label>
+        <p class="p-4 text-center" style="color:gray">
+            Here's your 10 unique Username and PIN Code. Use the tag field to help identify which device is using which PIN Code
+        </p>
+        <p class="p-1 text-center w-100" style="color:gray;font-size:12px;">
+           We recommend you run NO more than THREE accounts on the same device.
+        </p>    
+
+
+        @foreach (CustomerSocialProfileDTO item in ViewBag.profiles)
+        {
+
+    <div class="border rounded d-block w-100 m-4 " style="background-color:lightgray">
+
+
+
+        <p class="p-1 col col-12" style="color:gray">
+            Username
+        </p>
+        <label class="col-xl-12 form-label" style="font-size:25px;" for="fname">@item.SocialUsername</label>
+        <p class="p-1 col col-12" style="color:gray">
+            PIN Code
+        </p>
+
+
+        <label class="col-xl-12 form-label" style="font-size:25px;" for="fname"> @item.PinCode </label>
+
+        <label class="col-xl-12 rounded border bg-light w-50" style="font-size:20px; " for="fname"> @item.DeviceName </label>
+    </div>
+        }
+    </div>
+
+    <div class="row no-gutters">
+        <div class="col-md-12  mx-auto text-center justify-content-center" ">
+            <button id="btnDeleteSubscription" class="btn btn-block btn-default btn-lg mt-3 ">Cancel & Delete my Plan forever</button>
+        </div>
+    </div>
+
+</div>

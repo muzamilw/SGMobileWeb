@@ -2,23 +2,28 @@
 
 
     <div class="text-center">
-        <img src="~/Content/Theme-CA/img/LinkedIn_2x.png" class="text-center" style="width:150px;" />
+        <img src="~/Content/Images/wizz_logo.png" class="text-center" style="width:80px;" />
     </div>
 
 
     <div class="form-group row pt-4 text-center">
-        <label class="col-xl-12 form-label mt-4" for="fname">You're on the PRO Plan</label>
-        <p class="p-4 text-center" style="color:gray">
+        <label class="col-xl-12 form-label mt-4" for="fname">You're on the 40-a-day Plan</label>
+        <p class="p-2 text-center mb-2" style="color:gray">
             Here's your unique Username and PIN Code for the ConnectWizz APP
         </p>
-        <p class="p-4 col col-12" style="color:gray">
-            Username
-        </p>
-        <label class="col-xl-12 form-label mt-1" style="font-size:25px;" for="fname">@Model.SocialProfile.SocialUsername</label>
-        <p class="p-4 col col-12" style="color:gray">
-            PIN Code
-        </p>
-        <label class="col-xl-12 form-label mt-1" style="font-size:25px;" for="fname">@Model.SocialProfile.PinCode</label>
+        <div class="border rounded d-block w-100 p-2  " style="background-color:lightgray">
+            <p class="col col-12" style="color:gray">
+                Username
+            </p>
+            <label class="col-xl-12 form-label " style="font-size:25px;" for="fname">@Model.SocialProfile.SocialUsername</label>
+            <p class="col col-12" style="color:gray">
+                PIN Code
+            </p>
+            <label class="col-xl-12 form-label" style="font-size:25px;" for="fname">@Model.SocialProfile.PinCode</label>
+        </div>
+        <div class="col-md-12 mx-auto text-center justify-content-center">
+            <button class="btn btn-block btn-danger btn-lg mt-3 ActivateAfilliate" style="background:#039cd6;border-color:#039cd6;box-shadow: 0 2px 6px 0 rgba(93, 156, 212,0.5);" data-planId="5" data-planname="Afilliate Plan" data-planprice="199">Upgrade to afilliate plan - Grow 10 accounts for $199/pm</button>
+        </div>
     </div>
 
     <div class="row no-gutters">

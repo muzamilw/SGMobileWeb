@@ -31,5 +31,9 @@ namespace SG2.CORE.MODAL.DTO.Customers
 
         public string AppConnStatus { get; set; }
 
+        public string PinCode { get; set; }
+
+        public string DeviceName { get; set; }
+
     }
 }

@@ -65,14 +65,14 @@ namespace SG2.CORE.WEB.Controllers
             ViewBag.stripeApiKey = _stripeApiKey;
             ViewBag.stripePublishKey = _stripePublishKey;
             ViewBag.profileCount = profiles.Count;
-            if (Cust.IsBroker.HasValue == false || Cust.IsBroker.Value == false )
-            {
+            /*if (Cust.IsBroker.HasValue == false || Cust.IsBroker.Value == false )
+            {*/
                
-                if (profiles.Count == 1)
-                {
+                //if (profiles.Count == 1)
+                //{
                     return RedirectToAction("basic", "Profile", new { socialProfileId = profiles[0].SocialProfileId });
-                }
-            }
+                //}
+            //}
 
             return View(model);
         }

@@ -539,28 +539,30 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                     </small>
                                 </h2>
                             </div>
-                            <form id="js-login" novalidate="" action="">
+                            <form id="js-login" novalidate="" action="" class="w-100">
                                 <div class="col-xl-6 ml-auto mr-auto ">
 
 
 
-                                    @if (Model.SocialProfile.PaymentPlanId == null || Model.SocialProfile.PaymentPlanId.Value == 1)
+                                    @if ((Model.SocialProfile.PaymentPlanId == null || Model.SocialProfile.PaymentPlanId.Value == 1) && (customer.IsBroker ?? false) == false)
                                     {
                                         @Html.Partial("Partial/payment", Model)
                                     }
 
-                                    else
+                                    else if ((customer.IsBroker ?? false) == false && Model.SocialProfile.PaymentPlanId != 1)
                                     {
                                         @Html.Partial("Partial/viewinfo", Model)
+                                    }
+                                    else if ((customer.IsBroker ?? false) == true )
+                                    {
+                                        @Html.Partial("Partial/viewinfoAfilliate", Model)
                                     }
 
                                 </div>
                             </form>
                         </div>
                     </div>
-                    <div class="position-absolute pos-bottom pos-left pos-right p-3 text-center text-white">
-                        2021 © Connect Wizz
-                    </div>
+                    <div class="position-absolute pos-bottom pos-left pos-right p-3 text-center text-white">2021 © Connect Wizz</div>
                 </div>
             </div>
         </div>
@@ -732,6 +734,35 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                 });
 
 
+              });
+
+            $(".btn_ConfirmDelete").on("click", function () {
+
+                if ($("#deleteConfirmation").val() != "DELETE ME") {
+                    var options = {};
+                    $("#deleteConfirmation").effect("bounce", options, 500, null);
+                    return false;
+                }
+                fetch('/profile/Confirmdelete', {
+                            method: 'post',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                socialProfileId: socialProfileId
+                            })
+                        })
+                            .then(subscription => {
+                                //handleSubscription(subscription);.
+                                $("#Modal_ConfirmDeletion").modal("hide");
+                                Swal.close();
+                                Swal.fire("Success!", "Your subscription has been deleted successfully", "success")
+                                    .then(function () {
+                                        window.location = "/";
+                                    });
+                            });
+
+
             });
 
             function UpdateData(pk, value) {
@@ -755,6 +786,30 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
 
 
             $(".ActivateTrial").on("click", function () {
+                $(".selectedPlanName").text($(this).attr("data-planname") + " $" + $(this).attr("data-planprice") + " /pm");
+
+
+                $("#selectedPlanId").val($(this).attr("data-planId"));
+
+                selectedPlanName = $(".selectedPlanName").text();
+                selectedPlanprice = $(".selectedPlanPrice").text();
+
+                $(".selectedPlanPrice").text(" $" + $(this).attr("data-planprice") + " per month");
+                $("#cmessage").multiline('Your subscription has been updated');
+                $("#successbtn").text('Continue')
+
+
+
+
+
+
+
+                $("#planSubscriptionModal").modal("show");
+                return false;
+            });
+
+
+            $(".ActivateAfilliate").on("click", function () {
                 $(".selectedPlanName").text($(this).attr("data-planname") + " $" + $(this).attr("data-planprice") + " /pm");
 
 
@@ -1135,7 +1190,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
 
         });
     </script>
-    <script src="//code.tidio.co/vs2afulzirphvfvcttbry1xhkgstiimk.js" async></script>
+    
 
 </body>
 <!-- END Body -->

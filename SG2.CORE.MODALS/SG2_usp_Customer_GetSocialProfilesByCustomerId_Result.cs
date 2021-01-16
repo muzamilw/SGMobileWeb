@@ -31,5 +31,7 @@ namespace SG2.CORE.MODAL
         public Nullable<bool> AfterFollLikeuserPosts { get; set; }
         public Nullable<bool> AfterFollViewUserStory { get; set; }
         public string AppConnStatus { get; set; }
+        public string PinCode { get; set; }
+        public string DeviceBinLocation { get; set; }
     }
 }

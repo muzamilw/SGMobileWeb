@@ -1430,6 +1430,8 @@ warning 6002: The table/view 'SocialPlannerPro.dbo.vwRunNotificationsData' does 
           <Property Type="Boolean" Name="AfterFollLikeuserPosts" Nullable="true" />
           <Property Type="Boolean" Name="AfterFollViewUserStory" Nullable="true" />
           <Property Type="String" Name="AppConnStatus" Nullable="false" MaxLength="7" />
+          <Property Type="String" Name="PinCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="DeviceBinLocation" Nullable="true" MaxLength="500" />
         </ComplexType>
         <ComplexType Name="SG2_usp_LikeyAccount_GetAll_Result">
           <Property Type="Int32" Name="LikeyAccountId" Nullable="false" />
@@ -2735,6 +2737,8 @@ warning 6002: The table/view 'SocialPlannerPro.dbo.vwRunNotificationsData' does 
                 <ScalarProperty Name="AfterFollLikeuserPosts" ColumnName="AfterFollLikeuserPosts" />
                 <ScalarProperty Name="AfterFollViewUserStory" ColumnName="AfterFollViewUserStory" />
                 <ScalarProperty Name="AppConnStatus" ColumnName="AppConnStatus" />
+                <ScalarProperty Name="PinCode" ColumnName="PinCode" />
+                <ScalarProperty Name="DeviceBinLocation" ColumnName="DeviceBinLocation" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

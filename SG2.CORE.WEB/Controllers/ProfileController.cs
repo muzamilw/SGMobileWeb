@@ -92,6 +92,11 @@ namespace SG2.CORE.WEB.Controllers
 
         public ActionResult Basic(int socialProfileId, int? success)
         {
+
+
+            return RedirectToAction("startin", "Profile", new { socialProfileId = socialProfileId });
+
+
             ViewBag.CurrentUser = this.CDT;
             ViewBag.socialProfileId = socialProfileId;
             var SocailProfile = this._cm.GetSocialProfileById(socialProfileId);
@@ -303,6 +308,10 @@ namespace SG2.CORE.WEB.Controllers
             //ViewBag.ProfileCount = this._customerManager.GetSocialProfilesByCustomerid(this.CDT.CustomerId, model).Count();
 
             ViewBag.Customer = customer;
+            if (customer.IsBroker.HasValue && customer.IsBroker.Value == true)
+            {
+                ViewBag.profiles = _cm.GetSocialProfilesByCustomerid(customer.CustomerId, new ProfilesSearchRequest() { Block = 0, Plan= 0, searchString = "", SocialType = 0 });
+            }
 
             var _stripeApiKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue;
             var _stripePublishKey = SystemConfigs.First(x => x.ConfigKey == "Stripe").ConfigValue2;
@@ -595,9 +604,9 @@ namespace SG2.CORE.WEB.Controllers
                 var subscriptionService = new SubscriptionService();
                 Subscription stripeSubscription = null;
 
-                if (!string.IsNullOrWhiteSpace( socialProfile.SocialProfile.StripeCustomerId))
+                if (!string.IsNullOrWhiteSpace(socialProfile.SocialProfile.StripeCustomerId))
                 {
-                    if (!String.IsNullOrWhiteSpace( socialProfile.SocialProfile.StripeSubscriptionId))
+                    if (!String.IsNullOrWhiteSpace(socialProfile.SocialProfile.StripeSubscriptionId))
                     {
                         //if (model.paymentmethod != null)
                         //{
@@ -649,7 +658,11 @@ namespace SG2.CORE.WEB.Controllers
                         stripeSubscription = subscriptionService.Create(stripeSubscriptionCreateoptions);
                     }
 
-                    _cm.UpdateSocialProfileStripeCustomer(model.socialProfileId, socialProfile.SocialProfile.StripeCustomerId, stripeSubscription.Id, newPlan.PlanId);
+                    //_cm.UpdateSocialProfileStripeCustomer(model.socialProfileId, socialProfile.SocialProfile.StripeCustomerId, stripeSubscription.Id, newPlan.PlanId);
+                    if (newPlan.PlanId == 8)
+                        _cm.UpdateSocialProfileStripeCustomer(model.socialProfileId, socialProfile.SocialProfile.StripeCustomerId, stripeSubscription.Id, newPlan.PlanId);
+                    else if (newPlan.PlanId == 5)
+                        _cm.UpdateCustomerStripeCustomer(model.customerid, socialProfile.SocialProfile.StripeCustomerId, stripeSubscription.Id, newPlan.PlanId);
 
                 }
                 ////////////////// new scenario
@@ -697,7 +710,10 @@ namespace SG2.CORE.WEB.Controllers
                     stripeSubscription = subscriptionService.Create(stripeSubscriptionCreateOptions);
 
                     //-- Update customer stripe id async call not to wait.
-                    _cm.UpdateSocialProfileStripeCustomer(model.socialProfileId, stripeCustomer.Id, stripeSubscription.Id, newPlan.PlanId);
+                    if (newPlan.PlanId == 8)
+                        _cm.UpdateSocialProfileStripeCustomer(model.socialProfileId, stripeCustomer.Id, stripeSubscription.Id, newPlan.PlanId);
+                    else if (newPlan.PlanId == 5)
+                        _cm.UpdateCustomerStripeCustomer(model.customerid, stripeCustomer.Id, stripeSubscription.Id, newPlan.PlanId);
 
                     _sessionManager.Set(SessionConstants.profileTrialActive, true);
                     _sessionManager.Set(SessionConstants.profileId, model.socialProfileId);
@@ -709,8 +725,6 @@ namespace SG2.CORE.WEB.Controllers
                 if (stripeSubscription != null)
                 {
 
-
-
                     PlanService service = new PlanService();
                     //-- Subscription Description
                     if (stripeSubscription.Plan == null)
@@ -718,6 +732,7 @@ namespace SG2.CORE.WEB.Controllers
                         var selectedPlan = service.Get(this.CDT.StripePlanId);
                         stripeSubscription.Plan = selectedPlan;
                     }
+
 
                     SocialProfile_PaymentsDTO paymentRec = new SocialProfile_PaymentsDTO
                     {
@@ -738,74 +753,16 @@ namespace SG2.CORE.WEB.Controllers
                         PaymentDateTime = DateTime.Now
                     };
 
-                    _cm.InsertSocialProfilePayment(paymentRec);
 
-
-                    //updating the profile's flag to true after upgrade/purchase
-                    try
+                    if (newPlan.PlanId == 5)
                     {
-                        if (newPlan.PlanId != 1)
-                        {
-                            socialProfile.SocialProfile_Instagram_TargetingInformation.FollowOn = true;
-                            socialProfile.SocialProfile_Instagram_TargetingInformation.UnFollowOn = true;
-                            socialProfile.SocialProfile_Instagram_TargetingInformation.AfterFollLikeuserPosts = true;
-                            socialProfile.SocialProfile_Instagram_TargetingInformation.AfterFollViewUserStory = true;
-                            socialProfile.SocialProfile_Instagram_TargetingInformation.UnFollFollowersAfterMinDays = true;
-
-                            _cm.UpdateTargetProfile(socialProfile, true);
-
-                        }
+                        _customerManager.InsertCustomerPayment(paymentRec);
                     }
-                    catch (Exception e)
+                    else if (newPlan.PlanId == 8)
                     {
+                        _cm.InsertSocialProfilePayment(paymentRec);
 
-                        throw;
                     }
-
-
-                    var nt = new NotificationDTO()
-                    {
-                        Notification = string.Format(NotificationMessages[(int)NotificationMessagesIndexes.PlanSubscribe], stripeSubscription.Plan.Nickname),
-                        CreatedBy = model.socialProfileId.ToString(),
-                        CreatedOn = System.DateTime.Now,
-                        Updatedby = model.socialProfileId.ToString(),
-                        UpdateOn = DateTime.Now,
-                        SocialProfileId = model.socialProfileId,
-                        StatusId = (int)GeneralStatus.Unread,
-                        Mode = severMode
-                    };
-                    _notManager.AddNotification(nt);
-
-
-                    //--TODO: Update Klaviyo Web API Key
-                    //var _klaviyoPublishKey = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klaviyo").ToLower()).ConfigValue;
-                    //var Klavio_FreeCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_FreeCustomers").ToLower()).ConfigValue;
-                    //var Klavio_PayingCustomers = SystemConfigs.First(x => x.ConfigKey.ToLower() == ("Klavio_PayingCustomers").ToLower()).ConfigValue;
-
-                    //klaviyoProfile.email = this.CDT.EmailAddress;
-
-                    //if (newPlan.PlanId != 1)  //upgrading hence remove.
-                    //    klaviyoAPI.Klaviyo_DeleteFromList(this.CDT.EmailAddress, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_FreeCustomers);
-                    //else
-                    //    klaviyoAPI.Klaviyo_AddtoList(klaviyoProfile, "https://a.klaviyo.com/api/v2/list", _klaviyoPublishKey, Klavio_FreeCustomers);
-
-                    //List<NotRequiredProperty> list = new List<NotRequiredProperty>()  {
-                    //    new NotRequiredProperty("$email", this.CDT.EmailAddress),
-                    //    new NotRequiredProperty("$first_name ", this.CDT.FirstName),
-                    //    new NotRequiredProperty("$last_name ", this.CDT.SurName),
-                    //    //new NotRequiredProperty("URL", URL),
-                    //    new NotRequiredProperty("InvoiceDate",paymentRec.StartDate.ToString("dd MMMM yyyy") ),
-                    //    new NotRequiredProperty("PlanName", paymentRec.Name),
-                    //    new NotRequiredProperty("Price",  "$" + paymentRec.Price/100),
-                    //    new NotRequiredProperty("Card", ""),
-                    //    new NotRequiredProperty("Address","")
-                    //};
-
-
-
-
-                    //klaviyoAPI.PeopleAPI(list, _klaviyoPublishKey);
-                    //KlaviyoEvent ev = new KlaviyoEvent();
 
                     if (newPlan.PlanId != 1)
                     {
@@ -834,7 +791,7 @@ namespace SG2.CORE.WEB.Controllers
                             {"email", this.CDT.EmailAddress},
                             {"igusername", socialProfile.SocialProfile.SocialUsername}
                         };
-                        BAL.Managers.EmailManager.SendEmail("info@socialplannerpro.com,muzamilw@hotmail.com,  omar.c@me.com, haaris@socialplannerpro.com,haarischaudhry@hotmail.co.uk", "SPP Team", EmailManager.EmailType.CreditCardEntered, dynamicTemplateData1);
+                        BAL.Managers.EmailManager.SendEmail("info@socialplannerpro.com,muzamilw@hotmail.com,  omar.c@me.com, haaris@socialplannerpro.com,haarischaudhry@hotmail.co.uk", "Wizz Team", EmailManager.EmailType.CreditCardEntered, dynamicTemplateData1);
 
                     }
                     else
@@ -843,12 +800,7 @@ namespace SG2.CORE.WEB.Controllers
                         //ev.Event = "Plan Downgrade";
                     }
 
-                    //ev.Properties.NotRequiredProperties = list;
-                    //ev.CustomerProperties.Email = this.CDT.EmailAddress;
-                    //ev.CustomerProperties.FirstName = this.CDT.FirstName;
-                    //ev.CustomerProperties.LastName = this.CDT.SurName;
 
-                    //klaviyoAPI.EventAPI(ev, _klaviyoPublishKey);
 
                     var dynamicTemplateData = new Dictionary<string, string>
                 {
@@ -858,7 +810,7 @@ namespace SG2.CORE.WEB.Controllers
                     {"error", stripeSubscription.ToJson()},
                     {"socialprofileid", model.socialProfileId.ToString() },
                 };
-                    BAL.Managers.EmailManager.SendEmail("info@socialplannerpro.com", "Social Planner Pro", EmailManager.EmailType.info, dynamicTemplateData);
+                    BAL.Managers.EmailManager.SendEmail("info@socialplannerpro.com", "Wizz", EmailManager.EmailType.info, dynamicTemplateData);
 
 
                     return this.Content(stripeSubscription.ToJson(), "application/json");
@@ -867,7 +819,7 @@ namespace SG2.CORE.WEB.Controllers
                 }
                 else
                 {
-                        var dynamicTemplateData = new Dictionary<string, string>
+                    var dynamicTemplateData = new Dictionary<string, string>
                     {
                         {"name",this.CDT.FirstName},
                         {"email", this.CDT.EmailAddress},
@@ -875,11 +827,11 @@ namespace SG2.CORE.WEB.Controllers
                         {"error", "subscription error, object not found"},
                         {"socialprofileid", model.socialProfileId.ToString() },
                     };
-                    BAL.Managers.EmailManager.SendEmail("info@socialplannerpro.com", "Social Planner Pro", EmailManager.EmailType.error, dynamicTemplateData);
+                    BAL.Managers.EmailManager.SendEmail("info@socialplannerpro.com", "Wizz", EmailManager.EmailType.error, dynamicTemplateData);
                     //return this.Content("subscription error, object not found.");
                     return this.Content("{'StripeMessage': 'subscription error, object not found'}");
                 }
-              
+
 
             }
             catch (StripeException e)
@@ -900,7 +852,7 @@ namespace SG2.CORE.WEB.Controllers
                     case "card_error":
                         Console.WriteLine("Code: " + e.StripeError.Code);
                         Console.WriteLine("Message: " + e.StripeError.Message);
-                        return this.Content(@"{""StripeMessage"": "" " +  e.StripeError.Message + " \" } ");
+                        return this.Content(@"{""StripeMessage"": "" " + e.StripeError.Message + " \" } ");
                         break;
                     case "api_connection_error":
                         return this.Content("{'StripeMessage': '" + e.StripeError.Message + "'}");
@@ -939,7 +891,7 @@ namespace SG2.CORE.WEB.Controllers
                 };
                 BAL.Managers.EmailManager.SendEmail("info@socialplannerpro.com", "Social Planner Pro", EmailManager.EmailType.error, dynamicTemplateData);
 
-                return this.Content("{'StripeMessage': '"+ ex.ToString()+"'}");
+                return this.Content("{'StripeMessage': '" + ex.ToString() + "'}");
             }
         }
 
@@ -1109,376 +1061,6 @@ namespace SG2.CORE.WEB.Controllers
 
 
 
-        //[HttpPost]
-        //public ActionResult SaveTargetPreferencesOnly(TargetPreferencesViewModel model)
-        //{
-        //    try
-        //    {
-        //        var jr = new JsonResult();
-        //        if (ModelState.IsValid)
-        //        {
-        //            CustomerTargetProfileDTO profileDTO = _cm.GetSocialProfilesById(model.SocialProfileId ?? 0);
-
-        //            if (!profileDTO.IsJVServerRunning)
-        //            {
-        //                severMode = "Manual";
-        //            }
-
-        //            var dl = _targetPreferenceManager.SaveTargetPreferences(new TargetPreferencesDTO()
-        //            {
-        //                Preference1 = model.Preference1,
-        //                Preference2 = model.Preference2,
-        //                Preference3 = model.Preference3,
-        //                Preference4 = model.Preference4,
-        //                Preference5 = model.Preference5,
-        //                Preference6 = model.Preference6,
-        //                Preference7 = model.Preference7,
-        //                Preference8 = model.Preference8,
-        //                Preference9 = model.Preference9,
-        //                Preference10 = model.Preference10,
-        //                SocialProfileId = model.SocialProfileId,
-        //                ProfileName = model.ProfileName,
-        //                CustomerId = this.CDT.CustomerId,
-        //                QueueStatusId = (Int16)GlobalEnums.QueueStatus.Pending,
-        //                SocialAccAs = model.SocialAccAS
-        //            });
-
-
-        //                var nt = new NotificationDTO()
-        //            {
-        //                Notification = NotificationMessages[(int)NotificationMessagesIndexes.UpdateTargetPreferences],
-        //                CreatedBy = profileDTO.SocialProfileId.ToString(),
-        //                CreatedOn = System.DateTime.Now,
-        //                Updatedby = profileDTO.SocialProfileId.ToString(),
-        //                UpdateOn = DateTime.Now,
-        //                SocialProfileId = profileDTO.SocialProfileId,
-        //                StatusId = (int)GeneralStatus.Unread,
-        //                Mode = severMode
-        //            };
-        //            _notManager.AddNotification(nt);
-
-
-        //            var JVListingData = _customerManager.SetSocialProfileArchive(model.SocialProfileId ?? 0, 0);
-        //            if (JVListingData == true)
-        //            {
-        //                var ntUnarchive = new NotificationDTO()
-        //                {
-        //                    Notification = NotificationMessages[(int)NotificationMessagesIndexes.UnarchiveFromTargetPreferences],
-        //                    CreatedBy = profileDTO.SocialProfileId.ToString(),
-        //                    CreatedOn = System.DateTime.Now,
-        //                    Updatedby = profileDTO.SocialProfileId.ToString(),
-        //                    UpdateOn = DateTime.Now,
-        //                    SocialProfileId = profileDTO.SocialProfileId,
-        //                    StatusId = (int)GeneralStatus.Unread,
-        //                    Mode = severMode
-        //                };
-        //                _notManager.AddNotification(ntUnarchive);
-
-        //            }
-
-        //            if (dl != null)
-        //            {
-        //                var SPId = dl.SocialProfileId;
-        //                jr.Data = new { ResultType = "Success", message = "Target Preferences Updated Successfully", SPId };
-        //            }
-        //            else
-        //            {
-        //                jr.Data = new { ResultType = "Error", message = "Error." };
-        //            }
-        //            return Json(jr, JsonRequestBehavior.AllowGet);
-        //            //--Queue Logic to update preferences to JV according to Plan/Subscription
-        //        }
-        //        return null;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-
-        //[HttpPost]
-        //public ActionResult SaveSocialProfileData(string InstaUser = "",
-        //                                            string InstaPassword = "",
-        //                                            int City = 0,
-        //                                            int Country = 0,
-        //                                            int? SocialProfileId = null,
-        //                                            string sessionId = "",
-        //                                            string action = "",
-        //                                            string verificationCode = "",
-        //                                            int invalidCredentialsAttempts = 0)
-        //{
-
-
-        //    var jr = new JsonResult();
-
-        //    try
-        //    {
-        //        int proxyNoOfAttemps = 0;
-        //        var _googleApiKey = SystemConfigs.First(x => x.ConfigKey == "GoogleMapApiKey").ConfigValue;
-
-        //    BadIP:
-        //        if (SocialProfileId != null && SocialProfileId > 0)
-        //        {
-        //            CustomerTargetProfileDTO profileDTO = _cm.GetSocialProfilesById(SocialProfileId ?? 0);
-        //            string rpcSessionId = (string)_sessionManager.Get(GlobalEnums.SessionConstants.JVRPCSESSIONID);
-        //            var prevInstaUser = profileDTO.SocialUsername;
-        //            var prevJVStatusId = profileDTO.JVStatusId;
-
-        //            if (!profileDTO.IsJVServerRunning)
-        //            {
-        //                severMode = "Manual";
-        //            }
-
-        //            #region Check if profile is block due attempts
-        //            if (
-        //                profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.ProxyAndInternetIssue
-        //                && profileDTO.JVAttemptsBlockedTill != null
-        //                && profileDTO.JVAttemptsBlockedTill >= DateTime.Now)
-        //            {
-        //                jr.Data = new
-        //                {
-        //                    ResultType = "Success",
-        //                    Message = "",
-        //                    ResultData = new { JVStaus = "ProxyAttemptLater24Hrs", JVRPCSessionId = rpcSessionId, JVStatusId = (int)GlobalEnums.JVStatus.ProxyAndInternetIssue }
-        //                };
-        //                return jr;
-        //            }
-        //            if (
-        //                (profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.InvalidCredentials
-        //                    || profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.InvalidCredentialReSend
-        //                )
-        //                && profileDTO.JVAttemptsBlockedTill != null
-        //                && profileDTO.JVAttemptsBlockedTill >= DateTime.Now)
-        //            {
-        //                jr.Data = new
-        //                {
-        //                    ResultType = "Success",
-        //                    Message = "",
-        //                    ResultData = new { JVStaus = "InvalidCredentailsAttemptLater24Hrs", JVRPCSessionId = rpcSessionId, JVStatusId = (int)GlobalEnums.JVStatus.ProxyAndInternetIssue }
-        //                };
-        //                return jr;
-        //            }
-        //            #endregion
-
-        //            if (proxyNoOfAttemps > 0)
-        //            {
-        //                _proxyManager.SaveBadProxyIP(profileDTO.ProxyId ?? 0, profileDTO.SocialProfileId);
-        //                profileDTO.ProxyIPNumber = null;
-        //            }
-
-        //            if (
-        //                    profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.ProfileNotSetup
-        //                    || profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.InvalidCredentials
-        //                    || profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.InvalidCredentialReSend
-        //                )
-        //            {
-        //                var User = _targetPreferenceManager.SaveSocialProfileData(InstaUser, InstaPassword, City, Country, SocialProfileId ?? 0, 0, verificationCode);
-        //                var nt = new NotificationDTO()
-        //                {
-        //                    Notification = NotificationMessages[(int)NotificationMessagesIndexes.UpdateSocailProfile],
-        //                    CreatedBy = profileDTO.SocialProfileId.ToString(),
-        //                    CreatedOn = DateTime.Now,
-        //                    Updatedby = profileDTO.SocialProfileId.ToString(),
-        //                    UpdateOn = DateTime.Now,
-        //                    SocialProfileId = profileDTO.SocialProfileId,
-        //                    StatusId = (int)GeneralStatus.Unread,
-        //                    Mode = severMode
-
-        //                };
-        //                _notManager.AddNotification(nt);
-        //            }
-
-        //            if (
-        //                    profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.EmailVerificationRequired
-        //                    || profileDTO.JVStatusId == (int)GlobalEnums.JVStatus.TwoFactor
-        //                )
-        //            {
-        //                var User = _targetPreferenceManager.SaveSocialProfileData("", "", 0, 0, SocialProfileId ?? 0, 0, verificationCode);
-        //                var nt = new NotificationDTO()
-        //                {
-        //                    Notification = string.Format(NotificationMessages[(int)NotificationMessagesIndexes.ProfileVerificationCode], verificationCode),
-        //                    CreatedBy = profileDTO.SocialProfileId.ToString(),
-        //                    CreatedOn = System.DateTime.Now,
-        //                    Updatedby = profileDTO.SocialProfileId.ToString(),
-        //                    UpdateOn = DateTime.Now,
-        //                    SocialProfileId = profileDTO.SocialProfileId,
-        //                    StatusId = (int)GeneralStatus.Unread,
-        //                    Mode = severMode
-
-        //                };
-        //                _notManager.AddNotification(nt);
-        //            }
-
-        //            #region Assing MPBox
-        //            if (profileDTO.JVboxId == null || profileDTO.JVboxId == 0)
-        //            {
-        //                 var jVBox = _cm.AssignJVBoxToCustomer(this.CDT.CustomerId, profileDTO.SocialProfileId);
-
-        //                 var jvBoxName = jVBox.BoxName;
-
-        //                if (!_jVBoxManager.JVBoxGetServerRunningStatus((int)jVBox.JVBoxId))
-        //                {
-        //                    severMode = "Manual";
-        //                }
-
-        //                var nt = new NotificationDTO()
-        //                {
-        //                    Notification = string.Format(NotificationMessages[(int)NotificationMessagesIndexes.MPBoxAssign], jvBoxName),
-        //                    CreatedBy = profileDTO.SocialProfileId.ToString(),
-        //                    CreatedOn = DateTime.Now,
-        //                    Updatedby = profileDTO.SocialProfileId.ToString(),
-        //                    UpdateOn = DateTime.Now,
-        //                    SocialProfileId = profileDTO.SocialProfileId,
-        //                    StatusId = (int)GeneralStatus.Unread,
-        //                    Mode = severMode
-        //                };
-        //                _notManager.AddNotification(nt);
-        //            }
-        //            #endregion
-
-        //            #region AssignIpAddress
-        //            if (string.IsNullOrEmpty(profileDTO.ProxyIPNumber))
-        //            {
-        //                if (City > 0)
-        //                {
-        //                    var city = CommonManager.GetCityAndCountryData(City).FirstOrDefault();
-        //                    if (city != null)
-        //                    {
-        //                        var proxyInfo = _commonManager.AssignedNearestProxyIP(this.CDT.CustomerId, city.CountyCityName.Replace(",", ""), SocialProfileId ?? 0, _googleApiKey);
-        //                        if (proxyInfo != null)
-        //                        {
-        //                            profileDTO.ProxyIPNumber = proxyInfo.ProxyIPNumber;
-        //                            profileDTO.ProxyPort = proxyInfo.ProxyPort;
-        //                            profileDTO.ProxyIPName = proxyInfo.ProxyIPName;
-
-        //                            var nt = new NotificationDTO()
-        //                            {
-        //                                Notification = string.Format(NotificationMessages[(int)NotificationMessagesIndexes.IPAssinged], proxyInfo.ProxyIPNumber, proxyInfo.ProxyPort),
-        //                                CreatedBy = profileDTO.SocialProfileId.ToString(),
-        //                                CreatedOn = System.DateTime.Now,
-        //                                Updatedby = profileDTO.SocialProfileId.ToString(),
-        //                                UpdateOn = DateTime.Now,
-        //                                SocialProfileId = profileDTO.SocialProfileId,
-        //                                StatusId = (int)GeneralStatus.Unread,
-        //                                Mode= severMode
-        //                            };
-        //                            _notManager.AddNotification(nt);
-
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //            #endregion
-
-        //            #region CheckingServerIsRunning
-
-        //            if (!profileDTO.IsJVServerRunning)
-        //            {
-        //                _cm.BlockProfile24Hrs(SocialProfileId ?? 0, proxyNoOfAttemps);
-        //                jr.Data = new
-        //                {
-        //                    ResultType = "Success",
-        //                    Message = "",
-        //                    ResultData = new
-        //                    {
-        //                        JVStaus = "ServerNotRunning",
-        //                        JVRPCSessionId = rpcSessionId,
-        //                        JVStatusId = (int)GlobalEnums.JVStatus.InvalidCredentials,
-        //                        InvalidCredentialsAttempts = invalidCredentialsAttempts + 1
-        //                    }
-        //                };
-        //                return jr;
-        //            }
-
-        //            #endregion
-
-        //            jr.Data = new
-        //            {
-        //                ResultType = "Success",
-        //                Message = "",
-        //                ResultData = new { JVStaus = "ProfileSaved" }
-        //            };
-        //            return jr;
-
-        //        }
-        //        else
-        //        {
-        //            jr.Data = new { ResultType = "Error", Message = "Social Profile not found. Please contact admin." };
-        //        }
-        //        return jr;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        jr.Data = new
-        //        {
-        //            ResultType = "Success",
-        //            Message = "Profile setup session expired. Please try again later after 30 mints.",
-        //            ResultData = new { JVStaus = "Exception", JVRPCSessionId = "", JVStatusId = "" }
-        //        };
-        //        return jr;
-        //    }
-
-        //}
-
-
-
-
-
-
-
-        //public ActionResult GetStats(int socialProfileId)
-        //{
-        //    var jr = new JsonResult();
-        //    try
-        //    {
-        //        StatisticsViewModel statisticsViewModel = _statisticsManager.GetStatistics(socialProfileId, DateTime.Now.AddDays(-15), DateTime.Now.AddDays(+5));
-        //        if (statisticsViewModel.StatisticsListing != null)
-        //        {
-        //            jr.Data = new
-        //            {
-        //                ResultType = "Success",
-        //                message = "",
-        //                ResultData = new
-        //                {
-        //                    Date = statisticsViewModel.StatisticsListing.Select(x => x.Date.ToString("dd/MM/yyyy")).ToArray(),
-        //                    FollowersData = statisticsViewModel.StatisticsListing.Select(x => x.Followers.ToString()).ToArray(),
-        //                    FollowersGainData = statisticsViewModel.StatisticsListing.Select(x => x.FollowersGain.ToString()).ToArray(),
-        //                    FollowingsData = statisticsViewModel.StatisticsListing.Select(x => x.Followings.ToString()).ToArray(),
-        //                    FollowingsRatioData = statisticsViewModel.StatisticsListing.Select(x => x.FollowingsRatio.ToString()).ToArray(),
-        //                    AVGFollowersData = statisticsViewModel.StatisticsListing.Select(x => x.AVGFollowers.ToString()).ToArray(),
-
-
-        //                    LikeData = statisticsViewModel.StatisticsListing.Select(x => x.Like.ToString()).ToArray(),
-        //                    CommentData = statisticsViewModel.StatisticsListing.Select(x => x.Comment.ToString()).ToArray(),
-        //                    LikeCommentData = statisticsViewModel.StatisticsListing.Select(x => x.LikeComments.ToString()).ToArray(),
-        //                    Engagement = statisticsViewModel.StatisticsListing.Select(x => x.Engagement.ToString()).ToArray(),
-
-
-        //                    TotalComment = statisticsViewModel.TotalComment.ToString(),
-        //                    TotalEngagement = statisticsViewModel.TotalEngagement.ToString(),
-        //                    TotalFollowers = statisticsViewModel.TotalFollowers.ToString(),
-        //                    TotalFollowersGain = statisticsViewModel.TotalFollowersGain.ToString(),
-        //                    TotalFollowings = statisticsViewModel.TotalFollowings.ToString(),
-        //                    TotalFollowingsRatio = statisticsViewModel.TotalFollowingsRatio.ToString(),
-        //                    TotalLike = statisticsViewModel.TotalLike.ToString(),
-        //                    TotalLikeComment = statisticsViewModel.TotalLikeComment.ToString()
-        //                }
-        //            };
-        //        }
-        //        else
-        //        {
-        //            jr.Data = new { ResultType = "Error", message = "" };
-        //        }
-
-        //    }
-        //    catch (Exception exp)
-        //    {
-        //        throw exp;
-        //    }
-
-        //    return Json(jr, JsonRequestBehavior.AllowGet);
-        //}
-
 
 
         [HttpPost]
@@ -1488,9 +1070,7 @@ namespace SG2.CORE.WEB.Controllers
             try
             {
 
-                KlaviyoAPI klaviyoAPI = new KlaviyoAPI();
-                KlaviyoProfile klaviyoProfile = new KlaviyoProfile();
-                KlaviyoEvent ev = new KlaviyoEvent();
+         
 
                 SocialProfileDTO profileDTO = _cm.GetSocialProfileById(SocialProfileId);
 
@@ -1498,8 +1078,10 @@ namespace SG2.CORE.WEB.Controllers
                 if (profileDTO != null)
                 {
 
-                    if (profileDTO.SocialProfile.StatusId != 18)
+                    try
                     {
+
+                    
                         if (!string.IsNullOrEmpty(profileDTO.SocialProfile.StripeSubscriptionId))
                         {
                             StripeConfiguration.SetApiKey(_stripeApiKey);
@@ -1510,19 +1092,6 @@ namespace SG2.CORE.WEB.Controllers
 
                             Task.Run(() =>
                             {
-
-                                var nt = new NotificationDTO()
-                                {
-                                    Notification = NotificationMessages[(int)NotificationMessagesIndexes.Unsubscribe],
-                                    CreatedBy = profileDTO.SocialProfile.SocialProfileId.ToString(),
-                                    CreatedOn = DateTime.Now,
-                                    Updatedby = profileDTO.SocialProfile.SocialProfileId.ToString(),
-                                    UpdateOn = DateTime.Now,
-                                    SocialProfileId = profileDTO.SocialProfile.SocialProfileId,
-                                    StatusId = (int)GeneralStatus.Unread,
-                                    Mode = severMode
-                                };
-                                _notManager.AddNotification(nt);
 
                                 var dynamicTemplateData = new Dictionary<string, string>
                                     {
@@ -1546,16 +1115,65 @@ namespace SG2.CORE.WEB.Controllers
                             jr.Data = new { ResultType = "Error", message = "No active subscription available." };
 
                         }
+                    }
+                    catch (Exception)
+                    {
 
+                        
+                    }
+
+                    try
+                    {
+
+                   
+
+                    if (!string.IsNullOrEmpty(profileDTO.socialcustomer.StripeSubscriptionId))
+                    {
+                        StripeConfiguration.SetApiKey(_stripeApiKey);
+                        var service = new SubscriptionService();
+                        var sub = service.Get(profileDTO.socialcustomer.StripeSubscriptionId);
+
+                        var subscription = service.Cancel(sub.Id, null);
+
+                        Task.Run(() =>
+                        {
+
+                            var dynamicTemplateData = new Dictionary<string, string>
+                                    {
+                                        {"name",this.CDT.FirstName},
+                                        {"email", this.CDT.EmailAddress},
+                                        {"senddate", DateTime.Today.ToLongDateString()},
+                                        {"planname", profileDTO.CurrentPaymentPlan.PlanName},
+                                         {"socialusername", "$" + profileDTO.SocialProfile.SocialUsername}
+
+
+                                    };
+                            BAL.Managers.EmailManager.SendEmail(this.CDT.EmailAddress, this.CDT.FirstName, EmailManager.EmailType.profileDeleted, dynamicTemplateData);
+
+
+                        });
+
+                        jr.Data = new { ResultType = "Success", message = "User has successfully Unsubscribe." };
                     }
                     else
                     {
                         jr.Data = new { ResultType = "Error", message = "No active subscription available." };
 
                     }
+
+                    }
+                    catch (Exception)
+                    {
+
+                        
+                    }
+
                 }
 
-                if ((profileDTO.socialcustomer.IsBroker ?? false) == false)
+                _customerManager.DeleteCustomer(this.CDT.CustomerId, 0);
+                jr.Data = new { ResultType = "Error", message = "User has successfully deleted." };
+
+                /*if ((profileDTO.socialcustomer.IsBroker ?? false) == false)
                 {
                     _customerManager.DeleteCustomer(this.CDT.CustomerId, SocialProfileId);
                 }
@@ -1567,7 +1185,7 @@ namespace SG2.CORE.WEB.Controllers
                             jr.Data = new { ResultType = "Error", message = "User has successfully deleted." };
                         }
                     }
-                }
+                }*/
             }
             catch (Exception exp)
             {

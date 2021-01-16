@@ -2717,6 +2717,7 @@
     <Content Include="Content\Images\step1.png" />
     <Content Include="Content\Images\step2.png" />
     <Content Include="Content\Images\success.jpg" />
+    <Content Include="Content\Images\wizz_logo.png" />
     <Content Include="Content\Images\yay.jpg" />
     <Content Include="Content\stylefont.css" />
     <Content Include="Content\Theme-CA\css\animate.css" />
@@ -4217,6 +4218,7 @@
     <Content Include="Views\Profile\startlinkedin.cshtml" />
     <Content Include="Views\Shared\Partial\payment.cshtml" />
     <Content Include="Views\Shared\Partial\viewInfo.cshtml" />
+    <Content Include="Views\Shared\Partial\viewInfoAfilliate.cshtml" />
     <None Include="Views\Shared\Partial\_PartialForgetPasswordPopup.cshtml" />
     <Content Include="Views\Shared\Partial\_PartialSignupPopup.cshtml" />
     <Content Include="Views\User\Home.cshtml" />

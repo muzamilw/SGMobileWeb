@@ -22,6 +22,15 @@ using Newtonsoft.Json;
 
 namespace SG2.CORE.DAL.Repositories
 {
+
+    public static class SystemExtension
+    {
+        public static T Clone<T>(this T source)
+        {
+            var serialized = JsonConvert.SerializeObject(source);
+            return JsonConvert.DeserializeObject<T>(serialized);
+        }
+    }
     public class CustomerRepository
     {
 
@@ -1371,6 +1380,17 @@ namespace SG2.CORE.DAL.Repositories
             }
         }
 
+        public string RandomDigits(int length)
+        {
+            var random = new Random();
+            string s = string.Empty;
+            for (int i = 0; i < length; i++)
+                s = String.Concat(s, random.Next(10).ToString());
+            return s;
+        }
+
+       
+
         public bool UpdateCustomerStripeCustomerId(int CustomerId, string StripCustomerId, string StripeSubscriptionId, int PaymentPlanId)
         {
             try
@@ -1389,10 +1409,47 @@ namespace SG2.CORE.DAL.Repositories
                             cus.StripeSubscriptionId = null;
                             cus.StripeCustomerId = null;
 
-                            _db.Customer_Payments.Add(new Customer_Payments { CustomerId = cus.CustomerId, PaymentPlanId = 1, StatusId = 1, PaymentDateTime = DateTime.Now, StartDate = DateTime.Now, EndDate = DateTime.Now, Name= "Subscrption set to Free", Description = "Subscrption set to Free", Price = 0 });
+                            _db.Customer_Payments.Add(new Customer_Payments { CustomerId = cus.CustomerId, PaymentPlanId = 1, StatusId = 1, PaymentDateTime = DateTime.Now, StartDate = DateTime.Now, EndDate = DateTime.Now, Name = "Subscrption set to Free", Description = "Subscrption set to Free", Price = 0 });
                         }
                         else
+                        {
                             cus.IsBroker = true;
+
+
+                            //adding 9 more profiles.
+                            
+                            var target = _db.SocialProfile_Instagram_TargetingInformation.Where(g => g.IsSystem == true).Single();
+                            for (int iCounter = 0; iCounter < 9; iCounter++)
+                            {
+                                var profile = new SocialProfile()
+                                {
+                                    CustomerId = CustomerId,
+                                    SocialProfileTypeId = 95,
+                                    StatusId = 19,
+                                    SocialUsername = cus.FirstName + Guid.NewGuid().ToString("N").Substring(0, 6),
+                                    CreatedBy = cus.EmailAddress,
+                                    CreatedOn = DateTime.Now,
+                                    UpdatedBy = cus.EmailAddress,
+                                    UpdatedOn = DateTime.Now,
+                                    PinCode = RandomDigits(6),
+                                    PaymentPlanId = 8
+                                };
+                                _db.SocialProfiles.Add(profile);
+                                _db.SaveChanges();
+
+
+                                var newtarget = target.Clone<SocialProfile_Instagram_TargetingInformation>();
+                                newtarget.SocialProfileId = profile.SocialProfileId;
+                                newtarget.IsSystem = false;
+
+                                _db.SocialProfile_Instagram_TargetingInformation.Add(newtarget);
+                                _db.SaveChanges();
+
+
+                            }
+
+
+                        }
                         _db.SaveChanges();
 
 
@@ -1836,7 +1893,9 @@ namespace SG2.CORE.DAL.Repositories
                             AfterFollViewUserStory = p.AfterFollViewUserStory,
                             FollowOn = p.FollowOn,
                             UnFollFollowersAfterMinDays = p.UnFollFollowersAfterMinDays,
-                            AppConnStatus =  p.AppConnStatus
+                            AppConnStatus =  p.AppConnStatus,
+                            PinCode = p.PinCode,
+                            DeviceName = p.DeviceBinLocation
 
                             
                         }).ToList();
