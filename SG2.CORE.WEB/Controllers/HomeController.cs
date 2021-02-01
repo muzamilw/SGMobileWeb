@@ -38,7 +38,7 @@ namespace SG2.CORE.WEB.Controllers
 
         public ActionResult Index()
         {
-            return this.RedirectToActionPermanent("signup", "account");
+            //return this.RedirectToActionPermanent("signup", "account");
 
             var indexVM = new IndexViewModel();
             indexVM.SignupWizardViewModel = new SignupWizardViewModel();
@@ -53,9 +53,9 @@ namespace SG2.CORE.WEB.Controllers
             return View("Index");
         }
 
-        public ActionResult HowWeWork()
+        public ActionResult LearnMore()
         {
-            ViewBag.CustomerDTO = new CustomerDTO();
+            
             return View();
         }
         public ActionResult Pricing()

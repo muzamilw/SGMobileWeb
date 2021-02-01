@@ -11,19 +11,19 @@ namespace SG2.CORE.WEB.Controllers
         // GET: Pages
         public ActionResult TermsConditions()
         {
-            return this.RedirectToActionPermanent("signup", "account");
+            //return this.RedirectToActionPermanent("signup", "account");
             return View();
         }
 
         public ActionResult PrivacyPolicy()
         {
-            return this.RedirectToActionPermanent("signup", "account");
+            //return this.RedirectToActionPermanent("signup", "account");
             return View();
         }
 
         public ActionResult CookiesPolicy()
         {
-            return this.RedirectToActionPermanent("signup", "account");
+            //return this.RedirectToActionPermanent("signup", "account");
             return View();
         }
 
