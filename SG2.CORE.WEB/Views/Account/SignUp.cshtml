@@ -4,11 +4,17 @@
     Layout = "~/Views/Shared/_Layout_LoggedInNewSP.cshtml";
 }
 
-<div class="breadcrumb--area bg-img bg-overlay jarallax" style="background-image: url('/Content/img/bg-img/12.jpg'); height:95px;">
+<div class="breadcrumb--area jarallax" style=" height:95px;background-color: transparent;">
 
 </div>
+<div class="w-100 text-center p-3 ">
+    <h5 class="text-center w-75 m-auto d-block d-sm-none">
+        Connect faster with people on auto-pilot
+    </h5>
+</div>
+
 <!-- Register Area-->
-<div class="register-area pt-5 pb-5">
+<div class="register-area  pt-1 pb-5">
     <div class="container">
         <div class="row align-items-center justify-content-between">
 
@@ -18,7 +24,7 @@
                         <h4>
                             Get your PIN code - Sign Up
                         </h4>
-                        <p>Unlock your app to get up to 40 leads a day. </p>
+                        <p>Unlock your app to get up to 40 leads/connections everyday. </p>
                         <p>Already have an account?<a class="ml-2" href="/Account/Login">Log In</a></p>
                         <!-- Register Form-->
                         <div class="register-form my-2">
@@ -45,7 +51,17 @@
 
                             <button class="btn radix-btn white-btn w-100 btn_formSignup" type="button">Create  Account&nbsp; <span id="SignUpSpinner" style="display:none"><i class="fa fa-spinner fa-spin"></i></span></button>
 
-                            <a class="btn radix-btn app-download-btn w-100 mt-2" style="background: #a883e9" href="https://connectwizz.co">Learn More </a>
+                            <a class="btn radix-btn app-download-btn w-100 mt-2" style="background: #a883e9" href="~/goal">Learn More </a>
+
+                            <p class="w-100 mt-2 text-center" href="~/goal">Download App</p>
+
+                            <div class="row">
+                                <a class="col-6 text-right" href="https://play.google.com/store/apps/details?id=com.dot.cW">
+                                    <img src="~/Content/Images/playstore.png" style="height: 46px;width: 136px;" />
+                                </a>
+                                <a class=" col-6 text-left"> <img src="~/Content/Images/appstore.png" style="height:46px;" /></a>
+                            </div>
+
 
                         </div>
                     </div>

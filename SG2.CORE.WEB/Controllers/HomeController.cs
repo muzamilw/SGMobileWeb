@@ -36,7 +36,13 @@ namespace SG2.CORE.WEB.Controllers
             SystemConfigs = Architecture.SystemConfig.GetConfigsLatest();
         }
 
+
         public ActionResult Index()
+        {
+            return this.RedirectToActionPermanent("signup", "account");
+
+        }
+            public ActionResult goal()
         {
             //return this.RedirectToActionPermanent("signup", "account");
 

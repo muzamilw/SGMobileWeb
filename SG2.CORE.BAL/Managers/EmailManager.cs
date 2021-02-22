@@ -30,7 +30,7 @@ namespace SG2.CORE.BAL.Managers
 
                 var apiKey = "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";
                 var client = new SendGridClient(apiKey);
-                var from = new EmailAddress("info@socialplannerpro.com", "Social Planner Pro Team");
+                var from = new EmailAddress("info@connectwizz.net", "ConnectWizz Team");
 
                 string templateId = "";
 
@@ -83,12 +83,12 @@ namespace SG2.CORE.BAL.Managers
                 if (emailType == EmailType.error)
                 {
                     to = new EmailAddress(toEmail, toEmailName);
-                    msg=  MailHelper.CreateSingleEmail(from, to, "SPP Error", dynamicTemplateData.ToString(), dynamicTemplateData.ToString());
+                    msg=  MailHelper.CreateSingleEmail(from, to, "CW Error", dynamicTemplateData.ToString(), dynamicTemplateData.ToString());
                 }
                 else if (emailType == EmailType.info)
                 {
                     to = new EmailAddress(toEmail, toEmailName);
-                    msg = MailHelper.CreateSingleEmail(from, to, "SPP information", dynamicTemplateData.ToString(), dynamicTemplateData.ToString());
+                    msg = MailHelper.CreateSingleEmail(from, to, "CW information", dynamicTemplateData.ToString(), dynamicTemplateData.ToString());
                 }
                 else if (emailType == EmailType.newSignup || emailType == EmailType.CreditCardEntered)
                 {
@@ -96,7 +96,7 @@ namespace SG2.CORE.BAL.Managers
                     var tolist = new List<EmailAddress>();
                     foreach (var item in slist)
                     {
-                        tolist.Add(new EmailAddress(item, "SPP Team"));
+                        tolist.Add(new EmailAddress(item, "CW Team"));
                     }
 
                     
@@ -128,7 +128,7 @@ namespace SG2.CORE.BAL.Managers
                
 
              
-                var from = new MailAddress("info@socialplannerpro.com", "Social Planner Pro Team");
+                var from = new MailAddress("info@connectwizz.net", "ConnectWizz Team");
                 string subject = "";
                 string mailBody = "";
 
@@ -174,13 +174,13 @@ namespace SG2.CORE.BAL.Managers
                     smtp.UseDefaultCredentials = false;
                     var credential = new NetworkCredential
                     {
-                        UserName = "info@socialplannerpro.com",  // replace with valid value
-                        Password = "password"  // replace with valid value
+                        UserName = "info@connectwizz.net",  // replace with valid value
+                        Password = "Sh@rp2020"  // replace with valid value
                     };
                     smtp.Credentials = credential;
-                    smtp.Host = "mail.socialplannerpro.com";
-                    smtp.Port = 587;
-                    smtp.EnableSsl = true;
+                    smtp.Host = "mail.connectwizz.net";
+                    smtp.Port = 2525;
+                    smtp.EnableSsl = false;
                     await smtp.SendMailAsync(mailMessage);
                     
                 }

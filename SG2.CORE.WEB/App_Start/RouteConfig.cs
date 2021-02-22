@@ -9,6 +9,13 @@ namespace SG2.CORE.WEB.App_Start
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //routes.MapRoute(
+            //    name: "DefaultAccount",
+            //    url: "{controller}/{action}/{id}",
+            //    defaults: new { controller = "Account", action = "Signup", id = UrlParameter.Optional },
+            //    namespaces: new[] { "SG2.CORE.WEB.Controllers" }
+            //);
+
             routes.MapRoute(
              name: "Special",
              url: "{action}",

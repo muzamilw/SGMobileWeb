@@ -163,7 +163,7 @@ namespace SG2.CORE.WEB.Controllers
                                 {"email", model.EmailAddress}
 
                             };
-                            BAL.Managers.EmailManager.SendEmail("info@socialplannerpro.com,muzamilw@hotmail.com,  omar.c@me.com, haaris@socialplannerpro.com,haarischaudhry@hotmail.co.uk", "SPP Team", EmailManager.EmailType.newSignup, dynamicTemplateData);
+                            BAL.Managers.EmailManager.SendEmail("info@connectwizz.net,muzamilw@hotmail.com,  omar.c@me.com, haaris@socialplannerpro.com,haarischaudhry@hotmail.co.uk", "SPP Team", EmailManager.EmailType.newSignup, dynamicTemplateData);
 
                           
                         });

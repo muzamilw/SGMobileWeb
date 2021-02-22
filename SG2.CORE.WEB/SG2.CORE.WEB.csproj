@@ -2713,6 +2713,7 @@
     <Content Include="Content\Images\Agencies_2.gif" />
     <Content Include="Content\Images\agency.png" />
     <Content Include="Content\Images\Android_App_Download_2x.png" />
+    <Content Include="Content\Images\appstore.png" />
     <Content Include="Content\Images\bg_image.gif" />
     <Content Include="Content\Images\boho.png" />
     <Content Include="Content\Images\dedicated_device_1.jpeg" />
@@ -2740,6 +2741,7 @@
     <Content Include="Content\Images\HP_5.gif" />
     <Content Include="Content\Images\nice.jpg" />
     <Content Include="Content\Images\platinum.png" />
+    <Content Include="Content\Images\playstore.png" />
     <Content Include="Content\Images\Pricing_option_1.gif" />
     <Content Include="Content\Images\Pricing_Option_2.gif" />
     <Content Include="Content\Images\pro.png" />

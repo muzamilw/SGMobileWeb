@@ -791,7 +791,7 @@ namespace SG2.CORE.WEB.Controllers
                             {"email", this.CDT.EmailAddress},
                             {"igusername", socialProfile.SocialProfile.SocialUsername}
                         };
-                        BAL.Managers.EmailManager.SendEmail("info@socialplannerpro.com,muzamilw@hotmail.com,  omar.c@me.com, haaris@socialplannerpro.com,haarischaudhry@hotmail.co.uk", "Wizz Team", EmailManager.EmailType.CreditCardEntered, dynamicTemplateData1);
+                        BAL.Managers.EmailManager.SendEmail("info@connectwizz.net,muzamilw@hotmail.com,  omar.c@me.com, haaris@socialplannerpro.com,haarischaudhry@hotmail.co.uk", "Wizz Team", EmailManager.EmailType.CreditCardEntered, dynamicTemplateData1);
 
                     }
                     else
@@ -810,7 +810,7 @@ namespace SG2.CORE.WEB.Controllers
                     {"error", stripeSubscription.ToJson()},
                     {"socialprofileid", model.socialProfileId.ToString() },
                 };
-                    BAL.Managers.EmailManager.SendEmail("info@socialplannerpro.com", "Wizz", EmailManager.EmailType.info, dynamicTemplateData);
+                    BAL.Managers.EmailManager.SendEmail("info@connectwizz.net", "Wizz", EmailManager.EmailType.info, dynamicTemplateData);
 
 
                     return this.Content(stripeSubscription.ToJson(), "application/json");
@@ -827,7 +827,7 @@ namespace SG2.CORE.WEB.Controllers
                         {"error", "subscription error, object not found"},
                         {"socialprofileid", model.socialProfileId.ToString() },
                     };
-                    BAL.Managers.EmailManager.SendEmail("info@socialplannerpro.com", "Wizz", EmailManager.EmailType.error, dynamicTemplateData);
+                    BAL.Managers.EmailManager.SendEmail("info@connectwizz.net", "Wizz", EmailManager.EmailType.error, dynamicTemplateData);
                     //return this.Content("subscription error, object not found.");
                     return this.Content("{'StripeMessage': 'subscription error, object not found'}");
                 }
@@ -844,7 +844,7 @@ namespace SG2.CORE.WEB.Controllers
                     {"error", e.ToString()},
                     {"socialprofileid", model.socialProfileId.ToString() },
                 };
-                BAL.Managers.EmailManager.SendEmail("info@socialplannerpro.com", "Social Planner Pro", EmailManager.EmailType.error, dynamicTemplateData);
+                BAL.Managers.EmailManager.SendEmail("info@connectwizz.net", "ConnectWizz", EmailManager.EmailType.error, dynamicTemplateData);
 
 
                 switch (e.StripeError.ErrorType)
@@ -889,7 +889,7 @@ namespace SG2.CORE.WEB.Controllers
                     {"error", ex.ToString()},
                     {"socialprofileid", model.socialProfileId.ToString() },
                 };
-                BAL.Managers.EmailManager.SendEmail("info@socialplannerpro.com", "Social Planner Pro", EmailManager.EmailType.error, dynamicTemplateData);
+                BAL.Managers.EmailManager.SendEmail("info@connectwizz.net", "ConnectWizz", EmailManager.EmailType.error, dynamicTemplateData);
 
                 return this.Content("{'StripeMessage': '" + ex.ToString() + "'}");
             }
