@@ -1108,7 +1108,7 @@ namespace SG2.CORE.DAL.Repositories
             model.ForceSwitchDevice = true;//overrising the flag and always forcing login.
             using (var _db = new SocialGrowth2Connection())
             {
-                var profile = _db.SocialProfiles.Where(g => g.SocialUsername == model.Email && g.PinCode == model.Pin).SingleOrDefault();
+                var profile = _db.SocialProfiles.Where(g => g.SocialUsername.ToLower() == model.Email.ToLower() && g.PinCode == model.Pin).SingleOrDefault();
                 if (profile != null)
                 {
                     var Customer = _db.Customers.Where(g => g.CustomerId == profile.CustomerId).Single();

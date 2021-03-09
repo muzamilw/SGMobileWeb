@@ -382,6 +382,9 @@ namespace SG2.CORE.WEB.APIController
                     var LikeCount = model.Where(g => g.ActionId == 62 || g.ActionId == 74).Count();
 
                     var CommentCount = model.Where(g => g.ActionId == 63).Count();
+                    ///trick for msg count for sequenced
+                    CommentCount += model.Where(g => g.ActionId == 91).Count();
+
 
                     var StoryCount = model.Where(g => g.ActionId == 64).Count();
 
