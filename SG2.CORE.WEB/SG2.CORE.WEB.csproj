@@ -3123,6 +3123,7 @@
     <Content Include="emails\verify your email - Copy - Copy.html" />
     <Content Include="emails\password reset.html" />
     <Content Include="emails\Plan Upgrade.html" />
+    <Content Include="emails\delete.html" />
     <Content Include="emails\Welcome- Account Active.html" />
     <Content Include="emails\verify your email.html" />
     <Content Include="favicon-16x16.png" />

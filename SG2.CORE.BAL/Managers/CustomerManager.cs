@@ -964,10 +964,10 @@ namespace SG2.CORE.BAL.Managers
 
                 foreach (var item in mapped)
                 {
-                    if (offset != 0)
-                    {
-                        item.ActionDateTime = item.ActionDateTime.Value.AddHours(offset);
-                    }
+                    //if (offset != 0)
+                    //{
+                    //    item.ActionDateTime = item.ActionDateTime.Value.AddHours(offset);
+                    //}
                     switch (item.ActionID)
                     {
                         case 60: item.Action = "Following"; break;
