@@ -39,7 +39,8 @@ namespace SG2.CORE.WEB.Controllers
 
         public ActionResult Index()
         {
-            return this.RedirectToActionPermanent("signup", "account");
+            //return this.RedirectToActionPermanent("signup", "account");
+            return View("learnmore");
 
         }
             public ActionResult goal()

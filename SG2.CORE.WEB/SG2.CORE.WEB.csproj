@@ -2713,6 +2713,7 @@
     <Content Include="Content\Images\Agencies_2.gif" />
     <Content Include="Content\Images\agency.png" />
     <Content Include="Content\Images\Android_App_Download_2x.png" />
+    <Content Include="Content\Images\Animation-email.png" />
     <Content Include="Content\Images\appstore.png" />
     <Content Include="Content\Images\bg_image.gif" />
     <Content Include="Content\Images\boho.png" />
