@@ -1426,7 +1426,7 @@ namespace SG2.CORE.DAL.Repositories
                                     CustomerId = CustomerId,
                                     SocialProfileTypeId = 95,
                                     StatusId = 19,
-                                    SocialUsername = cus.FirstName + Guid.NewGuid().ToString("N").Substring(0, 6),
+                                    SocialUsername = cus.FirstName + Guid.NewGuid().ToString("N").Substring(0, 6).ToUpper(),
                                     CreatedBy = cus.EmailAddress,
                                     CreatedOn = DateTime.Now,
                                     UpdatedBy = cus.EmailAddress,
@@ -1434,6 +1434,8 @@ namespace SG2.CORE.DAL.Repositories
                                     PinCode = RandomDigits(6),
                                     PaymentPlanId = 8
                                 };
+
+                                profile.SocialUsername = Regex.Replace(profile.SocialUsername, @"\s+", "");
                                 _db.SocialProfiles.Add(profile);
                                 _db.SaveChanges();
 

@@ -22,6 +22,45 @@ namespace SG2.CORE.BAL.Managers
             Execute().Wait();
         }*/
 
+        public static async Task AddReceipient(string sEmail, string firstName, string lastName)
+        {
+
+            //marketing key
+            var apiKey = "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";
+            var client = new SendGridClient(apiKey);
+
+            string data = @"{
+              ""list_ids"": [
+                ""7c3973d5-e08b-4952-9cc0-e6eb5a1230d0""
+              ],
+              ""contacts"": [
+                {
+                  
+                  ""email"": ""@email"",
+                  ""first_name"": ""@firstname"",
+                  ""last_name"": ""@lastname""
+                
+                }
+              ]
+            }";
+
+            data = data.Replace("@email", sEmail);
+            data = data.Replace("@firstname", firstName);
+            data = data.Replace("@lastname", lastName);
+
+            //string data = "{\"list_ids\":[\"string\"],\"contacts\":[{\"address_line_1\":\"string (optional)\",\"address_line_2\":\"string (optional)\",\"alternate_emails\":[\"string\"],\"city\":\"string (optional)\",\"country\":\"string (optional)\",\"email\":\"string (required)\",\"first_name\":\"string (optional)\",\"last_name\":\"string (optional)\",\"postal_code\":\"string (optional)\",\"state_province_region\":\"string (optional)\",\"custom_fields\":{}}]}";
+
+            Object json = JsonConvert.DeserializeObject<Object>(data);
+            data = json.ToString();
+            var response = await client.RequestAsync(method: SendGridClient.Method.PUT, urlPath: "marketing/contacts", requestBody: data);
+            var b = response;
+
+            
+
+
+
+        }
+
         public static async Task SendEmail(string toEmail, string toEmailName,EmailType emailType, Dictionary<string, string> dynamicTemplateData)
         {
             try

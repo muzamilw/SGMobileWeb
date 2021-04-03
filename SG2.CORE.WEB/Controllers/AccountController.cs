@@ -47,6 +47,7 @@ namespace SG2.CORE.WEB.Controllers
         // GET: User
         public ActionResult SignUp(string email = "")
         {
+            
             ViewBag.email = email;
             return View();
         }
@@ -63,6 +64,11 @@ namespace SG2.CORE.WEB.Controllers
         [HttpPost]
         public ActionResult SignUp(CustomerSignUpViewModel model)
         {
+
+
+            
+
+           
             var jr = new JsonResult();
             try
             {
@@ -144,6 +150,7 @@ namespace SG2.CORE.WEB.Controllers
                             };
                             BAL.Managers.EmailManager.SendEmail(model.EmailAddress, model.FirstName, EmailManager.EmailType.Welcome, dynamicTemplateData);
 
+                            BAL.Managers.EmailManager.AddReceipient(model.EmailAddress, model.FirstName, model.SurName);
 
 
                             //KlaviyoEvent ev = new KlaviyoEvent();
