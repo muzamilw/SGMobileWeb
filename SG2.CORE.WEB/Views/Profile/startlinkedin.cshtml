@@ -63,6 +63,9 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link href="~/Content/app-assets/css/stripe.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+
     <style>
 
         body {
@@ -562,7 +565,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                     {
                                         @Html.Partial("Partial/viewinfo", Model)
                                     }
-                                    else if ((customer.IsBroker ?? false) == true )
+                                    else if ((customer.IsBroker ?? false) == true)
                                     {
                                         @Html.Partial("Partial/viewinfoAfilliate", Model)
                                     }
@@ -664,6 +667,9 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="~/Content/app-assets/vendors/js/extensions/sweetalert.min.js"></script>
     <script src="~/Content/app-assets/js/scripts/extensions/sweet-alerts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
     <script>
 
         var socialProfileId = '@Model.SocialProfile.SocialProfileId';
@@ -697,6 +703,34 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
         var hashtagsengage, hashtagsengagebox, locationengage, locationengagebox, DirectCompetitors, DirectCompetitorsbox;
 
         $(document).ready(function () {
+
+
+
+            $(".DeviceBinLocation").editable({
+                ajaxOptions: {
+                    type: 'post',
+                    dataType: 'json'
+                },
+                send: 'always',
+                savenochange: true,
+                showbuttons: true,
+                mode: 'inline',
+                url: '/profile/SaveUpdateUserDataIndividually',
+                type: 'text',
+                title: 'Device Reference',
+                params: function (params) {
+                    //originally params contain pk, name and value
+                    params.socialProfileId = $(this).attr("data-profileid");
+                    params.TargetingInformationId = @Html.Raw(Model.SocialProfile_Instagram_TargetingInformation.TargetingInformationId);
+
+                    return params;
+                },
+
+                pk: 'DeviceBinLocation',
+                success: function (response, newValue) {
+                    if (!response.success) toastr.success('Data Saved!', 'Success'); return response.msg;
+                }
+            });
 
               $("#btnDeleteSubscription").on("click", function (e) {
 

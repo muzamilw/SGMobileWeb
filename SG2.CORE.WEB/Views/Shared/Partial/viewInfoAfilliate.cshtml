@@ -36,7 +36,7 @@
 
         <label class="col-xl-12 form-label" style="font-size:25px;" for="fname"> @item.PinCode </label>
 
-        <label class="col-xl-12 rounded border bg-light w-50" style="font-size:20px; " for="fname"> @item.DeviceName </label>
+        <a href="#" data-type="text" class="ml-2 DeviceBinLocation mb-3" data-title="Max chars 500" data-profileid="@Html.Raw(item.SocialProfileId)" name="DeviceBinLocation">@Html.Raw(item.DeviceName)</a>
     </div>
         }
     </div>
